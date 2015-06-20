@@ -1,5 +1,7 @@
 package brymian.bubbles.damian.Activity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -50,10 +52,21 @@ public class Register extends ActionBarActivity implements View.OnClickListener 
         serverRequest.storeUserDataInBackground(user, new GetUserCallback() {
             @Override
             public void done(User returnedUser) {
+                showConfirmationMessage();
+            }
+        });
+    }
 
-                System.out.println("Now going to Register...");
+    private void showConfirmationMessage() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Register.this);
+        dialogBuilder.setMessage(("Registration successful."));
+        dialogBuilder.setCancelable(false);
+        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
                 startActivity(new Intent(Register.this, Login.class));
             }
         });
+        dialogBuilder.show();
     }
 }
