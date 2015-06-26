@@ -7,6 +7,8 @@
     <string name="button_camera">Camera</string>
     <string name="image_cd_camera">this is a generic content description</string>
     <string name="app_id">386051131588917</string>
+    <string name="action_simple_login">With Simple Login Button</string>
+    <string name="action_custom_login">With Custom Login Button</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
