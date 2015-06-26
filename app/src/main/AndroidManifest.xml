@@ -13,8 +13,13 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <!--
+    THE APPLICATION
+    -->
+
     <application
-        android:name=".damian.application.MainApplication"
+
+        android:name=".damian.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -49,6 +54,7 @@
         DAMIAN'S STUFF
         -->
 
+        <!-- Main activity -->
         <activity
             android:name=".damian.activity.MainActivity"
             android:label="@string/app_name" >
@@ -58,15 +64,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".damian.activity.AndroidHashKey"
-            android:label="@string/title_activity_register" >
-        </activity>
+
+        <!-- Facebook Activity -->
         <activity android:name="com.facebook.FacebookActivity"
             android:configChanges=
                 "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:label="@string/app_name" />
+        <!-- Facebook Application ID -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id"/>

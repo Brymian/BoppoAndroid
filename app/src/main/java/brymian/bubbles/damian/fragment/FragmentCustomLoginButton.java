@@ -25,7 +25,7 @@ import brymian.bubbles.R;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class FragmentSimpleLoginButton extends Fragment {
+public class FragmentCustomLoginButton extends Fragment {
 
     private TextView mTextDetails;
     private CallbackManager mCallbackManager;
@@ -54,7 +54,7 @@ public class FragmentSimpleLoginButton extends Fragment {
     };
 
 
-    public FragmentSimpleLoginButton() {
+    public FragmentCustomLoginButton() {
     }
 
     @Override
@@ -73,7 +73,7 @@ public class FragmentSimpleLoginButton extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_simple_login_button, container, false);
+        return inflater.inflate(R.layout.fragment_custom_login_button, container, false);
     }
 
     @Override
@@ -128,6 +128,11 @@ public class FragmentSimpleLoginButton extends Fragment {
     private void setupLoginButton(View view) {
         LoginButton mButtonLogin = (LoginButton) view.findViewById(R.id.login_button);
         mButtonLogin.setFragment(this);
+//        if (Build.VERSION.SDK_INT >= 16)
+//            mButtonLogin.setBackground(null);
+//        else
+//            mButtonLogin.setBackgroundDrawable(null);
+        mButtonLogin.setCompoundDrawables(null, null, null, null);
         mButtonLogin.setReadPermissions("user_friends");
         mButtonLogin.registerCallback(mCallbackManager, mFacebookCallback);
     }
@@ -141,3 +146,4 @@ public class FragmentSimpleLoginButton extends Fragment {
     }
 
 }
+
