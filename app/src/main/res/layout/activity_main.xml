@@ -5,21 +5,10 @@
     android:layout_width="match_parent"
     android:padding="10px" >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Username: "
-        android:layout_height="wrap_content"
-        android:textSize="20sp" />
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_marginBottom="10dp"
+    <fragment android:name="brymian.bubbles.damian.fragment.FragmentSimpleLoginButton"
+        android:id="@+id/fragment_custom_login_button"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/bLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Logout" />
+        android:layout_height="match_parent" />
 
 </LinearLayout>
