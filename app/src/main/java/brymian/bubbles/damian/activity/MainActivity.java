@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.Activity2;
+package brymian.bubbles.damian.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
