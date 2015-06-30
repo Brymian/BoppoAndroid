@@ -25,14 +25,6 @@ public class MenuActivity extends FragmentActivity {
         Intent logoutIntent = new Intent(this, LogOut.class);
         startActivity(logoutIntent);
     }
-    /** FOR THE FUTURE!!
-     *
-    public void onClickFollowing(View view){
-        Intent followingIntent = new Intent(this, Following.class);
-        startActivity(followingIntent);
-    }
-
-     **/
     public void onClickFriends(View view){
         Intent friendsIntent = new Intent(this, Friends.class);
         startActivity(friendsIntent);
