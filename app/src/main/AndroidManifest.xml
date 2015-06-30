@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="brymian.bubbles" >
+    package="brymian.bubbles">
 
     <!-- PERMISSIONS -->
 
@@ -15,8 +15,10 @@
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
      option is required to comply with the Google+ Sign-In developer policies
     -->
-    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <!-- To retrieve the account name (email) as part of sign-in: -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
@@ -26,7 +28,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
 
         <!-- BRYANT'S STUFF -->
 
@@ -39,23 +41,22 @@
 
         <activity
             android:name=".bryant.MapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bryant.CameraActivity" >
-        </activity>
+        <activity android:name=".bryant.CameraActivity"></activity>
 
         <!-- DAMIAN'S STUFF -->
 
 
         <!-- Main activity -->
         <activity
-            android:name=".damian.Activity2.MainActivity"
-            android:label="@string/app_name" >
+            android:name=".damian.activity.MainActivity"
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -75,13 +76,11 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".damian.Activity2.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:name=".damian.activity.LoginActivity"
+            android:label="@string/title_activity_login"></activity>
         <activity
-            android:name=".damian.Activity2.RegisterActivity"
-            android:label="@string/title_activity_register" >
-        </activity>
+            android:name=".damian.activity.RegisterActivity"
+            android:label="@string/title_activity_register"></activity>
     </application>
 
 </manifest>
