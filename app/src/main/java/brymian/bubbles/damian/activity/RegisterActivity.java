@@ -11,9 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.NonActivity.GetUserCallback;
-import brymian.bubbles.damian.NonActivity.ServerRequests;
-import brymian.bubbles.damian.NonActivity.User;
+import brymian.bubbles.damian.nonactivity.GetUserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequests;
+import brymian.bubbles.damian.nonactivity.User;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -69,4 +69,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
         dialogBuilder.show();
     }
+
+    //temp
 }

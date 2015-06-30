@@ -11,10 +11,10 @@ import android.widget.ImageButton;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MapsActivity;
-import brymian.bubbles.damian.NonActivity.GetUserCallback;
-import brymian.bubbles.damian.NonActivity.ServerRequests;
-import brymian.bubbles.damian.NonActivity.User;
-import brymian.bubbles.damian.NonActivity.UserStoreLocal;
+import brymian.bubbles.damian.nonactivity.GetUserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequests;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserStoreLocal;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -86,4 +86,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //startActivity(new Intent(this, MainActivity.class));
         startActivity(new Intent(this, MapsActivity.class));
     }
+
+    //temp
 }
