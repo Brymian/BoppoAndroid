@@ -28,7 +28,7 @@
     <!-- APPLICATION LOGIN BUTTON -->
     <ImageButton
         android:id="@+id/bLogin"
-        android:background="@raw/app_login"
+        android:background="@drawable/app_login"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"

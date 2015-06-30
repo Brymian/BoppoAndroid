@@ -75,11 +75,6 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".LoginActivity"
-            android:label="@string/title_activity_login"
-            android:windowSoftInputMode="adjustResize|stateHidden" >
-        </activity>
-        <activity
             android:name=".damian.Activity.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
