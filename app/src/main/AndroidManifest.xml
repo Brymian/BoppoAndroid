@@ -54,7 +54,7 @@
 
         <!-- Main activity -->
         <activity
-            android:name=".damian.Activity.MainActivity"
+            android:name=".damian.Activity2.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,7 +63,7 @@
             </intent-filter>
         </activity>
 
-        <!-- Facebook Activity -->
+        <!-- Facebook Activity2 -->
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -75,11 +75,11 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".damian.Activity.LoginActivity"
+            android:name=".damian.Activity2.LoginActivity"
             android:label="@string/title_activity_login" >
         </activity>
         <activity
-            android:name=".damian.Activity.RegisterActivity"
+            android:name=".damian.Activity2.RegisterActivity"
             android:label="@string/title_activity_register" >
         </activity>
     </application>
