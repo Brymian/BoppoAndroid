@@ -126,5 +126,4 @@ public class ServerRequests {
             super.onPostExecute(returnedUser);
         }
     }
-    //temp
 }

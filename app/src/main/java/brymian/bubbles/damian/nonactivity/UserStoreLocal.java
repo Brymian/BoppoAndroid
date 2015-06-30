@@ -44,5 +44,4 @@ public class UserStoreLocal {
     public boolean getUserLoggedStatus() {
         return userLocalDatabase.getBoolean("loggedStatus", false);
     }
-//temp
 }

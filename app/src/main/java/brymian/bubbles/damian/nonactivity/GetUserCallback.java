@@ -6,4 +6,5 @@ package brymian.bubbles.damian.nonactivity;
 public interface GetUserCallback {
 
     public abstract void done(User returnedUser);
+
 }
