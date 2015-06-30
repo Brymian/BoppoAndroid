@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.nonactivity2;
+package brymian.bubbles.damian.nonactivity;
 
 import android.content.Context;
 import android.content.SharedPreferences;

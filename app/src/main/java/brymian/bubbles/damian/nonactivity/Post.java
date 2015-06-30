@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.nonactivity2;
+package brymian.bubbles.damian.nonactivity;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;

@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.nonactivity2;
+package brymian.bubbles.damian.nonactivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
