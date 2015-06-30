@@ -69,5 +69,4 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         });
         dialogBuilder.show();
     }
-    //test
 }
