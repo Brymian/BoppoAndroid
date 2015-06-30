@@ -30,12 +30,12 @@ public class Post {
 
     String jsonRegister(String username, String password) {
         return "{\"username\":\"" + username + "\","
-             +  "\"password\":\"" + password + "\"}";
+                + "\"password\":\"" + password + "\"}";
     }
 
     String jsonGetUserExists(String username, String password) {
         return "{\"username\":\"" + username + "\","
-             +  "\"password\":\"" + password + "\"}";
+                + "\"password\":\"" + password + "\"}";
     }
 
     public static void main(String[] args) throws IOException, JSONException {

@@ -17,19 +17,22 @@ public class ServerRequests {
     ProgressDialog pd;
     public static final int CONNECTION_TIMEOUT = 1000 * 10;
     public static final String SERVER_ADDRESS = "http://73.194.170.63:8080/ProjectWolf";
-//
+
+    //
     public ServerRequests(Context context) {
         pd = new ProgressDialog(context);
         pd.setCancelable(false);
         pd.setTitle("Processing");
         pd.setMessage("Please wait...");
     }
-//
+
+    //
     public void storeUserDataInBackground(User user, GetUserCallback userCallback) {
         pd.show();
         new StoreUserDataAsyncTask(user, userCallback).execute();
     }
-//
+
+    //
     public void getUserDataAsyncTask(User user, GetUserCallback userCallBack) {
         pd.show();
         new GetUserDataAsyncTask(user, userCallBack).execute();
@@ -100,8 +103,7 @@ public class ServerRequests {
 
                 if (jObject.length() == 0) {
                     returnedUser = null;
-                }
-                else {
+                } else {
                     int count = jObject.getInt("count");
                     if (count == 1) {
                         returnedUser = new User(user.username, user.password);
