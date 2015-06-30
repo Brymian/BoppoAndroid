@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.NonActivity;
+package brymian.bubbles.damian.nonactivity2;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -44,5 +44,5 @@ public class UserStoreLocal {
     public boolean getUserLoggedStatus() {
         return userLocalDatabase.getBoolean("loggedStatus", false);
     }
-
+//temp
 }

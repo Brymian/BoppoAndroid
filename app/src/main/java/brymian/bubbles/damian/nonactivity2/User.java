@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.NonActivity;
+package brymian.bubbles.damian.nonactivity2;
 
 /**
  * Created by Ziomster on 5/21/2015.
@@ -12,4 +12,5 @@ public class User {
         this.username = username;
         this.password = password;
     }
+    //temp
 }

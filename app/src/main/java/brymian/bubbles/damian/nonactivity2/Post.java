@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.NonActivity;
+package brymian.bubbles.damian.nonactivity2;
 
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
@@ -57,6 +57,5 @@ public class Post {
         System.out.println("Count: " + jarray.get(0));
         */
     }
-
     //temp
 }

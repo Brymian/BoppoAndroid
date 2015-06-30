@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.NonActivity;
+package brymian.bubbles.damian.nonactivity2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -126,4 +126,5 @@ public class ServerRequests {
             super.onPostExecute(returnedUser);
         }
     }
+    //temp
 }
