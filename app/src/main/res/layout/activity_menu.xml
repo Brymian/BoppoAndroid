@@ -8,10 +8,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Menu" />
-    <Button android:id="@+id/logout"
+    <Button android:id="@+id/Settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello, I am a Button" />
+        android:text="Settings"
+        android:onClick="onClickSettings"/>
+    <Button android:id="@+id/Friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Friends"
+        android:onClick="onClickFriends"/>
 
 
 
