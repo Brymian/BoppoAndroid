@@ -83,7 +83,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         userStoreLocal.setUserData(returnedUser);
         userStoreLocal.setUserLoggedStatus(true);
 
-        //startActivity(new Intent(this, MainActivity.class));
         startActivity(new Intent(this, MapsActivity.class));
     }
 
