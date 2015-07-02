@@ -33,12 +33,4 @@ public class MenuActivity extends FragmentActivity {
         Intent accountIntent = new Intent(this, Account.class);
         startActivity(accountIntent);
     }
-    public void onClickMoreInformation(View view){
-        Intent moreinformationIntent = new Intent(this, MoreInformation.class);
-        startActivity(moreinformationIntent);
-    }
-    public void onClickAdvanced(View view){
-        Intent advancedIntent = new Intent(this, Advanced.class);
-        startActivity(advancedIntent);
-    }
 }

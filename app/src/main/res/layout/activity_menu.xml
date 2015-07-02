@@ -18,6 +18,16 @@
         android:layout_height="wrap_content"
         android:text="Friends"
         android:onClick="onClickFriends"/>
+    <Button android:id="@+id/Account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Account"
+        android:onClick="onClickAccount"/>
+    <Button android:id="@+id/LogOut"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log Out"
+        android:onClick="onClickLogOut"/>
 
 
 

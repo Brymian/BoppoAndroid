@@ -7,7 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.AccountButtonTest;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeEmail;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeProfilePicture;
 
 public class Account extends FragmentActivity{
 
@@ -16,10 +18,17 @@ public class Account extends FragmentActivity{
         setContentView(R.layout.activity_menu_account);
     }
 
-    public void onClickAccountTest(View view){
-        Intent accountbuttontestIntent = new Intent(this, AccountButtonTest.class);
-        startActivity(accountbuttontestIntent);
+    public void onClickChangePassword(View view){
+        Intent changepasswordIntent = new Intent(this, ChangePassword.class);
+        startActivity(changepasswordIntent);
     }
-
+    public void onClickChangeEmail(View view){
+        Intent changeemailIntent = new Intent(this, ChangeEmail.class);
+        startActivity(changeemailIntent);
+    }
+    public void onClickChangeProfilePicture(View view){
+        Intent changeprofilepictureIntent = new Intent(this, ChangeProfilePicture.class);
+        startActivity(changeprofilepictureIntent);
+    }
 
 }
