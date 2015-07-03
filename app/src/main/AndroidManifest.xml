@@ -51,7 +51,6 @@
         <activity android:name=".bryant.CameraActivity"></activity>
         <activity android:name=".bryant.MenuActivity"></activity>
         <activity android:name=".bryant.MenuButtons.Account"></activity>
-        <activity android:name=".bryant.MenuButtons.Advanced"></activity>
         <activity android:name=".bryant.MenuButtons.Friends"></activity>
         <activity android:name=".bryant.MenuButtons.Settings"></activity>
 

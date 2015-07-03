@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.FriendsButtons.FriendsButtonTest;
+import brymian.bubbles.bryant.MenuButtons.FriendsButtons.AddFriend;
 
 public class Friends extends FragmentActivity{
 
@@ -16,8 +16,8 @@ public class Friends extends FragmentActivity{
         setContentView(R.layout.activity_menu_friends);
     }
 
-    public void onClickFriendsButtonTest(View view){
-        Intent friendsbuttontestIntent = new Intent(this, FriendsButtonTest.class);
-        startActivity(friendsbuttontestIntent);
+    public void onClickAddFriend(View view){
+        Intent AddFriendIntent = new Intent(this, AddFriend.class);
+        startActivity(AddFriendIntent);
     }
 }

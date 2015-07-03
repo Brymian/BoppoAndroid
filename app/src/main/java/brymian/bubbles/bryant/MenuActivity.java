@@ -1,11 +1,9 @@
 package brymian.bubbles.bryant;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuButtons.*;
 
@@ -32,13 +30,5 @@ public class MenuActivity extends FragmentActivity {
     public void onClickAccount(View view){
         Intent accountIntent = new Intent(this, Account.class);
         startActivity(accountIntent);
-    }
-    public void onClickMoreInformation(View view){
-        Intent moreinformationIntent = new Intent(this, MoreInformation.class);
-        startActivity(moreinformationIntent);
-    }
-    public void onClickAdvanced(View view){
-        Intent advancedIntent = new Intent(this, Advanced.class);
-        startActivity(advancedIntent);
     }
 }

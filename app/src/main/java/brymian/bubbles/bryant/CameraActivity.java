@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,10 +29,13 @@ public class CameraActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
-        Button cameraButton = (Button) findViewById(R.id.button_camera);
-        cameraButton.setOnClickListener(cameraListener);
+        takePhoto();
+        //Button cameraButton = (Button) findViewById(R.id.button_camera);
+        //cameraButton.setOnClickListener(cameraListener);
     }
+
+    /**
+     *
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
         public void onClick(View v) {
@@ -39,7 +43,9 @@ public class CameraActivity extends Activity {
         }
     };
 
-    private void takePhoto(View v) {
+     **/
+
+    private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);

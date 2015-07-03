@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.SettingsButtons.SettingsButtonTest;
+import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 
 public class Settings extends FragmentActivity {
 
@@ -15,9 +15,9 @@ public class Settings extends FragmentActivity {
         setContentView(R.layout.activity_menu_settings);
     }
 
-    public void onClickSettingsButtonTest(View view){
-        Intent settingsbuttontestIntent = new Intent(this, SettingsButtonTest.class);
-        startActivity(settingsbuttontestIntent);
+    public void onClickAbout(View view){
+        Intent aboutIntent = new Intent(this, About.class);
+        startActivity(aboutIntent);
     }
 
 
