@@ -20,7 +20,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     Button bLogin;
     EditText etUsername, etPassword;
-    //TextView tvRegisterLink;
     ImageButton ibRegisterLink;
     UserStoreLocal userStoreLocal;
 
@@ -32,11 +31,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
         bLogin = (Button) findViewById(R.id.bLogin);
-        //tvRegisterLink = (TextView) findViewById(R.id.tvRegisterLink);
         ibRegisterLink = (ImageButton) findViewById(R.id.ibRegisterLink);
 
         bLogin.setOnClickListener(this);
-        //tvRegisterLink.setOnClickListener(this);
         ibRegisterLink.setOnClickListener(this);
 
         userStoreLocal = new UserStoreLocal(this);
@@ -52,7 +49,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             authenticate(user);
         }
-        //if (v.getId() == R.id.tvRegisterLink) {
         if (v.getId() == R.id.ibRegisterLink) {
             startActivity(new Intent(this, RegisterActivity.class));
         }
@@ -86,5 +82,4 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(new Intent(this, MapsActivity.class));
     }
 
-    //temp
 }

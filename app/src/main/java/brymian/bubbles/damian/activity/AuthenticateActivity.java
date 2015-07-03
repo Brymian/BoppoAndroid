@@ -5,12 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 
 import brymian.bubbles.R;
 
-public class NewLoginActivity extends AppCompatActivity {
+public class AuthenticateActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_login);
+        setContentView(R.layout.activity_authenticate);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.fragment;
+package brymian.bubbles.damian.fragment.Authenticate;
 
 import android.app.AlertDialog;
 import android.app.Fragment;

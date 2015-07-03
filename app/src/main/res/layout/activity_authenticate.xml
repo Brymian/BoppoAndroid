@@ -6,7 +6,7 @@
     android:padding="10px">
 
     <fragment
-        android:name="brymian.bubbles.damian.fragment.LoginFragment"
+        android:name="brymian.bubbles.damian.fragment.Authenticate.LoginFragment"
         android:id="@+id/fragment_login"
         android:layout_weight="1"
         android:layout_width="match_parent"
