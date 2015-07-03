@@ -16,8 +16,8 @@ public class Friends extends FragmentActivity{
         setContentView(R.layout.activity_menu_friends);
     }
 
-    public void onClickFriendsButtonTest(View view){
-        Intent friendsbuttontestIntent = new Intent(this, AddFriend.class);
-        startActivity(friendsbuttontestIntent);
+    public void onClickAddFriend(View view){
+        Intent AddFriendIntent = new Intent(this, AddFriend.class);
+        startActivity(AddFriendIntent);
     }
 }
