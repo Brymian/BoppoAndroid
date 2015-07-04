@@ -39,6 +39,11 @@ public class MapsActivity extends FragmentActivity {
         Intent menuIntent = new Intent(this, MenuActivity.class);
         startActivity(menuIntent);
     }
+
+    public void onClickFilter(View view){
+        Intent filterIntent = new Intent(this, FilterActivity.class);
+        startActivity(filterIntent);
+    }
     @Override
     protected void onResume() {
         super.onResume();

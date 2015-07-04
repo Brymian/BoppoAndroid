@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:background="@android:color/holo_blue_light">
+    <TextView android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter"
+        android:textSize="25dp"
+        android:textStyle="bold" />
+    <Button android:id="@+id/Apply"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Apply"
+        android:onClick="onClickApply"
+        android:background="@android:color/holo_blue_light"
+        android:layout_gravity="left"
+        android:textSize="20dp"
+        android:gravity="left|center_vertical"
+        android:paddingLeft="10dp" />
+
+</LinearLayout>

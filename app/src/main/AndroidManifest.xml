@@ -53,6 +53,7 @@
         <activity android:name=".bryant.MenuButtons.Account"></activity>
         <activity android:name=".bryant.MenuButtons.Friends"></activity>
         <activity android:name=".bryant.MenuButtons.Settings"></activity>
+        <activity android:name=".bryant.FilterActivity"></activity>
 
 
         <!-- DAMIAN'S STUFF -->

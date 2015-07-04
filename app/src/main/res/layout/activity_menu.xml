@@ -54,7 +54,4 @@
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp" />
 
-
-
-
 </LinearLayout>
