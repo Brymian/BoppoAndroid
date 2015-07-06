@@ -19,8 +19,8 @@
         android:layout_height="48dp"
         android:layout_gravity="bottom"
         android:orientation="horizontal"
-        android:padding="4dp"
-        android:background="#ff9abcff">
+        android:background="#ff9abcff"
+        android:showDividers="none">
 
         <ImageButton
             android:id="@+id/menuButton"
@@ -28,7 +28,7 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:onClick="onClickMenu"
-            android:src="@mipmap/three_line_menu_w_pad"
+            android:src="@mipmap/bubbles_padding_half"
             android:layout_weight="1" />
 
         <ImageButton
@@ -51,5 +51,15 @@
 
 
     </RadioGroup>
+
+    <ImageButton
+        android:clickable="true"
+        android:onClick="onClickMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
+        android:layout_gravity="left|top"
+        android:src="@mipmap/three_line_menu_w_pad"
+        android:background="@android:color/transparent" />
 
 </FrameLayout>

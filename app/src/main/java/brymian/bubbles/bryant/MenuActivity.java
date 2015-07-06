@@ -13,7 +13,10 @@ public class MenuActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
     }
-
+    public void onClickMapsActivity(View view){
+        Intent mapsActivityIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapsActivityIntent);
+    }
     public void onClickSettings(View view){
         Intent settingsIntent = new Intent(this, Settings.class);
         startActivity(settingsIntent);
@@ -31,4 +34,5 @@ public class MenuActivity extends FragmentActivity {
         Intent accountIntent = new Intent(this, Account.class);
         startActivity(accountIntent);
     }
+
 }

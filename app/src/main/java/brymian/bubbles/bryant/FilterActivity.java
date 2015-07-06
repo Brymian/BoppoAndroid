@@ -16,7 +16,10 @@ public class FilterActivity extends FragmentActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
     }
-
+    public void onClickMaps(View v){
+        Intent mapsIntent = new Intent(this, MapsActivity.class);
+        startActivity(mapsIntent);
+    }
     public void onClickApplyFilter(View v){
         Intent applyfilterIntent = new Intent(this, ApplyFilter.class);
         startActivity(applyfilterIntent);
