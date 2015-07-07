@@ -3,15 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/holo_blue_light">
-    <ImageButton android:id="@+id/goBackMenu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_revert"
-        android:onClick="onClickMenu"
-        android:background="@android:color/transparent" />
-    <TextView android:id="@+id/text"
+    android:orientation="vertical">
+    <TextView android:id="@+id/textFriends"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Friends"
@@ -22,9 +15,7 @@
         android:layout_height="wrap_content"
         android:text="Add a Friend"
         android:onClick="onClickAddFriend"
-        android:background="@android:color/transparent"
         android:textSize="20dp"
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp" />
-
 </LinearLayout>

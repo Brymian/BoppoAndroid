@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:onClick="onClickMenu"
+            android:onClick="onClickFriends"
             android:src="@mipmap/bubbles_padding_half"
             android:layout_weight="1" />
 
@@ -61,5 +61,9 @@
         android:layout_gravity="left|top"
         android:src="@mipmap/three_line_menu_w_pad"
         android:background="@android:color/transparent" />
+    <ImageView
+        android:id="@+id/image_camera"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

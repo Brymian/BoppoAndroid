@@ -52,7 +52,7 @@ public class CameraActivity extends Activity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
-
+/**
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
@@ -74,4 +74,5 @@ public class CameraActivity extends Activity {
             }
         }
     }
+    **/
 }

@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons;
+package brymian.bubbles.bryant.MenuButtons.SettingsButtons;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,22 +7,17 @@ import android.view.View;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 
-public class Settings extends FragmentActivity {
-
+/**
+ * Created by Almanza on 7/6/2015.
+ */
+public class Notifications extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_settings);
+        setContentView(R.layout.activity_menu);
     }
     public void onClickMenu(View v){
         Intent menuIntent = new Intent(this, MenuActivity.class);
         startActivity(menuIntent);
     }
-    public void onClickAbout(View view){
-        Intent aboutIntent = new Intent(this, About.class);
-        startActivity(aboutIntent);
-    }
-
-
 }
