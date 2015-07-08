@@ -1,16 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_height="match_parent"
+<FrameLayout
+    android:id="@+id/AuthenticateFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="10px">
-
-    <fragment
-        android:name="brymian.bubbles.damian.fragment.Authenticate.LoginFragment"
-        android:id="@+id/fragment_login"
-        android:layout_weight="1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_login" />
-
-</LinearLayout>
+    android:layout_height="match_parent"></FrameLayout>
