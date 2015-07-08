@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.SettingsButtons;
+package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 
 import android.support.v4.app.FragmentActivity;
 
