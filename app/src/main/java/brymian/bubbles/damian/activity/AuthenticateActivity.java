@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.fragment.Authenticate.LoginFragment;
+import brymian.bubbles.damian.fragment.Authenticate.LaunchFragment;
 
 public class AuthenticateActivity extends AppCompatActivity {
 
@@ -17,7 +17,7 @@ public class AuthenticateActivity extends AppCompatActivity {
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.AuthenticateFragment, new LoginFragment());
+        ft.replace(R.id.AuthenticateFragment, new LaunchFragment());
         ft.commit();
     }
 
@@ -26,4 +26,13 @@ public class AuthenticateActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fm = getFragmentManager();
+        if (fm.getBackStackEntryCount() > 0) {
+            fm.popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }

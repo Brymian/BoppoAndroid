@@ -34,7 +34,9 @@ public class FragmentSimpleLoginButton extends Fragment {
     private FacebookCallback<LoginResult> mFacebookCallback = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
+
             Log.d("BRYMIAN", "onSuccess");
+
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
             mTextDetails.setText(constructWelcomeMessage(profile));
@@ -50,7 +52,7 @@ public class FragmentSimpleLoginButton extends Fragment {
 
         @Override
         public void onError(FacebookException e) {
-            Log.d("BRYMIAN", "onError " + e);
+            Log.d("BRYMIAN", "onError: " + e);
         }
     };
 
@@ -72,8 +74,7 @@ public class FragmentSimpleLoginButton extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_simple_login_button, container, false);
     }
 

@@ -3,7 +3,6 @@ package brymian.bubbles.damian.fragment.Authenticate;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,6 +19,8 @@ import brymian.bubbles.damian.nonactivity.ServerRequests;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserStoreLocal;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
+
 /**
  * Created by Ziomster on 7/2/2015.
  */
@@ -33,10 +34,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public LoginFragment() {
     }
 
-    /*
-     * FRAGMENT METHODS
-     */
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -68,16 +65,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onStop() {
         super.onStop();
     }
-    /*
-     * END OF FRAGMENT METHODS
-     */
-
-    /*
-     * CUSTOM METHODS
-     */
 
     @Override
     public void onClick(View v) {
+
+        FragmentManager fm = getActivity().getFragmentManager();
+
         if (v.getId() == R.id.bLogin) {
 
             String username = etUsername.getText().toString();
@@ -89,11 +82,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         }
         if (v.getId() == R.id.ibRegisterLink) {
-            // startActivity(new Intent(getActivity(), RegisterActivity.class));
-            FragmentManager fm = getActivity().getFragmentManager();
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.replace(R.id.AuthenticateFragment, new RegisterFragment());
-            ft.commit();
+            startFragment(fm, new RegisterFragment());
         }
     }
 
@@ -125,8 +114,4 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         startActivity(new Intent(getActivity(), MapsActivity.class));
 
     }
-
-    /*
-     * END OF CUSTOM METHODS
-     */
 }
