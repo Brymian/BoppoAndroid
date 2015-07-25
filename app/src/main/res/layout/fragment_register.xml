@@ -8,16 +8,18 @@
     <TextView
         android:layout_marginBottom="40dp"
         android:gravity="center_horizontal"
-        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:textSize="40dp"
         android:layout_width="wrap_content"
-        android:text="You have not been registered in the system yet. To do so, fill out the information and click 'Register', otherwise go back."
+        android:text="REGISTER"
         android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
         android:text="Username: "
         android:layout_height="wrap_content"
-        android:textSize="20sp" />
+        android:textSize="20dp" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -29,7 +31,7 @@
         android:layout_width="wrap_content"
         android:text="Password: "
         android:layout_height="wrap_content"
-        android:textSize="20sp" />
+        android:textSize="20dp" />
 
     <EditText
         android:id="@+id/etPassword"
@@ -37,6 +39,63 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPassword" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="First Name: "
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/etNamefirst"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:text="Last Name: "
+                android:layout_marginBottom="20dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/etNamelast"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:text="Email: "
+        android:layout_height="wrap_content"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/etEmail"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/bRegister"

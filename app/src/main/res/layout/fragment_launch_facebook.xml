@@ -16,28 +16,16 @@
         android:layout_height="wrap_content"
         android:text="BUBBLES" />
 
-    <!-- BUBBLES LOGIN -->
-    <ImageButton
-        android:id="@+id/ibLoginApp"
-        android:background="@drawable/app_login"
+    <!-- FACEBOOK LOGIN BUTTON -->
+    <!--android:id="@+id/login_button"-->
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/login_button"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:gravity="center_horizontal"
-        android:layout_width="180dp"
-        android:layout_height="45dp" />
-
-    <!-- FACEBOOK LOGIN -->
-    <ImageButton
-        android:id="@+id/ibLoginFacebook"
-        android:background="@drawable/facebook_login"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:layout_width="180dp"
-        android:layout_height="45dp" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

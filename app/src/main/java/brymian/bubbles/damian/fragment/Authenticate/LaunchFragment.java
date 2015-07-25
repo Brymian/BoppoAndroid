@@ -2,20 +2,15 @@ package brymian.bubbles.damian.fragment.Authenticate;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
-
 import brymian.bubbles.R;
+import brymian.bubbles.damian.activity.AuthenticateActivityFacebook;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
@@ -24,9 +19,7 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
  */
 public class LaunchFragment extends Fragment implements View.OnClickListener {
 
-    ImageButton ibLoginApp;
-
-    private CallbackManager callbackManager;
+    ImageButton ibLoginApp, ibLoginFacebook;
 
     public LaunchFragment() {
     }
@@ -35,27 +28,6 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
 
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getActivity().getApplicationContext());
-
-        callbackManager = CallbackManager.Factory.create();
-
-        LoginManager.getInstance().registerCallback(callbackManager,
-                new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        // App code
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // App code
-                    }
-
-                    @Override
-                    public void onError(FacebookException exception) {
-                        // App code
-                    }
-                });
     }
 
     @Override
@@ -65,6 +37,8 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
 
         ibLoginApp = (ImageButton) rootView.findViewById(R.id.ibLoginApp);
         ibLoginApp.setOnClickListener(this);
+        ibLoginFacebook = (ImageButton) rootView.findViewById(R.id.ibLoginFacebook);
+        ibLoginFacebook.setOnClickListener(this);
 
         return rootView;
     }
@@ -79,13 +53,20 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         super.onStop();
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     //@Override
     public void onClick(View v) {
 
         FragmentManager fm = getActivity().getFragmentManager();
 
         if (v.getId() == R.id.ibLoginApp) {
-            startFragment(fm, new LoginFragment());
+            startFragment(fm, R.id.fragment_authenticate, new LoginFragment());
+        } else if (v.getId() == R.id.ibLoginFacebook) {
+            startActivity(new Intent(getActivity(), AuthenticateActivityFacebook.class));
         }
     }
 }

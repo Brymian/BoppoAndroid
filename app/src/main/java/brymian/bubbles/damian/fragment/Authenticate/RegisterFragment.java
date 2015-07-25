@@ -1,10 +1,6 @@
 package brymian.bubbles.damian.fragment.Authenticate;
 
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,9 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.GetUserCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequests;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
+
+import static brymian.bubbles.damian.nonactivity.DialogMessage.showErrorCustom;
+import static brymian.bubbles.damian.nonactivity.DialogMessage.showMessageRegistration;
 
 /**
  * Created by Ziomster on 7/2/2015.
@@ -24,7 +23,7 @@ import brymian.bubbles.damian.nonactivity.User;
 public class RegisterFragment extends Fragment implements View.OnClickListener {
 
     Button bRegister;
-    EditText etUsername, etPassword;
+    EditText etUsername, etPassword, etNamefirst, etNamelast, etEmail;
     SharedPreferences sp;
 
     public RegisterFragment() {
@@ -45,6 +44,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
         etUsername = (EditText) rootView.findViewById(R.id.etUsername);
         etPassword = (EditText) rootView.findViewById(R.id.etPassword);
+        etNamefirst = (EditText) rootView.findViewById(R.id.etNamefirst);
+        etNamelast = (EditText) rootView.findViewById(R.id.etNamelast);
+        etEmail = (EditText) rootView.findViewById(R.id.etEmail);
         bRegister = (Button) rootView.findViewById(R.id.bRegister);
 
         bRegister.setOnClickListener(this);
@@ -74,40 +76,32 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
             String username = etUsername.getText().toString();
             String password = etPassword.getText().toString();
-            User user = new User(username, password);
+            String namefirst = etNamefirst.getText().toString();
+            String namelast = etNamelast.getText().toString();
+            String email = etEmail.getText().toString();
 
-            registerUser(user);
+            User user = new User();
+            user.setUserNormalLogin(username, password, namefirst, namelast, email);
+
+            new ServerRequest(getActivity()).createUserNormal(user, new StringCallback() {
+                @Override
+                public void done(String string) {
+                    if (string.length() == 1) {
+                        showMessageRegistration(getActivity());
+                    } else {
+                        String error = "";
+                        if (string.contains("Duplicate entry")) {
+                            String username = string.split("'")[1];
+                            error = "Username '" + username + "' is already taken.";
+                        } else if (string.contains("java.net.SocketTimeoutException")) {
+                            error = "Server is not reachable: it may be offline.";
+                        } else {
+                            error = "Unknown error.";
+                        }
+                        showErrorCustom(getActivity(), error);
+                    }
+                }
+            });
         }
     }
-
-    private void registerUser(User user) {
-
-        ServerRequests serverRequest = new ServerRequests(getActivity());
-        serverRequest.storeUserDataInBackground(user, new GetUserCallback() {
-            @Override
-            public void done(User returnedUser) {
-                showConfirmationMessage();
-            }
-        });
-    }
-
-    private void showConfirmationMessage() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
-        dialogBuilder.setMessage(("Registration successful."));
-        dialogBuilder.setCancelable(false);
-        dialogBuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                //startActivity(new Intent(getActivity(), LoginActivity.class));
-                FragmentManager fm = getActivity().getFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                ft.replace(R.id.AuthenticateFragment, new LoginFragment());
-                ft.commit();
-            }
-        });
-        dialogBuilder.show();
-    }
-    /*
-     * END OF CUSTOM METHODS
-     */
 }
