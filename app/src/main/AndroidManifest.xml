@@ -82,6 +82,9 @@
         <activity
             android:name=".damian.activity.AuthenticateActivityFacebook"
             android:label="@string/title_activity_new_login"></activity>
+        <activity
+            android:name=".damian.activity.TESTActivity"
+            android:label="@string/title_activity_new_login"></activity>
     </application>
 
 </manifest>

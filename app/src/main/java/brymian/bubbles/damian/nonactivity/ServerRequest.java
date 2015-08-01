@@ -5,10 +5,13 @@ import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import brymian.bubbles.R;
 
@@ -53,6 +56,11 @@ public class ServerRequest {
         new AuthUserFacebook(user, voidCallback).execute();
     }
 
+    public void getUsers(String searched_user, UserSetCallback userSetCallback) {
+        pd.show();
+        new GetUsers(searched_user, userSetCallback).execute();
+    }
+
     private class CreateUserNormal extends AsyncTask<Void, Void, String> {
 
         User user;
@@ -68,11 +76,11 @@ public class ServerRequest {
             String url = SERVER + "Database/createUserNormal.php";
 
             String jsonUser =
-                    "{\"username\":\"" + user.getUsername() + "\"," +
-                            " \"password\":\"" + user.getPassword() + "\"," +
-                            " \"namefirst\":\"" + user.getNamefirst() + "\"," +
-                            " \"namelast\":\"" + user.getNamelast() + "\"," +
-                            " \"email\":\"" + user.getEmail() + "\"}";
+                    "{\"username\":\"" + user.username() + "\"," +
+                            " \"password\":\"" + user.password() + "\"," +
+                            " \"namefirst\":\"" + user.namefirst() + "\"," +
+                            " \"namelast\":\"" + user.namelast() + "\"," +
+                            " \"email\":\"" + user.email() + "\"}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonUser);
@@ -107,10 +115,10 @@ public class ServerRequest {
             String url = SERVER + "Database/createUserFacebook.php";
 
             String jsonUser =
-                    "{\"facebook_uid\":\"" + user.getFacebookUid() + "\"," +
-                            " \"namefirst\":\"" + user.getNamefirst() + "\"," +
-                            " \"namelast\":\"" + user.getNamelast() + "\"," +
-                            " \"email\":\"" + user.getEmail() + "\"}";
+                    "{\"facebook_uid\":\"" + user.facebookUid() + "\"," +
+                            " \"namefirst\":\"" + user.namefirst() + "\"," +
+                            " \"namelast\":\"" + user.namelast() + "\"," +
+                            " \"email\":\"" + user.email() + "\"}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonUser);
@@ -146,8 +154,8 @@ public class ServerRequest {
             String url = SERVER + "Database/authUserNormal.php";
 
             String jsonUser =
-                    "{\"username\":\"" + user.getUsername() + "\"," +
-                            " \"password\":\"" + user.getPassword() + "\"}";
+                    "{\"username\":\"" + user.username() + "\"," +
+                            " \"password\":\"" + user.password() + "\"}";
             Post request = new Post();
             //System.out.println(jsonUser);
             try {
@@ -204,7 +212,7 @@ public class ServerRequest {
         protected Void doInBackground(Void... params) {
             String url = SERVER + "Database/authUserFacebook.php";
 
-            String jsonUser = "{\"facebook_uid\":\"" + user.getFacebookUid() + "\"}";
+            String jsonUser = "{\"facebook_uid\":\"" + user.facebookUid() + "\"}";
             Post request = new Post();
             //System.out.println(jsonUser);
             try {
@@ -245,5 +253,65 @@ public class ServerRequest {
 
             super.onPostExecute(aVoid);
         }
+    }
+
+    private class GetUsers extends AsyncTask<Void, Void, Set<User>> {
+
+        String searched_user;
+        UserSetCallback userSetCallback;
+
+        private GetUsers(String searched_user, UserSetCallback userSetCallback) {
+            this.searched_user = searched_user;
+            this.userSetCallback = userSetCallback;
+        }
+
+        @Override
+        protected Set<User> doInBackground(Void... params) {
+            //final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
+            final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
+            String url = SERVER + "Database/getUsers.php";
+
+            //String searched_user = "";
+            String jsonSearchedUser = "{\"searched_username\":\"" + searched_user + "\"}";
+            Post request = new Post();
+            try {
+                String response = request.post(url, jsonSearchedUser);
+                if (response.equals("INCORRECT STRING.")) {
+                    System.out.println(response);
+                    return null;
+                } else {
+                    JSONArray j2dArray = new JSONArray(response);
+                    Set<User> userSet = new HashSet<User>();
+                    System.out.println(j2dArray.isNull(0));
+                    for (int i = 0; i < j2dArray.length(); i++) {
+                        JSONObject jUser = (JSONObject) j2dArray.get(i);
+                        int uid = jUser.getInt("uid");
+                        String username = jUser.getString("username");
+                        String namefirst = jUser.getString("namefirst");
+                        String namelast = jUser.getString("namelast");
+                        User user = new User();
+                        user.setUser(uid, null, -1, username, null, namefirst, namelast, null);
+                        userSet.add(user);
+                    }
+                    // The set will be null if nothing matched in the database
+                    return userSet;
+                }
+            } catch (IOException ioe) {
+                System.out.println(ioe.toString());
+                return null;
+            } catch (JSONException jsone) {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Set<User> users) {
+            pd.dismiss();
+            userSetCallback.done(users);
+
+            super.onPostExecute(users);
+        }
+
     }
 }

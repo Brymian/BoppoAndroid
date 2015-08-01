@@ -18,13 +18,13 @@ public class UserDataLocal {
     /* Save logged in user's data on device */
     public void setUserData(User user) {
         SharedPreferences.Editor userDataLocalEditor = userDataLocal.edit();
-        userDataLocalEditor.putInt("uid", user.getUid());
-        userDataLocalEditor.putString("facebook_uid", user.getFacebookUid());
-        userDataLocalEditor.putInt("googlep_uid", user.getGooglepUid());
-        userDataLocalEditor.putString("username", user.getUsername());
-        userDataLocalEditor.putString("namefirst", user.getNamefirst());
-        userDataLocalEditor.putString("namelast", user.getNamelast());
-        userDataLocalEditor.putString("email", user.getEmail());
+        userDataLocalEditor.putInt("uid", user.uid());
+        userDataLocalEditor.putString("facebook_uid", user.facebookUid());
+        userDataLocalEditor.putInt("googlep_uid", user.googlepUid());
+        userDataLocalEditor.putString("username", user.username());
+        userDataLocalEditor.putString("namefirst", user.namefirst());
+        userDataLocalEditor.putString("namelast", user.namelast());
+        userDataLocalEditor.putString("email", user.email());
         userDataLocalEditor.commit();
     }
 

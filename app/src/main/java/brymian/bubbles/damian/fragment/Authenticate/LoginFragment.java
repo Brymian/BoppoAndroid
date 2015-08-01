@@ -84,7 +84,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                     User user = udl.getUserData();
                     if (user == null) {
                         DialogMessage.showErrorLoggedIn(getActivity());
-                    } else if (user.getUsername() == getActivity().getString(R.string.null_user)) {
+                    } else if (user.username() == getActivity().getString(R.string.null_user)) {
                         DialogMessage.showErrorConnection(getActivity());
                     } else {
                         udl.setLoggedStatus(true);

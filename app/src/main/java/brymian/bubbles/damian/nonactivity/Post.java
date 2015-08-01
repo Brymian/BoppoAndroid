@@ -23,7 +23,7 @@ public class Post {
         client.setReadTimeout(15, TimeUnit.SECONDS);    // socket timeout
     }
 
-    String post(String url, String json) throws IOException {
+    public String post(String url, String json) throws IOException {
 
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()

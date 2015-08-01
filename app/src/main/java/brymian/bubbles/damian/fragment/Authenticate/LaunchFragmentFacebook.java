@@ -148,11 +148,11 @@ public class LaunchFragmentFacebook extends Fragment {
                     DialogMessage.showErrorLoggedIn(getActivity());
                 }
                 // CONNECTION UNSUCCESSFUL
-                else if (user.getFacebookUid().equals(getActivity().getString(R.string.null_user))) {
+                else if (user.facebookUid().equals(getActivity().getString(R.string.null_user))) {
                     DialogMessage.showErrorConnection(getActivity());
                 } else {
                     // FIRST TIME
-                    if (user.getUid() == 0) {
+                    if (user.uid() == 0) {
                         System.out.println("WE GOT A NEW FACEBOOK USER HERE!");
                         register(profile);
                     }

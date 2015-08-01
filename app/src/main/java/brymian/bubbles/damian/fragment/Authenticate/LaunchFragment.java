@@ -11,8 +11,7 @@ import android.widget.ImageButton;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.activity.AuthenticateActivityFacebook;
-
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
+import brymian.bubbles.damian.activity.TESTActivity;
 
 /**
  * Created by Ziomster on 7/8/2015.
@@ -64,7 +63,8 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         FragmentManager fm = getActivity().getFragmentManager();
 
         if (v.getId() == R.id.ibLoginApp) {
-            startFragment(fm, R.id.fragment_authenticate, new LoginFragment());
+            //startFragment(fm, R.id.fragment_authenticate, new LoginFragment());
+            startActivity(new Intent(getActivity(), TESTActivity.class));
         } else if (v.getId() == R.id.ibLoginFacebook) {
             startActivity(new Intent(getActivity(), AuthenticateActivityFacebook.class));
         }

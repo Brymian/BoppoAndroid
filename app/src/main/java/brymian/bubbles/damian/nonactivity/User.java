@@ -84,35 +84,35 @@ public class User {
         this.email = email;
     }
 
-    public int getUid() {
+    public int uid() {
         return uid;
     }
 
-    public String getFacebookUid() {
+    public String facebookUid() {
         return facebook_uid;
     }
 
-    public int getGooglepUid() {
+    public int googlepUid() {
         return googlep_uid;
     }
 
-    public String getUsername() {
+    public String username() {
         return username;
     }
 
-    public String getPassword() {
+    public String password() {
         return password;
     }
 
-    public String getNamefirst() {
+    public String namefirst() {
         return namefirst;
     }
 
-    public String getNamelast() {
+    public String namelast() {
         return namelast;
     }
 
-    public String getEmail() {
+    public String email() {
         return email;
     }
 }
