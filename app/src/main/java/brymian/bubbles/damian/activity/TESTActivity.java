@@ -3,12 +3,12 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-import java.util.Set;
+import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserSetCallback;
+import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -34,9 +34,9 @@ public class TESTActivity extends Activity {
 
     private void test() {
 
-        new ServerRequest(this).getUsers("", new UserSetCallback() {
+        new ServerRequest(this).getUsers("Damian", new UserListCallback() {
             @Override
-            public void done(Set<User> user) {
+            public void done(List<User> userList) {
 
             }
         });
