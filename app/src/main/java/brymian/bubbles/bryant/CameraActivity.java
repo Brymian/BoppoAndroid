@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 
+import android.provider.MediaStore.Files.FileColumns;
+
 import java.io.File;
 
 public class CameraActivity extends Activity {
@@ -25,26 +27,17 @@ public class CameraActivity extends Activity {
     private static int TAKE_PICTURE = 1;
     private Uri imageUri;
 
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
+    private Uri fileUri;
+    public static final int MEDIA_TYPE_IMAGE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         takePhoto();
-        //Button cameraButton = (Button) findViewById(R.id.button_camera);
-        //cameraButton.setOnClickListener(cameraListener);
     }
-
-    /**
-     *
-
-    private View.OnClickListener cameraListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            takePhoto(v);
-        }
-    };
-
-     **/
-
+    
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
@@ -52,7 +45,8 @@ public class CameraActivity extends Activity {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
-/**
+
+    /**
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);

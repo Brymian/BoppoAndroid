@@ -11,10 +11,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -30,6 +32,7 @@ public class MapsActivity extends FragmentActivity {
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private Uri fileUri;
     private static int TAKE_PICTURE = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +42,6 @@ public class MapsActivity extends FragmentActivity {
 
     //----------------BUTTONS-----------------------------
     public void onClickCamera(View v){
-        //takePhoto();
         Intent cameraIntent = new Intent(this, CameraActivity.class);
         startActivity(cameraIntent);
     }
@@ -54,7 +56,7 @@ public class MapsActivity extends FragmentActivity {
         startActivity(filterIntent);
     }
 
-    public void onClickFriends(View view){
+    public void onClickFriends(){
         Intent friendsIntent = new Intent(this, FriendsActivity.class);
         startActivity(friendsIntent);
     }
@@ -64,40 +66,6 @@ public class MapsActivity extends FragmentActivity {
         super.onResume();
         setUpMapIfNeeded();
     }
-
-    //---------------------CAMERA------------------------------
-    /**
-    private void takePhoto() {
-        Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
-        fileUri = Uri.fromFile(photo);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-        startActivityForResult(intent, TAKE_PICTURE);
-    }
-
-     @Override
-     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-     super.onActivityResult(requestCode, resultCode, intent);
-
-     if (resultCode == Activity.RESULT_OK) {
-     Uri selectedImage = imageUri;
-     getContentResolver().notifyChange(selectedImage, null);
-
-     ImageView imageView = (ImageView) findViewById(R.id.image_camera);
-     ContentResolver cr = getContentResolver();
-     Bitmap bitmap;
-
-     try {
-     bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-     imageView.setImageBitmap(bitmap);
-     Toast.makeText(CameraActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-     } catch (Exception e) {
-     Log.e(logtag, e.toString());
-     }
-     }
-     }
-     **/
-    //-------------------END OF CAMERA---------------------------
 
     //-----------------MAPS METHODS-------------------------------
     private void setUpMapIfNeeded() {

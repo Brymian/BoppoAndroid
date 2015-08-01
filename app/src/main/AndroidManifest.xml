@@ -40,7 +40,34 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".bryant.MapsActivity"
+            android:name=".bryant.MapsActivity">
+            <!---
+            android:label="@string/title_activity_maps">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".bryant.CameraActivity">
+            <!---
+            android:label="@string/title_activity_maps">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            -->
+        </activity>
+        <activity android:name=".bryant.MenuActivity"></activity>
+        <activity android:name=".bryant.FriendsActivity"
+            >
+
+        </activity>
+        <activity android:name=".bryant.FilterActivity"></activity>
+        <activity android:name=".bryant.MenuButtons.SettingsButtons.PrivacySettings"></activity>
+        <activity android:name=".bryant.PracticeActivity"
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,12 +75,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bryant.CameraActivity"></activity>
-        <activity android:name=".bryant.MenuActivity"></activity>
-        <activity android:name=".bryant.FriendsActivity"></activity>
-        <activity android:name=".bryant.FilterActivity"></activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.PrivacySettings"></activity>
-
 
         <!-- DAMIAN'S STUFF -->
 

@@ -22,7 +22,7 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableIn
  */
 public class ServerRequest {
 
-    private final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
+    private final String SERVER = "http://73.194.170.63:3389/ProjectWolf/";
 
     private ProgressDialog pd;
 
