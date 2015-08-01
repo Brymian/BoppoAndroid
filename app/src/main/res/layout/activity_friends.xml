@@ -10,12 +10,17 @@
         android:text="Friends"
         android:textSize="25dp"
         android:textStyle="bold" />
+    <EditText android:id="@+id/SearchUsers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:singleLine="true"/>
     <Button android:id="@+id/AddAFriend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Add a Friend"
-        android:onClick="onClickAddFriend"
         android:textSize="20dp"
         android:gravity="left|center_vertical"
         android:paddingLeft="10dp" />
+
 </LinearLayout>
