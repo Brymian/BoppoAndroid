@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
@@ -27,39 +28,49 @@ import java.io.File;
 
 import brymian.bubbles.R;
 
-public class MapsActivity extends FragmentActivity {
+public class MapsActivity extends FragmentActivity implements View.OnClickListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private Uri fileUri;
-    private static int TAKE_PICTURE = 1;
-
+    ImageButton bCamera, bMenu, bFilter, bFriends;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+        bCamera = (ImageButton) findViewById(R.id.bCamera);
+        bFilter =(ImageButton) findViewById(R.id.bFilter);
+        bFriends = (ImageButton) findViewById(R.id.bFriends);
+        bMenu = (ImageButton) findViewById(R.id.bMenu);
+
+        bCamera.setOnClickListener(this);
+        bFilter.setOnClickListener(this);
+        bMenu.setOnClickListener(this);
+        bFriends.setOnClickListener(this);
     }
 
     //----------------BUTTONS-----------------------------
-    public void onClickCamera(View v){
-        Intent cameraIntent = new Intent(this, CameraActivity.class);
-        startActivity(cameraIntent);
+    @Override
+    public void onClick(View v){
+        switch(v.getId()){
+            case R.id.bMenu:
+                Intent menuIntent = new Intent(this, MenuActivity.class);
+                startActivity(menuIntent);
+                break;
+            case R.id.bFriends:
+                Intent friendsIntent = new Intent(this, FriendsActivity.class);
+                startActivity(friendsIntent);
+                break;
+            case R.id.bCamera:
+                Intent cameraIntent = new Intent(this, CameraActivity.class);
+                startActivity(cameraIntent);
+                break;
+            case R.id.bFilter:
+                Intent filterIntent = new Intent(this, FilterActivity.class);
+                startActivity(filterIntent);
+                break;
+        }
     }
 
-    public void onClickMenu(View view){
-        Intent menuIntent = new Intent(this, MenuActivity.class);
-        startActivity(menuIntent);
-    }
-
-    public void onClickFilter(View view){
-        Intent filterIntent = new Intent(this, FilterActivity.class);
-        startActivity(filterIntent);
-    }
-
-    public void onClickFriends(){
-        Intent friendsIntent = new Intent(this, FriendsActivity.class);
-        startActivity(friendsIntent);
-    }
     //----------------END OF BUTTONS-------------------------
     @Override
     protected void onResume() {

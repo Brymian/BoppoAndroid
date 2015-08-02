@@ -23,16 +23,15 @@
         android:showDividers="none">
 
         <ImageButton
-            android:id="@+id/menuButton"
+            android:id="@+id/bFriends"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:onClick="onClickFriends"
             android:src="@mipmap/bubbles_padding_half"
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/cameraButton"
+            android:id="@+id/bCamera"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:clickable="true"
@@ -41,7 +40,7 @@
             android:layout_weight="1" />
 
         <ImageButton
-            android:id="@+id/filterButton"
+            android:id="@+id/bFilter"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -54,10 +53,9 @@
 
     <ImageButton
         android:clickable="true"
-        android:onClick="onClickMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
+        android:id="@+id/bMenu"
         android:layout_gravity="left|top"
         android:src="@mipmap/three_line_menu_w_pad"
         android:background="@android:color/transparent" />

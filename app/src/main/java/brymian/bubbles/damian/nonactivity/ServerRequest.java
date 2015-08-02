@@ -16,7 +16,7 @@ import java.util.List;
 import brymian.bubbles.R;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableInt;
-
+import brymian.bubbles.bryant.FriendsActivity;
 /**
  * Created by Ziomster on 7/12/2015.
  */
@@ -267,16 +267,18 @@ public class ServerRequest {
 
         @Override
         protected List<User> doInBackground(Void... params) {
-            //final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
-            final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
+            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
+            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
             String url = SERVER + "Database/getUsers.php";
 
             System.out.println("SEARCHED USER: " + searched_user);
             //String searched_user = "";
             String jsonSearchedUser = "{\"searched_username\":\"" + searched_user + "\"}";
             Post request = new Post();
+            //FriendsActivity friendsActivity = new FriendsActivity();
             try {
                 String response = request.post(url, jsonSearchedUser);
+                //friendsActivity.tShowFriends.setText(response);
                 System.out.println("RESPONSE: " + response);
                 if (response.equals("INCORRECT STRING.")) {
                     System.out.println(response);
