@@ -1,19 +1,14 @@
 package brymian.bubbles.bryant;
 
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,12 +19,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
-import brymian.bubbles.damian.nonactivity.VoidCallback;
 
 
 public class FriendsActivity extends ActionBarActivity implements View.OnClickListener{
@@ -65,16 +58,26 @@ public class FriendsActivity extends ActionBarActivity implements View.OnClickLi
                 {
                     //String userReceiving = eInputUser.getText().toString();
                     //AddFriend(userSending,userReceiving);
-                    getUsers(eInputUser.getText().toString(), new UserListCallback() {
+                    new ServerRequest(this).getUsers(eInputUser.getText().toString(), new UserListCallback() {
                         @Override
-                        public void done(List<User> user) {
+                        public void done(List<User> userList) {
+                            // The userList is a list of User objects, as can be seen
+                            // in the User class. Below are just some examples of what
+                            // user methods exist
+                            for (User user : userList) {
+                                System.out.println(user.uid()); // Prints bubbles ID
+                                System.out.println(user.username()); // Prints bubbles username
+                                System.out.println(user.namefirst()); // Prints first name
+                                System.out.println(user.namelast()); // Prints last name
+                            }
+
                             //DAMIAANNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
                             //
                             // DAMIAN HEREEEEEE
                             //
                             // HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!
-                            System.out.println("this is the size: " + user.size());
-                            int size = user.size();
+                            System.out.println("this is the size: " + userList.size());
+                            int size = userList.size();
                             tShowFriends = (TextView) findViewById(R.id.tShowFriends);
                             if (size == 0){
                                 tShowFriends.setText("No Results");
