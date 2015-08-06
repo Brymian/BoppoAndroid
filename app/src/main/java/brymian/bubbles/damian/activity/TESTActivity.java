@@ -3,12 +3,9 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-import java.util.List;
-
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserListCallback;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -34,13 +31,38 @@ public class TESTActivity extends Activity {
 
     private void test() {
 
+        /*
         new ServerRequest(this).getUsers("Damian", new UserListCallback() {
             @Override
             public void done(List<User> userList) {
 
             }
         });
-
+        */
+        new ServerRequest(this).getFriendStatus(1, 5, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+        new ServerRequest(this).getFriendStatus(1, 4, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+        new ServerRequest(this).setFriendStatus(1, 4, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+        new ServerRequest(this).getFriendStatus(1, 4, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
     }
 
 }

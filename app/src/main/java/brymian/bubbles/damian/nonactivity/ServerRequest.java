@@ -16,7 +16,6 @@ import java.util.List;
 import brymian.bubbles.R;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableInt;
-import brymian.bubbles.bryant.FriendsActivity;
 /**
  * Created by Ziomster on 7/12/2015.
  */
@@ -59,6 +58,16 @@ public class ServerRequest {
     public void getUsers(String searched_user, UserListCallback userListCallback) {
         pd.show();
         new GetUsers(searched_user, userListCallback).execute();
+    }
+
+    public void getFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
+        pd.show();
+        new GetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
+    }
+
+    public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
+        pd.show();
+        new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
     private class CreateUserNormal extends AsyncTask<Void, Void, String> {
@@ -314,6 +323,86 @@ public class ServerRequest {
             userListCallback.done(users);
 
             super.onPostExecute(users);
+        }
+
+    }
+
+    private class GetFriendStatus extends AsyncTask<Void, Void, String> {
+
+        int loggedUserUid;
+        int otherUserUid;
+        StringCallback stringCallback;
+
+        private GetFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
+            this.loggedUserUid = loggedUserUid;
+            this.otherUserUid = otherUserUid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
+            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
+            String url = SERVER + "Database/getFriendStatus.php";
+
+            String jsonFriends =
+                    "{\"uid1\":" + loggedUserUid + "," +
+                            " \"uid2\":" + otherUserUid + "}";
+            Post request = new Post();
+            try {
+                String response = request.post(url, jsonFriends);
+                return response; // Successful SQL command returns one empty space (" ")
+            } catch (IOException ioe) {
+                return ioe.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+    private class SetFriendStatus extends AsyncTask<Void, Void, String> {
+
+        int loggedUserUid;
+        int otherUserUid;
+        StringCallback stringCallback;
+
+        private SetFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
+            this.loggedUserUid = loggedUserUid;
+            this.otherUserUid = otherUserUid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
+            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
+            String url = SERVER + "Database/setFriendStatus.php";
+
+            String jsonFriends =
+                    "{\"uid1\":" + loggedUserUid + "," +
+                            " \"uid2\":" + otherUserUid + "}";
+            Post request = new Post();
+            try {
+                String response = request.post(url, jsonFriends);
+                return response; // Successful SQL command returns one empty space (" ")
+            } catch (IOException ioe) {
+                return ioe.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
         }
 
     }
