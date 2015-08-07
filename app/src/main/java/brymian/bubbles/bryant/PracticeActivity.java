@@ -8,7 +8,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Base64;
 import android.view.View;
@@ -16,9 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
-
-import com.squareup.okhttp.internal.http.HttpConnection;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -115,7 +111,7 @@ public class PracticeActivity extends ActionBarActivity implements View.OnClickL
             HttpParams httpRequestParams = getHttpRequestParams();
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "SavePicture.php");
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "Database/uploadImage.php");
 
             try {
                 post.setEntity(new UrlEncodedFormEntity(dataToSend));
