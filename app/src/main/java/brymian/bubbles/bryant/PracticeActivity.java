@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,13 +9,18 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+
+import com.squareup.okhttp.internal.http.HttpConnection;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -33,11 +39,13 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 /**
  * Created by Almanza on 7/30/2015.
  */
-public class PracticeActivity extends ActionBarActivity implements View.OnClickListener {
+public class PracticeActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final String SERVER_ADDRESS = "http://73.194.170.63:8080/ProjectWolf/";
     ImageView imageToUpload, downloadedImage;
@@ -72,7 +80,9 @@ public class PracticeActivity extends ActionBarActivity implements View.OnClickL
                 break;
             case R.id.bUploadImage:
                 Bitmap image = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
-                new UploadImage(image, uploadedImageName.getText().toString()).execute();
+                UserDataLocal udl = new UserDataLocal(this);
+                User user = udl.getUserData();
+                new UploadImage(user.uid(), image, uploadedImageName.getText().toString()).execute();
                 break;
             case R.id.bDownloadImage:
                 new DownloadImage(downloadedImageName.getText().toString()).execute();
@@ -93,10 +103,11 @@ public class PracticeActivity extends ActionBarActivity implements View.OnClickL
 
         Bitmap image;
         String name;
-
-        public UploadImage(Bitmap image, String name){
+        int uid;
+        public UploadImage(int uid, Bitmap image, String name){
             this.image = image;
             this.name = name;
+            this.uid = uid;
         }
         @Override
         protected Void doInBackground(Void... params){
@@ -107,6 +118,7 @@ public class PracticeActivity extends ActionBarActivity implements View.OnClickL
             ArrayList<NameValuePair> dataToSend = new ArrayList<>();
             dataToSend.add(new BasicNameValuePair("image", encodedImage));
             dataToSend.add(new BasicNameValuePair("name", name));
+            dataToSend.add(new BasicNameValuePair("uid", Integer.toString(uid)));
 
             HttpParams httpRequestParams = getHttpRequestParams();
 
@@ -141,7 +153,7 @@ public class PracticeActivity extends ActionBarActivity implements View.OnClickL
 
         @Override
         protected Bitmap doInBackground(Void... params){
-            String url = SERVER_ADDRESS + "pictures/" + name + ".JPG";
+            String url = SERVER_ADDRESS + "Uploads/" + name + ".JPG";
             try {
                 URLConnection connection = new URL(url).openConnection();
                 connection.setConnectTimeout(1000 * 30);

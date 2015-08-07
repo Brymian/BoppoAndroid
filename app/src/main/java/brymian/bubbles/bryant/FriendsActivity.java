@@ -63,27 +63,26 @@ public class FriendsActivity extends ActionBarActivity implements View.OnClickLi
                         public void done(List<User> userList) {
                             // The userList is a list of User objects, as can be seen
                             // in the User class. Below are just some examples of what
-                            // user methods exist
+                            // user methods
+                            tShowFriends = (TextView) findViewById(R.id.tShowFriends);
+
                             for (User user : userList) {
-                                System.out.println(user.uid()); // Prints bubbles ID
-                                System.out.println(user.username()); // Prints bubbles username
-                                System.out.println(user.namefirst()); // Prints first name
-                                System.out.println(user.namelast()); // Prints last name
+                                System.out.println("bubbles ID: "+ user.uid()); // Prints bubbles ID
+                                System.out.println("bubbles username: " + user.username()); // Prints bubbles username
+                                String username = user.username();
+                                tShowFriends.setText(username);
+                                System.out.println("first name: " + user.namefirst()); // Prints first name
+                                System.out.println("last name: "+user.namelast()); // Prints last name
                             }
 
-                            //DAMIAANNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-                            //
-                            // DAMIAN HEREEEEEE
-                            //
-                            // HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE!!!!!!!!!!!
                             System.out.println("this is the size: " + userList.size());
                             int size = userList.size();
-                            tShowFriends = (TextView) findViewById(R.id.tShowFriends);
+                            //tShowFriends = (TextView) findViewById(R.id.tShowFriends);
                             if (size == 0){
-                                tShowFriends.setText("No Results");
+                                tShowFriends.setText("No Results Found.");
                             }
                             else{
-                                tShowFriends.setText("");
+                                //tShowFriends.setText(size);
                             }
                         }
                     });
