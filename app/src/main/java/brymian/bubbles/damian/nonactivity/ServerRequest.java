@@ -70,6 +70,18 @@ public class ServerRequest {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
+    public void uploadImage(String name, StringCallback stringCallback) {
+        pd.show();
+        new UploadImage(name, stringCallback).execute();
+    }
+
+    /*
+    public void uploadVideo(String name, StringCallback stringCallback) {
+        pd.show();
+        new UploadVideo(name, stringCallback).execute();
+    }
+    */
+
     private class CreateUserNormal extends AsyncTask<Void, Void, String> {
 
         User user;
@@ -391,6 +403,42 @@ public class ServerRequest {
             Post request = new Post();
             try {
                 String response = request.post(url, jsonFriends);
+                return response; // Successful SQL command returns one empty space (" ")
+            } catch (IOException ioe) {
+                return ioe.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+    private class UploadImage extends AsyncTask<Void, Void, String> {
+
+        String name;
+        StringCallback stringCallback;
+
+        private UploadImage(String name, StringCallback stringCallback) {
+            this.name = name;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
+            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
+            String url = SERVER + "Database/uploadImage.php";
+
+            String jsonImage = "{\"name\":" + name + "}";
+            Post request = new Post();
+            try {
+                String response = request.post(url, name);
                 return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();
