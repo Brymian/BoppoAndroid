@@ -21,8 +21,10 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableIn
  */
 public class ServerRequest {
 
-//    private final String SERVER = "http://73.194.170.63:8080/BubblesServer/";
-    private final String SERVER = "http://192.168.1.12:8080/BubblesServer/";
+    //private final String SERVER = "http://73.194.170.63:8080/BubblesServer/";
+    private final String SERVER = "http://192.168.1.12:8080/";
+    private final String UPLOADS = "Bubbles/Uploads/";
+    private final String PHP = "BubblesServer/";
 
     private ProgressDialog pd;
 
@@ -105,7 +107,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + "DBIO/createUserNormal.php";
+            String url = SERVER + PHP + "DBIO/createUserNormal.php";
 
             String jsonUser =
                     "{\"username\":\"" + user.username() + "\"," +
@@ -144,7 +146,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + "DBIO/createUserFacebook.php";
+            String url = SERVER + PHP + "DBIO/createUserFacebook.php";
 
             String jsonUser =
                     "{\"facebook_uid\":\"" + user.facebookUid() + "\"," +
@@ -183,7 +185,7 @@ public class ServerRequest {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = SERVER + "DBIO/authUserNormal.php";
+            String url = SERVER + PHP + "DBIO/authUserNormal.php";
 
             String jsonUser =
                     "{\"username\":\"" + user.username() + "\"," +
@@ -242,7 +244,7 @@ public class ServerRequest {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = SERVER + "DBIO/authUserFacebook.php";
+            String url = SERVER + PHP + "DBIO/authUserFacebook.php";
 
             String jsonUser = "{\"facebook_uid\":\"" + user.facebookUid() + "\"}";
             Post request = new Post();
@@ -299,7 +301,7 @@ public class ServerRequest {
 
         @Override
         protected List<User> doInBackground(Void... params) {
-            String url = SERVER + "DBIO/getUsers.php";
+            String url = SERVER + PHP + "DBIO/getUsers.php";
 
             System.out.println("SEARCHED USER: " + searched_user);
             //String searched_user = "";
@@ -362,7 +364,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + "DBIO/getFriendStatus.php";
+            String url = SERVER + PHP + "DBIO/getFriendStatus.php";
 
             String jsonFriends =
                     "{\"uid1\":" + loggedUserUid + "," +
@@ -399,7 +401,7 @@ public class ServerRequest {
         @Override
         protected List<User> doInBackground(Void... params) {
 
-            String url = SERVER + "DBIO/Functions/Friend.php?function=getFriends";
+            String url = SERVER + PHP + "DBIO/Functions/Friend.php?function=getFriends";
             String jsonLoggedUserUid = "{\"uid\":" + uid + "}";
             Post request = new Post();
 
@@ -464,7 +466,7 @@ public class ServerRequest {
         @Override
         protected List<String> doInBackground(Void... params) {
 
-            String url = SERVER + "DBIO/Functions/Friend.php?function=getImagePaths";
+            String url = SERVER + PHP + "DBIO/Functions/Friend.php?function=getImagePaths";
             String jsonLoggedUserUid = "{\"uid\":" + uid + "}";
             Post request = new Post();
 
@@ -486,7 +488,7 @@ public class ServerRequest {
                     JSONArray jPaths = new JSONArray(response);
                     List<String> pathList = new ArrayList<String>();
                     for (int i = 0; i < jPaths.length(); i++) {
-                        String path = jPaths.getString(i);
+                        String path = SERVER + UPLOADS + jPaths.getString(i);
                         pathList.add(path);
                     }
                     // The set will be null if nothing matched in the database
@@ -526,7 +528,7 @@ public class ServerRequest {
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = SERVER + "DBIO/setFriendStatus.php";
+            String url = SERVER + PHP + "DBIO/setFriendStatus.php";
 
             String jsonFriends =
                     "{\"uid1\":" + loggedUserUid + "," +
@@ -562,7 +564,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + "DBIO/uploadImage.php";
+            String url = SERVER + PHP + "DBIO/uploadImage.php";
 
             String jsonImage = "{\"name\":" + name + "}";
             Post request = new Post();
