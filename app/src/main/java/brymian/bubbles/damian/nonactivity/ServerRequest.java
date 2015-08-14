@@ -21,7 +21,8 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableIn
  */
 public class ServerRequest {
 
-    private final String SERVER = "http://73.194.170.63:3389/ProjectWolf/";
+//    private final String SERVER = "http://73.194.170.63:8080/BubblesServer/";
+    private final String SERVER = "http://192.168.1.12:8080/BubblesServer/";
 
     private ProgressDialog pd;
 
@@ -65,6 +66,16 @@ public class ServerRequest {
         new GetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
+    public void getFriends(int uid, UserListCallback userListCallback) {
+        pd.show();
+        new GetFriends(uid, userListCallback).execute();
+    }
+
+    public void getImagePaths(int uid, StringListCallback stringListCallback) {
+        pd.show();
+        new GetImagePaths(uid, stringListCallback).execute();
+    }
+
     public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
         pd.show();
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
@@ -94,7 +105,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + "Database/createUserNormal.php";
+            String url = SERVER + "DBIO/createUserNormal.php";
 
             String jsonUser =
                     "{\"username\":\"" + user.username() + "\"," +
@@ -133,7 +144,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + "Database/createUserFacebook.php";
+            String url = SERVER + "DBIO/createUserFacebook.php";
 
             String jsonUser =
                     "{\"facebook_uid\":\"" + user.facebookUid() + "\"," +
@@ -172,7 +183,7 @@ public class ServerRequest {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = SERVER + "Database/authUserNormal.php";
+            String url = SERVER + "DBIO/authUserNormal.php";
 
             String jsonUser =
                     "{\"username\":\"" + user.username() + "\"," +
@@ -231,7 +242,7 @@ public class ServerRequest {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = SERVER + "Database/authUserFacebook.php";
+            String url = SERVER + "DBIO/authUserFacebook.php";
 
             String jsonUser = "{\"facebook_uid\":\"" + user.facebookUid() + "\"}";
             Post request = new Post();
@@ -288,9 +299,7 @@ public class ServerRequest {
 
         @Override
         protected List<User> doInBackground(Void... params) {
-            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
-            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
-            String url = SERVER + "Database/getUsers.php";
+            String url = SERVER + "DBIO/getUsers.php";
 
             System.out.println("SEARCHED USER: " + searched_user);
             //String searched_user = "";
@@ -353,9 +362,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
-            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
-            String url = SERVER + "Database/getFriendStatus.php";
+            String url = SERVER + "DBIO/getFriendStatus.php";
 
             String jsonFriends =
                     "{\"uid1\":" + loggedUserUid + "," +
@@ -379,6 +386,131 @@ public class ServerRequest {
 
     }
 
+    private class GetFriends extends AsyncTask<Void, Void, List<User>> {
+
+        int uid;
+        UserListCallback userListCallback;
+
+        private GetFriends(int uid, UserListCallback userListCallback) {
+            this.uid = uid;
+            this.userListCallback = userListCallback;
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... params) {
+
+            String url = SERVER + "DBIO/Functions/Friend.php?function=getFriends";
+            String jsonLoggedUserUid = "{\"uid\":" + uid + "}";
+            Post request = new Post();
+
+            try {
+
+                String response = request.post(url, jsonLoggedUserUid);
+                if (response.equals("UID IS NOT A NUMBER."))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else if (response.equals("USER WITH PROVIDED UID DOES NOT EXIST."))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else
+                {
+                    JSONArray j2dArray = new JSONArray(response);
+                    List<User> userList = new ArrayList<User>();
+                    for (int i = 0; i < j2dArray.length(); i++) {
+                        JSONObject jUser = (JSONObject) j2dArray.get(i);
+                        int uid = jUser.getInt("uid");
+                        String namefirst = jUser.getString("namefirst");
+                        String namelast = jUser.getString("namelast");
+                        User user = new User();
+                        user.setUser(uid, null, -1, null, null, namefirst, namelast, null);
+                        userList.add(user);
+                    }
+                    // The set will be null if nothing matched in the database
+                    return userList;
+                }
+            } catch (IOException ioe) {
+                System.out.println(ioe.toString());
+                return null;
+            } catch (JSONException jsone) {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<User> users) {
+            pd.dismiss();
+            userListCallback.done(users);
+
+            super.onPostExecute(users);
+        }
+
+    }
+
+    private class GetImagePaths extends AsyncTask<Void, Void, List<String>> {
+
+        int uid;
+        StringListCallback stringListCallback;
+
+        private GetImagePaths(int uid, StringListCallback stringListCallback) {
+            this.uid = uid;
+            this.stringListCallback = stringListCallback;
+        }
+
+        @Override
+        protected List<String> doInBackground(Void... params) {
+
+            String url = SERVER + "DBIO/Functions/Friend.php?function=getImagePaths";
+            String jsonLoggedUserUid = "{\"uid\":" + uid + "}";
+            Post request = new Post();
+
+            try {
+
+                String response = request.post(url, jsonLoggedUserUid);
+                if (response.equals("UID IS NOT A NUMBER."))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else if (response.equals("USER WITH PROVIDED UID DOES NOT EXIST."))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else
+                {
+                    JSONArray jPaths = new JSONArray(response);
+                    List<String> pathList = new ArrayList<String>();
+                    for (int i = 0; i < jPaths.length(); i++) {
+                        String path = jPaths.getString(i);
+                        pathList.add(path);
+                    }
+                    // The set will be null if nothing matched in the database
+                    return pathList;
+                }
+            } catch (IOException ioe) {
+                System.out.println(ioe.toString());
+                return null;
+            } catch (JSONException jsone) {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<String> strings) {
+            pd.dismiss();
+            stringListCallback.done(strings);
+
+            super.onPostExecute(strings);
+        }
+
+    }
+
     private class SetFriendStatus extends AsyncTask<Void, Void, String> {
 
         int loggedUserUid;
@@ -393,9 +525,8 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
-            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
-            String url = SERVER + "Database/setFriendStatus.php";
+
+            String url = SERVER + "DBIO/setFriendStatus.php";
 
             String jsonFriends =
                     "{\"uid1\":" + loggedUserUid + "," +
@@ -431,9 +562,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            final String SERVER = "http://73.194.170.63:8080/ProjectWolf/";
-            //final String SERVER = "http://192.168.1.12:8080/ProjectWolf/";
-            String url = SERVER + "Database/uploadImage.php";
+            String url = SERVER + "DBIO/uploadImage.php";
 
             String jsonImage = "{\"name\":" + name + "}";
             Post request = new Post();

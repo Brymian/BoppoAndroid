@@ -5,7 +5,7 @@ import java.util.List;
 /**
  * Created by Ziomster on 7/20/2015.
  */
-public interface UserListCallback {
+public interface StringListCallback {
 
-    public abstract void done(List<User> users);
+    public abstract void done(List<String> strings);
 }
