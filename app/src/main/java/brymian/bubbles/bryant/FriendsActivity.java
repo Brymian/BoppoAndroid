@@ -48,7 +48,7 @@ public class FriendsActivity extends ActionBarActivity implements View.OnClickLi
         bSearchFriend.setOnClickListener(this);
         bAddFriend.setOnClickListener(this);
     }
-
+    //this is a test line for new github
     @Override
     public void onClick(View view){
         switch(view.getId()){
