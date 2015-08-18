@@ -311,7 +311,7 @@ public class ServerRequest {
             try {
                 String response = request.post(url, jsonSearchedUser);
                 //friendsActivity.tShowFriends.setText(response);
-                System.out.println("RESPONSE: " + response);
+                //System.out.println("RESPONSE: " + response);
                 if (response.equals("INCORRECT STRING.")) {
                     System.out.println(response);
                     return null;

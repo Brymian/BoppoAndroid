@@ -36,14 +36,14 @@ public class TESTActivity extends Activity {
 
     private void test() {
 
-        /*
         new ServerRequest(this).getUsers("Damian", new UserListCallback() {
             @Override
             public void done(List<User> userList) {
-
+                User user = userList.get(0);
+                System.out.println(user.namefirst());
             }
         });
-        */
+
         /*
         new ServerRequest(this).getFriendStatus(1, 5, new StringCallback() {
             @Override
@@ -70,6 +70,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new ServerRequest(this).getFriends(-5, new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -91,6 +92,7 @@ public class TESTActivity extends Activity {
                     System.out.println("UID OF THE USER DOES NOT EXIST OR IS NOT A NUMBER.");
             }
         });
+        */
     }
 
 }
