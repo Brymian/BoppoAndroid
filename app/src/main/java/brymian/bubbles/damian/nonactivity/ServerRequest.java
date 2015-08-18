@@ -21,8 +21,8 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableIn
  */
 public class ServerRequest {
 
-    //private final String SERVER = "http://73.194.170.63:8080/BubblesServer/";
-    private final String SERVER = "http://192.168.1.12:8080/";
+    private final String SERVER = "http://73.194.170.63:8080/";
+    //private final String SERVER = "http://192.168.1.12:8080/";
     private final String UPLOADS = "Bubbles/Uploads/";
     private final String PHP = "BubblesServer/";
 
