@@ -50,19 +50,12 @@
             </intent-filter>
             -->
         </activity>
-        <activity android:name=".bryant.CameraActivity">
-            <!---
-            android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".bryant.CameraActivity"
+           >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            -->
         </activity>
         <activity android:name=".bryant.MenuActivity"></activity>
         <activity android:name=".bryant.FriendsActivity"
-
             android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

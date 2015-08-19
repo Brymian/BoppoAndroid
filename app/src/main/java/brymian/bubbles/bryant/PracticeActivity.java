@@ -47,7 +47,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
  */
 public class PracticeActivity extends AppCompatActivity implements View.OnClickListener {
     private static final int RESULT_LOAD_IMAGE = 1;
-    private static final String SERVER_ADDRESS = "http://73.194.170.63:8080/ProjectWolf/";
+    private static final String SERVER_ADDRESS = "http://73.194.170.63:8080/";
     ImageView imageToUpload, downloadedImage;
     Button bUploadImage, bDownloadedImage;
     EditText uploadedImageName, downloadedImageName;
@@ -123,7 +123,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
             HttpParams httpRequestParams = getHttpRequestParams();
 
             HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "Database/uploadImage.php");
+            HttpPost post = new HttpPost(SERVER_ADDRESS + "BubblesServer/DBIO/uploadImage.php");
 
             try {
                 post.setEntity(new UrlEncodedFormEntity(dataToSend));

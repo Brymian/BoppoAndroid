@@ -26,11 +26,11 @@ import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
 public class FriendsActivity extends ActionBarActivity implements View.OnClickListener{
-    Button bSearchFriend, bAddFriend;
+    Button bSearchFriend;
     EditText eInputUser;
-    TextView tShowFriends0, tShowFriends1, tShowFriends2;
-    TextView[] TVIDs = {tShowFriends0, tShowFriends1, tShowFriends2};
-    int[] TVRIDs = {R.id.tShowFriends0, R.id.tShowFriends1, R.id.tShowFriends2};
+    TextView tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5;
+    TextView[] TVIDs = {tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5};
+    int[] TVRIDs = {R.id.tShowFriends0, R.id.tShowFriends1, R.id.tShowFriends2, R.id.tShowFriends3, R.id.tShowFriends4, R.id.tShowFriends5};
 
 
     @Override
@@ -39,14 +39,25 @@ public class FriendsActivity extends ActionBarActivity implements View.OnClickLi
         setContentView(R.layout.activity_friends);
 
         bSearchFriend = (Button) findViewById(R.id.bSearchFriend);
-        bAddFriend = (Button) findViewById(R.id.bAddFriend);
-        bSearchFriend.setText("Search");
+        //bSearchFriend.setText("Search");
+
         eInputUser  = (EditText) findViewById(R.id.eInputUser);
 
-
+        tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
+        tShowFriends1 = (TextView) findViewById(R.id.tShowFriends1);
+        tShowFriends2 = (TextView) findViewById(R.id.tShowFriends2);
+        tShowFriends3 = (TextView) findViewById(R.id.tShowFriends3);
+        tShowFriends4 = (TextView) findViewById(R.id.tShowFriends4);
+        tShowFriends5 = (TextView) findViewById(R.id.tShowFriends5);
 
         bSearchFriend.setOnClickListener(this);
-        bAddFriend.setOnClickListener(this);
+
+        tShowFriends0.setOnClickListener(this);
+        tShowFriends1.setOnClickListener(this);
+        tShowFriends2.setOnClickListener(this);
+        tShowFriends3.setOnClickListener(this);
+        tShowFriends4.setOnClickListener(this);
+        tShowFriends5.setOnClickListener(this);
     }
     //this is a test line for new github
     @Override
@@ -66,28 +77,26 @@ public class FriendsActivity extends ActionBarActivity implements View.OnClickLi
                             for(int i = 0; i < size; i++){
 
                                 TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
-                                //TVIDs[i].setText(userList.get(i).namefirst());
                                 TVIDs[i].setText(userList.get(i).username());
-                                TVIDs[i].isClickable();
+
                             }
                         }
                     });
-                    Toast.makeText(this, "Got it.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Search Complete.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    Toast.makeText(this, "Empty String", Toast.LENGTH_SHORT).show();
+                    tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
+                    tShowFriends0.setText("No Users Found!");
+                    //Toast.makeText(this, "No Users Found!", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
-            case R.id.bAddFriend:
+            case R.id.tShowFriends0:
+                if(tShowFriends0.getText().toString() != null){
 
-
+                }
                 break;
         }
     }
-    /**
-    public void AddFriend(String userSending, String userReceiving){
-
-    }
-     **/
 
 }

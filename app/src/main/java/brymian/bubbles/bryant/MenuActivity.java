@@ -13,12 +13,16 @@ import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeProfilePicture;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.LogOut;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.PrivacySettings;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
-    Button bChangePassword, bChangeEmail, bChangeProfilePicture, bLogOut, bSyncWIthDFacebook, bNotifications, bAbout, bPrivacySettings;
+    Button bChangePassword, bChangeEmail, bChangeProfilePicture, bLogOut, bSyncWIthDFacebook;
+    Button bNotifications, bAbout, bPrivacySettings;
+    Button bProfileBackground, bProfileName;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
@@ -34,6 +38,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bAbout = (Button) findViewById(R.id.bAbout);
         bPrivacySettings = (Button) findViewById(R.id.bPrivacySettings);
 
+        //Profile Buttons
+        bProfileBackground = (Button) findViewById(R.id.bProfileBackground);
+        bProfileName = (Button) findViewById(R.id.bProfileName);
+
         //Account onClickListeners
         bChangePassword.setOnClickListener(this);
         bChangeEmail.setOnClickListener(this);
@@ -45,6 +53,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bNotifications.setOnClickListener(this);
         bAbout.setOnClickListener(this);
         bPrivacySettings.setOnClickListener(this);
+
+        //Profile onClickListeners
+        bProfileBackground.setOnClickListener(this);
+        bProfileName.setOnClickListener(this);
     }
     //This button is to return to MapsActivity---ImageButton
     public void onClickMapsActivity(View view){
@@ -52,9 +64,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         startActivity(mapsActivityIntent);
     }
 
-    //----------Acount Buttons---------------------------------------------
     public void onClick(View v){
         switch(v.getId()){
+            //Account
             case R.id.bChangePassword:
                 Intent changePassword = new Intent(this, ChangePassword.class);
                 startActivity(changePassword);
@@ -75,6 +87,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 Intent syncWithFacebook = new Intent(this, SyncFacebook.class);
                 startActivity(syncWithFacebook);
                 break;
+            //Settings
             case R.id.bNotifications:
                 Intent notificationsIntent = new Intent(this, Notifications.class);
                 startActivity(notificationsIntent);
@@ -86,6 +99,15 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bPrivacySettings:
                 Intent privacySettingsIntent = new Intent(this, PrivacySettings.class);
                 startActivity(privacySettingsIntent);
+                break;
+            //Profile
+            case R.id.bProfileBackground:
+                Intent profileBackgroundIntent = new Intent(this, ProfileBackground.class);
+                startActivity(profileBackgroundIntent);
+                break;
+            case R.id.bProfileName:
+                Intent profileNameIntent = new Intent(this, ProfileName.class);
+                startActivity(profileNameIntent);
                 break;
         }
     }

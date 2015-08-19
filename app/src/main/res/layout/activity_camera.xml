@@ -4,13 +4,13 @@
     android:layout_width="fill_parent"
     android:orientation="vertical">
 
-<!--
+
     <Button
-        android:id="@+id/button_camera"
-        android:text="@string/button_camera"
+        android:id="@+id/bUploadImage"
+        android:text="Upload Image"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
-        -->
+
     <ImageView
         android:id="@+id/image_camera"
         android:contentDescription="@string/image_cd_camera"
