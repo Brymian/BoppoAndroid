@@ -83,9 +83,9 @@ public class ServerRequest {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
-    public void uploadImage(String name, StringCallback stringCallback) {
+    public void uploadImage(int uid, String name, String image, StringCallback stringCallback) {
         pd.show();
-        new UploadImage(name, stringCallback).execute();
+        new UploadImage(uid, name, image, stringCallback).execute();
     }
 
     /*
@@ -531,8 +531,8 @@ public class ServerRequest {
             String url = SERVER + PHP + "DBIO/setFriendStatus.php";
 
             String jsonFriends =
-                    "{\"uid1\":" + loggedUserUid + "," +
-                            " \"uid2\":" + otherUserUid + "}";
+                "{\"uid1\":" + loggedUserUid + "," +
+                " \"uid2\":" + otherUserUid + "}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonFriends);
@@ -554,10 +554,12 @@ public class ServerRequest {
 
     private class UploadImage extends AsyncTask<Void, Void, String> {
 
+        int uid;
         String name;
+        String image;
         StringCallback stringCallback;
 
-        private UploadImage(String name, StringCallback stringCallback) {
+        private UploadImage(int uid, String name, String imamge, StringCallback stringCallback) {
             this.name = name;
             this.stringCallback = stringCallback;
         }
@@ -566,7 +568,10 @@ public class ServerRequest {
         protected String doInBackground(Void... params) {
             String url = SERVER + PHP + "DBIO/uploadImage.php";
 
-            String jsonImage = "{\"name\":" + name + "}";
+            String jsonImage =
+                "{\"uid\":" + uid + "," +
+                " \"name\":" + name + "," +
+                " \"image\":" + image + "}";
             Post request = new Post();
             try {
                 String response = request.post(url, name);
