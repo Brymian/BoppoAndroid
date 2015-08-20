@@ -59,9 +59,6 @@
         android:layout_gravity="left|top"
         android:src="@mipmap/three_line_menu_w_pad"
         android:background="@android:color/transparent" />
-    <ImageView
-        android:id="@+id/image_camera"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content" />
+
 
 </FrameLayout>

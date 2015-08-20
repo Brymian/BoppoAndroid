@@ -96,4 +96,26 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp" />
     <!---        End of Settings Buttons               -->
+    <!---          Profile Buttons                     -->
+    <TextView
+        android:id="@+id/tProfileButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile Settings"
+        android:textSize="25dp"
+        android:paddingLeft="10dp"/>
+    <Button
+        android:id="@+id/bProfileBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile Background"
+        android:textSize="20dp"
+        android:padding="15dp"/>
+    <Button
+        android:id="@+id/bProfileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Profile Background"
+        android:textSize="20dp"
+        android:padding="15dp"/>
 </LinearLayout>
