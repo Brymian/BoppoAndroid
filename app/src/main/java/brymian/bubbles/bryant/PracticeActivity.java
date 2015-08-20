@@ -39,6 +39,8 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
@@ -82,7 +84,13 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 Bitmap image = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
-                new UploadImage(user.uid(), image, uploadedImageName.getText().toString()).execute();
+                new ServerRequest(this).uploadImage("hey", new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        System.out.print("THIS IS THE STRING: " +string);
+                    }
+                });
+                //new UploadImage(user.uid(), image, uploadedImageName.getText().toString()).execute();
                 break;
             case R.id.bDownloadImage:
                 new DownloadImage(downloadedImageName.getText().toString()).execute();
@@ -99,6 +107,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /**
     private class UploadImage extends AsyncTask<Void, Void, Void>{
 
         Bitmap image;
@@ -142,6 +151,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
             Toast.makeText(getApplicationContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
         }
     }
+    **/
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap>{
        String name;

@@ -32,7 +32,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
     private static final int RESULT_LOAD_IMAGE = 1;
     private static final String SERVER_ADDRESS = "http://73.194.170.63:8080/ProjectWolf/";
 
-    ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
+    ImageView imageView1, imageView2, imageView3, imageView4;
     Button bSave;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -42,7 +42,6 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         imageView2 = (ImageView) findViewById(R.id.ivImageView2);
         imageView3 = (ImageView) findViewById(R.id.ivImageView3);
         imageView4 = (ImageView) findViewById(R.id.ivImageView4);
-        imageView5 = (ImageView) findViewById(R.id.ivImageView5);
 
         bSave = (Button) findViewById(R.id.bSave);
 
@@ -50,7 +49,6 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         imageView2.setOnClickListener(this);
         imageView3.setOnClickListener(this);
         imageView4.setOnClickListener(this);
-        imageView5.setOnClickListener(this);
 
         bSave.setOnClickListener(this);
     }
@@ -62,19 +60,12 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
                 break;
             case R.id.ivImageView2:
-
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
                 break;
             case R.id.ivImageView3:
-
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
                 break;
             case R.id.ivImageView4:
-
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
-                break;
-            case R.id.ivImageView5:
-
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
                 break;
             case R.id.bSave:

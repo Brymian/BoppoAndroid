@@ -101,19 +101,15 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             Uri selectedImage = imageUri;
             getContentResolver().notifyChange(selectedImage, null);
 
-
-            //ImageView imageView = (ImageView) findViewById(R.id.image_camera);
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
 
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
                 imageView.setImageBitmap(bitmap);
-                //Toast.makeText(CameraActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
     }
 
@@ -150,7 +146,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             catch (Exception e){
                 e.printStackTrace();
             }
-
             return null;
         }
 
