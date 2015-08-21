@@ -559,8 +559,10 @@ public class ServerRequest {
         String image;
         StringCallback stringCallback;
 
-        private UploadImage(int uid, String name, String imamge, StringCallback stringCallback) {
+        private UploadImage(int uid, String name, String image, StringCallback stringCallback) {
+            this.uid = uid;
             this.name = name;
+            this.image = image;
             this.stringCallback = stringCallback;
         }
 
@@ -574,7 +576,7 @@ public class ServerRequest {
                 " \"image\":" + image + "}";
             Post request = new Post();
             try {
-                String response = request.post(url, name);
+                String response = request.post(url, jsonImage);
                 return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();

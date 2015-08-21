@@ -84,7 +84,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 Bitmap image = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
-                new ServerRequest(this).uploadImage("hey", new StringCallback() {
+                new ServerRequest(this).uploadImage(user.uid(), "<NAME>", "<IMAGE>", new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.print("THIS IS THE STRING: " +string);
