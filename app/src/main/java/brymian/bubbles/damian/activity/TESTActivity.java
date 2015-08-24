@@ -36,6 +36,7 @@ public class TESTActivity extends Activity {
 
     private void test() {
 
+        /*
         new ServerRequest(this).getUsers("Damian", new UserListCallback() {
             @Override
             public void done(List<User> userList) {
@@ -43,6 +44,7 @@ public class TESTActivity extends Activity {
                 System.out.println(user.namefirst());
             }
         });
+        */
 
         /*
         new ServerRequest(this).getFriendStatus(1, 5, new StringCallback() {
@@ -93,6 +95,13 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
+        new ServerRequest(this).uploadImage(1, "lel", "lelimage", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESPONSE: " + string);
+            }
+        });
     }
 
 }

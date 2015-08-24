@@ -572,8 +572,9 @@ public class ServerRequest {
 
             String jsonImage =
                 "{\"uid\":" + uid + "," +
-                " \"name\":" + name + "," +
-                " \"image\":" + image + "}";
+                " \"name\":\"" + name + "\"," +
+                " \"image\":\"" + image + "\"}";
+            //System.out.println(jsonImage);
             Post request = new Post();
             try {
                 String response = request.post(url, jsonImage);
