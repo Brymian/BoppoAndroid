@@ -570,20 +570,29 @@ public class ServerRequest {
         protected String doInBackground(Void... params) {
             String url = SERVER + PHP + "DBIO/uploadImage.php";
 
-            String jsonImage =
-                "{\"uid\":" + uid + "," +
-                " \"name\":\"" + name + "\"," +
-                " \"image\":\"" + image + "\"}";
-            System.out.println("[DAMIAN] uid: " + uid);
-            System.out.println("[DAMIAN] name: " + name);
-            System.out.println("[DAMIAN] image length: " + image.length());
-            Post request = new Post();
             try {
-                String response = request.post(url, jsonImage);
-                System.out.println(response);
-                return response; // Successful SQL command returns one empty space (" ")
+                JSONObject jsonImageObject = new JSONObject();
+                jsonImageObject.put("uid", uid);
+                jsonImageObject.put("name", name);
+                jsonImageObject.put("image", image);
+                /*
+                String jsonImage =
+                    "{\"uid\":" + uid + "," +
+                    " \"name\":\"" + name + "\"," +
+                    " \"image\":\"" + image + "\"}";
+                System.out.println("[DAMIAN] uid: " + uid);
+                System.out.println("[DAMIAN] name: " + name);
+                System.out.println("[DAMIAN] image length: " + image.length());
+                */
+                String jsonImage = jsonImageObject.toString();
+                Post request = new Post();
+                    String response = request.post(url, jsonImage);
+                    System.out.println(response);
+                    return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();
+            } catch (JSONException jsone) {
+                return jsone.toString();
             }
         }
 
