@@ -477,7 +477,7 @@ public class ServerRequest {
             try {
 
                 String response = request.post(url, jsonGetImagePaths);
-                if (response.startsWith("PURPOSE") && response.endsWith("DOES NOT EXIST IN THE DATABASE."))
+                if (response.equals("PURPOSE DOES NOT EXIST IN THE DATABASE."))
                 {
                     System.out.println(response);
                     return null;
