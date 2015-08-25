@@ -574,10 +574,13 @@ public class ServerRequest {
                 "{\"uid\":" + uid + "," +
                 " \"name\":\"" + name + "\"," +
                 " \"image\":\"" + image + "\"}";
-            //System.out.println(jsonImage);
+            System.out.println("[DAMIAN] uid: " + uid);
+            System.out.println("[DAMIAN] name: " + name);
+            System.out.println("[DAMIAN] image length: " + image.length());
             Post request = new Post();
             try {
                 String response = request.post(url, jsonImage);
+                System.out.println(response);
                 return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();
