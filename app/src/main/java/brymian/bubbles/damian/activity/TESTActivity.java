@@ -82,7 +82,9 @@ public class TESTActivity extends Activity {
                     System.out.println("UID OF THE USER DOES NOT EXIST OR IS NOT A NUMBER.");
             }
         });
-        new ServerRequest(this).getImagePaths(4, new StringListCallback() {
+        */
+
+        new ServerRequest(this).getImagePaths(1, "adsadas", new StringListCallback() {
             @Override
             public void done(List<String> strings) {
                 if (strings != null) {
@@ -94,14 +96,15 @@ public class TESTActivity extends Activity {
                     System.out.println("UID OF THE USER DOES NOT EXIST OR IS NOT A NUMBER.");
             }
         });
-        */
-
-        new ServerRequest(this).uploadImage(1, "lel", "lelimage", new StringCallback() {
+        /*
+        new ServerRequest(this).uploadImage(1, "BadPurpose", "lel", "lelimage", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESPONSE: " + string);
             }
         });
+        */
+
     }
 
 }

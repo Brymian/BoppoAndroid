@@ -73,9 +73,9 @@ public class ServerRequest {
         new GetFriends(uid, userListCallback).execute();
     }
 
-    public void getImagePaths(int uid, StringListCallback stringListCallback) {
+    public void getImagePaths(int uid, String purpose, StringListCallback stringListCallback) {
         pd.show();
-        new GetImagePaths(uid, stringListCallback).execute();
+        new GetImagePaths(uid, purpose, stringListCallback).execute();
     }
 
     public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
@@ -83,9 +83,9 @@ public class ServerRequest {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
-    public void uploadImage(int uid, String name, String image, StringCallback stringCallback) {
+    public void uploadImage(int uid, String purpose, String name, String image, StringCallback stringCallback) {
         pd.show();
-        new UploadImage(uid, name, image, stringCallback).execute();
+        new UploadImage(uid, purpose, name, image, stringCallback).execute();
     }
 
     /*
@@ -110,11 +110,11 @@ public class ServerRequest {
             String url = SERVER + PHP + "DBIO/createUserNormal.php";
 
             String jsonUser =
-                    "{\"username\":\"" + user.username() + "\"," +
-                            " \"password\":\"" + user.password() + "\"," +
-                            " \"namefirst\":\"" + user.namefirst() + "\"," +
-                            " \"namelast\":\"" + user.namelast() + "\"," +
-                            " \"email\":\"" + user.email() + "\"}";
+                "{\"username\":\"" + user.username() + "\"," +
+                " \"password\":\"" + user.password() + "\"," +
+                " \"namefirst\":\"" + user.namefirst() + "\"," +
+                " \"namelast\":\"" + user.namelast() + "\"," +
+                " \"email\":\"" + user.email() + "\"}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonUser);
@@ -456,24 +456,33 @@ public class ServerRequest {
     private class GetImagePaths extends AsyncTask<Void, Void, List<String>> {
 
         int uid;
+        String purpose;
         StringListCallback stringListCallback;
 
-        private GetImagePaths(int uid, StringListCallback stringListCallback) {
+        private GetImagePaths(int uid, String purpose, StringListCallback stringListCallback) {
             this.uid = uid;
+            this.purpose = purpose;
             this.stringListCallback = stringListCallback;
         }
 
         @Override
         protected List<String> doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/Functions/Friend.php?function=getImagePaths";
-            String jsonLoggedUserUid = "{\"uid\":" + uid + "}";
+            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=getImagePaths";
+            String jsonGetImagePaths =
+                "{\"uid\":" + uid + "," +
+                " \"purpose\":\"" + purpose + "\"}";
             Post request = new Post();
 
             try {
 
-                String response = request.post(url, jsonLoggedUserUid);
-                if (response.equals("UID IS NOT A NUMBER."))
+                String response = request.post(url, jsonGetImagePaths);
+                if (response.startsWith("PURPOSE") && response.endsWith("DOES NOT EXIST IN THE DATABASE."))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else if (response.equals("UID IS NOT A NUMBER."))
                 {
                     System.out.println(response);
                     return null;
@@ -555,12 +564,14 @@ public class ServerRequest {
     private class UploadImage extends AsyncTask<Void, Void, String> {
 
         int uid;
+        String purpose;
         String name;
         String image;
         StringCallback stringCallback;
 
-        private UploadImage(int uid, String name, String image, StringCallback stringCallback) {
+        private UploadImage(int uid, String purpose, String name, String image, StringCallback stringCallback) {
             this.uid = uid;
+            this.purpose = purpose;
             this.name = name;
             this.image = image;
             this.stringCallback = stringCallback;
@@ -568,27 +579,30 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/uploadImage.php";
+            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=uploadImage";
 
             try {
                 JSONObject jsonImageObject = new JSONObject();
                 jsonImageObject.put("uid", uid);
+                jsonImageObject.put("purpose", purpose);
                 jsonImageObject.put("name", name);
                 jsonImageObject.put("image", image);
                 /*
                 String jsonImage =
                     "{\"uid\":" + uid + "," +
+                    " \"purpose\":\"" + purpose + "\"," +
                     " \"name\":\"" + name + "\"," +
                     " \"image\":\"" + image + "\"}";
                 System.out.println("[DAMIAN] uid: " + uid);
+                System.out.println("[DAMIAN] purpose: " + purpose);
                 System.out.println("[DAMIAN] name: " + name);
                 System.out.println("[DAMIAN] image length: " + image.length());
                 */
                 String jsonImage = jsonImageObject.toString();
                 Post request = new Post();
-                    String response = request.post(url, jsonImage);
-                    System.out.println(response);
-                    return response; // Successful SQL command returns one empty space (" ")
+                String response = request.post(url, jsonImage);
+                //System.out.println(response);
+                return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();
             } catch (JSONException jsone) {
