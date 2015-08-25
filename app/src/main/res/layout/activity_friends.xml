@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:fillViewport="false">
-
+    android:orientation="vertical">
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/bGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <TextView
             android:id="@+id/textFriends"
             android:layout_width="match_parent"
@@ -18,6 +19,14 @@
             android:text="Friends"
             android:textSize="25dp"
             android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <EditText
             android:id="@+id/eInputUser"
             android:layout_width="match_parent"
@@ -36,32 +45,38 @@
             android:id="@+id/tShowFriends0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="2dp" />
         <TextView
             android:id="@+id/tShowFriends1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="2dp" />
         <TextView
             android:id="@+id/tShowFriends2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="2dp" />
         <TextView
             android:id="@+id/tShowFriends3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="2dp" />
         <TextView
             android:id="@+id/tShowFriends4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="2dp" />
         <TextView
             android:id="@+id/tShowFriends5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:paddingBottom="2dp" />
 
     </LinearLayout>
-</ScrollView>
+</RelativeLayout>

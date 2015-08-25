@@ -82,9 +82,17 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.bUploadImage:
                 Bitmap image = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
-                new ServerRequest(this).uploadImage(user.uid(), "<NAME>", "<IMAGE>", new StringCallback() {
+                System.out.println("THIS IS THE USER ID: "+user.uid());
+                System.out.println("THIS IS THE ENCODED IMAGE LENGTH: " + encodedImage.length());
+                System.out.println("THIS IS THE NAME: " + uploadedImageName.getText().toString());
+                //System.out.println("THIS IS THE ENCODED IMAGE STRING: " + encodedImage);
+                String name = uploadedImageName.getText().toString();
+                new ServerRequest(this).uploadImage(1, name, encodedImage , new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.print("THIS IS THE STRING: " +string);
@@ -93,7 +101,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 //new UploadImage(user.uid(), image, uploadedImageName.getText().toString()).execute();
                 break;
             case R.id.bDownloadImage:
-                new DownloadImage(downloadedImageName.getText().toString()).execute();
+                //new DownloadImage(downloadedImageName.getText().toString()).execute();
                 break;
         }
     }
@@ -152,7 +160,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         }
     }
     **/
-
+/**
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap>{
        String name;
 
@@ -192,4 +200,5 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         HttpConnectionParams.setSoTimeout(httpRequestParams, 1000* 30);
         return httpRequestParams;
     }
+        **/
 }

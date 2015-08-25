@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -614,6 +615,7 @@ public class ServerRequest {
         protected void onPostExecute(String string) {
             pd.dismiss();
             stringCallback.done(string);
+            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
             super.onPostExecute(string);
         }

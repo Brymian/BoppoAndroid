@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -100,12 +101,19 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         // set map type
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        double latitude = 0;
+        double longitude = 0;
 
-        // Get latitude of the current location
-        double latitude = myLocation.getLatitude();
-
+        try {
+            // Get latitude of the current location
+            latitude = myLocation.getLatitude();
+            longitude = myLocation.getLongitude();
+        }
+        catch (NullPointerException e){
+            e.printStackTrace();
+            Toast.makeText(this, "Map Unavailable.", Toast.LENGTH_SHORT).show();
+        }
         // Get longitude of the current location
-        double longitude = myLocation.getLongitude();
 
         // Create a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
