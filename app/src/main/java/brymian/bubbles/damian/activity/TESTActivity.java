@@ -53,7 +53,7 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
+
         new ServerRequest(this).getFriendStatus(1, 5, new StringCallback() {
             @Override
             public void done(String string) {
@@ -66,6 +66,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             } // Should say "Not friends."
         });
+        /*
         new ServerRequest(this).setFriendStatus(1, 5, new StringCallback() {
             @Override
             public void done(String string) {
@@ -82,8 +83,8 @@ public class TESTActivity extends Activity {
             @Override
             public void done(String string) {
                 System.out.println(string);
-            }
-        }); // Should say "User is awaiting confirmation for friend request."
+            } // Should say "User is awaiting confirmation for friend request."
+        });
         new ServerRequest(this).setFriendStatus(5, 1, new StringCallback() {
             @Override
             public void done(String string) {
@@ -115,6 +116,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         new ServerRequest(this).getImages(1, "All", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -129,6 +131,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
 
     }
 

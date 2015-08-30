@@ -84,10 +84,13 @@ public class ServerRequest {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
-    public void uploadImage(int uid, String name, String purpose, String privacy,
-        double latitude, double longitude, String image, StringCallback stringCallback) {
+    public void uploadImage(int uid, String userImageName, String userImagePurposeLabel,
+        String userImagePrivacyLabel, double userImageGpsLatitude, double userImageGpsLongitude,
+        String userImage, StringCallback stringCallback)
+    {
         pd.show();
-        new UploadImage(uid, name, purpose, privacy, latitude, longitude, image, stringCallback).execute();
+        new UploadImage(uid, userImageName, userImagePurposeLabel, userImagePrivacyLabel,
+            userImageGpsLatitude, userImageGpsLongitude, userImage, stringCallback).execute();
     }
 
     /*
@@ -514,7 +517,7 @@ public class ServerRequest {
         @Override
         protected List<Image> doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=getImagePaths";
+            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=getImages";
             String jsonGetImagePaths =
                 "{\"uid\":" + uid + "," +
                 " \"imagePurposeLabel\":\"" + imagePurposeLabel + "\"}";
