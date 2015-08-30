@@ -133,10 +133,10 @@ public class LaunchFragmentFacebook extends Fragment {
 
     private User login(final Profile profile) {
 
-        String facebook_uid = profile.getId();
+        String facebookUid = profile.getId();
 
         User user = new User();
-        user.initUserFacebook(facebook_uid);
+        user.initUserFacebook(facebookUid);
         new ServerRequest(getActivity()).authUserFacebook(user, new VoidCallback() {
             @Override
             public void done(Void aVoid) {
@@ -146,13 +146,18 @@ public class LaunchFragmentFacebook extends Fragment {
                 // NO SUCH USER
                 if (user == null) {
                     DialogMessage.showErrorLoggedIn(getActivity());
+                    udl.resetUserData();
+                    udl.setLoggedStatus(false);
                 }
                 // CONNECTION UNSUCCESSFUL
-                else if (user.facebookUid().equals(getActivity().getString(R.string.null_user))) {
+                else if (user.getFacebookUid().equals(getActivity().getString(R.string.null_user))) {
                     DialogMessage.showErrorConnection(getActivity());
-                } else {
+                    udl.resetUserData();
+                    udl.setLoggedStatus(false);
+                }
+                else {
                     // FIRST TIME
-                    if (user.uid() == 0) {
+                    if (user.getUid() == 0) {
                         System.out.println("WE GOT A NEW FACEBOOK USER HERE!");
                         register(profile);
                     }
@@ -173,22 +178,28 @@ public class LaunchFragmentFacebook extends Fragment {
     private void register(final Profile profile) {
 
         String facebook_uid = profile.getId();
-        String namefirst = profile.getFirstName();
-        String namelast = profile.getLastName();
+        String first_name = profile.getFirstName();
+        String last_name = profile.getLastName();
         String email = null;
 
         User user = new User();
-        user.setUserFacebookLogin(facebook_uid, namefirst, namelast, email);
+        user.setUserFacebookLogin(facebook_uid, first_name, last_name, email);
 
-        new ServerRequest(getActivity()).createUserFacebook(user, new StringCallback() {
+        new ServerRequest(getActivity()).createUserFacebook(user, new StringCallback()
+        {
             @Override
-            public void done(String string) {
-                if (string.length() == 1) {
+            public void done(String string)
+            {
+                if (string.equals("USER CREATED SUCCESSFULLY."))
+                {
+                    System.out.println(string);
                     showMessageRegistration(getActivity());
-                    login(profile);
-                } else {
+                    //login(profile);
+                }
+                else
+                {
                     String error = "";
-                    error = "Unknown error: \\n" + string;
+                    error = "Unknown error: \n" + string;
                     showErrorCustom(getActivity(), error);
                 }
             }

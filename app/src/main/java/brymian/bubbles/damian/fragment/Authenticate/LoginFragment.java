@@ -81,12 +81,19 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void done(Void aVoid) {
                     UserDataLocal udl = new UserDataLocal(getActivity());
-                    User user = udl.getUserData();
-                    if (user == null) {
+                    //User user = udl.getUserData();
+                    if (!udl.getLoggedStatus())
+                    {
                         DialogMessage.showErrorLoggedIn(getActivity());
-                    } else if (user.username() == getActivity().getString(R.string.null_user)) {
+                    }
+                    /*
+                    else if (user.getUsername() == getActivity().getString(R.string.null_user))
+                    {
                         DialogMessage.showErrorConnection(getActivity());
-                    } else {
+                    }
+                    */
+                    else {
+                        User user = udl.getUserData();
                         udl.setLoggedStatus(true);
                         udl.setUserData(user);
                         startActivity(new Intent(getActivity(), MapsActivity.class));

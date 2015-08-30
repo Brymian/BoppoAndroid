@@ -75,6 +75,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view){
+        /*
         switch(view.getId()){
             case R.id.imageToUpload:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -104,6 +105,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 //new DownloadImage(downloadedImageName.getText().toString()).execute();
                 break;
         }
+        */
     }
 
     @Override

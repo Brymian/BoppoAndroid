@@ -15,7 +15,8 @@ public class DialogMessage {
 
     public static void showErrorLoggedIn(Activity activity) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        dialogBuilder.setMessage(Resources.getSystem().getString(R.string.error_logged_in));
+        //dialogBuilder.setMessage(Resources.getSystem().getString(R.string.error_logged_in));
+        dialogBuilder.setMessage(activity.getString(R.string.error_logged_in));
         dialogBuilder.setPositiveButton("Continue", null);
         dialogBuilder.show();
     }

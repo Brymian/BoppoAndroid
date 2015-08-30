@@ -40,8 +40,13 @@ public class TESTActivity extends Activity {
         new ServerRequest(this).getUsers("Damian", new UserListCallback() {
             @Override
             public void done(List<User> userList) {
-                User user = userList.get(0);
-                System.out.println(user.namefirst());
+                for (User user : userList)
+                {
+                    System.out.println("Uid: " + user.getUid());
+                    System.out.println("First Name: " + user.getFirstName());
+                    System.out.println("Last Name: " + user.getLastName());
+                    System.out.println("Username: " + user.getUsername());
+                }
             }
         });
         */
@@ -51,29 +56,44 @@ public class TESTActivity extends Activity {
             @Override
             public void done(String string) {
                 System.out.println(string);
-            }
+            } // Should say "Not friends."
         });
-        new ServerRequest(this).getFriendStatus(1, 4, new StringCallback() {
+        new ServerRequest(this).getFriendStatus(5, 1, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            } // Should say "Not friends."
+        });
+        new ServerRequest(this).setFriendStatus(1, 5, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            } // Should say "Friend request sent successfully."
+        });
+        new ServerRequest(this).setFriendStatus(1, 5, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            } // Should say "Already sent friend request to user."
+        });
+        new ServerRequest(this).getFriendStatus(5, 1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
-        });
-        new ServerRequest(this).setFriendStatus(1, 4, new StringCallback() {
+        }); // Should say "User is awaiting confirmation for friend request."
+        new ServerRequest(this).setFriendStatus(5, 1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
-            }
+            } // Should say "Friend request accepted."
         });
-        new ServerRequest(this).getFriendStatus(1, 4, new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println(string);
-            }
-        });
+        // ANY setFriendStatus AND getFriendStatus FOR THE TWO USERS
+        // ... SHOULD NOW SAY "Already friends with user."
         */
+
         /*
-        new ServerRequest(this).getFriends(-5, new UserListCallback() {
+        new ServerRequest(this).getFriends(1, new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 if (users != null)
@@ -84,7 +104,17 @@ public class TESTActivity extends Activity {
         });
         */
 
-        new ServerRequest(this).getImagePaths(1, "adsadas", new StringListCallback() {
+        /*
+        new ServerRequest(this).uploadImage(1, "UserImageName", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESPONSE: " + string);
+            }
+        });
+        */
+
+        /*
+        new ServerRequest(this).getImagePaths(1, "Regular", new StringListCallback() {
             @Override
             public void done(List<String> strings) {
                 if (strings != null) {
@@ -94,13 +124,6 @@ public class TESTActivity extends Activity {
                 }
                 else
                     System.out.println("UID OF THE USER DOES NOT EXIST OR IS NOT A NUMBER.");
-            }
-        });
-        /*
-        new ServerRequest(this).uploadImage(1, "BadPurpose", "lel", "lelimage", new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println("RESPONSE: " + string);
             }
         });
         */

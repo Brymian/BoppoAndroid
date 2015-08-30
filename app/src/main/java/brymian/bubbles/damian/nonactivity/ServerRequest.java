@@ -22,8 +22,8 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableIn
  */
 public class ServerRequest {
 
-    private final String SERVER = "http://73.194.170.63:8080/";
-    //private final String SERVER = "http://192.168.1.12:8080/";
+    //private final String SERVER = "http://73.194.170.63:8080/";
+    private final String SERVER = "http://192.168.1.12:8080/";
     private final String UPLOADS = "Bubbles/Uploads/";
     private final String PHP = "BubblesServer/";
 
@@ -59,9 +59,9 @@ public class ServerRequest {
         new AuthUserFacebook(user, voidCallback).execute();
     }
 
-    public void getUsers(String searched_user, UserListCallback userListCallback) {
+    public void getUsers(String searchedUser, UserListCallback userListCallback) {
         pd.show();
-        new GetUsers(searched_user, userListCallback).execute();
+        new GetUsers(searchedUser, userListCallback).execute();
     }
 
     public void getFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
@@ -84,9 +84,10 @@ public class ServerRequest {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
-    public void uploadImage(int uid, String purpose, String name, String image, StringCallback stringCallback) {
+    public void uploadImage(int uid, String name, String purpose, String privacy,
+        double latitude, double longitude, String image, StringCallback stringCallback) {
         pd.show();
-        new UploadImage(uid, purpose, name, image, stringCallback).execute();
+        new UploadImage(uid, name, purpose, privacy, latitude, longitude, image, stringCallback).execute();
     }
 
     /*
@@ -111,16 +112,18 @@ public class ServerRequest {
             String url = SERVER + PHP + "DBIO/createUserNormal.php";
 
             String jsonUser =
-                "{\"username\":\"" + user.username() + "\"," +
-                " \"password\":\"" + user.password() + "\"," +
-                " \"namefirst\":\"" + user.namefirst() + "\"," +
-                " \"namelast\":\"" + user.namelast() + "\"," +
-                " \"email\":\"" + user.email() + "\"}";
+                "{\"username\":\"" + user.getUsername() + "\"," +
+                " \"password\":\"" + user.getPassword() + "\"," +
+                " \"firstName\":\"" + user.getFirstName() + "\"," +
+                " \"lastName\":\"" + user.getLastName() + "\"," +
+                " \"email\":\"" + user.getEmail() + "\"}";
             Post request = new Post();
-            try {
-                String response = request.post(url, jsonUser);
-                return response; // Successful SQL command returns one empty space (" ")
-            } catch (IOException ioe) {
+            try
+            {   // Successful SQL command returns one empty space (" ")
+                return request.post(url, jsonUser);
+            }
+            catch (IOException ioe)
+            {
                 return ioe.toString();
             }
         }
@@ -150,10 +153,10 @@ public class ServerRequest {
             String url = SERVER + PHP + "DBIO/createUserFacebook.php";
 
             String jsonUser =
-                    "{\"facebook_uid\":\"" + user.facebookUid() + "\"," +
-                            " \"namefirst\":\"" + user.namefirst() + "\"," +
-                            " \"namelast\":\"" + user.namelast() + "\"," +
-                            " \"email\":\"" + user.email() + "\"}";
+                "{\"facebookUid\":\"" + user.getFacebookUid() + "\"," +
+                " \"firstName\":\"" + user.getFirstName() + "\"," +
+                " \"lastName\":\"" + user.getLastName() + "\"," +
+                " \"email\":\"" + user.getEmail() + "\"}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonUser);
@@ -189,35 +192,58 @@ public class ServerRequest {
             String url = SERVER + PHP + "DBIO/authUserNormal.php";
 
             String jsonUser =
-                    "{\"username\":\"" + user.username() + "\"," +
-                            " \"password\":\"" + user.password() + "\"}";
+                "{\"username\":\"" + user.getUsername() + "\"," +
+                " \"password\":\"" + user.getPassword() + "\"}";
             Post request = new Post();
-            //System.out.println(jsonUser);
-            try {
-                String response = request.post(url, jsonUser);
-                JSONObject jObject = new JSONObject(response);
 
-                if (jObject.length() == 8) {
-                    user.setUser(
+            try
+            {
+                String response = request.post(url, jsonUser);
+                System.out.println("RESPONSE: " + response);
+
+                if (response.equals("USERNAME AND PASSWORD COMBINATION IS INCORRECT."))
+                {
+                    udl = new UserDataLocal(activity);
+                    udl.resetUserData();
+                    udl.setLoggedStatus(false);
+                }
+                else
+                {
+                    JSONObject jObject = new JSONObject(response);
+                    System.out.println("jObject length: " + jObject.length());
+                    if (jObject.length() == 8)
+                    {
+                        user.setUser(
                             getJsonNullableInt(jObject, "uid"),
-                            jObject.getString("facebook_uid"),
-                            getJsonNullableInt(jObject, "googlep_uid"),
+                            jObject.getString("facebookUid"),
+                            jObject.getString("googlepUid"),
                             jObject.getString("username"),
                             jObject.getString("password"),
-                            jObject.getString("namefirst"),
-                            jObject.getString("namelast"),
+                            jObject.getString("firstName"),
+                            jObject.getString("lastName"),
                             jObject.getString("email")
-                    );
-                    udl = new UserDataLocal(activity);
-                    udl.setUserData(user);
+                        );
+                        udl = new UserDataLocal(activity);
+                        udl.setUserData(user);
+                        udl.setLoggedStatus(true);
+                        try{ Thread.sleep(1000); } catch (InterruptedException ie) {}
+                        System.out.println("getLoggedStatus; " + udl.getLoggedStatus());
+                    }
+                    else {
+                        System.out.println("Unknown login error: ");
+                    }
                 }
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe)
+            {
                 User user = new User();
-                user.initUserNormal(Resources.getSystem().getString(R.string.null_user), "");
+                user.initUserNormal(activity.getString(R.string.null_user), "");
                 udl = new UserDataLocal(activity);
                 udl.setUserData(user);
                 ioe.printStackTrace();
-            } catch (JSONException jsone) {
+            }
+            catch (JSONException jsone)
+            {
                 jsone.printStackTrace();
             }
             return null;
@@ -247,27 +273,39 @@ public class ServerRequest {
         protected Void doInBackground(Void... params) {
             String url = SERVER + PHP + "DBIO/authUserFacebook.php";
 
-            String jsonUser = "{\"facebook_uid\":\"" + user.facebookUid() + "\"}";
+            String jsonUser = "{\"facebookUid\":\"" + user.getFacebookUid() + "\"}";
             Post request = new Post();
             //System.out.println(jsonUser);
             try {
                 String response = request.post(url, jsonUser);
-                System.out.println(response);
-                JSONObject jObject = new JSONObject(response);
 
-                if (jObject.length() == 8) {
-                    user.setUser(
+                System.out.println("RESPONSE: " + response);
+
+                if (response.equals("FACEBOOK USER DOES NOT EXIST IN THE DATABASE."))
+                {
+                    System.out.println("FACEBOOK USER DOES NOT EXIST IN THE DATABASE.");
+                    System.out.println("UID: " + user.getUid());
+                }
+                else
+                {
+                    JSONObject jObject = new JSONObject(response);
+                    if (jObject.length() == 8) {
+                        System.out.println("jObject length: " + jObject.length());
+                        System.out.println("UID : " + user.getUid());
+                        user.setUser(
                             getJsonNullableInt(jObject, "uid"),
-                            jObject.getString("facebook_uid"),
-                            getJsonNullableInt(jObject, "googlep_uid"),
+                            jObject.getString("facebookUid"),
+                            jObject.getString("googlepUid"),
                             jObject.getString("username"),
                             jObject.getString("password"),
-                            jObject.getString("namefirst"),
-                            jObject.getString("namelast"),
+                            jObject.getString("firstName"),
+                            jObject.getString("lastName"),
                             jObject.getString("email")
-                    );
-                    udl = new UserDataLocal(activity);
-                    udl.setUserData(user);
+                        );
+                        udl = new UserDataLocal(activity);
+                        udl.setUserData(user);
+                        udl.setLoggedStatus(true);
+                    }
                 }
             } catch (IOException ioe) {
                 User user = new User();
@@ -292,11 +330,11 @@ public class ServerRequest {
 
     private class GetUsers extends AsyncTask<Void, Void, List<User>> {
 
-        String searched_user;
+        String searchedUser;
         UserListCallback userListCallback;
 
-        private GetUsers(String searched_user, UserListCallback userListCallback) {
-            this.searched_user = searched_user;
+        private GetUsers(String searchedUser, UserListCallback userListCallback) {
+            this.searchedUser = searchedUser;
             this.userListCallback = userListCallback;
         }
 
@@ -304,45 +342,54 @@ public class ServerRequest {
         protected List<User> doInBackground(Void... params) {
             String url = SERVER + PHP + "DBIO/getUsers.php";
 
-            System.out.println("SEARCHED USER: " + searched_user);
+            System.out.println("SEARCHED USER: " + searchedUser);
             //String searched_user = "";
-            String jsonSearchedUser = "{\"searched_username\":\"" + searched_user + "\"}";
+            String jsonSearchedUser = "{\"searchedUser\":\"" + searchedUser + "\"}";
             Post request = new Post();
             //FriendsActivity friendsActivity = new FriendsActivity();
             try {
                 String response = request.post(url, jsonSearchedUser);
                 //friendsActivity.tShowFriends.setText(response);
                 //System.out.println("RESPONSE: " + response);
-                if (response.equals("INCORRECT STRING.")) {
+                if (response.equals("INCORRECT STRING."))
+                {
                     System.out.println(response);
                     return null;
-                } else {
+                }
+                else
+                {
                     JSONArray j2dArray = new JSONArray(response);
                     List<User> userList = new ArrayList<User>();
-                    for (int i = 0; i < j2dArray.length(); i++) {
+                    for (int i = 0; i < j2dArray.length(); i++)
+                    {
                         JSONObject jUser = (JSONObject) j2dArray.get(i);
                         int uid = jUser.getInt("uid");
                         String username = jUser.getString("username");
-                        String namefirst = jUser.getString("namefirst");
-                        String namelast = jUser.getString("namelast");
+                        String firstName = jUser.getString("firstName");
+                        String lastName = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, -1, username, null, namefirst, namelast, null);
+                        user.setUser(uid, null, null, username, null, firstName, lastName, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
                     return userList;
                 }
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe)
+            {
                 System.out.println(ioe.toString());
                 return null;
-            } catch (JSONException jsone) {
+            }
+            catch (JSONException jsone)
+            {
                 jsone.printStackTrace();
                 return null;
             }
         }
 
         @Override
-        protected void onPostExecute(List<User> users) {
+        protected void onPostExecute(List<User> users)
+        {
             pd.dismiss();
             userListCallback.done(users);
 
@@ -353,13 +400,13 @@ public class ServerRequest {
 
     private class GetFriendStatus extends AsyncTask<Void, Void, String> {
 
-        int loggedUserUid;
-        int otherUserUid;
+        int loggedUid;
+        int otherUid;
         StringCallback stringCallback;
 
         private GetFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
-            this.loggedUserUid = loggedUserUid;
-            this.otherUserUid = otherUserUid;
+            this.loggedUid = loggedUserUid;
+            this.otherUid = otherUserUid;
             this.stringCallback = stringCallback;
         }
 
@@ -367,9 +414,7 @@ public class ServerRequest {
         protected String doInBackground(Void... params) {
             String url = SERVER + PHP + "DBIO/getFriendStatus.php";
 
-            String jsonFriends =
-                    "{\"uid1\":" + loggedUserUid + "," +
-                            " \"uid2\":" + otherUserUid + "}";
+            String jsonFriends = "{\"uid1\":" + loggedUid + "," + " \"uid2\":" + otherUid + "}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonFriends);
@@ -426,10 +471,10 @@ public class ServerRequest {
                     for (int i = 0; i < j2dArray.length(); i++) {
                         JSONObject jUser = (JSONObject) j2dArray.get(i);
                         int uid = jUser.getInt("uid");
-                        String namefirst = jUser.getString("namefirst");
-                        String namelast = jUser.getString("namelast");
+                        String namefirst = jUser.getString("firstName");
+                        String namelast = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, -1, null, null, namefirst, namelast, null);
+                        user.setUser(uid, null, null, null, null, namefirst, namelast, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
@@ -457,12 +502,12 @@ public class ServerRequest {
     private class GetImagePaths extends AsyncTask<Void, Void, List<String>> {
 
         int uid;
-        String purpose;
+        String imagePurposeLabel;
         StringListCallback stringListCallback;
 
-        private GetImagePaths(int uid, String purpose, StringListCallback stringListCallback) {
+        private GetImagePaths(int uid, String imagePurposeLabel, StringListCallback stringListCallback) {
             this.uid = uid;
-            this.purpose = purpose;
+            this.imagePurposeLabel = imagePurposeLabel;
             this.stringListCallback = stringListCallback;
         }
 
@@ -472,12 +517,14 @@ public class ServerRequest {
             String url = SERVER + PHP + "DBIO/Functions/Image.php?function=getImagePaths";
             String jsonGetImagePaths =
                 "{\"uid\":" + uid + "," +
-                " \"purpose\":\"" + purpose + "\"}";
+                " \"imagePurposeLabel\":\"" + imagePurposeLabel + "\"}";
             Post request = new Post();
 
             try {
 
                 String response = request.post(url, jsonGetImagePaths);
+                System.out.println("RESPONSE: " + response);
+
                 if (response.equals("PURPOSE DOES NOT EXIST IN THE DATABASE."))
                 {
                     System.out.println(response);
@@ -540,9 +587,7 @@ public class ServerRequest {
 
             String url = SERVER + PHP + "DBIO/setFriendStatus.php";
 
-            String jsonFriends =
-                "{\"uid1\":" + loggedUserUid + "," +
-                " \"uid2\":" + otherUserUid + "}";
+            String jsonFriends = "{\"uid1\":" + loggedUserUid + "," + " \"uid2\":" + otherUserUid + "}";
             Post request = new Post();
             try {
                 String response = request.post(url, jsonFriends);
@@ -565,16 +610,25 @@ public class ServerRequest {
     private class UploadImage extends AsyncTask<Void, Void, String> {
 
         int uid;
-        String purpose;
-        String name;
-        String image;
+        String userImageName;
+        String userImagePurposeLabel;
+        String userImagePrivacyLabel;
+        double userImageGpsLatitude;
+        double userImageGpsLongitude;
+        String userImage;
         StringCallback stringCallback;
 
-        private UploadImage(int uid, String purpose, String name, String image, StringCallback stringCallback) {
+        private UploadImage(int uid, String userImageName, String userImagePurposeLabel,
+            String userImagePrivacyLabel, double userImageGpsLatitude, double userImageGpsLongitude,
+            String userImage, StringCallback stringCallback) {
+
             this.uid = uid;
-            this.purpose = purpose;
-            this.name = name;
-            this.image = image;
+            this.userImageName = userImageName;
+            this.userImagePurposeLabel = userImagePurposeLabel;
+            this.userImagePrivacyLabel = userImagePrivacyLabel;
+            this.userImageGpsLatitude = userImageGpsLatitude;
+            this.userImageGpsLongitude = userImageGpsLongitude;
+            this.userImage = userImage;
             this.stringCallback = stringCallback;
         }
 
@@ -585,9 +639,12 @@ public class ServerRequest {
             try {
                 JSONObject jsonImageObject = new JSONObject();
                 jsonImageObject.put("uid", uid);
-                jsonImageObject.put("purpose", purpose);
-                jsonImageObject.put("name", name);
-                jsonImageObject.put("image", image);
+                jsonImageObject.put("userImageName", userImageName);
+                jsonImageObject.put("userImagePurposeLabel", userImagePurposeLabel);
+                jsonImageObject.put("userImagePrivacyLabel", userImagePrivacyLabel);
+                jsonImageObject.put("userImageGpsLatitude", userImageGpsLatitude);
+                jsonImageObject.put("userImageGpsLongitude", userImageGpsLongitude);
+                jsonImageObject.put("userImage", userImage);
                 /*
                 String jsonImage =
                     "{\"uid\":" + uid + "," +
@@ -600,6 +657,7 @@ public class ServerRequest {
                 System.out.println("[DAMIAN] image length: " + image.length());
                 */
                 String jsonImage = jsonImageObject.toString();
+                System.out.println(jsonImage);
                 Post request = new Post();
                 String response = request.post(url, jsonImage);
                 //System.out.println(response);

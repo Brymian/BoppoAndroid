@@ -18,13 +18,13 @@ public class UserDataLocal {
     /* Save logged in user's data on device */
     public void setUserData(User user) {
         SharedPreferences.Editor userDataLocalEditor = userDataLocal.edit();
-        userDataLocalEditor.putInt("uid", user.uid());
-        userDataLocalEditor.putString("facebook_uid", user.facebookUid());
-        userDataLocalEditor.putInt("googlep_uid", user.googlepUid());
-        userDataLocalEditor.putString("username", user.username());
-        userDataLocalEditor.putString("namefirst", user.namefirst());
-        userDataLocalEditor.putString("namelast", user.namelast());
-        userDataLocalEditor.putString("email", user.email());
+        userDataLocalEditor.putInt("uid", user.getUid());
+        userDataLocalEditor.putString("facebook_uid", user.getFacebookUid());
+        userDataLocalEditor.putString("googlep_uid", user.getGooglepUid());
+        userDataLocalEditor.putString("username", user.getUsername());
+        userDataLocalEditor.putString("namefirst", user.getFirstName());
+        userDataLocalEditor.putString("namelast", user.getLastName());
+        userDataLocalEditor.putString("email", user.getEmail());
         userDataLocalEditor.commit();
     }
 
@@ -32,14 +32,14 @@ public class UserDataLocal {
     public User getUserData() {
         User user = new User();
         user.setUser(
-                userDataLocal.getInt("uid", -1),
-                userDataLocal.getString("facebook_uid", null),
-                userDataLocal.getInt("googlep_uid", -1),
-                userDataLocal.getString("username", null),
-                userDataLocal.getString("password", null),
-                userDataLocal.getString("namefirst", null),
-                userDataLocal.getString("namelast", null),
-                userDataLocal.getString("email", null)
+            userDataLocal.getInt("uid", -1),
+            userDataLocal.getString("facebook_uid", null),
+            userDataLocal.getString("googlep_uid", null),
+            userDataLocal.getString("username", null),
+            userDataLocal.getString("password", null),
+            userDataLocal.getString("namefirst", null),
+            userDataLocal.getString("namelast", null),
+            userDataLocal.getString("email", null)
         );
         return user;
     }
@@ -55,6 +55,7 @@ public class UserDataLocal {
     public void setLoggedStatus(boolean loggedIn) {
         SharedPreferences.Editor userDataLocalEditor = userDataLocal.edit();
         userDataLocalEditor.putBoolean("loggedIn", loggedIn);
+        userDataLocalEditor.commit();
     }
 
     /* Check the current logged status for the user */

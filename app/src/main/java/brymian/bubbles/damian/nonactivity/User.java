@@ -6,12 +6,12 @@ package brymian.bubbles.damian.nonactivity;
 public class User {
 
     private int uid;
-    private String facebook_uid;
-    private int googlep_uid;
+    private String facebookUid;
+    private String googlepUid;
     private String username;
     private String password;
-    private String namefirst;
-    private String namelast;
+    private String firstName;
+    private String lastName;
     private String email;
     private boolean init = false;
 
@@ -33,86 +33,86 @@ public class User {
     }
 
     /* Initialize the Facebook user object */
-    public void initUserFacebook(String facebook_uid) {
+    public void initUserFacebook(String facebookUid) {
         if (!init) {
-            this.facebook_uid = facebook_uid;
+            this.facebookUid = facebookUid;
             init = true;
         }
     }
 
     /* Initialize the Google+ user object */
-    public void initUserGooglep(int googlep_uid) {
+    public void initUserGooglep(String googlepUid) {
         if (!init) {
-            this.googlep_uid = googlep_uid;
+            this.googlepUid = googlepUid;
             init = true;
         }
     }
 
     /* Set the data for the normal user login object - to */
-    public void setUserNormalLogin(String username, String password, String namefirst, String namelast, String email) {
+    public void setUserNormalLogin(String username, String password, String firstName, String lastName, String email) {
         this.username = username;
         this.password = password;
-        this.namefirst = namefirst;
-        this.namelast = namelast;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
     /* Set the data for the Facebook user login object */
-    public void setUserFacebookLogin(String facebook_uid, String namefirst, String namelast, String email) {
-        this.facebook_uid = facebook_uid;
-        this.namefirst = namefirst;
-        this.namelast = namelast;
+    public void setUserFacebookLogin(String facebookUid, String firstName, String lastName, String email) {
+        this.facebookUid = facebookUid;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
     /* Set the data for the Google+ user login object */
-    public void setUserGooglepLogin(int googlep_uid, String namefirst, String namelast, String email) {
-        this.googlep_uid = googlep_uid;
-        this.namefirst = namefirst;
-        this.namelast = namelast;
+    public void setUserGooglepLogin(String googlepUid, String firstName, String lastName, String email) {
+        this.googlepUid = googlepUid;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
     /* Set the data for the general user object */
-    public void setUser(int uid, String facebook_uid, int googlep_uid, String username, String password, String namefirst, String namelast, String email) {
+    public void setUser(int uid, String facebookUid, String googlepUid, String username, String password, String firstName, String lastName, String email) {
         this.uid = uid;
-        this.facebook_uid = facebook_uid;
-        this.googlep_uid = googlep_uid;
+        this.facebookUid = facebookUid;
+        this.googlepUid = googlepUid;
         this.username = username;
-        this.namefirst = namefirst;
-        this.namelast = namelast;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
     }
 
-    public int uid() {
+    public int getUid() {
         return uid;
     }
 
-    public String facebookUid() {
-        return facebook_uid;
+    public String getFacebookUid() {
+        return facebookUid;
     }
 
-    public int googlepUid() {
-        return googlep_uid;
+    public String getGooglepUid() {
+        return googlepUid;
     }
 
-    public String username() {
+    public String getUsername() {
         return username;
     }
 
-    public String password() {
+    public String getPassword() {
         return password;
     }
 
-    public String namefirst() {
-        return namefirst;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public String namelast() {
-        return namelast;
+    public String getLastName() {
+        return lastName;
     }
 
-    public String email() {
+    public String getEmail() {
         return email;
     }
 }

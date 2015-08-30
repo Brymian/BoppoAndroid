@@ -73,7 +73,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
-                new UploadImage(user.uid(), image, imageName()).execute();
+                new UploadImage(user.getUid(), image, imageName()).execute();
                 break;
         }
     }
