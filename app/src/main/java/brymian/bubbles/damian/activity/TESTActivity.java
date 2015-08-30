@@ -6,6 +6,8 @@ import android.os.Bundle;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.StringListCallback;
@@ -113,20 +115,20 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
-        new ServerRequest(this).getImagePaths(1, "Regular", new StringListCallback() {
+        new ServerRequest(this).getImages(1, "All", new ImageListCallback() {
             @Override
-            public void done(List<String> strings) {
-                if (strings != null) {
-                    System.out.println("PATH COUNT: " + strings.size());
-                    for (String string : strings)
-                        System.out.println("Path #" + strings.indexOf(string) + ": " + string);
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+                for (Image image : images) {
+                    System.out.println("Image #" + images.indexOf(image));
+                    System.out.println("Path: " + image.getPath());
+                    System.out.println("Path: " + image.getUserImagePrivacyLabel());
+                    System.out.println("Path: " + image.getUserImagePurposeLabel());
+                    System.out.println("Path: " + image.getUserImageGpsLatitude());
+                    System.out.println("Path: " + image.getUserImageGpsLongitude());
                 }
-                else
-                    System.out.println("UID OF THE USER DOES NOT EXIST OR IS NOT A NUMBER.");
             }
         });
-        */
 
     }
 

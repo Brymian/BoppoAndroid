@@ -74,9 +74,9 @@ public class ServerRequest {
         new GetFriends(uid, userListCallback).execute();
     }
 
-    public void getImagePaths(int uid, String purpose, StringListCallback stringListCallback) {
+    public void getImages(int uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
         pd.show();
-        new GetImagePaths(uid, purpose, stringListCallback).execute();
+        new GetImages(uid, imagePurposeLabel, imageListCallback).execute();
     }
 
     public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
@@ -499,20 +499,20 @@ public class ServerRequest {
 
     }
 
-    private class GetImagePaths extends AsyncTask<Void, Void, List<String>> {
+    private class GetImages extends AsyncTask<Void, Void, List<Image>> {
 
         int uid;
         String imagePurposeLabel;
-        StringListCallback stringListCallback;
+        ImageListCallback imageListCallback;
 
-        private GetImagePaths(int uid, String imagePurposeLabel, StringListCallback stringListCallback) {
+        private GetImages(int uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
             this.uid = uid;
             this.imagePurposeLabel = imagePurposeLabel;
-            this.stringListCallback = stringListCallback;
+            this.imageListCallback = imageListCallback;
         }
 
         @Override
-        protected List<String> doInBackground(Void... params) {
+        protected List<Image> doInBackground(Void... params) {
 
             String url = SERVER + PHP + "DBIO/Functions/Image.php?function=getImagePaths";
             String jsonGetImagePaths =
@@ -542,14 +542,25 @@ public class ServerRequest {
                 }
                 else
                 {
-                    JSONArray jPaths = new JSONArray(response);
-                    List<String> pathList = new ArrayList<String>();
-                    for (int i = 0; i < jPaths.length(); i++) {
-                        String path = SERVER + UPLOADS + jPaths.getString(i);
-                        pathList.add(path);
+                    JSONArray jImages = new JSONArray(response);
+                    List<Image> imageList = new ArrayList<Image>();
+                    for (int i = 0; i < jImages.length(); i++)
+                    {
+                        JSONObject jImage = (JSONObject) jImages.get(i);
+
+                        String path = SERVER + UPLOADS + jImage.getString("userImagePath");
+                        String userImagePrivacyLabel = jImage.getString("userImagePrivacyLabel");
+                        String userImagePurposeLabel = jImage.getString("userImagePurposeLabel");
+                        double userImageGpsLatitude = jImage.getDouble("userImageGpsLatitude");
+                        double userImageGpsLongitude = jImage.getDouble("userImageGpsLongitude");
+
+                        Image image = new Image(path, userImagePrivacyLabel, userImagePurposeLabel,
+                            userImageGpsLatitude, userImageGpsLongitude);
+
+                        imageList.add(image);
                     }
-                    // The set will be null if nothing matched in the database
-                    return pathList;
+
+                    return imageList;
                 }
             } catch (IOException ioe) {
                 System.out.println(ioe.toString());
@@ -561,11 +572,11 @@ public class ServerRequest {
         }
 
         @Override
-        protected void onPostExecute(List<String> strings) {
+        protected void onPostExecute(List<Image> imageList) {
             pd.dismiss();
-            stringListCallback.done(strings);
+            imageListCallback.done(imageList);
 
-            super.onPostExecute(strings);
+            super.onPostExecute(imageList);
         }
 
     }
