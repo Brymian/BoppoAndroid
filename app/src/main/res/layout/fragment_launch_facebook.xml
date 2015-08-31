@@ -5,17 +5,6 @@
     android:layout_width="match_parent"
     android:padding="10px">
 
-    <TextView
-        android:paddingTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:textSize="60dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="BUBBLES" />
-
     <!-- FACEBOOK LOGIN BUTTON -->
     <!--android:id="@+id/login_button"-->
     <com.facebook.login.widget.LoginButton
