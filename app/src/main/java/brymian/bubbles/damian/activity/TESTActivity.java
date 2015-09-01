@@ -52,8 +52,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-
+        /*
         new ServerRequest(this).getFriendStatus(1, 5, new StringCallback() {
             @Override
             public void done(String string) {
@@ -66,6 +65,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             } // Should say "Not friends."
         });
+        */
         /*
         new ServerRequest(this).setFriendStatus(1, 5, new StringCallback() {
             @Override
@@ -132,7 +132,25 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
+        int uidA = 1;
+        String facebookUid = "1098660393497582";
+        new ServerRequest(this).syncUserFacebook(uidA, facebookUid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESULT: " + string);
+            }
+        });
 
+        int uidB = 1;
+        String userAccountPrivacyLabel = "Public";
+        new ServerRequest(this).setUserAccountPrivacyLabel(uidB, userAccountPrivacyLabel, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESULT: " + string);
+            }
+        });
+        */
     }
 
 }

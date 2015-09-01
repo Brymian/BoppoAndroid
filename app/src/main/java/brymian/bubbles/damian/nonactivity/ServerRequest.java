@@ -49,6 +49,11 @@ public class ServerRequest {
         new CreateUserFacebook(user, stringCallback).execute();
     }
 
+    public void syncUserFacebook(int uid, String facebookUid, StringCallback stringCallback) {
+        pd.show();
+        new SyncUserFacebook(uid, facebookUid, stringCallback).execute();
+    }
+
     public void authUserNormal(User user, VoidCallback voidCallback) {
         pd.show();
         new AuthUserNormal(user, voidCallback).execute();
@@ -82,6 +87,11 @@ public class ServerRequest {
     public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
         pd.show();
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
+    }
+
+    public void setUserAccountPrivacyLabel(int uid, String privacyLabel, StringCallback stringCallback) {
+        pd.show();
+        new SetUserAccountPrivacyLabel(uid, privacyLabel, stringCallback).execute();
     }
 
     public void uploadImage(int uid, String userImageName, String userImagePurposeLabel,
@@ -166,6 +176,63 @@ public class ServerRequest {
                 return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+    private class SyncUserFacebook extends AsyncTask<Void, Void, String> {
+
+        int uid;
+        String facebookUid;
+        StringCallback stringCallback;
+
+        private SyncUserFacebook(int uid, String facebookUid, StringCallback stringCallback) {
+            this.uid = uid;
+            this.facebookUid = facebookUid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = SERVER + PHP + "DBIO/Functions/User.php?function=syncUserFacebook";
+
+            try
+            {
+                JSONObject jsonUserObject = new JSONObject();
+
+                jsonUserObject.put("uid", uid);
+                jsonUserObject.put("facebookUid", facebookUid);
+
+                String jsonUser = jsonUserObject.toString();
+
+                Post request = new Post();
+                String response = request.post(url, jsonUser);
+
+                if (response.equals("User updated successfully."))
+                {
+                    UserDataLocal udl = new UserDataLocal(activity);
+                    User user = udl.getUserData();
+                    user.setUserFacebookLogin(facebookUid, user.getFirstName(), user.getLastName(), user.getEmail());
+                    udl.setUserData(user);
+                }
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
             }
         }
 
@@ -608,6 +675,63 @@ public class ServerRequest {
                 return response; // Successful SQL command returns one empty space (" ")
             } catch (IOException ioe) {
                 return ioe.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+    private class SetUserAccountPrivacyLabel extends AsyncTask<Void, Void, String> {
+
+        int uid;
+        String userAccountPrivacyLabel;
+        StringCallback stringCallback;
+
+        private SetUserAccountPrivacyLabel(int uid, String userAccountPrivacyLabel, StringCallback stringCallback) {
+            this.uid = uid;
+            this.userAccountPrivacyLabel = userAccountPrivacyLabel;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = SERVER + PHP + "DBIO/Functions/User.php?function=setUserAccountPrivacyLabel";
+
+            try
+            {
+                JSONObject jsonUserAccountPrivacyLabelObject = new JSONObject();
+
+                jsonUserAccountPrivacyLabelObject.put("uid", uid);
+                jsonUserAccountPrivacyLabelObject.put("userAccountPrivacyLabel", userAccountPrivacyLabel);
+
+                String jsonUserAccountPrivacyLabel = jsonUserAccountPrivacyLabelObject.toString();
+
+                Post request = new Post();
+                String response = request.post(url, jsonUserAccountPrivacyLabel);
+
+                if (response.equals("User updated successfully."))
+                {
+                    UserDataLocal udl = new UserDataLocal(activity);
+                    User user = udl.getUserData();
+                    user.setUserAccountPrivacyLabel(userAccountPrivacyLabel);
+                    udl.setUserData(user);
+                }
+                return response; // Successful SQL command returns one empty space (" ")
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone) {
+                return jsone.toString();
             }
         }
 

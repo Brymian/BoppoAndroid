@@ -137,6 +137,7 @@ public class LaunchFragmentFacebook extends Fragment {
 
         User user = new User();
         user.initUserFacebook(facebookUid);
+        System.out.println("FACEBOOK ID: " + user.getFacebookUid());
         new ServerRequest(getActivity()).authUserFacebook(user, new VoidCallback() {
             @Override
             public void done(Void aVoid) {
@@ -164,8 +165,6 @@ public class LaunchFragmentFacebook extends Fragment {
                     // REGULAR
                     else {
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
-                        udl.setLoggedStatus(true);
-                        udl.setUserData(user);
                         startActivity(new Intent(getActivity(), MapsActivity.class));
                     }
                 }

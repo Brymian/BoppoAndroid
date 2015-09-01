@@ -13,6 +13,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String userAccountPrivacyLabel;
     private boolean init = false;
 
     private final int NORMAL = 1;
@@ -84,6 +85,10 @@ public class User {
         this.email = email;
     }
 
+    public void setUserAccountPrivacyLabel(String userAccountPrivacyLabel) {
+        this.userAccountPrivacyLabel = userAccountPrivacyLabel;
+    }
+
     public int getUid() {
         return uid;
     }
@@ -115,4 +120,6 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public String getUserAccountPrivacyLabel() { return userAccountPrivacyLabel; }
 }
