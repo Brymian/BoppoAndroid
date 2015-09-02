@@ -4,6 +4,8 @@ package brymian.bubbles.bryant;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +20,7 @@ import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.PrivacySettings;
+import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     Button bChangePassword, bChangeEmail, bChangeProfilePicture, bLogOut, bSyncWIthDFacebook;
@@ -26,6 +29,12 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.fragment_authenticate_facebook, new LaunchFragmentFacebook());
+        ft.commit();
+
         //Account Buttons
         bChangePassword = (Button) findViewById(R.id.bChangePassword);
         bChangeEmail = (Button) findViewById(R.id.bChangeEmail);

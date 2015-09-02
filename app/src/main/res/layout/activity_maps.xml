@@ -1,64 +1,81 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapsActivity" >
-
-    <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/map"
+    android:orientation="vertical">
+<!--
+    <LinearLayout
+        android:id="@+id/lFirstLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="bottom"
-        android:scrollbars="vertical"
-        class="com.google.android.gms.maps.SupportMapFragment"/>
+        android:orientation="horizontal">
 
-    <RadioGroup
-        android:id="@+id/radio_group_list_selector"
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/bMenu"
+            android:layout_gravity="left|top"
+            android:src="@mipmap/three_line_menu_w_pad"
+            android:background="@android:color/transparent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+-->
+    <LinearLayout
+        android:id="@+id/lSecondLayout"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:background="#ff9abcff"
-        android:showDividers="none">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/bFriends"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:clickable="true"
+            android:layout_height="wrap_content"
             android:src="@mipmap/bubbles_padding_half"
-            android:layout_weight="1" />
+            android:layout_weight="1"/>
 
         <ImageButton
             android:id="@+id/bCamera"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:onClick="onClickCamera"
+            android:layout_height="wrap_content"
             android:src="@android:drawable/ic_menu_camera"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/bFilter"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:clickable="true"
-            android:onClick="onClickFilter"
             android:src="@mipmap/filter_pad_quarter"/>
 
+    </LinearLayout>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MapsActivity" >
 
-    </RadioGroup>
+        <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scrollbars="vertical"
+            class="com.google.android.gms.maps.SupportMapFragment"/>
+            <!--
+            android:layout_gravity="bottom"
+            -->
 
-    <ImageButton
-        android:clickable="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bMenu"
-        android:layout_gravity="left|top"
-        android:src="@mipmap/three_line_menu_w_pad"
-        android:background="@android:color/transparent" />
+
+    </FrameLayout>
 
 
-</FrameLayout>
+
+</LinearLayout>
+
+
