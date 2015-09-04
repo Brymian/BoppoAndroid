@@ -17,6 +17,8 @@ public class MainApplication extends Application {
     public void onCreate() {
         super.onCreate();
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+
+        //printKeyHash();
     }
 
     public void printKeyHash() {

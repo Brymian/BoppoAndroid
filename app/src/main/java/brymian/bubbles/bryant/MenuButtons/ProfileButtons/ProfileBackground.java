@@ -3,6 +3,7 @@ package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,7 +31,6 @@ import brymian.bubbles.R;
 
 public class ProfileBackground extends FragmentActivity implements View.OnClickListener{
     private static final int RESULT_LOAD_IMAGE = 1;
-    private static final String SERVER_ADDRESS = "http://73.194.170.63:8080/ProjectWolf/";
 
     ImageView imageView1, imageView2, imageView3, imageView4;
     Button bSave;
@@ -57,7 +57,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         switch (view.getId()){
             case R.id.ivImageView1:
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);;
                 break;
             case R.id.ivImageView2:
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
@@ -73,53 +73,12 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
                 break;
         }
     }
-    private class UploadImage extends AsyncTask<Void, Void, Void> {
-
-        Bitmap image;
-        String name;
-        int uid;
-        public UploadImage(int uid, Bitmap image, String name){
-            this.image = image;
-            this.name = name;
-            this.uid = uid;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, requestCode, data);
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data !=null){
+            Uri selectedImage = data.getData();
+            imageView1.setImageURI(selectedImage);
         }
-        @Override
-        protected Void doInBackground(Void... params){
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            dataToSend.add(new BasicNameValuePair("image", encodedImage));
-            dataToSend.add(new BasicNameValuePair("name", name));
-            dataToSend.add(new BasicNameValuePair("uid", Integer.toString(uid)));
-
-            HttpParams httpRequestParams = getHttpRequestParams();
-
-            HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "Bubbles/DBIO/uploadImage.php");
-
-            try {
-                post.setEntity(new UrlEncodedFormEntity(dataToSend));
-                client.execute(post);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(getApplicationContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
-        }
-    }
-    private HttpParams getHttpRequestParams(){
-        HttpParams httpRequestParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpRequestParams, 1000 * 30);
-        HttpConnectionParams.setSoTimeout(httpRequestParams, 1000* 30);
-        return httpRequestParams;
     }
 }

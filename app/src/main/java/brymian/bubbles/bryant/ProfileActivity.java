@@ -1,42 +1,67 @@
 package brymian.bubbles.bryant;
 
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import brymian.bubbles.R;
 
 
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
-    RelativeLayout linearLayout;
     TextView tProfileName;
-    ImageButton bMenu, bCamera, bMap, bAddFriend;
+    ImageButton bMenu, bBlockUser, bMap, bAddFriend;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        linearLayout = (RelativeLayout) findViewById(R.id.lMainLayout);
-
+        //Linking xml IDs with java IDs
         tProfileName = (TextView) findViewById(R.id.tProfileName);
 
         bAddFriend = (ImageButton) findViewById(R.id.bAddFriend);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
-        bCamera = (ImageButton) findViewById(R.id.bCamera);
+        bBlockUser = (ImageButton) findViewById(R.id.bBlockUser);
         bMap = (ImageButton) findViewById(R.id.bMap);
 
+        //Setting the onClickListeners for the buttons
         bMenu.setOnClickListener(this);
         bAddFriend.setOnClickListener(this);
-        bCamera.setOnClickListener(this);
+        bBlockUser.setOnClickListener(this);
         bMap.setOnClickListener(this);
 
-        setBackground();
+        //Getting the information from FriendsActivity using putExtra()
+        String friendStatusString;
+        String username;
+        int uid;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                friendStatusString = null;
+                username = null;
+                uid = 0;
+            } else {
+                friendStatusString = extras.getString("Friend_Status");
+                username = extras.getString("Friend_Username");
+                uid = extras.getInt("Friend_UID");
+            }
+        } else {
+            friendStatusString = (String) savedInstanceState.getSerializable("Friend_Status");
+            username = (String) savedInstanceState.getSerializable("Friend_Username");
+            uid = (Integer) savedInstanceState.getSerializable("Friend_UID");
+        }
+
+        //Checking for output
+        System.out.println("THIS IS FROM PROFILE ACTIVITY: "+ friendStatusString);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + username);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + uid);
+
+        tProfileName.setText(username);
+
+
+        setBackground(uid, "Profile");
 
     }
 
@@ -60,7 +85,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         }
     }
 
-    protected void setBackground(){
+    protected void setBackground(int uid, String purpose){
 
     }
 }
