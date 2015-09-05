@@ -32,11 +32,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bCamera = (ImageButton) findViewById(R.id.bCamera);
         bFilter =(ImageButton) findViewById(R.id.bFilter);
         bFriends = (ImageButton) findViewById(R.id.bFriends);
-        //bMenu = (ImageButton) findViewById(R.id.bMenu);
+        bMenu = (ImageButton) findViewById(R.id.bMenu);
 
         bCamera.setOnClickListener(this);
         bFilter.setOnClickListener(this);
-//        bMenu.setOnClickListener(this);
+        bMenu.setOnClickListener(this);
         bFriends.setOnClickListener(this);
     }
 

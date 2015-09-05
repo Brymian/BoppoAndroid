@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
 public class FriendsActivity extends FragmentActivity implements View.OnClickListener{
+    ImageButton bMenu;
     Button bSearchFriend;
     EditText eInputUser;
     TextView tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5;
@@ -32,9 +34,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         setContentView(R.layout.activity_friends);
 
         bSearchFriend = (Button) findViewById(R.id.bSearchFriend);
-        //bSearchFriend.setText("Search");
 
         eInputUser  = (EditText) findViewById(R.id.eInputUser);
+
+        bMenu = (ImageButton) findViewById(R.id.bMenu);
 
         tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
         tShowFriends1 = (TextView) findViewById(R.id.tShowFriends1);
@@ -51,6 +54,8 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends5.setClickable(true);
 
         bSearchFriend.setOnClickListener(this);
+
+        bMenu.setOnClickListener(this);
 
         tShowFriends0.setOnClickListener(this);
         tShowFriends1.setOnClickListener(this);
@@ -78,13 +83,13 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                             // user methods
                             int size = userList.size();
 
-
                             if(size > 0) {
                                 for (int i = 0; i < size; i++) {
                                     TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
                                     TVIDs[i].setText(userList.get(i).getUsername());
                                     int intentUID = userList.get(i).getUid();
-                                    intent.putExtra("Friend_UID", intentUID);
+                                    int testUID = 3;
+                                    intent.putExtra("Friend_UID", testUID);
                                 }
                             }
                             if(size == 0){
@@ -106,7 +111,7 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends0:
                 if(tShowFriends0.getText().toString() != "No Results."){
-                    Toast.makeText(this, "you did this right", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "you did this right", Toast.LENGTH_SHORT).show();
 
                     new ServerRequest(this).getFriendStatus(1, 2, new StringCallback() {
                         @Override
@@ -143,6 +148,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                 if(tShowFriends5.getText().toString() != null){
 
                 }
+                break;
+            case R.id.bMenu:
+                Intent menuIntent = new Intent(this, MenuActivity.class);
+                startActivity(menuIntent);
                 break;
         }
     }

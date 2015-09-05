@@ -6,8 +6,11 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 
 
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
@@ -68,13 +71,22 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bAddFriend:
-
+                //need to change first two paramaters-----------------------
+                new ServerRequest(this).setFriendStatus(1, 2, new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        System.out.println("ADD FRIEND BUTTON OUTPUT: " + string);
+                        if(string == "Friend request sent successfully."){
+                            //Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
                 break;
             case R.id.bMenu:
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
                 break;
-            case R.id.bCamera:
+            case R.id.bBlockUser:
                 Intent cameraIntent = new Intent(this, CameraActivity.class);
                 startActivity(cameraIntent);
                 break;

@@ -30,7 +30,10 @@ import java.util.ArrayList;
 import brymian.bubbles.R;
 
 public class ProfileBackground extends FragmentActivity implements View.OnClickListener{
-    private static final int RESULT_LOAD_IMAGE = 1;
+    private static final int RESULT_LOAD_IMAGE_1 = 1;
+    private static final int RESULT_LOAD_IMAGE_2 = 2;
+    private static final int RESULT_LOAD_IMAGE_3 = 3;
+    private static final int RESULT_LOAD_IMAGE_4 = 4;
 
     ImageView imageView1, imageView2, imageView3, imageView4;
     Button bSave;
@@ -57,16 +60,16 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         switch (view.getId()){
             case R.id.ivImageView1:
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);;
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_1);;
                 break;
             case R.id.ivImageView2:
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_2);
                 break;
             case R.id.ivImageView3:
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_3);
                 break;
             case R.id.ivImageView4:
-                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE);
+                startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_4);
                 break;
             case R.id.bSave:
 
@@ -76,9 +79,21 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, requestCode, data);
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data !=null){
+        if (requestCode == RESULT_LOAD_IMAGE_1 && resultCode == RESULT_OK && data !=null){
             Uri selectedImage = data.getData();
             imageView1.setImageURI(selectedImage);
+        }
+        if (requestCode == RESULT_LOAD_IMAGE_2 && resultCode == RESULT_OK && data !=null){
+            Uri selectedImage = data.getData();
+            imageView2.setImageURI(selectedImage);
+        }
+        if (requestCode == RESULT_LOAD_IMAGE_3 && resultCode == RESULT_OK && data !=null){
+            Uri selectedImage = data.getData();
+            imageView3.setImageURI(selectedImage);
+        }
+        if (requestCode == RESULT_LOAD_IMAGE_4 && resultCode == RESULT_OK && data !=null){
+            Uri selectedImage = data.getData();
+            imageView4.setImageURI(selectedImage);
         }
     }
 }

@@ -10,13 +10,14 @@
         android:orientation="horizontal"
         android:id="@+id/linearLayout3">
         <ImageButton
-            android:id="@+id/bGoBack"
+            android:id="@+id/bMenu"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@mipmap/three_line_menu_w_pad"/>
         <TextView
             android:id="@+id/textFriends"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Friends"
             android:textSize="25dp"
             android:textStyle="bold" />
