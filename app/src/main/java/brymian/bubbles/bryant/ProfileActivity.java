@@ -8,9 +8,14 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
@@ -37,35 +42,38 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
         //Getting the information from FriendsActivity using putExtra()
         String friendStatusString;
+        String first_lastName;
         String username;
         int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 friendStatusString = null;
+                first_lastName = null;
                 username = null;
                 uid = 0;
             } else {
                 friendStatusString = extras.getString("Friend_Status");
+                first_lastName = extras.getString("Friend_FirstLastName");
                 username = extras.getString("Friend_Username");
                 uid = extras.getInt("Friend_UID");
             }
         } else {
             friendStatusString = (String) savedInstanceState.getSerializable("Friend_Status");
+            first_lastName = (String) savedInstanceState.getSerializable("Friend_FirstLastName");
             username = (String) savedInstanceState.getSerializable("Friend_Username");
             uid = (Integer) savedInstanceState.getSerializable("Friend_UID");
         }
 
         //Checking for output
         System.out.println("THIS IS FROM PROFILE ACTIVITY: "+ friendStatusString);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + first_lastName);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + username);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + uid);
 
-        tProfileName.setText(username);
-
+        tProfileName.setText(first_lastName);
 
         setBackground(uid, "Profile");
-
     }
 
     public void onClick(View view){
@@ -98,6 +106,11 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     }
 
     protected void setBackground(int uid, String purpose){
-
+        new ServerRequest(this).getImages(uid, purpose, new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                System.out.println("THIS IS FROM IMAGELIST: " + imageList);
+            }
+        });
     }
 }

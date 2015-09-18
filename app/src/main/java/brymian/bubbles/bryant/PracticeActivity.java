@@ -75,7 +75,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view){
-        /*
+        /**
         switch(view.getId()){
             case R.id.imageToUpload:
                 Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -88,7 +88,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
-                System.out.println("THIS IS THE USER ID: "+user.uid());
+                System.out.println("THIS IS THE USER ID: "+user.getUid());
                 System.out.println("THIS IS THE ENCODED IMAGE LENGTH: " + encodedImage.length());
                 System.out.println("THIS IS THE NAME: " + uploadedImageName.getText().toString());
                 //System.out.println("THIS IS THE ENCODED IMAGE STRING: " + encodedImage);
@@ -105,7 +105,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 //new DownloadImage(downloadedImageName.getText().toString()).execute();
                 break;
         }
-        */
+         **/
+
     }
 
     @Override

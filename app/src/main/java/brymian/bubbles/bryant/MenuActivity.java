@@ -19,21 +19,15 @@ import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
-import brymian.bubbles.bryant.MenuButtons.SettingsButtons.PrivacySettings;
 import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     Button bChangePassword, bChangeEmail, bChangeProfilePicture, bLogOut, bSyncWIthDFacebook;
-    Button bNotifications, bAbout, bPrivacySettings;
+    Button bNotifications, bAbout;
     Button bProfileBackground, bProfileName;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        FragmentManager fm = getSupportFragmentManager();
-        FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.fragment_authenticate_facebook, new LaunchFragmentFacebook());
-        ft.commit();
 
         //Account Buttons
         bChangePassword = (Button) findViewById(R.id.bChangePassword);
@@ -45,7 +39,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         //Settings Buttons
         bNotifications = (Button) findViewById(R.id.bNotifications);
         bAbout = (Button) findViewById(R.id.bAbout);
-        bPrivacySettings = (Button) findViewById(R.id.bPrivacySettings);
 
         //Profile Buttons
         bProfileBackground = (Button) findViewById(R.id.bProfileBackground);
@@ -61,7 +54,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         //Settings onClickListeners
         bNotifications.setOnClickListener(this);
         bAbout.setOnClickListener(this);
-        bPrivacySettings.setOnClickListener(this);
 
         //Profile onClickListeners
         bProfileBackground.setOnClickListener(this);
@@ -104,10 +96,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bAbout:
                 Intent aboutIntent = new Intent(this, About.class);
                 startActivity(aboutIntent);
-                break;
-            case R.id.bPrivacySettings:
-                Intent privacySettingsIntent = new Intent(this, PrivacySettings.class);
-                startActivity(privacySettingsIntent);
                 break;
             //Profile
             case R.id.bProfileBackground:

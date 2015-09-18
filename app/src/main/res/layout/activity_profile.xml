@@ -12,12 +12,15 @@
         android:src="@mipmap/three_line_menu_w_pad"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"/>
     <TextView
         android:id="@+id/tProfileName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bMenu" />
+        android:layout_below="@+id/bMenu"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="35dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +28,8 @@
         android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:background="#b6ffcf">
         <ImageButton
             android:id="@+id/bBlockUser"
             android:layout_width="match_parent"
@@ -34,7 +38,8 @@
             android:layout_above="@+id/bCamera"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
 
         <ImageButton
             android:id="@+id/bAddFriend"
@@ -44,7 +49,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
 
         <ImageButton
             android:id="@+id/bMap"
@@ -54,7 +60,8 @@
             android:layout_above="@+id/bAddFriend"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
 
 
     </LinearLayout>

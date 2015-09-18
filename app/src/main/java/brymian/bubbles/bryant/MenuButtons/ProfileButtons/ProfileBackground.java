@@ -2,6 +2,8 @@ package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -11,6 +13,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -28,6 +31,11 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.MenuActivity;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class ProfileBackground extends FragmentActivity implements View.OnClickListener{
     private static final int RESULT_LOAD_IMAGE_1 = 1;
@@ -37,6 +45,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
 
     ImageView imageView1, imageView2, imageView3, imageView4;
     Button bSave;
+    ImageButton ibMenu;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_background);
@@ -47,6 +56,14 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         imageView4 = (ImageView) findViewById(R.id.ivImageView4);
 
         bSave = (Button) findViewById(R.id.bSave);
+
+        ibMenu = (ImageButton) findViewById(R.id.ibMenu);
+
+        Drawable drawable = getResources().getDrawable(R.mipmap.ic_input_add);
+        imageView1.setImageDrawable(drawable);
+        imageView2.setImageDrawable(drawable);
+        imageView3.setImageDrawable(drawable);
+        imageView4.setImageDrawable(drawable);
 
         imageView1.setOnClickListener(this);
         imageView2.setOnClickListener(this);
@@ -59,6 +76,9 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
     public void onClick(View view){
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         switch (view.getId()){
+            case R.id.ibMenu:
+                Intent menuIntent = new Intent(this, MenuActivity.class);
+                startActivity(menuIntent);
             case R.id.ivImageView1:
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_1);;
                 break;
@@ -72,8 +92,34 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_4);
                 break;
             case R.id.bSave:
-
+                saveButton();
                 break;
+        }
+    }
+
+    public void saveButton(){
+        UserDataLocal udl = new UserDataLocal(this);
+        User userPhone = udl.getUserData();
+        int userUID = userPhone.getUid();//CHANGE 1 to userUID in uploadImage 1st parameter
+        ImageView[] IVarray = {imageView1, imageView2, imageView3, imageView4};
+        String[] IVarraySTRING = {"imageView1", "imageView2", "imageView3", "imageView4"};
+        for(int i = 0; i < IVarray.length; i++){
+            int imageViewID = IVarray[i].getId();
+            if(imageViewID != R.mipmap.ic_input_add){
+                Bitmap image = ((BitmapDrawable) IVarray[i].getDrawable()).getBitmap();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                new ServerRequest(this).uploadImage(1, IVarraySTRING[i], "Profile", "Private", 0, 0, encodedImage, new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        System.out.println(string);
+                    }
+                });
+            }
+            else {
+                //do nothing
+            }
         }
     }
     @Override

@@ -50,13 +50,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter></activity>
         <activity android:name=".bryant.FilterActivity"></activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.PrivacySettings"></activity>
         <activity android:name=".bryant.PracticeActivity"></activity>
-        <activity android:name=".bryant.ProfileActivity"
-            >
-        </activity>
+        <activity android:name=".bryant.ProfileActivity"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName"></activity>
+        <activity android:name=".bryant.MenuButtons.AccountButtons.SyncFacebook"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->

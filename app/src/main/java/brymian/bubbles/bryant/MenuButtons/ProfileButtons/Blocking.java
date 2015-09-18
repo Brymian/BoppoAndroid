@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.SettingsButtons.PrivacySettingsButtons;
+package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
 
 
 import android.os.Bundle;
