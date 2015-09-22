@@ -14,7 +14,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:id="@+id/linearLayoutTOP">
+            android:id="@+id/linearLayoutTOP"
+            android:background="#b6ffcf">
             <ImageButton
                 android:id="@+id/ibMenu"
                 android:layout_width="wrap_content"
@@ -81,13 +82,16 @@
         <LinearLayout
             android:id="@+id/linearLayoutBOTTOM"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="#b6ffcf"
+            >
             <Button
                 android:id="@+id/bSave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Save"
-                android:textSize="15sp"/>
+                android:textSize="15sp"
+                android:background="@android:color/transparent"/>
 
         </LinearLayout>
 

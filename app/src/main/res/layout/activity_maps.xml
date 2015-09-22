@@ -9,7 +9,8 @@
         android:id="@+id/lFirstLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#b6ffcf">
 
         <ImageButton
             android:layout_width="wrap_content"
@@ -52,28 +53,29 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/fMap"
+            android:background="#b6ffcf"
             android:layout_gravity="center_horizontal|bottom">
 
             <ImageButton
-                android:id="@+id/bFriends"
+                android:id="@+id/bLeftButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/bubbles_padding_half"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@android:color/transparent"/>
 
             <ImageButton
                 android:id="@+id/bCamera"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:src="@mipmap/camera_nopadding"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:background="@android:color/transparent"/>
 
             <ImageButton
-                android:id="@+id/bFilter"
+                android:id="@+id/bSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@mipmap/filter_pad_quarter"/>
+                android:background="@android:color/transparent"/>
 
         </LinearLayout>
     </FrameLayout>

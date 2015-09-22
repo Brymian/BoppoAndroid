@@ -2,6 +2,7 @@ package brymian.bubbles.bryant;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -24,7 +25,7 @@ import brymian.bubbles.R;
 public class MapsActivity extends FragmentActivity implements View.OnClickListener {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    ImageButton bCamera, bMenu, bFilter, bFriends;
+    ImageButton bCamera, bMenu, bSearch, bLeftButton;
     TextView tvTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,37 +35,65 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         bCamera = (ImageButton) findViewById(R.id.bCamera);
-        bFilter =(ImageButton) findViewById(R.id.bFilter);
-        bFriends = (ImageButton) findViewById(R.id.bFriends);
+        bSearch =(ImageButton) findViewById(R.id.bSearch);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
+        bLeftButton = (ImageButton) findViewById(R.id.bLeftButton);
 
-        String user;
+        //Making Drawables
+        Drawable cameraDrawable = getResources().getDrawable(R.mipmap.camera_nopadding);
+        Drawable searchDrawable = getResources().getDrawable(R.mipmap.search_nopadding);
+        Drawable playDrawable = getResources().getDrawable(R.mipmap.play_nopadding);
+
+        //Making sure if there are any putExtras() coming in from ProfileActivity
+        String userWho, userName;
+        int userID;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                user = null;
+                userWho = null;
+                userName = null;
+                userID = 0;
             } else {
-                user = extras.getString("user");
+                userWho = extras.getString("userWho");
+                userName = extras.getString("userName");
+                userID = extras.getInt("userID");
             }
         } else {
-            user = (String) savedInstanceState.getSerializable("user");
+            userWho = (String) savedInstanceState.getSerializable("userWho");
+            userName = (String) savedInstanceState.getSerializable("userName");
+            userID = (Integer) savedInstanceState.getSerializable("userID");
         }
 
         //Checking for output
-        System.out.println("THIS IS FROM MAPSACTIVITY (user): " + user);
+        System.out.println("THIS IS FROM MAPSACTIVITY (userWho): " + userWho);
+        System.out.println("THIS IS FROM MAPSACTIVITY (userID: " + userID);
+        System.out.println("THIS IS FROM MAPSACTIVITY (userName): " + userName);
         //--------------------------------------------------------
 
-        if(user.toString().equals("Logged in user.")){
+        if(userWho.toString().equals("Logged in user.")){
             tvTitle.setText("Your Map");
+            bCamera.setImageDrawable(cameraDrawable);
+            bSearch.setImageDrawable(searchDrawable);
+            bLeftButton.setImageDrawable(playDrawable);
         }
-        else if(user.toString().equals("Everyone.")){
+        else if(userWho.toString().equals("Everyone.")){
             tvTitle.setText("Visit Anywhere!");
+            bCamera.setImageDrawable(cameraDrawable);
+            bSearch.setImageDrawable(searchDrawable);
+            bLeftButton.setImageDrawable(playDrawable);
+        }
+        else{
+            tvTitle.setText(userName + "'s Map");
+            bCamera.setImageDrawable(cameraDrawable);
+            bSearch.setImageDrawable(searchDrawable);
+            bLeftButton.setImageDrawable(playDrawable);
         }
 
+        //Setting onClickListeners for all buttons
+        bLeftButton.setOnClickListener(this);
         bCamera.setOnClickListener(this);
-        bFilter.setOnClickListener(this);
+        bSearch.setOnClickListener(this);
         bMenu.setOnClickListener(this);
-        bFriends.setOnClickListener(this);
     }
 
     //----------------BUTTONS-----------------------------
@@ -75,7 +104,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
                 break;
-            case R.id.bFriends:
+            case R.id.bLeftButton:
                 Intent friendsIntent = new Intent(this, FriendsActivity.class);
                 startActivity(friendsIntent);
                 break;
@@ -83,7 +112,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 Intent cameraIntent = new Intent(this, CameraActivity.class);
                 startActivity(cameraIntent);
                 break;
-            case R.id.bFilter:
+            case R.id.bSearch:
                 Intent filterIntent = new Intent(this, FilterActivity.class);
                 startActivity(filterIntent);
                 break;

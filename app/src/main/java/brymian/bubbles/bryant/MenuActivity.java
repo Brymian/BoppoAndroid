@@ -119,7 +119,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             //Home button on the top left
             case R.id.ibMap:
                 Intent mapsIntent = new Intent(this, MapsActivity.class);
-                mapsIntent.putExtra("user", "Everyone.");
+                mapsIntent.putExtra("userWho", "Everyone.");
                 startActivity(mapsIntent);
                 break;
         }
