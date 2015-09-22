@@ -24,6 +24,7 @@ import brymian.bubbles.damian.nonactivity.UserListCallback;
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
     TextView tProfileName;
     ImageButton bMenu, bBlockUser, bMap, bAddFriend;
+    int[] IDhold = new int[1];
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -68,33 +69,45 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             uid = (Integer) savedInstanceState.getSerializable("Friend_UID");
         }
 
+
+
         //Checking for output
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + friendStatusString);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + first_lastName);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + username);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + uid);
+        //-------------------------------------------------------------------------------------
 
-        Drawable blockingDrawable = getResources().getDrawable(R.mipmap.blockred_nopadding);
+        Drawable blockingDrawable = getResources().getDrawable(R.mipmap.blockblack_nopadding);
         Drawable addfriendDrawable = getResources().getDrawable(R.mipmap.addfriend_nopadding);
         Drawable friendslistDrawable = getResources().getDrawable(R.mipmap.friendslist_nopadding);
         Drawable globeDrawable = getResources().getDrawable(R.mipmap.globeblackwhite_nopadding);
 
-        bBlockUser.setImageDrawable(blockingDrawable);
-        bMap.setImageDrawable(globeDrawable);
+
 
         if(friendStatusString.toString().equals("Not Friends.")){
             bAddFriend.setImageDrawable(addfriendDrawable);
+            bBlockUser.setImageDrawable(blockingDrawable);
+            bMap.setImageDrawable(globeDrawable);
         }
         else if(friendStatusString.toString().equals("Already sent friend request to user.")){
             bAddFriend.setImageDrawable(addfriendDrawable);
-            bAddFriend.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            //bAddFriend.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+            bBlockUser.setImageDrawable(blockingDrawable);
+            bMap.setImageDrawable(globeDrawable);
         }
         else if(friendStatusString.toString().equals("Already friends with user.")){
             bAddFriend.setImageDrawable(friendslistDrawable);
+            bBlockUser.setImageDrawable(blockingDrawable);
+            bMap.setImageDrawable(globeDrawable);
+        }
+        else if (friendStatusString.toString().equals("Logged in user.")){
+
         }
 
         tProfileName.setText(first_lastName);
 
+        tempIDhold(uid);
         setBackground(uid, "Profile");
     }
 
@@ -122,6 +135,8 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 break;
             case R.id.bMap:
                 Intent mapIntent = new Intent(this, MapsActivity.class);
+                int user = returnTempIDHold();
+                mapIntent.putExtra("user", user);
                 startActivity(mapIntent);
                 break;
         }
@@ -134,5 +149,13 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 System.out.println("THIS IS FROM IMAGELIST: " + imageList);
             }
         });
+    }
+
+    void tempIDhold(int uid){
+        IDhold[0] = uid;
+    }
+
+    int returnTempIDHold(){
+        return IDhold[0];
     }
 }

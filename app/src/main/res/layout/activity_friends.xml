@@ -3,7 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="3dp"
+    android:paddingBottom="3dp"
+    android:paddingLeft="3dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -53,37 +56,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:paddingBottom="2dp" />
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp" />
         <TextView
             android:id="@+id/tShowFriends1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:paddingBottom="2dp" />
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp" />
         <TextView
             android:id="@+id/tShowFriends2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:paddingBottom="2dp" />
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp" />
         <TextView
             android:id="@+id/tShowFriends3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:paddingBottom="2dp" />
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp" />
         <TextView
             android:id="@+id/tShowFriends4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:paddingBottom="2dp" />
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp" />
         <TextView
             android:id="@+id/tShowFriends5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:paddingBottom="2dp" />
+            android:paddingBottom="3dp"
+            android:paddingTop="3dp"
+            android:paddingLeft="3dp" />
 
     </LinearLayout>
 </RelativeLayout>

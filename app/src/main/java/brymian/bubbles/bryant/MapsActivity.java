@@ -38,19 +38,28 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bFriends = (ImageButton) findViewById(R.id.bFriends);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
 
-        String mapsTitle;
+        String user;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                mapsTitle = null;
+                user = null;
             } else {
-                mapsTitle = extras.getString("userName");
+                user = extras.getString("user");
             }
         } else {
-            mapsTitle = (String) savedInstanceState.getSerializable("userName");
+            user = (String) savedInstanceState.getSerializable("user");
         }
 
-        tvTitle.setText(mapsTitle);
+        //Checking for output
+        System.out.println("THIS IS FROM MAPSACTIVITY (user): " + user);
+        //--------------------------------------------------------
+
+        if(user.toString().equals("Logged in user.")){
+            tvTitle.setText("Your Map");
+        }
+        else if(user.toString().equals("Everyone.")){
+            tvTitle.setText("Visit Anywhere!");
+        }
 
         bCamera.setOnClickListener(this);
         bFilter.setOnClickListener(this);

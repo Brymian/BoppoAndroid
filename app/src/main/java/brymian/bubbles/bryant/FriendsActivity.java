@@ -130,7 +130,7 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         public void done(String string) {
                             System.out.println(string);
                             intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
+                            intent.putExtra("Friend_FirstLastName", name);
                             intent.putExtra("Friend_UID", ID);
                             intent.putExtra("Friend_Username", username);
                             startActivity(intent);

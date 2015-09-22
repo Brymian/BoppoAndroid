@@ -25,7 +25,7 @@ import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     Button bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
     Button bNotifications, bAbout;
-    Button bProfileBackground, bProfileName, bProfilePrivacy;
+    Button bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile;
     ImageButton ibMap;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -45,6 +45,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bAbout = (Button) findViewById(R.id.bAbout);
 
         //Profile Buttons
+        bYourProfile = (Button) findViewById(R.id.bYourProfile);
         bProfileBackground = (Button) findViewById(R.id.bProfileBackground);
         bProfileName = (Button) findViewById(R.id.bProfileName);
         bProfilePrivacy = (Button) findViewById(R.id.bProfilePrivacy);
@@ -63,8 +64,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bProfileBackground.setOnClickListener(this);
         bProfileName.setOnClickListener(this);
         bProfilePrivacy.setOnClickListener(this);
+        bYourProfile.setOnClickListener(this);
 
-        //User Profile Button
+        //Map button
         ibMap.setOnClickListener(this);
     }
 
@@ -97,6 +99,11 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(aboutIntent);
                 break;
             //Profile
+            case R.id.bYourProfile:
+                Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
+                yourProfileIntent.putExtra("Friend_Status", "Logged in user.");
+                startActivity(yourProfileIntent);
+                break;
             case R.id.bProfileBackground:
                 Intent profileBackgroundIntent = new Intent(this, ProfileBackground.class);
                 startActivity(profileBackgroundIntent);
@@ -112,8 +119,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             //Home button on the top left
             case R.id.ibMap:
                 Intent mapsIntent = new Intent(this, MapsActivity.class);
-                String userName = "Your Map";
-                mapsIntent.putExtra("userName", userName);
+                mapsIntent.putExtra("user", "Everyone.");
                 startActivity(mapsIntent);
                 break;
         }
