@@ -55,6 +55,7 @@
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.SyncFacebook"></activity>
+        <activity android:name=".bryant.MenuButtons.ProfileButtons.Privacy"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->

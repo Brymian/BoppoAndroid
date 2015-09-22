@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,15 +25,32 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     ImageButton bCamera, bMenu, bFilter, bFriends;
+    TextView tvTitle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
+
+        tvTitle = (TextView) findViewById(R.id.tvTitle);
         bCamera = (ImageButton) findViewById(R.id.bCamera);
         bFilter =(ImageButton) findViewById(R.id.bFilter);
         bFriends = (ImageButton) findViewById(R.id.bFriends);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
+
+        String mapsTitle;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                mapsTitle = null;
+            } else {
+                mapsTitle = extras.getString("userName");
+            }
+        } else {
+            mapsTitle = (String) savedInstanceState.getSerializable("userName");
+        }
+
+        tvTitle.setText(mapsTitle);
 
         bCamera.setOnClickListener(this);
         bFilter.setOnClickListener(this);

@@ -24,11 +24,12 @@
             <TextView
                 android:id="@+id/tProfileBackground"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Profile Background"
                 android:gravity="center_vertical"
                 android:textSize="25dp"
-                android:textIsSelectable="false" />
+                android:textIsSelectable="false"
+                android:paddingLeft="10dp" />
         </LinearLayout>
 
         <LinearLayout

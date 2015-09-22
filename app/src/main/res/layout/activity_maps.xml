@@ -19,9 +19,12 @@
             android:background="@android:color/transparent" />
 
         <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="ANYTHINGGGG"/>
+            android:textSize="25dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp" />
 
     </LinearLayout>
 
@@ -61,8 +64,8 @@
             <ImageButton
                 android:id="@+id/bCamera"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_camera"
+                android:layout_height="match_parent"
+                android:src="@mipmap/camera_nopadding"
                 android:layout_weight="1" />
 
             <ImageButton
@@ -73,11 +76,6 @@
                 android:src="@mipmap/filter_pad_quarter"/>
 
         </LinearLayout>
-        <!--
-        android:layout_gravity="bottom"
-        -->
-
-
     </FrameLayout>
 
 

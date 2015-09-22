@@ -1,6 +1,9 @@
 package brymian.bubbles.bryant;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -66,10 +69,29 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         }
 
         //Checking for output
-        System.out.println("THIS IS FROM PROFILE ACTIVITY: "+ friendStatusString);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + friendStatusString);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + first_lastName);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + username);
         System.out.println("THIS IS FROM PROFILE ACTIVITY: " + uid);
+
+        Drawable blockingDrawable = getResources().getDrawable(R.mipmap.blockred_nopadding);
+        Drawable addfriendDrawable = getResources().getDrawable(R.mipmap.addfriend_nopadding);
+        Drawable friendslistDrawable = getResources().getDrawable(R.mipmap.friendslist_nopadding);
+        Drawable globeDrawable = getResources().getDrawable(R.mipmap.globeblackwhite_nopadding);
+
+        bBlockUser.setImageDrawable(blockingDrawable);
+        bMap.setImageDrawable(globeDrawable);
+
+        if(friendStatusString.toString().equals("Not Friends.")){
+            bAddFriend.setImageDrawable(addfriendDrawable);
+        }
+        else if(friendStatusString.toString().equals("Already sent friend request to user.")){
+            bAddFriend.setImageDrawable(addfriendDrawable);
+            bAddFriend.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+        }
+        else if(friendStatusString.toString().equals("Already friends with user.")){
+            bAddFriend.setImageDrawable(friendslistDrawable);
+        }
 
         tProfileName.setText(first_lastName);
 

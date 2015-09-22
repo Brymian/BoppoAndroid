@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/ibMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/three_line_menu_w_pad"
+            android:background="@android:color/transparent"/>
+        <TextView
+            android:id="@+id/tProfileBackground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Profile Privacy"
+            android:gravity="center_vertical"
+            android:textSize="25dp"
+            android:textIsSelectable="false"
+            android:paddingLeft="10dp" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Make your Map or Profile Pictures Private: "
+        android:textSize="15dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Map: "
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="15dp" />
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch2"
+            android:paddingRight="110dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Profile Pictures: "
+            android:paddingLeft="15dp" />
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/switch1"
+            android:paddingRight="110dp" />
+
+
+    </LinearLayout>
+
+</LinearLayout>

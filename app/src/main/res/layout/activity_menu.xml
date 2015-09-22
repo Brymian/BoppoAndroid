@@ -9,21 +9,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingRight="15dp"
-    android:background="@android:color/holo_blue_light"
     android:gravity="top|left">
 
-    <ImageButton android:id="@+id/goBackHome"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_revert"
-        android:onClick="onClickMapsActivity"
-        android:background="@android:color/transparent" />
+        android:orientation="horizontal">
+
+        <ImageButton android:id="@+id/ibMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/home_nopadding"
+            android:background="@android:color/transparent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Menu"
+            android:textSize="25dp"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical" />
+
+    </LinearLayout>
+
     <!---                Account Buttons                    -->
     <TextView android:id="@+id/textAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Account"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:paddingLeft="10dp" />
         <Button android:id="@+id/bChangeEmail"
             android:layout_width="match_parent"
@@ -31,7 +44,7 @@
             android:text="Change Email"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:background="@android:color/transparent" />
         <Button android:id="@+id/bChangePassword"
             android:layout_width="match_parent"
@@ -39,15 +52,7 @@
             android:text="Change Password"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
-            android:textSize="20dp"
-            android:background="@android:color/transparent" />
-        <Button android:id="@+id/bChangeProfilePicture"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Change Profile Picture"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="15dp"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:background="@android:color/transparent" />
         <Button android:id="@+id/bSyncWithFacebook"
             android:layout_width="match_parent"
@@ -55,7 +60,7 @@
             android:text="Sync with Facebook"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:background="@android:color/transparent" />
         <Button android:id="@+id/bLogOut"
             android:layout_width="match_parent"
@@ -63,7 +68,7 @@
             android:text="Log Out"
             android:background="@android:color/transparent"
             android:layout_gravity="left"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp" />
     <!---        End of Account Buttons               -->
@@ -73,14 +78,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Settings"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:paddingLeft="10dp" />
         <Button android:id="@+id/bNotifications"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Notifications"
             android:background="@android:color/transparent"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp" />
         <Button android:id="@+id/bAbout"
@@ -88,9 +93,19 @@
             android:layout_height="wrap_content"
             android:text="About"
             android:background="@android:color/transparent"
-            android:textSize="20dp"
+            android:textSize="15dp"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp" />
+        <Button
+            android:id="@+id/bBlocking"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Blocking"
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:background="@android:color/transparent"
+            android:gravity="left|center_vertical"
+        />
     <!---        End of Settings Buttons               -->
     <!---          Profile Buttons                     -->
     <TextView
@@ -98,37 +113,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Profile"
-        android:textSize="25dp"
+        android:textSize="20dp"
         android:paddingLeft="10dp"/>
-    <Button
-        android:id="@+id/bProfileBackground"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Profile Background"
-        android:textSize="20dp"
-        android:padding="15dp"
-        android:background="@android:color/transparent"
-        android:gravity="left|center_vertical"
-        />
-    <Button
-        android:id="@+id/bProfileName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Profile Name"
-        android:textSize="20dp"
-        android:padding="15dp"
-        android:background="@android:color/transparent"
-        android:gravity="left|center_vertical"
-        />
-    <Button
-        android:id="@+id/bProfilePrivacy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Profile Privacy"
-        android:textSize="20dp"
-        android:padding="15dp"
-        android:background="@android:color/transparent"
-        android:gravity="left|center_vertical"
-        />
+        <Button
+            android:id="@+id/bProfileBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profile Pictures"
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:background="@android:color/transparent"
+            android:gravity="left|center_vertical"
+            />
+        <Button
+            android:id="@+id/bProfileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profile Name"
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:background="@android:color/transparent"
+            android:gravity="left|center_vertical"
+            />
+        <Button
+            android:id="@+id/bProfilePrivacy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Profile Privacy"
+            android:textSize="15dp"
+            android:padding="15dp"
+            android:background="@android:color/transparent"
+            android:gravity="left|center_vertical"
+            />
+
 </LinearLayout>
 </ScrollView>

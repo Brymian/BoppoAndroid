@@ -8,13 +8,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeEmail;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeProfilePicture;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.LogOut;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
@@ -22,17 +23,20 @@ import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
-    Button bChangePassword, bChangeEmail, bChangeProfilePicture, bLogOut, bSyncWIthDFacebook;
+    Button bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
     Button bNotifications, bAbout;
-    Button bProfileBackground, bProfileName;
+    Button bProfileBackground, bProfileName, bProfilePrivacy;
+    ImageButton ibMap;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
+        //Go to personal Profile
+        ibMap = (ImageButton) findViewById(R.id.ibMap);
+
         //Account Buttons
         bChangePassword = (Button) findViewById(R.id.bChangePassword);
         bChangeEmail = (Button) findViewById(R.id.bChangeEmail);
-        bChangeProfilePicture = (Button) findViewById(R.id.bChangeProfilePicture);
         bLogOut = (Button) findViewById(R.id.bLogOut);
         bSyncWIthDFacebook = (Button) findViewById(R.id.bSyncWithFacebook);
 
@@ -43,11 +47,11 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         //Profile Buttons
         bProfileBackground = (Button) findViewById(R.id.bProfileBackground);
         bProfileName = (Button) findViewById(R.id.bProfileName);
+        bProfilePrivacy = (Button) findViewById(R.id.bProfilePrivacy);
 
         //Account onClickListeners
         bChangePassword.setOnClickListener(this);
         bChangeEmail.setOnClickListener(this);
-        bChangeProfilePicture.setOnClickListener(this);
         bLogOut.setOnClickListener(this);
         bSyncWIthDFacebook.setOnClickListener(this);
 
@@ -58,11 +62,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         //Profile onClickListeners
         bProfileBackground.setOnClickListener(this);
         bProfileName.setOnClickListener(this);
-    }
-    //This button is to return to MapsActivity---ImageButton
-    public void onClickMapsActivity(View view){
-        Intent mapsActivityIntent = new Intent(this, MapsActivity.class);
-        startActivity(mapsActivityIntent);
+        bProfilePrivacy.setOnClickListener(this);
+
+        //User Profile Button
+        ibMap.setOnClickListener(this);
     }
 
     public void onClick(View v){
@@ -75,10 +78,6 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bChangeEmail:
                 Intent changeEmail = new Intent(this, ChangeEmail.class);
                 startActivity(changeEmail);
-                break;
-            case R.id.bChangeProfilePicture:
-                Intent changeProfilePicture = new Intent(this, ChangeProfilePicture.class);
-                startActivity(changeProfilePicture);
                 break;
             case R.id.bLogOut:
                 Intent logOut = new Intent(this, LogOut.class);
@@ -105,6 +104,17 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bProfileName:
                 Intent profileNameIntent = new Intent(this, ProfileName.class);
                 startActivity(profileNameIntent);
+                break;
+            case R.id.bProfilePrivacy:
+                Intent profilePrivacyIntent = new Intent(this, Privacy.class);
+                startActivity(profilePrivacyIntent);
+                break;
+            //Home button on the top left
+            case R.id.ibMap:
+                Intent mapsIntent = new Intent(this, MapsActivity.class);
+                String userName = "Your Map";
+                mapsIntent.putExtra("userName", userName);
+                startActivity(mapsIntent);
                 break;
         }
     }
