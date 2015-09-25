@@ -118,24 +118,30 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bAddFriend:
-                //need to change first two paramaters-----------------------
-                new ServerRequest(this).setFriendStatus(1, returnTempIDHold(), new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        System.out.println("ADD FRIEND BUTTON OUTPUT: " + string);
-                        if(string == "Friend request sent successfully."){
-                            //Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+                if(returnTempUserNameHold().equals("Logged in user.")){
+                    Intent friendListIntent = new Intent(this, FriendsActivity.class);
+                }
+                else {
+                    //need to change first two paramaters-----------------------
+                    new ServerRequest(this).setFriendStatus(1, returnTempIDHold(), new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            System.out.println("ADD FRIEND BUTTON OUTPUT: " + string);
+                            if(string == "Friend request sent successfully."){
+                                //Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+
                 break;
             case R.id.bMenu:
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
                 break;
             case R.id.bBlockUser:
-                Intent cameraIntent = new Intent(this, CameraActivity.class);
-                startActivity(cameraIntent);
+                //Intent cameraIntent = new Intent(this, CameraActivity.class);
+                //startActivity(cameraIntent);
                 break;
             case R.id.bMap:
                 Intent mapIntent = new Intent(this, MapsActivity.class);

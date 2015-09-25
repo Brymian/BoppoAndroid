@@ -25,7 +25,7 @@ import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     Button bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
     Button bNotifications, bAbout;
-    Button bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile;
+    Button bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser;
     ImageButton ibMap;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -49,6 +49,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bProfileBackground = (Button) findViewById(R.id.bProfileBackground);
         bProfileName = (Button) findViewById(R.id.bProfileName);
         bProfilePrivacy = (Button) findViewById(R.id.bProfilePrivacy);
+        bSearchUser = (Button) findViewById(R.id.bSearchUser);
 
         //Account onClickListeners
         bChangePassword.setOnClickListener(this);
@@ -65,6 +66,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bProfileName.setOnClickListener(this);
         bProfilePrivacy.setOnClickListener(this);
         bYourProfile.setOnClickListener(this);
+        bSearchUser.setOnClickListener(this);
 
         //Map button
         ibMap.setOnClickListener(this);
@@ -103,6 +105,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
                 yourProfileIntent.putExtra("Friend_Status", "Logged in user.");
                 startActivity(yourProfileIntent);
+                break;
+            case R.id.bSearchUser:
+                Intent searchUserIntent = new Intent(this, FriendsActivity.class);
+                startActivity(searchUserIntent);
                 break;
             case R.id.bProfileBackground:
                 Intent profileBackgroundIntent = new Intent(this, ProfileBackground.class);
