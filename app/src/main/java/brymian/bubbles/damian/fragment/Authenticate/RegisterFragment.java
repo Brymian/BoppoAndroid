@@ -86,7 +86,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             new ServerRequest(getActivity()).createUserNormal(user, new StringCallback() {
                 @Override
                 public void done(String string) {
-                    if (string.length() == 1) {
+                    if (string.length() <= 1) {
                         showMessageRegistration(getActivity());
                     } else {
                         String error = "";
@@ -96,7 +96,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                         } else if (string.contains("java.net.SocketTimeoutException")) {
                             error = "Server is not reachable: it may be offline.";
                         } else {
-                            error = "Unknown error.";
+                            error = "Unknown error: '" + string + "'";
                         }
                         showErrorCustom(getActivity(), error);
                     }

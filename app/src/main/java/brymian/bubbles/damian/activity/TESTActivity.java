@@ -151,6 +151,16 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
+        int uid = 1;
+        int uiid = 32;
+        String purposeLabel = "Regular";
+        new ServerRequest(this).setUserImagePurpose(uid, uiid, purposeLabel, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESULT: " + string);
+            }
+        });
     }
 
 }
