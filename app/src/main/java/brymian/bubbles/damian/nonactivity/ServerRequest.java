@@ -94,6 +94,11 @@ public class ServerRequest {
         new SetUserAccountPrivacyLabel(uid, privacyLabel, stringCallback).execute();
     }
 
+    public void setUserImagePurpose(int uid, int uiid, String purposeLabel, StringCallback stringCallback) {
+        pd.show();
+        new SetUserImagePurpose(uid, uiid, purposeLabel, stringCallback).execute();
+    }
+
     public void uploadImage(int uid, String userImageName, String userImagePurposeLabel,
         String userImagePrivacyLabel, double userImageGpsLatitude, double userImageGpsLongitude,
         String userImage, StringCallback stringCallback)
@@ -745,6 +750,59 @@ public class ServerRequest {
 
     }
 
+    private class SetUserImagePurpose extends AsyncTask<Void, Void, String> {
+
+        int uid;
+        int uiid;
+        String userImagePurposeLabel;
+        StringCallback stringCallback;
+
+        private SetUserImagePurpose(int uid, int uiid, String userImagePurposeLabel, StringCallback stringCallback) {
+            this.uid = uid;
+            this.uiid = uiid;
+            this.userImagePurposeLabel = userImagePurposeLabel;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=setUserImagePurpose";
+
+            try
+            {
+                JSONObject jsonUserImagePurposeLabelObject = new JSONObject();
+
+                jsonUserImagePurposeLabelObject.put("uid", uid);
+                jsonUserImagePurposeLabelObject.put("uiid", uiid);
+                jsonUserImagePurposeLabelObject.put("userImagePurposeLabel", userImagePurposeLabel);
+
+                String jsonUserImagePurposeLabel = jsonUserImagePurposeLabelObject.toString();
+
+                Post request = new Post();
+                String response = request.post(url, jsonUserImagePurposeLabel);
+
+                return response; // Successful SQL command returns one empty space (" ")
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone) {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
     private class UploadImage extends AsyncTask<Void, Void, String> {
 
         int uid;
@@ -795,7 +853,7 @@ public class ServerRequest {
                 System.out.println("[DAMIAN] image length: " + image.length());
                 */
                 String jsonImage = jsonImageObject.toString();
-                System.out.println(jsonImage);
+                //System.out.println(jsonImage);
                 Post request = new Post();
                 String response = request.post(url, jsonImage);
                 //System.out.println(response);
