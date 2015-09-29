@@ -66,10 +66,10 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         }
 
         //Checking for output
-        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + friendStatusString);
-        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + first_lastName);
-        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + username);
-        System.out.println("THIS IS FROM PROFILE ACTIVITY: " + uid);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY (friendStatus): " + friendStatusString);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY (first_lastname): " + first_lastName);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY (username): " + username);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY (uid): " + uid);
         //-------------------------------------------------------------------------------------
 
         Drawable blockingDrawable = getResources().getDrawable(R.mipmap.blockblack_nopadding);

@@ -1,8 +1,11 @@
 package brymian.bubbles.bryant;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,25 +22,23 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
-public class FriendsActivity extends FragmentActivity implements View.OnClickListener{
+public class FriendsActivity extends FragmentActivity implements View.OnClickListener, TextWatcher{
     ImageButton bMenu;
-    Button bSearchFriend;
     EditText eInputUser;
-    TextView tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5;
-    TextView[] TVIDs = {tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5};
-    int[] TVRIDs = {R.id.tShowFriends0, R.id.tShowFriends1, R.id.tShowFriends2, R.id.tShowFriends3, R.id.tShowFriends4, R.id.tShowFriends5};
-    int[] searchedUsersID = new int[6];
-    String[] searchedUsersFirstLastName = new String[6];
-    String[] searchedUsersUsername = new String[6];
+    TextView tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5, tShowFriends6, tShowFriends7, tShowFriends8, tShowFriends9;
+    TextView[] TVIDs = {tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5, tShowFriends6, tShowFriends7, tShowFriends8, tShowFriends9};
+    int[] TVRIDs = {R.id.tShowFriends0, R.id.tShowFriends1, R.id.tShowFriends2, R.id.tShowFriends3, R.id.tShowFriends4, R.id.tShowFriends5, R.id.tShowFriends6, R.id.tShowFriends7, R.id.tShowFriends8, R.id.tShowFriends9};
+    int[] searchedUsersID = new int[10];
+    String[] searchedUsersFirstLastName = new String[10];
+    String[] searchedUsersUsername = new String[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends);
 
-        bSearchFriend = (Button) findViewById(R.id.bSearchFriend);
-
         eInputUser  = (EditText) findViewById(R.id.eInputUser);
+        eInputUser.addTextChangedListener(this);
 
         bMenu = (ImageButton) findViewById(R.id.bMenu);
 
@@ -47,6 +48,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends3 = (TextView) findViewById(R.id.tShowFriends3);
         tShowFriends4 = (TextView) findViewById(R.id.tShowFriends4);
         tShowFriends5 = (TextView) findViewById(R.id.tShowFriends5);
+        tShowFriends6 = (TextView) findViewById(R.id.tShowFriends6);
+        tShowFriends7 = (TextView) findViewById(R.id.tShowFriends7);
+        tShowFriends8 = (TextView) findViewById(R.id.tShowFriends8);
+        tShowFriends9 = (TextView) findViewById(R.id.tShowFriends9);
+
 
         tShowFriends0.setClickable(true);
         tShowFriends1.setClickable(true);
@@ -54,8 +60,12 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends3.setClickable(true);
         tShowFriends4.setClickable(true);
         tShowFriends5.setClickable(true);
+        tShowFriends6.setClickable(true);
+        tShowFriends7.setClickable(true);
+        tShowFriends8.setClickable(true);
+        tShowFriends9.setClickable(true);
 
-        bSearchFriend.setOnClickListener(this);
+
 
         bMenu.setOnClickListener(this);
 
@@ -65,6 +75,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends3.setOnClickListener(this);
         tShowFriends4.setOnClickListener(this);
         tShowFriends5.setOnClickListener(this);
+        tShowFriends6.setOnClickListener(this);
+        tShowFriends7.setOnClickListener(this);
+        tShowFriends8.setOnClickListener(this);
+        tShowFriends9.setOnClickListener(this);
+
     }
 
     @Override
@@ -74,52 +89,6 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();
         switch(view.getId()){
-            case R.id.bSearchFriend:
-
-                if(eInputUser.getText().toString().isEmpty()){
-                    Toast.makeText(this, "Empty Search.", Toast.LENGTH_SHORT).show();
-                }
-                else if(eInputUser.getText().toString() != null)
-                {
-                    new ServerRequest(this).getUsers(eInputUser.getText().toString(), new UserListCallback() {
-                        @Override
-                        public void done(List<User> userList) {
-                            int size = userList.size();
-                            if(size > 0) {
-                                for (int i = 0; i < size; i++) {
-                                    TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
-                                    String userNameList = userList.get(i).getUsername();
-                                    String firstNameList = userList.get(i).getFirstName();
-                                    String lastNameList = userList.get(i).getLastName();
-                                    int IDList = userList.get(i).getUid();
-
-                                    TVIDs[i].setText(userNameList + "\n" + firstNameList + " " + lastNameList);
-
-                                    System.out.println("THIS IS THE FIRST NAME: " + firstNameList);
-                                    System.out.println("THIS IS THE LAST NAME: " + lastNameList);
-                                    System.out.println("This IS THE USERLIST ID: " + IDList);
-
-                                    String name = firstNameList + " " + lastNameList;
-                                    tempIDHold(IDList, i);
-                                    tempFirstLastNameHold(name, i);
-                                    tempUsernameHold(userNameList, i);
-                                }
-                            }
-                            if(size == 0){
-                                tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
-                                tShowFriends0.setText("No Results.");
-                            }
-                        }
-                    });
-                    Toast.makeText(this, "Search Complete.", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
-                    tShowFriends0.setText("No Users Found!");
-                }
-                break;
-
-
             case R.id.tShowFriends0:
                 if(tShowFriends0.getText().toString() != "No Results."){
                     final int ID = returnTempIDHold(0);
@@ -138,6 +107,7 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                     });
                 }
                 break;
+
 
             case R.id.tShowFriends1:
                 if(tShowFriends1.getText().toString() != null){
@@ -234,6 +204,82 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                 }
                 break;
 
+            case R.id.tShowFriends6:
+                if(tShowFriends6.getText().toString() != null){
+                    final int ID = returnTempIDHold(6);
+                    final String name = returnTempFirstLastName(6);
+                    final String username = returnTempUsername(6);
+                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            System.out.println(string);
+                            intent.putExtra("Friend_Status", string);
+                            intent.putExtra("Friend_Username", name);
+                            intent.putExtra("Friend_UID", ID);
+                            intent.putExtra("Friend_Username", username);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                break;
+
+            case R.id.tShowFriends7:
+                if(tShowFriends7.getText().toString() != null){
+                    final int ID = returnTempIDHold(7);
+                    final String name = returnTempFirstLastName(7);
+                    final String username = returnTempUsername(7);
+                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            System.out.println(string);
+                            intent.putExtra("Friend_Status", string);
+                            intent.putExtra("Friend_Username", name);
+                            intent.putExtra("Friend_UID", ID);
+                            intent.putExtra("Friend_Username", username);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                break;
+
+            case R.id.tShowFriends8:
+                if(tShowFriends5.getText().toString() != null){
+                    final int ID = returnTempIDHold(8);
+                    final String name = returnTempFirstLastName(8);
+                    final String username = returnTempUsername(8);
+                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            System.out.println(string);
+                            intent.putExtra("Friend_Status", string);
+                            intent.putExtra("Friend_Username", name);
+                            intent.putExtra("Friend_UID", ID);
+                            intent.putExtra("Friend_Username", username);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                break;
+
+            case R.id.tShowFriends9:
+                if(tShowFriends9.getText().toString() != null){
+                    final int ID = returnTempIDHold(9);
+                    final String name = returnTempFirstLastName(9);
+                    final String username = returnTempUsername(9);
+                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            System.out.println(string);
+                            intent.putExtra("Friend_Status", string);
+                            intent.putExtra("Friend_Username", name);
+                            intent.putExtra("Friend_UID", ID);
+                            intent.putExtra("Friend_Username", username);
+                            startActivity(intent);
+                        }
+                    });
+                }
+                break;
+
             case R.id.bMenu:
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
@@ -264,4 +310,68 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
     String returnTempUsername(int location){
         return searchedUsersUsername[location];
     }
+
+    @Override
+    public void afterTextChanged(Editable s){
+        new ServerRequest(this).getUsers(eInputUser.getText().toString(), new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                int size = 0;
+                try {
+                    size = users.size();
+                }catch (NullPointerException e){
+                    e.printStackTrace();
+                }
+                if(size > 0) {
+                    for (int i = 0; i < size; i++) {
+                        TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
+                        String userNameList = users.get(i).getUsername();
+                        String firstNameList = users.get(i).getFirstName();
+                        String lastNameList = users.get(i).getLastName();
+                        int IDList = users.get(i).getUid();
+
+                        TVIDs[i].setText(userNameList);
+
+
+
+                        System.out.println("THIS IS THE FIRST NAME: " + firstNameList);
+                        System.out.println("THIS IS THE LAST NAME: " + lastNameList);
+                        System.out.println("This IS THE USERLIST ID: " + IDList);
+
+                        String name = firstNameList + " " + lastNameList;
+                        tempIDHold(IDList, i);
+                        tempFirstLastNameHold(name, i);
+                        tempUsernameHold(userNameList, i);
+                    }
+                    int remSize = TVIDs.length - size;
+                    if(remSize == 0){
+                        //do nothing
+                    }
+                    else if (remSize != 0 && size != 0){
+                        for(int i = 0; i < remSize; i++){
+                            TVIDs[10-i] = (TextView) findViewById(TVRIDs[10-i]);
+                            TVIDs[10-i].setText(null);
+                            TVIDs[10-i].setClickable(false);
+                        }
+                    }
+
+                }
+                if(size == 0){
+                    tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
+                    tShowFriends0.setText("No Results.");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence sequence, int start, int count, int after){
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence sequence, int start, int before, int count){
+
+    }
 }
+

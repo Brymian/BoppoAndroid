@@ -3,13 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#ffffff">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/linearLayout3"
-        android:background="#b6ffcf">
+        android:background="#42ffbf">
         <ImageButton
             android:id="@+id/bMenu"
             android:layout_width="wrap_content"
@@ -42,62 +43,96 @@
             android:paddingLeft="10dp"
             android:singleLine="true"
             android:paddingTop="15dp" />
-        <Button
-            android:id="@+id/bSearchFriend"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:text="Search"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="10dp" />
         <TextView
             android:id="@+id/tShowFriends0"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="3dp" />
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tShowFriends1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="3dp" />
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tShowFriends2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="3dp" />
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tShowFriends3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="3dp" />
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tShowFriends4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="3dp" />
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
         <TextView
             android:id="@+id/tShowFriends5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingLeft="3dp" />
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tShowFriends6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tShowFriends7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tShowFriends8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tShowFriends9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
 </RelativeLayout>

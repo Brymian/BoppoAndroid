@@ -65,7 +65,7 @@ public class ServerRequest {
     }
 
     public void getUsers(String searchedUser, UserListCallback userListCallback) {
-        pd.show();
+        //pd.show();
         new GetUsers(searchedUser, userListCallback).execute();
     }
 
@@ -460,7 +460,7 @@ public class ServerRequest {
         @Override
         protected void onPostExecute(List<User> users)
         {
-            pd.dismiss();
+            //pd.dismiss();
             userListCallback.done(users);
 
             super.onPostExecute(users);
