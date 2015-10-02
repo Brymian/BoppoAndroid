@@ -82,6 +82,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             bSearch.setImageDrawable(searchDrawable);
             bLeftButton.setImageDrawable(playDrawable);
         }
+        else if(userWho == null){
+            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
+        }
         else{
             tvTitle.setText(userName + "'s Map");
             bCamera.setImageDrawable(cameraDrawable);

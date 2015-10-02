@@ -27,6 +27,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     int[] IDhold = new int[1];
     String[] userWhoArray = new String[1];
     String[] userNameArray = new String[1];
+    String[] friendStatusArray = new String[1];
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -185,6 +186,10 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         userNameArray[0] = input;
     }
 
+    void tempFriendStatusHold(String input){
+        friendStatusArray[0] = input;
+    }
+
     int returnTempIDHold(){
         return IDhold[0];
     }
@@ -195,5 +200,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
     String returnTempUserNameHold(){
         return userNameArray[0];
+    }
+
+    String returnTempFriendStatusHold(){
+        return friendStatusArray[0];
     }
 }

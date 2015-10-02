@@ -10,21 +10,20 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#b6ffcf">
-        <ImageButton
-            android:id="@+id/ibMenu"
+
+        <ImageButton android:id="@+id/ibMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/three_line_menu_w_pad"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent" />
         <TextView
-            android:id="@+id/tChangeEmail"
+            android:id="@+id/tUsersName"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Change Email"
-            android:gravity="center_vertical"
+            android:text="Menu"
             android:textSize="25dp"
-            android:textIsSelectable="false"
-            android:paddingLeft="10dp" />
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical" />
 
     </LinearLayout>
 

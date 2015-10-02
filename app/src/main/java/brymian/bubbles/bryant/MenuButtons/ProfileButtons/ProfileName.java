@@ -1,58 +1,32 @@
 package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.widget.ImageButton;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.MenuActivity;
 
-/**
- * Created by Almanza on 8/19/2015.
- */
-public class ProfileName extends FragmentActivity implements View.OnClickListener{
-    TextView tFirstName, tLastName, tUsername;
-    Button bEditFirstName, bEditLastname, bEditUsername;
-    protected void onCreate(Bundle savedInstanceState){
+
+public class ProfileName extends FragmentActivity implements View.OnClickListener {
+    ImageButton ibMenu;
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_name);
 
-        tFirstName = (TextView) findViewById(R.id.tFirstName);
-        tLastName = (TextView) findViewById(R.id.tLastName);
-        tUsername = (TextView) findViewById(R.id.tUsername);
+        ibMenu = (ImageButton) findViewById(R.id.ibMenu);
 
-        bEditFirstName = (Button) findViewById(R.id.bEditFirstName);
-        bEditLastname = (Button) findViewById(R.id.bEditLastName);
-        bEditUsername = (Button) findViewById(R.id.bEditUsername);
-
-        bEditLastname.setOnClickListener(this);
-        bEditFirstName.setOnClickListener(this);
-        bEditUsername.setOnClickListener(this);
-
-        setNames();
-
+        ibMenu.setOnClickListener(this);
     }
 
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.bEditFirstName:
-
-                break;
-            case R.id.bEditLastName:
-
-                break;
-            case R.id.bEditUsername:
-
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ibMenu:
+                Intent menuIntent = new Intent(this, MenuActivity.class);
+                startActivity(menuIntent);
                 break;
         }
-    }
-
-    public void setNames(){
-
-        tFirstName.setText("");
-        tLastName.setText("");
-        tUsername.setText("");
-
     }
 }

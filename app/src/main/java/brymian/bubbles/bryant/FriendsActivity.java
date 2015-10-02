@@ -53,7 +53,6 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends8 = (TextView) findViewById(R.id.tShowFriends8);
         tShowFriends9 = (TextView) findViewById(R.id.tShowFriends9);
 
-
         tShowFriends0.setClickable(true);
         tShowFriends1.setClickable(true);
         tShowFriends2.setClickable(true);
@@ -64,8 +63,6 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends7.setClickable(true);
         tShowFriends8.setClickable(true);
         tShowFriends9.setClickable(true);
-
-
 
         bMenu.setOnClickListener(this);
 
@@ -332,7 +329,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
                         TVIDs[i].setText(userNameList);
 
-
+                        int remSize = TVIDs.length - size;
+                        if(remSize < 10){
+                            TVIDs[TVIDs.length - remSize] = (TextView) findViewById(TVRIDs[TVIDs.length - remSize]);
+                            TVIDs[TVIDs.length - remSize].setText(" ");
+                        }
 
                         System.out.println("THIS IS THE FIRST NAME: " + firstNameList);
                         System.out.println("THIS IS THE LAST NAME: " + lastNameList);
@@ -343,18 +344,6 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         tempFirstLastNameHold(name, i);
                         tempUsernameHold(userNameList, i);
                     }
-                    int remSize = TVIDs.length - size;
-                    if(remSize == 0){
-                        //do nothing
-                    }
-                    else if (remSize != 0 && size != 0){
-                        for(int i = 0; i < remSize; i++){
-                            TVIDs[10-i] = (TextView) findViewById(TVRIDs[10-i]);
-                            TVIDs[10-i].setText(null);
-                            TVIDs[10-i].setClickable(false);
-                        }
-                    }
-
                 }
                 if(size == 0){
                     tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
