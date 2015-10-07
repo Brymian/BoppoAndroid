@@ -104,6 +104,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bYourProfile:
                 Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
                 yourProfileIntent.putExtra("Friend_Status", "Logged in user.");
+                yourProfileIntent.putExtra("Friend_UID", 1);
+                yourProfileIntent.putExtra("Friend_FirstLastName", "Damian is a fag");
+                yourProfileIntent.putExtra("Friend_Username", "DamianIsGay.com");
                 startActivity(yourProfileIntent);
                 break;
             case R.id.bSearchUser:

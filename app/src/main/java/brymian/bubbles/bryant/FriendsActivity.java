@@ -53,30 +53,18 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         tShowFriends8 = (TextView) findViewById(R.id.tShowFriends8);
         tShowFriends9 = (TextView) findViewById(R.id.tShowFriends9);
 
-        tShowFriends0.setClickable(true);
-        tShowFriends1.setClickable(true);
-        tShowFriends2.setClickable(true);
-        tShowFriends3.setClickable(true);
-        tShowFriends4.setClickable(true);
-        tShowFriends5.setClickable(true);
-        tShowFriends6.setClickable(true);
-        tShowFriends7.setClickable(true);
-        tShowFriends8.setClickable(true);
-        tShowFriends9.setClickable(true);
+        tShowFriends0.setClickable(false);
+        tShowFriends1.setClickable(false);
+        tShowFriends2.setClickable(false);
+        tShowFriends3.setClickable(false);
+        tShowFriends4.setClickable(false);
+        tShowFriends5.setClickable(false);
+        tShowFriends6.setClickable(false);
+        tShowFriends7.setClickable(false);
+        tShowFriends8.setClickable(false);
+        tShowFriends9.setClickable(false);
 
         bMenu.setOnClickListener(this);
-
-        tShowFriends0.setOnClickListener(this);
-        tShowFriends1.setOnClickListener(this);
-        tShowFriends2.setOnClickListener(this);
-        tShowFriends3.setOnClickListener(this);
-        tShowFriends4.setOnClickListener(this);
-        tShowFriends5.setOnClickListener(this);
-        tShowFriends6.setOnClickListener(this);
-        tShowFriends7.setOnClickListener(this);
-        tShowFriends8.setOnClickListener(this);
-        tShowFriends9.setOnClickListener(this);
-
     }
 
     @Override
@@ -321,19 +309,15 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                 }
                 if(size > 0) {
                     for (int i = 0; i < size; i++) {
-                        TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
+                        //TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
                         String userNameList = users.get(i).getUsername();
                         String firstNameList = users.get(i).getFirstName();
                         String lastNameList = users.get(i).getLastName();
                         int IDList = users.get(i).getUid();
 
                         TVIDs[i].setText(userNameList);
-
-                        int remSize = TVIDs.length - size;
-                        if(remSize < 10){
-                            TVIDs[TVIDs.length - remSize] = (TextView) findViewById(TVRIDs[TVIDs.length - remSize]);
-                            TVIDs[TVIDs.length - remSize].setText(" ");
-                        }
+                        TVIDs[i].setClickable(true);
+                        TVIDs[i].setOnClickListener(FriendsActivity.this);
 
                         System.out.println("THIS IS THE FIRST NAME: " + firstNameList);
                         System.out.println("THIS IS THE LAST NAME: " + lastNameList);
@@ -343,11 +327,17 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         tempIDHold(IDList, i);
                         tempFirstLastNameHold(name, i);
                         tempUsernameHold(userNameList, i);
+
                     }
                 }
                 if(size == 0){
                     tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
                     tShowFriends0.setText("No Results.");
+                }
+                int remSize = TVIDs.length - size;
+                if(remSize < 10){
+                    TVIDs[TVIDs.length - remSize] = (TextView) findViewById(TVRIDs[TVIDs.length - remSize]);
+                    TVIDs[TVIDs.length - remSize].setText(" ");
                 }
             }
         });

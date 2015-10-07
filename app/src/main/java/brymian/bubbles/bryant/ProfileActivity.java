@@ -110,7 +110,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         setBackground(uid, "Profile");
 
         //Setting the onClickListeners for the buttons
-        bMenu.setOnClickListener(this);
+        bMenu.setOnClickListener(this);     
         bAddFriend.setOnClickListener(this);
         bBlockUser.setOnClickListener(this);
         bMap.setOnClickListener(this);
@@ -119,8 +119,10 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bAddFriend:
-                if(returnTempUserNameHold().equals("Logged in user.")){
+                System.out.println("this is return temp user who hold: " + returnUserWhoHold());
+                if(returnUserWhoHold().equals("Logged in user.")){
                     Intent friendListIntent = new Intent(this, FriendsActivity.class);
+                    startActivity(friendListIntent);
                 }
                 else {
                     //need to change first two paramaters-----------------------

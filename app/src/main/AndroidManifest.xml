@@ -59,6 +59,7 @@
         <activity android:name=".bryant.MenuButtons.SettingsButtons.About"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.ChangeEmail"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.ChangePassword"></activity>
+        <activity android:name=".bryant.FriendsList"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
