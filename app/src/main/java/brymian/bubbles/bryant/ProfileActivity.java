@@ -1,15 +1,12 @@
 package brymian.bubbles.bryant;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -18,14 +15,13 @@ import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
-import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
     TextView tProfileName;
-    ImageButton bMenu, bBlockUser, bMap, bAddFriend;
+    ImageButton bMenu, bLeft, bRight, bMiddle;
     int[] IDhold = new int[1];
-    String[] userWhoArray = new String[1];
+    String[] firstLastNameArray = new String[1];
     String[] userNameArray = new String[1];
     String[] friendStatusArray = new String[1];
 
@@ -36,10 +32,10 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         //Linking xml IDs with java IDs
         tProfileName = (TextView) findViewById(R.id.tProfileName);
 
-        bAddFriend = (ImageButton) findViewById(R.id.bAddFriend);
+        bMiddle = (ImageButton) findViewById(R.id.bMiddle);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
-        bBlockUser = (ImageButton) findViewById(R.id.bBlockUser);
-        bMap = (ImageButton) findViewById(R.id.bMap);
+        bLeft = (ImageButton) findViewById(R.id.bLeft);
+        bRight = (ImageButton) findViewById(R.id.bRight);
 
         //Getting the information from FriendsActivity using putExtra()
         String friendStatusString;
@@ -54,16 +50,16 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 username = null;
                 uid = 0;
             } else {
-                friendStatusString = extras.getString("Friend_Status");
-                first_lastName = extras.getString("Friend_FirstLastName");
-                username = extras.getString("Friend_Username");
-                uid = extras.getInt("Friend_UID");
+                friendStatusString = extras.getString("status");
+                first_lastName = extras.getString("firstLastName");
+                username = extras.getString("username");
+                uid = extras.getInt("uid");
             }
         } else {
-            friendStatusString = (String) savedInstanceState.getSerializable("Friend_Status");
-            first_lastName = (String) savedInstanceState.getSerializable("Friend_FirstLastName");
-            username = (String) savedInstanceState.getSerializable("Friend_Username");
-            uid = (Integer) savedInstanceState.getSerializable("Friend_UID");
+            friendStatusString = (String) savedInstanceState.getSerializable("status");
+            first_lastName = (String) savedInstanceState.getSerializable("firstLastName");
+            username = (String) savedInstanceState.getSerializable("username");
+            uid = savedInstanceState.getInt("uid");
         }
 
         //Checking for output
@@ -73,60 +69,71 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         System.out.println("THIS IS FROM PROFILE ACTIVITY (uid): " + uid);
         //-------------------------------------------------------------------------------------
 
+        setButtons(friendStatusString);
+        setFriendStatus(friendStatusString);
+        setID(uid);
+        setUsername(username);
+        setBackground(uid, "Profile");
+
+        tProfileName.setText(first_lastName);
+        //Setting the onClickListeners for the buttons
+        bMenu.setOnClickListener(this);     
+        bMiddle.setOnClickListener(this);
+        bLeft.setOnClickListener(this);
+        bRight.setOnClickListener(this);
+    }
+
+    void setButtons(String friendStatus){
         Drawable blockingDrawable = getResources().getDrawable(R.mipmap.blockblack_nopadding);
         Drawable addfriendDrawable = getResources().getDrawable(R.mipmap.addfriend_nopadding);
         Drawable friendslistDrawable = getResources().getDrawable(R.mipmap.friendslist_nopadding);
         Drawable globeDrawable = getResources().getDrawable(R.mipmap.globeblackwhite_nopadding);
+        switch(friendStatus){
+            case "Not friends.":
+                bMiddle.setImageDrawable(addfriendDrawable);
+                bLeft.setImageDrawable(blockingDrawable);
+                bRight.setImageDrawable(globeDrawable);
+                break;
+            case "Already sent friend request to user.":
+                bMiddle.setImageDrawable(addfriendDrawable);
+                //bAddFriend.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
+                bLeft.setImageDrawable(blockingDrawable);
+                bRight.setImageDrawable(globeDrawable);
+                break;
+            case "Already friends with user.":
+                bMiddle.setImageDrawable(friendslistDrawable);
+                bLeft.setImageDrawable(blockingDrawable);
+                bRight.setImageDrawable(globeDrawable);
+                break;
+            case "Logged in user.":
+                bMiddle.setImageDrawable(friendslistDrawable);
+                bLeft.setImageDrawable(blockingDrawable);
+                bRight.setImageDrawable(globeDrawable);
+                setFirstLastName("Logged in user.");//Need to change this to logged in user's name.
+                break;
+            case "User is awaiting confirmation for friend request.":
 
-        if(friendStatusString.toString().equals("Not friends.")){
-            bAddFriend.setImageDrawable(addfriendDrawable);
-            bBlockUser.setImageDrawable(blockingDrawable);
-            bMap.setImageDrawable(globeDrawable);
-            tempUserWhoHold(first_lastName);
-        }
-        else if(friendStatusString.toString().equals("Already sent friend request to user.")){
-            bAddFriend.setImageDrawable(addfriendDrawable);
-            //bAddFriend.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
-            bBlockUser.setImageDrawable(blockingDrawable);
-            bMap.setImageDrawable(globeDrawable);
-            tempUserWhoHold(first_lastName);
-        }
-        else if(friendStatusString.toString().equals("Already friends with user.")){
-            bAddFriend.setImageDrawable(friendslistDrawable);
-            bBlockUser.setImageDrawable(blockingDrawable);
-            bMap.setImageDrawable(globeDrawable);
-            tempUserWhoHold(first_lastName);
-        }
-        else if (friendStatusString.toString().equals("Logged in user.")){
-            bAddFriend.setImageDrawable(friendslistDrawable);
-            bBlockUser.setImageDrawable(blockingDrawable);
-            bMap.setImageDrawable(globeDrawable);
-            tempUserWhoHold("Logged in user.");
-            //tempIDhold(loggedInUserID);
-        }
-        tempIDhold(uid);
-        tempUserNameHold(username);
-        tProfileName.setText(first_lastName);
-        setBackground(uid, "Profile");
+                break;
+            case "User is currently being blocked.":
 
-        //Setting the onClickListeners for the buttons
-        bMenu.setOnClickListener(this);     
-        bAddFriend.setOnClickListener(this);
-        bBlockUser.setOnClickListener(this);
-        bMap.setOnClickListener(this);
+                break;
+            case "Currently being blocked by user.":
+
+                break;
+        }
     }
 
     public void onClick(View view){
         switch (view.getId()){
-            case R.id.bAddFriend:
-                System.out.println("this is return temp user who hold: " + returnUserWhoHold());
-                if(returnUserWhoHold().equals("Logged in user.")){
+            case R.id.bMiddle:
+                System.out.println("this is return temp user who hold: " + getFirstLastName());
+                if(getFirstLastName().equals("Logged in user.")){
                     Intent friendListIntent = new Intent(this, FriendsActivity.class);
                     startActivity(friendListIntent);
                 }
                 else {
                     //need to change first two paramaters-----------------------
-                    new ServerRequest(this).setFriendStatus(1, returnTempIDHold(), new StringCallback() {
+                    new ServerRequest(this).setFriendStatus(1, getID(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println("ADD FRIEND BUTTON OUTPUT: " + string);
@@ -142,17 +149,17 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
                 break;
-            case R.id.bBlockUser:
+            case R.id.bLeft:
                 //Intent cameraIntent = new Intent(this, CameraActivity.class);
                 //startActivity(cameraIntent);
                 break;
-            case R.id.bMap:
+            case R.id.bRight:
                 Intent mapIntent = new Intent(this, MapsActivity.class);
-                String userWho = returnUserWhoHold();
-                String userName = returnTempUserNameHold();
-                int userID = returnTempIDHold();
+                String userWho = getFirstLastName();
+                String userName = getUsername();
+                int userID = getID();
 
-                if(userWho.toString().equals("Logged in user.")){
+                if(userWho.equals("Logged in user.")){
                     mapIntent.putExtra("userWho", userWho);
                     mapIntent.putExtra("userName", userName);
                     startActivity(mapIntent);
@@ -176,35 +183,35 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         });
     }
 
-    void tempIDhold(int uid){
+    void setID(int uid){
         IDhold[0] = uid;
     }
 
-    void tempUserWhoHold(String input){
-        userWhoArray[0] = input;
+    void setFirstLastName(String input){
+        firstLastNameArray[0] = input;
     }
 
-    void tempUserNameHold(String input){
+    void setUsername(String input){
         userNameArray[0] = input;
     }
 
-    void tempFriendStatusHold(String input){
+    void setFriendStatus(String input){
         friendStatusArray[0] = input;
     }
 
-    int returnTempIDHold(){
+    int getID(){
         return IDhold[0];
     }
 
-    String returnUserWhoHold(){
-        return userWhoArray[0];
+    String getFirstLastName(){
+        return firstLastNameArray[0];
     }
 
-    String returnTempUserNameHold(){
+    String getUsername(){
         return userNameArray[0];
     }
 
-    String returnTempFriendStatusHold(){
+    String getFriendStatus(){
         return friendStatusArray[0];
     }
 }

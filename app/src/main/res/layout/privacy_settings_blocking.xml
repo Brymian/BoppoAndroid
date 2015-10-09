@@ -1,25 +1,29 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <ImageButton
-            android:id="@+id/bGoBack"
+            android:id="@+id/ibMenu"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:src="@mipmap/three_line_menu_w_pad"
+            android:background="@android:color/transparent"/>
         <TextView
-            android:id="@+id/tMainText"
-            android:layout_width="wrap_content"
+            android:id="@+id/tProfileBackground"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Blocking"/>
-    </LinearLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="People you have blocked"/>
+            android:text="Blocking"
+            android:gravity="center_vertical"
+            android:textSize="25dp"
+            android:textIsSelectable="false"
+            android:paddingLeft="10dp" />
 
-</RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

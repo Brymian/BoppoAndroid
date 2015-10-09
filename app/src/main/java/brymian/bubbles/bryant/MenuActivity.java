@@ -9,12 +9,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeEmail;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.LogOut;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
@@ -23,9 +25,9 @@ import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
-    Button bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
-    Button bNotifications, bAbout;
-    Button bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser;
+    TextView bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
+    TextView bNotifications, bAbout, bBlocking;
+    TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser;
     ImageButton ibMap;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -35,21 +37,22 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         ibMap = (ImageButton) findViewById(R.id.ibMap);
 
         //Account Buttons
-        bChangePassword = (Button) findViewById(R.id.bChangePassword);
-        bChangeEmail = (Button) findViewById(R.id.bChangeEmail);
-        bLogOut = (Button) findViewById(R.id.bLogOut);
-        bSyncWIthDFacebook = (Button) findViewById(R.id.bSyncWithFacebook);
+        bChangePassword = (TextView) findViewById(R.id.bChangePassword);
+        bChangeEmail = (TextView) findViewById(R.id.bChangeEmail);
+        bLogOut = (TextView) findViewById(R.id.bLogOut);
+        bSyncWIthDFacebook = (TextView) findViewById(R.id.bSyncWithFacebook);
 
         //Settings Buttons
-        bNotifications = (Button) findViewById(R.id.bNotifications);
-        bAbout = (Button) findViewById(R.id.bAbout);
+        bNotifications = (TextView) findViewById(R.id.bNotifications);
+        bAbout = (TextView) findViewById(R.id.bAbout);
+        bBlocking = (TextView) findViewById(R.id.bBlocking);
 
         //Profile Buttons
-        bYourProfile = (Button) findViewById(R.id.bYourProfile);
-        bProfileBackground = (Button) findViewById(R.id.bProfileBackground);
-        bProfileName = (Button) findViewById(R.id.bProfileName);
-        bProfilePrivacy = (Button) findViewById(R.id.bProfilePrivacy);
-        bSearchUser = (Button) findViewById(R.id.bSearchUser);
+        bYourProfile = (TextView) findViewById(R.id.bYourProfile);
+        bProfileBackground = (TextView) findViewById(R.id.bProfileBackground);
+        bProfileName = (TextView) findViewById(R.id.bProfileName);
+        bProfilePrivacy = (TextView) findViewById(R.id.bProfilePrivacy);
+        bSearchUser = (TextView) findViewById(R.id.bSearchUser);
 
         //Account onClickListeners
         bChangePassword.setOnClickListener(this);
@@ -60,6 +63,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         //Settings onClickListeners
         bNotifications.setOnClickListener(this);
         bAbout.setOnClickListener(this);
+        bBlocking.setOnClickListener(this);
 
         //Profile onClickListeners
         bProfileBackground.setOnClickListener(this);
@@ -100,13 +104,17 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 Intent aboutIntent = new Intent(this, About.class);
                 startActivity(aboutIntent);
                 break;
+            case R.id.bBlocking:
+                Intent blockingIntent = new Intent(this, Blocking.class);
+                startActivity(blockingIntent);
+                break;
             //Profile
             case R.id.bYourProfile:
                 Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
-                yourProfileIntent.putExtra("Friend_Status", "Logged in user.");
-                yourProfileIntent.putExtra("Friend_UID", 1);
-                yourProfileIntent.putExtra("Friend_FirstLastName", "Damian is a fag");
-                yourProfileIntent.putExtra("Friend_Username", "DamianIsGay.com");
+                yourProfileIntent.putExtra("status", "Logged in user.");
+                yourProfileIntent.putExtra("uid", 1);
+                yourProfileIntent.putExtra("firstLastName", "Damian is a fag");
+                yourProfileIntent.putExtra("username", "DamianIsGay.com");
                 startActivity(yourProfileIntent);
                 break;
             case R.id.bSearchUser:

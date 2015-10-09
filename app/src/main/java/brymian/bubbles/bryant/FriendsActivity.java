@@ -83,10 +83,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_FirstLastName", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -103,10 +103,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_FirstLastName", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -122,10 +122,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -141,10 +141,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -160,10 +160,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -179,10 +179,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -198,10 +198,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -217,10 +217,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -236,10 +236,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -255,10 +255,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         @Override
                         public void done(String string) {
                             System.out.println(string);
-                            intent.putExtra("Friend_Status", string);
-                            intent.putExtra("Friend_Username", name);
-                            intent.putExtra("Friend_UID", ID);
-                            intent.putExtra("Friend_Username", username);
+                            intent.putExtra("status", string);
+                            intent.putExtra("firstLastName", name);
+                            intent.putExtra("uid", ID);
+                            intent.putExtra("username", username);
                             startActivity(intent);
                         }
                     });
@@ -334,11 +334,13 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                     tShowFriends0 = (TextView) findViewById(R.id.tShowFriends0);
                     tShowFriends0.setText("No Results.");
                 }
+                /**
                 int remSize = TVIDs.length - size;
                 if(remSize < 10){
                     TVIDs[TVIDs.length - remSize] = (TextView) findViewById(TVRIDs[TVIDs.length - remSize]);
                     TVIDs[TVIDs.length - remSize].setText(" ");
                 }
+                 **/
             }
         });
     }

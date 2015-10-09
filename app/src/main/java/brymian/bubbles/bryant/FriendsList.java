@@ -28,6 +28,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friendslist);
 
+
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
         tUsersName = (TextView) findViewById(R.id.tUsersName);
 
@@ -61,40 +62,122 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
     }
 
     public void onClick(View v){
+        final Intent profileIntent = new Intent(this, ProfileActivity.class);
+        final String friendStatus = "Already friends with user.";
         switch (v.getId()){
             case R.id.ibMenu:
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
                 break;
             case R.id.tFriend0:
+                final int uid0 = getUID(0);
+                final String firstLastName0 = getFirstLastName(0);
+                final String username0 = getUserName(0);
 
+                profileIntent.putExtra("firstLastName", firstLastName0);
+                profileIntent.putExtra("username", username0);
+                profileIntent.putExtra("UID", uid0);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend1:
+                final int uid1 = getUID(1);
+                final String firstLastName1 = getFirstLastName(1);
+                final String username1 = getUserName(1);
 
+                profileIntent.putExtra("firstLastName", firstLastName1);
+                profileIntent.putExtra("username", username1);
+                profileIntent.putExtra("UID", uid1);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend2:
+                final int uid2 = getUID(2);
+                final String firstLastName2 = getFirstLastName(2);
+                final String username2 = getUserName(2);
 
+                profileIntent.putExtra("firstLastName", firstLastName2);
+                profileIntent.putExtra("username", username2);
+                profileIntent.putExtra("UID", uid2);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend3:
+                final int uid3 = getUID(3);
+                final String firstLastName3 = getFirstLastName(3);
+                final String username3 = getUserName(3);
 
+                profileIntent.putExtra("firstLastName", firstLastName3);
+                profileIntent.putExtra("username", username3);
+                profileIntent.putExtra("UID", uid3);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend4:
+                final int uid4 = getUID(4);
+                final String firstLastName4 = getFirstLastName(4);
+                final String username4 = getUserName(4);
 
+                profileIntent.putExtra("firstLastName", firstLastName4);
+                profileIntent.putExtra("username", username4);
+                profileIntent.putExtra("UID", uid4);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend5:
+                final int uid5 = getUID(5);
+                final String firstLastName5 = getFirstLastName(5);
+                final String username5 = getUserName(5);
 
+                profileIntent.putExtra("firstLastName", firstLastName5);
+                profileIntent.putExtra("username", username5);
+                profileIntent.putExtra("UID", uid5);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend6:
+                final int uid6 = getUID(6);
+                final String firstLastName6 = getFirstLastName(6);
+                final String username6 = getUserName(6);
 
+                profileIntent.putExtra("firstLastName", firstLastName6);
+                profileIntent.putExtra("username", username6);
+                profileIntent.putExtra("UID", uid6);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend7:
+                final int uid7 = getUID(7);
+                final String firstLastName7 = getFirstLastName(7);
+                final String username7 = getUserName(7);
 
+                profileIntent.putExtra("firstLastName", firstLastName7);
+                profileIntent.putExtra("username", username7);
+                profileIntent.putExtra("UID", uid7);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend8:
+                final int uid8 = getUID(8);
+                final String firstLastName8 = getFirstLastName(8);
+                final String username8 = getUserName(8);
 
+                profileIntent.putExtra("firstLastName", firstLastName8);
+                profileIntent.putExtra("username", username8);
+                profileIntent.putExtra("UID", uid8);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
             case R.id.tFriend9:
+                final int uid9 = getUID(9);
+                final String firstLastName9 = getFirstLastName(9);
+                final String username9 = getUserName(9);
 
+                profileIntent.putExtra("firstLastName", firstLastName9);
+                profileIntent.putExtra("username", username9);
+                profileIntent.putExtra("UID", uid9);
+                profileIntent.putExtra("status", friendStatus);
+                startActivity(profileIntent);
                 break;
 
         }
@@ -122,9 +205,9 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                         TVIDS[i].setOnClickListener(FriendsList.this);
 
                         String firstLastName = friendFirstName + " " + friendLastName;
-                        nameTempHold(i, firstLastName);
-                        UIDTempHold(i, friendUID);
-                        userNameTempHold(i, friendUsername);
+                        setFirstLastName(i, firstLastName);
+                        setUID(i, friendUID);
+                        setUsername(i, friendUsername);
                     }
                 }
                 else if (friendListSize == 0){
@@ -134,27 +217,27 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         });
     }
 
-    void userNameTempHold(int i, String userName){
+    void setUsername(int i, String userName){
         friendUserNameTempHold[i] = userName;
     }
 
-    void  nameTempHold(int i, String friendName){
+    void  setFirstLastName(int i, String friendName){
         friendNameTempHold[i] = friendName;
     }
 
-    void UIDTempHold(int i, int UID){
+    void setUID(int i, int UID){
         friendUIDTempHold[i] = UID;
     }
 
-    String returnUserName(int location){
+    String getUserName(int location){
         return friendUserNameTempHold[location];
     }
 
-    String returnName(int location){
+    String getFirstLastName(int location){
         return friendNameTempHold[location];
     }
 
-    int returnUID(int location){
+    int getUID(int location){
         return friendUIDTempHold[location];
     }
 }
