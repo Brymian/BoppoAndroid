@@ -49,9 +49,9 @@ public class ServerRequest {
         new CreateUserFacebook(user, stringCallback).execute();
     }
 
-    public void syncUserFacebook(int uid, String facebookUid, StringCallback stringCallback) {
+    public void linkUserFacebook(int uid, String facebookUid, StringCallback stringCallback) {
         pd.show();
-        new SyncUserFacebook(uid, facebookUid, stringCallback).execute();
+        new LinkUserFacebook(uid, facebookUid, stringCallback).execute();
     }
 
     public void authUserNormal(User user, VoidCallback voidCallback) {
@@ -89,9 +89,9 @@ public class ServerRequest {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
-    public void setUserAccountPrivacyLabel(int uid, String privacyLabel, StringCallback stringCallback) {
+    public void setUserAccountPrivacy(int uid, String privacyLabel, StringCallback stringCallback) {
         pd.show();
-        new SetUserAccountPrivacyLabel(uid, privacyLabel, stringCallback).execute();
+        new SetUserAccountPrivacy(uid, privacyLabel, stringCallback).execute();
     }
 
     public void setUserImagePurpose(int uid, int uiid, String purposeLabel, StringCallback stringCallback) {
@@ -106,6 +106,12 @@ public class ServerRequest {
         pd.show();
         new UploadImage(uid, userImageName, userImagePurposeLabel, userImagePrivacyLabel,
             userImageGpsLatitude, userImageGpsLongitude, userImage, stringCallback).execute();
+    }
+
+    public void deleteImage(int uid, int uiid, StringCallback stringCallback)
+    {
+        pd.show();
+        new DeleteImage(uid, uiid, stringCallback).execute();
     }
 
     /*
@@ -194,13 +200,13 @@ public class ServerRequest {
 
     }
 
-    private class SyncUserFacebook extends AsyncTask<Void, Void, String> {
+    private class LinkUserFacebook extends AsyncTask<Void, Void, String> {
 
         int uid;
         String facebookUid;
         StringCallback stringCallback;
 
-        private SyncUserFacebook(int uid, String facebookUid, StringCallback stringCallback) {
+        private LinkUserFacebook(int uid, String facebookUid, StringCallback stringCallback) {
             this.uid = uid;
             this.facebookUid = facebookUid;
             this.stringCallback = stringCallback;
@@ -598,6 +604,8 @@ public class ServerRequest {
             try {
 
                 String response = request.post(url, jsonGetImagePaths);
+                System.out.println("URL: " + url);
+                System.out.println("jsonGetImagePaths: " + jsonGetImagePaths);
                 System.out.println("RESPONSE: " + response);
 
                 if (response.equals("PURPOSE DOES NOT EXIST IN THE DATABASE."))
@@ -693,13 +701,13 @@ public class ServerRequest {
 
     }
 
-    private class SetUserAccountPrivacyLabel extends AsyncTask<Void, Void, String> {
+    private class SetUserAccountPrivacy extends AsyncTask<Void, Void, String> {
 
         int uid;
         String userAccountPrivacyLabel;
         StringCallback stringCallback;
 
-        private SetUserAccountPrivacyLabel(int uid, String userAccountPrivacyLabel, StringCallback stringCallback) {
+        private SetUserAccountPrivacy(int uid, String userAccountPrivacyLabel, StringCallback stringCallback) {
             this.uid = uid;
             this.userAccountPrivacyLabel = userAccountPrivacyLabel;
             this.stringCallback = stringCallback;
@@ -861,6 +869,56 @@ public class ServerRequest {
             } catch (IOException ioe) {
                 return ioe.toString();
             } catch (JSONException jsone) {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+    private class DeleteImage extends AsyncTask<Void, Void, String> {
+
+        int uid;
+        int uiid;
+        StringCallback stringCallback;
+
+        private DeleteImage(int uid, int uiid, StringCallback stringCallback) {
+
+            this.uid = uid;
+            this.uiid = uiid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=deleteImage";
+
+            try
+            {
+                JSONObject jsonImageObject = new JSONObject();
+                jsonImageObject.put("uid", uid);
+                jsonImageObject.put("uiid", uiid);
+
+                String jsonImage = jsonImageObject.toString();
+                Post request = new Post();
+
+                String response = request.post(url, jsonImage);
+                return response; // Successful SQL command returns one empty space (" ")
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
                 return jsone.toString();
             }
         }

@@ -309,7 +309,7 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                 }
                 if(size > 0) {
                     for (int i = 0; i < size; i++) {
-                        //TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
+                        TVIDs[i] = (TextView) findViewById(TVRIDs[i]);
                         String userNameList = users.get(i).getUsername();
                         String firstNameList = users.get(i).getFirstName();
                         String lastNameList = users.get(i).getLastName();

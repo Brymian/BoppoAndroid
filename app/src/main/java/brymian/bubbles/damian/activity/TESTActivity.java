@@ -116,7 +116,6 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
         new ServerRequest(this).getImages(1, "All", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -131,7 +130,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
+
         /*
         int uidA = 1;
         String facebookUid = "1098660393497582";
@@ -152,6 +151,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         int uid = 1;
         int uiid = 32;
         String purposeLabel = "Regular";
@@ -161,6 +161,17 @@ public class TESTActivity extends Activity {
                 System.out.println("RESULT: " + string);
             }
         });
+        */
+        /*
+        int uid = 1;
+        int uiid = 30;
+        new ServerRequest(this).deleteImage(uid, uiid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESULT: " + string);
+            }
+        });
+        */
     }
 
 }

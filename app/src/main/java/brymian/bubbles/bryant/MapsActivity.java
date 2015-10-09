@@ -66,17 +66,17 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         //Checking for output
         System.out.println("THIS IS FROM MAPSACTIVITY (userWho): " + userWho);
-        System.out.println("THIS IS FROM MAPSACTIVITY (userID: " + userID);
+        System.out.println("THIS IS FROM MAPSACTIVITY (userID}: " + userID);
         System.out.println("THIS IS FROM MAPSACTIVITY (userName): " + userName);
         //--------------------------------------------------------
 
-        if(userWho.toString().equals("Logged in user.")){
+        if(userWho.equals("Logged in user.")){
             tvTitle.setText("Your Map");
             bCamera.setImageDrawable(cameraDrawable);
             bSearch.setImageDrawable(searchDrawable);
             bLeftButton.setImageDrawable(playDrawable);
         }
-        else if(userWho.toString().equals("Everyone.")){
+        else if(userWho.equals("Everyone.")){
             tvTitle.setText("Visit Anywhere!");
             bCamera.setImageDrawable(cameraDrawable);
             bSearch.setImageDrawable(searchDrawable);
