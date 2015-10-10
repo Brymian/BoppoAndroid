@@ -32,6 +32,8 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
@@ -44,8 +46,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class CameraActivity extends Activity implements View.OnClickListener{
-    private static final String SERVER_ADDRESS = "http://73.194.170.63:8080/";
-
     private static int TAKE_PICTURE = 1;
     private Uri imageUri;
 
@@ -70,13 +70,22 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bUploadImage:
-                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
-                new UploadImage(user.getUid(), image, imageName()).execute();
+                Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                new ServerRequest(this).uploadImage(1, imageName(), "Regular", "asda", 1212, 12121, encodedImage, new StringCallback() {
+                    @Override
+                    public void done(String string) {
+
+                    }
+                });
                 break;
         }
     }
+
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
@@ -112,54 +121,4 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             }
         }
     }
-
-    private class UploadImage extends AsyncTask<Void, Void, Void> {
-
-        Bitmap image;
-        String name;
-        int uid;
-        public UploadImage(int uid, Bitmap image, String name){
-            this.image = image;
-            this.name = name;
-            this.uid = uid;
-        }
-        @Override
-        protected Void doInBackground(Void... params){
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-            String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-
-            ArrayList<NameValuePair> dataToSend = new ArrayList<>();
-            dataToSend.add(new BasicNameValuePair("image", encodedImage));
-            dataToSend.add(new BasicNameValuePair("name", name));
-            dataToSend.add(new BasicNameValuePair("uid", Integer.toString(uid)));
-
-            HttpParams httpRequestParams = getHttpRequestParams();
-
-            HttpClient client = new DefaultHttpClient(httpRequestParams);
-            HttpPost post = new HttpPost(SERVER_ADDRESS + "BubblesServer/DBIO/uploadImage.php");
-
-            try {
-                post.setEntity(new UrlEncodedFormEntity(dataToSend));
-                client.execute(post);
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            Toast.makeText(getApplicationContext(), "Image Uploaded", Toast.LENGTH_SHORT).show();
-        }
-    }
-    private HttpParams getHttpRequestParams(){
-        HttpParams httpRequestParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpRequestParams, 1000 * 30);
-        HttpConnectionParams.setSoTimeout(httpRequestParams, 1000* 30);
-        return httpRequestParams;
-    }
-
 }

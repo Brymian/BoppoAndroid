@@ -39,58 +39,35 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bMenu = (ImageButton) findViewById(R.id.bMenu);
         bLeftButton = (ImageButton) findViewById(R.id.bLeftButton);
 
-        //Making Drawables
-        Drawable cameraDrawable = getResources().getDrawable(R.mipmap.camera_nopadding);
-        Drawable searchDrawable = getResources().getDrawable(R.mipmap.search_nopadding);
-        Drawable playDrawable = getResources().getDrawable(R.mipmap.play_nopadding);
+
 
         //Making sure if there are any putExtras() coming in from ProfileActivity
-        String userWho, userName;
-        int userID;
+        String firstLastName, username;
+        int UID;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                userWho = null;
-                userName = null;
-                userID = 0;
+                firstLastName = null;
+                username = null;
+                UID = 0;
             } else {
-                userWho = extras.getString("userWho");
-                userName = extras.getString("userName");
-                userID = extras.getInt("userID");
+                firstLastName = extras.getString("firstLastName");
+                username = extras.getString("username");
+                UID = extras.getInt("uid");
             }
         } else {
-            userWho = (String) savedInstanceState.getSerializable("userWho");
-            userName = (String) savedInstanceState.getSerializable("userName");
-            userID = (Integer) savedInstanceState.getSerializable("userID");
+            firstLastName = (String) savedInstanceState.getSerializable("firstLastName");
+            username = (String) savedInstanceState.getSerializable("username");
+            UID = savedInstanceState.getInt("uid");
         }
 
         //Checking for output
-        System.out.println("THIS IS FROM MAPSACTIVITY (userWho): " + userWho);
-        System.out.println("THIS IS FROM MAPSACTIVITY (userID}: " + userID);
-        System.out.println("THIS IS FROM MAPSACTIVITY (userName): " + userName);
+        System.out.println("THIS IS FROM MAPSACTIVITY (firstLastName): " + firstLastName);
+        System.out.println("THIS IS FROM MAPSACTIVITY (uid}: " + UID);
+        System.out.println("THIS IS FROM MAPSACTIVITY (username): " + username);
         //--------------------------------------------------------
 
-        if(userWho.equals("Logged in user.")){
-            tvTitle.setText("Your Map");
-            bCamera.setImageDrawable(cameraDrawable);
-            bSearch.setImageDrawable(searchDrawable);
-            bLeftButton.setImageDrawable(playDrawable);
-        }
-        else if(userWho.equals("Everyone.")){
-            tvTitle.setText("Visit Anywhere!");
-            bCamera.setImageDrawable(cameraDrawable);
-            bSearch.setImageDrawable(searchDrawable);
-            bLeftButton.setImageDrawable(playDrawable);
-        }
-        else if(userWho == null){
-            Toast.makeText(this, "Something went wrong!", Toast.LENGTH_SHORT).show();
-        }
-        else{
-            tvTitle.setText(userName + "'s Map");
-            bCamera.setImageDrawable(cameraDrawable);
-            bSearch.setImageDrawable(searchDrawable);
-            bLeftButton.setImageDrawable(playDrawable);
-        }
+        setButtons(firstLastName, username, UID);
 
         //Setting onClickListeners for all buttons
         bLeftButton.setOnClickListener(this);
@@ -98,6 +75,36 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bSearch.setOnClickListener(this);
         bMenu.setOnClickListener(this);
     }
+
+    void setButtons(String firstLastName, String username, int UID){
+        //Making Drawables
+        Drawable cameraDrawable = getResources().getDrawable(R.mipmap.camera_nopadding);
+        Drawable searchDrawable = getResources().getDrawable(R.mipmap.search_nopadding);
+        Drawable playDrawable = getResources().getDrawable(R.mipmap.play_nopadding);
+
+        switch (firstLastName){
+            case "Logged in user.":
+                tvTitle.setText("Your Map");
+                bCamera.setImageDrawable(cameraDrawable);
+                bSearch.setImageDrawable(searchDrawable);
+                bLeftButton.setImageDrawable(playDrawable);
+                break;
+            case "Everyone.":
+                tvTitle.setText("Visit Anywhere!");
+                bCamera.setImageDrawable(cameraDrawable);
+                bSearch.setImageDrawable(searchDrawable);
+                bLeftButton.setImageDrawable(playDrawable);
+                break;
+            default:
+                tvTitle.setText(username + "'s Map");
+                bCamera.setImageDrawable(cameraDrawable);
+                bSearch.setImageDrawable(searchDrawable);
+                bLeftButton.setImageDrawable(playDrawable);
+                break;
+
+        }
+    }
+
 
     //----------------BUTTONS-----------------------------
     @Override

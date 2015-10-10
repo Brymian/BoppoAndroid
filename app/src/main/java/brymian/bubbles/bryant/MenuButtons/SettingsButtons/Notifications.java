@@ -14,7 +14,7 @@ import brymian.bubbles.bryant.MenuActivity;
 public class Notifications extends FragmentActivity {
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.notifications);
     }
     public void onClickMenu(View v){
         Intent menuIntent = new Intent(this, MenuActivity.class);

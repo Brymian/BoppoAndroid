@@ -39,43 +39,44 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
         //Getting the information from FriendsActivity using putExtra()
         String friendStatusString;
-        String first_lastName;
+        String firstLastName;
         String username;
         int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 friendStatusString = null;
-                first_lastName = null;
+                firstLastName = null;
                 username = null;
                 uid = 0;
             } else {
                 friendStatusString = extras.getString("status");
-                first_lastName = extras.getString("firstLastName");
+                firstLastName = extras.getString("firstLastName");
                 username = extras.getString("username");
                 uid = extras.getInt("uid");
             }
         } else {
             friendStatusString = (String) savedInstanceState.getSerializable("status");
-            first_lastName = (String) savedInstanceState.getSerializable("firstLastName");
+            firstLastName = (String) savedInstanceState.getSerializable("firstLastName");
             username = (String) savedInstanceState.getSerializable("username");
             uid = savedInstanceState.getInt("uid");
         }
 
         //Checking for output
         System.out.println("THIS IS FROM PROFILE ACTIVITY (friendStatus): " + friendStatusString);
-        System.out.println("THIS IS FROM PROFILE ACTIVITY (first_lastname): " + first_lastName);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY (firstLastName): " + firstLastName);
         System.out.println("THIS IS FROM PROFILE ACTIVITY (username): " + username);
         System.out.println("THIS IS FROM PROFILE ACTIVITY (uid): " + uid);
         //-------------------------------------------------------------------------------------
 
         setButtons(friendStatusString);
         setFriendStatus(friendStatusString);
+        setFirstLastName(firstLastName);
         setID(uid);
         setUsername(username);
         setBackground(uid, "Profile");
 
-        tProfileName.setText(first_lastName);
+        tProfileName.setText(firstLastName);
         //Setting the onClickListeners for the buttons
         bMenu.setOnClickListener(this);     
         bMiddle.setOnClickListener(this);
@@ -127,12 +128,12 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         switch (view.getId()){
             case R.id.bMiddle:
                 System.out.println("this is return temp user who hold: " + getFirstLastName());
-                if(getFirstLastName().equals("Logged in user.")){
+                if(getFriendStatus().equals("Logged in user.")){
                     Intent friendListIntent = new Intent(this, FriendsActivity.class);
                     startActivity(friendListIntent);
                 }
                 else {
-                    //need to change first two paramaters-----------------------
+                    //need to change first two parameters-----------------------
                     new ServerRequest(this).setFriendStatus(1, getID(), new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -155,21 +156,22 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 break;
             case R.id.bRight:
                 Intent mapIntent = new Intent(this, MapsActivity.class);
-                String userWho = getFirstLastName();
-                String userName = getUsername();
-                int userID = getID();
+                String firstLastName = getFirstLastName();
+                String username = getUsername();
+                int UID = getID();
 
                 if(getFriendStatus().equals("Logged in user.")){
-                    mapIntent.putExtra("userWho", userWho);
-                    mapIntent.putExtra("userName", userName);
+                    mapIntent.putExtra("firstLastName", "Damian");
+                    mapIntent.putExtra("username", "damianisgay");
+                    mapIntent.putExtra("uid", 1);
                     startActivity(mapIntent);
                 }
                 else {
-                    mapIntent.putExtra("userWho", userWho);
-                    mapIntent.putExtra("userName", userName);
+                    mapIntent.putExtra("firstLastName", firstLastName);
+                    mapIntent.putExtra("username", username);
+                    mapIntent.putExtra("uid", UID);
                     startActivity(mapIntent);
                 }
-
                 break;
         }
     }

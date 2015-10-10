@@ -71,6 +71,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         imageView4.setOnClickListener(this);
 
         bSave.setOnClickListener(this);
+        ibMenu.setOnClickListener(this);
     }
 
     public void onClick(View view){
@@ -79,6 +80,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
             case R.id.ibMenu:
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
+                break;
             case R.id.ivImageView1:
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_1);;
                 break;
