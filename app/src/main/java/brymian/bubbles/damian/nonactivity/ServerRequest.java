@@ -39,6 +39,18 @@ public class ServerRequest {
         pd.setMessage("Please wait...");
     }
 
+    public void changeEmail(int uid, String newEmail, StringCallback stringCallback)
+    {
+        pd.show();
+        new ChangeEmail(uid, newEmail, stringCallback).execute();
+    }
+
+    public void changePassword(int uid, String newPassword, StringCallback stringCallback)
+    {
+        pd.show();
+        new ChangePassword(uid, newPassword, stringCallback).execute();
+    }
+
     public void createUserNormal(User user, StringCallback stringCallback) {
         pd.show();
         new CreateUserNormal(user, stringCallback).execute();
@@ -120,6 +132,98 @@ public class ServerRequest {
         new UploadVideo(name, stringCallback).execute();
     }
     */
+
+    private class ChangeEmail extends AsyncTask<Void, Void, String> {
+
+        int uid;
+        String newEmail;
+        StringCallback stringCallback;
+
+        private ChangeEmail(int uid, String newEmail, StringCallback stringCallback) {
+
+            this.uid = uid;
+            this.newEmail = newEmail;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = SERVER + PHP + "DBIO/Functions/User.php?function=changeEmail";
+
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("uid", uid);
+                jsonObject.put("newEmail", newEmail);
+
+                String jsonString = jsonObject.toString();
+                Post request = new Post();
+                String response = request.post(url, jsonString);
+                return response;
+            } catch (IOException ioe) {
+                return ioe.toString();
+            } catch (JSONException jsone) {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
+
+    private class ChangePassword extends AsyncTask<Void, Void, String> {
+
+        int uid;
+        String newPassword;
+        StringCallback stringCallback;
+
+        private ChangePassword(int uid, String newPassword, StringCallback stringCallback) {
+
+            this.uid = uid;
+            this.newPassword = newPassword;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = SERVER + PHP + "DBIO/Functions/User.php?function=changePassword";
+
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("uid", uid);
+                jsonObject.put("newPassword", newPassword);
+
+                String jsonString = jsonObject.toString();
+                Post request = new Post();
+                String response = request.post(url, jsonString);
+                return response;
+            } catch (IOException ioe) {
+                return ioe.toString();
+            } catch (JSONException jsone) {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
 
     private class CreateUserNormal extends AsyncTask<Void, Void, String> {
 

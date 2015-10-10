@@ -116,6 +116,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         new ServerRequest(this).getImages(1, "All", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -130,6 +131,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
 
         /*
         int uidA = 1;
@@ -166,6 +168,28 @@ public class TESTActivity extends Activity {
         int uid = 1;
         int uiid = 30;
         new ServerRequest(this).deleteImage(uid, uiid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESULT: " + string);
+            }
+        });
+        */
+
+        /*
+        int uid = 1;
+        String newPassword = "lolol444";
+        new ServerRequest(this).changePassword(uid, newPassword, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESULT: " + string);
+            }
+        });
+        */
+
+        /*
+        int uid = 4;
+        String newEmail = "lol444@lol.com";
+        new ServerRequest(this).changeEmail(uid, newEmail, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESULT: " + string);
