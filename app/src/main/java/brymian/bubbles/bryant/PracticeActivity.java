@@ -85,7 +85,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
                 Bitmap image = ((BitmapDrawable) imageToUpload.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-                String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
+                String encodedImage = Base64.encodeToString(byteArrayOut putStream.toByteArray(), Base64.DEFAULT);
                 UserDataLocal udl = new UserDataLocal(this);
                 User user = udl.getUserData();
                 System.out.println("THIS IS THE USER ID: "+user.getUid());
