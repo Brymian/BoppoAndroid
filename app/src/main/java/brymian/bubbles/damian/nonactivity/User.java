@@ -75,7 +75,9 @@ public class User {
     }
 
     /* Set the data for the general user object */
-    public void setUser(int uid, String facebookUid, String googlepUid, String username, String password, String firstName, String lastName, String email) {
+    public void setUser(int uid, String facebookUid, String googlepUid, String username, String password,
+        String firstName, String lastName, String email, String userAccountPrivacy)
+    {
         this.uid = uid;
         this.facebookUid = facebookUid;
         this.googlepUid = googlepUid;
@@ -83,6 +85,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.userAccountPrivacy = userAccountPrivacy;
     }
 
     public void setUserAccountPrivacyLabel(String userAccountPrivacyLabel) {

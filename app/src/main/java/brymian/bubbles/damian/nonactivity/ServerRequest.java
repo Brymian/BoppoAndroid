@@ -81,6 +81,11 @@ public class ServerRequest {
         new GetUsers(searchedUser, userListCallback).execute();
     }
 
+    public void getUserData(int uid, UserCallback userCallback) {
+        pd.show();
+        new GetUserData(uid, userCallback).execute();
+    }
+
     public void getFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
         pd.show();
         new GetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
@@ -406,7 +411,8 @@ public class ServerRequest {
                             jObject.getString("password"),
                             jObject.getString("firstName"),
                             jObject.getString("lastName"),
-                            jObject.getString("email")
+                            jObject.getString("email"),
+                            jObject.getString("userAccountPrivacy")
                         );
                         udl = new UserDataLocal(activity);
                         udl.setUserData(user);
@@ -474,7 +480,7 @@ public class ServerRequest {
                 else
                 {
                     JSONObject jObject = new JSONObject(response);
-                    if (jObject.length() == 8) {
+                    if (jObject.length() == 9) {
                         System.out.println("jObject length: " + jObject.length());
                         System.out.println("UID : " + user.getUid());
                         user.setUser(
@@ -485,7 +491,8 @@ public class ServerRequest {
                             jObject.getString("password"),
                             jObject.getString("firstName"),
                             jObject.getString("lastName"),
-                            jObject.getString("email")
+                            jObject.getString("email"),
+                            jObject.getString("userAccountPrivacy")
                         );
                         udl = new UserDataLocal(activity);
                         udl.setUserData(user);
@@ -553,7 +560,7 @@ public class ServerRequest {
                         String firstName = jUser.getString("firstName");
                         String lastName = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, null, username, null, firstName, lastName, null);
+                        user.setUser(uid, null, null, username, null, firstName, lastName, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
@@ -579,6 +586,78 @@ public class ServerRequest {
             userListCallback.done(users);
 
             super.onPostExecute(users);
+        }
+
+    }
+
+    private class GetUserData extends AsyncTask<Void, Void, User> {
+
+        int uid;
+        UserCallback userCallback;
+
+        private GetUserData(int uid, UserCallback userCallback) {
+            this.uid = uid;
+            this.userCallback = userCallback;
+        }
+
+        @Override
+        protected User doInBackground(Void... params)
+        {
+            String url = SERVER + PHP + "DBIO/Functions/User.php?function=getUserData";
+            Post request = new Post();
+
+            try {
+
+                JSONObject jsonObjectUser = new JSONObject();
+                jsonObjectUser.put("uid", uid);
+                String jsonStringUser = jsonObjectUser.toString();
+
+                request = new Post();
+                String response = request.post(url, jsonStringUser);
+
+                if (response.startsWith("BACK-END ERROR: "))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else
+                {
+                    JSONObject jObject = new JSONObject(response);
+
+                    User user = new User();
+                    user.setUser(
+                        jObject.getInt("uid"),
+                        jObject.getString("facebookUid"),
+                        jObject.getString("googlepUid"),
+                        jObject.getString("username"),
+                        jObject.getString("password"),
+                        jObject.getString("firstName"),
+                        jObject.getString("lastName"),
+                        jObject.getString("email"),
+                        jObject.getString("userAccountPrivacy")
+                    );
+                    return user;
+                }
+            }
+            catch (IOException ioe)
+            {
+                System.out.println(ioe.toString());
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(User user)
+        {
+            pd.dismiss();
+            userCallback.done(user);
+
+            super.onPostExecute(user);
         }
 
     }
@@ -659,7 +738,7 @@ public class ServerRequest {
                         String namefirst = jUser.getString("firstName");
                         String namelast = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, null, null, null, namefirst, namelast, null);
+                        user.setUser(uid, null, null, null, null, namefirst, namelast, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database

@@ -12,6 +12,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.StringListCallback;
 import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 /**
@@ -196,6 +197,23 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
+        int uid = 1;
+        new ServerRequest(this).getUserData(uid, new UserCallback() {
+            @Override
+            public void done(User user) {
+                System.out.println("Uid: " + user.getUid());
+                System.out.println("Facebook Uid: " + user.getFacebookUid());
+                System.out.println("Google+ Uid: " + user.getGooglepUid());
+                System.out.println("Username: " + user.getUsername());
+                System.out.println("Password: " + user.getPassword());
+                System.out.println("First Name: " + user.getFirstName());
+                System.out.println("Last Name: " + user.getLastName());
+                System.out.println("E-mail: " + user.getEmail());
+                System.out.println("Privacy: " + user.getUserAccountPrivacy());
+            }
+        });
+
     }
 
 }
