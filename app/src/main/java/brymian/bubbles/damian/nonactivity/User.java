@@ -13,6 +13,7 @@ public class User {
     private String firstName;
     private String lastName;
     private String email;
+    private String userAccountCreationTimestamp;
     private String userAccountPrivacy;
     private boolean init = false;
 
@@ -75,8 +76,9 @@ public class User {
     }
 
     /* Set the data for the general user object */
-    public void setUser(int uid, String facebookUid, String googlepUid, String username, String password,
-        String firstName, String lastName, String email, String userAccountPrivacy)
+    public void setUser(int uid, String facebookUid, String googlepUid,
+        String username, String password, String firstName, String lastName, String email,
+        String userAccountCreationTimestamp, String userAccountPrivacy)
     {
         this.uid = uid;
         this.facebookUid = facebookUid;
@@ -85,6 +87,7 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.userAccountCreationTimestamp = userAccountCreationTimestamp;
         this.userAccountPrivacy = userAccountPrivacy;
     }
 
@@ -123,6 +126,8 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public String getUserAccountCreationTimestamp() { return userAccountCreationTimestamp; }
 
     public String getUserAccountPrivacy() { return userAccountPrivacy; }
 }

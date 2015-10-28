@@ -210,6 +210,7 @@ public class TESTActivity extends Activity {
                 System.out.println("First Name: " + user.getFirstName());
                 System.out.println("Last Name: " + user.getLastName());
                 System.out.println("E-mail: " + user.getEmail());
+                System.out.println("Creation date: " + user.getUserAccountCreationTimestamp());
                 System.out.println("Privacy: " + user.getUserAccountPrivacy());
             }
         });

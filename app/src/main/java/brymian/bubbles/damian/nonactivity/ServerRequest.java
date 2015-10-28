@@ -412,6 +412,7 @@ public class ServerRequest {
                             jObject.getString("firstName"),
                             jObject.getString("lastName"),
                             jObject.getString("email"),
+                            jObject.getString("userAccountCreationTimestamp"),
                             jObject.getString("userAccountPrivacy")
                         );
                         udl = new UserDataLocal(activity);
@@ -492,6 +493,7 @@ public class ServerRequest {
                             jObject.getString("firstName"),
                             jObject.getString("lastName"),
                             jObject.getString("email"),
+                            jObject.getString("userAccountCreationTimestamp"),
                             jObject.getString("userAccountPrivacy")
                         );
                         udl = new UserDataLocal(activity);
@@ -560,7 +562,7 @@ public class ServerRequest {
                         String firstName = jUser.getString("firstName");
                         String lastName = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, null, username, null, firstName, lastName, null, null);
+                        user.setUser(uid, null, null, username, null, firstName, lastName, null, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
@@ -634,6 +636,7 @@ public class ServerRequest {
                         jObject.getString("firstName"),
                         jObject.getString("lastName"),
                         jObject.getString("email"),
+                        jObject.getString("userAccountCreationTimestamp"),
                         jObject.getString("userAccountPrivacy")
                     );
                     return user;
@@ -738,7 +741,7 @@ public class ServerRequest {
                         String namefirst = jUser.getString("firstName");
                         String namelast = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, null, null, null, namefirst, namelast, null, null);
+                        user.setUser(uid, null, null, null, null, namefirst, namelast, null, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
