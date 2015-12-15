@@ -18,11 +18,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import brymian.bubbles.R;
 
-public class MapsActivity extends FragmentActivity implements View.OnClickListener {
+public class MapsActivity extends FragmentActivity implements View.OnClickListener
+        {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     ImageButton bCamera, bMenu, bSearch, bLeftButton;
@@ -33,11 +35,13 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         setContentView(R.layout.activity_maps);
         setUpMapIfNeeded();
 
+
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         bCamera = (ImageButton) findViewById(R.id.bCamera);
         bSearch =(ImageButton) findViewById(R.id.bSearch);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
         bLeftButton = (ImageButton) findViewById(R.id.bLeftButton);
+
 
 
 
@@ -107,6 +111,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
 
     //----------------BUTTONS-----------------------------
+
     @Override
     public void onClick(View v){
         switch(v.getId()){
@@ -114,6 +119,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 Intent menuIntent = new Intent(this, MenuActivity.class);
                 startActivity(menuIntent);
                 break;
+
             case R.id.bLeftButton:
                 Intent friendsIntent = new Intent(this, FriendsActivity.class);
                 startActivity(friendsIntent);
@@ -126,6 +132,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 Intent filterIntent = new Intent(this, FilterActivity.class);
                 startActivity(filterIntent);
                 break;
+
         }
     }
 
@@ -194,5 +201,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 .icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding)));
                 //.title("You are here!")
                 //.snippet("Consider yourself located"));
+    }
+
+    public boolean OnClickMarker(Marker marker){
+        if(marker.marker1)
     }
 }

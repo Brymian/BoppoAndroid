@@ -139,7 +139,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                         public void done(String string) {
                             System.out.println("ADD FRIEND BUTTON OUTPUT: " + string);
                             if(string == "Friend request sent successfully."){
-                                //Toast.makeText(this, string, Toast.LENGTH_SHORT).show();
+                                //Toast.makeText   (this, string, Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
