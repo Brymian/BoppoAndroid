@@ -21,7 +21,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.damian.nonactivity.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
 
 public class MapsActivity extends FragmentActivity implements View.OnClickListener
         {
@@ -29,6 +34,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     ImageButton bCamera, bMenu, bSearch, bLeftButton;
     TextView tvTitle;
+    double[] longitudeArray = new double[1];
+    double[] latitudeArray = new double[1];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +48,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bSearch =(ImageButton) findViewById(R.id.bSearch);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
         bLeftButton = (ImageButton) findViewById(R.id.bLeftButton);
-
-
 
 
         //Making sure if there are any putExtras() coming in from ProfileActivity
@@ -126,6 +131,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.bCamera:
                 Intent cameraIntent = new Intent(this, CameraActivity.class);
+                cameraIntent.putExtra("latitude", getLatitudeArray());
+                cameraIntent.putExtra("longitude", getLongitudeArray());
                 startActivity(cameraIntent);
                 break;
             case R.id.bSearch:
@@ -156,6 +163,15 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
+    private void setMarkers(){
+        new ServerRequest(this).getImages(1, "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+
+            }
+        });
+    }
+
     private void setUpMap() {
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
@@ -180,7 +196,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         try {
             // Get latitude of the current location
             latitude = myLocation.getLatitude();
+            setLatitudeArray(latitude);
             longitude = myLocation.getLongitude();
+            setLongitudeArray(longitude);
         }
         catch (NullPointerException e){
             e.printStackTrace();
@@ -203,7 +221,16 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 //.snippet("Consider yourself located"));
     }
 
-    public boolean OnClickMarker(Marker marker){
-        if(marker.marker1)
+    public void setLatitudeArray(double l){
+        latitudeArray[0] = l;
+    }
+    public double getLatitudeArray(){
+        return latitudeArray[0];
+    }
+    public void setLongitudeArray(double l){
+        longitudeArray[0] = l;
+    }
+    public double getLongitudeArray(){
+        return longitudeArray[0];
     }
 }

@@ -2,9 +2,12 @@ package brymian.bubbles.bryant;
 
 import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,6 +55,8 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
+    double[] setLatitudeArray = new double[1];
+    double[] setLongitudeArray = new double[1];
 
     Button bUploadImage;
     ImageView imageView;
@@ -65,6 +70,23 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         bUploadImage.setOnClickListener(this);
         imageView.setOnClickListener(this);
+
+        double latitude = 0;
+        double longitude = 0;
+        if(savedInstanceState == null){
+            Bundle extras = getIntent().getExtras();
+            if(extras == null){
+                latitude =0;
+                longitude = 0;
+            }
+            else{
+                latitude = extras.getDouble("latitude");
+                longitude = extras.getDouble("longitude");
+            }
+        }
+
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
     public void onClick(View view){
@@ -76,15 +98,17 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                new ServerRequest(this).uploadImage(1, imageName(), "Regular", "asda", 1212, 12121, encodedImage, new StringCallback() {
+                new ServerRequest(this).uploadImage(1, "TEST IMAGE 2", "Regular", "Public", getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
-
+                        System.out.println("THIS IS FROM THE StringCallBack: " + string);
                     }
                 });
                 break;
         }
     }
+
+
 
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -120,5 +144,18 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setLatitude(double l){
+        setLatitudeArray[0] = l;
+    }
+    public double getLatitude(){
+        return setLatitudeArray[0];
+    }
+    public void setLongitude(double l){
+        setLongitudeArray[0] = l;
+    }
+    public double getLongitude(){
+        return setLongitudeArray[0];
     }
 }

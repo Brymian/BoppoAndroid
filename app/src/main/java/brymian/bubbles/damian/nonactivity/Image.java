@@ -3,7 +3,7 @@ package brymian.bubbles.damian.nonactivity;
 /**
  * Created by Ziomster on 8/29/2015.
  */
-public class Image {
+public class  Image {
 
     private String path;
     private String userImagePrivacyLabel;

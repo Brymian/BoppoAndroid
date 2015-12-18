@@ -29,9 +29,11 @@ import org.apache.http.params.HttpParams;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
+import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -72,6 +74,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
 
         bSave.setOnClickListener(this);
         ibMenu.setOnClickListener(this);
+        downloadImage();
     }
 
     public void onClick(View view){
@@ -104,7 +107,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();//CHANGE 1 to userUID in uploadImage 1st parameter
         ImageView[] IVarray = {imageView1, imageView2, imageView3, imageView4};
-        String[] IVarraySTRING = {"imageView1", "imageView2", "imageView3", "imageView4"};
+        String[] IVarraySTRING = {"imageViewTOPleft", "imageViewTOPright", "imageViewBOTTOMleft", "imageViewBOTTOMright"};
         for(int i = 0; i < IVarray.length; i++){
             int imageViewID = IVarray[i].getId();
             if(imageViewID != R.mipmap.ic_input_add){
@@ -143,5 +146,14 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
             Uri selectedImage = data.getData();
             imageView4.setImageURI(selectedImage);
         }
+    }
+
+    public void downloadImage(){
+        new ServerRequest(this).getImages(1, "Profile", new ImageListCallback() {
+            @Override
+            public void done(List<brymian.bubbles.damian.nonactivity.Image> imageList) {
+                System.out.println(imageList);
+            }
+        });
     }
 }

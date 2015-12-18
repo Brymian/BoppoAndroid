@@ -74,6 +74,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
         //Map button
         ibMap.setOnClickListener(this);
+
     }
 
     public void onClick(View v){
