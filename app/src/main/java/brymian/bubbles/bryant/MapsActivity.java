@@ -167,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         new ServerRequest(this).getImages(1, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-
+                System.out.println(imageList.get(1));//this needs to be changed so i only get back the Lat and Long
             }
         });
     }

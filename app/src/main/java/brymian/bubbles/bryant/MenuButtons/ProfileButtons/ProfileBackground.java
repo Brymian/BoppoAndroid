@@ -152,7 +152,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         new ServerRequest(this).getImages(1, "Profile", new ImageListCallback() {
             @Override
             public void done(List<brymian.bubbles.damian.nonactivity.Image> imageList) {
-                System.out.println(imageList);
+                System.out.println(imageList.get(0));
             }
         });
     }
