@@ -138,6 +138,8 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.ibMap:
                 Intent mapsIntent = new Intent(this, MapsActivity.class);
                 mapsIntent.putExtra("firstLastName", "Everyone.");
+                mapsIntent.putExtra("uid", "0");
+                mapsIntent.putExtra("username", "Everyone.");
                 startActivity(mapsIntent);
                 break;
         }
