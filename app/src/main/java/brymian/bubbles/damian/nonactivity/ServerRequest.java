@@ -817,7 +817,8 @@ public class ServerRequest {
                     {
                         JSONObject jImage = (JSONObject) jImages.get(i);
 
-                        String path = SERVER + UPLOADS + jImage.getString("userImagePath");
+                        String path = SERVER + UPLOADS +
+                            jImage.getString("userImagePath").replaceAll(" ", "%20");
                         String userImagePrivacyLabel = jImage.getString("userImagePrivacyLabel");
                         String userImagePurposeLabel = jImage.getString("userImagePurposeLabel");
                         double userImageGpsLatitude = jImage.getDouble("userImageGpsLatitude");
