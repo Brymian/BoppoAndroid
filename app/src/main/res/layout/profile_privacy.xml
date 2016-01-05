@@ -53,7 +53,7 @@
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/switch2"
+            android:id="@+id/MapSwitch"
             android:paddingRight="110dp"
             android:layout_gravity="center" />
 
@@ -74,7 +74,7 @@
         <Switch
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/switch1"
+            android:id="@+id/ProfilePicturesSwitch"
             android:paddingRight="110dp" />
 
 

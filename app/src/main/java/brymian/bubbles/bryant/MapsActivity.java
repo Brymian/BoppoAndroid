@@ -36,11 +36,10 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     TextView tvTitle;
     double[] longitudeArrayCurrent = new double[1];
     double[] latitudeArrayCurrent = new double[1];
-    double[] longitudeArrayServer;
-    double[] latitudeArrayServer;
+    double[] longitudeArrayImage = new double[3];
+    double[] latitudeArrayImage = new double[3];
     String[] firstLastNameArray = new String[1];
-    String[] purposeArray = new String[1];
-    String[] privacyArray = new String[1];
+    String[] privacyArray = new String[3];
     int[] uidArray = new int[1];
 
     @Override
@@ -93,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bSearch.setOnClickListener(this);
         bMenu.setOnClickListener(this);
 
-        setMarkers();
+        setArrays();
     }
 
     void setButtons(String firstLastName, String username, int UID){
@@ -174,41 +173,51 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    private void setMarkers(){
+    private void setArrays(){
         new ServerRequest(this).getImages(1, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                try{
-                    String getPath = imageList.get(0).getPath();
-                    double getUserImageGPSLatitude = imageList.get(0).getUserImageGpsLatitude();
-                    double getUserImageGpsLongitude = imageList.get(0).getUserImageGpsLongitude();
-                    String getUserImagePrivacyLabel = imageList.get(0).getUserImagePrivacyLabel();
-                    String getUserImagePurposeLabel = imageList.get(0).getUserImagePurposeLabel();
+                for(int i = 0; i < 3; i++){
+                    try{
+                        //int i = 0;
+                        String getPath = imageList.get(i).getPath();
+                        double getUserImageGPSLatitude = imageList.get(i).getUserImageGpsLatitude();
+                        double getUserImageGpsLongitude = imageList.get(i).getUserImageGpsLongitude();
+                        String getUserImagePrivacyLabel = imageList.get(i).getUserImagePrivacyLabel();
 
-                    setLatitudeArrayImage(getUserImageGPSLatitude);
-                    setLongitudeArrayCurrent(getUserImageGpsLongitude);
-                    setPrivacy(getUserImagePrivacyLabel);
-                    setPurpose(getUserImagePurposeLabel);
+                        setLatitudeImage(getUserImageGPSLatitude, i);
+                        setLongitudeImage(getUserImageGpsLongitude, i);
+                        setPrivacy(getUserImagePrivacyLabel, i);
 
-                    System.out.println("THIS IS FROM imageList.get(0).getPath(): " + getPath);
-                    System.out.println("THIS IS FROM imageList.get(0).getLatitude(): " + getUserImageGPSLatitude);
-                    System.out.println("THIS IS FROM imageList.get(0).getLongitude():" + getUserImageGpsLongitude);
-                    System.out.println("THIS IS FROM imageList.get(0).getUserImagePrivacyLabel():" + getUserImagePrivacyLabel);
-                    System.out.println("THIS IS FROM imageList.get(0).getUserImagePurposeLabel():" + getUserImagePurposeLabel);
+                        System.out.println("THIS IS FROM imageList.get(0).getPath(): " + getPath);
+                        System.out.println("THIS IS FROM imageList.get(0).getLatitude(): " + getUserImageGPSLatitude);
+                        System.out.println("THIS IS FROM imageList.get(0).getLongitude():" + getUserImageGpsLongitude);
+                        System.out.println("THIS IS FROM imageList.get(0).getUserImagePrivacyLabel():" + getUserImagePrivacyLabel);
+                    }
+                    catch(NullPointerException npe){
+                        npe.printStackTrace();
+                        System.out.println("THIS IS FROM setMarkers(): server seems down possibly NullPointerException.");
+                    }
+                    catch(IndexOutOfBoundsException ioob){
+                        ioob.printStackTrace();
+                        System.out.println("THIS IS FROM setMarkers(): there seems to be nothing in the table IndexOutOfBoundsException");
+                    }
                 }
-                catch(NullPointerException e){
-                    e.printStackTrace();
-                    System.out.println("THIS IS FROM setMarkers(): server seems down possibly NullPointerException.");
-                }
-                catch(IndexOutOfBoundsException i){
-                    i.printStackTrace();
-                    System.out.println("THIS IS FROM setMarkers(): there seems to be nothing in the table IndexOutOfBoundsException");
+
+                for(int i = 0; i < latitudeArrayImage.length; i++){
+                    System.out.println("THIS IS FROM setUpMap for loop: " + getLongitudeImage(i) + ", " + getLatitudeImage(i));
+                    mMap.addMarker((new MarkerOptions().position(new LatLng(getLatitudeImage(i), getLongitudeImage(i))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding))));
+                    mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) MapsActivity.this);
+
                 }
 
             }
         });
     }
 
+    public boolean onMarkerClick(Marker marker){
+        return false;
+    }
     private void setUpMap() {
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
@@ -243,7 +252,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             e.printStackTrace();
             Toast.makeText(this, "Map Unavailable.", Toast.LENGTH_SHORT).show();
         }
-        System.out.println("THIS IS FROM setUpMap(): latitude is " + latitude);
+        System.out.println("THIS IS FROM setUpMap(): latitude is " + latitude);  
         System.out.println("THIS IS FROM setUpMap(): longitude is " + longitude);
         // Create a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
@@ -255,8 +264,10 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //Add markers here
-        mMap.addMarker(new MarkerOptions()
-                .position(new LatLng(latitude, longitude)));
+
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+
+
                 //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding)));
                 //.title("You are here!")
                 //.snippet("Consider yourself located"));
@@ -268,11 +279,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public void setLongitudeArrayCurrent(double l) {
         longitudeArrayCurrent[0] = l;
     }
-    public void setLatitudeArrayImage(double l){
-        latitudeArrayServer[0] = l;
+    public void setLatitudeImage(double l, int i){
+        latitudeArrayImage[i] = l;
     }
-    public void setLongtitudeArrayImage(double l){
-        longitudeArrayServer[0] = l;
+    public void setLongitudeImage(double l, int i){
+        longitudeArrayImage[i] = l;
     }
     public void setUID(int uid){
         uidArray[0] = uid;
@@ -280,11 +291,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public void setFirstLastName(String firstLastName){
         firstLastNameArray[0] = firstLastName;
     }
-    public void setPrivacy(String p){
-        privacyArray[0] = p;
-    }
-    public void setPurpose(String p){
-        purposeArray[0] = p;
+    public void setPrivacy(String p, int i){
+        privacyArray[i] = p;
     }
     public double getLatitudeArrayCurrent(){
         return latitudeArrayCurrent[0];
@@ -292,11 +300,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public double getLongitudeArrayCurrent(){
         return longitudeArrayCurrent[0];
     }
-    public double getLongitudeArrayImage(){
-        return longitudeArrayServer[0];
+    public double getLongitudeImage(int i){
+        return longitudeArrayImage[i];
     }
-    public double getLatitudeArrayImage(){
-        return latitudeArrayServer[0];
+    public double getLatitudeImage(int i){
+        return latitudeArrayImage[i];
     }
     public int getUID(){
         return uidArray[0];
@@ -304,10 +312,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public String getFirstLastName(){
         return firstLastNameArray[0];
     }
-    public String getPurpose(){
-        return purposeArray[0];
-    }
-    public String getPrivacy(){
-        return privacyArray[0];
+    public String getPrivacy(int i){
+        return privacyArray[i];
     }
 }
