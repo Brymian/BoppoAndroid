@@ -149,11 +149,18 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
     }
 
     public void downloadImage(){
-        new ServerRequest(this).getImages(1, "Profile", new ImageListCallback() {
-            @Override
-            public void done(List<brymian.bubbles.damian.nonactivity.Image> imageList) {
-                System.out.println(imageList.get(0));
-            }
-        });
+            new ServerRequest(this).getImages(1, "Profile", new ImageListCallback() {
+                @Override
+                public void done(List<brymian.bubbles.damian.nonactivity.Image> imageList) {
+                    try {
+                        System.out.println(imageList.get(0));
+
+                    } catch (IndexOutOfBoundsException aoobe) {
+                        aoobe.printStackTrace();
+                        Toast.makeText(ProfileBackground.this, "New user!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
     }
 }

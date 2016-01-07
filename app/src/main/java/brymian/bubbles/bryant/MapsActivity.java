@@ -36,10 +36,10 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     TextView tvTitle;
     double[] longitudeArrayCurrent = new double[1];
     double[] latitudeArrayCurrent = new double[1];
-    double[] longitudeArrayImage = new double[3];
-    double[] latitudeArrayImage = new double[3];
+    double[] longitudeArrayImage = new double[4];
+    double[] latitudeArrayImage = new double[4];
     String[] firstLastNameArray = new String[1];
-    String[] privacyArray = new String[3];
+    String[] privacyArray = new String[4];
     int[] uidArray = new int[1];
 
     @Override
@@ -207,7 +207,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 for(int i = 0; i < latitudeArrayImage.length; i++){
                     System.out.println("THIS IS FROM setUpMap for loop: " + getLongitudeImage(i) + ", " + getLatitudeImage(i));
                     mMap.addMarker((new MarkerOptions().position(new LatLng(getLatitudeImage(i), getLongitudeImage(i))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding))));
-                    mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) MapsActivity.this);
+                    //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) MapsActivity.this);
 
                 }
 

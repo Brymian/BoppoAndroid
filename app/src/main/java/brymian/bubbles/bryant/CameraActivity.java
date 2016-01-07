@@ -98,7 +98,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                new ServerRequest(this).uploadImage(1, "TEST IMAGE 2", "Regular", "Public", getLatitude(), getLongitude(), encodedImage, new StringCallback() {
+                new ServerRequest(this).uploadImage(1, "TEST_IMAGE_2.jpg", "Regular", "Public", getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.println("THIS IS FROM THE StringCallBack: " + string);

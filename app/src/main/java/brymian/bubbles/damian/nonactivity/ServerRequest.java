@@ -82,7 +82,7 @@ public class ServerRequest {
     }
 
     public void getUserData(int uid, UserCallback userCallback) {
-        pd.show();
+       // pd.show();
         new GetUserData(uid, userCallback).execute();
     }
 
