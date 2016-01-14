@@ -13,6 +13,7 @@ import android.widget.ImageButton;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MapsActivity;
+import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
@@ -97,7 +98,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         udl.setLoggedStatus(true);
                         udl.setUserData(user);
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
-                        startActivity(new Intent(getActivity(), MapsActivity.class));
+                        startActivity(new Intent(getActivity(), MenuActivity.class));
                     }
                 }
             });
