@@ -209,7 +209,9 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
                 for(int i = 0; i < latitudeImageArrayList.size(); i++){
                     System.out.println("THIS IS FROM setUpMap for loop: " + getLongitudeImage(i) + ", " + getLatitudeImage(i));
-                    mMap.addMarker((new MarkerOptions().position(new LatLng(getLatitudeImage(i), getLongitudeImage(i))).icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding))));
+                    mMap.addMarker((new MarkerOptions()
+                            .position(new LatLng(getLatitudeImage(i), getLongitudeImage(i)))
+                            .icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding))));
                     //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) MapsActivity.this);
 
                 }

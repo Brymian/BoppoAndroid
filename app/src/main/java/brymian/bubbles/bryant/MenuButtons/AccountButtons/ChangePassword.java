@@ -27,6 +27,7 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
     ImageButton ibMenu;
     EditText etOldPassword, etNewPassword, etNewPasswordAgain;
     Button bChangePassword;
+    boolean isEquals;
     TextWatcher oldPasswordWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -43,8 +44,13 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
             new ServerRequest(ChangePassword.this).getUserData(1, new UserCallback() {
                 @Override
                 public void done(User user) {
-                    if(etOldPassword.getText().toString().equals(user.getPassword())){
+                    String password = user.getPassword();
+                    System.out.println("PASSWORD IS: " + password + ", USERNAME IS: " + user.getUsername());
+                    if(etOldPassword.getText().toString().equals(password)){
                         etOldPassword.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                    }
+                    else{
+                        etOldPassword.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
                     }
                 }
             });
@@ -64,8 +70,13 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (etNewPassword.getText().toString().equals(etNewPasswordAgain.getText().toString())) {
+            if (etNewPasswordAgain.getText().toString().equals(etNewPassword.getText().toString())) {
                 etNewPasswordAgain.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                isEquals = true;
+            }
+            else{
+                etNewPasswordAgain.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                isEquals = false;
             }
         }
     };
@@ -95,7 +106,7 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
                 startActivity(menuIntent);
                 break;
             case R.id.bChangePassword:
-                if(etNewPasswordAgain.getText().toString().equals(etNewPassword.getText().toString())){
+                if(isEquals){
                     new ServerRequest(this).changePassword(1, etNewPasswordAgain.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -103,6 +114,9 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
                             Toast.makeText(ChangePassword.this, "FROM onClick(R.id,bChangePassword): " + string, Toast.LENGTH_SHORT).show();
                         }
                     });
+                }
+                else{
+                    Toast.makeText(this, "New Password needs to confirm", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
