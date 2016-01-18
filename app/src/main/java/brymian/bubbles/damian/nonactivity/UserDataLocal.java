@@ -22,6 +22,7 @@ public class UserDataLocal {
         userDataLocalEditor.putString("facebook_uid", user.getFacebookUid());
         userDataLocalEditor.putString("googlep_uid", user.getGooglepUid());
         userDataLocalEditor.putString("username", user.getUsername());
+        userDataLocalEditor.putString("password", user.getPassword());
         userDataLocalEditor.putString("namefirst", user.getFirstName());
         userDataLocalEditor.putString("namelast", user.getLastName());
         userDataLocalEditor.putString("email", user.getEmail());
