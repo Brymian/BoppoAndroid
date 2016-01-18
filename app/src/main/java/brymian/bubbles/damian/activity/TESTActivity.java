@@ -117,11 +117,11 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
         new ServerRequest(this).getImages(1, "All", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
                 System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
                 for (Image image : images) {
                     System.out.println("Image #" + images.indexOf(image));
                     System.out.println("Path: " + image.getPath());
@@ -132,7 +132,6 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
 
         /*
         int uidA = 1;

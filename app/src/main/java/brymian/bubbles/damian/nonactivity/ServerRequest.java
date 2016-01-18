@@ -401,7 +401,7 @@ public class ServerRequest {
                 {
                     JSONObject jObject = new JSONObject(response);
                     System.out.println("jObject length: " + jObject.length());
-                    if (jObject.length() == 8)
+                    if (jObject.length() == 10)
                     {
                         user.setUser(
                             getJsonNullableInt(jObject, "uid"),
