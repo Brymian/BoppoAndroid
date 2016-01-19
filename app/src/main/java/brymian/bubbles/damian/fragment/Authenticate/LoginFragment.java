@@ -97,6 +97,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         User user = udl.getUserData();
                         udl.setLoggedStatus(true);
                         udl.setUserData(user);
+                        System.out.println("PASSWORD CHECK: " + user.getPassword());
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
                         startActivity(new Intent(getActivity(), MenuActivity.class));
                     }

@@ -84,6 +84,7 @@ public class User {
         this.facebookUid = facebookUid;
         this.googlepUid = googlepUid;
         this.username = username;
+        this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;

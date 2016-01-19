@@ -403,6 +403,7 @@ public class ServerRequest {
                     System.out.println("jObject length: " + jObject.length());
                     if (jObject.length() == 10)
                     {
+                        System.out.println("PASSWORD CHECK: " + jObject.getString("password"));
                         user.setUser(
                             getJsonNullableInt(jObject, "uid"),
                             jObject.getString("facebookUid"),
