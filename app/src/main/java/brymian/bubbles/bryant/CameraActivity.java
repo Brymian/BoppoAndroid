@@ -93,15 +93,17 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         switch (view.getId()){
             case R.id.bUploadImage:
                 UserDataLocal udl = new UserDataLocal(this);
-                User user = udl.getUserData();
+                User userPhone = udl.getUserData();
+                int userUID = userPhone.getUid();
                 Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                new ServerRequest(this).uploadImage(1, "TEST_IMAGE_2.jpg", "Regular", "Public", getLatitude(), getLongitude(), encodedImage, new StringCallback() {
+                new ServerRequest(this).uploadImage(userUID, "TEST_IMAGE_2.jpg", "Regular", "Public", getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.println("THIS IS FROM THE StringCallBack: " + string);
+                        System.out.println("THIS IS FROM imageName(): " + imageName());
                     }
                 });
                 break;

@@ -42,16 +42,7 @@
         <activity android:name=".bryant.MapsActivity"></activity>
         <activity android:name=".bryant.CameraActivity"></activity>
         <activity android:name=".bryant.MenuActivity"></activity>
-        <activity android:name=".bryant.FriendsActivity"
-
-            android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+        <activity android:name=".bryant.FriendsActivity"></activity>
         <activity android:name=".bryant.FilterActivity"></activity>
         <activity android:name=".bryant.PracticeActivity"></activity>
         <activity android:name=".bryant.ProfileActivity"></activity>

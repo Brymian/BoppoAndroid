@@ -1,17 +1,14 @@
 package brymian.bubbles.bryant;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import brymian.bubbles.R;
@@ -73,13 +70,15 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();
+        System.out.print("THIS IS FROM onClick(): userUID is " + userUID);
         switch(view.getId()){
             case R.id.tShowFriends0:
                 if(tShowFriends0.getText().toString() != "No Results."){
-                    final int ID = returnTempIDHold(0);
-                    final String name = returnTempFirstLastName(0);
-                    final String username = returnTempUsername(0);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(0);
+                    final String name = getSearchedFirstLastName(0);
+                    final String username = getSearchedUsername(0);
+                    System.out.println("THIS is tShowFriends0: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -96,10 +95,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends1:
                 if(tShowFriends1.getText().toString() != null){
-                    final int ID = returnTempIDHold(1);
-                    final String name = returnTempFirstLastName(1);
-                    final String username = returnTempUsername(1);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(1);
+                    final String name = getSearchedFirstLastName(1);
+                    final String username = getSearchedUsername(1);
+                    System.out.println("THIS is tShowFriends1: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -115,10 +115,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends2:
                 if(tShowFriends2.getText().toString() != null){
-                    final int ID = returnTempIDHold(2);
-                    final String name = returnTempFirstLastName(2);
-                    final String username = returnTempUsername(2);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(2);
+                    final String name = getSearchedFirstLastName(2);
+                    final String username = getSearchedUsername(2);
+                    System.out.println("THIS is tShowFriends2: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -134,10 +135,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends3:
                 if(tShowFriends3.getText().toString() != null){
-                    final int ID = returnTempIDHold(3);
-                    final String name = returnTempFirstLastName(3);
-                    final String username = returnTempUsername(3);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(3);
+                    final String name = getSearchedFirstLastName(3);
+                    final String username = getSearchedUsername(3);
+                    System.out.println("THIS is tShowFriends3: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -153,9 +155,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends4:
                 if(tShowFriends4.getText().toString() != null){
-                    final int ID = returnTempIDHold(4);
-                    final String name = returnTempFirstLastName(4);
-                    final String username = returnTempUsername(4);
+                    final int ID = getSearchedID(4);
+                    final String name = getSearchedFirstLastName(4);
+                    final String username = getSearchedUsername(4);
+                    System.out.println("THIS is tShowFriends4: ID is " + ID + ", name is " + name + ", username is " + username);
                     new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -172,10 +175,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends5:
                 if(tShowFriends5.getText().toString() != null){
-                    final int ID = returnTempIDHold(5);
-                    final String name = returnTempFirstLastName(5);
-                    final String username = returnTempUsername(5);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(5);
+                    final String name = getSearchedFirstLastName(5);
+                    final String username = getSearchedUsername(5);
+                    System.out.println("THIS is tShowFriends5: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -191,10 +195,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends6:
                 if(tShowFriends6.getText().toString() != null){
-                    final int ID = returnTempIDHold(6);
-                    final String name = returnTempFirstLastName(6);
-                    final String username = returnTempUsername(6);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(6);
+                    final String name = getSearchedFirstLastName(6);
+                    final String username = getSearchedUsername(6);
+                    System.out.println("THIS is tShowFriends6: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -210,10 +215,11 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends7:
                 if(tShowFriends7.getText().toString() != null){
-                    final int ID = returnTempIDHold(7);
-                    final String name = returnTempFirstLastName(7);
-                    final String username = returnTempUsername(7);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(7);
+                    final String name = getSearchedFirstLastName(7);
+                    final String username = getSearchedUsername(7);
+                    System.out.println("THIS is tShowFriends7: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -229,15 +235,17 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends8:
                 if(tShowFriends5.getText().toString() != null){
-                    final int ID = returnTempIDHold(8);
-                    final String name = returnTempFirstLastName(8);
-                    final String username = returnTempUsername(8);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    final int ID = getSearchedID(8);
+                    final String name = getSearchedFirstLastName(8);
+                    final String username = getSearchedUsername(8);
+                    System.out.println("THIS is tShowFriends8: ID is " + ID + ", name is " + name + ", username is " + username);
+                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
                             intent.putExtra("status", string);
                             intent.putExtra("uid", ID);
+                            intent.putExtra("firstLastName", name);
                             intent.putExtra("username", username);
                             startActivity(intent);
                         }
@@ -247,9 +255,10 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
             case R.id.tShowFriends9:
                 if(tShowFriends9.getText().toString() != null){
-                    final int ID = returnTempIDHold(9);
-                    final String name = returnTempFirstLastName(9);
-                    final String username = returnTempUsername(9);
+                    final int ID = getSearchedID(9);
+                    final String name = getSearchedFirstLastName(9);
+                    final String username = getSearchedUsername(9);
+                    System.out.println("THIS is tShowFriends9: ID is " + ID + ", name is " + name + ", username is " + username);
                     new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -271,27 +280,27 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
         }
     }
 
-    void tempIDHold(int ID, int i){
+    void setSearchedID(int ID, int i){
         searchedUsersID[i] = ID;
     }
 
-    void tempFirstLastNameHold(String name, int i){
+    void setSearchedFirstLastName(String name, int i){
         searchedUsersFirstLastName[i] = name;
     }
 
-    void tempUsernameHold(String name, int i){
+    void setSearchedUsername(String name, int i){
         searchedUsersUsername[i] = name;
     }
 
-    int returnTempIDHold(int location){
+    int getSearchedID(int location){
         return searchedUsersID[location];
     }
 
-    String returnTempFirstLastName(int location){
+    String getSearchedFirstLastName(int location){
         return searchedUsersFirstLastName[location];
     }
 
-    String returnTempUsername(int location){
+    String getSearchedUsername(int location){
         return searchedUsersUsername[location];
     }
 
@@ -323,9 +332,9 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
                         System.out.println("This IS THE USERLIST ID: " + IDList);
 
                         String name = firstNameList + " " + lastNameList;
-                        tempIDHold(IDList, i);
-                        tempFirstLastNameHold(name, i);
-                        tempUsernameHold(userNameList, i);
+                        setSearchedID(IDList, i);
+                        setSearchedFirstLastName(name, i);
+                        setSearchedUsername(userNameList, i);
 
                     }
                 }

@@ -23,6 +23,8 @@ import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     TextView bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
@@ -111,9 +113,12 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 break;
             //Profile
             case R.id.bYourProfile:
+                UserDataLocal udl = new UserDataLocal(this);
+                User userPhone = udl.getUserData();
+                int userUID = userPhone.getUid();
                 Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
                 yourProfileIntent.putExtra("status", "Logged in user.");
-                yourProfileIntent.putExtra("uid", 1);
+                yourProfileIntent.putExtra("uid", userUID);
                 yourProfileIntent.putExtra("firstLastName", "Damian is a fag");
                 yourProfileIntent.putExtra("username", "DamianIsGay.com");
                 startActivity(yourProfileIntent);

@@ -21,6 +21,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserCallback;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 public class ChangePassword extends FragmentActivity implements View.OnClickListener{
@@ -106,8 +107,11 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
                 startActivity(menuIntent);
                 break;
             case R.id.bChangePassword:
+                UserDataLocal udl = new UserDataLocal(this);
+                User userPhone = udl.getUserData();
+                int userUID = userPhone.getUid();
                 if(isEquals){
-                    new ServerRequest(this).changePassword(1, etNewPasswordAgain.getText().toString(), new StringCallback() {
+                    new ServerRequest(this).changePassword(userUID, etNewPasswordAgain.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println("THIS IS FROM onClick(R.id.bChangePassword): " + string);
