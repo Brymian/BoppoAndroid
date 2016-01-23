@@ -39,6 +39,12 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     String[] firstLastNameArray = new String[1];
     int[] uidArray = new int[1];
 
+
+    ArrayList<Double> longitudeImageArrayList = new ArrayList<>();
+    ArrayList<Double> latitudeImageArrayList = new ArrayList<>();
+    ArrayList<String> privacyImageArrayList = new ArrayList<>();
+    ArrayList<String> imagePurposeArrayList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,10 +176,6 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    ArrayList<Double> longitudeImageArrayList = new ArrayList<>();
-    ArrayList<Double> latitudeImageArrayList = new ArrayList<>();
-    ArrayList<String> privacyImageArrayList = new ArrayList<>();
-    ArrayList<String> imagePurposeArrayList = new ArrayList<>();
     private void setArrays(){
         new ServerRequest(this).getImages(1, "Regular", new ImageListCallback() {
             @Override

@@ -52,7 +52,7 @@
         <activity android:name=".bryant.MenuButtons.ProfileButtons.Privacy"></activity>
         <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications"></activity>
         <activity android:name=".bryant.MenuButtons.SettingsButtons.About"></activity>
-        <activity android:name=".bryant.MenuButtons.AccountButtons.ChangeEmail"></activity>
+        <activity android:name=".bryant.MenuButtons.AccountButtons.VerifyEmail"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.ChangePassword"></activity>
         <activity android:name=".bryant.FriendsList"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking"></activity>

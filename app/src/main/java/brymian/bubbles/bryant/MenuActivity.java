@@ -4,15 +4,12 @@ package brymian.bubbles.bryant;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangeEmail;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.LogOut;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
@@ -22,8 +19,9 @@ import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
-import brymian.bubbles.damian.fragment.Authenticate.LaunchFragmentFacebook;
+import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
@@ -31,6 +29,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     TextView bNotifications, bAbout, bBlocking;
     TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser;
     ImageButton ibMap;
+    String[] profileUserUsername = new String[1];
+    String[] profileUserFirstLastName = new String[1];
+    int[] profileUserUID = new int[1];
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
@@ -77,6 +79,22 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         //Map button
         ibMap.setOnClickListener(this);
 
+        UserDataLocal udl = new UserDataLocal(this);
+        User userPhone = udl.getUserData();
+        int userUID = userPhone.getUid();
+        setProfileUserUID(userUID);
+
+        new ServerRequest(this).getUserData(userUID, new UserCallback() {
+            @Override
+            public void done(User user) {
+                String userFirstLastName = user.getFirstName() + " " + user.getLastName();
+                setProfileUserFirstLastName(userFirstLastName);
+
+                String userUsername = user.getUsername();
+                setProfileUserUsername(userUsername);
+            }
+        });
+
     }
 
     public void onClick(View v){
@@ -84,10 +102,11 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             //Account
             case R.id.bChangePassword:
                 Intent changePassword = new Intent(this, ChangePassword.class);
+                changePassword.putExtra("uid", getProfileUserUID());
                 startActivity(changePassword);
                 break;
             case R.id.bChangeEmail:
-                Intent changeEmail = new Intent(this, ChangeEmail.class);
+                Intent changeEmail = new Intent(this, VerifyEmail.class);
                 startActivity(changeEmail);
                 break;
             case R.id.bLogOut:
@@ -113,15 +132,14 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 break;
             //Profile
             case R.id.bYourProfile:
-                UserDataLocal udl = new UserDataLocal(this);
-                User userPhone = udl.getUserData();
-                int userUID = userPhone.getUid();
+
                 Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
                 yourProfileIntent.putExtra("status", "Logged in user.");
-                yourProfileIntent.putExtra("uid", userUID);
-                yourProfileIntent.putExtra("firstLastName", "Damian is a fag");
-                yourProfileIntent.putExtra("username", "DamianIsGay.com");
+                yourProfileIntent.putExtra("firstLastName", getProfileUserFirstLastName());
+                yourProfileIntent.putExtra("username", getProfileUserUsername());
+                yourProfileIntent.putExtra("uid", getProfileUserUID());
                 startActivity(yourProfileIntent);
+
                 break;
             case R.id.bSearchUser:
                 Intent searchUserIntent = new Intent(this, FriendsActivity.class);
@@ -149,4 +167,23 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 break;
         }
     }
+    void setProfileUserFirstLastName(String firstLastName){
+        profileUserFirstLastName[0] = firstLastName;
+    }
+    void setProfileUserUsername(String username){
+        profileUserUsername[0] = username;
+    }
+    void setProfileUserUID(int uid){
+        profileUserUID[0] = uid;
+    }
+    String getProfileUserFirstLastName(){
+        return profileUserFirstLastName[0];
+    }
+    String getProfileUserUsername(){
+        return profileUserUsername[0];
+    }
+    int getProfileUserUID(){
+        return profileUserUID[0];
+    }
+
 }

@@ -10,7 +10,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
 
 
-public class ChangeEmail extends FragmentActivity implements View.OnClickListener{
+public class VerifyEmail extends FragmentActivity implements View.OnClickListener{
     ImageButton ibMenu;
 
     protected void onCreate(Bundle savedInstanceState){

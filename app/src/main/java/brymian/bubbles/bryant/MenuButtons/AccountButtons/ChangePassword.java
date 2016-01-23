@@ -29,6 +29,8 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
     EditText etOldPassword, etNewPassword, etNewPasswordAgain;
     Button bChangePassword;
     boolean isEquals;
+    int[] profileUserUID = new int[1];
+
     TextWatcher oldPasswordWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -42,7 +44,7 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
 
         @Override
         public void afterTextChanged(Editable s) {
-            new ServerRequest(ChangePassword.this).getUserData(1, new UserCallback() {
+            new ServerRequest(ChangePassword.this).getUserData(getProfileUserUID(), new UserCallback() {
                 @Override
                 public void done(User user) {
                     String password = user.getPassword();
@@ -98,6 +100,10 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
         etOldPassword.addTextChangedListener(oldPasswordWatcher);
         etNewPasswordAgain.addTextChangedListener(newPasswordAgainWatcher);
 
+        UserDataLocal udl = new UserDataLocal(this);
+        User userPhone = udl.getUserData();
+        int userUID = userPhone.getUid();
+        setProfileUserUID(userUID);
     }
 
     public void onClick(View v){
@@ -107,11 +113,8 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
                 startActivity(menuIntent);
                 break;
             case R.id.bChangePassword:
-                UserDataLocal udl = new UserDataLocal(this);
-                User userPhone = udl.getUserData();
-                int userUID = userPhone.getUid();
                 if(isEquals){
-                    new ServerRequest(this).changePassword(userUID, etNewPasswordAgain.getText().toString(), new StringCallback() {
+                    new ServerRequest(this).changePassword(getProfileUserUID(), etNewPasswordAgain.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println("THIS IS FROM onClick(R.id.bChangePassword): " + string);
@@ -127,5 +130,10 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
         }
     }
 
-
+    void setProfileUserUID(int uid){
+        profileUserUID[0] = uid;
+    }
+    int getProfileUserUID(){
+        return  profileUserUID[0];
+    }
 }

@@ -15,6 +15,8 @@ import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserCallback;
 
 
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
@@ -40,45 +42,41 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         //Getting the information from FriendsActivity using putExtra()
         String friendStatusString;
         String firstLastName;
-        String username;
         int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 friendStatusString = null;
                 firstLastName = null;
-                username = null;
                 uid = 0;
             } else {
                 friendStatusString = extras.getString("status");
                 firstLastName = extras.getString("firstLastName");
-                username = extras.getString("username");
                 uid = extras.getInt("uid");
             }
         } else {
             friendStatusString = (String) savedInstanceState.getSerializable("status");
             firstLastName = (String) savedInstanceState.getSerializable("firstLastName");
-            username = (String) savedInstanceState.getSerializable("username");
             uid = savedInstanceState.getInt("uid");
         }
 
         //Checking for output
-        System.out.println("THIS IS FROM PROFILE ACTIVITY (friendStatus): " + friendStatusString);
+        System.out.println("THIS IS FROM PROFILE ACTIVITY (status): " + friendStatusString);
         System.out.println("THIS IS FROM PROFILE ACTIVITY (firstLastName): " + firstLastName);
-        System.out.println("THIS IS FROM PROFILE ACTIVITY (username): " + username);
         System.out.println("THIS IS FROM PROFILE ACTIVITY (uid): " + uid);
         //-------------------------------------------------------------------------------------
 
         setButtons(friendStatusString);
         setFriendStatus(friendStatusString);
-        setFirstLastName(firstLastName);
         setID(uid);
-        setUsername(username);
         setBackground(uid, "Profile");
+        setFirstLastName(firstLastName);
+        System.out.println("getFirstLastName(): " + getFirstLastName());
 
-        tProfileName.setText(firstLastName);
-        //Setting the onClickListeners for the buttons
-        bMenu.setOnClickListener(this);     
+        tProfileName.setText(getFirstLastName());
+
+
+        bMenu.setOnClickListener(this);
         bMiddle.setOnClickListener(this);
         bLeft.setOnClickListener(this);
         bRight.setOnClickListener(this);
@@ -110,7 +108,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 bMiddle.setImageDrawable(friendslistDrawable);
                 bLeft.setImageDrawable(blockingDrawable);
                 bRight.setImageDrawable(globeDrawable);
-                setFirstLastName("Logged in user.");//Need to change this to logged in user's name.
+                //setFirstLastName("Logged in user.");//Need to change this to logged in user's name.
                 break;
             case "User is awaiting confirmation for friend request.":
 
