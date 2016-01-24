@@ -20,7 +20,7 @@
             android:id="@+id/tChangeEmail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Change Email"
+            android:text="Verify Email"
             android:gravity="center_vertical"
             android:textSize="25dp"
             android:textIsSelectable="false"
@@ -32,10 +32,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/etVerifyEmail"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Email: "/>
+            android:paddingTop="15dp"
+            android:hint="Email"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bVerifyEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Verify Email"/>
 
     </LinearLayout>
 

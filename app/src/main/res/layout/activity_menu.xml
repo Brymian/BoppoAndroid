@@ -43,7 +43,7 @@
         <TextView android:id="@+id/bChangeEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change Email"
+            android:text="Verify Email"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
             android:textSize="15dp"
