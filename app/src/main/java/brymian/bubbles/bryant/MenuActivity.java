@@ -144,7 +144,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case R.id.bSearchUser:
-                Intent searchUserIntent = new Intent(this, FriendsActivity.class);
+                Intent searchUserIntent = new Intent(this, SearchUsers.class);
                 startActivity(searchUserIntent);
                 break;
             case R.id.bFriends:

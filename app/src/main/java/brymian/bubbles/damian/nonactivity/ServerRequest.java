@@ -541,7 +541,7 @@ public class ServerRequest {
             //String searched_user = "";
             String jsonSearchedUser = "{\"searchedUser\":\"" + searchedUser + "\"}";
             Post request = new Post();
-            //FriendsActivity friendsActivity = new FriendsActivity();
+            //SearchUsers friendsActivity = new SearchUsers();
             try {
                 String response = request.post(url, jsonSearchedUser);
                 //friendsActivity.tShowFriends.setText(response);

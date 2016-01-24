@@ -139,7 +139,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.bLeftButton:
-                Intent friendsIntent = new Intent(this, FriendsActivity.class);
+                Intent friendsIntent = new Intent(this, SearchUsers.class);
                 startActivity(friendsIntent);
                 break;
             case R.id.bCamera:

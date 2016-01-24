@@ -14,6 +14,7 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
@@ -173,26 +174,27 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         new ServerRequest(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                int friendListSize = 0;
+                System.out.println(users.size());
                 try{
-                    friendListSize = users.size();
+                    int friendListSize = users.size();
+                    if (friendListSize > 0){
+                        for(int i = 0; i < friendListSize; i++){
+                            profileUserFriendUID.add(i, users.get(i).getUid());
+                            profileUserFriendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                            profileUserFriendUsername.add(i, users.get(i).getUsername());
+
+                            TVIDS[i] = (TextView) findViewById(TVRIDS[i]);
+                            TVIDS[i].setVisibility(View.VISIBLE);
+                            TVIDS[i].setText(users.get(i).getUsername());
+                            TVIDS[i].setOnClickListener(FriendsList.this);
+
+                        }
+                    }
+                    else if (friendListSize == 0){
+                        Toast.makeText(FriendsList.this, "No friends", Toast.LENGTH_SHORT).show();
+                    }
                 }catch (NullPointerException e){
                     e.printStackTrace();
-                }
-                if (friendListSize > 0){
-                    for(int i = 0; i < friendListSize; i++){
-                        profileUserFriendUID.add(i, users.get(i).getUid());
-                        profileUserFriendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                        profileUserFriendUsername.add(i, users.get(i).getUsername());
-
-                        TVIDS[i].setVisibility(View.VISIBLE);
-                        TVIDS[i].setText(users.get(i).getUsername());
-                        TVIDS[i].setOnClickListener(FriendsList.this);
-
-                    }
-                }
-                else if (friendListSize == 0){
-                    Toast.makeText(FriendsList.this, "No friends", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -19,7 +19,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
-public class FriendsActivity extends FragmentActivity implements View.OnClickListener, TextWatcher{
+public class SearchUsers extends FragmentActivity implements View.OnClickListener, TextWatcher{
     ImageButton bMenu;
     EditText eInputUser;
     TextView tShowFriends0, tShowFriends1, tShowFriends2, tShowFriends3, tShowFriends4, tShowFriends5, tShowFriends6, tShowFriends7, tShowFriends8, tShowFriends9;
@@ -32,7 +32,7 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_friends);
+        setContentView(R.layout.searchusers);
 
         eInputUser  = (EditText) findViewById(R.id.eInputUser);
         eInputUser.addTextChangedListener(this);
@@ -325,7 +325,7 @@ public class FriendsActivity extends FragmentActivity implements View.OnClickLis
 
                         TVIDs[i].setText(userNameList);
                         TVIDs[i].setClickable(true);
-                        TVIDs[i].setOnClickListener(FriendsActivity.this);
+                        TVIDs[i].setOnClickListener(SearchUsers.this);
 
                         System.out.println("THIS IS THE FIRST NAME: " + firstNameList);
                         System.out.println("THIS IS THE LAST NAME: " + lastNameList);

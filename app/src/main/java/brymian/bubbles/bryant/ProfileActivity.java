@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserCallback;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
@@ -26,6 +27,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     String[] firstLastNameArray = new String[1];
     String[] userNameArray = new String[1];
     String[] friendStatusArray = new String[1];
+    int[] loggedInUserUID = new int[1];
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         bLeft = (ImageButton) findViewById(R.id.bLeft);
         bRight = (ImageButton) findViewById(R.id.bRight);
 
-        //Getting the information from FriendsActivity using putExtra()
+        //Getting the information from SearchUsers using putExtra()
         String friendStatusString;
         String firstLastName;
         int uid;
@@ -80,6 +82,11 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         bMiddle.setOnClickListener(this);
         bLeft.setOnClickListener(this);
         bRight.setOnClickListener(this);
+
+        UserDataLocal udl = new UserDataLocal(this);
+        User userPhone = udl.getUserData();
+        int userUID = userPhone.getUid();
+        setLoggedInUserUID(userUID);
     }
 
     void setButtons(String friendStatus){
@@ -111,7 +118,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 //setFirstLastName("Logged in user.");//Need to change this to logged in user's name.
                 break;
             case "User is awaiting confirmation for friend request.":
-
+                bMiddle.setImageDrawable(addfriendDrawable);
+                bLeft.setImageDrawable(blockingDrawable);
+                bRight.setImageDrawable(globeDrawable);
                 break;
             case "User is currently being blocked.":
 
@@ -127,18 +136,14 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             case R.id.bMiddle:
                 System.out.println("this is return temp user who hold: " + getFirstLastName());
                 if(getFriendStatus().equals("Logged in user.")){
-                    Intent friendListIntent = new Intent(this, FriendsActivity.class);
+                    Intent friendListIntent = new Intent(this, FriendsList.class);
                     startActivity(friendListIntent);
                 }
                 else {
-                    //need to change first two parameters-----------------------
-                    new ServerRequest(this).setFriendStatus(1, getID(), new StringCallback() {
+                    new ServerRequest(this).setFriendStatus(getLoggedInUserUID(), getID(), new StringCallback() {
                         @Override
                         public void done(String string) {
-                            System.out.println("ADD FRIEND BUTTON OUTPUT: " + string);
-                            if(string == "Friend request sent successfully."){
-                                //Toast.makeText   (this, string, Toast.LENGTH_SHORT).show();
-                            }
+                            Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -199,6 +204,10 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         friendStatusArray[0] = input;
     }
 
+    void setLoggedInUserUID(int uid){
+        loggedInUserUID[0] = uid;
+    }
+
     int getID(){
         return IDhold[0];
     }
@@ -213,5 +222,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
     String getFriendStatus(){
         return friendStatusArray[0];
+    }
+
+    int getLoggedInUserUID(){
+        return loggedInUserUID[0];
     }
 }
