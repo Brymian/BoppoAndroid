@@ -159,9 +159,9 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 int UID = getID();
 
                 if(getFriendStatus().equals("Logged in user.")){
-                    mapIntent.putExtra("firstLastName", "Damian");
-                    mapIntent.putExtra("username", "damianisgay");
-                    mapIntent.putExtra("uid", 1);
+                    mapIntent.putExtra("firstLastName", "Logged in user.");
+                    //mapIntent.putExtra("username", "Your Map");
+                    mapIntent.putExtra("uid", getID());
                     startActivity(mapIntent);
                 }
                 else {

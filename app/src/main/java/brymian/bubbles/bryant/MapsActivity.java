@@ -61,32 +61,32 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         //Making sure if there are any putExtras() coming in from ProfileActivity
         String firstLastName, username;
-        int UID;
+        int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 firstLastName = null;
                 username = null;
-                UID = 0;
+                uid = 0;
             } else {
                 firstLastName = extras.getString("firstLastName");
                 username = extras.getString("username");
-                UID = extras.getInt("uid");
+                uid = extras.getInt("uid");
             }
         } else {
             firstLastName = (String) savedInstanceState.getSerializable("firstLastName");
             username = (String) savedInstanceState.getSerializable("username");
-            UID = savedInstanceState.getInt("uid");
+            uid = savedInstanceState.getInt("uid");
         }
 
         //Checking for output
         System.out.println("THIS IS FROM MAPSACTIVITY (firstLastName): " + firstLastName);
-        System.out.println("THIS IS FROM MAPSACTIVITY (uid}: " + UID);
+        System.out.println("THIS IS FROM MAPSACTIVITY (uid}: " + uid);
         System.out.println("THIS IS FROM MAPSACTIVITY (username): " + username);
         //--------------------------------------------------------
 
-        setButtons(firstLastName, username, UID);
-        setUID(UID);
+        setButtons(firstLastName, username, uid);
+        setUID(uid);
         setFirstLastName(firstLastName);
 
         //Setting onClickListeners for all buttons
@@ -98,7 +98,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         setArrays();
     }
 
-    void setButtons(String firstLastName, String username, int UID){
+    void setButtons(String firstLastName, String username, int uid){
         //Making Drawables
         Drawable cameraDrawable = getResources().getDrawable(R.mipmap.camera_nopadding);
         Drawable searchDrawable = getResources().getDrawable(R.mipmap.search_nopadding);
@@ -177,7 +177,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void setArrays(){
-        new ServerRequest(this).getImages(1, "Regular", new ImageListCallback() {
+        new ServerRequest(this).getImages(getUID(), "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 for(int i = 0; i < imageList.size(); i++){

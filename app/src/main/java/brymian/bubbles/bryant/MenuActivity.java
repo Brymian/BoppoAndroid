@@ -27,7 +27,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     TextView bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
     TextView bNotifications, bAbout, bBlocking;
-    TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser;
+    TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser, bFriends;
     ImageButton ibMap;
     String[] profileUserUsername = new String[1];
     String[] profileUserFirstLastName = new String[1];
@@ -57,6 +57,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bProfileName = (TextView) findViewById(R.id.bProfileName);
         bProfilePrivacy = (TextView) findViewById(R.id.bProfilePrivacy);
         bSearchUser = (TextView) findViewById(R.id.bSearchUser);
+        bFriends = (TextView) findViewById(R.id.bFriends);
 
         //Account onClickListeners
         bChangePassword.setOnClickListener(this);
@@ -75,6 +76,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bProfilePrivacy.setOnClickListener(this);
         bYourProfile.setOnClickListener(this);
         bSearchUser.setOnClickListener(this);
+        bFriends.setOnClickListener(this);
 
         //Map button
         ibMap.setOnClickListener(this);
@@ -144,6 +146,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bSearchUser:
                 Intent searchUserIntent = new Intent(this, FriendsActivity.class);
                 startActivity(searchUserIntent);
+                break;
+            case R.id.bFriends:
+                Intent friendsList = new Intent(this, FriendsList.class);
+                startActivity(friendsList);
                 break;
             case R.id.bProfileBackground:
                 Intent profileBackgroundIntent = new Intent(this, ProfileBackground.class);

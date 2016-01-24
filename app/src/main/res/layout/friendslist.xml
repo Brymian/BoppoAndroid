@@ -16,7 +16,7 @@
             android:orientation="horizontal"
             android:background="#b6ffcf">
 
-            <ImageButton android:id="@+id/ibMap"
+            <ImageButton android:id="@+id/ibMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/three_line_menu_w_pad"
