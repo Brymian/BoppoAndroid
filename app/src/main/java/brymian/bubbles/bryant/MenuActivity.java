@@ -20,6 +20,7 @@ import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
@@ -96,7 +97,14 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 setProfileUserUsername(userUsername);
             }
         });
-
+/**
+        new ServerRequest(this).setUserAccountPrivacy(userUID, "Private", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THIS IS FROM setUserAccountPrivacy(): " + string);
+            }
+        });
+ **/
     }
 
     public void onClick(View v){
