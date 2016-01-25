@@ -32,7 +32,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.searchusers);
+        setContentView(R.layout.search_users);
 
         eInputUser  = (EditText) findViewById(R.id.eInputUser);
         eInputUser.addTextChangedListener(this);
