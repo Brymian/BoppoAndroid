@@ -33,7 +33,6 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
     ArrayList<Integer> profileUserFriendUID = new ArrayList<>();
     ArrayList<String> profileUserFriendFirstLastName = new ArrayList<>();
-    ArrayList<String> profileUserFriendUsername = new ArrayList<>();
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -53,7 +52,6 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         tFriend7 = (TextView) findViewById(R.id.tFriend7);
         tFriend8 = (TextView) findViewById(R.id.tFriend8);
         tFriend9 = (TextView) findViewById(R.id.tFriend9);
-
 
         tFriend0.setVisibility(View.GONE);
         tFriend1.setVisibility(View.GONE);
@@ -89,7 +87,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend0:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(0));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(0));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(0));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(0));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -97,7 +95,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend1:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(1));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(1));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(1));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(1));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -105,7 +103,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend2:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(2));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(2));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(2));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(2));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -113,7 +111,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend3:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(3));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(3));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(3));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(3));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -121,7 +119,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend4:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(4));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(4));
+               // profileIntent.putExtra("username", profileUserFriendUsername.get(4));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(4));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -129,7 +127,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend5:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(5));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(5));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(5));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(5));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -137,7 +135,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend6:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(6));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(6));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(6));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(6));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -145,7 +143,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend7:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(7));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(7));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(7));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(7));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -153,7 +151,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend8:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(8));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(8));
+               // profileIntent.putExtra("username", profileUserFriendUsername.get(8));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(8));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -161,7 +159,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
             case R.id.tFriend9:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(9));
-                profileIntent.putExtra("username", profileUserFriendUsername.get(9));
+                //profileIntent.putExtra("username", profileUserFriendUsername.get(9));
                 profileIntent.putExtra("uid", profileUserFriendUID.get(9));
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
@@ -181,11 +179,12 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                         for(int i = 0; i < friendListSize; i++){
                             profileUserFriendUID.add(i, users.get(i).getUid());
                             profileUserFriendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                            profileUserFriendUsername.add(i, users.get(i).getUsername());
 
                             TVIDS[i] = (TextView) findViewById(TVRIDS[i]);
                             TVIDS[i].setVisibility(View.VISIBLE);
-                            TVIDS[i].setText(users.get(i).getUsername());
+                            System.out.println(users.get(i).getFirstName());
+                            TVIDS[i].setText(users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                            TVIDS[i].setClickable(true);
                             TVIDS[i].setOnClickListener(FriendsList.this);
 
                         }

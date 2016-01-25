@@ -25,6 +25,7 @@
                 android:id="@+id/tUsersName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:text="Friends"
                 android:textSize="25dp"
                 android:paddingLeft="10dp"
                 android:gravity="center_vertical" />
