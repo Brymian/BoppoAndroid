@@ -11,7 +11,6 @@ import android.widget.ImageButton;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
 
-
 public class Blocking extends FragmentActivity implements View.OnClickListener{
     ImageButton ibMenu;
 
@@ -22,6 +21,7 @@ public class Blocking extends FragmentActivity implements View.OnClickListener{
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
 
         ibMenu.setOnClickListener(this);
+
     }
 
     public void onClick(View view){

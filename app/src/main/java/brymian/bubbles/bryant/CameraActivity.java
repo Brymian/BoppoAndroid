@@ -20,7 +20,9 @@ import android.util.Base64;
 
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.Toast;
 
 
@@ -48,7 +50,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CameraActivity extends Activity implements View.OnClickListener{
+public class CameraActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     private static int TAKE_PICTURE = 1;
     private Uri imageUri;
 
@@ -57,18 +59,26 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     public static final int MEDIA_TYPE_IMAGE = 1;
     double[] setLatitudeArray = new double[1];
     double[] setLongitudeArray = new double[1];
+    String[] userImagePrivacyLabel = new String[1];
 
     Button bUploadImage;
     ImageView imageView;
+    Switch sUserImagePrivacyLabel;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         takePhoto();
+
+
         bUploadImage = (Button) findViewById(R.id.bUploadImage);
         imageView = (ImageView) findViewById(R.id.image_camera);
+        sUserImagePrivacyLabel = (Switch) findViewById(R.id.sUserImagePrivacyLabel);
 
         bUploadImage.setOnClickListener(this);
+        sUserImagePrivacyLabel.setOnCheckedChangeListener(this);
         imageView.setOnClickListener(this);
 
         double latitude = 0;
@@ -99,18 +109,39 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                new ServerRequest(this).uploadImage(userUID, "TEST_IMAGE_2.jpg", "Regular", "Public", getLatitude(), getLongitude(), encodedImage, new StringCallback() {
+                System.out.println("getUserImagePrivacyLabel(): " + getUserImagePrivacyLabel());
+                new ServerRequest(this).uploadImage(userUID, imageName() + ".jpg", "Regular", getUserImagePrivacyLabel(), getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.println("THIS IS FROM THE StringCallBack: " + string);
-                        System.out.println("THIS IS FROM imageName(): " + imageName());
+                        if (string.isEmpty()) {
+                            Toast.makeText(CameraActivity.this, "Error: Image not uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                        else{
+                            Toast.makeText(CameraActivity.this, "Upload successful!", Toast.LENGTH_SHORT).show();
+                            Intent menuIntent = new Intent(CameraActivity.this, MenuActivity.class);// this needs to change later instead of being sent to MenuActivity.class
+                            startActivity(menuIntent);
+                        }
                     }
                 });
                 break;
         }
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b){
+        switch(compoundButton.getId()){
+            case R.id.sUserImagePrivacyLabel:
+                if(b){
+                    setUserImagePrivacyLabel("Public");
+                }
+                else{
+                    setUserImagePrivacyLabel("Private");
+                }
+                break;
+        }
 
+    }
 
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -122,9 +153,10 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
     String imageName(){
         UserDataLocal udl = new UserDataLocal(this);
-        User user = udl.getUserData();
-        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm", new java.util.Date());
-        String name = user + charSequenceName;
+        User userPhone = udl.getUserData();
+        int userUID = userPhone.getUid();
+        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
+        String name = userUID + "_" +charSequenceName;
         System.out.println(name);
         return name;
     }
@@ -159,5 +191,12 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     }
     public double getLongitude(){
         return setLongitudeArray[0];
+    }
+    void setUserImagePrivacyLabel(String privacyLabel){
+        userImagePrivacyLabel[0] = privacyLabel;
+    }
+
+    String getUserImagePrivacyLabel(){
+        return userImagePrivacyLabel[0];
     }
 }

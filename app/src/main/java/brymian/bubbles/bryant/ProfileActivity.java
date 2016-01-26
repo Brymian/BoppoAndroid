@@ -71,7 +71,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         setButtons(friendStatusString);
         setFriendStatus(friendStatusString);
         setID(uid);
-        setBackground(uid, "Profile");
+        setBackground(uid, "Public");
         setFirstLastName(firstLastName);
         System.out.println("getFirstLastName(): " + getFirstLastName());
 
@@ -180,10 +180,16 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
     }
 
     protected void setBackground(int uid, String purpose){
-        new ServerRequest(this).getImages(uid, purpose, new ImageListCallback() {
+        new ServerRequest(this).getImages(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                System.out.println("THIS IS FROM IMAGELIST: " + imageList);
+                try {
+                    int imageListSize = imageList.size();
+                    System.out.println("THIS IS FROM IMAGELIST: " + imageList);
+                    System.out.println("imageList.get(0).getUserImagePurposeLabel(): " + imageList.get(0).getUserImagePurposeLabel());
+                }catch (IndexOutOfBoundsException ioob){
+                    ioob.printStackTrace();
+                }
             }
         });
     }

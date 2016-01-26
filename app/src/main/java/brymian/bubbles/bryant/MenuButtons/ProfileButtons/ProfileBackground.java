@@ -105,9 +105,11 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
     public void saveButton(){
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
-        int userUID = userPhone.getUid();//CHANGE 1 to userUID in uploadImage 1st parameter
+        int userUID = userPhone.getUid();
+
         ImageView[] IVarray = {imageView1, imageView2, imageView3, imageView4};
         String[] IVarraySTRING = {"imageViewTOPleft", "imageViewTOPright", "imageViewBOTTOMleft", "imageViewBOTTOMright"};
+
         for(int i = 0; i < IVarray.length; i++){
             int imageViewID = IVarray[i].getId();
             if(imageViewID != R.mipmap.ic_input_add){
@@ -115,7 +117,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                new ServerRequest(this).uploadImage(1, IVarraySTRING[i], "Profile", "Private", 0, 0, encodedImage, new StringCallback() {
+                new ServerRequest(this).uploadImage(userUID, IVarraySTRING[i]+".jpg", "Profile", "Private", 0, 0, encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.println(string);
