@@ -1,14 +1,27 @@
 package brymian.bubbles.bryant;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -23,6 +36,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
     TextView tProfileName;
     ImageButton bMenu, bLeft, bRight, bMiddle;
+    RelativeLayout MainLayout;
     int[] IDhold = new int[1];
     String[] firstLastNameArray = new String[1];
     String[] userNameArray = new String[1];
@@ -35,6 +49,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
 
         //Linking xml IDs with java IDs
         tProfileName = (TextView) findViewById(R.id.tProfileName);
+        MainLayout = (RelativeLayout) findViewById(R.id.MainLayout);
 
         bMiddle = (ImageButton) findViewById(R.id.bMiddle);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
@@ -71,7 +86,6 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         setButtons(friendStatusString);
         setFriendStatus(friendStatusString);
         setID(uid);
-        setBackground(uid, "Public");
         setFirstLastName(firstLastName);
         System.out.println("getFirstLastName(): " + getFirstLastName());
 
@@ -87,6 +101,13 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();
         setLoggedInUserUID(userUID);
+
+        new ServerRequest(this).getImages(userUID, "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                new DownloadImage(imageList.get(0).getPath()).execute();
+            }
+        });
     }
 
     void setButtons(String friendStatus){
@@ -179,19 +200,52 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         }
     }
 
-    protected void setBackground(int uid, String purpose){
-        new ServerRequest(this).getImages(uid, "Regular", new ImageListCallback() {
-            @Override
-            public void done(List<Image> imageList) {
-                try {
-                    int imageListSize = imageList.size();
-                    System.out.println("THIS IS FROM IMAGELIST: " + imageList);
-                    System.out.println("imageList.get(0).getUserImagePurposeLabel(): " + imageList.get(0).getUserImagePurposeLabel());
-                }catch (IndexOutOfBoundsException ioob){
-                    ioob.printStackTrace();
-                }
+
+
+    private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
+        String name;
+
+        public DownloadImage(String name){
+            this.name = name;
+        }
+
+
+        @Override
+        protected Bitmap doInBackground(Void... params){
+
+
+            //String url = SERVER_ADDRESS + "Uploads/" + name + ".JPG";
+            try {
+                String url = name;
+                System.out.println("getPath(): " + name);
+                URLConnection connection = new URL(url).openConnection();
+                connection.setConnectTimeout(1000 * 30);
+                connection.setReadTimeout(1000 * 30);
+
+                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
             }
-        });
+            catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap){
+            super.onPostExecute(bitmap);
+            if(bitmap != null){
+                //downloadedImage.setImageBitmap(bitmap);
+                Drawable drawable = new BitmapDrawable(bitmap);
+                MainLayout.setBackgroundDrawable(drawable);
+            }
+        }
+    }
+
+    private HttpParams getHttpRequestParams(){
+        HttpParams httpRequestParams = new BasicHttpParams();
+        HttpConnectionParams.setConnectionTimeout(httpRequestParams, 1000 * 30);
+        HttpConnectionParams.setSoTimeout(httpRequestParams, 1000 * 30);
+        return httpRequestParams;
     }
 
     void setID(int uid){

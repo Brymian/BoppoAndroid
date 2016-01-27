@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_height="match_parent"
@@ -6,7 +11,7 @@
     android:padding="10px">
 
     <TextView
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="15dp"
         android:gravity="center_horizontal"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
@@ -123,3 +128,4 @@
         android:text="Register" />
 
 </LinearLayout>
+</ScrollView>

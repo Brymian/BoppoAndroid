@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -37,8 +39,11 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -53,6 +58,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
     ImageView imageToUpload, downloadedImage;
     Button bUploadImage, bDownloadedImage;
     EditText uploadedImageName, downloadedImageName;
+    LinearLayout LinearLayout;
+    String[] path = new String[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,9 +75,24 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         uploadedImageName = (EditText) findViewById(R.id.eUploadName);
         downloadedImageName = (EditText) findViewById(R.id.eDownloadName);
 
+        LinearLayout = (LinearLayout) findViewById(R.id.LinearLayout);
+
         imageToUpload.setOnClickListener(this);
         bUploadImage.setOnClickListener(this);
         bDownloadedImage.setOnClickListener(this);
+
+        //downloadImage();
+        new ServerRequest(PracticeActivity.this).getImages(17, "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                setPath(imageList.get(0).getPath());
+                System.out.println("path: " + imageList.get(0).getPath());
+                new DownloadImage(imageList.get(0).getPath()).execute();
+            }
+        });
+
+        //System.out.println("getPath() from onCreate(): " + getPath());
+        //new DownloadImage(getPath()).execute();
     }
 
     @Override
@@ -109,6 +131,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    /**
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, requestCode, data);
@@ -117,6 +140,7 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
             imageToUpload.setImageURI(selectedImage);
         }
     }
+    **/
 
     /**
     private class UploadImage extends AsyncTask<Void, Void, Void>{
@@ -163,7 +187,8 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         }
     }
     **/
-/**
+
+
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap>{
        String name;
 
@@ -174,8 +199,12 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         protected Bitmap doInBackground(Void... params){
-            String url = SERVER_ADDRESS + "Uploads/" + name + ".JPG";
+
+
+            //String url = SERVER_ADDRESS + "Uploads/" + name + ".JPG";
             try {
+                String url = name;
+                System.out.println("getPath(): " + name);
                 URLConnection connection = new URL(url).openConnection();
                 connection.setConnectTimeout(1000 * 30);
                 connection.setReadTimeout(1000 * 30);
@@ -203,5 +232,12 @@ public class PracticeActivity extends AppCompatActivity implements View.OnClickL
         HttpConnectionParams.setSoTimeout(httpRequestParams, 1000* 30);
         return httpRequestParams;
     }
-        **/
+
+    void setPath(String p){
+        path[0] = p;
+    }
+    String getPath(){
+        return path[0];
+    }
+
 }
