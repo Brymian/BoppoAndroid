@@ -86,6 +86,11 @@ public class ServerRequest {
         new GetUserData(uid, userCallback).execute();
     }
 
+    public void getUserFriendRequestUsers(int uid, UserListCallback userListCallback) {
+        //pd.show();
+        new GetUserFriendRequestUsers(uid, userListCallback).execute();
+    }
+
     public void getFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
         pd.show();
         new GetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
@@ -662,6 +667,75 @@ public class ServerRequest {
             userCallback.done(user);
 
             super.onPostExecute(user);
+        }
+
+    }
+
+    private class GetUserFriendRequestUsers extends AsyncTask<Void, Void, List<User>> {
+
+        int uid;
+        UserListCallback userListCallback;
+
+        private GetUserFriendRequestUsers(int uid, UserListCallback userListCallback) {
+            this.uid = uid;
+            this.userListCallback = userListCallback;
+        }
+
+        @Override
+        protected List<User> doInBackground(Void... params) {
+            String url = SERVER + PHP + "DBIO/Functions/User.php?function=getUserFriendRequestUsers";
+
+            System.out.println("USER: " + uid);
+            Post request = new Post();
+            try {
+                JSONObject jsonUserObject = new JSONObject();
+                jsonUserObject.put("uid", uid);
+
+                String jsonUserString = jsonUserObject.toString();
+                String response = request.post(url, jsonUserString);
+                //friendsActivity.tShowFriends.setText(response);
+                //System.out.println("RESPONSE: " + response);
+                System.out.println(response);
+                if (response.equals("FRIENDSHIP STATUS TYPE LABEL IS NOT VALID.") ||
+                    response.startsWith("MYSQL ERROR: "))
+                {
+                    System.out.println(response);
+                    return null;
+                }
+                else
+                {
+                    JSONArray jArray = new JSONArray(response);
+                    List<User> userList = new ArrayList<User>();
+                    for (int i = 0; i < jArray.length(); i++)
+                    {
+                        int uid = jArray.getInt(i);
+                        User user = new User();
+                        user.setUser(uid, null, null, null, null, null, null, null, null, null);
+                        userList.add(user);
+                    }
+                    // The set will be null if nothing matched in the database
+                    return userList;
+                }
+            }
+            catch (IOException ioe)
+            {
+                System.out.println(ioe.toString());
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<User> users)
+        {
+            //pd.dismiss();
+            userListCallback.done(users);
+
+            super.onPostExecute(users);
         }
 
     }
