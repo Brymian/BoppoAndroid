@@ -186,6 +186,9 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                             TVIDS[i].setText(users.get(i).getFirstName() + " " + users.get(i).getLastName());
                             TVIDS[i].setClickable(true);
                             TVIDS[i].setOnClickListener(FriendsList.this);
+                            TVIDS[i].setTextSize(15);
+
+
 
                         }
                     }
