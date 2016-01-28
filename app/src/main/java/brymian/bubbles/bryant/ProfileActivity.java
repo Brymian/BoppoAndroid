@@ -102,9 +102,12 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         int userUID = userPhone.getUid();
         setLoggedInUserUID(userUID);
 
-        new ServerRequest(this).getImages(userUID, "Regular", new ImageListCallback() {
+        new ServerRequest(this).getImages(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
+                if(imageList.size() == 0){
+                    Toast.makeText(ProfileActivity.this, "User has no Regular Public pics.", Toast.LENGTH_SHORT).show();
+                }
                 new DownloadImage(imageList.get(0).getPath()).execute();
             }
         });
