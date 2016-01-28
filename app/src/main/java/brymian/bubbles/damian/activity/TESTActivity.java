@@ -117,6 +117,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         new ServerRequest(this).getImages(1, "All", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -132,6 +133,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
 
         /*
         int uidA = 1;
@@ -197,6 +199,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         int uid = 1;
         new ServerRequest(this).getUserData(uid, new UserCallback() {
             @Override
@@ -211,6 +214,19 @@ public class TESTActivity extends Activity {
                 System.out.println("E-mail: " + user.getEmail());
                 System.out.println("Creation date: " + user.getUserAccountCreationTimestamp());
                 System.out.println("Privacy: " + user.getUserAccountPrivacy());
+            }
+        });
+        */
+
+        new ServerRequest(this).getUserFriendRequestUsers(1, new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                System.out.println("TOTAL NUMBER OF USERS: " + users.size());
+
+                for (User user : users) {
+                    System.out.println("User #" + users.indexOf(user));
+                    System.out.println("UID: " + user.getUid());
+                }
             }
         });
 
