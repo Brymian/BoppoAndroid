@@ -202,7 +202,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 break;
         }
     }
-
+//
 
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
