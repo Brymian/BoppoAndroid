@@ -39,23 +39,23 @@
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".bryant.MapsActivity"></activity>
-        <activity android:name=".bryant.CameraActivity"></activity>
-        <activity android:name=".bryant.MenuActivity"></activity>
-        <activity android:name=".bryant.SearchUsers"></activity>
-        <activity android:name=".bryant.FilterActivity"></activity>
-        <activity android:name=".bryant.PracticeActivity"></activity>
-        <activity android:name=".bryant.ProfileActivity"></activity>
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground"></activity>
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName"></activity>
-        <activity android:name=".bryant.MenuButtons.AccountButtons.SyncFacebook"></activity>
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.Privacy"></activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications"></activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.About"></activity>
-        <activity android:name=".bryant.MenuButtons.AccountButtons.VerifyEmail"></activity>
-        <activity android:name=".bryant.MenuButtons.AccountButtons.ChangePassword"></activity>
-        <activity android:name=".bryant.FriendsList"></activity>
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking"></activity>
+        <activity android:name=".bryant.MapsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.CameraActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.SearchUsers" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.FilterActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.PracticeActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.ProfileActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.AccountButtons.SyncFacebook" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.ProfileButtons.Privacy" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SettingsButtons.About" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.AccountButtons.VerifyEmail" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.AccountButtons.ChangePassword" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.FriendsList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking" android:screenOrientation="portrait"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
@@ -73,7 +73,8 @@
 
         <activity
             android:name=".damian.activity.AuthenticateActivity"
-            android:label="@string/title_activity_new_login">
+            android:label="@string/title_activity_new_login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,10 +83,12 @@
         </activity>
         <activity
             android:name=".damian.activity.AuthenticateActivityFacebook"
-            android:label="@string/title_activity_new_login"></activity>
+            android:label="@string/title_activity_new_login"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".damian.activity.TESTActivity"
-            android:label="@string/title_activity_new_login"></activity>
+            android:label="@string/title_activity_new_login"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

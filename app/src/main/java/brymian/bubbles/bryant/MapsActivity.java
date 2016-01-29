@@ -149,8 +149,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(cameraIntent);
                 break;
             case R.id.bSearch:
-                Intent filterIntent = new Intent(this, FilterActivity.class);
-                startActivity(filterIntent);
+                //Intent filterIntent = new Intent(this, FilterActivity.class);
+               // startActivity(filterIntent);
                 break;
 
         }

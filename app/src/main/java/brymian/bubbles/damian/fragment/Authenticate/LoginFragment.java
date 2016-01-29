@@ -2,9 +2,11 @@ package brymian.bubbles.damian.fragment.Authenticate;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -12,8 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MapsActivity;
 import brymian.bubbles.bryant.MenuActivity;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
@@ -38,6 +40,11 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
+
+        if(SaveSharedPreference.getUserName(getActivity()).length() != 0){
+            startActivity(new Intent(getActivity(), MenuActivity.class));
+        }
     }
 
     @Override
@@ -99,6 +106,10 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         udl.setUserData(user);
                         System.out.println("PASSWORD CHECK: " + user.getPassword());
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
+                        SaveSharedPreference save = new SaveSharedPreference();
+                        save.setUserName(getActivity(), etUsername.getText().toString());
+                        save.setUserPassword(getActivity(), etPassword.getText().toString());
+
                         startActivity(new Intent(getActivity(), MenuActivity.class));
                     }
                 }
