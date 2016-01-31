@@ -10,6 +10,8 @@
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <!--
      To retrieve OAuth 2.0 tokens or invalidate tokens to disconnect a user. This disconnect
@@ -43,7 +45,6 @@
         <activity android:name=".bryant.CameraActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.SearchUsers" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.FilterActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.PracticeActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.ProfileActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground" android:screenOrientation="portrait"></activity>

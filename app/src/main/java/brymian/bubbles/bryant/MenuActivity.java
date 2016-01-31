@@ -1,17 +1,21 @@
 package brymian.bubbles.bryant;
 
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.LogOut;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
@@ -19,6 +23,8 @@ import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -120,8 +126,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(changeEmail);
                 break;
             case R.id.bLogOut:
-                Intent logOut = new Intent(this, LogOut.class);
-                startActivity(logOut);
+                displayAlertDialog();
                 break;
             case R.id.bSyncWithFacebook:
                 Intent syncWithFacebook = new Intent(this, SyncFacebook.class);
@@ -180,6 +185,32 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(mapsIntent);
                 break;
         }
+    }
+    public void displayAlertDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.logout, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        //alert.setTitle("Login");
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        alert.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(MenuActivity.this, AuthenticateActivity.class));
+                SaveSharedPreference.clearUserNameAndPassword(getApplicationContext());
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
     void setProfileUserFirstLastName(String firstLastName){
         profileUserFirstLastName[0] = firstLastName;

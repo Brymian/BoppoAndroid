@@ -41,10 +41,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         super.onCreate(savedInstanceState);
 
-
-        if(SaveSharedPreference.getUserName(getActivity()).length() != 0){
-            startActivity(new Intent(getActivity(), MenuActivity.class));
-        }
     }
 
     @Override
