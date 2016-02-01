@@ -32,7 +32,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    ImageButton bCamera, bMenu, bSearch, bLeftButton;
+    ImageButton bCamera, bMenu, bRight, bLeftButton;
     TextView tvTitle;
     double[] longitudeCurrent = new double[1];
     double[] latitudeCurrent = new double[1];
@@ -54,7 +54,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
 
         tvTitle = (TextView) findViewById(R.id.tvTitle);
         bCamera = (ImageButton) findViewById(R.id.bCamera);
-        bSearch =(ImageButton) findViewById(R.id.bSearch);
+        bRight =(ImageButton) findViewById(R.id.bRight);
         bMenu = (ImageButton) findViewById(R.id.bMenu);
         bLeftButton = (ImageButton) findViewById(R.id.bLeftButton);
 
@@ -92,7 +92,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         //Setting onClickListeners for all buttons
         bLeftButton.setOnClickListener(this);
         bCamera.setOnClickListener(this);
-        bSearch.setOnClickListener(this);
+        bRight.setOnClickListener(this);
         bMenu.setOnClickListener(this);
 
         setArrays();
@@ -108,19 +108,19 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
             case "Logged in user.":
                 tvTitle.setText("Your Map");
                 bCamera.setImageDrawable(cameraDrawable);
-                bSearch.setImageDrawable(searchDrawable);
+                bRight.setImageDrawable(searchDrawable);
                 bLeftButton.setImageDrawable(playDrawable);
                 break;
             case "Everyone.":
                 tvTitle.setText("Visit Anywhere!");
                 bCamera.setImageDrawable(cameraDrawable);
-                bSearch.setImageDrawable(searchDrawable);
+                bRight.setImageDrawable(searchDrawable);
                 bLeftButton.setImageDrawable(playDrawable);
                 break;
             default:
                 tvTitle.setText(username + "'s Map");
                 bCamera.setImageDrawable(cameraDrawable);
-                bSearch.setImageDrawable(searchDrawable);
+                bRight.setImageDrawable(searchDrawable);
                 bLeftButton.setImageDrawable(playDrawable);
                 break;
 
@@ -148,9 +148,11 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 cameraIntent.putExtra("longitude", getLongitudeCurrent());
                 startActivity(cameraIntent);
                 break;
-            case R.id.bSearch:
-                //Intent filterIntent = new Intent(this, FilterActivity.class);
-               // startActivity(filterIntent);
+            case R.id.bRight:
+                Intent imageDisplay = new Intent(this, ImagesDisplay.class);
+                imageDisplay.putExtra("uid", getUID());
+                startActivity(imageDisplay);
+                //startActivity(new Intent(this, ImagesDisplay.class).putExtra("uid", getUID()));
                 break;
 
         }

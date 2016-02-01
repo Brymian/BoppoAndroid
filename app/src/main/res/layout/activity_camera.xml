@@ -15,9 +15,9 @@
         android:id="@+id/image_camera"
         android:contentDescription="@string/image_cd_camera"
         android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
-        />
+        android:adjustViewBounds="true" />
 
     <Switch
         android:id="@+id/sUserImagePrivacyLabel"

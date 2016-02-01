@@ -24,6 +24,7 @@ import brymian.bubbles.bryant.MenuActivity;
 public class Notifications extends FragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Switch sVibration, sLED, sWakeScreen, sSound;
     ImageButton ibMenu;
+
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notifications);
@@ -51,14 +52,10 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
 
     @Override
     public void onCheckedChanged(CompoundButton cb, boolean b){
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
         switch (cb.getId()){
             case R.id.sVibration:
                 if(b){
-                    long[] pattern = {0, 200, 0};
-                    Notification builder = new NotificationCompat.Builder(this).setVibrate(pattern).build();
-                    notificationManager.notify(0, builder);
+                    notificationVibration();
                 }
                 else{
                     Toast.makeText(Notifications.this, "Vibration is off", Toast.LENGTH_SHORT).show();
@@ -67,8 +64,7 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
 
             case R.id.sLED:
                 if(b){
-                    Notification builder = new NotificationCompat.Builder(this).setLights(Color.GREEN, 5000, 5000).build();
-                    notificationManager.notify(0, builder);
+                    notificationLED();
                 }
                 else{
                     Toast.makeText(Notifications.this, "LED is off", Toast.LENGTH_SHORT).show();
@@ -77,8 +73,7 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
 
             case R.id.sSound:
                 if(b){
-                    Notification builder = new NotificationCompat.Builder(this).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).build();
-                    notificationManager.notify(0, builder);
+                    notificationSound();
                 }
                 else{
                     Toast.makeText(Notifications.this, "Sound is off", Toast.LENGTH_SHORT).show();
@@ -93,5 +88,26 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
                 }
                 break;
         }
+    }
+
+    public void notificationVibration(){
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        long[] pattern = {0, 200, 0};
+        Notification builder = new NotificationCompat.Builder(this).setVibrate(pattern).build();
+        notificationManager.notify(0, builder);
+    }
+
+    public void notificationLED(){
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Notification builder = new NotificationCompat.Builder(this).setLights(Color.GREEN, 5000, 5000).build();
+        notificationManager.notify(0, builder);
+    }
+
+    public void notificationSound(){
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        Notification builder = new NotificationCompat.Builder(this).setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)).build();
+        notificationManager.notify(0, builder);
     }
 }

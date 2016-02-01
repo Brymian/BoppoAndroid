@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,11 +22,13 @@ import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 public class FriendsList extends FragmentActivity implements View.OnClickListener {
     ImageButton ibMenu;
+    LinearLayout llFriendRequestsTitle, llFriendRequestListMAIN, llFriendsListTitle;
     TextView tUsersName,tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9;
     TextView[] TVIDS = {tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9};
     int[] TVRIDS = {R.id.tFriend0,R.id.tFriend1,R.id.tFriend2,R.id.tFriend3,R.id.tFriend4,R.id.tFriend5,R.id.tFriend6,R.id.tFriend7,R.id.tFriend8,R.id.tFriend9};
 
     int[] profileUserUID = new int[1];
+
 
     //String[] friendUserNameTempHold = new String[10];
     //String[] friendNameTempHold = new String[10];
@@ -40,7 +43,9 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
 
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
-        tUsersName = (TextView) findViewById(R.id.tUsersName);
+        llFriendRequestsTitle = (LinearLayout) findViewById(R.id.llFriendRequestsTitle);
+        llFriendRequestListMAIN = (LinearLayout) findViewById(R.id.llFriendRequestsListMAIN);
+        llFriendsListTitle = (LinearLayout) findViewById(R.id.llFriendsListTitle);
 
         tFriend0 = (TextView) findViewById(R.id.tFriend0);
         tFriend1 = (TextView) findViewById(R.id.tFriend1);
@@ -64,9 +69,11 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         tFriend8.setVisibility(View.GONE);
         tFriend9.setVisibility(View.GONE);
 
-        ibMenu.setOnClickListener(this);
-        tUsersName.setOnClickListener(this);
+        llFriendRequestsTitle.setVisibility(View.GONE);
+        llFriendRequestListMAIN.setVisibility(View.GONE);
+        llFriendsListTitle.setVisibility(View.GONE);
 
+        ibMenu.setOnClickListener(this);
 
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
@@ -74,6 +81,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
         setProfileUserUID(userUID);
         profileUserFriendsList(userUID);
+        profileUserFriendRequests(userUID);
     }
 
     public void onClick(View v){
@@ -173,10 +181,10 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
             @Override
             public void done(List<User> users) {
                 System.out.println(users.size());
-                try{
+                try {
                     int friendListSize = users.size();
-                    if (friendListSize > 0){
-                        for(int i = 0; i < friendListSize; i++){
+                    if (friendListSize > 0) {
+                        for (int i = 0; i < friendListSize; i++) {
                             profileUserFriendUID.add(i, users.get(i).getUid());
                             profileUserFriendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
 
@@ -186,17 +194,33 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                             TVIDS[i].setText(users.get(i).getFirstName() + " " + users.get(i).getLastName());
                             TVIDS[i].setClickable(true);
                             TVIDS[i].setOnClickListener(FriendsList.this);
-                            TVIDS[i].setTextSize(15);
-
+                            TVIDS[i].setTextSize(20);
 
 
                         }
-                    }
-                    else if (friendListSize == 0){
+                    } else if (friendListSize == 0) {
                         Toast.makeText(FriendsList.this, "No friends", Toast.LENGTH_SHORT).show();
                     }
-                }catch (NullPointerException e){
+                } catch (NullPointerException e) {
                     e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    void profileUserFriendRequests(int uid){
+        new ServerRequest(this).getUserFriendRequestUsers(uid, new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                try {
+                    System.out.println("users.size(): " + users.size() + ", users.get(0).getUid(): " + users.get(0).getUid());
+                    if(users.size() > 0){
+                        llFriendRequestsTitle.setVisibility(View.VISIBLE);
+
+                    }
+                } catch (IndexOutOfBoundsException ioob) {
+                    ioob.printStackTrace();
+                    Toast.makeText(FriendsList.this, "No friend requests", Toast.LENGTH_SHORT).show();
                 }
             }
         });

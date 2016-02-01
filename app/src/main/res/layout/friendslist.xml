@@ -8,13 +8,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/MainLinearLayout">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="#b6ffcf">
+            android:background="#b6ffcf"
+            android:id="@+id/linearLayoutTOP">
 
             <ImageButton android:id="@+id/ibMenu"
                 android:layout_width="wrap_content"
@@ -33,9 +35,67 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llFriendRequestsTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friend Requests"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFriendRequestsListMAIN"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp">
+            <LinearLayout
+                android:id="@+id/llFriendRequestListNAMES"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvFriendsListName0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:id="@+id/tvFriendsListName1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llFriendRequestListRESPONSE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFriendsListTitle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvFriendsTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Friends"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llFriendsList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="5dp"
+            android:paddingLeft="10dp">
             <TextView
                 android:id="@+id/tFriend0"
                 android:layout_width="match_parent"

@@ -57,6 +57,7 @@
         <activity android:name=".bryant.MenuButtons.AccountButtons.ChangePassword" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.FriendsList" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
