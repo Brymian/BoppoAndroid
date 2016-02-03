@@ -64,7 +64,7 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
 
         for(int i = 0; i < imageViewArray.length; i++){
             imageViewArray[i] = (ImageView) findViewById(imageViewRIDS[i]);
-            imageViewArray[i].setVisibility(View.GONE);
+            //imageViewArray[i].setVisibility(View.GONE);
         }
 
         ibMenu.setOnClickListener(this);
