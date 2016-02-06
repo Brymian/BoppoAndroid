@@ -34,9 +34,9 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
 
     TextView tUserName;
     ImageButton ibMenu;
-    ImageView ivImage0, ivImage1, ivImage2, ivImage3, ivImage4, ivImage5;
-    ImageView[] imageViewArray = {ivImage0, ivImage1, ivImage2, ivImage3, ivImage4, ivImage5};
-    int[] imageViewRIDS = {R.id.ivImage0, R.id.ivImage1, R.id.ivImage2, R.id.ivImage2, R.id.ivImage3, R.id.ivImage4, R.id.ivImage5};
+    ImageView ivImage0, ivImage1, ivImage2, ivImage3, ivImage4, ivImage5, ivImage6, ivImage7, ivImage8, ivImage9, ivImage10, ivImage11, ivImage12, ivImage13, ivImage14, ivImage15, ivImage16, ivImage17, ivImage18, ivImage19, ivImage20, ivImage21, ivImage22, ivImage23, ivImage24, ivImage25, ivImage26, ivImage27, ivImage28, ivImage29;
+    ImageView[] imageViewArray = {ivImage0, ivImage1, ivImage2, ivImage3, ivImage4, ivImage5, ivImage6, ivImage7, ivImage8, ivImage9, ivImage10, ivImage11, ivImage12, ivImage13, ivImage14, ivImage15, ivImage16, ivImage17, ivImage18, ivImage19, ivImage20, ivImage21, ivImage22, ivImage23, ivImage24, ivImage25, ivImage26, ivImage27, ivImage28, ivImage29};
+    int[] imageViewRIDS = {R.id.ivImage0, R.id.ivImage1, R.id.ivImage2, R.id.ivImage3, R.id.ivImage4, R.id.ivImage5, R.id.ivImage6, R.id.ivImage7, R.id.ivImage8, R.id.ivImage9, R.id.ivImage10, R.id.ivImage11, R.id.ivImage12, R.id.ivImage13, R.id.ivImage14, R.id.ivImage15, R.id.ivImage16, R.id.ivImage17, R.id.ivImage18, R.id.ivImage19, R.id.ivImage19, R.id.ivImage20, R.id.ivImage21, R.id.ivImage22, R.id.ivImage23, R.id.ivImage24, R.id.ivImage25, R.id.ivImage26, R.id.ivImage27, R.id.ivImage28, R.id.ivImage29};
     LinearLayout llFirstRow, llSecondRow;
 
     @Override
@@ -59,8 +59,8 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
 
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
         tUserName = (TextView) findViewById(R.id.tUserName);
-        llFirstRow = (LinearLayout) findViewById(R.id.llFirstRow);
-        llSecondRow = (LinearLayout) findViewById(R.id.llSecondRow);
+        //llFirstRow = (LinearLayout) findViewById(R.id.llFirstRow);
+        //llSecondRow = (LinearLayout) findViewById(R.id.llSecondRow);
 
         for(int i = 0; i < imageViewArray.length; i++){
             imageViewArray[i] = (ImageView) findViewById(imageViewRIDS[i]);
@@ -89,10 +89,10 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
                 try{
                     System.out.println("imageList.size(): " + imageList.size());
                     if (imageList.size() != 0){
-                        llFirstRow.setVisibility(View.VISIBLE);
-                        llSecondRow.setVisibility(View.VISIBLE);
+                        //llFirstRow.setVisibility(View.VISIBLE);
+                        //llSecondRow.setVisibility(View.VISIBLE);
                         for(int i = 0; i < imageList.size(); i++){
-                            new DownloadImage(imageList.get(i).getPath(), i);
+                            new DownloadImage(imageList.get(i).getPath(), i).execute();
                         }
                     }
                     else{
