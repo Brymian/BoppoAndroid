@@ -107,7 +107,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
                 int userUID = userPhone.getUid();
                 Bitmap image = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                image.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 System.out.println("getUserImagePrivacyLabel(): " + getUserImagePrivacyLabel());
                 new ServerRequest(this).uploadImage(userUID, imageName() + ".jpg", "Regular", getUserImagePrivacyLabel(), getLatitude(), getLongitude(), encodedImage, new StringCallback() {

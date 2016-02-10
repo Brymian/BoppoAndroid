@@ -17,6 +17,58 @@
     <string name="error_connection">Server is not reachable.</string>
     <string name="error_logged_in">Incorrect user details.</string>
     <string name="message_registration">Registration successful.</string>
+    <!-- END OF DAMIAN'S GLOBAL STRING VARIABLES -->
 
+    <!-- BRYANT'S STRING VARIABLES -->
+        <!-- TITLES -->
+        <string name="menu">Menu</string>
+        <string name="change_passwordTITLE">Change Password</string>
+        <string name="verify_emailTITLE">Verify Email</string>
+        <string name="eventTITLE">Events</string>
+        <!-- MENU - ACCOUNT-->
+            <string name="account">Account</string>
+            <string name="verify_email">Verify Email</string>
+            <string name="change_password">Change Password</string>
+            <string name="sync_with_facebook">Sync With Facebook</string>
+            <string name="log_out">Log Out</string>
+        <!-- MENU - SETTINGS -->
+            <string name="settings">Settings</string>
+            <string name="notifications">Notifications</string>
+            <string name="about">About</string>
+            <string name="blocking">Blocking</string>
+        <!-- MENU - PROFILE -->
+            <string name="profile">Profile</string>
+            <string name="your_profile">Your Profile</string>
+            <string name="profile_background">Profile Background</string>
+            <string name="profile_name">Profile Name</string>
+            <string name="profile_privacy">Profile Privacy</string>
+        <!-- MENU - SOCIAL -->
+            <string name="social">Social</string>
+            <string name="event">Events</string>
+            <string name="friends">Friends</string>
+            <string name="search_users">Search Users</string>
+
+    <!-- CHANGE PASSWORD - HINTS -->
+            <string name="current_password">Current Password</string>
+            <string name="new_password">New Password</string>
+            <string name="confirm_new_password">Confirm New Password</string>
+        <!-- VERIFY EMAIL - HINTS -->
+            <string name="email">Email</string>
+        <!-- SAVE TEXTVIEW TEXT -->
+            <string name="save">Save</string>
+        <!-- EVENTS - CREATE EVENT -->
+            <string name="create_event">Create Event</string>
+            <string name="add_event_title_hint">Add Event Title</string>
+            <string name="done">Done</string>
+            <string name="cancel">Cancel</string>
+
+
+        <!-- CONTENT DESCRIPTION -->
+            <!-- PROFILE ACTIVITY -->
+            <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
+            <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
+            <string name="right_button_profile_contentDescription">This is the right ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
+
+    <!-- END OF BRYANT'S STRING VARIABLES -->
 </resources>
 

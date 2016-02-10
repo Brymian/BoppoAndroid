@@ -1,9 +1,8 @@
-package brymian.bubbles.bryant;
+package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -15,16 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
+import brymian.bubbles.bryant.MapsActivity;
+import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
@@ -109,7 +106,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                     Toast.makeText(ProfileActivity.this, "User has no Regular Public pics.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DownloadImage(imageList.get(0).getPath()).execute();
+                    new DownloadImage(imageList.get(13).getPath()).execute();
                 }
             }
         });
@@ -214,6 +211,29 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             this.name = name;
         }
 
+        Bitmap ShrinkBitmap(String file, int width, int height){
+
+            BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+            bmpFactoryOptions.inJustDecodeBounds = true;
+            Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+            int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
+            int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
+
+            if (heightRatio > 1 || widthRatio > 1)
+            {
+                if (heightRatio > widthRatio)
+                {
+                    bmpFactoryOptions.inSampleSize = heightRatio;
+                } else {
+                    bmpFactoryOptions.inSampleSize = widthRatio;
+                }
+            }
+
+            bmpFactoryOptions.inJustDecodeBounds = false;
+            bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+            return bitmap;
+        }
 
         @Override
         protected Bitmap doInBackground(Void... params){
@@ -224,10 +244,17 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                 String url = name;
                 System.out.println("getPath(): " + name);
                 URLConnection connection = new URL(url).openConnection();
-                connection.setConnectTimeout(1000 * 30);
-                connection.setReadTimeout(1000 * 30);
+                connection.connect();
+                //connection.setConnectTimeout(1000 * 30);
+                //connection.setReadTimeout(1000 * 30);
 
-                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+                Bitmap bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+                System.out.println("getByteCount(): "+bitmap.getByteCount());
+                //System.out.println("getAllocationByteCount(): "+bitmap.getAllocationByteCount());
+                return bitmap;
+                //Bitmap image = BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+                //BitmapFactory.Options bitopt = new BitmapFactory.Options();
+                //return image;
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -246,12 +273,6 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         }
     }
 
-    private HttpParams getHttpRequestParams(){
-        HttpParams httpRequestParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpRequestParams, 1000 * 30);
-        HttpConnectionParams.setSoTimeout(httpRequestParams, 1000 * 30);
-        return httpRequestParams;
-    }
 
     void setID(int uid){
         IDhold[0] = uid;

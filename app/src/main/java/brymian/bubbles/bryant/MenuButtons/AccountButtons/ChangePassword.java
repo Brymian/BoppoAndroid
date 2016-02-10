@@ -1,19 +1,17 @@
 package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-
-import java.util.Set;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
@@ -22,12 +20,12 @@ import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
-import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 public class ChangePassword extends FragmentActivity implements View.OnClickListener{
     ImageButton ibMenu;
     EditText etOldPassword, etNewPassword, etNewPasswordAgain;
-    Button bChangePassword;
+    TextView bChangePassword;
+    ImageView ivCurrentPassword, ivConfirmNewPassword;
     boolean isEquals;
     int[] profileUserUID = new int[1];
 
@@ -50,10 +48,10 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
                     String password = user.getPassword();
                     System.out.println("PASSWORD IS: " + password + ", USERNAME IS: " + user.getUsername());
                     if(etOldPassword.getText().toString().equals(password)){
-                        etOldPassword.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                        ivCurrentPassword.setImageResource(R.mipmap.green_checkmark_nopadding);
                     }
                     else{
-                        etOldPassword.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                        ivCurrentPassword.setImageResource(R.mipmap.red_x_nopadding);
                     }
                 }
             });
@@ -74,11 +72,12 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
         @Override
         public void afterTextChanged(Editable s) {
             if (etNewPasswordAgain.getText().toString().equals(etNewPassword.getText().toString())) {
-                etNewPasswordAgain.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                ivConfirmNewPassword.setImageResource(R.mipmap.green_checkmark_nopadding);
+                bChangePassword.setVisibility(View.VISIBLE);
                 isEquals = true;
             }
             else{
-                etNewPasswordAgain.setBackgroundColor(getResources().getColor(android.R.color.holo_red_light));
+                ivConfirmNewPassword.setImageResource(R.mipmap.red_x_nopadding);
                 isEquals = false;
             }
         }
@@ -86,16 +85,19 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_account_changepassword);
+        setContentView(R.layout.change_password);
 
         ibMenu =(ImageButton) findViewById(R.id.ibMenu);
         etOldPassword = (EditText) findViewById(R.id.etOldPassword);
         etNewPassword = (EditText) findViewById(R.id.etNewPassword);
         etNewPasswordAgain = (EditText) findViewById(R.id.etNewPasswordAgain);
-        bChangePassword = (Button) findViewById(R.id.bChangePassword);
+        bChangePassword = (TextView) findViewById(R.id.bChangePassword);
+        ivCurrentPassword = (ImageView) findViewById(R.id.ivCurrentPassword);
+        ivConfirmNewPassword = (ImageView) findViewById(R.id.ivConfirmNewPassword);
 
         ibMenu.setOnClickListener(this);
         bChangePassword.setOnClickListener(this);
+        bChangePassword.setVisibility(View.GONE);
 
         etOldPassword.addTextChangedListener(oldPasswordWatcher);
         etNewPasswordAgain.addTextChangedListener(newPasswordAgainWatcher);
@@ -118,7 +120,10 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
                         @Override
                         public void done(String string) {
                             System.out.println("THIS IS FROM onClick(R.id.bChangePassword): " + string);
-                            Toast.makeText(ChangePassword.this, "FROM onClick(R.id,bChangePassword): " + string, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ChangePassword.this, string, Toast.LENGTH_SHORT).show();
+                            if(string.equals("Password changed successfully.")){
+                                startActivity(new Intent(ChangePassword.this, MenuActivity.class));
+                            }
                         }
                     });
                 }

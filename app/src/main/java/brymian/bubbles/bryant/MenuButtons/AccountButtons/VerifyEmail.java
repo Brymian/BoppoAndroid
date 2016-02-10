@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
@@ -22,7 +23,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 public class VerifyEmail extends FragmentActivity implements View.OnClickListener{
     ImageButton ibMenu;
     EditText etVerifyEmail;
-    Button bVerifyEmail;
+    TextView bVerifyEmail;
     int[] profileUserUID = new int[1];
 
     protected void onCreate(Bundle savedInstanceState){
@@ -31,7 +32,7 @@ public class VerifyEmail extends FragmentActivity implements View.OnClickListene
 
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
         etVerifyEmail = (EditText) findViewById(R.id.etVerifyEmail);
-        bVerifyEmail = (Button) findViewById(R.id.bVerifyEmail);
+        bVerifyEmail = (TextView) findViewById(R.id.bVerifyEmail);
 
         ibMenu.setOnClickListener(this);
         bVerifyEmail.setOnClickListener(this);

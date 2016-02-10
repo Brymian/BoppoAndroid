@@ -115,6 +115,37 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
             this.location = location;
         }
 
+        Bitmap ShrinkBitmap(String file, int width, int height){
+
+            BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
+            bmpFactoryOptions.inJustDecodeBounds = true;
+            Bitmap bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+
+            int heightRatio = (int)Math.ceil(bmpFactoryOptions.outHeight/(float)height);
+            int widthRatio = (int)Math.ceil(bmpFactoryOptions.outWidth/(float)width);
+
+            if (heightRatio > 1 || widthRatio > 1)
+            {
+                if (heightRatio > widthRatio)
+                {
+                    bmpFactoryOptions.inSampleSize = heightRatio;
+                } else {
+                    bmpFactoryOptions.inSampleSize = widthRatio;
+                }
+            }
+
+            bmpFactoryOptions.inJustDecodeBounds = false;
+            try(InputStream is = new URL(file).openStream() ){
+                Bitmap bitmapTRY = BitmapFactory.decodeStream( is );
+                return bitmapTRY;
+            }
+            catch(Exception e){
+                e.printStackTrace();
+                return null;
+            }
+            //bitmap = BitmapFactory.decodeFile(file, bmpFactoryOptions);
+            //return bitmap;
+        }
 
         @Override
         protected Bitmap doInBackground(Void... params){
@@ -128,7 +159,8 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
                 connection.setConnectTimeout(1000 * 30);
                 connection.setReadTimeout(1000 * 30);
 
-                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+                //return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+                return ShrinkBitmap(path, 100, 100);
             }
             catch(Exception e){
                 e.printStackTrace();
@@ -148,10 +180,4 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
         }
     }
 
-    private HttpParams getHttpRequestParams(){
-        HttpParams httpRequestParams = new BasicHttpParams();
-        HttpConnectionParams.setConnectionTimeout(httpRequestParams, 1000 * 30);
-        HttpConnectionParams.setSoTimeout(httpRequestParams, 1000 * 30);
-        return httpRequestParams;
-    }
 }

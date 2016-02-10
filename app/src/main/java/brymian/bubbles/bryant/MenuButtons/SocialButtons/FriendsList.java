@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant;
+package brymian.bubbles.bryant.MenuButtons.SocialButtons;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,9 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.MenuActivity;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 

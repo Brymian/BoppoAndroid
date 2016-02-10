@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/bMenu"
         android:gravity="center_vertical|center_horizontal"
-        android:textSize="35dp" />
+        android:textSize="35sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,35 +29,39 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:background="#b6ffcf">
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="#42ffbf">
         <ImageButton
             android:id="@+id/bLeft"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bCamera"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_weight="1"
+            android:contentDescription="@string/left_button_profile_contentDescription"
             android:background="@android:color/transparent"/>
 
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
         <ImageButton
             android:id="@+id/bMiddle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:layout_weight="1"
+            android:contentDescription="@string/middle_button_profile_contentDescription"
             android:background="@android:color/transparent"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
 
         <ImageButton
             android:id="@+id/bRight"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/bAddFriend"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_weight="1"
+            android:contentDescription="@string/right_button_profile_contentDescription"
             android:background="@android:color/transparent"/>
 
 

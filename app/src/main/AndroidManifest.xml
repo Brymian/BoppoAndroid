@@ -44,9 +44,8 @@
         <activity android:name=".bryant.MapsActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.CameraActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.SearchUsers" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.PracticeActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.ProfileActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.SearchUsers" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.SyncFacebook" android:screenOrientation="portrait"></activity>
@@ -55,9 +54,11 @@
         <activity android:name=".bryant.MenuButtons.SettingsButtons.About" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.VerifyEmail" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.ChangePassword" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.FriendsList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.FriendsList" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.Events" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.EventsCreate"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->

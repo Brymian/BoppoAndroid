@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -19,14 +18,17 @@ import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
+import brymian.bubbles.bryant.MenuButtons.SocialButtons.Events;
+import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
+import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
@@ -34,7 +36,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
     TextView bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
     TextView bNotifications, bAbout, bBlocking;
-    TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser, bFriends;
+    TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser, bFriends, tEvents;
     ImageButton ibMap;
     String[] profileUserUsername = new String[1];
     String[] profileUserFirstLastName = new String[1];
@@ -42,7 +44,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu);
+        setContentView(R.layout.menu);
 
         //Go to personal Profile
         ibMap = (ImageButton) findViewById(R.id.ibMap);
@@ -65,6 +67,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bProfilePrivacy = (TextView) findViewById(R.id.bProfilePrivacy);
         bSearchUser = (TextView) findViewById(R.id.bSearchUser);
         bFriends = (TextView) findViewById(R.id.bFriends);
+        tEvents = (TextView) findViewById(R.id.tEvents);
 
         //Account onClickListeners
         bChangePassword.setOnClickListener(this);
@@ -84,6 +87,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         bYourProfile.setOnClickListener(this);
         bSearchUser.setOnClickListener(this);
         bFriends.setOnClickListener(this);
+        tEvents.setOnClickListener(this);
 
         //Map button
         ibMap.setOnClickListener(this);
@@ -175,6 +179,9 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             case R.id.bProfilePrivacy:
                 Intent profilePrivacyIntent = new Intent(this, Privacy.class);
                 startActivity(profilePrivacyIntent);
+                break;
+            case R.id.tEvents:
+                startActivity(new Intent(this, Events.class));
                 break;
             //Home button on the top left
             case R.id.ibMap:

@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
 import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
