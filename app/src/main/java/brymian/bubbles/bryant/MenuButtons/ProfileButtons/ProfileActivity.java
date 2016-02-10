@@ -106,7 +106,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                     Toast.makeText(ProfileActivity.this, "User has no Regular Public pics.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    new DownloadImage(imageList.get(13).getPath()).execute();
+                    new DownloadImage(imageList.get(0).getPath()).execute();
                 }
             }
         });
