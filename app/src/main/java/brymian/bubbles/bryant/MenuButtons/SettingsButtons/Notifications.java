@@ -22,7 +22,7 @@ import brymian.bubbles.bryant.MenuActivity;
  * Created by Almanza on 7/6/2015.
  */
 public class Notifications extends FragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
-    Switch sVibration, sLED, sWakeScreen, sSound;
+    Switch sVibration, sLED, sSound;
     ImageButton ibMenu;
 
     protected void onCreate(Bundle savedInstanceState){
@@ -31,7 +31,6 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
 
         sVibration = (Switch) findViewById(R.id.sVibration);
         sLED = (Switch) findViewById(R.id.sLED);
-        sWakeScreen = (Switch) findViewById(R.id.sWakeScreen);
         sSound = (Switch) findViewById(R.id.sSound);
 
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
@@ -39,7 +38,6 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
         ibMenu.setOnClickListener(this);
         sVibration.setOnCheckedChangeListener(this);
         sLED.setOnCheckedChangeListener(this);
-        sWakeScreen.setOnCheckedChangeListener(this);
         sSound.setOnCheckedChangeListener(this);
     }
     public void onClick(View v){
@@ -77,14 +75,6 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
                 }
                 else{
                     Toast.makeText(Notifications.this, "Sound is off", Toast.LENGTH_SHORT).show();
-                }
-                break;
-
-            case R.id.sWakeScreen:
-                if(b){
-                }
-                else{
-
                 }
                 break;
         }

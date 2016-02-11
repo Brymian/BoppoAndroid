@@ -58,7 +58,10 @@
         <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.SocialButtons.Events" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.MenuButtons.SocialButtons.EventsCreate"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.EventsCreate" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.EventsTop" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.EventsYours" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SocialButtons.EventsSearch" android:screenOrientation="portrait"></activity>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->

@@ -25,6 +25,9 @@
         <string name="change_passwordTITLE">Change Password</string>
         <string name="verify_emailTITLE">Verify Email</string>
         <string name="eventTITLE">Events</string>
+        <string name="eventSearchTITLE">Search Events</string>
+        <string name="event_topTITLE">Top Events</string>
+        <string name="notificationsTITLE">Notifications</string>
         <!-- MENU - ACCOUNT-->
             <string name="account">Account</string>
             <string name="verify_email">Verify Email</string>
@@ -56,12 +59,23 @@
             <string name="email">Email</string>
         <!-- SAVE TEXTVIEW TEXT -->
             <string name="save">Save</string>
+        <!-- EVENTS -->
+            <string name="top_events">Top Events</string>
+            <string name="your_events">Your Events</string>
+            <string name="search_events">Search Events</string>
+            <string name="event_requests">Event Requests</string>
+            <string name="view_more_top_events">View More Top Events&#8230;</string>
+            <string name="view_all_your_events">View All Your Events&#8230;</string>
         <!-- EVENTS - CREATE EVENT -->
             <string name="create_event">Create Event</string>
             <string name="add_event_title_hint">Add Event Title</string>
             <string name="done">Done</string>
             <string name="cancel">Cancel</string>
-
+        <!-- EVENTS - SEARCH EVENTS - HINT -->
+            <string name="search_events_hint">Search</string>
+        <!-- EVENTS - YOUR EVENTS -->
+            <string name="events_participated">Events Participated</string>
+            <string name="events_hosted">Events Hosted</string>
 
         <!-- CONTENT DESCRIPTION -->
             <!-- PROFILE ACTIVITY -->

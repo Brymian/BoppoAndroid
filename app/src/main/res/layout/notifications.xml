@@ -10,20 +10,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#b6ffcf">
+        android:background="#42ffbf">
         <ImageButton
             android:id="@+id/ibMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/three_line_menu_w_pad"
+            android:src="@mipmap/menu_icon_black_nopadd"
             android:background="@android:color/transparent"/>
         <TextView
             android:id="@+id/tProfileBackground"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="Notifications"
+            android:text="@string/notificationsTITLE"
             android:gravity="center_vertical"
-            android:textSize="25dp"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
             android:textIsSelectable="false"
             android:paddingLeft="10dp" />
     </LinearLayout>
@@ -72,27 +73,7 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:gravity="center_vertical">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Wake Screen"
-            android:layout_weight="1"/>
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/sWakeScreen"/>
 
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -112,7 +93,9 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:id="@+id/sSound"/>
+            android:id="@+id/sSound"
+            android:gravity="center"
+            android:checked="false" />
 
     </LinearLayout>
 
