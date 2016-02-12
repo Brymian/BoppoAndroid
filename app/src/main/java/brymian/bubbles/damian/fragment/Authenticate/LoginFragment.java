@@ -12,6 +12,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
@@ -29,9 +35,9 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
  */
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
-    Button bLogin;
+    TextView bLogin;
     EditText etUsername, etPassword;
-    ImageButton ibRegisterLink;
+    TextView ibRegisterLink;
     UserDataLocal udl;
 
     public LoginFragment() {
@@ -50,8 +56,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
         etUsername = (EditText) rootView.findViewById(R.id.etUsername);
         etPassword = (EditText) rootView.findViewById(R.id.etPassword);
-        bLogin = (Button) rootView.findViewById(R.id.bLogin);
-        ibRegisterLink = (ImageButton) rootView.findViewById(R.id.ibRegisterLink);
+        bLogin = (TextView) rootView.findViewById(R.id.bLogin);
+        ibRegisterLink = (TextView) rootView.findViewById(R.id.ibRegisterLink);
 
         bLogin.setOnClickListener(this);
         ibRegisterLink.setOnClickListener(this);
@@ -86,8 +92,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 public void done(Void aVoid) {
                     UserDataLocal udl = new UserDataLocal(getActivity());
                     //User user = udl.getUserData();
-                    if (!udl.getLoggedStatus())
-                    {
+                    if (!udl.getLoggedStatus()) {
                         DialogMessage.showErrorLoggedIn(getActivity());
                     }
                     /*
@@ -102,9 +107,33 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         udl.setUserData(user);
                         System.out.println("PASSWORD CHECK: " + user.getPassword());
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
+
+
                         SaveSharedPreference save = new SaveSharedPreference();
                         save.setUserName(getActivity(), etUsername.getText().toString());
                         save.setUserPassword(getActivity(), etPassword.getText().toString());
+
+                        User loggedInUser = udl.getUserData();
+                        int loggedInUserUID = loggedInUser.getUid();
+
+                        String FILENAME = "login_info.txt";
+                        //String login_info = etUsername.getText().toString();
+                        String login_info = etUsername.getText().toString();
+
+
+                        try {
+                            FileOutputStream fos = getActivity().openFileOutput(FILENAME, Context.MODE_PRIVATE);
+                            fos.write(login_info.getBytes());
+                            fos.close();
+                        }catch(FileNotFoundException fnfe){
+                            fnfe.printStackTrace();
+                            System.out.println("FileNowFoundException thrown.");
+                        }
+                        catch (IOException ioe) {
+                            ioe.printStackTrace();
+                            System.out.println("IOException thrown.");
+                        }
+
 
                         startActivity(new Intent(getActivity(), MenuActivity.class));
                     }

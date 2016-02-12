@@ -1,131 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:layout_width="match_parent"
-    android:padding="10px">
+    android:layout_width="match_parent">
 
-    <TextView
-        android:layout_marginBottom="15dp"
-        android:gravity="center_horizontal"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:textSize="40dp"
-        android:layout_width="wrap_content"
-        android:text="REGISTER"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Username: "
-        android:layout_height="wrap_content"
-        android:textSize="20dp" />
-
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_marginBottom="10dp"
+    <LinearLayout
+        android:id="@+id/llTopBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"/>
+        android:orientation="horizontal"
+        android:background="#42ffbf">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Password: "
-        android:layout_height="wrap_content"
-        android:textSize="20dp" />
+        <ImageButton android:id="@+id/ibGoBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/arrow_black_nopadding"
+            android:contentDescription="@string/go_back_contentDescription"
+            android:background="@android:color/transparent" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/registerTITLE"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
+            android:paddingLeft="10dp"
+            android:gravity="center_vertical" />
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_marginBottom="10dp"
+    </LinearLayout>
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:maxLines="1"/>
+        android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Confirm Password: "
-        android:layout_height="wrap_content"
-        android:textSize="20dp"/>
+        <LinearLayout
+            android:id="@+id/llMainLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
 
-    <EditText
-        android:id="@+id/etConfirmPassword"
-        android:layout_marginBottom="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:maxLines="1"/>
+            <LinearLayout
+                android:id="@+id/llUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_marginBottom="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username_hint"
+                    android:textStyle="italic"
+                    android:maxLines="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/password_hint"
+                    android:textStyle="italic"
+                    android:maxLines="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:inputType="textPassword"
+                    android:hint="@string/confirm_password_hint"
+                    android:textStyle="italic"
+                    android:maxLines="1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFirstLastName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etNamefirst"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/first_name_hint"
+                    android:textStyle="italic"
+                    android:layout_weight=".6"
+                    android:maxLines="1"/>
+                <EditText
+                    android:id="@+id/etNamelast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/last_name_hint"
+                    android:textStyle="italic"
+                    android:layout_weight=".4"
+                    android:maxLines="1"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_hint"
+                    android:textStyle="italic"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <RelativeLayout
-            android:layout_width="0dp"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/bRegister"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="First Name: "
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/etNamefirst"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.6">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:text="Last Name: "
-                android:layout_marginBottom="20dp"
-                android:layout_height="wrap_content"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/etNamelast"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1"/>
-        </RelativeLayout>
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:text="@string/done"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:gravity="center"
+            android:background="#42ffbf"
+            android:layout_gravity="bottom"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Email: "
-        android:layout_height="wrap_content"
-        android:textSize="20dp" />
-
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_marginBottom="5dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:maxLines="1"/>
-
-    <Button
-        android:id="@+id/bRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Register" />
 
 </LinearLayout>
-</ScrollView>

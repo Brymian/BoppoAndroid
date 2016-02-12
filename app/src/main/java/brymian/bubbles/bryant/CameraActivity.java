@@ -69,18 +69,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_camera);
         takePhoto();
-
-
-        bUploadImage = (Button) findViewById(R.id.bUploadImage);
-        imageView = (ImageView) findViewById(R.id.image_camera);
-        sUserImagePrivacyLabel = (Switch) findViewById(R.id.sUserImagePrivacyLabel);
-
-        bUploadImage.setOnClickListener(this);
-        sUserImagePrivacyLabel.setOnCheckedChangeListener(this);
-        imageView.setOnClickListener(this);
-
         double latitude = 0;
         double longitude = 0;
         if(savedInstanceState == null){
@@ -99,6 +88,17 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
         setLongitude(longitude);
     }
 
+    public void setLayoutAndButtons(){
+        setContentView(R.layout.activity_camera);
+        bUploadImage = (Button) findViewById(R.id.bUploadImage);
+        imageView = (ImageView) findViewById(R.id.image_camera);
+        sUserImagePrivacyLabel = (Switch) findViewById(R.id.sUserImagePrivacyLabel);
+
+        bUploadImage.setOnClickListener(this);
+        sUserImagePrivacyLabel.setOnCheckedChangeListener(this);
+        imageView.setOnClickListener(this);
+    }
+
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bUploadImage:
@@ -110,6 +110,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
                 image.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 System.out.println("getUserImagePrivacyLabel(): " + getUserImagePrivacyLabel());
+
                 new ServerRequest(this).uploadImage(userUID, imageName() + ".jpg", "Regular", getUserImagePrivacyLabel(), getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -163,7 +164,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        setLayoutAndButtons();
         if (resultCode == Activity.RESULT_OK) {
             Uri selectedImage = imageUri;
             getContentResolver().notifyChange(selectedImage, null);

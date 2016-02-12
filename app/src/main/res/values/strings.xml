@@ -17,6 +17,21 @@
     <string name="error_connection">Server is not reachable.</string>
     <string name="error_logged_in">Incorrect user details.</string>
     <string name="message_registration">Registration successful.</string>
+
+        <!-- TITLES -->
+        <string name="registerTITLE">Register</string>
+        <string name="log_inTITLE">Log In</string>
+
+        <!-- FRAGMENT_LOGIN -->
+        <string name="username_or_email_hint">Username or Email</string>
+        <string name="password_hint">Password</string>
+        <string name="register">New user? Sign up here!</string>
+        <!-- FRAGMENT_REGISTER -->
+        <string name="username_hint">Username</string>
+        <string name="email_hint">Email</string>
+        <string name="first_name_hint">First Name</string>
+        <string name="last_name_hint">Last Name</string>
+        <string name="confirm_password_hint">Confirm Password</string>
     <!-- END OF DAMIAN'S GLOBAL STRING VARIABLES -->
 
     <!-- BRYANT'S STRING VARIABLES -->
@@ -82,6 +97,8 @@
             <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
             <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
             <string name="right_button_profile_contentDescription">This is the right ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
+            <!-- ibGoBack -->
+            <string name="go_back_contentDescription">This is the ImageButton to go back to the previous activity.</string>
 
     <!-- END OF BRYANT'S STRING VARIABLES -->
 </resources>

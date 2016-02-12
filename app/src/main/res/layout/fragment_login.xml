@@ -3,59 +3,74 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:padding="10px">
+    android:background="@android:color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Username: "
-        android:layout_height="wrap_content"
-        android:textSize="20dp" />
-
-    <EditText
-        android:id="@+id/etUsername"
-        android:layout_marginBottom="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="1"/>
+        android:background="#42ffbf">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/log_inTITLE"
+            android:textColor="@android:color/black"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textSize="25sp"
+            android:gravity="center"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:text="Password: "
-        android:layout_height="wrap_content"
-        android:textSize="20dp" />
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_marginBottom="10dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:maxLines="1"/>
+        android:orientation="vertical"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="100dp">
+        <EditText
+            android:id="@+id/etUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/username_hint"
+            android:textStyle="italic"
+            android:maxLines="1"/>
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_marginBottom="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_hint"
+            android:textStyle="italic"
+            android:inputType="textPassword"
+            android:maxLines="1"/>
 
-    <Button
-        android:id="@+id/bLogin"
+        <TextView
+            android:id="@+id/ibRegisterLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/register"
+            android:layout_gravity="center"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Login" />
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/bLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"
+            android:background="#42ffbf"
+            android:text="@string/log_inTITLE" />
 
-    <ImageButton
-        android:id="@+id/ibRegisterLink"
-        android:background="@drawable/app_register"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:layout_width="180dp"
-        android:layout_height="45dp" />
-    <!--
-    <TextView
-        android:id="@+id/tvRegisterLink"
-        android:layout_width="wrap_content"
-        android:textColor="#0000ff"
-        android:text="Click here to register."
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-    -->
+    </LinearLayout>
 
 </LinearLayout>
