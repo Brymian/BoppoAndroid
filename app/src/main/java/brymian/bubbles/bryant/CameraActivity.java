@@ -164,8 +164,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        setLayoutAndButtons();
         if (resultCode == Activity.RESULT_OK) {
+            setLayoutAndButtons();
             Uri selectedImage = imageUri;
             getContentResolver().notifyChange(selectedImage, null);
 
@@ -178,6 +178,9 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            finish();
         }
     }
 

@@ -17,12 +17,14 @@ import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
 public class FriendsList extends FragmentActivity implements View.OnClickListener {
     ImageButton ibMenu;
+    View vMainSeparator;
     LinearLayout llFriendRequestsTitle, llFriendRequestListMAIN, llFriendsListTitle;
     TextView tUsersName,tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9;
     TextView[] TVIDS = {tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9};
@@ -47,6 +49,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         llFriendRequestsTitle = (LinearLayout) findViewById(R.id.llFriendRequestsTitle);
         llFriendRequestListMAIN = (LinearLayout) findViewById(R.id.llFriendRequestsListMAIN);
         llFriendsListTitle = (LinearLayout) findViewById(R.id.llFriendsListTitle);
+        vMainSeparator = findViewById(R.id.vMainSeparator);
 
         tFriend0 = (TextView) findViewById(R.id.tFriend0);
         tFriend1 = (TextView) findViewById(R.id.tFriend1);
@@ -72,6 +75,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
         llFriendRequestsTitle.setVisibility(View.GONE);
         llFriendRequestListMAIN.setVisibility(View.GONE);
+        vMainSeparator.setVisibility(View.GONE);
         llFriendsListTitle.setVisibility(View.GONE);
 
         ibMenu.setOnClickListener(this);
@@ -214,8 +218,17 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
             @Override
             public void done(List<User> users) {
                 try {
-                    System.out.println("users.size(): " + users.size() + ", users.get(0).getUid(): " + users.get(0).getUid());
+                    System.out.println("users.size(): " + users.size() + ", users.get(0).getUid(): " + users.get(0).getUid() + ", users.get(0).getFirstName" + users.get(0).getFirstName());
+
+
                     if(users.size() > 0){
+                        new ServerRequest(FriendsList.this).getUserData(users.get(0).getUid(), new UserCallback() {
+                            @Override
+                            public void done(User user) {
+                                System.out.println(user.getFirstName() +"\n" + user.getLastName() + "\n"+user.getUsername());
+
+                            }
+                        });
                         llFriendRequestsTitle.setVisibility(View.VISIBLE);
 
                     }

@@ -1,5 +1,5 @@
 
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,75 +11,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#b6ffcf">
+        android:background="#42ffbf">
 
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/bMenu"
-            android:src="@mipmap/three_line_menu_w_pad"
+            android:src="@mipmap/menu_icon_black_nopadd"
             android:background="@android:color/transparent" />
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:gravity="center_vertical"
             android:paddingLeft="10dp" />
 
     </LinearLayout>
 
 
-    <FrameLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MapsActivity"
-        android:layout_below="@+id/lFirstLayout"
-        android:id="@+id/fMap">
 
-        <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+
+        <fragment
             android:id="@+id/map"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_weight=".15"
             android:scrollbars="vertical"
             class="com.google.android.gms.maps.SupportMapFragment"/>
 
-        <LinearLayout
-            android:id="@+id/lSecondLayout"
-            android:layout_width="match_parent"
+
+    <LinearLayout
+        android:id="@+id/lSecondLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#42ffbf"
+        android:layout_weight=".85"
+        >
+        <ImageButton
+            android:id="@+id/bLeftButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_below="@+id/fMap"
-            android:background="#b6ffcf"
-            android:layout_gravity="center_horizontal|bottom">
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:id="@+id/bCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#42ffbf" />
+        <ImageButton
+            android:id="@+id/bRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"/>
 
-            <ImageButton
-                android:id="@+id/bLeftButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"/>
-
-            <ImageButton
-                android:id="@+id/bCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"/>
-
-            <ImageButton
-                android:id="@+id/bRight"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent"/>
-
-        </LinearLayout>
-    </FrameLayout>
-
-
-</RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -43,6 +43,7 @@
         <string name="eventSearchTITLE">Search Events</string>
         <string name="event_topTITLE">Top Events</string>
         <string name="notificationsTITLE">Notifications</string>
+        <string name="friendsTITLE">Friends</string>
         <!-- MENU - ACCOUNT-->
             <string name="account">Account</string>
             <string name="verify_email">Verify Email</string>
@@ -91,6 +92,8 @@
         <!-- EVENTS - YOUR EVENTS -->
             <string name="events_participated">Events Participated</string>
             <string name="events_hosted">Events Hosted</string>
+        <!-- FRIENDSLIST -->
+        <string name="friend_requests">Friend Requests</string>
 
         <!-- CONTENT DESCRIPTION -->
             <!-- PROFILE ACTIVITY -->
