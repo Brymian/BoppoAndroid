@@ -11,7 +11,7 @@
         android:orientation="horizontal"
         android:background="#42ffbf">
         <ImageButton
-            android:id="@+id/ibMenu"
+            android:id="@+id/ibGoBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/arrow_black_nopadding"

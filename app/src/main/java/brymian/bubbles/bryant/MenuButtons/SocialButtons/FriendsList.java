@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +26,19 @@ import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 public class FriendsList extends FragmentActivity implements View.OnClickListener {
     ImageButton ibMenu;
+    TextView ibAccept0, ibAccept1,ibAccept2, ibAccept3, ibAccept4, ibAccept5, ibAccept6, ibAccept7, ibAccept8, ibAccept9;
+    TextView ibDecline0, ibDecline1, ibDecline2,ibDecline3, ibDecline4, ibDecline5, ibDecline6, ibDecline7, ibDecline8, ibDecline9;
+    TextView[] acceptIDS = {ibAccept0, ibAccept1,ibAccept2, ibAccept3, ibAccept4, ibAccept5, ibAccept6, ibAccept7, ibAccept8, ibAccept9};
+    TextView[] declineIDS = {ibDecline0, ibDecline1, ibDecline2,ibDecline3, ibDecline4, ibDecline5, ibDecline6, ibDecline7, ibDecline8, ibDecline9};
+    int[] acceptRIDS = {R.id.ibAccept0, R.id.ibAccept1};
+    int[] declineRIDS = {R.id.ibDecline0, R.id.ibDecline1};
     View vMainSeparator;
-    LinearLayout llFriendRequestsTitle, llFriendRequestListMAIN, llFriendsListTitle;
-    TextView tUsersName,tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9;
+    LinearLayout llFriendRequestsTitle, llFriendRequestListMAIN, llFriendsListTitle, llFriendsListMAIN;
+    LinearLayout llFriendRequest0, llFriendRequest1;
+    TextView tvFriendRequestName0, tvFriendRequestName1, tvFriendRequestName2, tvFriendRequestName3, tvFriendRequestName4, tvFriendRequestName5, tvFriendRequestName6, tvFriendRequestName7, tvFriendRequestName8, tvFriendRequestName9;
+    TextView[] tvfriendRequestNames = {tvFriendRequestName0, tvFriendRequestName1, tvFriendRequestName2, tvFriendRequestName3, tvFriendRequestName4, tvFriendRequestName5, tvFriendRequestName6, tvFriendRequestName7, tvFriendRequestName8, tvFriendRequestName9};
+    int[] tvfriendRequestNamesRIDS = {R.id.tvFriendRequestName0, R.id.tvFriendRequestName1};
+    TextView tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9;
     TextView[] TVIDS = {tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9};
     int[] TVRIDS = {R.id.tFriend0,R.id.tFriend1,R.id.tFriend2,R.id.tFriend3,R.id.tFriend4,R.id.tFriend5,R.id.tFriend6,R.id.tFriend7,R.id.tFriend8,R.id.tFriend9};
 
@@ -39,6 +51,9 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
 
     ArrayList<Integer> profileUserFriendUID = new ArrayList<>();
     ArrayList<String> profileUserFriendFirstLastName = new ArrayList<>();
+    ArrayList<Integer> friendRequestUID = new ArrayList<>();
+    ArrayList<String> friendRequestFirstLastName = new ArrayList<>();
+
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -49,7 +64,20 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         llFriendRequestsTitle = (LinearLayout) findViewById(R.id.llFriendRequestsTitle);
         llFriendRequestListMAIN = (LinearLayout) findViewById(R.id.llFriendRequestsListMAIN);
         llFriendsListTitle = (LinearLayout) findViewById(R.id.llFriendsListTitle);
+        llFriendsListMAIN = (LinearLayout) findViewById(R.id.llFriendsListMAIN);
         vMainSeparator = findViewById(R.id.vMainSeparator);
+
+        llFriendRequest0 = (LinearLayout) findViewById(R.id.llFriendRequest0);
+        llFriendRequest1 = (LinearLayout) findViewById(R.id.llFriendRequest1);
+
+        tvFriendRequestName0 = (TextView) findViewById(R.id.tvFriendRequestName0);
+        tvFriendRequestName1 = (TextView) findViewById(R.id.tvFriendRequestName1);
+
+        ibAccept0 = (TextView) findViewById(R.id.ibAccept0);
+        ibAccept1 = (TextView) findViewById(R.id.ibAccept1);
+        ibDecline0 = (TextView) findViewById(R.id.ibDecline0);
+        ibDecline1 = (TextView) findViewById(R.id.ibDecline1);
+
 
         tFriend0 = (TextView) findViewById(R.id.tFriend0);
         tFriend1 = (TextView) findViewById(R.id.tFriend1);
@@ -77,6 +105,12 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         llFriendRequestListMAIN.setVisibility(View.GONE);
         vMainSeparator.setVisibility(View.GONE);
         llFriendsListTitle.setVisibility(View.GONE);
+        llFriendsListMAIN.setVisibility(View.GONE);
+
+        ibAccept0.setVisibility(View.GONE);
+        ibDecline0.setVisibility(View.GONE);
+        ibAccept1.setVisibility(View.GONE);
+        ibDecline1.setVisibility(View.GONE);
 
         ibMenu.setOnClickListener(this);
 
@@ -94,10 +128,21 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         final String friendStatus = "Already friends with user.";
         switch (v.getId()){
             case R.id.ibMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
+                startActivity(new Intent(this, MenuActivity.class));
                 break;
+            case R.id.tvFriendRequestName0:
 
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName1:
+                startActivity(profileIntent);
+                break;
+            case R.id.ibAccept0:
+
+                break;
+            case R.id.ibDecline0:
+
+                break;
             case R.id.tFriend0:
                 profileIntent.putExtra("firstLastName", profileUserFriendFirstLastName.get(0));
                 //profileIntent.putExtra("username", profileUserFriendUsername.get(0));
@@ -177,7 +222,6 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                 profileIntent.putExtra("status", friendStatus);
                 startActivity(profileIntent);
                 break;
-
         }
     }
 
@@ -185,14 +229,15 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         new ServerRequest(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                System.out.println(users.size());
                 try {
+                    System.out.println("FriendsList size: " + users.size());
                     int friendListSize = users.size();
                     if (friendListSize > 0) {
                         for (int i = 0; i < friendListSize; i++) {
                             profileUserFriendUID.add(i, users.get(i).getUid());
                             profileUserFriendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
 
+                            llFriendsListMAIN.setVisibility(View.VISIBLE);
                             TVIDS[i] = (TextView) findViewById(TVRIDS[i]);
                             TVIDS[i].setVisibility(View.VISIBLE);
                             System.out.println(users.get(i).getFirstName());
@@ -200,10 +245,9 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                             TVIDS[i].setClickable(true);
                             TVIDS[i].setOnClickListener(FriendsList.this);
                             TVIDS[i].setTextSize(20);
-
-
                         }
-                    } else if (friendListSize == 0) {
+                    }
+                    else if (friendListSize == 0) {
                         Toast.makeText(FriendsList.this, "No friends", Toast.LENGTH_SHORT).show();
                     }
                 } catch (NullPointerException e) {
@@ -217,19 +261,43 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         new ServerRequest(this).getUserFriendRequestUsers(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                try {
-                    System.out.println("users.size(): " + users.size() + ", users.get(0).getUid(): " + users.get(0).getUid() + ", users.get(0).getFirstName" + users.get(0).getFirstName());
+                try { //users.size() may throw exception
+                    if (users.size() > 0) { //if the size of friend requests is greater then 0, loop through them
+                        for (int i = 0; i < users.size(); i++) { //loop through all the friend requests users UID
+                            if (users.get(i).getUid() != getProfileUserUID()) { //if the friend request user UID is NOT equal to the logged in user, proceed to set layout and text
+                                llFriendRequestsTitle.setVisibility(View.VISIBLE);
+                                llFriendRequestListMAIN.setVisibility(View.VISIBLE);
+                                vMainSeparator.setVisibility(View.VISIBLE);
+                                llFriendsListTitle.setVisibility(View.VISIBLE);
+                                friendRequestUID.add(i, users.get(i).getUid());
+                                //setLocationArrayList(i);
+                                System.out.println("printing i before final: "+i);
+                                final int j = i;
+                                System.out.println("printing j: " + j);
+                                new ServerRequest(FriendsList.this).getUserData(users.get(i).getUid(), new UserCallback() {
+                                    @Override
+                                    public void done(User user) {
+                                        System.out.println(user.getFirstName() + "\n" + user.getLastName() + "\n" + user.getUsername());
+                                        /**
+                                        ibAccept0.setVisibility(View.VISIBLE);
+                                        ibDecline0.setVisibility(View.VISIBLE);
+                                        tvFriendRequestName0.setVisibility(View.VISIBLE);
+                                        tvFriendRequestName0.setText(user.getFirstName() + " " + user.getLastName());
+                                        tvFriendRequestName0.setTextSize(20);
+                                         **/
 
-
-                    if(users.size() > 0){
-                        new ServerRequest(FriendsList.this).getUserData(users.get(0).getUid(), new UserCallback() {
-                            @Override
-                            public void done(User user) {
-                                System.out.println(user.getFirstName() +"\n" + user.getLastName() + "\n"+user.getUsername());
-
+                                        acceptIDS[j] = (TextView) findViewById(acceptRIDS[j]);
+                                        declineIDS[j] = (TextView) findViewById(declineRIDS[j]);
+                                        tvfriendRequestNames[j] = (TextView) findViewById(tvfriendRequestNamesRIDS[j]);
+                                        acceptIDS[j].setVisibility(View.VISIBLE);
+                                        declineIDS[j].setVisibility(View.VISIBLE);
+                                        tvfriendRequestNames[j].setVisibility(View.VISIBLE);
+                                        tvfriendRequestNames[j].setText(user.getFirstName() + " " + user.getLastName());
+                                        tvfriendRequestNames[j].setTextSize(20);
+                                    }
+                                });
                             }
-                        });
-                        llFriendRequestsTitle.setVisibility(View.VISIBLE);
+                        }
 
                     }
                 } catch (IndexOutOfBoundsException ioob) {
@@ -238,6 +306,14 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                 }
             }
         });
+    }
+
+    int[] locationArrayList = new int[1];
+    void setLocationArrayList(int i){
+        locationArrayList[0] = i;
+    }
+    int getLocationArrayList(){
+        return locationArrayList[0];
     }
 
     void setProfileUserUID(int uid){

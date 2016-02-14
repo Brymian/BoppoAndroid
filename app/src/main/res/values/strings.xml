@@ -44,6 +44,7 @@
         <string name="event_topTITLE">Top Events</string>
         <string name="notificationsTITLE">Notifications</string>
         <string name="friendsTITLE">Friends</string>
+        <string name="search_usersTITLE">Search Users</string>
         <!-- MENU - ACCOUNT-->
             <string name="account">Account</string>
             <string name="verify_email">Verify Email</string>
@@ -87,6 +88,7 @@
             <string name="add_event_title_hint">Add Event Title</string>
             <string name="done">Done</string>
             <string name="cancel">Cancel</string>
+            <string name="make_public">Make event public</string>
         <!-- EVENTS - SEARCH EVENTS - HINT -->
             <string name="search_events_hint">Search</string>
         <!-- EVENTS - YOUR EVENTS -->

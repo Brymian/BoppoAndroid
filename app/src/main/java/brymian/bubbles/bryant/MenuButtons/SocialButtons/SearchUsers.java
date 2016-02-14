@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.MenuButtons.SocialButtons;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
@@ -326,6 +327,9 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                         int IDList = users.get(i).getUid();
 
                         TVIDs[i].setText(userNameList);
+                        TVIDs[i].setTextSize(15);
+                        TVIDs[i].setPadding(0, 5, 0, 5); //left, top, right, bottom
+                        TVIDs[i].setTypeface(null, Typeface.BOLD);
                         TVIDs[i].setClickable(true);
                         TVIDs[i].setOnClickListener(SearchUsers.this);
 
