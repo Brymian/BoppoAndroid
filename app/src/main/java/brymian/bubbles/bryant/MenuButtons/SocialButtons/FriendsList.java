@@ -9,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,18 +24,28 @@ import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 public class FriendsList extends FragmentActivity implements View.OnClickListener {
     ImageButton ibMenu;
+
+    //------------ Accept/Decline TextView, TextView arrays, and int array of R.id.(accept/decline) FOR FRIEND REQUESTS ------------------------
     TextView ibAccept0, ibAccept1,ibAccept2, ibAccept3, ibAccept4, ibAccept5, ibAccept6, ibAccept7, ibAccept8, ibAccept9;
     TextView ibDecline0, ibDecline1, ibDecline2,ibDecline3, ibDecline4, ibDecline5, ibDecline6, ibDecline7, ibDecline8, ibDecline9;
     TextView[] acceptIDS = {ibAccept0, ibAccept1,ibAccept2, ibAccept3, ibAccept4, ibAccept5, ibAccept6, ibAccept7, ibAccept8, ibAccept9};
     TextView[] declineIDS = {ibDecline0, ibDecline1, ibDecline2,ibDecline3, ibDecline4, ibDecline5, ibDecline6, ibDecline7, ibDecline8, ibDecline9};
-    int[] acceptRIDS = {R.id.ibAccept0, R.id.ibAccept1};
-    int[] declineRIDS = {R.id.ibDecline0, R.id.ibDecline1};
+    int[] acceptRIDS = {R.id.ibAccept0, R.id.ibAccept1, R.id.ibAccept2, R.id.ibAccept3, R.id.ibAccept4,  R.id.ibAccept5,  R.id.ibAccept6,  R.id.ibAccept7, R.id.ibAccept8, R.id.ibAccept8, R.id.ibAccept9};
+    int[] declineRIDS = {R.id.ibDecline0, R.id.ibDecline1, R.id.ibDecline2, R.id.ibDecline3,R.id.ibDecline4, R.id.ibDecline5, R.id.ibDecline6, R.id.ibDecline7, R.id.ibDecline8, R.id.ibDecline9};
+
+
     View vMainSeparator;
     LinearLayout llFriendRequestsTitle, llFriendRequestListMAIN, llFriendsListTitle, llFriendsListMAIN;
-    LinearLayout llFriendRequest0, llFriendRequest1;
+
+    //----------------MAIN LINEAR LAYOUT FOR EACH FRIEND REQUEST ------------------------------------------------
+    LinearLayout llFriendRequest0, llFriendRequest1, llFriendRequest2, llFriendRequest3, llFriendRequest4, llFriendRequest5, llFriendRequest6, llFriendRequest7, llFriendRequest8, llFriendRequest9;
+    LinearLayout[] llFriendRequests = {llFriendRequest0, llFriendRequest1, llFriendRequest2, llFriendRequest3, llFriendRequest4, llFriendRequest5, llFriendRequest6, llFriendRequest7, llFriendRequest8, llFriendRequest9};
+    int[] llFriendRequestsRIDS = {R.id.llFriendRequest0, R.id.llFriendRequest1, R.id.llFriendRequest2, R.id.llFriendRequest3, R.id.llFriendRequest4, R.id.llFriendRequest5, R.id.llFriendRequest6, R.id.llFriendRequest7, R.id.llFriendRequest8, R.id.llFriendRequest9};
+
     TextView tvFriendRequestName0, tvFriendRequestName1, tvFriendRequestName2, tvFriendRequestName3, tvFriendRequestName4, tvFriendRequestName5, tvFriendRequestName6, tvFriendRequestName7, tvFriendRequestName8, tvFriendRequestName9;
-    TextView[] tvfriendRequestNames = {tvFriendRequestName0, tvFriendRequestName1, tvFriendRequestName2, tvFriendRequestName3, tvFriendRequestName4, tvFriendRequestName5, tvFriendRequestName6, tvFriendRequestName7, tvFriendRequestName8, tvFriendRequestName9};
-    int[] tvfriendRequestNamesRIDS = {R.id.tvFriendRequestName0, R.id.tvFriendRequestName1};
+    TextView[] tvFriendRequestNames = {tvFriendRequestName0, tvFriendRequestName1, tvFriendRequestName2, tvFriendRequestName3, tvFriendRequestName4, tvFriendRequestName5, tvFriendRequestName6, tvFriendRequestName7, tvFriendRequestName8, tvFriendRequestName9};
+    int[] tvFriendRequestNamesRIDS = {R.id.tvFriendRequestName0, R.id.tvFriendRequestName1, R.id.tvFriendRequestName2, R.id.tvFriendRequestName3, R.id.tvFriendRequestName4, R.id.tvFriendRequestName5, R.id.tvFriendRequestName6, R.id.tvFriendRequestName7, R.id.tvFriendRequestName8, R.id.tvFriendRequestName9};
+
     TextView tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9;
     TextView[] TVIDS = {tFriend0, tFriend1, tFriend2, tFriend3, tFriend4,tFriend5,tFriend6,tFriend7,tFriend8,tFriend9};
     int[] TVRIDS = {R.id.tFriend0,R.id.tFriend1,R.id.tFriend2,R.id.tFriend3,R.id.tFriend4,R.id.tFriend5,R.id.tFriend6,R.id.tFriend7,R.id.tFriend8,R.id.tFriend9};
@@ -236,11 +244,9 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                         for (int i = 0; i < friendListSize; i++) {
                             profileUserFriendUID.add(i, users.get(i).getUid());
                             profileUserFriendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-
                             llFriendsListMAIN.setVisibility(View.VISIBLE);
                             TVIDS[i] = (TextView) findViewById(TVRIDS[i]);
                             TVIDS[i].setVisibility(View.VISIBLE);
-                            System.out.println(users.get(i).getFirstName());
                             TVIDS[i].setText(users.get(i).getFirstName() + " " + users.get(i).getLastName());
                             TVIDS[i].setClickable(true);
                             TVIDS[i].setOnClickListener(FriendsList.this);
@@ -277,23 +283,15 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                                 new ServerRequest(FriendsList.this).getUserData(users.get(i).getUid(), new UserCallback() {
                                     @Override
                                     public void done(User user) {
-                                        System.out.println(user.getFirstName() + "\n" + user.getLastName() + "\n" + user.getUsername());
-                                        /**
-                                        ibAccept0.setVisibility(View.VISIBLE);
-                                        ibDecline0.setVisibility(View.VISIBLE);
-                                        tvFriendRequestName0.setVisibility(View.VISIBLE);
-                                        tvFriendRequestName0.setText(user.getFirstName() + " " + user.getLastName());
-                                        tvFriendRequestName0.setTextSize(20);
-                                         **/
-
+                                        friendRequestFirstLastName.add(j, user.getFirstName() + " " + user.getLastName());
                                         acceptIDS[j] = (TextView) findViewById(acceptRIDS[j]);
                                         declineIDS[j] = (TextView) findViewById(declineRIDS[j]);
-                                        tvfriendRequestNames[j] = (TextView) findViewById(tvfriendRequestNamesRIDS[j]);
+                                        tvFriendRequestNames[j] = (TextView) findViewById(tvFriendRequestNamesRIDS[j]);
                                         acceptIDS[j].setVisibility(View.VISIBLE);
                                         declineIDS[j].setVisibility(View.VISIBLE);
-                                        tvfriendRequestNames[j].setVisibility(View.VISIBLE);
-                                        tvfriendRequestNames[j].setText(user.getFirstName() + " " + user.getLastName());
-                                        tvfriendRequestNames[j].setTextSize(20);
+                                        tvFriendRequestNames[j].setVisibility(View.VISIBLE);
+                                        tvFriendRequestNames[j].setText(user.getFirstName() + " " + user.getLastName());
+                                        tvFriendRequestNames[j].setTextSize(20);
                                     }
                                 });
                             }
