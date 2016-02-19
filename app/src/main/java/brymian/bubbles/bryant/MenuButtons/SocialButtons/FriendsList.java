@@ -9,6 +9,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,50 +77,29 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         llFriendsListMAIN = (LinearLayout) findViewById(R.id.llFriendsListMAIN);
         vMainSeparator = findViewById(R.id.vMainSeparator);
 
-        llFriendRequest0 = (LinearLayout) findViewById(R.id.llFriendRequest0);
-        llFriendRequest1 = (LinearLayout) findViewById(R.id.llFriendRequest1);
+        //Friend request Linear Layout, Friend Request name, Accept/Decline buttons will always be the same amount
+        for(int i = 0; i < llFriendRequests.length; i++){
+            llFriendRequests[i] = (LinearLayout) findViewById(llFriendRequestsRIDS[i]);
+            tvFriendRequestNames[i] = (TextView) findViewById(tvFriendRequestNamesRIDS[i]);
+            acceptIDS[i] = (TextView) findViewById(acceptRIDS[i]);
+            declineIDS[i] = (TextView) findViewById(declineRIDS[i]);
 
-        tvFriendRequestName0 = (TextView) findViewById(R.id.tvFriendRequestName0);
-        tvFriendRequestName1 = (TextView) findViewById(R.id.tvFriendRequestName1);
+            llFriendRequests[i].setVisibility(View.GONE);
+            tvFriendRequestNames[i].setVisibility(View.GONE);
+            acceptIDS[i].setVisibility(View.GONE);
+            declineIDS[i].setVisibility(View.GONE);
+        }
 
-        ibAccept0 = (TextView) findViewById(R.id.ibAccept0);
-        ibAccept1 = (TextView) findViewById(R.id.ibAccept1);
-        ibDecline0 = (TextView) findViewById(R.id.ibDecline0);
-        ibDecline1 = (TextView) findViewById(R.id.ibDecline1);
-
-
-        tFriend0 = (TextView) findViewById(R.id.tFriend0);
-        tFriend1 = (TextView) findViewById(R.id.tFriend1);
-        tFriend2 = (TextView) findViewById(R.id.tFriend2);
-        tFriend3 = (TextView) findViewById(R.id.tFriend3);
-        tFriend4 = (TextView) findViewById(R.id.tFriend4);
-        tFriend5 = (TextView) findViewById(R.id.tFriend5);
-        tFriend6 = (TextView) findViewById(R.id.tFriend6);
-        tFriend7 = (TextView) findViewById(R.id.tFriend7);
-        tFriend8 = (TextView) findViewById(R.id.tFriend8);
-        tFriend9 = (TextView) findViewById(R.id.tFriend9);
-
-        tFriend0.setVisibility(View.GONE);
-        tFriend1.setVisibility(View.GONE);
-        tFriend2.setVisibility(View.GONE);
-        tFriend3.setVisibility(View.GONE);
-        tFriend4.setVisibility(View.GONE);
-        tFriend5.setVisibility(View.GONE);
-        tFriend6.setVisibility(View.GONE);
-        tFriend7.setVisibility(View.GONE);
-        tFriend8.setVisibility(View.GONE);
-        tFriend9.setVisibility(View.GONE);
+        for(int i = 0; i < TVIDS.length; i++){
+            TVIDS[i] = (TextView) findViewById(TVRIDS[i]);
+            TVIDS[i].setVisibility(View.GONE);
+        }
 
         llFriendRequestsTitle.setVisibility(View.GONE);
         llFriendRequestListMAIN.setVisibility(View.GONE);
         vMainSeparator.setVisibility(View.GONE);
         llFriendsListTitle.setVisibility(View.GONE);
         llFriendsListMAIN.setVisibility(View.GONE);
-
-        ibAccept0.setVisibility(View.GONE);
-        ibDecline0.setVisibility(View.GONE);
-        ibAccept1.setVisibility(View.GONE);
-        ibDecline1.setVisibility(View.GONE);
 
         ibMenu.setOnClickListener(this);
 
@@ -284,6 +265,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                                     @Override
                                     public void done(User user) {
                                         friendRequestFirstLastName.add(j, user.getFirstName() + " " + user.getLastName());
+                                        llFriendRequests[j].setVisibility(View.VISIBLE);
                                         acceptIDS[j] = (TextView) findViewById(acceptRIDS[j]);
                                         declineIDS[j] = (TextView) findViewById(declineRIDS[j]);
                                         tvFriendRequestNames[j] = (TextView) findViewById(tvFriendRequestNamesRIDS[j]);

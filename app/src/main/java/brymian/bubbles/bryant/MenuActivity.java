@@ -104,15 +104,23 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         int userUID = userPhone.getUid();
         setProfileUserUID(userUID);
 
-        new ServerRequest(this).getUserData(userUID, new UserCallback() {
-            @Override
-            public void done(User user) {
-                String userFirstLastName = user.getFirstName() + " " + user.getLastName();
-                setProfileUserFirstLastName(userFirstLastName);
 
-                String userUsername = user.getUsername();
-                setProfileUserUsername(userUsername);
-            }
+
+        new ServerRequest(this).getUserData(userUID, new UserCallback() {
+                @Override
+                public void done(User user) {
+                    try{
+                    String userFirstLastName = user.getFirstName() + " " + user.getLastName();
+                    setProfileUserFirstLastName(userFirstLastName);
+
+                    String userUsername = user.getUsername();
+                    setProfileUserUsername(userUsername);
+                    }
+                    catch (NullPointerException npe){
+                        npe.printStackTrace();
+                        Toast.makeText(MenuActivity.this,"No internet connection",Toast.LENGTH_SHORT).show();
+                    }
+                }
         });
 
         try{
