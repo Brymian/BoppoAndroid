@@ -18,6 +18,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
@@ -120,14 +121,154 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                 startActivity(new Intent(this, MenuActivity.class));
                 break;
             case R.id.tvFriendRequestName0:
-
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(0));
+                profileIntent.putExtra("uid", friendRequestUID.get(0));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
                 startActivity(profileIntent);
                 break;
             case R.id.tvFriendRequestName1:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(1));
+                profileIntent.putExtra("uid", friendRequestUID.get(1));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName2:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(2));
+                profileIntent.putExtra("uid", friendRequestUID.get(2));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName3:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(3));
+                profileIntent.putExtra("uid", friendRequestUID.get(3));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName4:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(4));
+                profileIntent.putExtra("uid", friendRequestUID.get(4));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName5:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(5));
+                profileIntent.putExtra("uid", friendRequestUID.get(5));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName6:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(6));
+                profileIntent.putExtra("uid", friendRequestUID.get(6));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName7:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(7));
+                profileIntent.putExtra("uid", friendRequestUID.get(7));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName8:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(18));
+                profileIntent.putExtra("uid", friendRequestUID.get(8));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
+                startActivity(profileIntent);
+                break;
+            case R.id.tvFriendRequestName9:
+                profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(9));
+                profileIntent.putExtra("uid", friendRequestUID.get(9));
+                profileIntent.putExtra("status","User is awaiting confirmation for friend request.");
                 startActivity(profileIntent);
                 break;
             case R.id.ibAccept0:
-
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(0), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[0].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept1:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(1), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[1].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept2:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(2), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[2].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept3:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(3), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[3].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept4:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(4), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[4].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept5:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(5), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[5].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept6:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(6), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[6].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept7:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(7), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[7].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept8:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(8), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[8].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+            case R.id.ibAccept9:
+                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(9), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        llFriendRequests[9].setVisibility(View.GONE);
+                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
             case R.id.ibDecline0:
 
@@ -274,6 +415,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                                         tvFriendRequestNames[j].setVisibility(View.VISIBLE);
                                         tvFriendRequestNames[j].setText(user.getFirstName() + " " + user.getLastName());
                                         tvFriendRequestNames[j].setTextSize(20);
+                                        tvFriendRequestNames[j].setOnClickListener(FriendsList.this);
                                     }
                                 });
                             }

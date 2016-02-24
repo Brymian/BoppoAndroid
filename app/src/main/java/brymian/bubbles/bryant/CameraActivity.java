@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Camera;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -26,15 +28,6 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
@@ -69,7 +62,10 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        takePhoto();
+        //takePhoto();
+        checkCameraHardware(this);
+
+
         double latitude = 0;
         double longitude = 0;
         if(savedInstanceState == null){
@@ -86,6 +82,32 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
 
         setLatitude(latitude);
         setLongitude(longitude);
+    }
+
+    /** Check if this device has a camera */
+    boolean checkCameraHardware(Context context) {
+        /**
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+         **/
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+    }
+
+    /** A safe way to get an instance of the Camera object. */
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable
     }
 
     public void setLayoutAndButtons(){
@@ -144,6 +166,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
 
     }
 
+    /**
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
@@ -151,6 +174,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
+
+     **/
 
     String imageName(){
         UserDataLocal udl = new UserDataLocal(this);

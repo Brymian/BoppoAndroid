@@ -45,6 +45,7 @@
         <string name="notificationsTITLE">Notifications</string>
         <string name="friendsTITLE">Friends</string>
         <string name="search_usersTITLE">Search Users</string>
+        <string name="profile_privacyTITLE">Profile Privacy</string>
         <!-- MENU - ACCOUNT-->
             <string name="account">Account</string>
             <string name="verify_email">Verify Email</string>
