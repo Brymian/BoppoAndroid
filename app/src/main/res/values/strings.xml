@@ -17,6 +17,21 @@
     <string name="error_connection">Server is not reachable.</string>
     <string name="error_logged_in">Incorrect user details.</string>
     <string name="message_registration">Registration successful.</string>
+
+        <!-- TITLES -->
+        <string name="registerTITLE">Register</string>
+        <string name="log_inTITLE">Log In</string>
+
+        <!-- FRAGMENT_LOGIN -->
+        <string name="username_or_email_hint">Username or Email</string>
+        <string name="password_hint">Password</string>
+        <string name="register">New user? Sign up here!</string>
+        <!-- FRAGMENT_REGISTER -->
+        <string name="username_hint">Username</string>
+        <string name="email_hint">Email</string>
+        <string name="first_name_hint">First Name</string>
+        <string name="last_name_hint">Last Name</string>
+        <string name="confirm_password_hint">Confirm Password</string>
     <!-- END OF DAMIAN'S GLOBAL STRING VARIABLES -->
 
     <!-- BRYANT'S STRING VARIABLES -->
@@ -25,6 +40,12 @@
         <string name="change_passwordTITLE">Change Password</string>
         <string name="verify_emailTITLE">Verify Email</string>
         <string name="eventTITLE">Events</string>
+        <string name="eventSearchTITLE">Search Events</string>
+        <string name="event_topTITLE">Top Events</string>
+        <string name="notificationsTITLE">Notifications</string>
+        <string name="friendsTITLE">Friends</string>
+        <string name="search_usersTITLE">Search Users</string>
+        <string name="profile_privacyTITLE">Profile Privacy</string>
         <!-- MENU - ACCOUNT-->
             <string name="account">Account</string>
             <string name="verify_email">Verify Email</string>
@@ -56,18 +77,34 @@
             <string name="email">Email</string>
         <!-- SAVE TEXTVIEW TEXT -->
             <string name="save">Save</string>
+        <!-- EVENTS -->
+            <string name="top_events">Top Events</string>
+            <string name="your_events">Your Events</string>
+            <string name="search_events">Search Events</string>
+            <string name="event_requests">Event Requests</string>
+            <string name="view_more_top_events">View More Top Events&#8230;</string>
+            <string name="view_all_your_events">View All Your Events&#8230;</string>
         <!-- EVENTS - CREATE EVENT -->
             <string name="create_event">Create Event</string>
             <string name="add_event_title_hint">Add Event Title</string>
             <string name="done">Done</string>
             <string name="cancel">Cancel</string>
-
+            <string name="make_public">Make event public</string>
+        <!-- EVENTS - SEARCH EVENTS - HINT -->
+            <string name="search_events_hint">Search</string>
+        <!-- EVENTS - YOUR EVENTS -->
+            <string name="events_participated">Events Participated</string>
+            <string name="events_hosted">Events Hosted</string>
+        <!-- FRIENDSLIST -->
+        <string name="friend_requests">Friend Requests</string>
 
         <!-- CONTENT DESCRIPTION -->
             <!-- PROFILE ACTIVITY -->
             <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
             <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
             <string name="right_button_profile_contentDescription">This is the right ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
+            <!-- ibGoBack -->
+            <string name="go_back_contentDescription">This is the ImageButton to go back to the previous activity.</string>
 
     <!-- END OF BRYANT'S STRING VARIABLES -->
 </resources>

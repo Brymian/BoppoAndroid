@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,12 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
@@ -97,24 +104,44 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
         int userUID = userPhone.getUid();
         setProfileUserUID(userUID);
 
-        new ServerRequest(this).getUserData(userUID, new UserCallback() {
-            @Override
-            public void done(User user) {
-                String userFirstLastName = user.getFirstName() + " " + user.getLastName();
-                setProfileUserFirstLastName(userFirstLastName);
 
-                String userUsername = user.getUsername();
-                setProfileUserUsername(userUsername);
-            }
+
+        new ServerRequest(this).getUserData(userUID, new UserCallback() {
+                @Override
+                public void done(User user) {
+                    try{
+                    String userFirstLastName = user.getFirstName() + " " + user.getLastName();
+                    setProfileUserFirstLastName(userFirstLastName);
+
+                    String userUsername = user.getUsername();
+                    setProfileUserUsername(userUsername);
+                    }
+                    catch (NullPointerException npe){
+                        npe.printStackTrace();
+                        Toast.makeText(MenuActivity.this,"No internet connection",Toast.LENGTH_SHORT).show();
+                    }
+                }
         });
-/**
-        new ServerRequest(this).setUserAccountPrivacy(userUID, "Private", new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println("THIS IS FROM setUserAccountPrivacy(): " + string);
+
+        try{
+            FileInputStream fis = this.openFileInput("login_info.txt");
+            InputStreamReader isr = new InputStreamReader(fis);
+            BufferedReader bufferedReader = new BufferedReader(isr);
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                //sb.append(line);
+                System.out.print("sb.append(line)"+sb.append(line));
             }
-        });
- **/
+        }catch (FileNotFoundException fnfe){
+            fnfe.printStackTrace();
+            System.out.println("FileNotFoundException thrown.");
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+            System.out.println("IOException thrown.");
+        }
+
+
     }
 
     public void onClick(View v){
@@ -204,11 +231,10 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getBaseContext(), "Cancel clicked", Toast.LENGTH_SHORT).show();
             }
         });
 
-        alert.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

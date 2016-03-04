@@ -26,10 +26,7 @@
             android:gravity="center_vertical" />
 
     </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black"/>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -42,7 +39,28 @@
             android:hint="@string/add_event_title_hint"
             android:textStyle="italic"
             android:paddingTop="10dp"/>
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+       <CheckedTextView
+           android:layout_width="wrap_content"
+           android:layout_height="match_parent"
+           android:text="@string/make_public"
+           android:layout_weight="1"
+           android:gravity="center" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/checkBox"
+            android:layout_gravity="right"
+            android:checked="false"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
@@ -51,44 +69,19 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="bottom">
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@android:color/black"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/cancel"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:textSize="15sp"
-                android:textColor="@android:color/black"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:background="#42ffbf"/>
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/black"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/done"
                 android:textColor="@android:color/black"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:textSize="15sp"
                 android:paddingBottom="15dp"
                 android:paddingTop="15dp"
                 android:background="#42ffbf"/>
         </LinearLayout>
-
-
     </LinearLayout>
-
-
 </LinearLayout>

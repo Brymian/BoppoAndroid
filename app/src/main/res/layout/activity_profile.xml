@@ -9,7 +9,7 @@
         android:id="@+id/bMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/three_line_menu_w_pad"
+        android:src="@mipmap/menu_icon_black_nopadd"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

@@ -119,7 +119,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 bLeftButton.setImageDrawable(playDrawable);
                 break;
             default:
-                tvTitle.setText(username + "'s Map");
+                tvTitle.setText(firstLastName + "'s Map");
                 bCamera.setImageDrawable(cameraDrawable);
                 bRight.setImageDrawable(searchDrawable);
                 bLeftButton.setImageDrawable(playDrawable);

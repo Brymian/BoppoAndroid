@@ -86,7 +86,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
         setFirstLastName(firstLastName);
         System.out.println("getFirstLastName(): " + getFirstLastName());
 
-        tProfileName.setText(getFirstLastName());
+        tProfileName.setText(firstLastName);
 
 
         bMenu.setOnClickListener(this);

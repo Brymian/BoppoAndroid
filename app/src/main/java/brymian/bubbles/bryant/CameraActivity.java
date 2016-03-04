@@ -4,37 +4,36 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.hardware.Camera;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.util.Base64;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
@@ -50,13 +49,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CameraActivity extends Activity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class CameraActivity extends Activity {
+    //implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
     private static int TAKE_PICTURE = 1;
     private Uri imageUri;
 
     private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
     private Uri fileUri;
     public static final int MEDIA_TYPE_IMAGE = 1;
+    public static final int MEDIA_TYPE_VIDEO = 2;
+
     double[] setLatitudeArray = new double[1];
     double[] setLongitudeArray = new double[1];
     String[] userImagePrivacyLabel = new String[1];
@@ -65,21 +67,37 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
     ImageView imageView;
     Switch sUserImagePrivacyLabel;
 
+    private Camera mCamera;
+    private CameraPreview mPreview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //takePhoto();
+        checkCameraHardware(this);
         setContentView(R.layout.activity_camera);
-        takePhoto();
 
+        // Create an instance of Camera
+        mCamera = getCameraInstance();
 
-        bUploadImage = (Button) findViewById(R.id.bUploadImage);
-        imageView = (ImageView) findViewById(R.id.image_camera);
-        sUserImagePrivacyLabel = (Switch) findViewById(R.id.sUserImagePrivacyLabel);
+        // Create our Preview view and set it as the content of our activity.
+        mPreview = new CameraPreview(this, mCamera);
+        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview.addView(mPreview);
 
-        bUploadImage.setOnClickListener(this);
-        sUserImagePrivacyLabel.setOnCheckedChangeListener(this);
-        imageView.setOnClickListener(this);
+        // Add a listener to the Capture button
+        Button captureButton = (Button) findViewById(R.id.button_capture);
+        captureButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // get an image from the camera
+                        mCamera.takePicture(null, null, mPicture);
+                    }
+                }
+        );
+
 
         double latitude = 0;
         double longitude = 0;
@@ -99,6 +117,119 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
         setLongitude(longitude);
     }
 
+    /** Check if this device has a camera */
+    boolean checkCameraHardware(Context context) {
+        /**
+        if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+         **/
+        return context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
+    }
+
+    /** A safe way to get an instance of the Camera object. */
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable
+    }
+
+    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
+            if (pictureFile == null){
+                //Log.d(TAG, "Error creating media file, check storage permissions: " +e.getMessage());
+                return;
+            }
+
+            try {
+                FileOutputStream fos = new FileOutputStream(pictureFile);
+                fos.write(data);
+                fos.close();
+            } catch (FileNotFoundException e) {
+                //Log.d(TAG, "File not found: " + e.getMessage());
+                e.printStackTrace();
+            } catch (IOException e) {
+                //Log.d(TAG, "Error accessing file: " + e.getMessage());
+                e.printStackTrace();
+            }
+        }
+    };
+
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+        return Uri.fromFile(getOutputMediaFile(type));
+    }
+
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        if (type == MEDIA_TYPE_IMAGE){
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "IMG_"+ timeStamp + ".jpg");
+        } else if(type == MEDIA_TYPE_VIDEO) {
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                    "VID_"+ timeStamp + ".mp4");
+        } else {
+            return null;
+        }
+
+        return mediaFile;
+    }
+
+
+
+
+
+
+    /**
+     *
+     * //Setting layout
+    public void setLayoutAndButtons(){
+        setContentView(R.layout.activity_camera);
+        bUploadImage = (Button) findViewById(R.id.bUploadImage);
+        imageView = (ImageView) findViewById(R.id.image_camera);
+        sUserImagePrivacyLabel = (Switch) findViewById(R.id.sUserImagePrivacyLabel);
+
+        bUploadImage.setOnClickListener(this);
+        sUserImagePrivacyLabel.setOnCheckedChangeListener(this);
+        imageView.setOnClickListener(this);
+    }
+
+     **/
+
+    /**
+
     public void onClick(View view){
         switch (view.getId()){
             case R.id.bUploadImage:
@@ -110,6 +241,7 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
                 image.compress(Bitmap.CompressFormat.JPEG, 20, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 System.out.println("getUserImagePrivacyLabel(): " + getUserImagePrivacyLabel());
+
                 new ServerRequest(this).uploadImage(userUID, imageName() + ".jpg", "Regular", getUserImagePrivacyLabel(), getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -128,6 +260,10 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
         }
     }
 
+     **/
+
+
+    /**
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b){
         switch(compoundButton.getId()){
@@ -142,7 +278,9 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
         }
 
     }
+    **/
 
+    /**
     private void takePhoto() {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
@@ -150,6 +288,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
+
+     **/
 
     String imageName(){
         UserDataLocal udl = new UserDataLocal(this);
@@ -163,8 +303,8 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (resultCode == Activity.RESULT_OK) {
+            //setLayoutAndButtons();
             Uri selectedImage = imageUri;
             getContentResolver().notifyChange(selectedImage, null);
 
@@ -177,6 +317,9 @@ public class CameraActivity extends Activity implements View.OnClickListener, Co
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+        else{
+            finish();
         }
     }
 
