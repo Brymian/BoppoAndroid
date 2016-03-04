@@ -51,6 +51,17 @@ public class ServerRequest {
         new ChangePassword(uid, newPassword, stringCallback).execute();
     }
 
+    public void createEvent(String eventName, int eventHostUid, String eventPrivacyLabel,
+        String eventInviteTypeLabel, boolean eventImageUploadAllowedIndicator,
+        String eventStartDatetime, String eventEndDatetime,
+        double eventGpsLatitude, double eventGpsLongitude, StringCallback stringCallback)
+    {
+        pd.show();
+        new CreateEvent(eventName, eventHostUid, eventPrivacyLabel, eventInviteTypeLabel,
+            eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
+            eventGpsLatitude, eventGpsLongitude, stringCallback).execute();
+    }
+
     public void createUserNormal(User user, StringCallback stringCallback) {
         pd.show();
         new CreateUserNormal(user, stringCallback).execute();
@@ -158,7 +169,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/Functions/User.php?function=changeEmail";
+            String url = SERVER + PHP + "Older/Functions/User.php?function=changeEmail";
 
             try {
                 JSONObject jsonObject = new JSONObject();
@@ -204,7 +215,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/Functions/User.php?function=changePassword";
+            String url = SERVER + PHP + "Older/Functions/User.php?function=changePassword";
 
             try {
                 JSONObject jsonObject = new JSONObject();
@@ -235,6 +246,87 @@ public class ServerRequest {
 
 
 
+    private class CreateEvent extends AsyncTask<Void, Void, String> {
+
+        String eventName;
+        int eventHostUid;
+        String eventPrivacyLabel;
+        String eventInviteTypeLabel;
+        boolean eventImageUploadAllowedIndicator;
+        String eventStartDatetime;
+        String eventEndDatetime;
+        double eventGpsLatitude;
+        double eventGpsLongitude;
+        StringCallback stringCallback;
+
+        private CreateEvent(String eventName, int eventHostUid, String eventPrivacyLabel,
+            String eventInviteTypeLabel, boolean eventImageUploadAllowedIndicator,
+            String eventStartDatetime, String eventEndDatetime,
+            double eventGpsLatitude, double eventGpsLongitude,
+            StringCallback stringCallback) {
+
+            this.eventName = eventName;
+            this.eventHostUid = eventHostUid;
+            this.eventPrivacyLabel = eventPrivacyLabel;
+            this.eventInviteTypeLabel = eventInviteTypeLabel;
+            this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;
+            this.eventStartDatetime = eventStartDatetime;
+            this.eventEndDatetime = eventEndDatetime;
+            this.eventGpsLatitude = eventGpsLatitude;
+            this.eventGpsLongitude = eventGpsLongitude;
+
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = SERVER + PHP + "AndroidIO/Event.php?function=createEvent";
+
+            Post request = new Post();
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("eventName", eventName);
+                jsonEventObject.put("eventHostUid", eventHostUid);
+                jsonEventObject.put("eventPrivacyLabel", eventPrivacyLabel);
+                jsonEventObject.put("eventInviteTypeLabel", eventInviteTypeLabel);
+                jsonEventObject.put("eventImageUploadAllowedIndicator", eventImageUploadAllowedIndicator);
+
+                jsonEventObject.put("eventStartDatetime",
+                    (eventStartDatetime == null ? JSONObject.NULL : eventStartDatetime));
+                jsonEventObject.put("eventEndDatetime",
+                    (eventStartDatetime == null ? JSONObject.NULL : eventEndDatetime));
+                jsonEventObject.put("eventGpsLatitude",
+                    (eventStartDatetime == null ? JSONObject.NULL : eventGpsLatitude));
+                jsonEventObject.put("eventGpsLongitude",
+                    (eventStartDatetime == null ? JSONObject.NULL : eventGpsLongitude));
+
+                String jsonEventString = jsonEventObject.toString();
+
+                return request.post(url, jsonEventString);
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
+
     private class CreateUserNormal extends AsyncTask<Void, Void, String> {
 
         User user;
@@ -247,7 +339,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/createUserNormal.php";
+            String url = SERVER + PHP + "Older/createUserNormal.php";
 
             String jsonUser =
                 "{\"username\":\"" + user.getUsername() + "\"," +
@@ -276,6 +368,8 @@ public class ServerRequest {
 
     }
 
+
+
     private class CreateUserFacebook extends AsyncTask<Void, Void, String> {
 
         User user;
@@ -288,7 +382,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/createUserFacebook.php";
+            String url = SERVER + PHP + "Older/createUserFacebook.php";
 
             String jsonUser =
                 "{\"facebookUid\":\"" + user.getFacebookUid() + "\"," +
@@ -328,7 +422,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/Functions/User.php?function=syncUserFacebook";
+            String url = SERVER + PHP + "Older/Functions/User.php?function=syncUserFacebook";
 
             try
             {
@@ -384,7 +478,7 @@ public class ServerRequest {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/authUserNormal.php";
+            String url = SERVER + PHP + "Older/authUserNormal.php";
 
             String jsonUser =
                 "{\"username\":\"" + user.getUsername() + "\"," +
@@ -469,7 +563,7 @@ public class ServerRequest {
 
         @Override
         protected Void doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/authUserFacebook.php";
+            String url = SERVER + PHP + "Older/authUserFacebook.php";
 
             String jsonUser = "{\"facebookUid\":\"" + user.getFacebookUid() + "\"}";
             Post request = new Post();
@@ -540,7 +634,7 @@ public class ServerRequest {
 
         @Override
         protected List<User> doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/getUsers.php";
+            String url = SERVER + PHP + "Older/getUsers.php";
 
             System.out.println("SEARCHED USER: " + searchedUser);
             //String searched_user = "";
@@ -611,7 +705,7 @@ public class ServerRequest {
         @Override
         protected User doInBackground(Void... params)
         {
-            String url = SERVER + PHP + "DBIO/Functions/User.php?function=getUserData";
+            String url = SERVER + PHP + "Older/Functions/User.php?function=getUserData";
             Post request = new Post();
 
             try {
@@ -683,7 +777,7 @@ public class ServerRequest {
 
         @Override
         protected List<User> doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/Functions/User.php?function=getUserFriendRequestUsers";
+            String url = SERVER + PHP + "Older/Functions/User.php?function=getUserFriendRequestUsers";
 
             System.out.println("USER: " + uid);
             Post request = new Post();
@@ -754,7 +848,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/getFriendStatus.php";
+            String url = SERVER + PHP + "Older/getFriendStatus.php";
 
             String jsonFriends = "{\"uid1\":" + loggedUid + "," + " \"uid2\":" + otherUid + "}";
             Post request = new Post();
@@ -789,7 +883,7 @@ public class ServerRequest {
         @Override
         protected List<User> doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/Functions/Friend.php?function=getFriends";
+            String url = SERVER + PHP + "Older/Functions/Friend.php?function=getFriends";
             String jsonLoggedUserUid = "{\"uid\":" + uid + "}";
             Post request = new Post();
 
@@ -856,7 +950,7 @@ public class ServerRequest {
         @Override
         protected List<Image> doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=getImages";
+            String url = SERVER + PHP + "Older/Functions/Image.php?function=getImages";
             String jsonGetImagePaths =
                 "{\"uid\":" + uid + "," +
                 " \"imagePurposeLabel\":\"" + imagePurposeLabel + "\"}";
@@ -941,7 +1035,7 @@ public class ServerRequest {
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/setFriendStatus.php";
+            String url = SERVER + PHP + "Older/setFriendStatus.php";
 
             String jsonFriends = "{\"uid1\":" + loggedUserUid + "," + " \"uid2\":" + otherUserUid + "}";
             Post request = new Post();
@@ -978,7 +1072,7 @@ public class ServerRequest {
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/Functions/User.php?function=setUserAccountPrivacyLabel";
+            String url = SERVER + PHP + "Older/Functions/User.php?function=setUserAccountPrivacyLabel";
 
             try
             {
@@ -1037,7 +1131,7 @@ public class ServerRequest {
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=setUserImagePurpose";
+            String url = SERVER + PHP + "Older/Functions/Image.php?function=setUserImagePurpose";
 
             try
             {
@@ -1100,7 +1194,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=uploadImage";
+            String url = SERVER + PHP + "Older/Functions/Image.php?function=uploadImage";
 
             try {
                 JSONObject jsonImageObject = new JSONObject();
@@ -1161,7 +1255,7 @@ public class ServerRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = SERVER + PHP + "DBIO/Functions/Image.php?function=deleteImage";
+            String url = SERVER + PHP + "Older/Functions/Image.php?function=deleteImage";
 
             try
             {

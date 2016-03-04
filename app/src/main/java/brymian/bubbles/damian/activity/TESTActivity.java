@@ -218,6 +218,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         new ServerRequest(this).getUserFriendRequestUsers(1, new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -229,7 +230,16 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
 
+        new ServerRequest(this).createEvent("Test Event", 1, "Public", "Friends", true, null, null, 12.34, 56.789, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
+                System.out.println(string);
+                System.out.println("Result string size: " + string.length());
+            }
+        });
     }
 
 }
