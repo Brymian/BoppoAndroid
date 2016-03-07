@@ -105,26 +105,31 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         Drawable searchDrawable = getResources().getDrawable(R.mipmap.search_nopadding);
         Drawable playDrawable = getResources().getDrawable(R.mipmap.play_nopadding);
 
-        switch (firstLastName){
-            case "Logged in user.":
-                tvTitle.setText("Your Map");
-                bCamera.setImageDrawable(cameraDrawable);
-                bRight.setImageDrawable(searchDrawable);
-                bLeftButton.setImageDrawable(playDrawable);
-                break;
-            case "Everyone.":
-                tvTitle.setText("Visit Anywhere!");
-                bCamera.setImageDrawable(cameraDrawable);
-                bRight.setImageDrawable(searchDrawable);
-                bLeftButton.setImageDrawable(playDrawable);
-                break;
-            default:
-                tvTitle.setText(firstLastName + "'s Map");
-                bCamera.setImageDrawable(cameraDrawable);
-                bRight.setImageDrawable(searchDrawable);
-                bLeftButton.setImageDrawable(playDrawable);
-                break;
+        try {
+            switch (firstLastName) {
+                case "Logged in user.":
+                    tvTitle.setText("Your Map");
+                    bCamera.setImageDrawable(cameraDrawable);
+                    bRight.setImageDrawable(searchDrawable);
+                    bLeftButton.setImageDrawable(playDrawable);
+                    break;
+                case "Everyone.":
+                    tvTitle.setText("Visit Anywhere!");
+                    bCamera.setImageDrawable(cameraDrawable);
+                    bRight.setImageDrawable(searchDrawable);
+                    bLeftButton.setImageDrawable(playDrawable);
+                    break;
+                default:
+                    tvTitle.setText(firstLastName + "'s Map");
+                    bCamera.setImageDrawable(cameraDrawable);
+                    bRight.setImageDrawable(searchDrawable);
+                    bLeftButton.setImageDrawable(playDrawable);
+                    break;
 
+            }
+        }
+        catch (NullPointerException npe){
+            npe.printStackTrace();
         }
     }
 
@@ -183,8 +188,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         new ServerRequest(this).getImages(getUID(), "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                for(int i = 0; i < imageList.size(); i++){
-                    try{
+                try{
+                    for(int i = 0; i < imageList.size(); i++) {
                         String getPath = imageList.get(i).getPath();
                         double imageLatitude = imageList.get(i).getUserImageGpsLatitude();
                         double imageLongitude = imageList.get(i).getUserImageGpsLongitude();
@@ -202,14 +207,14 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                         System.out.println("THIS IS FROM imageList.get(" + i + ").getUserImagePrivacyLabel():" + imagePrivacyLabel);
                         System.out.println("THIS IS FROM imageList.get(" + i + ").getUserImagePurposeLabel():" + imagePurpose);
                     }
-                    catch(NullPointerException npe){
-                        npe.printStackTrace();
-                        System.out.println("THIS IS FROM setMarkers(): server seems down possibly NullPointerException.");
-                    }
-                    catch(IndexOutOfBoundsException ioob){
-                        ioob.printStackTrace();
-                        System.out.println("THIS IS FROM setMarkers(): there seems to be nothing in the table IndexOutOfBoundsException");
-                    }
+                }
+                catch(NullPointerException npe){
+                    npe.printStackTrace();
+                    System.out.println("THIS IS FROM setMarkers(): server seems down possibly NullPointerException.");
+                }
+                catch(IndexOutOfBoundsException ioob){
+                    ioob.printStackTrace();
+                    System.out.println("THIS IS FROM setMarkers(): there seems to be nothing in the table IndexOutOfBoundsException");
                 }
 
                 for(int i = 0; i < latitudeImageArrayList.size(); i++){

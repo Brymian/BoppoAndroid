@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivityFacebook;
 import brymian.bubbles.damian.activity.TESTActivity;
 
@@ -23,6 +26,7 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
 
     ImageButton ibLoginApp, ibLoginFacebook;
     TextView tvDebug;
+    TextView tvNewLayout;
 
     public LaunchFragment() {
     }
@@ -43,7 +47,9 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         ibLoginFacebook = (ImageButton) rootView.findViewById(R.id.ibLoginFacebook);
         ibLoginFacebook.setOnClickListener(this);
         tvDebug = (TextView) rootView.findViewById(R.id.tvDebug);
+        tvNewLayout = (TextView) rootView.findViewById(R.id.tvNewLayout);
         tvDebug.setOnClickListener(this);
+        tvNewLayout.setOnClickListener(this);
 
         return rootView;
     }
@@ -79,6 +85,10 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         else if (v.getId() == R.id.tvDebug)
         {
             startActivity(new Intent(getActivity(), TESTActivity.class));
+        }
+        else if (v.getId() == R.id.tvNewLayout)
+        {
+            startActivity(new Intent(getActivity(), MainActivity.class));
         }
     }
 }

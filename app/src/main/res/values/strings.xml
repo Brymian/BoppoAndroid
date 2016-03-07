@@ -46,6 +46,23 @@
         <string name="friendsTITLE">Friends</string>
         <string name="search_usersTITLE">Search Users</string>
         <string name="profile_privacyTITLE">Profile Privacy</string>
+        <!-- MENU NAVIGATION DRAWER -->
+        <string-array name="planets">
+            <item>Mercury</item>
+            <item>Venus</item>
+            <item>Earth</item>
+            <item>Mars</item>
+            <item>Jupiter</item>
+            <item>Saturn</item>
+            <item>Uranus</item>
+            <item>Neptune</item>
+            <item>Pluto</item>
+        </string-array>
+        <string-array name="random">
+            <item>This is a test</item>
+            <item>This is another test</item>
+            <item>This is the last test</item>
+        </string-array>
         <!-- MENU - ACCOUNT-->
             <string name="account">Account</string>
             <string name="verify_email">Verify Email</string>
@@ -107,5 +124,6 @@
             <string name="go_back_contentDescription">This is the ImageButton to go back to the previous activity.</string>
 
     <!-- END OF BRYANT'S STRING VARIABLES -->
+    
 </resources>
 

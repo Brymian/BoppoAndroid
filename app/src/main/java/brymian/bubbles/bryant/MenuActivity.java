@@ -8,8 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,7 @@ import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.Events;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
+import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
@@ -44,14 +48,47 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     TextView bChangePassword, bChangeEmail, bLogOut, bSyncWIthDFacebook;
     TextView bNotifications, bAbout, bBlocking;
     TextView bProfileBackground, bProfileName, bProfilePrivacy, bYourProfile, bSearchUser, bFriends, tEvents;
+    LinearLayout llAll;
+    ScrollView svScrollView;
     ImageButton ibMap;
     String[] profileUserUsername = new String[1];
     String[] profileUserFirstLastName = new String[1];
     int[] profileUserUID = new int[1];
+    private float x1,x2;
+    static final int MIN_DISTANCE = 150;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
+
+        llAll = (LinearLayout) findViewById(R.id.llAll);
+        svScrollView = (ScrollView) findViewById(R.id.svScrollView);
+        svScrollView.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // TODO Auto-generated method stub
+                        switch (event.getAction()) {
+                            case MotionEvent.ACTION_DOWN:
+                                x1 = event.getX();
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                x2 = event.getX();
+                                float deltaX = x2 - x1;
+                                if (deltaX < 0) {
+                                    Toast.makeText(MenuActivity.this, "Right to Left swipe", Toast.LENGTH_SHORT).show();
+                                    Intent slide = new Intent(MenuActivity.this, MapsActivity.class);
+                                    startActivity(slide);
+                                    overridePendingTransition(R.anim.slide_leave, R.anim.slide_enter);
+                                } else if (deltaX > 0) {
+                                    Toast.makeText(MenuActivity.this, "Left to Right swipe", Toast.LENGTH_SHORT).show();
+                                }
+                                break;
+                        }
+
+                        return false;
+                    }
+                });
 
         //Go to personal Profile
         ibMap = (ImageButton) findViewById(R.id.ibMap);
@@ -106,6 +143,8 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
 
 
+
+
         new ServerRequest(this).getUserData(userUID, new UserCallback() {
                 @Override
                 public void done(User user) {
@@ -141,8 +180,47 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             System.out.println("IOException thrown.");
         }
 
+        //onShouldActivityStart();
+
 
     }
+
+    /**
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        switch(event.getAction())
+        {
+            case MotionEvent.ACTION_DOWN:
+                x1 = event.getX();
+                break;
+            case MotionEvent.ACTION_UP:
+                x2 = event.getX();
+                float deltaX = x2 - x1;
+                if (Math.abs(deltaX) > MIN_DISTANCE)
+                {
+                    Toast.makeText(this, "left2right swipe", Toast.LENGTH_SHORT).show ();
+                }
+                else
+                {
+                    // consider as something else - a screen tap for example
+                    Toast.makeText(this, "tap", Toast.LENGTH_SHORT).show();
+                }
+                break;
+        }
+        return super.onTouchEvent(event);
+    }
+
+    **/
+
+    public void onShouldActivityStart(){
+        Intent slide = new Intent(this, MapsActivity.class);
+        startActivity(slide);
+        overridePendingTransition(R.anim.slide_enter, R.anim.slide_leave);
+
+    }
+
 
     public void onClick(View v){
         switch(v.getId()){
@@ -212,11 +290,14 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
                 break;
             //Home button on the top left
             case R.id.ibMap:
+                /**
                 Intent mapsIntent = new Intent(this, MapsActivity.class);
                 mapsIntent.putExtra("firstLastName", "Everyone.");
                 mapsIntent.putExtra("uid", "0");
                 mapsIntent.putExtra("username", "Everyone.");
                 startActivity(mapsIntent);
+                 **/
+                startActivity(new Intent(this, MainActivity.class));
                 break;
         }
     }

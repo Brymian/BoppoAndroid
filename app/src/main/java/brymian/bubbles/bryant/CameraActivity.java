@@ -26,10 +26,14 @@ import android.util.Base64;
 
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -70,12 +74,21 @@ public class CameraActivity extends Activity {
     private Camera mCamera;
     private CameraPreview mPreview;
 
+    private static int number = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //takePhoto();
-        checkCameraHardware(this);
+        if(!checkCameraHardware(this)){
+            finish();
+        }
+
+        //checkCameraHardware(this);
+
+
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_camera);
 
         // Create an instance of Camera
@@ -83,10 +96,11 @@ public class CameraActivity extends Activity {
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        LinearLayout preview = (LinearLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
         // Add a listener to the Capture button
+        /**
         Button captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -97,6 +111,32 @@ public class CameraActivity extends Activity {
                     }
                 }
         );
+
+
+        // Add a listener to the Change button
+        ImageButton changeButton = (ImageButton) findViewById(R.id.button_change);
+        changeButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (number == Camera.CameraInfo.CAMERA_FACING_FRONT)
+                        {
+                            number = Camera.CameraInfo.CAMERA_FACING_BACK;
+                        }
+                        else
+                        {
+                            number = Camera.CameraInfo.CAMERA_FACING_FRONT;
+
+                        }
+                        //HERE SHOULD BE THE STEPS TO SWITCH
+                        Toast.makeText(getApplicationContext(), "Camera changed!", Toast.LENGTH_SHORT).show();
+                        // get an image from the camera
+                        mCamera = Camera.open(number);
+
+                    }
+                }
+        );
+         **/
 
 
         double latitude = 0;
@@ -289,17 +329,34 @@ public class CameraActivity extends Activity {
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
+     String imageName(){
+     UserDataLocal udl = new UserDataLocal(this);
+     User userPhone = udl.getUserData();
+     int userUID = userPhone.getUid();
+     String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
+     String name = userUID + "_" +charSequenceName;
+     System.out.println(name);
+     return name;
+     }
+
      **/
 
-    String imageName(){
-        UserDataLocal udl = new UserDataLocal(this);
-        User userPhone = udl.getUserData();
-        int userUID = userPhone.getUid();
-        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
-        String name = userUID + "_" +charSequenceName;
-        System.out.println(name);
-        return name;
+
+
+    private void releaseCamera(){
+        if (mCamera != null){
+            mCamera.release();        // release the camera for other applications
+            mCamera = null;
+        }
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //releaseMediaRecorder();       // if you are using MediaRecorder, release it first
+        releaseCamera();              // release the camera immediately on pause event
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
