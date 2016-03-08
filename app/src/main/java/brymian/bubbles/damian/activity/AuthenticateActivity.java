@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.damian.fragment.Authenticate.LaunchFragment;
 
 public class AuthenticateActivity extends AppCompatActivity {
@@ -19,7 +19,7 @@ public class AuthenticateActivity extends AppCompatActivity {
         setContentView(R.layout.activity_authenticate);
 
         if(SaveSharedPreference.getUserName(this).length() != 0){
-            startActivity(new Intent(this, MenuActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
 
         FragmentManager fm = getFragmentManager();

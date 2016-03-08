@@ -121,6 +121,11 @@
         <activity
             android:name=".damian.activity.TESTActivity"
             android:screenOrientation="portrait"></activity>
+        <activity android:name=".damian.fragment.Authenticate.RegisterFragment" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".damian.activity.AuthenticateActivity" />
+        </activity>
     </application>
 
 </manifest>

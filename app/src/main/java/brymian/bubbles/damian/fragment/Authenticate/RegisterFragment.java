@@ -3,10 +3,15 @@ package brymian.bubbles.damian.fragment.Authenticate;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,10 +32,9 @@ import static brymian.bubbles.damian.nonactivity.DialogMessage.showMessageRegist
 /**
  * Created by Ziomster on 7/2/2015.
  */
-public class RegisterFragment extends Fragment implements View.OnClickListener {
-
+public class RegisterFragment extends AppCompatActivity implements View.OnClickListener {
+    Toolbar mToolbar;
     TextView bRegister;
-    ImageButton ibGoBack;
     EditText etUsername, etPassword, etConfirmPassword, etNamefirst, etNamelast, etEmail;
     SharedPreferences sp;
 
@@ -129,14 +133,36 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.fragment_register);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.setTitle("Register");
+        mToolbar.setTitleTextColor(Color.BLACK);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        etUsername = (EditText) findViewById(R.id.etUsername);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
+        etNamefirst = (EditText) findViewById(R.id.etNamefirst);
+        etNamelast = (EditText) findViewById(R.id.etNamelast);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        bRegister = (TextView) findViewById(R.id.bRegister);
+
+        bRegister.setOnClickListener(this);
+
     }
 
+    /*
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_register, container, false);
+        mToolbar = (Toolbar) rootView.findViewById(R.id.tool_bar);
 
-        ibGoBack = (ImageButton) rootView.findViewById(R.id.ibGoBack);
+
+
         etUsername = (EditText) rootView.findViewById(R.id.etUsername);
         etPassword = (EditText) rootView.findViewById(R.id.etPassword);
         etConfirmPassword = (EditText) rootView.findViewById(R.id.etConfirmPassword);
@@ -148,6 +174,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         bRegister.setOnClickListener(this);
 
         return rootView;
+    }
+    */
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -182,11 +220,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     User user = new User();
                     user.setUserNormalLogin(username, password, namefirst, namelast, email);
 
-                    new ServerRequest(getActivity()).createUserNormal(user, new StringCallback() {
+                    new ServerRequest(this).createUserNormal(user, new StringCallback() {
                         @Override
                         public void done(String string) {
                             if (string.length() <= 1) {
-                                showMessageRegistration(getActivity());
+                                showMessageRegistration(RegisterFragment.this);
                             } else {
                                 String error = "";
                                 if (string.contains("Duplicate entry")) {
@@ -197,7 +235,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                                 } else {
                                     error = "Unknown error: '" + string + "'";
                                 }
-                                showErrorCustom(getActivity(), error);
+                                showErrorCustom(RegisterFragment.this, error);
                             }
                         }
                     });
@@ -205,10 +243,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 else {
                     System.out.println("PASSWORDS DON'T MATCH!!");
                 }
-                break;
-
-            case R.id.ibGoBack:
-                //Go back to the LoginFragment.class
                 break;
         }
 

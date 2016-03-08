@@ -1,39 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    android:background="@android:color/white"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
-    <LinearLayout
-        android:id="@+id/llTopBar"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/tool_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#42ffbf">
+        android:layout_alignParentTop="true"
+        android:background="#42ffbf"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:transitionGroup="true"/>
 
-        <ImageButton android:id="@+id/ibGoBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/arrow_black_nopadding"
-            android:contentDescription="@string/go_back_contentDescription"
-            android:background="@android:color/transparent" />
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/registerTITLE"
-            android:textSize="25sp"
-            android:textColor="@android:color/black"
-            android:paddingLeft="10dp"
-            android:gravity="center_vertical" />
-
-    </LinearLayout>
 
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:layout_weight="1">
 
         <LinearLayout
             android:id="@+id/llMainLayout"
@@ -56,7 +49,9 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/username_hint"
                     android:textStyle="italic"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/black"/>
 
             </LinearLayout>
 
@@ -73,7 +68,9 @@
                     android:inputType="textPassword"
                     android:hint="@string/password_hint"
                     android:textStyle="italic"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -90,7 +87,9 @@
                     android:inputType="textPassword"
                     android:hint="@string/confirm_password_hint"
                     android:textStyle="italic"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/black"/>
             </LinearLayout>
 
             <LinearLayout
@@ -106,7 +105,9 @@
                     android:hint="@string/first_name_hint"
                     android:textStyle="italic"
                     android:layout_weight=".6"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/black"/>
                 <EditText
                     android:id="@+id/etNamelast"
                     android:layout_width="match_parent"
@@ -114,7 +115,9 @@
                     android:hint="@string/last_name_hint"
                     android:textStyle="italic"
                     android:layout_weight=".4"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/black"/>
 
             </LinearLayout>
 
@@ -130,7 +133,9 @@
                     android:hint="@string/email_hint"
                     android:textStyle="italic"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textColor="@android:color/black"
+                    android:backgroundTint="@android:color/black"/>
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
@@ -140,7 +145,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/llDoneRegister"
+        android:layout_weight="1">
         <TextView
             android:id="@+id/bRegister"
             android:layout_width="match_parent"

@@ -6,29 +6,23 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.VoidCallback;
-
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 /**
  * Created by Ziomster on 7/2/2015.
@@ -135,13 +129,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         }
 
 
-                        startActivity(new Intent(getActivity(), MenuActivity.class));
+                        startActivity(new Intent(getActivity(), MainActivity.class));
                     }
                 }
             });
         }
         if (v.getId() == R.id.ibRegisterLink) {
-            startFragment(fm, R.id.fragment_authenticate, new RegisterFragment());
+            //startFragment(fm, R.id.fragment_authenticate, new RegisterFragment());
+            startActivity(new Intent(getActivity(), RegisterFragment.class));
         }
     }
 }

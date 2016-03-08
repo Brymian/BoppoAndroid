@@ -3,6 +3,7 @@ package brymian.bubbles.bryant.Tabs;
 /**
  * Created by Almanza on 3/3/2016.
  */
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -10,8 +11,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,11 +31,13 @@ import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
+import brymian.bubbles.damian.activity.AuthenticateActivity;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -186,6 +191,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 10:
                 startActivity(new Intent(this, About.class));
                 break;
+            case 11:
+                displayAlertDialog();
+                break;
             default:
                 Toast.makeText(MainActivity.this, "Something is wrong.", Toast.LENGTH_SHORT).show();
         }
@@ -229,5 +237,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public void displayAlertDialog() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.logout, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(MainActivity.this, AuthenticateActivity.class));
+                SaveSharedPreference.clearUserNameAndPassword(getApplicationContext());
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 }

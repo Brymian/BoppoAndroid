@@ -3,38 +3,29 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    >
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#42ffbf">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/log_inTITLE"
-            android:textColor="@android:color/black"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textSize="25sp"
-            android:gravity="center"/>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
-        android:paddingTop="100dp">
+        android:paddingTop="100dp"
+        android:layout_weight="1"
+        android:id="@+id/llLogIn">
         <EditText
             android:id="@+id/etUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/username_hint"
             android:textStyle="italic"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:backgroundTint="@android:color/black" />
         <EditText
             android:id="@+id/etPassword"
             android:layout_marginBottom="10dp"
@@ -43,7 +34,8 @@
             android:hint="@string/password_hint"
             android:textStyle="italic"
             android:inputType="textPassword"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:backgroundTint="@android:color/black"/>
 
         <TextView
             android:id="@+id/ibRegisterLink"
@@ -57,7 +49,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
         <TextView
             android:id="@+id/bLogin"
             android:layout_width="match_parent"
