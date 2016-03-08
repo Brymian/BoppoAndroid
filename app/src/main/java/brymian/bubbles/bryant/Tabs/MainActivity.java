@@ -3,12 +3,13 @@ package brymian.bubbles.bryant.Tabs;
 /**
  * Created by Almanza on 3/3/2016.
  */
-import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,52 +18,58 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.MapsActivity;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
+import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
+import brymian.bubbles.bryant.profile.ProfileActivity;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
+import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
+import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
+import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
 
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    TextView tvTitle;
     DrawerLayout drawerLayout;
     ListView listView;
-    String[] planets, random;
+    String[] menu_items;
     ActionBarDrawerToggle drawerListener;
-
+    Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-        //tvTitle = (TextView) findViewById(R.id.tvTitle);
-        //tvTitle.setText("Explore");
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
-        planets = getResources().getStringArray(R.array.planets);
-        random = getResources().getStringArray(R.array.random);
+
+        menu_items = getResources().getStringArray(R.array.menu_items);
         listView = (ListView) findViewById(R.id.drawerList);
-        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, planets));
-        //listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, random));
+        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menu_items));
         listView.setOnItemClickListener(this);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.mipmap.menu_icon_black_nopadd, R.string.save, R.string.cancel){
+        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.string.save, R.string.cancel){
             @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                Toast.makeText(MainActivity.this, "open", Toast.LENGTH_SHORT).show();
+            public void onDrawerClosed(View drawerView){
+                Toast.makeText(MainActivity.this, "close", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                Toast.makeText(MainActivity.this, "close", Toast.LENGTH_SHORT).show();
-
+            public void onDrawerOpened(View drawerView){
+                Toast.makeText(MainActivity.this, "open", Toast.LENGTH_SHORT).show();
             }
         };
         drawerLayout.setDrawerListener(drawerListener);
-        //getSupportActionBar().setHomeButtonEnabled(true);
-        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -72,30 +79,40 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        //final PagerAdapter adapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         final brymian.bubbles.bryant.Tabs.PagerAdapter adapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+            /**
+
+             @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+             }
+
+             @Override public void onPageSelected(int position) {
+             if (position == 1) {
+             setTitle("Page 1");
+             } else if (position == 2)
+             {
+             setTitle("Page 2");
+             }
+             else
+             {
+             setTitle("Page 3");
+             }
+
+
+             }
+
+             **/
+
+        });
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
                 viewPager.setCurrentItem(index);
-                /**
 
-                if(index == 1){
-                    tvTitle = (TextView) findViewById(R.id.tvTitle);
-                    tvTitle.setText("News Feed");
-                }
-                else if(index == 2){
-                    tvTitle = (TextView) findViewById(R.id.tvTitle);
-                    tvTitle.setText("Events");
-                }
-                else{
-                    tvTitle = (TextView) findViewById(R.id.tvTitle);
-                    tvTitle.setText("Explore");
-                }
-                 **/
             }
 
             @Override
@@ -112,32 +129,105 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
+    public void onPostCreate(Bundle savedInstanceState){
+        super.onPostCreate(savedInstanceState);
+        drawerListener.syncState();
+    }
+
+    @Override
     public void onStart(){
         super.onStart();
-        //setTitle("Explore");
-
     }
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-        Toast.makeText(MainActivity.this, planets[position]+ " was selected", Toast.LENGTH_SHORT).show();
+        switch (position){
+            /* My Profile */
+            case 0:
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            /* Profile Pictures */
+            case 1:
+                startActivity(new Intent(this, ProfileBackground.class));
+                break;
+            /* My Map */
+            case 2:
+                startActivity(new Intent(this, MapsActivity.class));
+                break;
+            /* Friends */
+            case 3:
+                startActivity(new Intent(this, FriendsList.class));
+                break;
+            /* Privacy */
+            case 4:
+                startActivity(new Intent(this, Privacy.class));
+                break;
+            /* Change Password */
+            case 5:
+                startActivity(new Intent(this, ChangePassword.class));
+                break;
+            /* Email */
+            case 6:
+                startActivity(new Intent(this, VerifyEmail.class));
+                break;
+            /* Sync With Facebook */
+            case 7:
+                startActivity(new Intent(this, SyncFacebook.class));
+                break;
+            /* Blocking */
+            case 8:
+                startActivity(new Intent(this, Blocking.class));
+                break;
+            /* Notifications */
+            case 9:
+                startActivity(new Intent(this, Notifications.class));
+                break;
+            /* About */
+            case 10:
+                startActivity(new Intent(this, About.class));
+                break;
+            default:
+                Toast.makeText(MainActivity.this, "Something is wrong.", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_inflater, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        /**
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-             return true;
+       if(drawerListener.onOptionsItemSelected(item)){
+            return true;
         }
-         **/
+        switch (item.getItemId()){
+            case R.id.search_top_right:
 
-        return super.onOptionsItemSelected(item);
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerListener.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

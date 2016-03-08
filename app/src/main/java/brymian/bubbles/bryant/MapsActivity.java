@@ -60,7 +60,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         bLeftButton = (ImageButton) findViewById(R.id.bLeftButton);
 
 
-        //Making sure if there are any putExtras() coming in from ProfileActivity
+        //Making sure if there are any putExtras() coming in from ProfileActivityOLD
         String firstLastName, username;
         int uid;
         if (savedInstanceState == null) {

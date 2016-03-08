@@ -3,8 +3,12 @@ package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -21,8 +25,8 @@ import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
-public class ChangePassword extends FragmentActivity implements View.OnClickListener{
-    ImageButton ibMenu;
+public class ChangePassword extends AppCompatActivity implements View.OnClickListener{
+    Toolbar mToolbar;
     EditText etOldPassword, etNewPassword, etNewPasswordAgain;
     TextView bChangePassword;
     ImageView ivCurrentPassword, ivConfirmNewPassword;
@@ -87,7 +91,11 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.change_password);
 
-        ibMenu =(ImageButton) findViewById(R.id.ibMenu);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mToolbar.setTitle("Change Password");
         etOldPassword = (EditText) findViewById(R.id.etOldPassword);
         etNewPassword = (EditText) findViewById(R.id.etNewPassword);
         etNewPasswordAgain = (EditText) findViewById(R.id.etNewPasswordAgain);
@@ -95,7 +103,6 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
         ivCurrentPassword = (ImageView) findViewById(R.id.ivCurrentPassword);
         ivConfirmNewPassword = (ImageView) findViewById(R.id.ivConfirmNewPassword);
 
-        ibMenu.setOnClickListener(this);
         bChangePassword.setOnClickListener(this);
         bChangePassword.setVisibility(View.GONE);
 
@@ -133,6 +140,24 @@ public class ChangePassword extends FragmentActivity implements View.OnClickList
 
                 break;
         }
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        finish();
     }
 
     void setProfileUserUID(int uid){

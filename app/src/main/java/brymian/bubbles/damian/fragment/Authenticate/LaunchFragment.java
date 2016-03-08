@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivityFacebook;

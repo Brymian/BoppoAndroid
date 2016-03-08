@@ -1,7 +1,6 @@
 package brymian.bubbles.bryant;
 
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,16 +27,16 @@ import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
 import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivity;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
 import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
-import brymian.bubbles.bryant.MenuButtons.SocialButtons.Events;
+import brymian.bubbles.bryant.events.Events;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
 import brymian.bubbles.bryant.Tabs.MainActivity;
-import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+//import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.User;
@@ -53,6 +52,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
     ImageButton ibMap;
     String[] profileUserUsername = new String[1];
     String[] profileUserFirstLastName = new String[1];
+
     int[] profileUserUID = new int[1];
     private float x1,x2;
     static final int MIN_DISTANCE = 150;
@@ -257,7 +257,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             //Profile
             case R.id.bYourProfile:
 
-                Intent yourProfileIntent = new Intent(this, ProfileActivity.class);
+                Intent yourProfileIntent = new Intent(this, ProfileActivityOLD.class);
                 yourProfileIntent.putExtra("status", "Logged in user.");
                 yourProfileIntent.putExtra("firstLastName", getProfileUserFirstLastName());
                 yourProfileIntent.putExtra("username", getProfileUserUsername());
@@ -320,7 +320,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(MenuActivity.this, AuthenticateActivity.class));
-                SaveSharedPreference.clearUserNameAndPassword(getApplicationContext());
+                //SaveSharedPreference.clearUserNameAndPassword(getApplicationContext());
             }
         });
         AlertDialog dialog = alert.create();

@@ -1,22 +1,23 @@
 package brymian.bubbles.bryant.MenuButtons.SocialButtons;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivity;
+import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -25,8 +26,9 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.UserListCallback;
 
 
-public class FriendsList extends FragmentActivity implements View.OnClickListener {
-    ImageButton ibMenu;
+public class FriendsList extends AppCompatActivity implements View.OnClickListener {
+
+    Toolbar mToolbar;
 
     //------------ Accept/Decline TextView, TextView arrays, and int array of R.id.(accept/decline) FOR FRIEND REQUESTS ------------------------
     TextView ibAccept0, ibAccept1,ibAccept2, ibAccept3, ibAccept4, ibAccept5, ibAccept6, ibAccept7, ibAccept8, ibAccept9;
@@ -69,9 +71,13 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friendslist);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.setTitle("Friends");
+        mToolbar.setTitleTextColor(Color.BLACK);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        ibMenu = (ImageButton) findViewById(R.id.ibMenu);
         llFriendRequestsTitle = (LinearLayout) findViewById(R.id.llFriendRequestsTitle);
         llFriendRequestListMAIN = (LinearLayout) findViewById(R.id.llFriendRequestsListMAIN);
         llFriendsListTitle = (LinearLayout) findViewById(R.id.llFriendsListTitle);
@@ -102,7 +108,6 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         llFriendsListTitle.setVisibility(View.GONE);
         llFriendsListMAIN.setVisibility(View.GONE);
 
-        ibMenu.setOnClickListener(this);
 
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
@@ -113,8 +118,25 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
         profileUserFriendRequests(userUID);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        finish();
+    }
+
     public void onClick(View v){
-        final Intent profileIntent = new Intent(this, ProfileActivity.class);
+        final Intent profileIntent = new Intent(this, ProfileActivityOLD.class);
         final String friendStatus = "Already friends with user.";
         switch (v.getId()){
             case R.id.ibMenu:
@@ -373,6 +395,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                             TVIDS[i].setClickable(true);
                             TVIDS[i].setOnClickListener(FriendsList.this);
                             TVIDS[i].setTextSize(20);
+                            TVIDS[i].setTextColor(Color.BLACK);
                         }
                     }
                     else if (friendListSize == 0) {
@@ -415,6 +438,7 @@ public class FriendsList extends FragmentActivity implements View.OnClickListene
                                         tvFriendRequestNames[j].setVisibility(View.VISIBLE);
                                         tvFriendRequestNames[j].setText(user.getFirstName() + " " + user.getLastName());
                                         tvFriendRequestNames[j].setTextSize(20);
+                                        tvFriendRequestNames[j].setTextColor(Color.BLACK);
                                         tvFriendRequestNames[j].setOnClickListener(FriendsList.this);
                                     }
                                 });

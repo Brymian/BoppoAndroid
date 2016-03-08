@@ -1,0 +1,73 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/MainLayout">
+
+    <ImageButton
+        android:id="@+id/bMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/menu_icon_black_nopadd"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@android:color/transparent"/>
+    <TextView
+        android:id="@+id/tProfileName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bMenu"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="35sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp"
+        android:background="#42ffbf">
+        <ImageButton
+            android:id="@+id/bLeft"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/left_button_profile_contentDescription"
+            android:background="@android:color/transparent"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
+        <ImageButton
+            android:id="@+id/bMiddle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:contentDescription="@string/middle_button_profile_contentDescription"
+            android:background="@android:color/transparent"/>
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"/>
+
+        <ImageButton
+            android:id="@+id/bRight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:contentDescription="@string/right_button_profile_contentDescription"
+            android:background="@android:color/transparent"/>
+
+
+    </LinearLayout>
+
+
+
+
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search_top_right"
+        android:icon="@mipmap/search_nopadding"
+        android:title="Text to be seen by user"
+        app:showAsAction="collapseActionView|ifRoom"
+        android:orderInCategory="0"/>
+
+</menu>

@@ -47,16 +47,18 @@
         <string name="search_usersTITLE">Search Users</string>
         <string name="profile_privacyTITLE">Profile Privacy</string>
         <!-- MENU NAVIGATION DRAWER -->
-        <string-array name="planets">
-            <item>Mercury</item>
-            <item>Venus</item>
-            <item>Earth</item>
-            <item>Mars</item>
-            <item>Jupiter</item>
-            <item>Saturn</item>
-            <item>Uranus</item>
-            <item>Neptune</item>
-            <item>Pluto</item>
+        <string-array name="menu_items">
+            <item>My Profile</item>
+            <item>Profile Pictures</item>
+            <item>My Map</item>
+            <item>Friends</item>
+            <item>Privacy</item>
+            <item>Change Password</item>
+            <item>Email</item>
+            <item>Sync With Facebook</item>
+            <item>Blocking</item>
+            <item>Notifications</item>
+            <item>About</item>
         </string-array>
         <string-array name="random">
             <item>This is a test</item>

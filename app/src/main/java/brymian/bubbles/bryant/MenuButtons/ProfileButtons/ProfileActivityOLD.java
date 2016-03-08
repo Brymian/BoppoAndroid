@@ -30,7 +30,7 @@ import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
-public class ProfileActivity extends FragmentActivity implements View.OnClickListener{
+public class ProfileActivityOLD extends FragmentActivity implements View.OnClickListener{
     TextView tProfileName;
     ImageButton bMenu, bLeft, bRight, bMiddle;
     RelativeLayout MainLayout;
@@ -103,7 +103,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
             @Override
             public void done(List<Image> imageList) {
                 if(imageList.size() == 0){
-                    Toast.makeText(ProfileActivity.this, "User has no Regular Public pics.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivityOLD.this, "User has no Regular Public pics.", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     new DownloadImage(imageList.get(0).getPath()).execute();
@@ -166,7 +166,7 @@ public class ProfileActivity extends FragmentActivity implements View.OnClickLis
                     new ServerRequest(this).setFriendStatus(getLoggedInUserUID(), getID(), new StringCallback() {
                         @Override
                         public void done(String string) {
-                            Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivityOLD.this, string, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }

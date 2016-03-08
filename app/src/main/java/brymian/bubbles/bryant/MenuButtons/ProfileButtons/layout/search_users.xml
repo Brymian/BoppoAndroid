@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/llTopBar"
+        android:background="#42ffbf">
+        <ImageButton
+            android:id="@+id/bMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/menu_icon_black_nopadd"
+            android:background="@android:color/transparent"/>
+        <TextView
+            android:id="@+id/textFriends"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="@string/search_usersTITLE"
+            android:textSize="25sp"
+            android:textColor="@android:color/black"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llMainLayout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <EditText
+            android:id="@+id/eInputUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:paddingTop="15dp" />
+
+        <LinearLayout
+            android:id="@+id/llSearchedUsers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingRight="5dp"
+            android:paddingLeft="5dp"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tShowFriends0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <TextView
+                android:id="@+id/tShowFriends1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <TextView
+                android:id="@+id/tShowFriends2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <TextView
+                android:id="@+id/tShowFriends3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <TextView
+                android:id="@+id/tShowFriends4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <TextView
+                android:id="@+id/tShowFriends5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"/>
+            <TextView
+                android:id="@+id/tShowFriends6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"/>
+            <TextView
+                android:id="@+id/tShowFriends7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"/>
+            <TextView
+                android:id="@+id/tShowFriends8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+            <TextView
+                android:id="@+id/tShowFriends9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.SocialButtons;
+package brymian.bubbles.bryant.events;
 
 import android.content.Intent;
 import android.os.Bundle;

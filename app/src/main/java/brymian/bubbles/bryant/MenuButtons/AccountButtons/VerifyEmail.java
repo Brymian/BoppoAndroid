@@ -1,10 +1,13 @@
 package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +23,8 @@ import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
-public class VerifyEmail extends FragmentActivity implements View.OnClickListener{
-    ImageButton ibMenu;
+public class VerifyEmail extends AppCompatActivity implements View.OnClickListener{
+    Toolbar mToolbar;
     EditText etVerifyEmail;
     TextView bVerifyEmail;
     int[] profileUserUID = new int[1];
@@ -29,13 +32,16 @@ public class VerifyEmail extends FragmentActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.verify_email);
-
-        ibMenu = (ImageButton) findViewById(R.id.ibMenu);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.setTitle("Email");
+        mToolbar.setTitleTextColor(Color.BLACK);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         etVerifyEmail = (EditText) findViewById(R.id.etVerifyEmail);
         bVerifyEmail = (TextView) findViewById(R.id.bVerifyEmail);
-
-        ibMenu.setOnClickListener(this);
         bVerifyEmail.setOnClickListener(this);
+
 
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
@@ -48,10 +54,6 @@ public class VerifyEmail extends FragmentActivity implements View.OnClickListene
 
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.ibMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
-                break;
             case R.id.bVerifyEmail:
                 new ServerRequest(this).changeEmail(getProfileUserUID(), etVerifyEmail.getText().toString(), new StringCallback() {
                     @Override
@@ -61,6 +63,23 @@ public class VerifyEmail extends FragmentActivity implements View.OnClickListene
                 });
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        finish();
     }
 
     void setProfileUserUID(int uid){
