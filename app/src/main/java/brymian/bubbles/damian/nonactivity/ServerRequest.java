@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,6 +16,7 @@ import java.util.List;
 import brymian.bubbles.R;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableInt;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 /**
  * Created by Ziomster on 7/12/2015.
  */
@@ -286,20 +286,15 @@ public class ServerRequest {
             try
             {
                 JSONObject jsonEventObject = new JSONObject();
-                jsonEventObject.put("eventName", eventName);
-                jsonEventObject.put("eventHostUid", eventHostUid);
-                jsonEventObject.put("eventPrivacyLabel", eventPrivacyLabel);
-                jsonEventObject.put("eventInviteTypeLabel", eventInviteTypeLabel);
-                jsonEventObject.put("eventImageUploadAllowedIndicator", eventImageUploadAllowedIndicator);
-
-                jsonEventObject.put("eventStartDatetime",
-                    (eventStartDatetime == null ? JSONObject.NULL : eventStartDatetime));
-                jsonEventObject.put("eventEndDatetime",
-                    (eventStartDatetime == null ? JSONObject.NULL : eventEndDatetime));
-                jsonEventObject.put("eventGpsLatitude",
-                    (eventStartDatetime == null ? JSONObject.NULL : eventGpsLatitude));
-                jsonEventObject.put("eventGpsLongitude",
-                    (eventStartDatetime == null ? JSONObject.NULL : eventGpsLongitude));
+                jsonEventObject.put("eventName", getNullOrValue(eventName));
+                jsonEventObject.put("eventHostUid", getNullOrValue(eventHostUid));
+                jsonEventObject.put("eventPrivacyLabel", getNullOrValue(eventPrivacyLabel));
+                jsonEventObject.put("eventInviteTypeLabel", getNullOrValue(eventInviteTypeLabel));
+                jsonEventObject.put("eventImageUploadAllowedIndicator", getNullOrValue(eventImageUploadAllowedIndicator));
+                jsonEventObject.put("eventStartDatetime", getNullOrValue(eventStartDatetime));
+                jsonEventObject.put("eventEndDatetime", getNullOrValue(eventEndDatetime));
+                jsonEventObject.put("eventGpsLatitude", getNullOrValue(eventGpsLatitude));
+                jsonEventObject.put("eventGpsLongitude", getNullOrValue(eventGpsLongitude));
 
                 String jsonEventString = jsonEventObject.toString();
 
