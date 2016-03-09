@@ -8,6 +8,7 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.Miscellaneous;
 import brymian.bubbles.damian.nonactivity.ServerRequest;
 import brymian.bubbles.damian.nonactivity.StringCallback;
 import brymian.bubbles.damian.nonactivity.StringListCallback;
@@ -232,7 +233,8 @@ public class TESTActivity extends Activity {
         });
         */
 
-        new ServerRequest(this).createEvent("Test Event", 1, "Public", "Friends", true, null, null, 12.34, 56.789, new StringCallback() {
+        /*
+        new ServerRequest(this).createEvent("Test Event", 1, "Public", "Friends", true, null, null, 12.345, 56.7890, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
@@ -240,6 +242,8 @@ public class TESTActivity extends Activity {
                 System.out.println("Result string size: " + string.length());
             }
         });
+        */
+
     }
 
 }
