@@ -3,11 +3,16 @@ package brymian.bubbles.bryant.Tabs;
 /**
  * Created by Almanza on 3/3/2016.
  */
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,6 +27,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
@@ -53,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-
         menu_items = getResources().getStringArray(R.array.menu_items);
         listView = (ListView) findViewById(R.id.drawerList);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menu_items));
@@ -62,12 +67,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.string.save, R.string.cancel){
             @Override
             public void onDrawerClosed(View drawerView){
-                Toast.makeText(MainActivity.this, "close", Toast.LENGTH_SHORT).show();
+                super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView){
-                Toast.makeText(MainActivity.this, "open", Toast.LENGTH_SHORT).show();
+                super.onDrawerClosed(drawerView);
             }
         };
         drawerLayout.setDrawerListener(drawerListener);
@@ -83,35 +88,33 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.friendslist_nopadding), 2, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final brymian.bubbles.bryant.Tabs.PagerAdapter adapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
-            /**
 
+                /*
              @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
              }
+             */
 
              @Override public void onPageSelected(int position) {
-             if (position == 1) {
-             setTitle("Page 1");
-             } else if (position == 2)
-             {
-             setTitle("Page 2");
+                 if (position == 0){
+                    setTitle("Explore");
+                 }
+                 else if (position == 1){
+                    setTitle("News Feed");
+                 }
+                 else if(position == 2){
+                    setTitle("Events");
+                 }
+                 mToolbar.setTitleTextColor(Color.BLACK);
              }
-             else
-             {
-             setTitle("Page 3");
-             }
-
-
-             }
-
-             **/
-
         });
 
+        viewPager.setCurrentItem(1);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -132,6 +135,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
 
     }
+
 
     @Override
     public void onPostCreate(Bundle savedInstanceState){
@@ -203,6 +207,29 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_inflater, menu);
+        MenuItem searchItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Perform the final search here
+                Toast.makeText(MainActivity.this, "text submit", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Text has changed; apply filter here
+                Toast.makeText(MainActivity.this, "text change", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        //Can be replaced with getComponentName()
+
+        //if this searchable activity is the current activity
+        ComponentName componentName = new ComponentName(this, MainActivity.class);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
         return true;
     }
 
@@ -212,7 +239,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             return true;
         }
         switch (item.getItemId()){
-            case R.id.search_top_right:
+            case R.id.search:
 
                 return true;
 
@@ -257,7 +284,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(MainActivity.this, AuthenticateActivity.class));
-                SaveSharedPreference.clearUserNameAndPassword(getApplicationContext());
+                SaveSharedPreference.clearUsername(getApplicationContext());
             }
         });
         AlertDialog dialog = alert.create();

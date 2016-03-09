@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.events.EventsTop;
@@ -40,12 +39,10 @@ public class TabFragment3 extends Fragment implements View.OnClickListener{
 
         switch (v.getId()){
             case R.id.tvMoreTopEvents:
-                Toast.makeText(getActivity(), "Something", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getActivity(), EventsTop.class));
                 break;
 
             case R.id.tvYourEvents:
-                Toast.makeText(getActivity(), "blah blah", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(getActivity(), EventsYours.class));
                 break;
         }

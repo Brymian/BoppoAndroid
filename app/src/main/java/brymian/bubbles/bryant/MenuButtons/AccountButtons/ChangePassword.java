@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
@@ -92,10 +93,11 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.change_password);
 
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.setTitle("Change Password");
+        mToolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        mToolbar.setTitle("Change Password");
         etOldPassword = (EditText) findViewById(R.id.etOldPassword);
         etNewPassword = (EditText) findViewById(R.id.etNewPassword);
         etNewPasswordAgain = (EditText) findViewById(R.id.etNewPasswordAgain);
@@ -129,7 +131,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                             System.out.println("THIS IS FROM onClick(R.id.bChangePassword): " + string);
                             Toast.makeText(ChangePassword.this, string, Toast.LENGTH_SHORT).show();
                             if(string.equals("Password changed successfully.")){
-                                startActivity(new Intent(ChangePassword.this, MenuActivity.class));
+                                finish();
                             }
                         }
                     });

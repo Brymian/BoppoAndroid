@@ -53,7 +53,11 @@
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.SyncFacebook" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.Privacy" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
         <activity android:name=".bryant.MenuButtons.SettingsButtons.About" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.AccountButtons.VerifyEmail" android:screenOrientation="portrait">
             <meta-data
@@ -87,9 +91,18 @@
         </activity>
         <activity android:name=".bryant.events.EventsSearch" android:screenOrientation="portrait"></activity>
         <!-- END OF EVENTS CLASSES -->
-        <activity android:name=".bryant.Tabs.MainActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.Tabs.MainActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/>
+        </activity>
         <!-- PROFILE CLASSES -->
-        <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
         <!-- END OF PROFILE CLASSES -->
 
         <!-- DAMIAN'S STUFF -->

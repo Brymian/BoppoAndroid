@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.MenuButtons.SettingsButtons;
 
+import android.app.Fragment;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -7,8 +8,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
@@ -17,34 +22,52 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 
 /**
  * Created by Almanza on 7/6/2015.
  */
-public class Notifications extends FragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class Notifications extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Switch sVibration, sLED, sSound;
-    ImageButton ibMenu;
-
+    Toolbar mToolbar;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notifications);
+        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.setTitle("Notifications");
+        mToolbar.setTitleTextColor(Color.BLACK);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         sVibration = (Switch) findViewById(R.id.sVibration);
         sLED = (Switch) findViewById(R.id.sLED);
         sSound = (Switch) findViewById(R.id.sSound);
 
-        ibMenu = (ImageButton) findViewById(R.id.ibMenu);
+        if(SaveSharedPreference.getNotificationVibration(this).length() != 0){
+            sVibration.setChecked(true);
+        }
+        if(SaveSharedPreference.getNotificationLEDLight(this).length() != 0){
+            sLED.setChecked(true);
+        }
+        if(SaveSharedPreference.getNotificationSound(this).length() != 0){
+            sSound.setChecked(true);
+        }
 
-        ibMenu.setOnClickListener(this);
         sVibration.setOnCheckedChangeListener(this);
         sLED.setOnCheckedChangeListener(this);
         sSound.setOnCheckedChangeListener(this);
     }
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.ibMenu:
-                startActivity(new Intent(this, MenuActivity.class));
-                break;
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                //NavUtils.navigateUpFromSameTask(this);
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -53,28 +76,51 @@ public class Notifications extends FragmentActivity implements View.OnClickListe
         switch (cb.getId()){
             case R.id.sVibration:
                 if(b){
-                    notificationVibration();
+                    if(SaveSharedPreference.getNotificationVibration(this).length() == 0){
+                        SaveSharedPreference.setNotificationVibration(this, "true");
+                        notificationVibration();
+                    }
+                    /*
+                    else if(SaveSharedPreference.getNotificationVibration(this).length() != 0){
+                        if(PreferenceManager.getDefaultSharedPreferences(this).getString("vibration", "something").equals("true")){
+                            SaveSharedPreference.clearNotificationVibration(this);
+                            SaveSharedPreference.setNotificationVibration(this, "true");
+                        }
+                    }
+                    */
                 }
                 else{
-                    Toast.makeText(Notifications.this, "Vibration is off", Toast.LENGTH_SHORT).show();
+                    if(SaveSharedPreference.getNotificationVibration(this).length() != 0){
+                        SaveSharedPreference.clearNotificationVibration(this);
+                    }
                 }
                 break;
 
             case R.id.sLED:
                 if(b){
-                    notificationLED();
+                    if(SaveSharedPreference.getNotificationLEDLight(this).length() == 0){
+                        SaveSharedPreference.setNotificationsLEDLight(this, "true");
+                        notificationLED();
+                    }
                 }
                 else{
-                    Toast.makeText(Notifications.this, "LED is off", Toast.LENGTH_SHORT).show();
+                    if(SaveSharedPreference.getNotificationLEDLight(this).length() != 0){
+                        SaveSharedPreference.clearNotificationLEDLight(this);
+                    }
                 }
                 break;
 
             case R.id.sSound:
                 if(b){
-                    notificationSound();
+                    if(SaveSharedPreference.getNotificationSound(this).length() == 0) {
+                        SaveSharedPreference.setNotificationsSound(this, "true");
+                        notificationSound();
+                    }
                 }
                 else{
-                    Toast.makeText(Notifications.this, "Sound is off", Toast.LENGTH_SHORT).show();
+                    if(SaveSharedPreference.getNotificationSound(this).length() != 0){
+                        SaveSharedPreference.clearNotificationSound(this);
+                    }
                 }
                 break;
         }

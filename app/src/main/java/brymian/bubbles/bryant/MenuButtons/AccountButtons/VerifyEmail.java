@@ -59,6 +59,9 @@ public class VerifyEmail extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         Toast.makeText(VerifyEmail.this, string, Toast.LENGTH_SHORT).show();
+                        if(string.equals("Email changed successfully.")){
+                            finish();
+                        }
                     }
                 });
                 break;

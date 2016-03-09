@@ -320,7 +320,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(MenuActivity.this, AuthenticateActivity.class));
-                //SaveSharedPreference.clearUserNameAndPassword(getApplicationContext());
+                //SaveSharedPreference.clearUsername(getApplicationContext());
             }
         });
         AlertDialog dialog = alert.create();

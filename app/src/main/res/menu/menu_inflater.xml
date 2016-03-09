@@ -3,10 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search_top_right"
-        android:icon="@mipmap/search_nopadding"
-        android:title="Text to be seen by user"
+        android:id="@+id/search"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Search for users, friends, events, locations"
         app:showAsAction="collapseActionView|ifRoom"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        android:orderInCategory="0"/>
+    <item
+        android:id="@+id/three_dot_menu"
+        android:title="idk"
+        app:showAsAction="collapseActionView"
         android:orderInCategory="0"/>
 
 </menu>

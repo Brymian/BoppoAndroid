@@ -230,7 +230,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
         });
     }
 
-    private void setUpMap() {
+    void setUpMap() {
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
 
