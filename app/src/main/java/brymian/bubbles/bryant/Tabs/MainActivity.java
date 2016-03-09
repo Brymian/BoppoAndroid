@@ -18,17 +18,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import android.support.v7.widget.SearchView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MapsActivity;
@@ -52,6 +58,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String[] menu_items;
     ActionBarDrawerToggle drawerListener;
     Toolbar mToolbar;
+    LinearLayout drawerMenu;
+    RecyclerView drawerList;
+    private static List<String> fruits = new ArrayList<>(Arrays.asList("Strawberry", "Apple", "Orange", "Lemon", "Beer", "Lime", "Watermelon", "Blueberry", "Plum"));
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +68,39 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        drawerMenu = (LinearLayout) findViewById(R.id.drawerMenu);
+        RecyclerView drawerList = (RecyclerView) findViewById(R.id.drawerList);
+        drawerList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        FruitAdapter adapter = new FruitAdapter(fruits);
+        drawerList.setAdapter(adapter);
+        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.string.save, R.string.cancel){
+            @Override
+            public void onDrawerClosed(View drawerView){
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView){
+                super.onDrawerClosed(drawerView);
+            }
+        };
+        drawerLayout.setDrawerListener(drawerListener);
+
+        /*
+        adapter.setOnItemClickedListener(new OnItemClickedListener() {
+            @Override
+            public void onItemClicked(int position) {
+                setTitle(fruits.get(position));
+                drawerLayout.closeDrawer(drawerMenu);
+            }
+        });
+        */
+
+        //Original menu, commenting it out just in case I mess the new menu up
+        /**
         menu_items = getResources().getStringArray(R.array.menu_items);
         listView = (ListView) findViewById(R.id.drawerList);
         listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menu_items));
@@ -76,9 +118,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         };
         drawerLayout.setDrawerListener(drawerListener);
+        **/
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
 
 
@@ -90,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        final brymian.bubbles.bryant.Tabs.PagerAdapter adapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
-        viewPager.setAdapter(adapter);
+        final brymian.bubbles.bryant.Tabs.PagerAdapter pagerAdapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
+        viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
 
                 /*
@@ -136,6 +178,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            setTitle(fruits.get(position));
+            drawerLayout.closeDrawer(drawerMenu);
+    }
 
     @Override
     public void onPostCreate(Bundle savedInstanceState){
@@ -148,8 +195,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         super.onStart();
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id){
+
+    //@Override
+    public void onItemClic(AdapterView<?> parent, View view, int position, long id){
         switch (position){
             /* My Profile */
             case 0:
@@ -198,11 +246,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             case 11:
                 displayAlertDialog();
                 break;
+
             default:
                 Toast.makeText(MainActivity.this, "Something is wrong.", Toast.LENGTH_SHORT).show();
         }
 
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
