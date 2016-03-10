@@ -23,9 +23,9 @@ import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
 import brymian.bubbles.bryant.MapsActivity;
 import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.Image;
-import brymian.bubbles.damian.nonactivity.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
@@ -99,7 +99,7 @@ public class ProfileActivityOLD extends FragmentActivity implements View.OnClick
         int userUID = userPhone.getUid();
         setLoggedInUserUID(userUID);
 
-        new ServerRequest(this).getImages(uid, "Regular", new ImageListCallback() {
+        new ServerRequestMethods(this).getImages(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if(imageList.size() == 0){
@@ -163,7 +163,7 @@ public class ProfileActivityOLD extends FragmentActivity implements View.OnClick
                     startActivity(friendListIntent);
                 }
                 else {
-                    new ServerRequest(this).setFriendStatus(getLoggedInUserUID(), getID(), new StringCallback() {
+                    new ServerRequestMethods(this).setFriendStatus(getLoggedInUserUID(), getID(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(ProfileActivityOLD.this, string, Toast.LENGTH_SHORT).show();

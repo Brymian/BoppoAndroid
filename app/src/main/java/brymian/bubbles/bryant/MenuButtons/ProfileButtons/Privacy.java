@@ -11,10 +11,10 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 /**
@@ -49,7 +49,7 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
         //System.out.println("getProfileUserAccountPrivacy(): " + getProfileUserAccountPrivacy());
         //sProfilePictures.setChecked(getProfileUserAccountPrivacy());
 
-        new ServerRequest(this).getUserData(userUID, new UserCallback() {
+        new ServerRequestMethods(this).getUserData(userUID, new UserCallback() {
             @Override
             public void done(User user) {
                 System.out.println("user.getUserAccountPrivacy(): " + user.getUserAccountPrivacy());
@@ -73,7 +73,7 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
             case R.id.MapSwitch:
                 /**
                 if(b){
-                    new ServerRequest(this).setUserAccountPrivacy(1, "Private", new StringCallback() {
+                    new ServerRequestMethods(this).setUserAccountPrivacy(1, "Private", new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
@@ -81,7 +81,7 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
                     });
                 }
                 else{
-                    new ServerRequest(this).setUserAccountPrivacy(1, "Public", new StringCallback() {
+                    new ServerRequestMethods(this).setUserAccountPrivacy(1, "Public", new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
@@ -92,7 +92,7 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
                 break;
             case R.id.ProfilePicturesSwitch:
                 if(b){
-                    new ServerRequest(this).setUserAccountPrivacy(getProfileUserUID(), "Private", new StringCallback() {
+                    new ServerRequestMethods(this).setUserAccountPrivacy(getProfileUserUID(), "Private", new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
@@ -100,7 +100,7 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
                     });
                 }
                 else{
-                    new ServerRequest(this).setUserAccountPrivacy(getProfileUserUID(), "Public", new StringCallback() {
+                    new ServerRequestMethods(this).setUserAccountPrivacy(getProfileUserUID(), "Public", new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();                        }

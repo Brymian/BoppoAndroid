@@ -19,10 +19,10 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
-import brymian.bubbles.damian.nonactivity.VoidCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.VoidCallback;
 
 /**
  * Created by Ziomster on 7/2/2015.
@@ -81,7 +81,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             User user = new User();
             user.initUserNormal(username, password);
-            new ServerRequest(getActivity()).authUserNormal(user, new VoidCallback() {
+            new ServerRequestMethods(getActivity()).authUserNormal(user, new VoidCallback() {
                 @Override
                 public void done(Void aVoid) {
                     UserDataLocal udl = new UserDataLocal(getActivity());

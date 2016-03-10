@@ -1,7 +1,5 @@
 package brymian.bubbles.damian.fragment.Authenticate;
 
-import android.app.Fragment;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,20 +8,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.activity.AuthenticateActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showErrorCustom;
@@ -220,7 +212,7 @@ public class RegisterFragment extends AppCompatActivity implements View.OnClickL
                     User user = new User();
                     user.setUserNormalLogin(username, password, namefirst, namelast, email);
 
-                    new ServerRequest(this).createUserNormal(user, new StringCallback() {
+                    new ServerRequestMethods(this).createUserNormal(user, new StringCallback() {
                         @Override
                         public void done(String string) {
                             if (string.length() <= 1) {

@@ -15,11 +15,11 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
-import brymian.bubbles.damian.nonactivity.UserListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 
 
 public class SearchUsers extends FragmentActivity implements View.OnClickListener, TextWatcher{
@@ -81,7 +81,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(0);
                     final String username = getSearchedUsername(0);
                     System.out.println("THIS is tShowFriends0: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -102,7 +102,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(1);
                     final String username = getSearchedUsername(1);
                     System.out.println("THIS is tShowFriends1: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -122,7 +122,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(2);
                     final String username = getSearchedUsername(2);
                     System.out.println("THIS is tShowFriends2: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -142,7 +142,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(3);
                     final String username = getSearchedUsername(3);
                     System.out.println("THIS is tShowFriends3: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -162,7 +162,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(4);
                     final String username = getSearchedUsername(4);
                     System.out.println("THIS is tShowFriends4: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(1,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -182,7 +182,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(5);
                     final String username = getSearchedUsername(5);
                     System.out.println("THIS is tShowFriends5: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -202,7 +202,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(6);
                     final String username = getSearchedUsername(6);
                     System.out.println("THIS is tShowFriends6: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -222,7 +222,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(7);
                     final String username = getSearchedUsername(7);
                     System.out.println("THIS is tShowFriends7: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -242,7 +242,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(8);
                     final String username = getSearchedUsername(8);
                     System.out.println("THIS is tShowFriends8: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(userUID,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(userUID,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -262,7 +262,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
                     final String name = getSearchedFirstLastName(9);
                     final String username = getSearchedUsername(9);
                     System.out.println("THIS is tShowFriends9: ID is " + ID + ", name is " + name + ", username is " + username);
-                    new ServerRequest(this).getFriendStatus(1,ID, new StringCallback() {
+                    new ServerRequestMethods(this).getFriendStatus(1,ID, new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println(string);
@@ -309,7 +309,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
 
     @Override
     public void afterTextChanged(Editable s){
-        new ServerRequest(this).getUsers(eInputUser.getText().toString(), new UserListCallback() {
+        new ServerRequestMethods(this).getUsers(eInputUser.getText().toString(), new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 int size = 0;

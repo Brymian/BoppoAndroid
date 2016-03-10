@@ -18,12 +18,12 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
-import brymian.bubbles.damian.nonactivity.UserListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 
 
 public class FriendsList extends AppCompatActivity implements View.OnClickListener {
@@ -203,7 +203,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 startActivity(profileIntent);
                 break;
             case R.id.ibAccept0:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(0), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(0), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[0].setVisibility(View.GONE);
@@ -212,7 +212,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept1:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(1), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(1), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[1].setVisibility(View.GONE);
@@ -221,7 +221,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept2:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(2), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(2), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[2].setVisibility(View.GONE);
@@ -230,7 +230,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept3:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(3), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(3), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[3].setVisibility(View.GONE);
@@ -239,7 +239,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept4:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(4), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(4), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[4].setVisibility(View.GONE);
@@ -248,7 +248,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept5:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(5), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(5), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[5].setVisibility(View.GONE);
@@ -257,7 +257,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept6:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(6), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(6), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[6].setVisibility(View.GONE);
@@ -266,7 +266,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept7:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(7), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(7), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[7].setVisibility(View.GONE);
@@ -275,7 +275,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept8:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(8), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(8), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[8].setVisibility(View.GONE);
@@ -284,7 +284,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                 });
                 break;
             case R.id.ibAccept9:
-                new ServerRequest(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(9), new StringCallback() {
+                new ServerRequestMethods(this).setFriendStatus(getProfileUserUID(), friendRequestUID.get(9), new StringCallback() {
                     @Override
                     public void done(String string) {
                         llFriendRequests[9].setVisibility(View.GONE);
@@ -378,7 +378,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
     }
 
     void profileUserFriendsList(int uid){
-        new ServerRequest(this).getFriends(uid, new UserListCallback() {
+        new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 try {
@@ -409,7 +409,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
     }
 
     void profileUserFriendRequests(int uid){
-        new ServerRequest(this).getUserFriendRequestUsers(uid, new UserListCallback() {
+        new ServerRequestMethods(this).getUserFriendRequestUsers(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 try { //users.size() may throw exception
@@ -425,7 +425,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                                 System.out.println("printing i before final: "+i);
                                 final int j = i;
                                 System.out.println("printing j: " + j);
-                                new ServerRequest(FriendsList.this).getUserData(users.get(i).getUid(), new UserCallback() {
+                                new ServerRequestMethods(FriendsList.this).getUserData(users.get(i).getUid(), new UserCallback() {
                                     @Override
                                     public void done(User user) {
                                         friendRequestFirstLastName.add(j, user.getFirstName() + " " + user.getLastName());

@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.nonactivity;
+package brymian.bubbles.damian.nonactivity.ServerRequest.Callback;
 
 import java.util.List;
 

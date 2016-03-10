@@ -13,10 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -24,8 +20,8 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Image;
-import brymian.bubbles.damian.nonactivity.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 /**
  * Created by Almanza on 2/1/2016.
@@ -83,7 +79,7 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
     }
 
     void getImages(int uid){
-        new ServerRequest(this).getImages(uid, "Regular", new ImageListCallback() {
+        new ServerRequestMethods(this).getImages(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 try{

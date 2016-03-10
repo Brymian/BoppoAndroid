@@ -4,9 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.FragmentActivity;
@@ -17,25 +15,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.damian.nonactivity.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
@@ -117,7 +104,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
-                new ServerRequest(this).uploadImage(userUID, IVarraySTRING[i]+".jpg", "Profile", "Private", 0, 0, encodedImage, new StringCallback() {
+                new ServerRequestMethods(this).uploadImage(userUID, IVarraySTRING[i]+".jpg", "Profile", "Private", 0, 0, encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.println(string);
@@ -151,7 +138,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
     }
 
     public void downloadImage(){
-            new ServerRequest(this).getImages(1, "Profile", new ImageListCallback() {
+            new ServerRequestMethods(this).getImages(1, "Profile", new ImageListCallback() {
                 @Override
                 public void done(List<brymian.bubbles.damian.nonactivity.Image> imageList) {
                     try {

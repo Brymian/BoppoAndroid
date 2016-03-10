@@ -1,24 +1,19 @@
 package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
@@ -55,7 +50,7 @@ public class VerifyEmail extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v){
         switch (v.getId()){
             case R.id.bVerifyEmail:
-                new ServerRequest(this).changeEmail(getProfileUserUID(), etVerifyEmail.getText().toString(), new StringCallback() {
+                new ServerRequestMethods(this).changeEmail(getProfileUserUID(), etVerifyEmail.getText().toString(), new StringCallback() {
                     @Override
                     public void done(String string) {
                         Toast.makeText(VerifyEmail.this, string, Toast.LENGTH_SHORT).show();

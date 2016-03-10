@@ -38,9 +38,9 @@ import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
 import brymian.bubbles.bryant.Tabs.MainActivity;
 //import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class MenuActivity extends FragmentActivity implements View.OnClickListener{
@@ -145,7 +145,7 @@ public class MenuActivity extends FragmentActivity implements View.OnClickListen
 
 
 
-        new ServerRequest(this).getUserData(userUID, new UserCallback() {
+        new ServerRequestMethods(this).getUserData(userUID, new UserCallback() {
                 @Override
                 public void done(User user) {
                     try{

@@ -8,17 +8,19 @@ public class  Image {
     private String path;
     private String userImagePrivacyLabel;
     private String userImagePurposeLabel;
+    private int    eid;
     private double userImageGpsLatitude;
     private double userImageGpsLongitude;
 
     public Image(String path, String userImagePrivacyLabel, String userImagePurposeLabel,
-         double userImageGpsLatitude, double userImageGpsLongitude)
+         double userImageGpsLatitude, double userImageGpsLongitude, int eid)
     {
         this.path = path;
         this.userImagePrivacyLabel = userImagePrivacyLabel;
         this.userImagePurposeLabel = userImagePurposeLabel;
         this.userImageGpsLatitude = userImageGpsLatitude;
         this.userImageGpsLongitude = userImageGpsLongitude;
+        this.eid = eid;
     }
 
     /*
@@ -62,4 +64,6 @@ public class  Image {
     public double getUserImageGpsLongitude() {
         return userImageGpsLongitude;
     }
+
+    public int getEid() { return eid; }
 }

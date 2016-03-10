@@ -3,7 +3,6 @@ package brymian.bubbles.bryant.MenuButtons.AccountButtons;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,10 +18,10 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class ChangePassword extends AppCompatActivity implements View.OnClickListener{
@@ -47,7 +45,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
 
         @Override
         public void afterTextChanged(Editable s) {
-            new ServerRequest(ChangePassword.this).getUserData(getProfileUserUID(), new UserCallback() {
+            new ServerRequestMethods(ChangePassword.this).getUserData(getProfileUserUID(), new UserCallback() {
                 @Override
                 public void done(User user) {
                     String password = user.getPassword();
@@ -125,7 +123,7 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                 break;
             case R.id.bChangePassword:
                 if(isEquals){
-                    new ServerRequest(this).changePassword(getProfileUserUID(), etNewPasswordAgain.getText().toString(), new StringCallback() {
+                    new ServerRequestMethods(this).changePassword(getProfileUserUID(), etNewPasswordAgain.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             System.out.println("THIS IS FROM onClick(R.id.bChangePassword): " + string);

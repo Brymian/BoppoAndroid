@@ -26,8 +26,8 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
 import brymian.bubbles.damian.nonactivity.Image;
-import brymian.bubbles.damian.nonactivity.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 public class MapsActivity extends FragmentActivity implements View.OnClickListener
         {
@@ -185,7 +185,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     }
 
     private void setArrays(){
-        new ServerRequest(this).getImages(getUID(), "Regular", new ImageListCallback() {
+        new ServerRequestMethods(this).getImages(getUID(), "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 try{

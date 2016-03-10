@@ -54,4 +54,15 @@ public class Miscellaneous {
 
         return "ERROR: Unsupported data type: " + object.getClass();
     }
+
+    public static boolean isStringAnInteger(String string)
+    {
+        if (string.length() < 1) return false;
+
+        for (char c : string.trim().toCharArray())
+            if (!Character.isDigit(c))
+                return false;
+
+        return true;
+    }
 }

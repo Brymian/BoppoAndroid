@@ -23,11 +23,11 @@ import com.facebook.login.widget.LoginButton;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MapsActivity;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
-import brymian.bubbles.damian.nonactivity.VoidCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.VoidCallback;
 
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showErrorCustom;
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showMessageRegistration;
@@ -138,7 +138,7 @@ public class LaunchFragmentFacebook extends Fragment {
         User user = new User();
         user.initUserFacebook(facebookUid);
         System.out.println("FACEBOOK ID: " + user.getFacebookUid());
-        new ServerRequest(getActivity()).authUserFacebook(user, new VoidCallback() {
+        new ServerRequestMethods(getActivity()).authUserFacebook(user, new VoidCallback() {
             @Override
             public void done(Void aVoid) {
                 UserDataLocal udl = new UserDataLocal(getActivity());
@@ -184,7 +184,7 @@ public class LaunchFragmentFacebook extends Fragment {
         User user = new User();
         user.setUserFacebookLogin(facebook_uid, first_name, last_name, email);
 
-        new ServerRequest(getActivity()).createUserFacebook(user, new StringCallback()
+        new ServerRequestMethods(getActivity()).createUserFacebook(user, new StringCallback()
         {
             @Override
             public void done(String string)

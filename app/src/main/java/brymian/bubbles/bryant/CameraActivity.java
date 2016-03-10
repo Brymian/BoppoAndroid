@@ -6,51 +6,31 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.hardware.Camera;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
 
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
-import android.util.Base64;
 
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Switch;
-import android.widget.Toast;
-
 
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.ServerRequest;
-import brymian.bubbles.damian.nonactivity.StringCallback;
-import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class CameraActivity extends Activity {
@@ -282,7 +262,7 @@ public class CameraActivity extends Activity {
                 String encodedImage = Base64.encodeToString(byteArrayOutputStream.toByteArray(), Base64.DEFAULT);
                 System.out.println("getUserImagePrivacyLabel(): " + getUserImagePrivacyLabel());
 
-                new ServerRequest(this).uploadImage(userUID, imageName() + ".jpg", "Regular", getUserImagePrivacyLabel(), getLatitude(), getLongitude(), encodedImage, new StringCallback() {
+                new ServerRequestMethods(this).uploadImage(userUID, imageName() + ".jpg", "Regular", getUserImagePrivacyLabel(), getLatitude(), getLongitude(), encodedImage, new StringCallback() {
                     @Override
                     public void done(String string) {
                         System.out.println("THIS IS FROM THE StringCallBack: " + string);
