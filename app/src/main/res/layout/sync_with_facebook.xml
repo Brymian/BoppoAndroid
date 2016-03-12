@@ -3,29 +3,18 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <LinearLayout
+    android:orientation="vertical"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    android:background="@android:color/white">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/linearLayout3"
-        android:background="#b6ffcf">
-        <ImageButton
-            android:id="@+id/ibMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/three_line_menu_w_pad"
-            android:background="@android:color/transparent"/>
-        <TextView
-            android:id="@+id/textFriends"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Sync With Facebook"
-            android:textSize="25dp"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp" />
-
-    </LinearLayout>
+        android:layout_alignParentTop="true"
+        android:background="#42ffbf"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:transitionGroup="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,12 +29,6 @@
             android:gravity="center_horizontal|center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
-            <!--
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">-->
         </FrameLayout>
-
     </LinearLayout>
-
-
 </LinearLayout>

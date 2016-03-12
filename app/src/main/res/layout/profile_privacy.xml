@@ -1,39 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#42ffbf">
-        <ImageButton
-            android:id="@+id/ibMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/menu_icon_black_nopadd"
-            android:background="@android:color/transparent"/>
-        <TextView
-            android:id="@+id/tProfileBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="@string/profile_privacyTITLE"
-            android:textColor="@android:color/black"
-            android:gravity="center_vertical"
-            android:textSize="25sp"
-            android:textIsSelectable="false"
-            android:paddingLeft="10dp" />
+        android:layout_alignParentTop="true"
+        android:background="#42ffbf"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
 
-    </LinearLayout>
+        android:transitionGroup="true"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Make your Map or Profile Pictures Private: "
-        android:textSize="15dp"
+        android:textSize="15sp"
+        android:textColor="@android:color/black"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp" />
@@ -48,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Map: "
+            android:textColor="@android:color/black"
             android:layout_gravity="center_vertical"
             android:paddingLeft="15dp" />
 
@@ -70,6 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text="Profile Pictures: "
+            android:textColor="@android:color/black"
             android:paddingLeft="15dp" />
 
         <Switch

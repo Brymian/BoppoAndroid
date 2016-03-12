@@ -2,13 +2,12 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
 
     <RelativeLayout
         android:id="@+id/main_layout"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -22,12 +21,8 @@
             android:background="#42ffbf"
             android:elevation="6dp"
             android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             android:transitionGroup="true"/>
 
-
     </RelativeLayout>
-
 
 </android.support.v4.widget.DrawerLayout>
