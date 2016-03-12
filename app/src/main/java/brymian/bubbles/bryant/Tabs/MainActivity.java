@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity  {
                 // onPrepareOptionsMenu()
             }
         };
-        mDrawerLayout.addDrawerListener(mDrawerToggle);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);//gonna be deprecated, change to addDrawerListener
 
         if (savedInstanceState == null) {
             if (dataList.get(0).isSpinner() & dataList.get(1).getTitle() != null) {

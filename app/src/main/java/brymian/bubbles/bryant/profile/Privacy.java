@@ -2,43 +2,45 @@ package brymian.bubbles.bryant.profile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 /**
  * Created by Almanza on 9/21/2015.
  */
-public class Privacy extends FragmentActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
-    ImageButton ibMenu;
+public class Privacy extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Switch sMap, sProfilePictures;
+    Toolbar mToolbar;
     int[] profileUserUID = new int[1];
     boolean[] profileUserAccountPrivacy = new boolean[1];
 
+    @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_privacy);
-
-        ibMenu = (ImageButton) findViewById(R.id.ibMenu);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle("Privacy");
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //sMap = (Switch) findViewById(R.id.MapSwitch);
         sProfilePictures = (Switch) findViewById(R.id.ProfilePicturesSwitch);
 
         //sMap.setClickable(true);
         sProfilePictures.setClickable(true);
-
-        ibMenu.setOnClickListener(this);
         //sMap.setOnCheckedChangeListener(this);
         sProfilePictures.setOnCheckedChangeListener(this);
 
@@ -46,10 +48,9 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();
         setProfileUserUID(userUID);
-        //System.out.println("getProfileUserAccountPrivacy(): " + getProfileUserAccountPrivacy());
-        //sProfilePictures.setChecked(getProfileUserAccountPrivacy());
 
-        new ServerRequestMethods(this).getUserData(userUID, new UserCallback() {
+        /**
+        new ServerRequest(this).getUserData(userUID, new UserCallback() {
             @Override
             public void done(User user) {
                 System.out.println("user.getUserAccountPrivacy(): " + user.getUserAccountPrivacy());
@@ -65,51 +66,54 @@ public class Privacy extends FragmentActivity implements View.OnClickListener, C
 
             }
         });
+         **/
 
     }
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b){
         switch (compoundButton.getId()){
             case R.id.MapSwitch:
-                /**
-                if(b){
-                    new ServerRequestMethods(this).setUserAccountPrivacy(1, "Private", new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-                else{
-                    new ServerRequestMethods(this).setUserAccountPrivacy(1, "Public", new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-                 **/
+
                 break;
             case R.id.ProfilePicturesSwitch:
                 if(b){
-                    new ServerRequestMethods(this).setUserAccountPrivacy(getProfileUserUID(), "Private", new StringCallback() {
+
+                    /**
+                    new ServerRequest(this).setUserAccountPrivacy(getProfileUserUID(), "Private", new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                     **/
                 }
                 else{
+                    /**
                     new ServerRequestMethods(this).setUserAccountPrivacy(getProfileUserUID(), "Public", new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();                        }
                     });
+                     **/
                 }
                 break;
         }
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     public void onClick(View v){
         switch (v.getId()){
             case R.id.ibMenu:

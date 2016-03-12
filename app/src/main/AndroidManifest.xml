@@ -51,8 +51,16 @@
 
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.account.SyncFacebook" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.profile.Privacy" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.account.SyncFacebook" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
+        <activity android:name=".bryant.profile.Privacy" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
         <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -78,7 +86,11 @@
         <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.events.Events" android:screenOrientation="portrait"></activity>
         <!-- EVENTS CLASSES -->
-        <activity android:name=".bryant.events.EventsCreate" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.events.EventsCreate" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
         <activity android:name=".bryant.events.EventsTop" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -90,6 +102,11 @@
                 android:value=".bryant.Tabs.MainActivity" />
         </activity>
         <activity android:name=".bryant.events.EventsSearch" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.events.EventsCurrent" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
         <!-- END OF EVENTS CLASSES -->
         <activity android:name=".bryant.Tabs.MainActivity" android:screenOrientation="portrait">
             <intent-filter>
