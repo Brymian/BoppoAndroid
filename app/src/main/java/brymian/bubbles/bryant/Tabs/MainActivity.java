@@ -18,49 +18,50 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 
 import android.support.v7.widget.SearchView;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MapsActivity;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
+import brymian.bubbles.bryant.account.ChangePassword;
+import brymian.bubbles.bryant.account.SyncFacebook;
+import brymian.bubbles.bryant.account.VerifyEmail;
+import brymian.bubbles.bryant.events.EventsCreate;
+import brymian.bubbles.bryant.profile.Privacy;
+import brymian.bubbles.bryant.events.EventsCurrent;
+import brymian.bubbles.bryant.events.EventsTop;
+import brymian.bubbles.bryant.events.EventsYours;
+import brymian.bubbles.bryant.navigationDrawer.CustomDrawerAdapter;
+import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.profile.ProfileActivity;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
-import brymian.bubbles.bryant.MenuButtons.SettingsButtons.About;
-import brymian.bubbles.bryant.MenuButtons.SettingsButtons.Notifications;
 import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
+import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
-    DrawerLayout drawerLayout;
-    ListView listView;
-    String[] menu_items;
-    ActionBarDrawerToggle drawerListener;
-    Toolbar mToolbar;
-    LinearLayout drawerMenu;
-    RecyclerView drawerList;
-    private static List<String> fruits = new ArrayList<>(Arrays.asList("Strawberry", "Apple", "Orange", "Lemon", "Beer", "Lime", "Watermelon", "Blueberry", "Plum"));
+public class MainActivity extends AppCompatActivity  {
+
+    private ActionBarDrawerToggle mDrawerToggle;
+    private Toolbar mToolbar;
+    private DrawerLayout mDrawerLayout;
+    private ListView mDrawerList;
+    private CharSequence mDrawerTitle;
+    private CharSequence mTitle;
+    CustomDrawerAdapter adapter;
+
+    List<DrawerItem> dataList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,60 +69,74 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        /* Following the tutorial from this website for custom navigation drawer:   http://www.tutecentral.com/android-custom-navigation-drawer/    */
+        /* YouTube video associated with the link above:                            https://www.youtube.com/watch?v=zia_vSgYw8s                     */
+        /* ------------ Initializing all drawer layouts and ListView -------------- */
+        dataList = new ArrayList<DrawerItem>();
+        mTitle = mDrawerTitle = getTitle();
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        mDrawerList = (ListView) findViewById(R.id.left_drawer);
+        /* not implementing setDrawerLayout() yet */
+        //mDrawerLayout.setDrawerShadow();
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        drawerMenu = (LinearLayout) findViewById(R.id.drawerMenu);
-        RecyclerView drawerList = (RecyclerView) findViewById(R.id.drawerList);
-        drawerList.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        /* Add drawer items to dataList here */
+        dataList.add(new DrawerItem(true));// adding a spinner to the list
 
-        FruitAdapter adapter = new FruitAdapter(fruits);
-        drawerList.setAdapter(adapter);
-        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.string.save, R.string.cancel){
-            @Override
-            public void onDrawerClosed(View drawerView){
-                super.onDrawerClosed(drawerView);
-            }
+        /* Profile */
+        dataList.add(new DrawerItem("Profile")); // adding a header to the list
+        dataList.add(new DrawerItem("My Profile", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Privacy", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Friends", R.mipmap.friendslist_nopadding));
 
-            @Override
-            public void onDrawerOpened(View drawerView){
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        drawerLayout.setDrawerListener(drawerListener);
+        /* Events */
+        dataList.add(new DrawerItem("Events"));// adding a header to the list
+        dataList.add(new DrawerItem("My Events", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Top Events", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Current Events", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Create Event", R.mipmap.friendslist_nopadding));
 
-        /*
-        adapter.setOnItemClickedListener(new OnItemClickedListener() {
-            @Override
-            public void onItemClicked(int position) {
-                setTitle(fruits.get(position));
-                drawerLayout.closeDrawer(drawerMenu);
-            }
-        });
-        */
+        /* Account */
+        dataList.add(new DrawerItem("Account")); // adding a header to the list
+        dataList.add(new DrawerItem("Password", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Email", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Sync with Facebook", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem("Log Out", R.mipmap.friendslist_nopadding));
 
-        //Original menu, commenting it out just in case I mess the new menu up
-        /**
-        menu_items = getResources().getStringArray(R.array.menu_items);
-        listView = (ListView) findViewById(R.id.drawerList);
-        listView.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, menu_items));
-        listView.setOnItemClickListener(this);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        drawerListener = new ActionBarDrawerToggle(this, drawerLayout, R.string.save, R.string.cancel){
-            @Override
-            public void onDrawerClosed(View drawerView){
-                super.onDrawerClosed(drawerView);
-            }
+        /* End of adding items to dataList */
 
-            @Override
-            public void onDrawerOpened(View drawerView){
-                super.onDrawerClosed(drawerView);
-            }
-        };
-        drawerLayout.setDrawerListener(drawerListener);
-        **/
+        adapter = new CustomDrawerAdapter(this, R.layout.custom_drawer_item, dataList);
+        mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                mToolbar, R.string.drawer_open,
+                R.string.drawer_closed) {
+            public void onDrawerClosed(View view) {
+                invalidateOptionsMenu(); // creates call to
+                // onPrepareOptionsMenu()
+            }
 
+            public void onDrawerOpened(View drawerView) {
+                invalidateOptionsMenu(); // creates call to
+                // onPrepareOptionsMenu()
+            }
+        };
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
+
+        if (savedInstanceState == null) {
+            if (dataList.get(0).isSpinner() & dataList.get(1).getTitle() != null) {
+                /* found error here: every time MainActivity starts, this if statement becomes true, commenting it out for now */
+                //SelectItem(2);
+            }
+            else if (dataList.get(0).getTitle() != null) {
+                SelectItem(1);
+            }
+            else {
+                SelectItem(0);
+            }
+        }
 
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -130,39 +145,42 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.friendslist_nopadding), 2, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final brymian.bubbles.bryant.Tabs.PagerAdapter pagerAdapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+            /*
+            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-                /*
-             @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-             }
-             */
-
-             @Override public void onPageSelected(int position) {
-                 if (position == 0){
+            }
+            */
+            @Override public void onPageSelected(int position) {
+                if (position == 0) {
                     setTitle("Explore");
-                 }
-                 else if (position == 1){
+                }
+                else if (position == 1){
                     setTitle("News Feed");
-                 }
-                 else if(position == 2){
+                }
+                else if(position == 2){
                     setTitle("Events");
-                 }
-                 mToolbar.setTitleTextColor(Color.BLACK);
-             }
+                }
+                mToolbar.setTitleTextColor(Color.BLACK);
+            }
         });
-
         viewPager.setCurrentItem(1);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
-                viewPager.setCurrentItem(index);
-
+                try {
+                    viewPager.setCurrentItem(index);
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
+                catch (IllegalStateException ise){
+                    ise.printStackTrace();
+                }
             }
 
             @Override
@@ -179,80 +197,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            setTitle(fruits.get(position));
-            drawerLayout.closeDrawer(drawerMenu);
-    }
-
-    @Override
     public void onPostCreate(Bundle savedInstanceState){
         super.onPostCreate(savedInstanceState);
-        drawerListener.syncState();
+        mDrawerToggle.syncState();
     }
 
     @Override
     public void onStart(){
         super.onStart();
     }
-
-
-    //@Override
-    public void onItemClic(AdapterView<?> parent, View view, int position, long id){
-        switch (position){
-            /* My Profile */
-            case 0:
-                startActivity(new Intent(this, ProfileActivity.class));
-                break;
-            /* Profile Pictures */
-            case 1:
-                startActivity(new Intent(this, ProfileBackground.class));
-                break;
-            /* My Map */
-            case 2:
-                startActivity(new Intent(this, MapsActivity.class));
-                break;
-            /* Friends */
-            case 3:
-                startActivity(new Intent(this, FriendsList.class));
-                break;
-            /* Privacy */
-            case 4:
-                startActivity(new Intent(this, Privacy.class));
-                break;
-            /* Change Password */
-            case 5:
-                startActivity(new Intent(this, ChangePassword.class));
-                break;
-            /* Email */
-            case 6:
-                startActivity(new Intent(this, VerifyEmail.class));
-                break;
-            /* Sync With Facebook */
-            case 7:
-                startActivity(new Intent(this, SyncFacebook.class));
-                break;
-            /* Blocking */
-            case 8:
-                startActivity(new Intent(this, Blocking.class));
-                break;
-            /* Notifications */
-            case 9:
-                startActivity(new Intent(this, Notifications.class));
-                break;
-            /* About */
-            case 10:
-                startActivity(new Intent(this, About.class));
-                break;
-            case 11:
-                displayAlertDialog();
-                break;
-
-            default:
-                Toast.makeText(MainActivity.this, "Something is wrong.", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -285,7 +238,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       if(drawerListener.onOptionsItemSelected(item)){
+        if(mDrawerToggle.onOptionsItemSelected(item)){
             return true;
         }
         switch (item.getItemId()){
@@ -303,7 +256,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        drawerListener.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -314,6 +267,67 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    public void SelectItem(int position) {
+        switch (position) {
+            /* Profile */
+            case 2:
+                startActivity(new Intent(this, ProfileActivity.class));
+                break;
+            case 3:
+                startActivity(new Intent(this, Privacy.class));
+                break;
+            case 4:
+                startActivity(new Intent(this, FriendsList.class));
+                break;
+            /* Events */
+            case 5:
+                /* This is the position of Events title. */
+                break;
+            case 6:
+                startActivity(new Intent(this, EventsYours.class));
+                break;
+            case 7:
+                startActivity(new Intent(this, EventsTop.class));
+                break;
+            case 8:
+                startActivity(new Intent(this, EventsCurrent.class));
+                break;
+            case 9:
+                startActivity(new Intent(this, EventsCreate.class));
+                break;
+            case 10:
+                /* this is the position of Account title */
+                break;
+            case 11:
+                startActivity(new Intent(this, ChangePassword.class));
+                break;
+            case 12:
+                startActivity(new Intent(this, VerifyEmail.class));
+                break;
+            case 13:
+                startActivity(new Intent(this, SyncFacebook.class));
+                break;
+            case 14:
+                displayAlertDialog();
+                break;
+            default:
+                Toast.makeText(MainActivity.this, "default toast boom", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        mDrawerList.setItemChecked(position, true);
+        //setTitle(dataList.get(position).getItemName());
+        mDrawerLayout.closeDrawer(mDrawerList);
+    }
+
+    private class DrawerItemClickListener implements ListView.OnItemClickListener {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            if (dataList.get(position).getTitle() == null) {
+                SelectItem(position);
+            }
+        }
     }
 
     public void displayAlertDialog() {

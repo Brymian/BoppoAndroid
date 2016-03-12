@@ -22,11 +22,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.VerifyEmail;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.ChangePassword;
-import brymian.bubbles.bryant.MenuButtons.AccountButtons.SyncFacebook;
+import brymian.bubbles.bryant.account.VerifyEmail;
+import brymian.bubbles.bryant.account.ChangePassword;
+import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Blocking;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.Privacy;
+import brymian.bubbles.bryant.profile.Privacy;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileBackground;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileName;

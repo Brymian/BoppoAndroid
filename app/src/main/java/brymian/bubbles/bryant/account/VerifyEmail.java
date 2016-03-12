@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.AccountButtons;
+package brymian.bubbles.bryant.account;
 
 import android.graphics.Color;
 import android.os.Bundle;
