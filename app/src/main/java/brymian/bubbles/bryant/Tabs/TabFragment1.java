@@ -41,7 +41,6 @@ public class TabFragment1 extends Fragment {
             }
             catch (NullPointerException npe){
                 npe.printStackTrace();
-                Toast.makeText(getActivity(), "NullPointerException in setUpMapIfNeeded()", Toast.LENGTH_SHORT).show();
             }
             // Check if we were successful in obtaining the map.
             if (mMap != null) {

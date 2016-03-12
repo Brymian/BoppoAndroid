@@ -12,6 +12,7 @@ import java.io.IOException;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ObjectCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
@@ -35,7 +36,7 @@ public class Event {
     public void createEvent(
         String eventName, int eventHostUid, String eventPrivacyLabel, String eventInviteTypeLabel,
         boolean eventImageUploadAllowedIndicator, String eventStartDatetime, String eventEndDatetime,
-        double eventGpsLatitude, double eventGpsLongitude, ObjectCallback objectCallback)
+        double eventGpsLatitude, double eventGpsLongitude, StringCallback objectCallback)
     {
         pd.show();
         new CreateEvent(eventName, eventHostUid, eventPrivacyLabel, eventInviteTypeLabel,
@@ -66,7 +67,7 @@ public class Event {
                             String eventInviteTypeLabel, boolean eventImageUploadAllowedIndicator,
                             String eventStartDatetime, String eventEndDatetime,
                             double eventGpsLatitude, double eventGpsLongitude,
-                            ObjectCallback objectCallback) {
+                            StringCallback objectCallback) {
 
             this.eventName = eventName;
             this.eventHostUid = eventHostUid;
@@ -78,7 +79,7 @@ public class Event {
             this.eventGpsLatitude = eventGpsLatitude;
             this.eventGpsLongitude = eventGpsLongitude;
 
-            this.objectCallback = objectCallback;
+            this.objectCallback = (ObjectCallback) objectCallback;
         }
 
         @Override
