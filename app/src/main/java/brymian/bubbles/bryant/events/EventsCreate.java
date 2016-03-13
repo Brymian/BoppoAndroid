@@ -19,7 +19,7 @@ public class EventsCreate extends AppCompatActivity {
         super.onCreate(saveInstanceState);
         setContentView(R.layout.events_create);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setTitle("Create Event");
+        setTitle(R.string.Create_Episode);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

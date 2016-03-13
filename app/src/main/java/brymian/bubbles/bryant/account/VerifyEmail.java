@@ -28,21 +28,22 @@ public class VerifyEmail extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.verify_email);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setTitle("Email");
+        mToolbar.setTitle(R.string.Email);
         mToolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        etVerifyEmail = (EditText) findViewById(R.id.etVerifyEmail);
-        bVerifyEmail = (TextView) findViewById(R.id.bVerifyEmail);
-        bVerifyEmail.setOnClickListener(this);
 
+        etVerifyEmail = (EditText) findViewById(R.id.etVerifyEmail);
+        etVerifyEmail.setHint(R.string.Email);
+        bVerifyEmail = (TextView) findViewById(R.id.bVerifyEmail);
+        bVerifyEmail.setText(R.string.Save);
+        bVerifyEmail.setOnClickListener(this);
 
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();
         String userEmail = userPhone.getEmail();
-        System.out.println("getEmail(): " + userEmail);
         etVerifyEmail.setText(userEmail);
         setProfileUserUID(userUID);
     }

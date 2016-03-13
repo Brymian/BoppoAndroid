@@ -41,7 +41,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/friend_requests"
+                    android:text="@string/Friend_Requests"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"/>
                 <View
@@ -445,7 +445,7 @@
                     android:id="@+id/tvFriendsTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/friends"
+                    android:text="@string/Friends"
                     android:textColor="@android:color/black"
                     android:textSize="20sp"/>
                 <View

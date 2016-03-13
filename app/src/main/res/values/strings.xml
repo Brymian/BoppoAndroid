@@ -18,11 +18,9 @@
     <string name="error_logged_in">Incorrect user details.</string>
     <string name="message_registration">Registration successful.</string>
 
-    <!-- TITLES -->
-    <string name="registerTITLE">Register</string>
-    <string name="log_inTITLE">Log In</string>
 
     <!-- FRAGMENT_LOGIN -->
+    <string name="log_in">Log In</string>
     <string name="username_or_email_hint">Username or Email</string>
     <string name="password_hint">Password</string>
     <string name="register">New user? Sign up here!</string>
@@ -34,81 +32,66 @@
     <string name="confirm_password_hint">Confirm Password</string>
     <!-- END OF DAMIAN'S GLOBAL STRING VARIABLES -->
 
-    <!-- BRYANT'S STRING VARIABLES -->
-    <!-- TITLES -->
-    <string name="menu">Menu</string>
-    <string name="change_passwordTITLE">Change Password</string>
-    <string name="verify_emailTITLE">Verify Email</string>
-    <string name="eventTITLE">Events</string>
-    <string name="eventSearchTITLE">Search Events</string>
-    <string name="event_topTITLE">Top Events</string>
-    <string name="notificationsTITLE">Notifications</string>
-    <string name="friendsTITLE">Friends</string>
-    <string name="search_usersTITLE">Search Users</string>
-    <string name="profile_privacyTITLE">Profile Privacy</string>
+    <!--_________________________________________________________________________________________-->
+    <!--______________________________BRYANT'S STRING VARIABLES__________________________________-->
+    <!--_________________________________________________________________________________________-->
+
+    <string name="About">About</string>
+    <string name="Account">Account</string>
+    <string name="Blocking">Blocking</string>
+    <string name="Cancel">Cancel</string>
+    <string name="Confirm_New_Password">Confirm New Password</string>
+    <string name="Create_Episode">Create Episode</string>
+    <string name="Current_Password">Current Password</string>
+    <string name="Done">Done</string>
+    <string name="Episode_Requests">Episode Requests</string>
+    <string name="Email">Email</string>
+    <string name="Episodes">Episodes</string>
+    <string name="Friend_Requests">Friend Requests</string>
+    <string name="Friends">Friends</string>
+    <string name="Live_Episodes">Live Episodes</string>
+    <string name="Log_Out">Log Out</string>
+    <string name="Notifications">Notifications</string>
+    <string name="My_Episodes">My Episodes</string>
+    <string name="My_Profile">My Profile</string>
+    <string name="New_Password">New Password</string>
+    <string name="Password">Password</string>
+    <string name="Privacy">Privacy</string>
+    <string name="Profile">Profile</string>
+    <string name="Settings">Settings</string>
+    <string name="Save">Save</string>
+    <string name="Sync_With_Facebook">Sync With Facebook</string>
+    <string name="Top_Episodes">Top Episodes</string>
+    <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
+    <string name="View_More_Current_Episodes">View More Current Episodes&#8230;</string>
+    <string name="View_More_Top_Episodes">View More Top Episodes&#8230;</string>
+
+
+
     <!-- MENU NAVIGATION DRAWER -->
     <string name="drawer_open">Open drawer</string>
     <string name="drawer_closed">Closed drawer</string>
-    <!-- MENU - ACCOUNT-->
-    <string name="account">Account</string>
-    <string name="verify_email">Verify Email</string>
-    <string name="change_password">Change Password</string>
-    <string name="sync_with_facebook">Sync With Facebook</string>
-    <string name="log_out">Log Out</string>
-    <!-- MENU - SETTINGS -->
-    <string name="settings">Settings</string>
-    <string name="notifications">Notifications</string>
-    <string name="about">About</string>
-    <string name="blocking">Blocking</string>
-    <!-- MENU - PROFILE -->
-    <string name="profile">Profile</string>
-    <string name="your_profile">Your Profile</string>
+
+
     <string name="profile_background">Profile Background</string>
     <string name="profile_name">Profile Name</string>
     <string name="profile_privacy">Profile Privacy</string>
-    <!-- MENU - SOCIAL -->
-    <string name="social">Social</string>
-    <string name="event">Events</string>
-    <string name="friends">Friends</string>
     <string name="search_users">Search Users</string>
 
-    <!-- CHANGE PASSWORD - HINTS -->
-    <string name="current_password">Current Password</string>
-    <string name="new_password">New Password</string>
-    <string name="confirm_new_password">Confirm New Password</string>
-    <!-- VERIFY EMAIL - HINTS -->
-    <string name="email">Email</string>
-    <!-- SAVE TEXTVIEW TEXT -->
-    <string name="save">Save</string>
-    <!-- EVENTS -->
-    <string name="top_events">Top Events</string>
-    <string name="your_events">Your Events</string>
-    <string name="search_events">Search Events</string>
-    <string name="event_requests">Event Requests</string>
-    <string name="view_more_top_events">View More Top Events&#8230;</string>
-    <string name="view_all_your_events">View All Your Events&#8230;</string>
-    <!-- EVENTS - CREATE EVENT -->
-    <string name="create_event">Create Event</string>
+
     <string name="add_event_title_hint">Add Event Title</string>
-    <string name="done">Done</string>
-    <string name="cancel">Cancel</string>
+
     <string name="make_public">Make event public</string>
-    <!-- EVENTS - SEARCH EVENTS - HINT -->
     <string name="search_events_hint">Search</string>
-    <!-- EVENTS - YOUR EVENTS -->
-    <string name="events_participated">Events Participated</string>
-    <string name="events_hosted">Events Hosted</string>
-    <!-- FRIENDSLIST -->
-    <string name="friend_requests">Friend Requests</string>
 
     <!-- CONTENT DESCRIPTION -->
     <!-- PROFILE ACTIVITY -->
     <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
     <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
     <string name="right_button_profile_contentDescription">This is the right ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
-    <!-- ibGoBack -->
-    <string name="go_back_contentDescription">This is the ImageButton to go back to the previous activity.</string>
 
-    <!-- END OF BRYANT'S STRING VARIABLES -->
+    <!--_________________________________________________________________________________________-->
+    <!--___________________________END OF BRYANT'S STRING VARIABLES______________________________-->
+    <!--_________________________________________________________________________________________-->
 
 </resources>

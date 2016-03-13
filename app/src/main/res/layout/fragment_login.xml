@@ -62,7 +62,7 @@
             android:textColor="@android:color/black"
             android:textSize="15sp"
             android:background="#42ffbf"
-            android:text="@string/log_inTITLE" />
+            android:text="@string/log_in" />
 
     </LinearLayout>
 

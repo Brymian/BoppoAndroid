@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -91,15 +90,18 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.change_password);
 
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setTitle("Change Password");
+        mToolbar.setTitle(R.string.Password);
         mToolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
         etOldPassword = (EditText) findViewById(R.id.etOldPassword);
+        etOldPassword.setHint(R.string.Current_Password);
         etNewPassword = (EditText) findViewById(R.id.etNewPassword);
         etNewPasswordAgain = (EditText) findViewById(R.id.etNewPasswordAgain);
         bChangePassword = (TextView) findViewById(R.id.bChangePassword);
+        bChangePassword.setText(R.string.Done);
         ivCurrentPassword = (ImageView) findViewById(R.id.ivCurrentPassword);
         ivConfirmNewPassword = (ImageView) findViewById(R.id.ivConfirmNewPassword);
 
@@ -117,16 +119,11 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
 
     public void onClick(View v){
         switch (v.getId()){
-            case R.id.ibMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
-                break;
             case R.id.bChangePassword:
                 if(isEquals){
                     new ServerRequestMethods(this).changePassword(getProfileUserUID(), etNewPasswordAgain.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
-                            System.out.println("THIS IS FROM onClick(R.id.bChangePassword): " + string);
                             Toast.makeText(ChangePassword.this, string, Toast.LENGTH_SHORT).show();
                             if(string.equals("Password changed successfully.")){
                                 finish();

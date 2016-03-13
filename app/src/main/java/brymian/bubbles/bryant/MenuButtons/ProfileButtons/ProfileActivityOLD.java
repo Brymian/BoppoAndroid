@@ -19,9 +19,8 @@ import java.net.URLConnection;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
+import brymian.bubbles.bryant.profile.FriendsList;
 import brymian.bubbles.bryant.MapsActivity;
-import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -173,8 +172,7 @@ public class ProfileActivityOLD extends FragmentActivity implements View.OnClick
 
                 break;
             case R.id.bMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
+
                 break;
             case R.id.bLeft:
                 //Intent cameraIntent = new Intent(this, CameraActivity.class);

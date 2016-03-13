@@ -140,8 +140,8 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v){
         switch(v.getId()){
             case R.id.bMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
+                //Intent menuIntent = new Intent(this, MenuActivity.class);
+                //startActivity(menuIntent);
                 break;
 
             case R.id.bLeftButton:

@@ -9,18 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
-import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 /**
  * Created by Almanza on 9/21/2015.
  */
-public class Privacy extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class Privacy extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Switch sMap, sProfilePictures;
     Toolbar mToolbar;
     int[] profileUserUID = new int[1];
@@ -31,7 +28,7 @@ public class Privacy extends AppCompatActivity implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_privacy);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("Privacy");
+        mToolbar.setTitle(R.string.Privacy);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -113,15 +110,7 @@ public class Privacy extends AppCompatActivity implements View.OnClickListener, 
         }
     }
 
-    @Override
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.ibMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
-                break;
-        }
-    }
+
 
     void setProfileUserUID(int uid){
         profileUserUID[0] = uid;

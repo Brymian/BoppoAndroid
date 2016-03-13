@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
 
 
 public class ProfileName extends FragmentActivity implements View.OnClickListener {
@@ -24,8 +23,7 @@ public class ProfileName extends FragmentActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ibMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
+
                 break;
         }
     }

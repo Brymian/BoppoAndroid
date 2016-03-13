@@ -73,7 +73,7 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ibMenu:
-                startActivity(new Intent(this, MenuActivity.class));
+                //startActivity(new Intent(this, MenuActivity.class));
                 break;
         }
     }

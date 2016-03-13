@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.SocialButtons;
+package brymian.bubbles.bryant.profile;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
@@ -72,7 +71,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friendslist);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setTitle("Friends");
+        mToolbar.setTitle(R.string.Friends);
         mToolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -140,7 +139,6 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
         final String friendStatus = "Already friends with user.";
         switch (v.getId()){
             case R.id.ibMenu:
-                startActivity(new Intent(this, MenuActivity.class));
                 break;
             case R.id.tvFriendRequestName0:
                 profileIntent.putExtra("firstLastName", friendRequestFirstLastName.get(0));

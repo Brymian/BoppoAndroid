@@ -20,7 +20,7 @@ public class EventsCurrent extends AppCompatActivity implements View.OnClickList
         super.onCreate(saveInstanceState);
         setContentView(R.layout.events_current);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setTitle("Current Events");
+        mToolbar.setTitle(R.string.Live_Episodes);
         mToolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);

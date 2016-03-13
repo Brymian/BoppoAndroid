@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
@@ -16,8 +15,6 @@
         android:background="#42ffbf"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         android:transitionGroup="true"/>
 
     <LinearLayout

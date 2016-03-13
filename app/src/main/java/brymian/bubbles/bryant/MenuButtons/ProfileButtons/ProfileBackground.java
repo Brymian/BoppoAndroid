@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
@@ -68,8 +67,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
         Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         switch (view.getId()){
             case R.id.ibMenu:
-                Intent menuIntent = new Intent(this, MenuActivity.class);
-                startActivity(menuIntent);
+
                 break;
             case R.id.ivImageView1:
                 startActivityForResult(galleryIntent, RESULT_LOAD_IMAGE_1);;

@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.account.Blocking;
+import brymian.bubbles.bryant.account.Notifications;
 import brymian.bubbles.bryant.account.ChangePassword;
 import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
@@ -45,7 +47,7 @@ import brymian.bubbles.bryant.events.EventsYours;
 import brymian.bubbles.bryant.navigationDrawer.CustomDrawerAdapter;
 import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.MenuButtons.SocialButtons.FriendsList;
+import brymian.bubbles.bryant.profile.FriendsList;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 
@@ -69,9 +71,11 @@ public class MainActivity extends AppCompatActivity  {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
+        /** -------------------------------------------------------------------------------------**/
+        /** ------------------ Initializing all drawer layouts and ListView -------------------- **/
+        /** -------------------------------------------------------------------------------------**/
         /* Following the tutorial from this website for custom navigation drawer:   http://www.tutecentral.com/android-custom-navigation-drawer/    */
         /* YouTube video associated with the link above:                            https://www.youtube.com/watch?v=zia_vSgYw8s                     */
-        /* ------------ Initializing all drawer layouts and ListView -------------- */
         dataList = new ArrayList<DrawerItem>();
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -83,24 +87,26 @@ public class MainActivity extends AppCompatActivity  {
         dataList.add(new DrawerItem(true));// adding a spinner to the list
 
         /* Profile */
-        dataList.add(new DrawerItem("Profile")); // adding a header to the list
-        dataList.add(new DrawerItem("My Profile", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Privacy", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Friends", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Profile)/* you can also use getResources.getString(R.string.profile)*/)); // adding a header to the list
+        dataList.add(new DrawerItem(this.getString(R.string.My_Profile), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Privacy), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Friends), R.mipmap.friendslist_nopadding));
 
         /* Events */
-        dataList.add(new DrawerItem("Events"));// adding a header to the list
-        dataList.add(new DrawerItem("My Events", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Top Events", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Current Events", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Create Event", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Episodes)));// adding a header to the list
+        dataList.add(new DrawerItem(this.getString(R.string.My_Episodes), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Top_Episodes), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Live_Episodes), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Create_Episode), R.mipmap.friendslist_nopadding));
 
         /* Account */
-        dataList.add(new DrawerItem("Account")); // adding a header to the list
-        dataList.add(new DrawerItem("Password", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Email", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Sync with Facebook", R.mipmap.friendslist_nopadding));
-        dataList.add(new DrawerItem("Log Out", R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Account))); // adding a header to the list
+        dataList.add(new DrawerItem(this.getString(R.string.Password), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Email), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Notifications), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Blocking), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Sync_With_Facebook), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.Log_Out), R.mipmap.friendslist_nopadding));
 
         /* End of adding items to dataList */
 
@@ -123,7 +129,11 @@ public class MainActivity extends AppCompatActivity  {
                 // onPrepareOptionsMenu()
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);//gonna be deprecated, change to addDrawerListener
+        mDrawerLayout.addDrawerListener(mDrawerToggle);//gonna be deprecated, change to addDrawerListener
+
+        /**--------------------------------------------------------------------------------------**/
+        /**-------------------------- END OF DrawerLayouts AND ListView -------------------------**/
+        /**--------------------------------------------------------------------------------------**/
 
         if (savedInstanceState == null) {
             if (dataList.get(0).isSpinner() & dataList.get(1).getTitle() != null) {
@@ -137,8 +147,9 @@ public class MainActivity extends AppCompatActivity  {
                 SelectItem(0);
             }
         }
-
-
+        /**--------------------------------------------------------------------------------------**/
+        /**--------------------------- Initializing TabLayout and Tabs --------------------------**/
+        /**--------------------------------------------------------------------------------------**/
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.globeblackwhite_nopadding), 0, false);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.news_feed_black_and_white_no_padding), 1, true);
@@ -162,7 +173,7 @@ public class MainActivity extends AppCompatActivity  {
                     setTitle("News Feed");
                 }
                 else if(position == 2){
-                    setTitle("Events");
+                    setTitle("Episodes");
                 }
                 mToolbar.setTitleTextColor(Color.BLACK);
             }
@@ -193,6 +204,9 @@ public class MainActivity extends AppCompatActivity  {
 
             }
         });
+        /**--------------------------------------------------------------------------------------**/
+        /**----------------------------END OF TABLAYOUT AND TABS---------------------------------**/
+        /**--------------------------------------------------------------------------------------**/
 
     }
 
@@ -245,11 +259,9 @@ public class MainActivity extends AppCompatActivity  {
             case R.id.search:
 
                 return true;
-
             default:
 
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
@@ -307,9 +319,15 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(new Intent(this, VerifyEmail.class));
                 break;
             case 13:
-                startActivity(new Intent(this, SyncFacebook.class));
+                startActivity(new Intent(this, Notifications.class));
                 break;
             case 14:
+                startActivity(new Intent(this, Blocking.class));
+                break;
+            case 15:
+                startActivity(new Intent(this, SyncFacebook.class));
+                break;
+            case 16:
                 displayAlertDialog();
                 break;
             default:

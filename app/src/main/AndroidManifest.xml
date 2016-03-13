@@ -46,7 +46,6 @@
 
         <activity android:name=".bryant.MapsActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.CameraActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.MenuActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MenuButtons.SocialButtons.SearchUsers" android:screenOrientation="portrait"></activity>
 
         <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground" android:screenOrientation="portrait"></activity>
@@ -61,12 +60,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.Tabs.MainActivity" />
         </activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.Notifications" android:screenOrientation="portrait">
+        <activity android:name=".bryant.account.Notifications" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.Tabs.MainActivity" />
         </activity>
-        <activity android:name=".bryant.MenuButtons.SettingsButtons.About" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.settings.About" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.account.VerifyEmail" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -77,14 +76,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.Tabs.MainActivity" />
         </activity>
-        <activity android:name=".bryant.MenuButtons.SocialButtons.FriendsList" android:screenOrientation="portrait">
+        <activity android:name=".bryant.profile.FriendsList" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.Tabs.MainActivity" />
         </activity>
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.Blocking" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.account.Blocking" android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".bryant.Tabs.MainActivity" />
+        </activity>
         <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.events.Events" android:screenOrientation="portrait"></activity>
         <!-- EVENTS CLASSES -->
         <activity android:name=".bryant.events.EventsCreate" android:screenOrientation="portrait">
             <meta-data

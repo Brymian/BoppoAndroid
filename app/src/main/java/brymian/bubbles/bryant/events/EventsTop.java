@@ -1,8 +1,6 @@
 package brymian.bubbles.bryant.events;
 
 
-import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -23,7 +21,7 @@ public class EventsTop extends AppCompatActivity implements View.OnClickListener
 
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
 
-        mToolbar.setTitle("Top Events");
+        mToolbar.setTitle(R.string.Top_Episodes);
         mToolbar.setTitleTextColor(Color.BLACK);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -51,7 +49,6 @@ public class EventsTop extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        finish();
+        super.onBackPressed();
     }
 }
