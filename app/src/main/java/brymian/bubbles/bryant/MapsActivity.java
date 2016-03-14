@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.SocialButtons.SearchUsers;
+import brymian.bubbles.bryant.Tabs.SearchUsers;
 import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -149,7 +149,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(friendsIntent);
                 break;
             case R.id.bCamera:
-                Intent cameraIntent = new Intent(this, CameraActivity.class);
+                Intent cameraIntent = new Intent(this, CameraActivityOLD.class);
                 cameraIntent.putExtra("latitude", getLatitudeCurrent());
                 cameraIntent.putExtra("longitude", getLongitudeCurrent());
                 startActivity(cameraIntent);

@@ -1,7 +1,6 @@
 package brymian.bubbles.bryant.settings;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -13,7 +12,7 @@ public class About extends FragmentActivity implements View.OnClickListener{
     ImageButton ibMenu;
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_settings_about);
+        setContentView(R.layout.about);
 
         ibMenu = (ImageButton) findViewById(R.id.ibMenu);
 

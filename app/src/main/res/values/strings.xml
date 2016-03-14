@@ -44,9 +44,10 @@
     <string name="Create_Episode">Create Episode</string>
     <string name="Current_Password">Current Password</string>
     <string name="Done">Done</string>
-    <string name="Episode_Requests">Episode Requests</string>
     <string name="Email">Email</string>
+    <string name="Episode_Requests">Episode Requests</string>
     <string name="Episodes">Episodes</string>
+    <string name="Explore">Explore</string>
     <string name="Friend_Requests">Friend Requests</string>
     <string name="Friends">Friends</string>
     <string name="Live_Episodes">Live Episodes</string>
@@ -55,6 +56,7 @@
     <string name="My_Episodes">My Episodes</string>
     <string name="My_Profile">My Profile</string>
     <string name="New_Password">New Password</string>
+    <string name="News_Feed">News Feed</string>
     <string name="Password">Password</string>
     <string name="Privacy">Privacy</string>
     <string name="Profile">Profile</string>

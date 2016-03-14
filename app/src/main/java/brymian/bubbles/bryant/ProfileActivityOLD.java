@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
+package brymian.bubbles.bryant;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +20,6 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.profile.FriendsList;
-import brymian.bubbles.bryant.MapsActivity;
 import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -175,7 +174,7 @@ public class ProfileActivityOLD extends FragmentActivity implements View.OnClick
 
                 break;
             case R.id.bLeft:
-                //Intent cameraIntent = new Intent(this, CameraActivity.class);
+                //Intent cameraIntent = new Intent(this, CameraActivityOLD.class);
                 //startActivity(cameraIntent);
                 break;
             case R.id.bRight:

@@ -26,14 +26,18 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import android.support.v7.widget.SearchView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
 
 import java.util.ArrayList;
 
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.CameraActivityOLD;
 import brymian.bubbles.bryant.account.Blocking;
 import brymian.bubbles.bryant.account.Notifications;
 import brymian.bubbles.bryant.account.ChangePassword;
@@ -165,31 +169,28 @@ public class MainActivity extends AppCompatActivity  {
 
             }
             */
-            @Override public void onPageSelected(int position) {
+            @Override
+            public void onPageSelected(int position) {
                 if (position == 0) {
-                    setTitle("Explore");
-                }
-                else if (position == 1){
-                    setTitle("News Feed");
-                }
-                else if(position == 2){
-                    setTitle("Episodes");
+                    setTitle(R.string.Explore);
+                } else if (position == 1) {
+                    setTitle(R.string.News_Feed);
+                } else if (position == 2) {
+                    setTitle(R.string.Episodes);
                 }
                 mToolbar.setTitleTextColor(Color.BLACK);
             }
         });
-        viewPager.setCurrentItem(1);
+        viewPager.setCurrentItem(0); //setCurrentItem(position) sets which tab MainActivity starts in
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
                 try {
                     viewPager.setCurrentItem(index);
-                }
-                catch (NullPointerException npe){
+                } catch (NullPointerException npe) {
                     npe.printStackTrace();
-                }
-                catch (IllegalStateException ise){
+                } catch (IllegalStateException ise) {
                     ise.printStackTrace();
                 }
             }
@@ -207,6 +208,18 @@ public class MainActivity extends AppCompatActivity  {
         /**--------------------------------------------------------------------------------------**/
         /**----------------------------END OF TABLAYOUT AND TABS---------------------------------**/
         /**--------------------------------------------------------------------------------------**/
+
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.mipmap.camera_nopadding);
+        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                .build();
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, CameraActivityOLD.class));
+            }
+        });
 
     }
 
@@ -279,6 +292,11 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onResume() {
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public void SelectItem(int position) {

@@ -45,11 +45,11 @@
             android:value="@string/google_maps_key" />
 
         <activity android:name=".bryant.MapsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.CameraActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.MenuButtons.SocialButtons.SearchUsers" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.CameraActivityOLD" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.Tabs.SearchUsers" android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileBackground" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.MenuButtons.ProfileButtons.ProfileName" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.profile.ProfileBackground" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.account.SyncFacebook" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

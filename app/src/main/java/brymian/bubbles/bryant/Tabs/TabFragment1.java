@@ -18,28 +18,42 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import brymian.bubbles.R;
 
 
-public class TabFragment1 extends Fragment {
+public class TabFragment1 extends Fragment implements View.OnClickListener{
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     double[] longitudeCurrent = new double[1];
     double[] latitudeCurrent = new double[1];
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.tab_fragment_1, container, false);
+        View rootView = inflater.inflate(R.layout.tab_fragment_1, container, false);
+
+        return rootView;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
             try {
-                mMap = ((SupportMapFragment) getActivity().getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
-            }
-            catch (NullPointerException npe){
+                mMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+            } catch (NullPointerException npe) {
                 npe.printStackTrace();
             }
             // Check if we were successful in obtaining the map.
@@ -48,11 +62,7 @@ public class TabFragment1 extends Fragment {
             }
         }
     }
-    @Override
-    public void onResume() {
-        super.onResume();
-        setUpMapIfNeeded();
-    }
+
 
     private void setUpMap() {
         // Enable MyLocation Layer of Google Map
@@ -97,11 +107,11 @@ public class TabFragment1 extends Fragment {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         // Zoom in the Google Map
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(5));
 
         //Add markers here
 
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
 
 
         //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding)));

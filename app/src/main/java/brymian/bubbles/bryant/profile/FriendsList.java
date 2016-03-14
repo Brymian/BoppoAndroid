@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MenuButtons.ProfileButtons.ProfileActivityOLD;
+import brymian.bubbles.bryant.ProfileActivityOLD;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;

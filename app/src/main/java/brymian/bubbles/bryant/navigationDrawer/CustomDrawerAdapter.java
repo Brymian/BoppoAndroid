@@ -20,6 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.Tabs.MainActivity;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
 
@@ -27,15 +30,12 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
     List<DrawerItem> drawerItemList;
     int layoutResID;
 
-    public CustomDrawerAdapter(Context context, int layoutResourceID,
-                               List<DrawerItem> listItems) {
+    public CustomDrawerAdapter(Context context, int layoutResourceID, List<DrawerItem> listItems) {
         super(context, layoutResourceID, listItems);
         this.context = context;
         this.drawerItemList = listItems;
         this.layoutResID = layoutResourceID;
-
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -74,8 +74,10 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             List<SpinnerItem> userList = new ArrayList<SpinnerItem>();
 
             /* Add user information here */
-            userList.add(new SpinnerItem(R.mipmap.bubbles_no_padding, "Bryant Almanza",
-                    "almanza1112"));
+            userList.add(new SpinnerItem(R.mipmap.bubbles_no_padding,
+                            getFirstNameUserDataLocal()
+                    + " " + getLastNameUserDataLocal(),
+                            getUsernameUserDataLocal()));
 
             CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(context,
                     R.layout.custom_spinner_item, userList);
@@ -111,6 +113,25 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
         }
         return view;
     }
+
+    private String getFirstNameUserDataLocal(){
+        UserDataLocal udl = new UserDataLocal(getContext());
+        User userPhone = udl.getUserData();
+        return userPhone.getFirstName();
+    }
+
+    private String getLastNameUserDataLocal(){
+        UserDataLocal udl = new UserDataLocal(getContext());
+        User userPhone = udl.getUserData();
+        return userPhone.getLastName();
+    }
+
+    private String getUsernameUserDataLocal(){
+        UserDataLocal udl = new UserDataLocal(getContext());
+        User userPhone = udl.getUserData();
+        return userPhone.getUsername();
+    }
+
 
     private static class DrawerItemHolder {
         TextView ItemName, title;

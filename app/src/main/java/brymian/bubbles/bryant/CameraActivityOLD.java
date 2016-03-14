@@ -33,7 +33,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class CameraActivity extends Activity {
+public class CameraActivityOLD extends Activity {
     //implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
     private static int TAKE_PICTURE = 1;
     private Uri imageUri;
@@ -52,7 +52,7 @@ public class CameraActivity extends Activity {
     Switch sUserImagePrivacyLabel;
 
     private Camera mCamera;
-    private CameraPreview mPreview;
+    private CameraPreviewOLD mPreview;
 
     private static int number = Camera.CameraInfo.CAMERA_FACING_FRONT;
 
@@ -75,7 +75,7 @@ public class CameraActivity extends Activity {
         mCamera = getCameraInstance();
 
         // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(this, mCamera);
+        mPreview = new CameraPreviewOLD(this, mCamera);
         FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
@@ -163,6 +163,8 @@ public class CameraActivity extends Activity {
         return c; // returns null if camera is unavailable
     }
 
+
+    //deprecated code, use CameraCaptureSession.CaptureCallback in the future for min sdk 21
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override
@@ -267,11 +269,11 @@ public class CameraActivity extends Activity {
                     public void done(String string) {
                         System.out.println("THIS IS FROM THE StringCallBack: " + string);
                         if (string.isEmpty()) {
-                            Toast.makeText(CameraActivity.this, "Error: Image not uploaded", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CameraActivityOLD.this, "Error: Image not uploaded", Toast.LENGTH_SHORT).show();
                         }
                         else{
-                            Toast.makeText(CameraActivity.this, "Upload successful!", Toast.LENGTH_SHORT).show();
-                            Intent menuIntent = new Intent(CameraActivity.this, MenuActivity.class);// this needs to change later instead of being sent to MenuActivity.class
+                            Toast.makeText(CameraActivityOLD.this, "Upload successful!", Toast.LENGTH_SHORT).show();
+                            Intent menuIntent = new Intent(CameraActivityOLD.this, MenuActivity.class);// this needs to change later instead of being sent to MenuActivity.class
                             startActivity(menuIntent);
                         }
                     }

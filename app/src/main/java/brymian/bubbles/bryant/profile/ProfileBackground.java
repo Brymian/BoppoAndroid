@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.MenuButtons.ProfileButtons;
+package brymian.bubbles.bryant.profile;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

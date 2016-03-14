@@ -13,14 +13,14 @@ import java.util.List;
 /**
  * Created by Almanza on 2/24/2016.
  */
-public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback {
+public class CameraPreviewOLD extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder mHolder;
     private Camera mCamera;
     private Camera.Size mPreviewSize;
     private List<Camera.Size> mSupportedPreviewSizes;
 
 
-    public CameraPreview(Context context, Camera camera) {
+    public CameraPreviewOLD(Context context, Camera camera) {
         super(context);
         mCamera = camera;
 
