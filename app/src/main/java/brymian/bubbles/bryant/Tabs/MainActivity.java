@@ -37,12 +37,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.CameraActivityOLD;
 import brymian.bubbles.bryant.account.Blocking;
 import brymian.bubbles.bryant.account.Notifications;
 import brymian.bubbles.bryant.account.ChangePassword;
 import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
+import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.events.EventsCreate;
 import brymian.bubbles.bryant.profile.Privacy;
 import brymian.bubbles.bryant.events.EventsCurrent;
@@ -217,7 +217,7 @@ public class MainActivity extends AppCompatActivity  {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraActivityOLD.class));
+                startActivity(new Intent(MainActivity.this, CameraActivity.class));
             }
         });
 

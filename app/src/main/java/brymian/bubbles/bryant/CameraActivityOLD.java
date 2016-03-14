@@ -34,6 +34,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class CameraActivityOLD extends Activity {
+
+
     //implements View.OnClickListener, CompoundButton.OnCheckedChangeListener
     private static int TAKE_PICTURE = 1;
     private Uri imageUri;
