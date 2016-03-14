@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.camera;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -9,6 +10,8 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -25,7 +28,7 @@ import brymian.bubbles.R;
 /**
  * Created by Almanza on 3/14/2016.
  */
-public class CameraActivity extends AppCompatActivity{
+public class CameraActivity extends Activity {
 
     private Camera mCamera;
     private CameraPreview mPreview;
@@ -43,6 +46,9 @@ public class CameraActivity extends AppCompatActivity{
         }
         /**--------------------------------------------------------------------------------------**/
 
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_camera);
 
         // Create an instance of Camera
@@ -54,6 +60,7 @@ public class CameraActivity extends AppCompatActivity{
         preview.addView(mPreview);
 
         // Add a listener to the Capture button
+        /*
         Button captureButton = (Button) findViewById(R.id.button_capture);
         captureButton.setOnClickListener(
                 new View.OnClickListener() {
@@ -64,6 +71,8 @@ public class CameraActivity extends AppCompatActivity{
                     }
                 }
         );
+
+        */
     }
 
     @Override
