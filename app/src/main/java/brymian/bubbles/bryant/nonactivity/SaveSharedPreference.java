@@ -14,6 +14,10 @@ public class SaveSharedPreference {
     static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
     static final String PREF_NOTIFICATIONS_SOUND = "sound";
 
+    static final String LATITUDE = "latitude";
+    static final String LONGITUDE = "longitude";
+
+
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
@@ -70,6 +74,26 @@ public class SaveSharedPreference {
         return getSharedPreferences(ctx).getString(PREF_NOTIFICATIONS_SOUND, "");
     }
 
+    public static void setLatitude(Context ctx, double latitude){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putFloat(LATITUDE, (float)latitude);
+        editor.apply();
+    }
+
+    public static double getLatitude(Context ctx){
+        return getSharedPreferences(ctx).getFloat(LATITUDE, 0);
+    }
+
+    public static void setLongitude(Context ctx, double longitude){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putFloat(LONGITUDE, (float) longitude);
+        editor.apply();
+    }
+
+    public static double getLongitude(Context ctx){
+        return getSharedPreferences(ctx).getFloat(LONGITUDE, 0);
+    }
+
     public static void clearUsername(Context ctx)
     {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
@@ -95,4 +119,17 @@ public class SaveSharedPreference {
         editor.remove(PREF_NOTIFICATIONS_SOUND);
         editor.apply();
     }
+
+    public static void clearLatitude(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(LATITUDE);
+        editor.apply();
+    }
+
+    public static void clearLongitude(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(LONGITUDE);
+        editor.apply();
+    }
+
 }

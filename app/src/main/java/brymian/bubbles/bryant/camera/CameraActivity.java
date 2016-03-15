@@ -4,37 +4,43 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 /**
  * Created by Almanza on 3/14/2016.
  */
-public class CameraActivity extends Activity {
-
+public class CameraActivity extends Activity implements View.OnClickListener{
+    ImageButton ibCapture, ibCheck;
+    FrameLayout preview;
     private Camera mCamera;
     private CameraPreview mPreview;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,7 @@ public class CameraActivity extends Activity {
         }
         /**--------------------------------------------------------------------------------------**/
 
+        /* Makes the activity fullscreen */
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
@@ -56,23 +63,43 @@ public class CameraActivity extends Activity {
 
         // Create our Preview view and set it as the content of our activity.
         mPreview = new CameraPreview(this, mCamera);
-        FrameLayout preview = (FrameLayout) findViewById(R.id.camera_preview);
+        preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        ibCapture = (ImageButton) findViewById(R.id.ibCapture);
+        ibCheck = (ImageButton) findViewById(R.id.ibCheck);
+        ibCapture.setOnClickListener(this);
+        ibCheck.setOnClickListener(this);
+        ibCheck.setVisibility(View.GONE);
+        ibCapture.bringToFront();
 
-        // Add a listener to the Capture button
-        /*
-        Button captureButton = (Button) findViewById(R.id.button_capture);
-        captureButton.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // get an image from the camera
-                        mCamera.takePicture(null, null, mPicture);
-                    }
-                }
-        );
 
-        */
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()){
+            case R.id.ibCapture:
+                mCamera.takePicture(mShutter, mRaw, mPicture);
+                break;
+            case R.id.ibCheck:
+                Toast.makeText(CameraActivity.this, "works", Toast.LENGTH_SHORT).show();
+                String encodedImage = Base64.encodeToString(getImageDataByte(), Base64.DEFAULT);
+                new ServerRequestMethods(this).uploadImage(
+                        getUidUserDataLocal(),
+                        imageName() + ".jpg", "Regular", "Public",
+                        SaveSharedPreference.getLatitude(getApplicationContext()),
+                        SaveSharedPreference.getLongitude(getApplicationContext()),
+                        encodedImage,
+                        new StringCallback() {
+                            @Override
+                            public void done(String string) {
+                                System.out.println("From ServerRequestMethods: "+string);
+                            }
+                        }
+                );
+
+                break;
+        }
     }
 
     @Override
@@ -88,11 +115,34 @@ public class CameraActivity extends Activity {
         }
     }
 
+    private Camera.ShutterCallback mShutter = new Camera.ShutterCallback(){
+        @Override
+        public void onShutter() {
+
+        }
+    };
+
+    private Camera.PictureCallback mRaw = new Camera.PictureCallback(){
+
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+
+        }
+    };
+
     private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
+            ibCapture.setVisibility(View.GONE);
+            ibCheck.setVisibility(View.VISIBLE);
+            ibCheck.bringToFront();
+            //String string = new String(data);
+            //System.out.println("String: "+string);
+            setImageDataByte(data);
+
+            /** original code
             File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
             if (pictureFile == null){
                 //Log.d(TAG, "Error creating media file, check storage permissions: " + e.getMessage());
@@ -111,8 +161,20 @@ public class CameraActivity extends Activity {
                 //Log.d(TAG, "Error accessing file: " + e.getMessage());
                 Toast.makeText(CameraActivity.this, "Error accessing file", Toast.LENGTH_SHORT).show();
             }
+             **/
         }
+
+
     };
+    byte[] data;
+    private void setImageDataByte(byte[] data){
+        this.data = data;
+    }
+
+    private byte[] getImageDataByte(){
+        return data;
+    }
+
 
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){
@@ -124,8 +186,7 @@ public class CameraActivity extends Activity {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
 
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyCameraApp");
         // This location works best if you want the created images to be shared
         // between applications and persist after your app has been uninstalled.
 
@@ -141,12 +202,10 @@ public class CameraActivity extends Activity {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_"+ timeStamp + ".jpg");
         }
         else if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
+            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_"+ timeStamp + ".mp4");
         }
         else {
             return null;
@@ -177,4 +236,20 @@ public class CameraActivity extends Activity {
         }
         return c; // returns null if camera is unavailable
     }
+
+    private int getUidUserDataLocal(){
+        UserDataLocal udl = new UserDataLocal(this);
+        User user = udl.getUserData();
+        return user.getUid();
+    }
+
+    String imageName(){
+        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
+        String name = getUidUserDataLocal() + "_" + charSequenceName;
+        System.out.println(name);
+        return name;
+    }
+
+
+
 }

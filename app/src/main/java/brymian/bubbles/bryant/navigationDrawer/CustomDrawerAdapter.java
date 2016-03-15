@@ -132,7 +132,6 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
         return userPhone.getUsername();
     }
 
-
     private static class DrawerItemHolder {
         TextView ItemName, title;
         ImageView icon;

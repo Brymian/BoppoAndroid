@@ -21,12 +21,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
 public class TabFragment1 extends Fragment implements View.OnClickListener{
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    double[] longitudeCurrent = new double[1];
-    double[] latitudeCurrent = new double[1];
+    double longitude;
+    double latitude;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,14 +87,15 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         double latitude = 0;
         double longitude = 0;
-
         try {
             // Get latitude of the current location
             latitude = myLocation.getLatitude();
             setLatitudeCurrent(latitude);
+            SaveSharedPreference.setLatitude(getActivity(), latitude);
             System.out.println("THIS IS FROM setUpMap(): setLatitudeArrayCurrent() is " + getLatitudeCurrent());
             longitude = myLocation.getLongitude();
             setLongitudeCurrent(longitude);
+            SaveSharedPreference.setLongitude(getActivity(), longitude);
             System.out.println("THIS IS FROM setUpMap(): setLongitudeArrayCurrent() is + " + getLongitudeCurrent());
         }
         catch (NullPointerException e){
@@ -118,17 +122,18 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         //.title("You are here!")
         //.snippet("Consider yourself located"));
     }
-    public void setLatitudeCurrent(double l){
-        latitudeCurrent[0] = l;
+    public void setLatitudeCurrent(double latitude){
+        this.latitude = latitude;
     }
-    public void setLongitudeCurrent(double l) {
-        longitudeCurrent[0] = l;
+    public void setLongitudeCurrent(double longitude) {
+        this.longitude = longitude;
     }
     public double getLatitudeCurrent(){
-        return latitudeCurrent[0];
+        return latitude;
     }
     public double getLongitudeCurrent(){
-        return longitudeCurrent[0];
+        return longitude;
     }
+
 
 }

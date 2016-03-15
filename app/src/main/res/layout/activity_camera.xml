@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_height="fill_parent"
+    android:id="@+id/camera_preview">
+
+    <!--
     <FrameLayout
         android:id="@+id/camera_preview"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_weight="1" />
-    <!--
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" >
+        <ImageButton
+            android:id="@+id/ibCapture"
+            android:layout_gravity="center|bottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/camera_nopadding"/>
+    </FrameLayout>
 
-    <Button
-        android:id="@+id/button_capture"
-        android:text="Capture"
+    -->
+
+    <ImageButton
+        android:id="@+id/ibCapture"
+        android:layout_gravity="center|bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center" />
+        android:src="@mipmap/camera_nopadding"/>
+    <ImageButton
+        android:id="@+id/ibCheck"
+        android:layout_gravity="center|bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/green_checkmark_nopadding"/>
 
-        -->
-</LinearLayout>
+</FrameLayout>

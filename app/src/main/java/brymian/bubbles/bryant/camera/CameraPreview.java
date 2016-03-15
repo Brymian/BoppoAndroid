@@ -161,6 +161,8 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         //setMeasuredDimension((int) (width * ratio), height);
     }
 
+    /* as used in http://stackoverflow.com/questions/19577299/android-camera-preview-stretched */
+
     private Camera.Size getOptimalPreviewSize(List<Camera.Size> sizes, int w, int h) {
         final double ASPECT_TOLERANCE = 0.1;
         double targetRatio = (double) h / w;
