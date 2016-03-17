@@ -193,7 +193,7 @@ public class LaunchFragmentFacebook extends Fragment {
                 {
                     System.out.println(string);
                     showMessageRegistration(getActivity());
-                    //login(profile);
+                    //login(profile_activity);
                 }
                 else
                 {

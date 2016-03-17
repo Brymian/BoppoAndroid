@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.ProfileActivityOLD;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -135,7 +134,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
     }
 
     public void onClick(View v){
-        final Intent profileIntent = new Intent(this, ProfileActivityOLD.class);
+        final Intent profileIntent = new Intent(this, ProfileActivity.class);
         final String friendStatus = "Already friends with user.";
         switch (v.getId()){
             case R.id.ibMenu:

@@ -105,6 +105,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         SaveSharedPreference.setUsername(getActivity(), etUsername.getText().toString());
                         SaveSharedPreference.setUserPassword(getActivity(), etPassword.getText().toString());
                         SaveSharedPreference.setUserUID(getActivity(), user.getUid());
+                        SaveSharedPreference.setUserFirstName(getActivity(), user.getFirstName());
+                        SaveSharedPreference.setUserLastName(getActivity(), user.getLastName());
 
                         User loggedInUser = udl.getUserData();
                         int loggedInUserUID = loggedInUser.getUid();

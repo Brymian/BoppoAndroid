@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         dataList.add(new DrawerItem(true));// adding a spinner to the list
 
         /* Profile */
-        dataList.add(new DrawerItem(this.getString(R.string.Profile)/* you can also use getResources.getString(R.string.profile)*/)); // adding a header to the list
+        dataList.add(new DrawerItem(this.getString(R.string.Profile)/* you can also use getResources.getString(R.string.profile_activity)*/)); // adding a header to the list
         dataList.add(new DrawerItem(this.getString(R.string.My_Profile), R.mipmap.friendslist_nopadding));
         dataList.add(new DrawerItem(this.getString(R.string.Profile_Pictures), R.mipmap.friendslist_nopadding));
         dataList.add(new DrawerItem(this.getString(R.string.Privacy), R.mipmap.friendslist_nopadding));
@@ -300,7 +300,7 @@ public class MainActivity extends AppCompatActivity {
         switch (position) {
             /* Profile */
             case 2:
-                startActivity(new Intent(this, ProfileActivity.class));
+                startActivity(new Intent(this, ProfileActivity.class).putExtra("profile", "logged in user"));
                 break;
             case 3:
                 startActivity(new Intent(this, ProfilePicturesActivity.class));

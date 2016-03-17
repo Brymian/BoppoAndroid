@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import java.util.List;
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.ProfileActivityOLD;
+import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -68,7 +68,7 @@ public class SearchUsers extends FragmentActivity implements View.OnClickListene
 
     @Override
     public void onClick(View view){
-        final Intent intent = new Intent(this, ProfileActivityOLD.class);
+        final Intent intent = new Intent(this, ProfileActivity.class);
         UserDataLocal udl = new UserDataLocal(this);
         User userPhone = udl.getUserData();
         int userUID = userPhone.getUid();

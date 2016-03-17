@@ -53,7 +53,6 @@
         <activity android:name=".bryant.MapsActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.Tabs.SearchUsers" android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".bryant.profile.ProfileBackgroundOLD" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.account.SyncFacebook" android:screenOrientation="portrait">
             <meta-data
