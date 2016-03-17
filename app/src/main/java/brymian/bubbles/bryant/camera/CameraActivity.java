@@ -4,19 +4,24 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
+import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -67,6 +72,65 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         preview.addView(mPreview);
         ibCapture = (ImageButton) findViewById(R.id.ibCapture);
         ibCheck = (ImageButton) findViewById(R.id.ibCheck);
+
+        //FloatingActionButton.LayoutParams p = new FloatingActionButton.LayoutParams(FloatingActionButton.LayoutParams.WRAP_CONTENT, FloatingActionButton.LayoutParams.WRAP_CONTENT);
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
+        params.gravity = Gravity.TOP|Gravity.RIGHT;
+
+        View contentView;
+        //FloatingActionButton.LayoutParams paramsButton = new FloatingActionButton(this, p, 0, getDrawable(R.mipmap.add), 2, contentView, params);
+        //paramsButton.gravity = Gravity.TOP|Gravity.RIGHT;
+
+        ImageView icon = new ImageView(this);
+        icon.setImageResource(R.mipmap.add);
+        FloatingActionButton floatingActionButton = new FloatingActionButton.Builder(this)
+                .setContentView(icon)
+                //.setLayoutParams(paramsButton)
+                .build();
+
+        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
+
+        ImageView itemIcon1 = new ImageView(this);
+        itemIcon1.setImageResource(R.mipmap.switch_camera);
+
+        ImageView itemIcon2 = new ImageView(this);
+        itemIcon2.setImageResource(R.mipmap.camera_flash_on);
+
+        ImageView itemIcon3 = new ImageView(this);
+        itemIcon3.setImageResource(R.mipmap.ic_launcher);
+
+        params.setMargins(0, 0, 0, 0);
+
+        SubActionButton button1 = itemBuilder.setContentView(itemIcon1).setLayoutParams(params).build();
+        button1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        SubActionButton button2 = itemBuilder.setContentView(itemIcon2).setLayoutParams(params).build();
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        SubActionButton button3 = itemBuilder.setContentView(itemIcon3).setLayoutParams(params).build();
+        button3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
+                .addSubActionView(button1)
+                .addSubActionView(button2)
+                .addSubActionView(button3)
+                .setRadius(400)
+                .attachTo(floatingActionButton)
+                .build();
+
+
         ibCapture.setOnClickListener(this);
         ibCheck.setOnClickListener(this);
         ibCheck.setVisibility(View.GONE);
@@ -82,7 +146,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 mCamera.takePicture(mShutter, mRaw, mPicture);
                 break;
             case R.id.ibCheck:
-                Toast.makeText(CameraActivity.this, "works", Toast.LENGTH_SHORT).show();
                 String encodedImage = Base64.encodeToString(getImageDataByte(), Base64.DEFAULT);
                 new ServerRequestMethods(this).uploadImage(
                         getUidUserDataLocal(),
@@ -93,7 +156,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                         new StringCallback() {
                             @Override
                             public void done(String string) {
-                                System.out.println("From ServerRequestMethods: "+string);
+
                             }
                         }
                 );
@@ -134,38 +197,20 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-
             ibCapture.setVisibility(View.GONE);
             ibCheck.setVisibility(View.VISIBLE);
             ibCheck.bringToFront();
-            //String string = new String(data);
-            //System.out.println("String: "+string);
             setImageDataByte(data);
-
-            /** original code
-            File pictureFile = getOutputMediaFile(MEDIA_TYPE_IMAGE);
-            if (pictureFile == null){
-                //Log.d(TAG, "Error creating media file, check storage permissions: " + e.getMessage());
-                Toast.makeText(CameraActivity.this, "Error creating media file, check storage permissions", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            try {
-                FileOutputStream fos = new FileOutputStream(pictureFile);
-                fos.write(data);
-                fos.close();
-            } catch (FileNotFoundException e) {
-                //Log.d(TAG, "File not found: " + e.getMessage());
-                Toast.makeText(CameraActivity.this, "File not found", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                //Log.d(TAG, "Error accessing file: " + e.getMessage());
-                Toast.makeText(CameraActivity.this, "Error accessing file", Toast.LENGTH_SHORT).show();
-            }
-             **/
         }
-
-
     };
+
+    private Camera.AutoFocusCallback mAutoFocus = new Camera.AutoFocusCallback() {
+        @Override
+        public void onAutoFocus(boolean success, Camera camera) {
+
+        }
+    };
+
     byte[] data;
     private void setImageDataByte(byte[] data){
         this.data = data;

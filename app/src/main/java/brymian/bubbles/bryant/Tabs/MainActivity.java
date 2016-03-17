@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity  {
         mDrawerLayout.addDrawerListener(mDrawerToggle);//gonna be deprecated, change to addDrawerListener
 
         /**--------------------------------------------------------------------------------------**/
-        /**-------------------------- END OF DrawerLayouts AND ListView -------------------------**/
+        /**------------------------------------------------------------ -------------------------**/
         /**--------------------------------------------------------------------------------------**/
 
         if (savedInstanceState == null) {
@@ -164,11 +164,6 @@ public class MainActivity extends AppCompatActivity  {
         final brymian.bubbles.bryant.Tabs.PagerAdapter pagerAdapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
-            /*
-            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-            */
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
@@ -206,7 +201,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
         /**--------------------------------------------------------------------------------------**/
-        /**----------------------------END OF TABLAYOUT AND TABS---------------------------------**/
+        /**--------------------------------------------------------------------------------------**/
         /**--------------------------------------------------------------------------------------**/
 
         ImageView icon = new ImageView(this);
@@ -214,13 +209,13 @@ public class MainActivity extends AppCompatActivity  {
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
                 .build();
+
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, CameraActivity.class));
             }
         });
-
     }
 
     @Override
@@ -346,7 +341,7 @@ public class MainActivity extends AppCompatActivity  {
                 startActivity(new Intent(this, SyncFacebook.class));
                 break;
             case 16:
-                displayAlertDialog();
+                logOut();
                 break;
             default:
                 Toast.makeText(MainActivity.this, "default toast boom", Toast.LENGTH_SHORT).show();
@@ -366,25 +361,24 @@ public class MainActivity extends AppCompatActivity  {
         }
     }
 
-    public void displayAlertDialog() {
+    public void logOut() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.logout, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(false);
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
             }
         });
-
         alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startActivity(new Intent(MainActivity.this, AuthenticateActivity.class));
-                SaveSharedPreference.clearUsername(getApplicationContext());
+                SaveSharedPreference.clearAll(getApplicationContext());
             }
         });
         AlertDialog dialog = alert.create();

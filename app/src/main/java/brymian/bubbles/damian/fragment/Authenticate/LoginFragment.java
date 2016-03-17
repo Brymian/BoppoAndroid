@@ -102,10 +102,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         System.out.println("PASSWORD CHECK: " + user.getPassword());
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
 
-
-                        SaveSharedPreference save = new SaveSharedPreference();
-                        save.setUserName(getActivity(), etUsername.getText().toString());
-                        save.setUserPassword(getActivity(), etPassword.getText().toString());
+                        SaveSharedPreference.setUsername(getActivity(), etUsername.getText().toString());
+                        SaveSharedPreference.setUserPassword(getActivity(), etPassword.getText().toString());
+                        SaveSharedPreference.setUserUID(getActivity(), user.getUid());
 
                         User loggedInUser = udl.getUserData();
                         int loggedInUserUID = loggedInUser.getUid();

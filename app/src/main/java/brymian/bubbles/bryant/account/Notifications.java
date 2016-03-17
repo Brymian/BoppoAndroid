@@ -15,9 +15,7 @@ import android.widget.Switch;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 
-/**
- * Created by Almanza on 7/6/2015.
- */
+
 public class Notifications extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Switch sVibration, sLED, sSound;
     Toolbar mToolbar;
@@ -71,17 +69,9 @@ public class Notifications extends AppCompatActivity implements CompoundButton.O
                         SaveSharedPreference.setNotificationVibration(this, "true");
                         notificationVibration();
                     }
-                    /*
-                    else if(SaveSharedPreference.getNotificationVibration(this).length() != 0){
-                        if(PreferenceManager.getDefaultSharedPreferences(this).getString("vibration", "something").equals("true")){
-                            SaveSharedPreference.clearNotificationVibration(this);
-                            SaveSharedPreference.setNotificationVibration(this, "true");
-                        }
-                    }
-                    */
                 }
-                else{
-                    if(SaveSharedPreference.getNotificationVibration(this).length() != 0){
+                else {
+                    if (SaveSharedPreference.getNotificationVibration(this).length() != 0) {
                         SaveSharedPreference.clearNotificationVibration(this);
                     }
                 }
@@ -108,7 +98,7 @@ public class Notifications extends AppCompatActivity implements CompoundButton.O
                         notificationSound();
                     }
                 }
-                else{
+                else {
                     if(SaveSharedPreference.getNotificationSound(this).length() != 0){
                         SaveSharedPreference.clearNotificationSound(this);
                     }

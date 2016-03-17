@@ -25,7 +25,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
-public class ProfileBackground extends FragmentActivity implements View.OnClickListener{
+public class ProfileBackgroundOLD extends FragmentActivity implements View.OnClickListener{
     private static final int RESULT_LOAD_IMAGE_1 = 1;
     private static final int RESULT_LOAD_IMAGE_2 = 2;
     private static final int RESULT_LOAD_IMAGE_3 = 3;
@@ -144,7 +144,7 @@ public class ProfileBackground extends FragmentActivity implements View.OnClickL
 
                     } catch (IndexOutOfBoundsException aoobe) {
                         aoobe.printStackTrace();
-                        Toast.makeText(ProfileBackground.this, "New user!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProfileBackgroundOLD.this, "New user!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

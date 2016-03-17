@@ -9,10 +9,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserDataLocal;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 /**
  * Created by Almanza on 9/21/2015.
@@ -20,8 +22,6 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 public class Privacy extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Switch sMap, sProfilePictures;
     Toolbar mToolbar;
-    int[] profileUserUID = new int[1];
-    boolean[] profileUserAccountPrivacy = new boolean[1];
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -34,38 +34,19 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //sMap = (Switch) findViewById(R.id.MapSwitch);
-        sProfilePictures = (Switch) findViewById(R.id.ProfilePicturesSwitch);
 
         //sMap.setClickable(true);
-        sProfilePictures.setClickable(true);
         //sMap.setOnCheckedChangeListener(this);
+
+
+        sProfilePictures = (Switch) findViewById(R.id.ProfilePicturesSwitch);
+
+        if(SaveSharedPreference.getUserPrivacy(this).length() !=0){
+            sProfilePictures.setChecked(true);
+        }
         sProfilePictures.setOnCheckedChangeListener(this);
-
-        UserDataLocal udl = new UserDataLocal(this);
-        User userPhone = udl.getUserData();
-        int userUID = userPhone.getUid();
-        setProfileUserUID(userUID);
-
-        /**
-        new ServerRequest(this).getUserData(userUID, new UserCallback() {
-            @Override
-            public void done(User user) {
-                System.out.println("user.getUserAccountPrivacy(): " + user.getUserAccountPrivacy());
-                if (user.getUserAccountPrivacy().equals("Private")) {
-                    setProfileUserAccountPrivacy(true);
-                    System.out.println("getProfileUserAccountPrivacy(): " + getProfileUserAccountPrivacy());
-                    sProfilePictures.setChecked(getProfileUserAccountPrivacy());
-                } else if (user.getUserAccountPrivacy().equals("Public")) {
-                    setProfileUserAccountPrivacy(false);
-                    System.out.println("getProfileUserAccountPrivacy(): " + getProfileUserAccountPrivacy());
-                    sProfilePictures.setChecked(getProfileUserAccountPrivacy());
-                }
-
-            }
-        });
-         **/
-
     }
+
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b){
         switch (compoundButton.getId()){
@@ -74,29 +55,40 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
                 break;
             case R.id.ProfilePicturesSwitch:
                 if(b){
-
-                    /**
-                    new ServerRequest(this).setUserAccountPrivacy(getProfileUserUID(), "Private", new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                     **/
+                    if(SaveSharedPreference.getUserPrivacy(this).length() == 0){
+                        SaveSharedPreference.setUserPrivacy(this);
+                        new ServerRequestMethods(this)
+                                .setUserAccountPrivacy(
+                                        SaveSharedPreference.getUserUID(this),  /* user UID */
+                                        "Private",                              /* Public/Private */
+                                        new StringCallback() {
+                            @Override
+                            public void done(String string) {
+                                if(string.equals("User updated successfully.")){
+                                    Toast.makeText(Privacy.this, "Pictures switched to private", Toast.LENGTH_SHORT).show();
+                                }                            }
+                        });
+                    }
                 }
                 else{
-                    /**
-                    new ServerRequestMethods(this).setUserAccountPrivacy(getProfileUserUID(), "Public", new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Toast.makeText(Privacy.this, string, Toast.LENGTH_SHORT).show();                        }
-                    });
-                     **/
+                    if(SaveSharedPreference.getUserPrivacy(this).length() != 0){
+                        SaveSharedPreference.clearUserPrivacy(this);
+                        new ServerRequestMethods(this)
+                                .setUserAccountPrivacy(
+                                        SaveSharedPreference.getUserUID(this),
+                                        "Public",
+                                        new StringCallback() {
+                            @Override
+                            public void done(String string) {
+                                if(string.equals("User updated successfully.")){
+                                    Toast.makeText(Privacy.this, "Pictures switched to public", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
                 }
                 break;
         }
-
     }
 
     @Override
@@ -108,21 +100,5 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-
-
-    void setProfileUserUID(int uid){
-        profileUserUID[0] = uid;
-    }
-    void setProfileUserAccountPrivacy(boolean input){
-        profileUserAccountPrivacy[0] = input;
-    }
-    int getProfileUserUID(){
-        return profileUserUID[0];
-    }
-
-    boolean getProfileUserAccountPrivacy(){
-        return profileUserAccountPrivacy[0];
     }
 }

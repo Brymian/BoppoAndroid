@@ -92,58 +92,11 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         } catch (Exception e){
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
         }
-
-        /** Original Code
-        try {
-            mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
-
-        } catch (Exception e){
-            //Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-            Toast.makeText(getContext(), "Error setting camera preview", Toast.LENGTH_SHORT).show();
-        }
-         **/
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
-        /**
         final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
         final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-        setMeasuredDimension(width, height);
-
-        if(mSupportedPreviewSizes != null){
-            mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
-        }
-        float ratio;
-        if(mPreviewSize.height >= mPreviewSize.width){
-            ratio = (float) mPreviewSize.height / (float) mPreviewSize.width;
-        }
-        else{
-            ratio = (float) mPreviewSize.width / (float) mPreviewSize.height;
-        }
-
-        float camHeight = (int) (width*height);
-        float newCamHeight;
-        float newHeightRatio;
-
-        if(camHeight < height){
-            newHeightRatio = (float) height / (float) mPreviewSize.height;
-            newCamHeight = (newHeightRatio * camHeight);
-            Log.e(TAG, camHeight + " " + height + mPreviewSize.height + " " + newHeightRatio + " " + newCamHeight);
-            setMeasuredDimension((int) (width * newHeightRatio), (int) newCamHeight);
-            Log.e(TAG, mPreviewSize.width + " | " + mPreviewSize.height + " | ratio - " + ratio + " | H_ratio - " + newHeightRatio + " | A_width - " + (width * newHeightRatio) + " | A_height - " + newCamHeight);
-        }
-        else {
-            newCamHeight = camHeight;
-            setMeasuredDimension(width, (int) newCamHeight);
-            Log.e(TAG, mPreviewSize.width + " | " + mPreviewSize.height + " | ratio - " + ratio + " | A_width - " + (width) + " | A_height - " + newCamHeight);
-        }
-         **/
-
-
-         final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-         final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
         if (mSupportedPreviewSizes != null) {
             mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
         }
@@ -198,4 +151,5 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
 
         return optimalSize;
     }
+
 }

@@ -18,7 +18,7 @@ public class AuthenticateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticate);
 
-        if(SaveSharedPreference.getUserName(this).length() != 0){
+        if(SaveSharedPreference.getUsername(this).length() != 0){
             startActivity(new Intent(this, MainActivity.class));
         }
 

@@ -149,10 +149,10 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(friendsIntent);
                 break;
             case R.id.bCamera:
-                Intent cameraIntent = new Intent(this, CameraActivityOLD.class);
-                cameraIntent.putExtra("latitude", getLatitudeCurrent());
-                cameraIntent.putExtra("longitude", getLongitudeCurrent());
-                startActivity(cameraIntent);
+                //Intent cameraIntent = new Intent(this, CameraActivityOLD.class);
+                //cameraIntent.putExtra("latitude", getLatitudeCurrent());
+                //cameraIntent.putExtra("longitude", getLongitudeCurrent());
+                //startActivity(cameraIntent);
                 break;
             case R.id.bRight:
                 Intent imageDisplay = new Intent(this, ImagesDisplay.class);
