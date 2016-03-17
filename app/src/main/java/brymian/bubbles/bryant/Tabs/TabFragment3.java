@@ -35,8 +35,6 @@ public class TabFragment3 extends Fragment implements View.OnClickListener{
     }
 
     public void onClick(View v){
-        FragmentManager fm = getActivity().getFragmentManager();
-
         switch (v.getId()){
             case R.id.tvMoreTopEvents:
                 startActivity(new Intent(getActivity(), EventsTop.class));
