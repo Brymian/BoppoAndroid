@@ -55,5 +55,4 @@
             android:src="@android:drawable/ic_menu_myplaces"/>
 
     </LinearLayout>
-
 </LinearLayout>

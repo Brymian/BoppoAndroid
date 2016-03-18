@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:theme="@style/AppTheme">
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -13,48 +13,56 @@
         android:layout_alignParentTop="true"
         android:background="#42ffbf"
         android:elevation="6dp"
-        android:minHeight="?attr/actionBarSize"
-        android:transitionGroup="true"/>
-
+        android:minHeight="?attr/actionBarSize"/>
 
     <LinearLayout
-        android:id="@+id/llPictures"
+        android:id="@+id/llProfilePicture"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
+
         <TextView
-            android:id="@+id/tvPictures"
-            android:layout_width="0dp"
+            android:id="@+id/tvProfilePicture"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Pictures"
-            android:layout_weight="1" />
-        <Switch
-            android:id="@+id/sMap"
+            android:layout_weight="1"
+            android:text="@string/Profile_Pictures"/>
+
+        <CheckBox
+            android:id="@+id/cbProfilePicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llAccount"
+        android:id="@+id/llCurrentLocation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp">
         <TextView
-            android:id="@+id/tvAccount"
-            android:layout_width="0dp"
+            android:id="@+id/tvCurrentLocation"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/Account"
-            android:layout_weight="1" />
-
-        <Switch
-            android:id="@+id/sAccount"
+            android:layout_weight="1"
+            android:text="@string/Current_Location"/>
+        <CheckBox
+            android:id="@+id/cbCurrentLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/Episodes"/>
+
 
 </LinearLayout>

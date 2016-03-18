@@ -4,33 +4,40 @@
     android:layout_height="fill_parent"
     android:id="@+id/camera_preview">
 
-    <!--
-    <FrameLayout
-        android:id="@+id/camera_preview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1" >
-        <ImageButton
-            android:id="@+id/ibCapture"
-            android:layout_gravity="center|bottom"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/camera_nopadding"/>
-    </FrameLayout>
-
-    -->
 
     <ImageButton
         android:id="@+id/ibCapture"
         android:layout_gravity="center|bottom"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/camera_nopadding"/>
-    <ImageButton
-        android:id="@+id/ibCheck"
-        android:layout_gravity="center|bottom"
-        android:layout_width="wrap_content"
+        android:src="@android:drawable/ic_menu_camera"
+        android:background="@android:color/transparent"
+        android:paddingBottom="10dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/llPictureTakenButtons"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@mipmap/green_checkmark_nopadding"/>
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+        <ImageButton
+            android:id="@+id/ibCancel"
+            android:layout_gravity="center|bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="@android:color/transparent"/>
+        <ImageButton
+            android:id="@+id/ibCheck"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:src="@android:drawable/ic_menu_add"
+            android:background="@android:color/transparent"/>
+    </LinearLayout>
+
 
 </FrameLayout>
