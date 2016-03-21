@@ -75,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ibMiddle = (ImageButton) findViewById(R.id.ibMiddle); /* middle button will handle friend requests */
         ibRight = (ImageButton) findViewById(R.id.ibRight);
 
-        ibMiddle.setBackgroundResource(R.mipmap.ic_menu_invite);
+        //ibMiddle.setBackgroundResource(R.mipmap.ic_menu_invite);
 
         ibLeft.setOnClickListener(this);
         ibMiddle.setOnClickListener(this);

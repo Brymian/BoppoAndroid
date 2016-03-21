@@ -43,8 +43,12 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     ImageButton ibCapture, ibCheck, ibCancel;
     FrameLayout preview;
     LinearLayout llPictureTakenButtons;
+    FloatingActionButton floatingActionButton;
     private Camera mCamera;
     private CameraPreview mPreview;
+
+
+    byte[] data;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -89,7 +93,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         ImageView icon = new ImageView(this);
         icon.setImageResource(R.mipmap.add);
-        FloatingActionButton floatingActionButton = new FloatingActionButton.Builder(this)
+        floatingActionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
                 //.setLayoutParams(paramsButton)
                 .build();
@@ -153,27 +157,9 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 mCamera.takePicture(mShutter, mRaw, mPicture);
                 break;
             case R.id.ibCheck:
-                startActivity(new Intent(this, SendTo.class));
-                break;
-
-            default:
-                String encodedImage = Base64.encodeToString(getImageDataByte(), Base64.DEFAULT);
-
-                new ServerRequestMethods(this).uploadImage(
-                        SaveSharedPreference.getUserUID(this), /* uid */
-                        imageName() + ".jpg",                  /* image name */
-                        "Regular",                             /* Regular/Profile*/
-                        "Public",                              /* Public/Private */
-                        SaveSharedPreference.getLatitude(getApplicationContext()),  /* latitude */
-                        SaveSharedPreference.getLongitude(getApplicationContext()), /* longitude */
-                        encodedImage, /* image */
-                        new StringCallback() {
-                            @Override
-                            public void done(String string) {
-
-                            }
-                        }
-                );
+                startActivity(new Intent(this, SendTo.class).   /* starting SendTo.java */
+                        putExtra("encodedImage",                /* sending the image in String form */
+                                Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
                 break;
         }
     }
@@ -213,6 +199,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             ibCapture.setVisibility(View.GONE);
             llPictureTakenButtons.setVisibility(View.VISIBLE);
             llPictureTakenButtons.bringToFront();
+            floatingActionButton.setVisibility(View.GONE);
             setImageDataByte(data);
         }
     };
@@ -224,7 +211,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         }
     };
 
-    byte[] data;
     private void setImageDataByte(byte[] data){
         this.data = data;
     }
