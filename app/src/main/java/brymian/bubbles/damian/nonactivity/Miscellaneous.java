@@ -55,29 +55,28 @@ public class Miscellaneous {
         return "ERROR: Unsupported data type: " + object.getClass();
     }
 
-    public static Object getNullForDatatype(Object object)
+    public static Boolean getBooleanObjectFromObject(Object object)
     {
-        if (object instanceof String)
-            if (((String)object).equals("") || ((String)object).toLowerCase().equals("null"))
-                return JSONObject.NULL;
-            else
-                return object.toString();
-        else if (object instanceof Integer)
-            if ((Integer)object == -1)
-                return JSONObject.NULL;
-            else
-                return object.toString();
-        else if (object instanceof Double)
-            if ((Double)object == -1.0)
-                return JSONObject.NULL;
-            else
-                return object.toString();
-        else if (object instanceof Boolean)
-            return object.toString();   // NULL is handled in the "object == null" statement
-        else if (object == null)
-            return JSONObject.NULL;
+        try { return (Boolean)object; }
+        catch (ClassCastException cce) { return null; }
+    }
 
-        return "ERROR: Unsupported data type: " + object.getClass();
+    public static Integer getIntegerObjectFromObject(Object object)
+    {
+        try { return (Integer)object; }
+        catch (ClassCastException cce) { return null; }
+    }
+
+    public static Long getLongObjectFromObject(Object object)
+    {
+        try { return new Long(object.toString()); }
+        catch (ClassCastException cce) { return null; }
+    }
+
+    public static Double getDoubleObjectFromObject(Object object)
+    {
+        try { return (Double)object; }
+        catch (ClassCastException cce) { return null; }
     }
 
     public static boolean isStringAnInteger(String string)

@@ -7,6 +7,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Event;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
 /**
@@ -227,7 +228,7 @@ public class TESTActivity extends Activity {
         */
 
         /*
-        new EventRequest(this).createEvent("Fake EventRequest", 3, "Public", "Everyone", false, null, null, -1.0, -1.0, new StringCallback() {
+        new EventRequest(this).createEvent(3, "Something Event", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
@@ -238,7 +239,7 @@ public class TESTActivity extends Activity {
         */
 
         /*
-        new EventRequest(this).getEid(3, "Fake EventRequest", new IntegerCallback() {
+        new EventRequest(this).getEid(3, "Fake Event", new IntegerCallback() {
             @Override
             public void done(Integer integer) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT IDENTIFIER: ");
@@ -247,7 +248,7 @@ public class TESTActivity extends Activity {
         });
         */
 
-        new EventRequest(this).getEventData(19, new EventCallback() {
+        new EventRequest(this).getEventData(30, new EventCallback() {
             @Override
             public void done(Event event) {
                 System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED: ");
@@ -262,11 +263,12 @@ public class TESTActivity extends Activity {
                 System.out.println("Event End Datetime = " + event.eventEndDatetime);
                 System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
                 System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
-                System.out.println("Event Like Count = " + event.eventViewCount);
+                System.out.println("Event Like Count = " + event.eventLikeCount);
                 System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                 System.out.println("Event View Count = " + event.eventViewCount);
             }
         });
+
     }
 
 }

@@ -16,6 +16,10 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
 
@@ -34,7 +38,7 @@ public class EventRequest {
         pd.setMessage("Please wait...");
         httpConnection = new HTTPConnection();
     }
-
+/*
     public void createEvent(
         String eventName, int eventHostUid, String eventPrivacyLabel, String eventInviteTypeLabel,
         boolean eventImageUploadAllowedIndicator, String eventStartDatetime, String eventEndDatetime,
@@ -45,8 +49,19 @@ public class EventRequest {
                 eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
                 eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
     }
+*/
+    public void createEvent(
+        Integer eventHostUid, String eventName, String eventPrivacyLabel, String eventInviteTypeLabel,
+        Boolean eventImageUploadAllowedIndicator, String eventStartDatetime, String eventEndDatetime,
+        Double eventGpsLatitude, Double eventGpsLongitude, StringCallback objectCallback)
+{
+    pd.show();
+    new CreateEvent(eventHostUid, eventName, eventPrivacyLabel, eventInviteTypeLabel,
+        eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
+        eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
+}
 
-    public void getEid(int eventHostUid, String eventName, IntegerCallback integerCallback)
+    public void getEid(Integer eventHostUid, String eventName, IntegerCallback integerCallback)
     {
         pd.show();
         new GetEid(eventHostUid, eventName, integerCallback).execute();
@@ -60,25 +75,25 @@ public class EventRequest {
 
     private class CreateEvent extends AsyncTask<Void, Void, String> {
 
-        String eventName;
-        int eventHostUid;
-        String eventPrivacyLabel;
-        String eventInviteTypeLabel;
-        boolean eventImageUploadAllowedIndicator;
-        String eventStartDatetime;
-        String eventEndDatetime;
-        double eventGpsLatitude;
-        double eventGpsLongitude;
+        Integer eventHostUid;
+        String  eventName;
+        String  eventPrivacyLabel;
+        String  eventInviteTypeLabel;
+        Boolean eventImageUploadAllowedIndicator;
+        String  eventStartDatetime;
+        String  eventEndDatetime;
+        Double  eventGpsLatitude;
+        Double  eventGpsLongitude;
         StringCallback stringCallback;
 
-        private CreateEvent(String eventName, int eventHostUid, String eventPrivacyLabel,
-                            String eventInviteTypeLabel, boolean eventImageUploadAllowedIndicator,
+        private CreateEvent(Integer eventHostUid, String eventName, String eventPrivacyLabel,
+                            String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
                             String eventStartDatetime, String eventEndDatetime,
-                            double eventGpsLatitude, double eventGpsLongitude,
+                            Double eventGpsLatitude, Double eventGpsLongitude,
                             StringCallback stringCallback) {
 
-            this.eventName = eventName;
             this.eventHostUid = eventHostUid;
+            this.eventName = eventName;
             this.eventPrivacyLabel = eventPrivacyLabel;
             this.eventInviteTypeLabel = eventInviteTypeLabel;
             this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;
@@ -98,8 +113,9 @@ public class EventRequest {
             try
             {
                 JSONObject jsonEventObject = new JSONObject();
-                jsonEventObject.put("eventName", getNullOrValue(eventName));
+
                 jsonEventObject.put("eventHostUid", getNullOrValue(eventHostUid));
+                jsonEventObject.put("eventName", getNullOrValue(eventName));
                 jsonEventObject.put("eventPrivacyLabel", getNullOrValue(eventPrivacyLabel));
                 jsonEventObject.put("eventInviteTypeLabel", getNullOrValue(eventInviteTypeLabel));
                 jsonEventObject.put("eventImageUploadAllowedIndicator", getNullOrValue(eventImageUploadAllowedIndicator));
@@ -114,11 +130,13 @@ public class EventRequest {
             }
             catch (IOException ioe)
             {
-                return ioe.toString();
+                ioe.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
             }
             catch (JSONException jsone)
             {
-                return jsone.toString();
+                jsone.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
             }
         }
 
@@ -134,11 +152,11 @@ public class EventRequest {
 
     private class GetEid extends AsyncTask<Void, Void, Integer> {
 
-        int eventHostUid;
+        Integer eventHostUid;
         String eventName;
         IntegerCallback integerCallback;
 
-        private GetEid(int eventHostUid, String eventName, IntegerCallback integerCallback) {
+        private GetEid(Integer eventHostUid, String eventName, IntegerCallback integerCallback) {
 
             this.eventHostUid = eventHostUid;
             this.eventName = eventName;
@@ -161,12 +179,12 @@ public class EventRequest {
 
                 String response = request.post(url, jsonEventString);
 
-                System.out.println("TESTING: " + response);
-
                 if (isStringAnInteger(response))
                     return Integer.parseInt(response.trim());
-                else
+                else {
+                    System.out.println(response);
                     return -1;
+                }
             }
             catch (IOException ioe)
             {
@@ -197,8 +215,8 @@ public class EventRequest {
         int eid;
         EventCallback eventCallback;
 
-        private GetEventData(int eid, EventCallback eventCallback) {
-
+        private GetEventData(int eid, EventCallback eventCallback)
+        {
             this.eid = eid;
             this.eventCallback = eventCallback;
         }
@@ -215,32 +233,30 @@ public class EventRequest {
                 jsonEventObject.put("eid", getNullOrValue(eid));
 
                 String jsonEventString = jsonEventObject.toString();
-
-
                 String response = request.post(url, jsonEventString);
+
                 JSONObject jEvent = new JSONObject(response);
 
-                System.out.println("GPS LATITUDE: " + jEvent.getString("eventGpsLatitude"));
                 Event event = new Event(
                     eid,
-                    Integer.valueOf(jEvent.getString("eventHostUid")),
+                    getIntegerObjectFromObject(jEvent.get("eventHostUid")),
                     jEvent.getString("eventName"),
                     jEvent.getString("eventInviteTypeLabel"),
                     jEvent.getString("eventPrivacyLabel"),
-                    Boolean.parseBoolean(jEvent.getString("eventImageUploadAllowedIndicator")),
+                    getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
                     jEvent.getString("eventStartDatetime"),
                     jEvent.getString("eventEndDatetime"),
-                    Double.valueOf(jEvent.getString("eventGpsLatitude")),
-                    Double.valueOf(jEvent.getString("eventGpsLongitude")),
-                    Integer.valueOf(jEvent.getString("eventLikeCount")),
-                    Integer.valueOf(jEvent.getString("eventDislikeCount")),
-                    Long.valueOf(jEvent.getString("eventViewCount"))
+                    getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                    getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                    getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                    getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                    getLongObjectFromObject(jEvent.get("eventViewCount"))
                 );
 
                 System.out.println("TESTING: ");
                 System.out.println(response);
 
-                return null;
+                return event;
             }
             catch (IOException ioe)
             {
