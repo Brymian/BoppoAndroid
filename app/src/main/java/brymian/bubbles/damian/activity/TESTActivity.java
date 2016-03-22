@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Event;
+import brymian.bubbles.damian.nonactivity.Event;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -224,8 +226,8 @@ public class TESTActivity extends Activity {
         });
         */
 
-
-        new Event(this).createEvent("Fake Event", 3, "Public", "Everyone", false, null, null, -1.0, -1.0, new StringCallback() {
+        /*
+        new EventRequest(this).createEvent("Fake EventRequest", 3, "Public", "Everyone", false, null, null, -1.0, -1.0, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
@@ -233,8 +235,38 @@ public class TESTActivity extends Activity {
                 System.out.println("Result string size: " + string.length());
             }
         });
+        */
 
+        /*
+        new EventRequest(this).getEid(3, "Fake EventRequest", new IntegerCallback() {
+            @Override
+            public void done(Integer integer) {
+                System.out.println("SERVER RESPONSE REGARDING EVENT IDENTIFIER: ");
+                System.out.println(integer);
+            }
+        });
+        */
 
+        new EventRequest(this).getEventData(19, new EventCallback() {
+            @Override
+            public void done(Event event) {
+                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED: ");
+                System.out.println();
+                System.out.println("EID = " + event.eid);
+                System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                System.out.println("Event Name = " + event.eventName);
+                System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
+                System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
+                System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
+                System.out.println("Event Start Datetime = " + event.eventStartDatetime);
+                System.out.println("Event End Datetime = " + event.eventEndDatetime);
+                System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
+                System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
+                System.out.println("Event Like Count = " + event.eventViewCount);
+                System.out.println("Event Dislike Count = " + event.eventDislikeCount);
+                System.out.println("Event View Count = " + event.eventViewCount);
+            }
+        });
     }
 
 }

@@ -10,8 +10,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
+import brymian.bubbles.damian.nonactivity.Event;
 import brymian.bubbles.damian.nonactivity.Post;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ObjectCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
@@ -20,12 +22,12 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger
 /**
  * Created by Ziomster on 3/9/2016.
  */
-public class Event {
+public class EventRequest {
 
     private HTTPConnection httpConnection = null;
     private ProgressDialog pd = null;
 
-    public Event(Activity activity) {
+    public EventRequest(Activity activity) {
         pd = new ProgressDialog(activity);
         pd.setCancelable(false);
         pd.setTitle("Processing");
@@ -44,10 +46,16 @@ public class Event {
                 eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
     }
 
-    public void getEventIdentifier(int eventHostUid, String eventName, ObjectCallback objectCallback)
+    public void getEid(int eventHostUid, String eventName, IntegerCallback integerCallback)
     {
         pd.show();
-        new GetEventIdentifier(eventHostUid, eventName, objectCallback).execute();
+        new GetEid(eventHostUid, eventName, integerCallback).execute();
+    }
+
+    public void getEventData(int eid, EventCallback eventCallback)
+    {
+        pd.show();
+        new GetEventData(eid, eventCallback).execute();
     }
 
     private class CreateEvent extends AsyncTask<Void, Void, String> {
@@ -61,13 +69,13 @@ public class Event {
         String eventEndDatetime;
         double eventGpsLatitude;
         double eventGpsLongitude;
-        ObjectCallback objectCallback;
+        StringCallback stringCallback;
 
         private CreateEvent(String eventName, int eventHostUid, String eventPrivacyLabel,
                             String eventInviteTypeLabel, boolean eventImageUploadAllowedIndicator,
                             String eventStartDatetime, String eventEndDatetime,
                             double eventGpsLatitude, double eventGpsLongitude,
-                            StringCallback objectCallback) {
+                            StringCallback stringCallback) {
 
             this.eventName = eventName;
             this.eventHostUid = eventHostUid;
@@ -79,12 +87,12 @@ public class Event {
             this.eventGpsLatitude = eventGpsLatitude;
             this.eventGpsLongitude = eventGpsLongitude;
 
-            this.objectCallback = (ObjectCallback) objectCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() + "AndroidIO/Event.php?function=createEvent";
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=createEvent";
 
             Post request = new Post();
             try
@@ -117,29 +125,29 @@ public class Event {
         @Override
         protected void onPostExecute(String string) {
             pd.dismiss();
-            objectCallback.done(string);
+            stringCallback.done(string);
 
             super.onPostExecute(string);
         }
 
     }
 
-    private class GetEventIdentifier extends AsyncTask<Void, Void, Integer> {
+    private class GetEid extends AsyncTask<Void, Void, Integer> {
 
-        String eventName;
         int eventHostUid;
-        ObjectCallback objectCallback;
+        String eventName;
+        IntegerCallback integerCallback;
 
-        private GetEventIdentifier(int eventHostUid, String eventName, ObjectCallback objectCallback) {
+        private GetEid(int eventHostUid, String eventName, IntegerCallback integerCallback) {
 
-            this.eventName = eventName;
             this.eventHostUid = eventHostUid;
-            this.objectCallback = objectCallback;
+            this.eventName = eventName;
+            this.integerCallback = integerCallback;
         }
 
         @Override
         protected Integer doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() + "AndroidIO/Event.php?function=getEventIdentifier";
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEid";
 
             Post request = new Post();
 
@@ -152,6 +160,8 @@ public class Event {
                 String jsonEventString = jsonEventObject.toString();
 
                 String response = request.post(url, jsonEventString);
+
+                System.out.println("TESTING: " + response);
 
                 if (isStringAnInteger(response))
                     return Integer.parseInt(response.trim());
@@ -173,10 +183,85 @@ public class Event {
         @Override
         protected void onPostExecute(Integer integer) {
             pd.dismiss();
-            objectCallback.done(integer);
+            integerCallback.done(integer);
 
             super.onPostExecute(integer);
         }
 
     }
+
+
+
+    private class GetEventData extends AsyncTask<Void, Void, Event> {
+
+        int eid;
+        EventCallback eventCallback;
+
+        private GetEventData(int eid, EventCallback eventCallback) {
+
+            this.eid = eid;
+            this.eventCallback = eventCallback;
+        }
+
+        @Override
+        protected Event doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventData";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("eid", getNullOrValue(eid));
+
+                String jsonEventString = jsonEventObject.toString();
+
+
+                String response = request.post(url, jsonEventString);
+                JSONObject jEvent = new JSONObject(response);
+
+                System.out.println("GPS LATITUDE: " + jEvent.getString("eventGpsLatitude"));
+                Event event = new Event(
+                    eid,
+                    Integer.valueOf(jEvent.getString("eventHostUid")),
+                    jEvent.getString("eventName"),
+                    jEvent.getString("eventInviteTypeLabel"),
+                    jEvent.getString("eventPrivacyLabel"),
+                    Boolean.parseBoolean(jEvent.getString("eventImageUploadAllowedIndicator")),
+                    jEvent.getString("eventStartDatetime"),
+                    jEvent.getString("eventEndDatetime"),
+                    Double.valueOf(jEvent.getString("eventGpsLatitude")),
+                    Double.valueOf(jEvent.getString("eventGpsLongitude")),
+                    Integer.valueOf(jEvent.getString("eventLikeCount")),
+                    Integer.valueOf(jEvent.getString("eventDislikeCount")),
+                    Long.valueOf(jEvent.getString("eventViewCount"))
+                );
+
+                System.out.println("TESTING: ");
+                System.out.println(response);
+
+                return null;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();;
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Event event) {
+            pd.dismiss();
+            eventCallback.done(event);
+
+            super.onPostExecute(event);
+        }
+
+    }
+
 }

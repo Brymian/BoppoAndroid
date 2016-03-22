@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 21
+    buildToolsVersion '21.0.1'
 
     repositories {
         mavenCentral()
@@ -24,7 +24,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('src/main/java/brymian/bubbles/_libraries/okhttp-2.4.0.jar')
     compile files('src/main/java/brymian/bubbles/_libraries/okio-1.4.0.jar')
     compile 'com.android.support:appcompat-v7:22.2.0'
