@@ -2,6 +2,7 @@ package brymian.bubbles.bryant.camera;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
@@ -17,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
@@ -38,10 +40,15 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
  * Created by Almanza on 3/14/2016.
  */
 public class CameraActivity extends Activity implements View.OnClickListener{
-    ImageButton ibCapture, ibCheck;
+    ImageButton ibCapture, ibCheck, ibCancel;
     FrameLayout preview;
+    LinearLayout llPictureTakenButtons;
+    FloatingActionButton floatingActionButton;
     private Camera mCamera;
     private CameraPreview mPreview;
+
+
+    byte[] data;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -70,8 +77,11 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         mPreview = new CameraPreview(this, mCamera);
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
+        llPictureTakenButtons = (LinearLayout) findViewById(R.id.llPictureTakenButtons);
         ibCapture = (ImageButton) findViewById(R.id.ibCapture);
         ibCheck = (ImageButton) findViewById(R.id.ibCheck);
+        ibCancel = (ImageButton) findViewById(R.id.ibCancel);
+
 
         //FloatingActionButton.LayoutParams p = new FloatingActionButton.LayoutParams(FloatingActionButton.LayoutParams.WRAP_CONTENT, FloatingActionButton.LayoutParams.WRAP_CONTENT);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
@@ -83,7 +93,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         ImageView icon = new ImageView(this);
         icon.setImageResource(R.mipmap.add);
-        FloatingActionButton floatingActionButton = new FloatingActionButton.Builder(this)
+        floatingActionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
                 //.setLayoutParams(paramsButton)
                 .build();
@@ -131,9 +141,10 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 .build();
 
 
+        llPictureTakenButtons.setVisibility(View.GONE);
         ibCapture.setOnClickListener(this);
         ibCheck.setOnClickListener(this);
-        ibCheck.setVisibility(View.GONE);
+        ibCancel.setOnClickListener(this);
         ibCapture.bringToFront();
 
 
@@ -146,21 +157,9 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 mCamera.takePicture(mShutter, mRaw, mPicture);
                 break;
             case R.id.ibCheck:
-                String encodedImage = Base64.encodeToString(getImageDataByte(), Base64.DEFAULT);
-                new ServerRequestMethods(this).uploadImage(
-                        getUidUserDataLocal(),
-                        imageName() + ".jpg", "Regular", "Public",
-                        SaveSharedPreference.getLatitude(getApplicationContext()),
-                        SaveSharedPreference.getLongitude(getApplicationContext()),
-                        encodedImage,
-                        new StringCallback() {
-                            @Override
-                            public void done(String string) {
-
-                            }
-                        }
-                );
-
+                startActivity(new Intent(this, SendTo.class).   /* starting SendTo.java */
+                        putExtra("encodedImage",                /* sending the image in String form */
+                                Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
                 break;
         }
     }
@@ -198,8 +197,9 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
             ibCapture.setVisibility(View.GONE);
-            ibCheck.setVisibility(View.VISIBLE);
-            ibCheck.bringToFront();
+            llPictureTakenButtons.setVisibility(View.VISIBLE);
+            llPictureTakenButtons.bringToFront();
+            floatingActionButton.setVisibility(View.GONE);
             setImageDataByte(data);
         }
     };
@@ -211,7 +211,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         }
     };
 
-    byte[] data;
     private void setImageDataByte(byte[] data){
         this.data = data;
     }
@@ -282,15 +281,10 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         return c; // returns null if camera is unavailable
     }
 
-    private int getUidUserDataLocal(){
-        UserDataLocal udl = new UserDataLocal(this);
-        User user = udl.getUserData();
-        return user.getUid();
-    }
 
     String imageName(){
         String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
-        String name = getUidUserDataLocal() + "_" + charSequenceName;
+        String name = SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
         System.out.println(name);
         return name;
     }

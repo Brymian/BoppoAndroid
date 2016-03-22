@@ -10,7 +10,8 @@ public class SaveSharedPreference {
     static final String PREF_USER_PASSWORD = "password";
     static final String PREF_USER_FIRSTNAME = "first name";
     static final String PREF_USER_LASTNAME = "last name";
-    static final String PREF_USER_PRIVACY = "privacy";
+    static final String PREF_USER_ACCOUNT_PRIVACY = "privacy";
+    static final String PREF_USER_PICTURE_PRIVACY = "picture privacy";
 
     static final String PREF_NOTIFICATIONS_VIBRATION = "vibration";
     static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
@@ -18,6 +19,8 @@ public class SaveSharedPreference {
 
     static final String LATITUDE = "latitude";
     static final String LONGITUDE = "longitude";
+
+    static final String ENCODED_IMAGE = "encoded image";
 
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
@@ -117,20 +120,38 @@ public class SaveSharedPreference {
     /**------------------------------------------------------------------------------------------**/
 
 
-    /**----------------------------------------Privacy-------------------------------------------**/
-    public static void setUserPrivacy(Context ctx){
+    /**-----------------------------------Account Privacy----------------------------------------**/
+    public static void setUserAccountPrivacy(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_USER_PRIVACY, "true");
+        editor.putString(PREF_USER_ACCOUNT_PRIVACY, "true");
         editor.apply();
     }
 
-    public static String getUserPrivacy(Context ctx){
-        return getSharedPreferences(ctx).getString(PREF_USER_PRIVACY, "");
+    public static String getUserAccountPrivacy(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_ACCOUNT_PRIVACY, "");
     }
 
-    public static void clearUserPrivacy(Context ctx){
+    public static void clearUserAccountPrivacy(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.remove(PREF_USER_PRIVACY);
+        editor.remove(PREF_USER_ACCOUNT_PRIVACY);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
+    /**--------------------------------------Privacy---------------------------------------------**/
+    public static void setUserPicturePrivacy(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_PICTURE_PRIVACY, "Private");
+        editor.apply();
+    }
+
+    public static String getUserPicturePrivacy(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_PICTURE_PRIVACY, "");
+    }
+
+    public static void clearUserPicturePrivacy(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(PREF_USER_PICTURE_PRIVACY);
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/
@@ -241,6 +262,24 @@ public class SaveSharedPreference {
     public static void clearLongitude(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.remove(LONGITUDE);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
+    /**------------------------------------Encoded Image-----------------------------------------**/
+    public static void setEncodedImage(Context ctx, String encodedImage){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(ENCODED_IMAGE, encodedImage);
+        editor.apply();
+    }
+
+    public static String getEncodedImage(Context ctx){
+        return getSharedPreferences(ctx).getString(ENCODED_IMAGE, "");
+    }
+
+    public static void clearEncodedImage(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(ENCODED_IMAGE);
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/

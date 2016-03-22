@@ -1,12 +1,10 @@
 package brymian.bubbles.bryant.profile;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -20,7 +18,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
  * Created by Almanza on 9/21/2015.
  */
 public class Privacy extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
-    Switch sMap, sProfilePictures;
+    Switch sPictures, sAccount;
     Toolbar mToolbar;
 
     @Override
@@ -33,30 +31,26 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //sMap = (Switch) findViewById(R.id.MapSwitch);
+        sPictures = (Switch) findViewById(R.id.sPictures);
+        sAccount = (Switch) findViewById(R.id.sAccount);
 
-        //sMap.setClickable(true);
-        //sMap.setOnCheckedChangeListener(this);
-
-
-        sProfilePictures = (Switch) findViewById(R.id.ProfilePicturesSwitch);
-
-        if(SaveSharedPreference.getUserPrivacy(this).length() !=0){
-            sProfilePictures.setChecked(true);
+        if(SaveSharedPreference.getUserAccountPrivacy(this).length() !=0){
+            sAccount.setChecked(true);
         }
-        sProfilePictures.setOnCheckedChangeListener(this);
+        if(SaveSharedPreference.getUserPicturePrivacy(this).length() != 0){
+            sPictures.setChecked(true);
+        }
+        sAccount.setOnCheckedChangeListener(this);
+        sPictures.setOnCheckedChangeListener(this);
     }
 
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean b){
         switch (compoundButton.getId()){
-            case R.id.MapSwitch:
-
-                break;
-            case R.id.ProfilePicturesSwitch:
+            case R.id.sAccount:
                 if(b){
-                    if(SaveSharedPreference.getUserPrivacy(this).length() == 0){
-                        SaveSharedPreference.setUserPrivacy(this);
+                    if(SaveSharedPreference.getUserAccountPrivacy(this).length() == 0){
+                        SaveSharedPreference.setUserAccountPrivacy(this);
                         new ServerRequestMethods(this)
                                 .setUserAccountPrivacy(
                                         SaveSharedPreference.getUserUID(this),  /* user UID */
@@ -71,8 +65,8 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
                     }
                 }
                 else{
-                    if(SaveSharedPreference.getUserPrivacy(this).length() != 0){
-                        SaveSharedPreference.clearUserPrivacy(this);
+                    if(SaveSharedPreference.getUserAccountPrivacy(this).length() != 0){
+                        SaveSharedPreference.clearUserAccountPrivacy(this);
                         new ServerRequestMethods(this)
                                 .setUserAccountPrivacy(
                                         SaveSharedPreference.getUserUID(this),
@@ -85,6 +79,19 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
                                 }
                             }
                         });
+                    }
+                }
+                break;
+
+            case R.id.sPictures:
+                if(b){
+                    if(SaveSharedPreference.getUserPicturePrivacy(this).length() == 0){
+                        SaveSharedPreference.setUserPicturePrivacy(this);
+                    }
+                }
+                else{
+                    if(SaveSharedPreference.getUserPicturePrivacy(this).length() != 0){
+                        SaveSharedPreference.clearUserPicturePrivacy(this);
                     }
                 }
                 break;

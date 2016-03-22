@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+    android:theme="@style/AppTheme">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -14,62 +14,48 @@
         android:background="#42ffbf"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
-
         android:transitionGroup="true"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Make your Map or Profile Pictures Private: "
-        android:textSize="15sp"
-        android:textColor="@android:color/black"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp" />
 
     <LinearLayout
+        android:id="@+id/llPictures"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Map: "
-            android:textColor="@android:color/black"
-            android:layout_gravity="center_vertical"
-            android:paddingLeft="15dp" />
-
-        <Switch
-            android:layout_width="match_parent"
+            android:id="@+id/tvPictures"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/MapSwitch"
-            android:paddingRight="110dp"
-            android:layout_gravity="center" />
+            android:text="@string/Pictures"
+            android:layout_weight="1" />
+        <Switch
+            android:id="@+id/sPictures"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/llAccount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp">
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:text="Profile Pictures: "
-            android:textColor="@android:color/black"
-            android:paddingLeft="15dp" />
+            android:id="@+id/tvAccount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/Account"
+            android:layout_weight="1" />
 
         <Switch
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/ProfilePicturesSwitch"
-            android:paddingRight="110dp" />
-
-
+            android:id="@+id/sAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>

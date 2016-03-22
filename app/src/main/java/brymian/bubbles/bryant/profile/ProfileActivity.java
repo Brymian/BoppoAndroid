@@ -55,7 +55,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             setUID(SaveSharedPreference.getUserUID(this));
             mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " +
                     SaveSharedPreference.getUserLastName(this));
-            Toast.makeText(this, "why isnt this working", Toast.LENGTH_SHORT).show();
         }
         else {
             setUID(uid);
@@ -76,7 +75,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ibMiddle = (ImageButton) findViewById(R.id.ibMiddle); /* middle button will handle friend requests */
         ibRight = (ImageButton) findViewById(R.id.ibRight);
 
-        ibMiddle.setBackgroundResource(R.mipmap.add_user_white);
+        //ibMiddle.setBackgroundResource(R.mipmap.ic_menu_invite);
 
         ibLeft.setOnClickListener(this);
         ibMiddle.setOnClickListener(this);

@@ -42,10 +42,10 @@
     <string name="Cancel">Cancel</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Create_Episode">Create Episode</string>
+    <string name="Current_Location">Current Location</string>
     <string name="Current_Password">Current Password</string>
     <string name="Done">Done</string>
     <string name="Email">Email</string>
-    <string name="Profile_Pictures">Profile Pictures</string>
     <string name="Episode_Requests">Episode Requests</string>
     <string name="Episodes">Episodes</string>
     <string name="Explore">Explore</string>
@@ -60,7 +60,11 @@
     <string name="News_Feed">News Feed</string>
     <string name="Password">Password</string>
     <string name="Privacy">Privacy</string>
+    <string name="Private">Private</string>
     <string name="Profile">Profile</string>
+    <string name="Profile_Pictures">Profile Pictures</string>
+    <string name="Pictures">Pictures</string>
+    <string name="Send_To">Send To&#8230;</string>
     <string name="Settings">Settings</string>
     <string name="Save">Save</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
@@ -82,9 +86,7 @@
     <string name="search_users">Search Users</string>
 
 
-    <string name="add_event_title_hint">Add Event Title</string>
 
-    <string name="make_public">Make event public</string>
     <string name="search_events_hint">Search</string>
 
     <!-- CONTENT DESCRIPTION -->

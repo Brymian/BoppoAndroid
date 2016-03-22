@@ -122,6 +122,13 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         //.title("You are here!")
         //.snippet("Consider yourself located"));
     }
+
+    @Override
+    public void onDestroy() {
+        SaveSharedPreference.clearLongitude(getActivity());
+        SaveSharedPreference.clearLatitude(getActivity());
+    }
+
     public void setLatitudeCurrent(double latitude){
         this.latitude = latitude;
     }
