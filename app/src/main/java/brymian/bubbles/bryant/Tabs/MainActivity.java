@@ -256,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
                     public void done(List<User> users) {
                         try {
                             Toast.makeText(MainActivity.this, "users.size(): " + users.size(), Toast.LENGTH_SHORT).show();
+                            View view = getLayoutInflater().inflate(R.layout.searched_results, )
                         }
                         catch (NullPointerException npe){
                             npe.printStackTrace();
