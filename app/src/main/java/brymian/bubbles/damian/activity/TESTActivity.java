@@ -248,6 +248,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         new EventRequest(this).getEventData(30, new EventCallback() {
             @Override
             public void done(Event event) {
@@ -266,6 +267,17 @@ public class TESTActivity extends Activity {
                 System.out.println("Event Like Count = " + event.eventLikeCount);
                 System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                 System.out.println("Event View Count = " + event.eventViewCount);
+            }
+        });
+        */
+
+        int eid = 19;
+
+        new EventRequest(this).deleteEvent(eid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING EVENT DELETE REQUEST RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
             }
         });
 

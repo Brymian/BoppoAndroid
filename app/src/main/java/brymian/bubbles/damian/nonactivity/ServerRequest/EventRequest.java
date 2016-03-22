@@ -73,6 +73,12 @@ public class EventRequest {
         new GetEventData(eid, eventCallback).execute();
     }
 
+    public void deleteEvent(int eid, StringCallback stringCallback)
+    {
+        pd.show();
+        new DeleteEvent(eid, stringCallback).execute();
+    }
+
     private class CreateEvent extends AsyncTask<Void, Void, String> {
 
         Integer eventHostUid;
@@ -276,6 +282,60 @@ public class EventRequest {
             eventCallback.done(event);
 
             super.onPostExecute(event);
+        }
+
+    }
+
+
+
+    private class DeleteEvent extends AsyncTask<Void, Void, String> {
+
+        int eid;
+        StringCallback stringCallback;
+
+        private DeleteEvent(int eid, StringCallback stringCallback)
+        {
+            this.eid = eid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=deleteEvent";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("eid", getNullOrValue(eid));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                if (response.equals("Success."))
+                    return response;
+                else
+                    return "Failed.";
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
         }
 
     }
