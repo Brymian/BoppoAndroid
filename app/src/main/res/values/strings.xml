@@ -38,6 +38,9 @@
 
     <string name="About">About</string>
     <string name="Account">Account</string>
+    <string name="Add_Episode_Title">Add Episode Title</string>
+    <string name="Add_Friends">Add Friends</string>
+    <string name="Add_To_Current_Location">Add To Current Location</string>
     <string name="Blocking">Blocking</string>
     <string name="Cancel">Cancel</string>
     <string name="Confirm_New_Password">Confirm New Password</string>

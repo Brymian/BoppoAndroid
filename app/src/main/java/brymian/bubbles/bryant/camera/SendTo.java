@@ -125,7 +125,6 @@ public class SendTo extends AppCompatActivity implements View.OnClickListener, C
     String imageName(){
         String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
         String name = SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
-        System.out.println("imageName(): " + name);
         return name;
     }
 }
