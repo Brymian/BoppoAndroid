@@ -30,25 +30,26 @@ public class Miscellaneous {
 
     /** This method returns the value JSONObject.NULL if a certain value was specified for a certain datatype.
       * This method returns the value that was input otherwise. **/
+
     public static Object getNullOrValue(Object object)
     {
         if (object instanceof String)
             if (((String)object).equals("") || ((String)object).toLowerCase().equals("null"))
                 return JSONObject.NULL;
             else
-                return object.toString();
+                return (String)object;
         else if (object instanceof Integer)
             if ((Integer)object == -1)
                 return JSONObject.NULL;
             else
-                return object.toString();
+                return (Integer)object;
         else if (object instanceof Double)
             if ((Double)object == -1.0)
                 return JSONObject.NULL;
             else
-                return object.toString();
+                return (Double)object;
         else if (object instanceof Boolean)
-            return object.toString();   // NULL is handled in the "object == null" statement
+            return (Boolean)object;   // NULL is handled in the "object == null" statement
         else if (object == null)
             return JSONObject.NULL;
 

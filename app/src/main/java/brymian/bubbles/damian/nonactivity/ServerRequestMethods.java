@@ -24,9 +24,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.VoidCallback;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableInt;
 
-/**
- * Created by Ziomster on 7/12/2015.
- */
+@SuppressWarnings("ALL")
 public class ServerRequestMethods {
 
     private HTTPConnection httpConnection = null;
@@ -172,8 +170,7 @@ public class ServerRequestMethods {
 
                 String jsonString = jsonObject.toString();
                 Post request = new Post();
-                String response = request.post(url, jsonString);
-                return response;
+                return request.post(url, jsonString);
             } catch (IOException ioe) {
                 return ioe.toString();
             } catch (JSONException jsone) {
@@ -218,8 +215,7 @@ public class ServerRequestMethods {
 
                 String jsonString = jsonObject.toString();
                 Post request = new Post();
-                String response = request.post(url, jsonString);
-                return response;
+                return request.post(url, jsonString);
             } catch (IOException ioe) {
                 return ioe.toString();
             } catch (JSONException jsone) {
@@ -303,9 +299,8 @@ public class ServerRequestMethods {
                 " \"lastName\":\"" + user.getLastName() + "\"," +
                 " \"email\":\"" + user.getEmail() + "\"}";
             Post request = new Post();
-            try {
-                String response = request.post(url, jsonUser);
-                return response; // Successful SQL command returns one empty space (" ")
+            try { // The response - uccessful SQL command returns one empty space (" ")
+                return request.post(url, jsonUser);
             } catch (IOException ioe) {
                 return ioe.toString();
             }
@@ -431,7 +426,7 @@ public class ServerRequestMethods {
                         udl = new UserDataLocal(activity);
                         udl.setUserData(user);
                         udl.setLoggedStatus(true);
-                        try{ Thread.sleep(1000); } catch (InterruptedException ie) {}
+                        try{ Thread.sleep(1000); } catch (InterruptedException ie) {/**/}
                         System.out.println("getLoggedStatus; " + udl.getLoggedStatus());
                     }
                     else {
@@ -566,7 +561,7 @@ public class ServerRequestMethods {
                 else
                 {
                     JSONArray j2dArray = new JSONArray(response);
-                    List<User> userList = new ArrayList<User>();
+                    List<User> userList = new ArrayList<>();
                     for (int i = 0; i < j2dArray.length(); i++)
                     {
                         JSONObject jUser = (JSONObject) j2dArray.get(i);
@@ -619,7 +614,7 @@ public class ServerRequestMethods {
         protected User doInBackground(Void... params)
         {
             String url = httpConnection.getWebServerString() + "Older/Functions/User.php?function=getUserData";
-            Post request = new Post();
+            Post request;
 
             try {
 
@@ -712,7 +707,7 @@ public class ServerRequestMethods {
                 else
                 {
                     JSONArray jArray = new JSONArray(response);
-                    List<User> userList = new ArrayList<User>();
+                    List<User> userList = new ArrayList<>();
                     for (int i = 0; i < jArray.length(); i++)
                     {
                         int uid = jArray.getInt(i);
@@ -765,9 +760,8 @@ public class ServerRequestMethods {
 
             String jsonFriends = "{\"uid1\":" + loggedUid + "," + " \"uid2\":" + otherUid + "}";
             Post request = new Post();
-            try {
-                String response = request.post(url, jsonFriends);
-                return response; // Successful SQL command returns one empty space (" ")
+            try { // Response - Successful SQL command returns one empty space (" ")
+                return request.post(url, jsonFriends);
             } catch (IOException ioe) {
                 return ioe.toString();
             }
@@ -816,7 +810,7 @@ public class ServerRequestMethods {
                 else
                 {
                     JSONArray j2dArray = new JSONArray(response);
-                    List<User> userList = new ArrayList<User>();
+                    List<User> userList = new ArrayList<>();
                     for (int i = 0; i < j2dArray.length(); i++) {
                         JSONObject jUser = (JSONObject) j2dArray.get(i);
                         int uid = jUser.getInt("uid");
@@ -875,6 +869,7 @@ public class ServerRequestMethods {
                 System.out.println("URL: " + url);
                 System.out.println("jsonGetImagePaths: " + jsonGetImagePaths);
                 System.out.println("RESPONSE: " + response);
+
 
                 if (response.equals("PURPOSE DOES NOT EXIST IN THE DATABASE."))
                 {
@@ -952,9 +947,8 @@ public class ServerRequestMethods {
 
             String jsonFriends = "{\"uid1\":" + loggedUserUid + "," + " \"uid2\":" + otherUserUid + "}";
             Post request = new Post();
-            try {
-                String response = request.post(url, jsonFriends);
-                return response; // Successful SQL command returns one empty space (" ")
+            try { // Response - Successful SQL command returns one empty space (" ")
+                return request.post(url, jsonFriends);
             } catch (IOException ioe) {
                 return ioe.toString();
             }
