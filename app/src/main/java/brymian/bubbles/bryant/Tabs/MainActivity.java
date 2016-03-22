@@ -53,6 +53,9 @@ import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.profile.pictures.ProfilePicturesActivity;
 import brymian.bubbles.bryant.profile.pictures.ProfilePicturesAdapter;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.User;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -237,17 +240,29 @@ public class MainActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
                 //Perform the final search here
-                Toast.makeText(MainActivity.this, "text submit", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "text submit: " + query, Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 //Text has changed; apply filter here
-                Toast.makeText(MainActivity.this, "text change", Toast.LENGTH_SHORT).show();
+                new ServerRequestMethods(MainActivity.this).getUsers(newText, new UserListCallback() {
+                    @Override
+                    public void done(List<User> users) {
+                        try {
+                            Toast.makeText(MainActivity.this, "users.size(): " + users.size(), Toast.LENGTH_SHORT).show();
+                        }
+                        catch (NullPointerException npe){
+                            npe.printStackTrace();
+                        }
+                    }
+                });
+
                 return false;
             }
         });
