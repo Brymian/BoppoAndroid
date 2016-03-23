@@ -67,9 +67,10 @@
     <string name="Profile">Profile</string>
     <string name="Profile_Pictures">Profile Pictures</string>
     <string name="Pictures">Pictures</string>
+    <string name="Save">Save</string>
+    <string name="Search">Search&#8230;</string>
     <string name="Send_To">Send To&#8230;</string>
     <string name="Settings">Settings</string>
-    <string name="Save">Save</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Top_Episodes">Top Episodes</string>
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>

@@ -51,7 +51,7 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.FriendsList;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.profile.pictures.ProfilePicturesActivity;
-import brymian.bubbles.bryant.profile.pictures.ProfilePicturesAdapter;
+import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -67,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
     CustomDrawerAdapter adapter;
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     List<DrawerItem> dataList;
 
@@ -159,13 +161,13 @@ public class MainActivity extends AppCompatActivity {
         /**--------------------------------------------------------------------------------------**/
         /**--------------------------- Initializing TabLayout and Tabs --------------------------**/
         /**--------------------------------------------------------------------------------------**/
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.globeblackwhite_nopadding), 0, false);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.news_feed_black_and_white_no_padding), 1, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.friendslist_nopadding), 2, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager = (ViewPager) findViewById(R.id.pager);
         final brymian.bubbles.bryant.Tabs.PagerAdapter pagerAdapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
@@ -256,7 +258,6 @@ public class MainActivity extends AppCompatActivity {
                     public void done(List<User> users) {
                         try {
                             Toast.makeText(MainActivity.this, "users.size(): " + users.size(), Toast.LENGTH_SHORT).show();
-                            View view = getLayoutInflater().inflate(R.layout.searched_results, )
                         }
                         catch (NullPointerException npe){
                             npe.printStackTrace();
@@ -269,7 +270,6 @@ public class MainActivity extends AppCompatActivity {
         });
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         //Can be replaced with getComponentName()
-
         //if this searchable activity is the current activity
         ComponentName componentName = new ComponentName(this, MainActivity.class);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
@@ -283,7 +283,14 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()){
             case R.id.search:
+            /*
+                tabLayout.setVisibility(View.GONE);
+                Fragment searchFragment = new SearchActivity();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.pager, searchFragment).commit();
+                */
 
+                startActivity(new Intent(this, SearchActivity.class));
                 return true;
             default:
 
