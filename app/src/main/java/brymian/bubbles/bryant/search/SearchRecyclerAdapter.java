@@ -13,10 +13,12 @@ import brymian.bubbles.R;
 
 public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.RecyclerViewHolder> {
 
-    List<String> search_results;
+    List<String> searchResultsFirstLastName;
+    List<String> searchResultsUsername;
 
-    public SearchRecyclerAdapter(List search_results){
-        this.search_results = search_results;
+    public SearchRecyclerAdapter(List searchResultsFirstLastName, List searchResultsUsername){
+        this.searchResultsFirstLastName = searchResultsFirstLastName;
+        this.searchResultsUsername = searchResultsUsername;
     }
 
     @Override
@@ -27,20 +29,22 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-            holder.tvSearchResults.setText(search_results.get(position));
+        holder.tvSearchResultsFirstLastName.setText(searchResultsFirstLastName.get(position));
+        holder.tvSearchUsername.setText(searchResultsUsername.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return search_results.size();
+        return searchResultsFirstLastName.size();
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        TextView tvSearchResults;
+        TextView tvSearchResultsFirstLastName, tvSearchUsername;
 
         public RecyclerViewHolder(View v){
             super(v);
-            tvSearchResults = (TextView) v.findViewById(R.id.tvSearchResults);
+            tvSearchResultsFirstLastName = (TextView) v.findViewById(R.id.tvSearchResultsFirstLastName);
+            tvSearchUsername = (TextView) v.findViewById(R.id.tvSearchResultsUsername);
         }
     }
 }

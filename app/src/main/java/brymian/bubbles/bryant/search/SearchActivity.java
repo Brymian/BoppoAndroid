@@ -22,7 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;
@@ -48,14 +50,6 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
         etSearch = (EditText) findViewById(R.id.etSearch);
         etSearch.setHint(R.string.Search);
         etSearch.addTextChangedListener(this);
-
-        /**
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_search);
-        adapter = new SearchRecyclerAdapter(countryList);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(adapter);
-         **/
     }
 
     @Override
@@ -84,6 +78,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
 
     }
 
+    public static List<Integer> staticUID  = new ArrayList<>();
+    public static List<String> staticFriendStatus = new ArrayList<>();
     @Override
     public void afterTextChanged(Editable s) {
 
@@ -91,25 +87,33 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
             @Override
             public void done(List<User> users) {
                 List<String> usersString = new ArrayList<String>();
-                final List<Integer> uid = new ArrayList<Integer>();
+                List<String> usersUsername = new ArrayList<String>();
                 try {
                     for(int i = 0; i< users.size(); i++){
                         usersString.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                        uid.add(i, users.get(i).getUid());
+                        usersUsername.add(i, users.get(i).getUsername());
+                        staticUID.add(i, users.get(i).getUid());
+                        final int j = i;
+                        new ServerRequestMethods(SearchActivity.this).getFriendStatus(SaveSharedPreference.getUserUID(SearchActivity.this), users.get(i).getUid(), new StringCallback() {
+                            @Override
+                            public void done(String string) {
+                                staticFriendStatus.add(j, string);
+                            }
+                        });
                     }
                 }
                 catch (NullPointerException npe){
                     npe.printStackTrace();
                 }
+
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_search);
-                adapter = new SearchRecyclerAdapter(usersString);
+                adapter = new SearchRecyclerAdapter(usersString, usersUsername);
                 layoutManager = new LinearLayoutManager(SearchActivity.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
-                recyclerView.addOnItemTouchListener(
-                        new RecyclerItemClickListener(SearchActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(SearchActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
                             @Override public void onItemClick(View view, int position) {
-                                startActivity(new Intent(SearchActivity.this, ProfileActivity.class).putExtra("uid", uid.get(position)).putExtra("profile", "other"));
+                                startActivity(new Intent(SearchActivity.this, ProfileActivity.class).putExtra("uid", staticUID.get(position)).putExtra("profile", staticFriendStatus.get(position)));
                             }
                         })
                 );
