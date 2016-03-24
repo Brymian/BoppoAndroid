@@ -9,6 +9,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipRequest;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -270,17 +271,23 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-        int eid = 19;
-
-        new EventRequest(this).deleteEvent(eid, new StringCallback() {
+        /*
+        new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING EVENT DELETE REQUEST RESPONSE HAS BEEN RETURNED: ");
                 System.out.println(string);
             }
         });
+        */
 
+        new FriendshipRequest(this).blockUser(4, 3, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING BLOCK USER RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
     }
 
 }

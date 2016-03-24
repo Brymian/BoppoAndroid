@@ -1,8 +1,6 @@
 package brymian.bubbles.damian.nonactivity.Connection;
 
-/**
- * Created by Ziomster on 3/9/2016.
- */
+@SuppressWarnings("FieldCanBeLocal")
 public class HTTPConnection {
 
     //public final String SERVER  = "http://192.168.1.12:8080/";

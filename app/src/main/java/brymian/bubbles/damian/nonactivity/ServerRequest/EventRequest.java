@@ -23,9 +23,6 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFrom
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
 
-/**
- * Created by Ziomster on 3/9/2016.
- */
 public class EventRequest {
 
     private HTTPConnection httpConnection = null;
@@ -54,12 +51,12 @@ public class EventRequest {
         Integer eventHostUid, String eventName, String eventPrivacyLabel, String eventInviteTypeLabel,
         Boolean eventImageUploadAllowedIndicator, String eventStartDatetime, String eventEndDatetime,
         Double eventGpsLatitude, Double eventGpsLongitude, StringCallback objectCallback)
-{
+    {
     pd.show();
     new CreateEvent(eventHostUid, eventName, eventPrivacyLabel, eventInviteTypeLabel,
         eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
         eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
-}
+    }
 
     public void getEid(Integer eventHostUid, String eventName, IntegerCallback integerCallback)
     {
@@ -194,7 +191,7 @@ public class EventRequest {
             }
             catch (IOException ioe)
             {
-                ioe.printStackTrace();;
+                ioe.printStackTrace();
                 return -11;
             }
             catch (JSONException jsone)
@@ -266,7 +263,7 @@ public class EventRequest {
             }
             catch (IOException ioe)
             {
-                ioe.printStackTrace();;
+                ioe.printStackTrace();
                 return null;
             }
             catch (JSONException jsone)
