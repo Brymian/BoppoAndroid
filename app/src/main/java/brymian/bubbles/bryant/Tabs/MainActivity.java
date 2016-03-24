@@ -239,40 +239,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_inflater, menu);
-        MenuItem searchItem = menu.findItem(R.id.search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                //Perform the final search here
-                Toast.makeText(MainActivity.this, "text submit: " + query, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                //Text has changed; apply filter here
-                new ServerRequestMethods(MainActivity.this).getUsers(newText, new UserListCallback() {
-                    @Override
-                    public void done(List<User> users) {
-                        try {
-                            Toast.makeText(MainActivity.this, "users.size(): " + users.size(), Toast.LENGTH_SHORT).show();
-                        }
-                        catch (NullPointerException npe){
-                            npe.printStackTrace();
-                        }
-                    }
-                });
-
-                return false;
-            }
-        });
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        //Can be replaced with getComponentName()
-        //if this searchable activity is the current activity
-        ComponentName componentName = new ComponentName(this, MainActivity.class);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
         return true;
     }
 
@@ -283,13 +249,6 @@ public class MainActivity extends AppCompatActivity {
         }
         switch (item.getItemId()){
             case R.id.search:
-            /*
-                tabLayout.setVisibility(View.GONE);
-                Fragment searchFragment = new SearchActivity();
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.pager, searchFragment).commit();
-                */
-
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;
             default:

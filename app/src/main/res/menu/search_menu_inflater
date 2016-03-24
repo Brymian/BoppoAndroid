@@ -3,10 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/search"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="@string/Search"
+        android:id="@+id/filter"
+        android:icon="@android:drawable/ic_menu_more"
+        android:title="filter will go here"
         app:showAsAction="collapseActionView|ifRoom"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         android:orderInCategory="0"/>
 </menu>

@@ -51,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
 
-        if(profile.equals("logged in user")){
+        if (profile.equals("logged in user")) {
             setUID(SaveSharedPreference.getUserUID(this));
             mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " +
                     SaveSharedPreference.getUserLastName(this));
@@ -59,12 +59,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         else {
             setUID(uid);
             new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
-                @Override
-                public void done(User user) {
-                    mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
-                }
+                    @Override
+                    public void done(User user) {
+                        mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
+                    }
             });
         }
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

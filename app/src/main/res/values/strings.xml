@@ -84,17 +84,13 @@
     <string name="drawer_closed">Closed drawer</string>
 
 
-    <string name="profile_background">Profile Background</string>
     <string name="profile_name">Profile Name</string>
-    <string name="profile_privacy">Profile Privacy</string>
     <string name="search_users">Search Users</string>
 
 
 
-    <string name="search_events_hint">Search</string>
 
     <!-- CONTENT DESCRIPTION -->
-    <!-- PROFILE ACTIVITY -->
     <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
     <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
     <string name="right_button_profile_contentDescription">This is the right ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
