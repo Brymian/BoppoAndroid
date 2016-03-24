@@ -42,6 +42,7 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+        <activity android:name=".bryant.profile.MapsActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.profile.friends.FriendsList" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait">
             <meta-data
@@ -57,7 +58,7 @@
         </activity>
 
         <activity android:name=".bryant.camera.CameraActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.MapsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.MapsActivityOLD" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.Tabs.SearchUsers" android:screenOrientation="portrait"></activity>
 
         <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"></activity>

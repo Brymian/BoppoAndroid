@@ -36,6 +36,7 @@ import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
 import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.events.EventsCreate;
+import brymian.bubbles.bryant.profile.MapsActivity;
 import brymian.bubbles.bryant.profile.Privacy;
 import brymian.bubbles.bryant.events.EventsCurrent;
 import brymian.bubbles.bryant.events.EventsTop;
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         /* Profile */
         dataList.add(new DrawerItem(this.getString(R.string.Profile)/* you can also use getResources.getString(R.string.profile_activity)*/)); // adding a header to the list
         dataList.add(new DrawerItem(this.getString(R.string.My_Profile), R.mipmap.friendslist_nopadding));
+        dataList.add(new DrawerItem(this.getString(R.string.My_Map), R.mipmap.friendslist_nopadding));
         dataList.add(new DrawerItem(this.getString(R.string.Profile_Pictures), R.mipmap.friendslist_nopadding));
         dataList.add(new DrawerItem(this.getString(R.string.Privacy), R.mipmap.friendslist_nopadding));
         dataList.add(new DrawerItem(this.getString(R.string.Friends), R.mipmap.friendslist_nopadding));
@@ -278,51 +280,54 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ProfileActivity.class).putExtra("profile", "logged in user"));
                 break;
             case 3:
-                startActivity(new Intent(this, ProfilePicturesActivity.class));
+                startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
                 break;
             case 4:
-                startActivity(new Intent(this, Privacy.class));
+                startActivity(new Intent(this, ProfilePicturesActivity.class));
                 break;
             case 5:
+                startActivity(new Intent(this, Privacy.class));
+                break;
+            case 6:
                 startActivity(new Intent(this, FriendsList.class)
                         .putExtra("uid", SaveSharedPreference.getUserUID(this))
                         .putExtra("profile", "logged in user"));
                 break;
             /* Events */
-            case 6:
+            case 7:
                 /* This is the position of Events title. */
                 break;
-            case 7:
+            case 8:
                 startActivity(new Intent(this, EventsYours.class));
                 break;
-            case 8:
+            case 9:
                 startActivity(new Intent(this, EventsTop.class));
                 break;
-            case 9:
+            case 10:
                 startActivity(new Intent(this, EventsCurrent.class));
                 break;
-            case 10:
+            case 11:
                 startActivity(new Intent(this, EventsCreate.class));
                 break;
-            case 11:
+            case 12:
                 /* this is the position of Account title */
                 break;
-            case 12:
+            case 13:
                 startActivity(new Intent(this, ChangePassword.class));
                 break;
-            case 13:
+            case 14:
                 startActivity(new Intent(this, VerifyEmail.class));
                 break;
-            case 14:
+            case 15:
                 startActivity(new Intent(this, Notifications.class));
                 break;
-            case 15:
+            case 16:
                 startActivity(new Intent(this, Blocking.class));
                 break;
-            case 16:
+            case 17:
                 startActivity(new Intent(this, SyncFacebook.class));
                 break;
-            case 17:
+            case 18:
                 logOut();
                 break;
             default:

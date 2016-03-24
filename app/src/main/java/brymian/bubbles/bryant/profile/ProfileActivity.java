@@ -11,10 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MapsActivity;
+import brymian.bubbles.bryant.MapsActivityOLD;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.friends.FriendsList;
-import brymian.bubbles.bryant.profile.friends.FriendsListOLD;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;
@@ -101,7 +100,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ibLeft:
-                startActivity(new Intent(this, MapsActivity.class).putExtra("uid", getUID()));
+                if(getProfile().equals("logged in user")){
+                    startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
+                }
+
                 break;
             case R.id.ibMiddle:
                 if(getProfile().equals("logged in user")){

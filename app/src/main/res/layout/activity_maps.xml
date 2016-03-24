@@ -1,73 +1,27 @@
-
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/lFirstLayout"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="#42ffbf">
-
-        <ImageButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/bMenu"
-            android:src="@mipmap/menu_icon_black_nopadd"
-            android:background="@android:color/transparent" />
-
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:textSize="25sp"
-            android:textColor="@android:color/black"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp" />
-
-    </LinearLayout>
-
-
-
-
-        <fragment
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight=".15"
-            android:scrollbars="vertical"
-            class="com.google.android.gms.maps.SupportMapFragment"/>
-
-
-    <LinearLayout
-        android:id="@+id/lSecondLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:background="#42ffbf"
-        android:layout_weight=".85"
-        >
-        <ImageButton
-            android:id="@+id/bLeftButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"/>
-        <ImageButton
-            android:id="@+id/bCamera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="#42ffbf" />
-        <ImageButton
-            android:id="@+id/bRight"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"/>
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:transitionGroup="true"/>
 
-    </LinearLayout>
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"
+        class="com.google.android.gms.maps.SupportMapFragment"/>
+
+
 </LinearLayout>

@@ -29,7 +29,7 @@ import brymian.bubbles.damian.nonactivity.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
-public class MapsActivity extends FragmentActivity implements View.OnClickListener
+public class MapsActivityOLD extends FragmentActivity implements View.OnClickListener
         {
 
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
@@ -49,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_maps);
+        setContentView(R.layout.activity_maps_old);
         setUpMapIfNeeded();
 
 
