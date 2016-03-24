@@ -13,10 +13,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +78,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
 
     public static List<Integer> staticUID  = new ArrayList<>();
     public static List<String> staticFriendStatus = new ArrayList<>();
+    //public static int i;
     @Override
     public void afterTextChanged(Editable s) {
 
@@ -111,7 +110,7 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
                 layoutManager = new LinearLayoutManager(SearchActivity.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
-                recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(SearchActivity.this, new RecyclerItemClickListener.OnItemClickListener() {
+                recyclerView.addOnItemTouchListener(new SearchRecyclerItemClickListener(SearchActivity.this, new SearchRecyclerItemClickListener.OnItemClickListener() {
                             @Override public void onItemClick(View view, int position) {
                                 startActivity(new Intent(SearchActivity.this, ProfileActivity.class).putExtra("uid", staticUID.get(position)).putExtra("profile", staticFriendStatus.get(position)));
                             }

@@ -43,6 +43,7 @@ import brymian.bubbles.bryant.events.EventsYours;
 import brymian.bubbles.bryant.navigationDrawer.CustomDrawerAdapter;
 import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.profile.friends.FriendsList;
 import brymian.bubbles.bryant.profile.friends.FriendsListOLD;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.profile.pictures.ProfilePicturesActivity;
@@ -283,7 +284,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, Privacy.class));
                 break;
             case 5:
-                startActivity(new Intent(this, FriendsListOLD.class));
+                startActivity(new Intent(this, FriendsList.class)
+                        .putExtra("uid", SaveSharedPreference.getUserUID(this))
+                        .putExtra("profile", "logged in user"));
                 break;
             /* Events */
             case 6:

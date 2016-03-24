@@ -1,5 +1,4 @@
-package brymian.bubbles.bryant.search;
-
+package brymian.bubbles.bryant.profile.friends;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
+public class FriendsListRecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
     private OnItemClickListener mListener;
 
     public interface OnItemClickListener {
@@ -20,7 +19,7 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     GestureDetector mGestureDetector;
 
-    public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
+    public FriendsListRecyclerItemClickListener(Context context, OnItemClickListener listener) {
         mListener = listener;
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override public boolean onSingleTapUp(MotionEvent e) {

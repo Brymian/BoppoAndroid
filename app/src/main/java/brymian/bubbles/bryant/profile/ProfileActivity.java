@@ -27,6 +27,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout llMain;
     ImageButton ibLeft, ibMiddle, ibRight;
     String profile;
+    String firstName, lastName;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +77,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
                     @Override
                     public void done(User user) {
+                        setFirstName(user.getFirstName());
+                        setLastName(user.getLastName());
                         mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
                     }
                 });
@@ -101,14 +104,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(new Intent(this, MapsActivity.class).putExtra("uid", getUID()));
                 break;
             case R.id.ibMiddle:
-                if(getProfile().equals("logged in user") || getProfile().equals("Already friends with user.")){
-                    startActivity(new Intent(this, FriendsList.class).putExtra("uid", getUID()));
+                if(getProfile().equals("logged in user")){
+                    startActivity(new Intent(this, FriendsList.class)
+                            .putExtra("uid", getUID())
+                            .putExtra("profile", "logged in user"));
+                }
+                else if(getProfile().equals("Already friends with user.")){
+                    startActivity(new Intent(this, FriendsList.class)
+                            .putExtra("uid", getUID())
+                            .putExtra("profile", getFirstName() + " " + getLastName()));
                 }
                 else if(getProfile().equals("Not friends.")){
                     new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -204,5 +214,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private String getProfile(){
         return profile;
+    }
+
+    private void setFirstName(String firstName){
+        this.firstName = firstName;
+    }
+
+    private String getFirstName(){
+        return firstName;
+    }
+
+    private void setLastName(String lastName){
+        this.lastName = lastName;
+    }
+
+    private String getLastName(){
+        return lastName;
     }
 }
