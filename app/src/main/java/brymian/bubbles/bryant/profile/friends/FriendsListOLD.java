@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile;
+package brymian.bubbles.bryant.profile.friends;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.User;
@@ -24,7 +25,7 @@ import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 
 
-public class FriendsList extends AppCompatActivity implements View.OnClickListener {
+public class FriendsListOLD extends AppCompatActivity implements View.OnClickListener {
 
     Toolbar mToolbar;
 
@@ -68,7 +69,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friendslist);
+        setContentView(R.layout.friendslist_old);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         mToolbar.setTitle(R.string.Friends);
         mToolbar.setTitleTextColor(Color.BLACK);
@@ -204,7 +205,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[0].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -213,7 +214,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[1].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -222,7 +223,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[2].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -231,7 +232,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[3].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -240,7 +241,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[4].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -249,7 +250,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[5].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -258,7 +259,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[6].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -267,7 +268,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[7].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -276,7 +277,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[8].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -285,7 +286,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     @Override
                     public void done(String string) {
                         llFriendRequests[9].setVisibility(View.GONE);
-                        Toast.makeText(FriendsList.this, string, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -379,7 +380,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
             @Override
             public void done(List<User> users) {
                 try {
-                    System.out.println("FriendsList size: " + users.size());
+                    System.out.println("FriendsListOLD size: " + users.size());
                     int friendListSize = users.size();
                     if (friendListSize > 0) {
                         for (int i = 0; i < friendListSize; i++) {
@@ -390,13 +391,13 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                             TVIDS[i].setVisibility(View.VISIBLE);
                             TVIDS[i].setText(users.get(i).getFirstName() + " " + users.get(i).getLastName());
                             TVIDS[i].setClickable(true);
-                            TVIDS[i].setOnClickListener(FriendsList.this);
+                            TVIDS[i].setOnClickListener(FriendsListOLD.this);
                             TVIDS[i].setTextSize(20);
                             TVIDS[i].setTextColor(Color.BLACK);
                         }
                     }
                     else if (friendListSize == 0) {
-                        Toast.makeText(FriendsList.this, "No friends", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FriendsListOLD.this, "No friends", Toast.LENGTH_SHORT).show();
                     }
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -422,7 +423,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                                 System.out.println("printing i before final: "+i);
                                 final int j = i;
                                 System.out.println("printing j: " + j);
-                                new ServerRequestMethods(FriendsList.this).getUserData(users.get(i).getUid(), new UserCallback() {
+                                new ServerRequestMethods(FriendsListOLD.this).getUserData(users.get(i).getUid(), new UserCallback() {
                                     @Override
                                     public void done(User user) {
                                         friendRequestFirstLastName.add(j, user.getFirstName() + " " + user.getLastName());
@@ -436,7 +437,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                                         tvFriendRequestNames[j].setText(user.getFirstName() + " " + user.getLastName());
                                         tvFriendRequestNames[j].setTextSize(20);
                                         tvFriendRequestNames[j].setTextColor(Color.BLACK);
-                                        tvFriendRequestNames[j].setOnClickListener(FriendsList.this);
+                                        tvFriendRequestNames[j].setOnClickListener(FriendsListOLD.this);
                                     }
                                 });
                             }
@@ -445,7 +446,7 @@ public class FriendsList extends AppCompatActivity implements View.OnClickListen
                     }
                 } catch (IndexOutOfBoundsException ioob) {
                     ioob.printStackTrace();
-                    Toast.makeText(FriendsList.this, "No friend requests", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FriendsListOLD.this, "No friend requests", Toast.LENGTH_SHORT).show();
                 }
             }
         });

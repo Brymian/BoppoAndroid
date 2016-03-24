@@ -13,11 +13,12 @@ import android.widget.Toast;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.MapsActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.profile.friends.FriendsList;
+import brymian.bubbles.bryant.profile.friends.FriendsListOLD;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
-import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
@@ -32,7 +33,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.profile_activity);
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
-        final String profile;
+        String profile;
         int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
@@ -58,26 +59,28 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         ibMiddle = (ImageButton) findViewById(R.id.ibMiddle); /* middle button will handle friend requests */
         ibRight = (ImageButton) findViewById(R.id.ibRight);
 
-        if (profile.equals("logged in user")) {
-            setUID(SaveSharedPreference.getUserUID(this));
-            mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " +
-                    SaveSharedPreference.getUserLastName(this));
-            setButtons(profile);
-            setProfile(profile);
-        }
-        else {
-            setUID(uid);
-            setButtons(profile);
-            setProfile(profile);
-            Toast.makeText(ProfileActivity.this, profile, Toast.LENGTH_SHORT).show();
+        if (profile != null) {
+            if (profile.equals("logged in user")) {
+                setUID(SaveSharedPreference.getUserUID(this));
+                mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " +
+                        SaveSharedPreference.getUserLastName(this));
+                setButtons(profile);
+                setProfile(profile);
+            }
+            else {
+                setUID(uid);
+                setButtons(profile);
+                setProfile(profile);
+                Toast.makeText(ProfileActivity.this, profile, Toast.LENGTH_SHORT).show();
 
-            new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
-                @Override
-                public void done(User user) {
-                    mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
-                }
-            });
+                new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
+                    @Override
+                    public void done(User user) {
+                        mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
+                    }
+                });
 
+            }
         }
 
         setSupportActionBar(mToolbar);
@@ -99,7 +102,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.ibMiddle:
                 if(getProfile().equals("logged in user") || getProfile().equals("Already friends with user.")){
-                    startActivity(new Intent(this, FriendsList.class));
+                    startActivity(new Intent(this, FriendsList.class).putExtra("uid", getUID()));
                 }
                 else if(getProfile().equals("Not friends.")){
                     new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {

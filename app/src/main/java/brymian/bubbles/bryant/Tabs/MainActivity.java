@@ -1,15 +1,11 @@
 package brymian.bubbles.bryant.Tabs;
 
-import android.app.SearchManager;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -22,7 +18,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -48,14 +43,11 @@ import brymian.bubbles.bryant.events.EventsYours;
 import brymian.bubbles.bryant.navigationDrawer.CustomDrawerAdapter;
 import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.profile.FriendsList;
+import brymian.bubbles.bryant.profile.friends.FriendsListOLD;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.profile.pictures.ProfilePicturesActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.damian.nonactivity.User;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -291,7 +283,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, Privacy.class));
                 break;
             case 5:
-                startActivity(new Intent(this, FriendsList.class));
+                startActivity(new Intent(this, FriendsListOLD.class));
                 break;
             /* Events */
             case 6:
