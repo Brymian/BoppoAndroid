@@ -4,10 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import brymian.bubbles.bryant.Tabs.TabFragment1;
-import brymian.bubbles.bryant.Tabs.TabFragment2;
-import brymian.bubbles.bryant.Tabs.TabFragment3;
-
 /**
  * Created by Almanza on 3/17/2016.
  */

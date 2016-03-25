@@ -14,7 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.Tabs.MainActivity;
+import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;

@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.Tabs.MainActivity;
+import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.damian.fragment.Authenticate.LaunchFragment;
 
 public class AuthenticateActivity extends AppCompatActivity {

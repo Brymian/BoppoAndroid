@@ -17,10 +17,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.Tabs.MainActivity;
 import brymian.bubbles.damian.nonactivity.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 

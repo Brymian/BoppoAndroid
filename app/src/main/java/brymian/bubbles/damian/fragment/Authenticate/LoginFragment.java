@@ -17,7 +17,7 @@ import java.io.IOException;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.Tabs.MainActivity;
+import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.User;

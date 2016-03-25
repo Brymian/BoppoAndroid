@@ -11,7 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.Tabs.MainActivity;
+import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivityFacebook;
 import brymian.bubbles.damian.activity.TESTActivity;
 

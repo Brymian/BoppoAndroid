@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.Tabs;
+package brymian.bubbles.bryant.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -45,7 +45,6 @@ import brymian.bubbles.bryant.navigationDrawer.CustomDrawerAdapter;
 import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.friends.FriendsList;
-import brymian.bubbles.bryant.profile.friends.FriendsListOLD;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.profile.pictures.ProfilePicturesActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
@@ -163,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        final brymian.bubbles.bryant.Tabs.PagerAdapter pagerAdapter= new brymian.bubbles.bryant.Tabs.PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
+        final PagerAdapter pagerAdapter= new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override

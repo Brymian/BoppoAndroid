@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.Tabs;
+package brymian.bubbles.bryant.main;
 
 import android.content.Intent;
 import android.graphics.Typeface;

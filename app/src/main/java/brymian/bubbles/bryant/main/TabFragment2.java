@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.Tabs;
+package brymian.bubbles.bryant.main;
 
 /**
  * Created by Almanza on 3/3/2016.

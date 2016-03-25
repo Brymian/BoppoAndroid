@@ -47,92 +47,92 @@
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait">
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
-            android:value=".bryant.Tabs.MainActivity" />
+            android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.camera.SendTo" android:screenOrientation="portrait"></activity>
 
         <activity android:name=".bryant.profile.pictures.ProfilePicturesActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
 
         <activity android:name=".bryant.camera.CameraActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.MapsActivityOLD" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.Tabs.SearchUsers" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.main.SearchUsers" android:screenOrientation="portrait"></activity>
 
         <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.account.SyncFacebook" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.profile.Privacy" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.account.Notifications" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.settings.About" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.account.VerifyEmail" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.account.ChangePassword" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.profile.friends.FriendsListOLD" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.account.Blocking" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
         <!-- EVENTS CLASSES -->
         <activity android:name=".bryant.events.EventsCreate" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.events.EventsTop" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.events.EventsYours" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <activity android:name=".bryant.events.EventsCurrent" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <!-- END OF EVENTS CLASSES -->
-        <activity android:name=".bryant.Tabs.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop">
+        <activity android:name=".bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop">
 
         </activity>
         <!-- PROFILE CLASSES -->
         <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.Tabs.MainActivity" />
+                android:value=".bryant.main.MainActivity" />
         </activity>
         <!-- END OF PROFILE CLASSES -->
 
