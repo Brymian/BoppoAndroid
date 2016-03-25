@@ -20,6 +20,7 @@ import brymian.bubbles.bryant.camera.CameraActivity;
 public class ProfilePicturesActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar mToolbar;
     ImageButton ibGallery, ibCamera;
+    final int REQUEST_CODE = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,13 +86,21 @@ public class ProfilePicturesActivity extends AppCompatActivity implements View.O
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ibCamera:
-                int requestCode = 0;
-                startActivityForResult(new Intent(this, CameraActivity.class), requestCode);
+                startActivityForResult(new Intent(this, CameraActivity.class).putExtra("imagePurpose", "Profile"), REQUEST_CODE);
                 break;
 
             case R.id.ibGallery:
 
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == REQUEST_CODE){
+            if(resultCode == RESULT_OK){
+                String encodedImage = (String) data.getExtras().getString("encodedImage");
+            }
         }
     }
 

@@ -19,9 +19,6 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
-/**
- * Created by Almanza on 3/18/2016.
- */
 public class SendTo extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     TextView tvPrivate, tvCurrentLocation;
@@ -51,7 +48,6 @@ public class SendTo extends AppCompatActivity implements View.OnClickListener, C
         }
 
         this.encodedImage = encodedImage;
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -124,7 +120,6 @@ public class SendTo extends AppCompatActivity implements View.OnClickListener, C
 
     String imageName(){
         String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
-        String name = SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
-        return name;
+        return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
     }
 }

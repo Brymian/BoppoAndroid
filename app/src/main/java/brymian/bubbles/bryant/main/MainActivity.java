@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             if (dataList.get(0).isSpinner() & dataList.get(1).getTitle() != null) {
                 /* found error here: every time MainActivity starts, this if statement becomes true, commenting it out for now */
-                //SelectItem(2);
+                SelectItem(0);
             }
             else if (dataList.get(0).getTitle() != null) {
                 SelectItem(1);
@@ -214,7 +214,8 @@ public class MainActivity extends AppCompatActivity {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraActivity.class));
+                startActivity(new Intent(MainActivity.this, CameraActivity.class)
+                        .putExtra("imagePurpose", "Regular"));
             }
         });
     }

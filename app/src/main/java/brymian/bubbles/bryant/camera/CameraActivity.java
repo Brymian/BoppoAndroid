@@ -46,6 +46,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     FloatingActionButton floatingActionButton;
     private Camera mCamera;
     private CameraPreview mPreview;
+    String imagePurpose;
 
 
     byte[] data;
@@ -57,12 +58,32 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /**-------------------------Checks if the device has a camera----------------------------**/
+        /*---------------------------Checks if the device has a camera----------------------------*/
         if(!checkCameraHardware(this)){
             Toast.makeText(CameraActivity.this, "No camera found", Toast.LENGTH_SHORT).show();
             finish();
         }
-        /**--------------------------------------------------------------------------------------**/
+        /*----------------------------------------------------------------------------------------*/
+
+        /*--------------------------------Checking for putExtras()--------------------------------*/
+        String imagePurpose;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                imagePurpose = null;
+            }
+            else {
+                imagePurpose = extras.getString("imagePurpose");
+            }
+        }
+        else {
+            imagePurpose = savedInstanceState.getString("imagePurpose");
+        }
+        /*----------------------------------------------------------------------------------------*/
+        if(imagePurpose != null){
+            this.imagePurpose = imagePurpose;
+            System.out.println("imagePurpose: " + imagePurpose);
+        }
 
         /* Makes the activity fullscreen */
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -70,10 +91,10 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         setContentView(R.layout.activity_camera);
 
-        // Create an instance of Camera
+        /* Create an instance of Camera */
         mCamera = getCameraInstance();
 
-        // Create our Preview view and set it as the content of our activity.
+        /* Create our Preview view and set it as the content of our activity. */
         mPreview = new CameraPreview(this, mCamera);
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
@@ -82,50 +103,48 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         ibCheck = (ImageButton) findViewById(R.id.ibCheck);
         ibCancel = (ImageButton) findViewById(R.id.ibCancel);
 
+        llPictureTakenButtons.setVisibility(View.GONE);
+        ibCapture.setOnClickListener(this);
+        ibCheck.setOnClickListener(this);
+        ibCancel.setOnClickListener(this);
+        ibCapture.bringToFront();
 
-        //FloatingActionButton.LayoutParams p = new FloatingActionButton.LayoutParams(FloatingActionButton.LayoutParams.WRAP_CONTENT, FloatingActionButton.LayoutParams.WRAP_CONTENT);
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.TOP|Gravity.RIGHT;
 
-        View contentView;
-        //FloatingActionButton.LayoutParams paramsButton = new FloatingActionButton(this, p, 0, getDrawable(R.mipmap.add), 2, contentView, params);
-        //paramsButton.gravity = Gravity.TOP|Gravity.RIGHT;
-
+        /*--------------------------------FloatingActionButton------------------------------------*/
+        /* FloatingActionButton main button */
         ImageView icon = new ImageView(this);
         icon.setImageResource(R.mipmap.add);
         floatingActionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
-                //.setLayoutParams(paramsButton)
                 .build();
 
+        /* sub menu buttons */
         SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-
         ImageView itemIcon1 = new ImageView(this);
         itemIcon1.setImageResource(R.mipmap.switch_camera);
 
         ImageView itemIcon2 = new ImageView(this);
-        itemIcon2.setImageResource(R.mipmap.camera_flash_on);
+        itemIcon2.setImageResource(android.R.drawable.ic_menu_delete);
 
         ImageView itemIcon3 = new ImageView(this);
-        itemIcon3.setImageResource(R.mipmap.ic_launcher);
+        itemIcon3.setImageResource(android.R.drawable.ic_menu_info_details);
 
-        params.setMargins(0, 0, 0, 0);
 
-        SubActionButton button1 = itemBuilder.setContentView(itemIcon1).setLayoutParams(params).build();
+        SubActionButton button1 = itemBuilder.setContentView(itemIcon1).build();
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        SubActionButton button2 = itemBuilder.setContentView(itemIcon2).setLayoutParams(params).build();
+        SubActionButton button2 = itemBuilder.setContentView(itemIcon2).build();
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
             }
         });
-        SubActionButton button3 = itemBuilder.setContentView(itemIcon3).setLayoutParams(params).build();
+        SubActionButton button3 = itemBuilder.setContentView(itemIcon3).build();
         button3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,15 +158,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 .setRadius(400)
                 .attachTo(floatingActionButton)
                 .build();
-
-
-        llPictureTakenButtons.setVisibility(View.GONE);
-        ibCapture.setOnClickListener(this);
-        ibCheck.setOnClickListener(this);
-        ibCancel.setOnClickListener(this);
-        ibCapture.bringToFront();
-
-
+        /*----------------------------------------------------------------------------------------*/
     }
 
     @Override
@@ -157,9 +168,17 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 mCamera.takePicture(mShutter, mRaw, mPicture);
                 break;
             case R.id.ibCheck:
-                startActivity(new Intent(this, SendTo.class).   /* starting SendTo.java */
-                        putExtra("encodedImage",                /* sending the image in String form */
-                                Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
+                if(imagePurpose.equals("Regular")) {
+                    startActivity(new Intent(this, SendTo.class)   /* starting SendTo.java */
+                            .putExtra("encodedImage",                /* sending the image in String form */
+                                    Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
+                }
+                else if(imagePurpose.equals("Profile")){
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT));
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
+                }
                 break;
         }
     }
