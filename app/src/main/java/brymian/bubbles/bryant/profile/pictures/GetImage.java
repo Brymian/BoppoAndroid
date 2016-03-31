@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 

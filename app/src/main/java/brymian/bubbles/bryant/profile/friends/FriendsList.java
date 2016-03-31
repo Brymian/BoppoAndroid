@@ -17,10 +17,9 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.objects.User;
 
 
 public class FriendsList extends AppCompatActivity{

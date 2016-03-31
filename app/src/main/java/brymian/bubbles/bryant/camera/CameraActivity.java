@@ -10,9 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -31,10 +29,6 @@ import java.util.Date;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 /**
  * Created by Almanza on 3/14/2016.

@@ -22,8 +22,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.nonactivity.User;
-import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
 public class TabFragment1 extends Fragment implements View.OnClickListener{

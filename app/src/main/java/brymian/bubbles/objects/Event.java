@@ -1,14 +1,11 @@
-package brymian.bubbles.damian.nonactivity;
+package brymian.bubbles.objects;
 
-/**
- * Created by Ziomster on 3/9/2016.
- */
 public class Event {
 
     public Integer eid;
 
     public Integer eventHostUid;
-    public String eventName;
+    public String  eventName;
 
     public String  eventInviteTypeLabel;
     public String  eventPrivacyLabel;

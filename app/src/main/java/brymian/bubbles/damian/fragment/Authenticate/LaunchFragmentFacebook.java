@@ -25,7 +25,7 @@ import brymian.bubbles.bryant.MapsActivityOLD;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.VoidCallback;
 

@@ -11,12 +11,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MapsActivityOLD;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 

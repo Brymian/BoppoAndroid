@@ -3,6 +3,8 @@ package brymian.bubbles.damian.nonactivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import brymian.bubbles.objects.User;
+
 /**
  * Created by Ziomster on 7/13/2015.
  */

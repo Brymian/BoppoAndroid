@@ -16,7 +16,7 @@ import android.widget.TextView;
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.objects.User;
 
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showErrorCustom;
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showMessageRegistration;

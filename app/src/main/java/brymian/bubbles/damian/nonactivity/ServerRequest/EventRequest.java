@@ -10,7 +10,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
-import brymian.bubbles.damian.nonactivity.Event;
+import brymian.bubbles.objects.Event;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;

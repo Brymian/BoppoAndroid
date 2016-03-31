@@ -25,7 +25,7 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.SearchUsers;
-import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 

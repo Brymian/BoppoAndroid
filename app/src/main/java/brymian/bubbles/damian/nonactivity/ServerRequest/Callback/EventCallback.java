@@ -1,6 +1,6 @@
 package brymian.bubbles.damian.nonactivity.ServerRequest.Callback;
 
-import brymian.bubbles.damian.nonactivity.Event;
+import brymian.bubbles.objects.Event;
 
 /**
  * Created by Ziomster on 7/20/2015.

@@ -4,12 +4,14 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.Event;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.objects.Event;
+import brymian.bubbles.objects.EventUser;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -271,6 +273,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
@@ -280,7 +283,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new FriendshipRequest(this).blockUser(4, 3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -288,6 +291,36 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
+        */
+        /*
+        new ServerRequestMethods(this).getFriendStatus(1, 4, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+        */
+
+        new EventUserRequest(this).addUserToEvent(18, 4, 2, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("MESSAGE REGARDING ADDING THE USER TO THE EVENT: ");
+                System.out.println(string);
+            }
+        });
+
+        /*
+        new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
+            @Override
+            public void done(EventUser eventUser) {
+                System.out.println("EID: " + eventUser.eid);
+                System.out.println("UID: " + eventUser.uid);
+                System.out.println("Event User Type Label: " + eventUser.eventUserTypeLabel);
+                System.out.println("Event User Invite Status Label: " + eventUser.eventUserInviteStatusLabel);
+                System.out.println("eventUserInviteStatusActionTimestamp: " + eventUser.eventUserInviteStatusActionTimestamp);
+            }
+        });
+        */
     }
 
 }

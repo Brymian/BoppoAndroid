@@ -1,6 +1,5 @@
 package brymian.bubbles.bryant;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -19,7 +18,7 @@ import java.net.URLConnection;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.Image;
+import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 

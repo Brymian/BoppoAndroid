@@ -19,7 +19,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.User;
+import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {

@@ -1,8 +1,5 @@
 package brymian.bubbles.damian;
 
-import brymian.bubbles.damian.nonactivity.Event;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 /**
  * Created by Ziomster on 3/17/2016.
  */
@@ -34,5 +31,7 @@ public class TESTMain
             }
         });
         */
+
+
     }
 }

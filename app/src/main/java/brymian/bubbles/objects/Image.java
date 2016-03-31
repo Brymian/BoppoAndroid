@@ -1,4 +1,4 @@
-package brymian.bubbles.damian.nonactivity;
+package brymian.bubbles.objects;
 
 /**
  * Created by Ziomster on 8/29/2015.
