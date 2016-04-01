@@ -3,8 +3,11 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import java.util.List;
+
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
@@ -300,7 +303,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventUserRequest(this).addUserToEvent(18, 4, 2, new StringCallback() {
             @Override
             public void done(String string) {
@@ -308,7 +311,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
             @Override
@@ -321,6 +324,31 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new EventRequest(this).getEventDataByMember(2, new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED: ");
+
+                for (Event event : eventList)
+                {
+                    System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
+                    System.out.println();
+                    System.out.println("EID = " + event.eid);
+                    System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Name = " + event.eventName);
+                    System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
+                    System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
+                    System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
+                    System.out.println("Event Start Datetime = " + event.eventStartDatetime);
+                    System.out.println("Event End Datetime = " + event.eventEndDatetime);
+                    System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
+                    System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
+                    System.out.println("Event Like Count = " + event.eventLikeCount);
+                    System.out.println("Event Dislike Count = " + event.eventDislikeCount);
+                    System.out.println("Event View Count = " + event.eventViewCount);
+                }
+            }
+        });
     }
 
 }
