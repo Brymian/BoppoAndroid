@@ -1,6 +1,8 @@
 package brymian.bubbles.bryant.profile.pictures;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -9,10 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 import android.view.View;
+import android.widget.ImageView;
 
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
+import brymian.bubbles.bryant.profile.pictures.pictureFragments.ProfilePicture1;
 
 /**
  * Created by Almanza on 3/17/2016.
@@ -97,10 +101,13 @@ public class ProfilePicturesActivity extends AppCompatActivity implements View.O
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == REQUEST_CODE){
-            if(resultCode == RESULT_OK){
-                String encodedImage = (String) data.getExtras().getString("encodedImage");
-            }
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+                byte[] byteArrayImage =  data.getExtras().getByteArray("encodedImage");
+                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayImage, 0, byteArrayImage.length);
+                ProfilePicture1 profilePicture1 = new ProfilePicture1();
+                ImageView iv = (ImageView) profilePicture1.getActivity().findViewById(R.id.ivProfilePicture1);
+                //iv.setImageBitmap(bitmap);
+
         }
     }
 

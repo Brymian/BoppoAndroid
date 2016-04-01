@@ -25,7 +25,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayout llMain;
     ImageButton ibLeft, ibMiddle, ibRight;
     String profile;
-    String firstName, lastName;
+    String firstName, lastName, privacy;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +65,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         SaveSharedPreference.getUserLastName(this));
                 setButtons(profile);
                 setProfile(profile);
+
             }
             else {
                 setUID(uid);
@@ -78,6 +79,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         setFirstName(user.getFirstName());
                         setLastName(user.getLastName());
                         mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
+                        System.out.println("privacy: " + user.getUserAccountPrivacy());
+                        setPrivacy(user.getUserAccountPrivacy());
+
                     }
                 });
 
@@ -89,7 +93,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         llMain = (LinearLayout) findViewById(R.id.llMain);
-
         ibLeft.setOnClickListener(this);
         ibMiddle.setOnClickListener(this);
         ibRight.setOnClickListener(this);
@@ -100,9 +103,17 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()){
             case R.id.ibLeft:
                 if(getProfile().equals("logged in user")){
-                    startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
+                    startActivity(new Intent(this, MapsActivity.class)
+                            .putExtra("profile", "logged in user"));
                 }
-
+                else if(getPrivacy().equals("Private")){
+                    Toast.makeText(ProfileActivity.this, "User account is private", Toast.LENGTH_SHORT).show();
+                }
+                else if(getPrivacy().equals("Public")){
+                    startActivity(new Intent(this, MapsActivity.class)
+                            .putExtra("uid", getUID())
+                            .putExtra("profile", getFirstName() + " " + getLastName()));
+                }
                 break;
             case R.id.ibMiddle:
                 if(getProfile().equals("logged in user")){
@@ -231,5 +242,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private String getLastName(){
         return lastName;
+    }
+
+    private void setPrivacy(String privacy){
+        this.privacy = privacy;
+    }
+
+    private String getPrivacy(){
+        return privacy;
     }
 }

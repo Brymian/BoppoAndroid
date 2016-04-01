@@ -90,11 +90,9 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
             latitude = myLocation.getLatitude();
             setLatitudeCurrent(latitude);
             SaveSharedPreference.setLatitude(getActivity(), latitude);
-            System.out.println("THIS IS FROM setUpMap(): setLatitudeArrayCurrent() is " + getLatitudeCurrent());
             longitude = myLocation.getLongitude();
             setLongitudeCurrent(longitude);
             SaveSharedPreference.setLongitude(getActivity(), longitude);
-            System.out.println("THIS IS FROM setUpMap(): setLongitudeArrayCurrent() is + " + getLongitudeCurrent());
         }
         catch (NullPointerException e){
             e.printStackTrace();

@@ -13,6 +13,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -24,11 +25,17 @@ import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
-public class MapsActivity extends AppCompatActivity {
+public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     Toolbar mToolbar;
     int uid;
+    ArrayList<String> imageListPath = new ArrayList<>();
+    ArrayList<Double> longitudeImageArrayList = new ArrayList<>();
+    ArrayList<Double> latitudeImageArrayList = new ArrayList<>();
+    ArrayList<String> privacyImageArrayList = new ArrayList<>();
+    ArrayList<String> imagePurposeArrayList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +85,49 @@ public class MapsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setUpMapIfNeeded();
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    private void getImages(){
+        new ServerRequestMethods(this).getImages(getUID(), "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                if (imageList.size() != 0) {
+                    for (int i = 0; i < imageList.size(); i++) {
+                        System.out.println("Path: "+imageList.get(i).getPath());
+                        imageListPath.add(i, imageList.get(i).getPath());
+                        longitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLongitude());
+                        latitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLatitude());
+                        privacyImageArrayList.add(i, imageList.get(i).getUserImagePrivacyLabel());
+                    }
+                } else {
+                    Toast.makeText(MapsActivity.this, "User has no images uploaded", Toast.LENGTH_SHORT).show();
+                }
+
+                System.out.println("latitudeImageArrayList.size(): " + latitudeImageArrayList.size());
+                for(int i = 0; i < latitudeImageArrayList.size(); i++){
+                    mMap.addMarker(
+                            (new MarkerOptions()
+                                    .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
+                                    .title(imageListPath.get(i))
+                            )
+                    );
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(Marker marker) {
+                            System.out.println("getTitle(): " + marker.getTitle() + "\t getPosition(): " + marker.getPosition());
+                            Toast.makeText(MapsActivity.this, marker.getTitle() , Toast.LENGTH_SHORT).show();
+
+                            return false;
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void setUpMapIfNeeded() {
@@ -132,41 +182,7 @@ public class MapsActivity extends AppCompatActivity {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //Add markers here
-
-        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
-
-        for(int i = 0; i < latitudeImageArrayList.size(); i++){
-            mMap.addMarker((new MarkerOptions().position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))));
-            //mMap.setOnMarkerClickListener((GoogleMap.OnMarkerClickListener) MapsActivity.this);
-
-        }
-
-
-        //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding)));
-        //.title("You are here!")
-        //.snippet("Consider yourself located"));
-    }
-    ArrayList<Double> longitudeImageArrayList = new ArrayList<>();
-    ArrayList<Double> latitudeImageArrayList = new ArrayList<>();
-    ArrayList<String> privacyImageArrayList = new ArrayList<>();
-    ArrayList<String> imagePurposeArrayList = new ArrayList<>();
-
-    private void getImages(){
-        new ServerRequestMethods(this).getImages(getUID(), "Regular", new ImageListCallback() {
-            @Override
-            public void done(List<Image> imageList) {
-                if(imageList.size() != 0){
-                    for(int i = 0; i < imageList.size(); i++){
-                        longitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLongitude());
-                        latitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLatitude());
-                        privacyImageArrayList.add(i, imageList.get(i).getUserImagePrivacyLabel());
-                    }
-                }
-                else{
-                    Toast.makeText(MapsActivity.this, "User has no images uploaded", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
     }
 
     private void setUID(int uid){

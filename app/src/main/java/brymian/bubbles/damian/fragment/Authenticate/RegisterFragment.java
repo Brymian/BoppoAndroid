@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -126,9 +127,9 @@ public class RegisterFragment extends AppCompatActivity implements View.OnClickL
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_register);
-        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setTitle("Register");
-        mToolbar.setTitleTextColor(Color.BLACK);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.Register);
+
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -217,6 +218,7 @@ public class RegisterFragment extends AppCompatActivity implements View.OnClickL
                         public void done(String string) {
                             if (string.length() <= 1) {
                                 showMessageRegistration(RegisterFragment.this);
+                                System.out.println("string: " + string + "\t string.length(): " + string.length());
                             } else {
                                 String error = "";
                                 if (string.contains("Duplicate entry")) {

@@ -18,7 +18,6 @@ public class ProfilePicture1 extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //return inflater.inflate(R.layout.profile_picture1, container, false);
         View rootView = inflater.inflate(R.layout.profile_picture1, container, false);
-        GetImage.image(getActivity(), 1, "Profile");
 
         return rootView;
     }

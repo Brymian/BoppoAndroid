@@ -169,7 +169,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 }
                 else if(imagePurpose.equals("Profile")){
                     Intent resultIntent = new Intent();
-                    resultIntent.putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT));
+                    resultIntent.putExtra("encodedImage", getImageDataByte());
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 }

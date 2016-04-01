@@ -21,7 +21,6 @@ import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.MapsActivityOLD;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
@@ -165,7 +164,7 @@ public class LaunchFragmentFacebook extends Fragment {
                     // REGULAR
                     else {
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
-                        startActivity(new Intent(getActivity(), MapsActivityOLD.class));
+                        //startActivity(new Intent(getActivity(), MapsActivityOLD.class));
                     }
                 }
             }
