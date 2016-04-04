@@ -232,9 +232,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
-        new EventRequest(this).createEvent(3, "Something Event", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
+        new EventRequest(this).createEvent(3, "Something Event2", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
@@ -303,15 +302,15 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventUserRequest(this).addUserToEvent(18, 4, 2, new StringCallback() {
+
+        new EventUserRequest(this).addUserToEvent(10, 2, 1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("MESSAGE REGARDING ADDING THE USER TO THE EVENT: ");
                 System.out.println(string);
             }
         });
-        */
+
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
             @Override
@@ -324,6 +323,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new EventRequest(this).getEventDataByMember(2, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -349,6 +349,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
     }
 
 }

@@ -816,10 +816,11 @@ public class ServerRequestMethods {
                     for (int i = 0; i < j2dArray.length(); i++) {
                         JSONObject jUser = (JSONObject) j2dArray.get(i);
                         int uid = jUser.getInt("uid");
+                        String username = jUser.getString("username");
                         String namefirst = jUser.getString("firstName");
                         String namelast = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, null, null, null, namefirst, namelast, null, null, null);
+                        user.setUser(uid, null, null, username, null, namefirst, namelast, null, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
