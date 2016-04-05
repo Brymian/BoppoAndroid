@@ -16,6 +16,7 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
+import brymian.bubbles.bryant.profile.friends.friendrequests.FriendRequestRecyclerAdapter;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -62,11 +63,37 @@ public class FriendsList extends AppCompatActivity{
         if (profile != null) {
             if(profile.equals("logged in user")){
                 mToolbar.setTitle(R.string.Friends);
+                new ServerRequestMethods(this).getUserFriendRequestUsers(SaveSharedPreference.getUserUID(this), new UserListCallback() {
+                    @Override
+                    public void done(List<User> users) {
+
+                        if(users.size() != 0){
+                            System.out.println("friend request size: " + users.size());
+                            ArrayList<String> friendRequestUsername = new ArrayList<String>();
+                            ArrayList<String> friendRequestFirstLastName = new ArrayList<String>();
+
+                            for(int i = 0; i < users.size(); i++){
+                                friendRequestUsername.add(i, users.get(i).getUsername());
+                                friendRequestFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                            }
+
+                            recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
+                            adapter = new FriendRequestRecyclerAdapter(friendRequestFirstLastName, friendRequestUsername);
+                            layoutManager = new LinearLayoutManager(FriendsList.this);
+                            recyclerView.setLayoutManager(layoutManager);
+                            recyclerView.setAdapter(adapter);
+
+                        }
+
+                    }
+                });
             }
             else{
                 mToolbar.setTitle(profile + "'s Friends");
             }
         }
+
+
 
 
         new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
@@ -77,10 +104,10 @@ public class FriendsList extends AppCompatActivity{
                 List<String> friendsUsername = new ArrayList<String>();
 
 
-                for(int i = 0; i < users.size(); i++){
-                    System.out.println( "username: " + users.get(i).getUsername() +
-                                        "\t firstLastName: " + users.get(i).getFirstName() + " " + users.get(i).getLastName() +
-                                        "\t uid: " + users.get(i).getUid());
+                for (int i = 0; i < users.size(); i++) {
+                    System.out.println("username: " + users.get(i).getUsername() +
+                            "\t firstLastName: " + users.get(i).getFirstName() + " " + users.get(i).getLastName() +
+                            "\t uid: " + users.get(i).getUid());
                     friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
                     friendsUsername.add(i, users.get(i).getUsername());
                     friendsUID.add(i, users.get(i).getUid());
