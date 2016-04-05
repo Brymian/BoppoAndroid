@@ -78,23 +78,21 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
     }
 
     void getImages(int uid){
-        new ServerRequestMethods(this).getImages(uid, "Regular", new ImageListCallback() {
+        new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                try{
+                try {
                     System.out.println("imageList.size(): " + imageList.size());
-                    if (imageList.size() != 0){
+                    if (imageList.size() != 0) {
                         //llFirstRow.setVisibility(View.VISIBLE);
                         //llSecondRow.setVisibility(View.VISIBLE);
-                        for(int i = 0; i < imageList.size(); i++){
+                        for (int i = 0; i < imageList.size(); i++) {
                             new DownloadImage(imageList.get(i).getPath(), i).execute();
                         }
-                    }
-                    else{
+                    } else {
                         Toast.makeText(ImagesDisplay.this, "User has no images", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch (NullPointerException npe){
+                } catch (NullPointerException npe) {
                     npe.printStackTrace();
                 }
             }

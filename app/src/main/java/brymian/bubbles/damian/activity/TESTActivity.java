@@ -9,12 +9,14 @@ import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.EventUser;
+import brymian.bubbles.objects.User;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -119,7 +121,7 @@ public class TESTActivity extends Activity {
         */
 
         /*
-        new ServerRequestMethods(this).getImages(1, "All", new ImageListCallback() {
+        new ServerRequestMethods(this).getImagesByUid(1, "All", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
                 System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
@@ -219,11 +221,11 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
+
         new ServerRequestMethods(this).getUserFriendRequestUsers(1, new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                System.out.println("TOTAL NUMBER OF USERS: " + users.size());
+                System.out.println("TOTAL NUMBER OF USERS WHO SENT A FRIEND REQUEST TO UID 1: " + users.size());
 
                 for (User user : users) {
                     System.out.println("User #" + users.indexOf(user));
@@ -231,7 +233,18 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
+
+        new ServerRequestMethods(this).getUserSentFriendRequestUsers(1, new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                System.out.println("TOTAL NUMBER OF USERS TO WHOM UID 1 SENT A FRIEND REQUEST: " + users.size());
+
+                for (User user : users) {
+                    System.out.println("User #" + users.indexOf(user));
+                    System.out.println("UID: " + user.getUid());
+                }
+            }
+        });
         /*
         new EventRequest(this).createEvent(3, "Something Event2", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
             @Override
@@ -302,7 +315,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventUserRequest(this).addUserToEvent(10, 2, 1, new StringCallback() {
             @Override
             public void done(String string) {
@@ -310,7 +323,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
             @Override

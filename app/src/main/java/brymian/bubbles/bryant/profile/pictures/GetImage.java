@@ -13,7 +13,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 public class GetImage {
 
     public static void image(final Activity activity, int uid, String purpose){
-        new ServerRequestMethods(activity).getImages(uid, purpose, new ImageListCallback() {
+        new ServerRequestMethods(activity).getImagesByUid(uid, purpose, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 System.out.println("imageList.size(): " + imageList.size());

@@ -93,12 +93,12 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     private void getImages(){
-        new ServerRequestMethods(this).getImages(getUID(), "Regular", new ImageListCallback() {
+        new ServerRequestMethods(this).getImagesByUid(getUID(), "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() != 0) {
                     for (int i = 0; i < imageList.size(); i++) {
-                        System.out.println("Path: "+imageList.get(i).getPath());
+                        System.out.println("Path: " + imageList.get(i).getPath());
                         imageListPath.add(i, imageList.get(i).getPath());
                         longitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLongitude());
                         latitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLatitude());
@@ -109,7 +109,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 }
 
                 System.out.println("latitudeImageArrayList.size(): " + latitudeImageArrayList.size());
-                for(int i = 0; i < latitudeImageArrayList.size(); i++){
+                for (int i = 0; i < latitudeImageArrayList.size(); i++) {
                     mMap.addMarker(
                             (new MarkerOptions()
                                     .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
@@ -120,7 +120,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                         @Override
                         public boolean onMarkerClick(Marker marker) {
                             System.out.println("getTitle(): " + marker.getTitle() + "\t getPosition(): " + marker.getPosition());
-                            Toast.makeText(MapsActivity.this, marker.getTitle() , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapsActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
 
                             return false;
                         }
