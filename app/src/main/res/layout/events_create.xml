@@ -40,7 +40,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Private"/>
+            android:text="@string/Private"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
         <CheckBox
             android:id="@+id/cbPrivate"
             android:layout_width="wrap_content"
@@ -58,7 +60,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Add_To_Current_Location"/>
+            android:text="@string/Add_To_Current_Location"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
         <CheckBox
             android:id="@+id/cbCurrentLocation"
             android:layout_width="wrap_content"
@@ -69,7 +73,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Add_Friends"/>
+        android:text="@string/Add_Friends"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp" />
     <ScrollView
         android:id="@+id/svAddFriends"
         android:layout_width="match_parent"

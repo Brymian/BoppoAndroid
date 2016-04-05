@@ -1,8 +1,10 @@
 package brymian.bubbles.bryant;
 
+import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.View;
@@ -79,6 +81,9 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
 
     void getImages(int uid){
         new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
+
+        /**
+        new ServerRequestMethods(this).getImages(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 try {
@@ -97,6 +102,8 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
                 }
             }
         });
+
+         **/
     }
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
@@ -108,6 +115,7 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
             this.location = location;
         }
 
+        @TargetApi(Build.VERSION_CODES.KITKAT)
         Bitmap ShrinkBitmap(String file, int width, int height){
 
             BitmapFactory.Options bmpFactoryOptions = new BitmapFactory.Options();
