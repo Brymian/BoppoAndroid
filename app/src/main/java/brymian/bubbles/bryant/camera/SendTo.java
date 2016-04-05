@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.xml.sax.SAXException;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.MainActivity;
@@ -69,6 +68,7 @@ public class SendTo extends AppCompatActivity implements View.OnClickListener, C
         llDone = (LinearLayout) findViewById(R.id.llDone);
         llDone.setOnClickListener(this);
         ibDone.setOnClickListener(this);
+
     }
 
     @Override

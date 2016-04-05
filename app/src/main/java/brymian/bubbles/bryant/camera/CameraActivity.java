@@ -180,7 +180,11 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     @Override
     protected void onPause() {
         super.onPause();
-        releaseCamera();              // release the camera immediately on pause event
+        if(mCamera != null){
+            mCamera.release();
+            mCamera = null;
+        }
+        //originally just mCamera.release();
     }
 
     private void releaseCamera(){
