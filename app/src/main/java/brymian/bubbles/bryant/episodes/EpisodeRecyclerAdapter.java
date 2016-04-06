@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.events;
+package brymian.bubbles.bryant.episodes;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

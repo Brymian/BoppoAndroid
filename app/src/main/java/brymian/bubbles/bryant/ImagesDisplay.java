@@ -80,7 +80,7 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
     }
 
     void getImages(int uid){
-        new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
+        //new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
 
         /**
         new ServerRequestMethods(this).getImages(uid, "Regular", new ImageListCallback() {

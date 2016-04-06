@@ -29,6 +29,7 @@ public class FriendsList extends AppCompatActivity{
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     Toolbar mToolbar;
+    View vDivider;
     public static List<Integer> friendsUID = new ArrayList<Integer>();
     public static List<String> friendsStatus = new ArrayList<>();
 
@@ -58,6 +59,8 @@ public class FriendsList extends AppCompatActivity{
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        vDivider = findViewById(R.id.vDivider);
+        vDivider.setVisibility(View.GONE);
 
         System.out.println("profile: " + profile);
         if (profile != null) {
@@ -77,14 +80,14 @@ public class FriendsList extends AppCompatActivity{
                                 friendRequestFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
                             }
 
+                            vDivider.setVisibility(View.VISIBLE);
+
                             recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
                             adapter = new FriendRequestRecyclerAdapter(friendRequestFirstLastName, friendRequestUsername);
                             layoutManager = new LinearLayoutManager(FriendsList.this);
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter);
-
                         }
-
                     }
                 });
             }

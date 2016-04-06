@@ -35,12 +35,12 @@ import brymian.bubbles.bryant.account.ChangePassword;
 import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
 import brymian.bubbles.bryant.camera.CameraActivity;
-import brymian.bubbles.bryant.events.EventsCreate;
+import brymian.bubbles.bryant.episodes.EpisodeCreate;
 import brymian.bubbles.bryant.profile.MapsActivity;
 import brymian.bubbles.bryant.profile.Privacy;
-import brymian.bubbles.bryant.events.EventsCurrent;
-import brymian.bubbles.bryant.events.EventsTop;
-import brymian.bubbles.bryant.events.EventsYours;
+import brymian.bubbles.bryant.episodes.EpisodeCurrent;
+import brymian.bubbles.bryant.episodes.EpisodeTop;
+import brymian.bubbles.bryant.episodes.EpisodeMy;
 import brymian.bubbles.bryant.navigationDrawer.CustomDrawerAdapter;
 import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
@@ -298,16 +298,16 @@ public class MainActivity extends AppCompatActivity {
                 /* This is the position of Events title. */
                 break;
             case 8:
-                startActivity(new Intent(this, EventsYours.class));
+                startActivity(new Intent(this, EpisodeMy.class));
                 break;
             case 9:
-                startActivity(new Intent(this, EventsTop.class));
+                startActivity(new Intent(this, EpisodeTop.class));
                 break;
             case 10:
-                startActivity(new Intent(this, EventsCurrent.class));
+                startActivity(new Intent(this, EpisodeCurrent.class));
                 break;
             case 11:
-                startActivity(new Intent(this, EventsCreate.class));
+                startActivity(new Intent(this, EpisodeCreate.class));
                 break;
             case 12:
                 /* this is the position of Account title */
