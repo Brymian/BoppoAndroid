@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.events;
+package brymian.bubbles.bryant.episodes;
 
 /**
  * Created by Almanza on 4/4/2016.
@@ -8,9 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class EpisodeRecyclerItemClickListener implements RecyclerView.OnItemTouchListener {

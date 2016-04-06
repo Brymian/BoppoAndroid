@@ -98,22 +98,22 @@
         </activity>
         <activity android:name=".bryant.ImagesDisplay" android:screenOrientation="portrait"></activity>
         <!-- EVENTS CLASSES -->
-        <activity android:name=".bryant.events.EventsCreate" android:screenOrientation="portrait">
+        <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.main.MainActivity" />
         </activity>
-        <activity android:name=".bryant.events.EventsTop" android:screenOrientation="portrait">
+        <activity android:name=".bryant.episodes.EpisodeTop" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.main.MainActivity" />
         </activity>
-        <activity android:name=".bryant.events.EventsYours" android:screenOrientation="portrait">
+        <activity android:name=".bryant.episodes.EpisodeMy" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.main.MainActivity" />
         </activity>
-        <activity android:name=".bryant.events.EventsCurrent" android:screenOrientation="portrait">
+        <activity android:name=".bryant.episodes.EpisodeCurrent" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.main.MainActivity" />
