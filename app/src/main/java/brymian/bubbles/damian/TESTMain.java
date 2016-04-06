@@ -82,6 +82,7 @@ public class TESTMain
         */
         String imagePrivacyLabel = "";
         String imagePurposeLabel = "";
+        /**
         new ImageRequest(this).getImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -96,5 +97,7 @@ public class TESTMain
                 }
             }
         });
+
+         **/
     }
 }

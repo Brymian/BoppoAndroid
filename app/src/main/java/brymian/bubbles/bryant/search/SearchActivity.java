@@ -111,7 +111,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
                 recyclerView.addOnItemTouchListener(new SearchRecyclerItemClickListener(SearchActivity.this, new SearchRecyclerItemClickListener.OnItemClickListener() {
-                            @Override public void onItemClick(View view, int position) {
+                            @Override
+                            public void onItemClick(View view, int position) {
                                 startActivity(new Intent(SearchActivity.this, ProfileActivity.class).putExtra("uid", staticUID.get(position)).putExtra("profile", staticFriendStatus.get(position)));
                             }
                         })

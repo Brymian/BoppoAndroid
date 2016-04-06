@@ -17,13 +17,32 @@
         android:minHeight="?attr/actionBarSize"
         android:transitionGroup="true"/>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_episode_my"
+    <TextView
+        android:id="@+id/tvHosting"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical">
+        android:layout_height="wrap_content"
+        android:text="@string/Hosting"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_episode_my_hosted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
-    </android.support.v7.widget.RecyclerView>
+    <View
+        android:id="@+id/vDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/black"/>
+    <TextView
+        android:id="@+id/tvAttending"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Attending"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_episode_my_attending"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="vertical"/>
 
 </LinearLayout>
 

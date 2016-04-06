@@ -41,6 +41,7 @@
     <string name="Add_Episode_Title">Add Episode Title</string>
     <string name="Add_Friends">Add Friends</string>
     <string name="Add_To_Current_Location">Add To Current Location</string>
+    <string name="Attending">Attending</string>
     <string name="Blocking">Blocking</string>
     <string name="Cancel">Cancel</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
@@ -54,6 +55,7 @@
     <string name="Explore">Explore</string>
     <string name="Friend_Requests">Friend Requests</string>
     <string name="Friends">Friends</string>
+    <string name="Hosting">Hosting</string>
     <string name="Live_Episodes">Live Episodes</string>
     <string name="Log_Out">Log Out</string>
     <string name="Logo">Logo</string>
