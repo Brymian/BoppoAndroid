@@ -973,14 +973,14 @@ public class ServerRequestMethods {
                         JSONObject jImage = (JSONObject) jImages.get(i);
 
                         String path = httpConnection.getUploadServerString() +
-                            jImage.getString("userImagePath").replaceAll(" ", "%20");
+                        jImage.getString("userImagePath").replaceAll(" ", "%20");
                         String userImagePrivacyLabel = jImage.getString("userImagePrivacyLabel");
                         String userImagePurposeLabel = jImage.getString("userImagePurposeLabel");
                         double userImageGpsLatitude = jImage.getDouble("userImageGpsLatitude");
                         double userImageGpsLongitude = jImage.getDouble("userImageGpsLongitude");
 
                         Image image = new Image(path, userImagePrivacyLabel, userImagePurposeLabel,
-                            userImageGpsLatitude, userImageGpsLongitude, -1);
+                            -1, userImageGpsLatitude, userImageGpsLongitude);
 
                         imageList.add(image);
                     }

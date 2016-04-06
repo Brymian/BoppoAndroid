@@ -9,13 +9,16 @@ import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.ImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.EventUser;
+import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 
 /**
@@ -220,8 +223,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-
+        /*
         new ServerRequestMethods(this).getUserFriendRequestUsers(1, new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -233,7 +235,8 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
+        */
+        /*
         new ServerRequestMethods(this).getUserSentFriendRequestUsers(1, new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -245,6 +248,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
         /*
         new EventRequest(this).createEvent(3, "Something Event2", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
             @Override
@@ -363,6 +367,21 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new ImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
+                for (Image image : images) {
+                    System.out.println("Image #" + images.indexOf(image));
+                    System.out.println("Image EID: " + image.userImageEid);
+                    System.out.println("Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
     }
 
 }
