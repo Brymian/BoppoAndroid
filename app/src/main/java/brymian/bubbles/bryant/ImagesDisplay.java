@@ -67,7 +67,7 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
         ibMenu.setOnClickListener(this);
 
         System.out.println("uid: " + uid);
-        getImages(uid);
+        //getImages(uid);
     }
 
     @Override
@@ -79,10 +79,10 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
         }
     }
 
+    /*
     void getImages(int uid){
         //new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
 
-        /**
         new ServerRequestMethods(this).getImages(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -101,10 +101,10 @@ public class ImagesDisplay extends FragmentActivity implements View.OnClickListe
                     npe.printStackTrace();
                 }
             }
-        });
 
-         **/
-    }
+        });
+    });
+    */
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
         String path;

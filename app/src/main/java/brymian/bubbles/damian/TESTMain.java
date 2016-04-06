@@ -2,9 +2,9 @@ package brymian.bubbles.damian;
 
 import java.util.List;
 
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.objects.Event;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.ImageRequest;
+import brymian.bubbles.objects.Image;
 
 /**
  * Created by Ziomster on 3/17/2016.
@@ -80,5 +80,21 @@ public class TESTMain
             }
         });
         */
+        String imagePrivacyLabel = "";
+        String imagePurposeLabel = "";
+        new ImageRequest(this).getImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+                for (Image image : images) {
+                    System.out.println("Image #" + images.indexOf(image));
+                    System.out.println("Image EID: " + image.userImageEid);
+                    System.out.println("Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
     }
 }

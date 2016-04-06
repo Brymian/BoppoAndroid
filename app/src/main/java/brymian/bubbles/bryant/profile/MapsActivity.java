@@ -98,11 +98,11 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
             public void done(List<Image> imageList) {
                 if (imageList.size() != 0) {
                     for (int i = 0; i < imageList.size(); i++) {
-                        System.out.println("Path: " + imageList.get(i).getPath());
-                        imageListPath.add(i, imageList.get(i).getPath());
-                        longitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLongitude());
-                        latitudeImageArrayList.add(i, imageList.get(i).getUserImageGpsLatitude());
-                        privacyImageArrayList.add(i, imageList.get(i).getUserImagePrivacyLabel());
+                        System.out.println("Path: " + imageList.get(i).path);
+                        imageListPath.add(i, imageList.get(i).path);
+                        longitudeImageArrayList.add(i, imageList.get(i).userImageGpsLongitude);
+                        latitudeImageArrayList.add(i, imageList.get(i).userImageGpsLatitude);
+                        privacyImageArrayList.add(i, imageList.get(i).userImagePrivacyLabel);
                     }
                 } else {
                     Toast.makeText(MapsActivity.this, "User has no images uploaded", Toast.LENGTH_SHORT).show();
