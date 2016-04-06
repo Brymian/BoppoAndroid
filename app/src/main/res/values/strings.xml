@@ -64,6 +64,7 @@
     <string name="News_Feed">News Feed</string>
     <string name="Notifications">Notifications</string>
     <string name="Password">Password</string>
+    <string name="Pending_Requests">Pending Requests: </string>
     <string name="Privacy">Privacy</string>
     <string name="Private">Private</string>
     <string name="Profile">Profile</string>

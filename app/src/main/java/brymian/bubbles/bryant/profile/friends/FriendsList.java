@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class FriendsList extends AppCompatActivity{
     RecyclerView.LayoutManager layoutManager;
     Toolbar mToolbar;
     View vDivider;
+    TextView tvPendingFriendRequestsNumber;
     public static List<Integer> friendsUID = new ArrayList<Integer>();
     public static List<String> friendsStatus = new ArrayList<>();
 
@@ -59,6 +61,9 @@ public class FriendsList extends AppCompatActivity{
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        tvPendingFriendRequestsNumber = (TextView) findViewById(R.id.tvPendingFriendRequestsNumber);
+        tvPendingFriendRequestsNumber.setVisibility(View.GONE);
+
         vDivider = findViewById(R.id.vDivider);
         vDivider.setVisibility(View.GONE);
 
@@ -66,6 +71,8 @@ public class FriendsList extends AppCompatActivity{
         if (profile != null) {
             if(profile.equals("logged in user")){
                 mToolbar.setTitle(R.string.Friends);
+
+                /* Check for any friend requests for logged in user */
                 new ServerRequestMethods(this).getUserFriendRequestUsers(SaveSharedPreference.getUserUID(this), new UserListCallback() {
                     @Override
                     public void done(List<User> users) {
@@ -82,11 +89,24 @@ public class FriendsList extends AppCompatActivity{
 
                             vDivider.setVisibility(View.VISIBLE);
 
-                            recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
+                            recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
                             adapter = new FriendRequestRecyclerAdapter(friendRequestFirstLastName, friendRequestUsername);
                             layoutManager = new LinearLayoutManager(FriendsList.this);
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter);
+                        }
+                    }
+                });
+
+                /* Check for any pending friend requests that were sent from logged in user */
+                new ServerRequestMethods(this).getUserSentFriendRequestUsers(SaveSharedPreference.getUserUID(this), new UserListCallback() {
+                    @Override
+                    public void done(List<User> users) {
+                        if (users.size() != 0){
+                            tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
+                            tvPendingFriendRequestsNumber.setText(" " + users.size());
+
+                            System.out.println("name + username + uid: " + users.get(0).getFirstName() + " " + users.get(0).getLastName() + " " + users.get(0).getUsername() + " " + users.get(0).getUid());
                         }
                     }
                 });
@@ -137,8 +157,6 @@ public class FriendsList extends AppCompatActivity{
                 );
             }
         });
-
-
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
