@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.episodes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
@@ -89,8 +91,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
+        if(v.getId() == R.id.ibAddFriends) {
+            startActivity(new Intent(this, EpisodeAddFriends.class));
+        }
 
-        if(v.getId() == R.id.ibAddFriends || v.getId() == R.id.llAddFriends){
+
+        if(v.getId() == R.id.ibDone || v.getId() == R.id.llDone){
             System.out.println("latitude: " + latitude + "\t longitude: " + longitude + "\t privacy: " + privacy);
             new EventRequest(this).createEvent(
                     SaveSharedPreference.getUserUID(this),      /* uid */

@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,12 +16,10 @@ import brymian.bubbles.R;
  */
 public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<EpisodeAddFriendsRecyclerAdapter.RecyclerViewHolder> {
 
-    List<String> friendsFirstLastName;
-    List<String> friendsUsername;
+    List<Friend> friendList;
 
-    public EpisodeAddFriendsRecyclerAdapter(List<String> friendsFirstLastName, List<String> friendsUsername){
-        this.friendsFirstLastName = friendsFirstLastName;
-        this.friendsUsername = friendsUsername;
+    public EpisodeAddFriendsRecyclerAdapter(List<Friend> friendList){
+        this.friendList = friendList;
     }
 
     @Override
@@ -31,22 +30,31 @@ public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<Episo
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.tvFriendsFirstLastName.setText(friendsFirstLastName.get(position));
-        holder.tvFriendsFirstLastName.setText(friendsFirstLastName.get(position));
+        holder.tvFriendsUsername.setText(friendList.get(position).getUsername());
+        holder.tvFriendsFirstLastName.setText(friendList.get(position).getFirstLastName());
+        holder.cbSelected.setChecked(friendList.get(position).getIsSelected());
     }
 
     @Override
     public int getItemCount() {
-        return friendsFirstLastName.size();
+        return friendList.size();
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvFriendsFirstLastName, tvFriendsUsername;
+        CheckBox cbSelected;
 
         public RecyclerViewHolder(View v){
             super(v);
-            tvFriendsFirstLastName = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            tvFriendsFirstLastName = (TextView) v.findViewById(R.id.tvFriendsFirstLastName);
             tvFriendsUsername = (TextView) v.findViewById(R.id.tvFriendsUsername);
+            cbSelected = (CheckBox) v.findViewById(R.id.cbSelected);
         }
     }
+
+    // method to access in activity after updating selection
+    public List<Friend> getStudentist() {
+        return friendList;
+    }
+
 }

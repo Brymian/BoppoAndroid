@@ -125,6 +125,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                             return false;
                         }
                     });
+                    mMap.getUiSettings().setMapToolbarEnabled(false); //disables the bottom right buttons that appear when you click on a marker
                 }
             }
         });

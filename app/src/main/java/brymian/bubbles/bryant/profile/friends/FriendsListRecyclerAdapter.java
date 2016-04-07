@@ -18,7 +18,7 @@ public class FriendsListRecyclerAdapter  extends RecyclerView.Adapter<FriendsLis
     List<String> friendsFirstLastName;
     List<String> friendsUsername;
 
-    public FriendsListRecyclerAdapter(List friendsFirstLastName, List friendsUsername){
+    public FriendsListRecyclerAdapter(List<String> friendsFirstLastName, List<String> friendsUsername){
         this.friendsFirstLastName = friendsFirstLastName;
         this.friendsUsername = friendsUsername;
     }

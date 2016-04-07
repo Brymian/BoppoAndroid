@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -112,6 +113,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         //Add markers here
 
         mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        mMap.getUiSettings().setMapToolbarEnabled(false); //disables the bottom right buttons that appear when you click on a marker
 
 
         //.icon(BitmapDescriptorFactory.fromResource(R.mipmap.bubbles_no_padding)));

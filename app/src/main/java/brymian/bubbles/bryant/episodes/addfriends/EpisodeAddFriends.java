@@ -25,6 +25,8 @@ public class EpisodeAddFriends extends AppCompatActivity implements CompoundButt
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
+    ArrayList<Friend> friendList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,16 +42,14 @@ public class EpisodeAddFriends extends AppCompatActivity implements CompoundButt
             @Override
             public void done(List<User> users) {
                 if(users.size() != 0){
-                    ArrayList<String> friendFirstLastName = new ArrayList<String>();
-                    ArrayList<String> friendUsername = new ArrayList<String>();
-
-                    for(int i = 0; i < users.size(); i++){
-                        friendFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                        friendUsername.add(i, users.get(i).getUsername());
+                    System.out.println("users.size(): " + users.size());
+                    for(User user : users){
+                        Friend friend = new Friend(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid(), false);
+                        friendList.add(friend);
                     }
 
                     recyclerView = (RecyclerView) findViewById(R.id.recyclerView_addFriends);
-                    adapter = new EpisodeAddFriendsRecyclerAdapter(friendFirstLastName, friendUsername);
+                    adapter = new EpisodeAddFriendsRecyclerAdapter(friendList);
                     layoutManager = new LinearLayoutManager(EpisodeAddFriends.this);
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);

@@ -31,7 +31,7 @@ public class FriendsList extends AppCompatActivity{
     RecyclerView.LayoutManager layoutManager;
     Toolbar mToolbar;
     View vDivider;
-    TextView tvPendingFriendRequestsNumber;
+    TextView tvPendingFriendRequestsNumber, tvPendingRequests;
     public static List<Integer> friendsUID = new ArrayList<Integer>();
     public static List<String> friendsStatus = new ArrayList<>();
 
@@ -63,6 +63,8 @@ public class FriendsList extends AppCompatActivity{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         tvPendingFriendRequestsNumber = (TextView) findViewById(R.id.tvPendingFriendRequestsNumber);
         tvPendingFriendRequestsNumber.setVisibility(View.GONE);
+        tvPendingRequests = (TextView) findViewById(R.id.tvPendingRequests);
+        tvPendingRequests.setVisibility(View.GONE);
 
         vDivider = findViewById(R.id.vDivider);
         vDivider.setVisibility(View.GONE);
@@ -88,7 +90,6 @@ public class FriendsList extends AppCompatActivity{
                             }
 
                             vDivider.setVisibility(View.VISIBLE);
-
                             recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
                             adapter = new FriendRequestRecyclerAdapter(friendRequestFirstLastName, friendRequestUsername);
                             layoutManager = new LinearLayoutManager(FriendsList.this);
@@ -103,6 +104,7 @@ public class FriendsList extends AppCompatActivity{
                     @Override
                     public void done(List<User> users) {
                         if (users.size() != 0){
+                            tvPendingRequests.setVisibility(View.VISIBLE);
                             tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
                             tvPendingFriendRequestsNumber.setText(" " + users.size());
 
