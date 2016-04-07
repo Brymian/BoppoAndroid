@@ -115,6 +115,12 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         }, delay);
 
         FloatingActionButton fabItem1 = (FloatingActionButton) findViewById(R.id.fabItem1);
+        fabItem1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                flashLightOn();
+            }
+        });
         FloatingActionButton fabItem2 = (FloatingActionButton) findViewById(R.id.fabItem2);
         FloatingActionButton fabItem3 = (FloatingActionButton) findViewById(R.id.fabItem3);
 
@@ -129,6 +135,24 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         //ibCapture.bringToFront();
 
     }
+
+    public void flashLightOn() {
+
+        try {
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+                //cam = Camera.open();
+                Camera.Parameters p = mCamera.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                //mCamera.setParameters(p);
+                //mCamera.startPreview();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Exception flashLightOn()",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
