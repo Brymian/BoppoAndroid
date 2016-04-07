@@ -89,10 +89,11 @@ public class EventRequest {
         StringCallback stringCallback;
 
         private CreateEvent(Integer eventHostUid, String eventName, String eventPrivacyLabel,
-                            String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
-                            String eventStartDatetime, String eventEndDatetime,
-                            Double eventGpsLatitude, Double eventGpsLongitude,
-                            StringCallback stringCallback) {
+            String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
+            String eventStartDatetime, String eventEndDatetime,
+            Double eventGpsLatitude, Double eventGpsLongitude,
+            StringCallback stringCallback)
+        {
 
             this.eventHostUid = eventHostUid;
             this.eventName = eventName;

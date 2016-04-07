@@ -14,6 +14,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallbac
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.ImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
@@ -223,6 +224,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
         /*
         new ServerRequestMethods(this).getUserFriendRequestUsers(1, new UserListCallback() {
             @Override
@@ -235,8 +237,8 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
-        /*
+
+
         new ServerRequestMethods(this).getUserSentFriendRequestUsers(1, new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -249,6 +251,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
         /*
         new EventRequest(this).createEvent(3, "Something Event2", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
             @Override
@@ -303,7 +306,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new FriendshipRequest(this).blockUser(4, 3, new StringCallback() {
+        new FriendshipStatusRequest(this).blockUser(4, 3, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING BLOCK USER RESPONSE HAS BEEN RETURNED: ");
@@ -367,6 +370,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new ImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -380,6 +384,39 @@ public class TESTActivity extends Activity {
                     System.out.println("Image GPS Latitude: " + image.userImageGpsLatitude);
                     System.out.println("Image GPS Longitude: " + image.userImageGpsLongitude);
                 }
+            }
+        });
+        */
+
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(1, "Request Sent", new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                System.out.println("TOTAL NUMBER OF USERS TO WHOM UID 1 SENT A REQUEST: " + users.size());
+
+                for (User user : users) {
+                    System.out.println("User #" + users.indexOf(user));
+                    System.out.println("UID: " + user.getUid());
+                    System.out.println("Username: " + user.getUsername());
+                    System.out.println("First Name: " + user.getFirstName());
+                    System.out.println("Last Name: " + user.getLastName());
+                }
+                System.out.println();
+            }
+        });
+
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Request Sent", new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                System.out.println("TOTAL NUMBER OF USERS FROM WHOM UID 2 RECEIVED A REQUEST: " + users.size());
+
+                for (User user : users) {
+                    System.out.println("User #" + users.indexOf(user));
+                    System.out.println("UID: " + user.getUid());
+                    System.out.println("Username: " + user.getUsername());
+                    System.out.println("First Name: " + user.getFirstName());
+                    System.out.println("Last Name: " + user.getLastName());
+                }
+                System.out.println();
             }
         });
     }

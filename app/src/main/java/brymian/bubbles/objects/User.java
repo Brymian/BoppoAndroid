@@ -5,7 +5,7 @@ package brymian.bubbles.objects;
  */
 public class User {
 
-    private int uid;
+    private Integer uid;
     private String facebookUid;
     private String googlepUid;
     private String username;
@@ -22,8 +22,7 @@ public class User {
     private final int GOOGLEP = 3;
 
     /* Create an empty user object */
-    public User() {
-    }
+    public User() {}
 
     /* Initialize the normal user object */
     public void initUserNormal(String username, String password) {
@@ -96,7 +95,7 @@ public class User {
         this.userAccountPrivacy = userAccountPrivacy;
     }
 
-    public int getUid() {
+    public Integer getUid() {
         return uid;
     }
 

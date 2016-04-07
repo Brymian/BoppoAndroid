@@ -2,9 +2,9 @@ package brymian.bubbles.damian;
 
 import java.util.List;
 
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.ImageRequest;
-import brymian.bubbles.objects.Image;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
+import brymian.bubbles.objects.User;
 
 /**
  * Created by Ziomster on 3/17/2016.
@@ -80,9 +80,9 @@ public class TESTMain
             }
         });
         */
+        /*
         String imagePrivacyLabel = "";
         String imagePurposeLabel = "";
-        /**
         new ImageRequest(this).getImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -97,7 +97,23 @@ public class TESTMain
                 }
             }
         });
+         */
+        /*
+        Integer uid1 = 1;
+        String friendshipRequestTypeLabel = "";
 
-         **/
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(
+            uid1, friendshipRequestTypeLabel, new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                System.out.println("TOTAL NUMBER OF USERS TO WHOM UID 1 SENT A REQUEST: " + users.size());
+
+                for (User user : users) {
+                    // ...
+                }
+                System.out.println();
+            }
+        });
+        */
     }
 }
