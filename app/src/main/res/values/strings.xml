@@ -37,6 +37,7 @@
     <!--_________________________________________________________________________________________-->
 
     <string name="About">About</string>
+    <string name="Accept">Accept</string>
     <string name="Account">Account</string>
     <string name="Add_Episode_Title">Add Episode Title</string>
     <string name="Add_Friends">Add Friends</string>
@@ -48,6 +49,7 @@
     <string name="Create_Episode">Create Episode</string>
     <string name="Current_Location">Current Location</string>
     <string name="Current_Password">Current Password</string>
+    <string name="Decline">Decline</string>
     <string name="Done">Done</string>
     <string name="Email">Email</string>
     <string name="Episode_Requests">Episode Requests</string>
@@ -66,7 +68,7 @@
     <string name="News_Feed">News Feed</string>
     <string name="Notifications">Notifications</string>
     <string name="Password">Password</string>
-    <string name="Pending_Requests">Pending Requests: </string>
+    <string name="Pending_Sent_Requests">Pending Sent Requests: </string>
     <string name="Privacy">Privacy</string>
     <string name="Private">Private</string>
     <string name="Profile">Profile</string>
@@ -76,6 +78,7 @@
     <string name="Save">Save</string>
     <string name="Search">Search&#8230;</string>
     <string name="Send_To">Send To&#8230;</string>
+    <string name="Sent_Requests">Sent Requests</string>
     <string name="Settings">Settings</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Top_Episodes">Top Episodes</string>

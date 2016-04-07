@@ -18,8 +18,10 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.profile.friends.friendrequests.FriendRequestRecyclerAdapter;
+import brymian.bubbles.bryant.profile.friends.sent.SentFriendRequests;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
@@ -73,14 +75,33 @@ public class FriendsList extends AppCompatActivity{
         if (profile != null) {
             if(profile.equals("logged in user")){
                 mToolbar.setTitle(R.string.Friends);
-
-                /* Check for any friend requests for logged in user */
-                new ServerRequestMethods(this).getUserFriendRequestUsers(SaveSharedPreference.getUserUID(this), new UserListCallback() {
+                /* Check for any pending friend requests that were sent from logged in user */
+                new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Request sent", new UserListCallback() {
                     @Override
                     public void done(List<User> users) {
-
+                        if (users.size() != 0){
+                            tvPendingRequests.setVisibility(View.VISIBLE);
+                            tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
+                            tvPendingFriendRequestsNumber.setText(" " + users.size());
+                            tvPendingRequests.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
+                                }
+                            });
+                            tvPendingFriendRequestsNumber.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
+                                }
+                            });
+                        }                    }
+                });
+                /* Check for any friend requests for logged in user */
+                new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Request sent", new UserListCallback() {
+                    @Override
+                    public void done(List<User> users) {
                         if(users.size() != 0){
-                            System.out.println("friend request size: " + users.size());
                             ArrayList<String> friendRequestUsername = new ArrayList<String>();
                             ArrayList<String> friendRequestFirstLastName = new ArrayList<String>();
 
@@ -99,27 +120,11 @@ public class FriendsList extends AppCompatActivity{
                     }
                 });
 
-                /* Check for any pending friend requests that were sent from logged in user */
-                new ServerRequestMethods(this).getUserSentFriendRequestUsers(SaveSharedPreference.getUserUID(this), new UserListCallback() {
-                    @Override
-                    public void done(List<User> users) {
-                        if (users.size() != 0){
-                            tvPendingRequests.setVisibility(View.VISIBLE);
-                            tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
-                            tvPendingFriendRequestsNumber.setText(" " + users.size());
-
-                            System.out.println("name + username + uid: " + users.get(0).getFirstName() + " " + users.get(0).getLastName() + " " + users.get(0).getUsername() + " " + users.get(0).getUid());
-                        }
-                    }
-                });
             }
             else{
                 mToolbar.setTitle(profile + "'s Friends");
             }
         }
-
-
-
 
         new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
             @Override
@@ -130,9 +135,6 @@ public class FriendsList extends AppCompatActivity{
 
 
                 for (int i = 0; i < users.size(); i++) {
-                    System.out.println("username: " + users.get(i).getUsername() +
-                            "\t firstLastName: " + users.get(i).getFirstName() + " " + users.get(i).getLastName() +
-                            "\t uid: " + users.get(i).getUid());
                     friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
                     friendsUsername.add(i, users.get(i).getUsername());
                     friendsUID.add(i, users.get(i).getUid());

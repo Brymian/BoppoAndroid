@@ -90,15 +90,6 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
 
     }
 
-    private void setMarkers(){
-        for(int i = 0; i < imageArrayListPath.size(); i++){
-            mMap.addMarker(
-                    new MarkerOptions()
-                            .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
-            );
-        }
-    }
-
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
