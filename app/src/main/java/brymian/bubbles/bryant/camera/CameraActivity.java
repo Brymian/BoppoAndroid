@@ -8,6 +8,7 @@ import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -19,9 +20,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionMenu;
-import com.oguzdev.circularfloatingactionmenu.library.SubActionButton;
+
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -37,10 +38,12 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     ImageButton ibCapture, ibCheck, ibCancel;
     FrameLayout preview;
     LinearLayout llPictureTakenButtons;
-    FloatingActionButton floatingActionButton;
+    FloatingActionButton fabItem1, fabItem2, fabItem3;
     private Camera mCamera;
     private CameraPreview mPreview;
     String imagePurpose;
+
+    private Handler mUiHandler = new Handler();
 
 
     byte[] data;
@@ -92,79 +95,52 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         mPreview = new CameraPreview(this, mCamera);
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
-        llPictureTakenButtons = (LinearLayout) findViewById(R.id.llPictureTakenButtons);
-        ibCapture = (ImageButton) findViewById(R.id.ibCapture);
-        ibCheck = (ImageButton) findViewById(R.id.ibCheck);
-        ibCancel = (ImageButton) findViewById(R.id.ibCancel);
+        //llPictureTakenButtons = (LinearLayout) findViewById(R.id.llPictureTakenButtons);
+        //ibCapture = (ImageButton) findViewById(R.id.ibCapture);
+        //ibCheck = (ImageButton) findViewById(R.id.ibCheck);
+        //ibCancel = (ImageButton) findViewById(R.id.ibCancel);
 
-        llPictureTakenButtons.setVisibility(View.GONE);
-        ibCapture.setOnClickListener(this);
-        ibCheck.setOnClickListener(this);
-        ibCancel.setOnClickListener(this);
-        ibCapture.bringToFront();
-
-
-        /*--------------------------------FloatingActionButton------------------------------------*/
-        /* FloatingActionButton main button */
-        ImageView icon = new ImageView(this);
-        icon.setImageResource(R.mipmap.add);
-        floatingActionButton = new FloatingActionButton.Builder(this)
-                .setContentView(icon)
-                .build();
-
-        /* sub menu buttons */
-        SubActionButton.Builder itemBuilder = new SubActionButton.Builder(this);
-        ImageView itemIcon1 = new ImageView(this);
-        itemIcon1.setImageResource(R.mipmap.switch_camera);
-
-        ImageView itemIcon2 = new ImageView(this);
-        itemIcon2.setImageResource(android.R.drawable.ic_menu_delete);
-
-        ImageView itemIcon3 = new ImageView(this);
-        itemIcon3.setImageResource(android.R.drawable.ic_menu_info_details);
-
-
-        SubActionButton button1 = itemBuilder.setContentView(itemIcon1).build();
-        button1.setOnClickListener(new View.OnClickListener() {
+        final FloatingActionMenu fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabMenu.hideMenuButton(false);
+        int delay = 400;
+        mUiHandler.postDelayed(new Runnable() {
             @Override
-            public void onClick(View v) {
-
+            public void run() {
+                fabMenu.showMenuButton(true);
+                fabMenu.bringToFront();
+                //fab.show(true);
+                //fab.setShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
+                //fab.setHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
             }
-        });
-        SubActionButton button2 = itemBuilder.setContentView(itemIcon2).build();
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        }, delay);
 
-            }
-        });
-        SubActionButton button3 = itemBuilder.setContentView(itemIcon3).build();
-        button3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        FloatingActionButton fabItem1 = (FloatingActionButton) findViewById(R.id.fabItem1);
+        FloatingActionButton fabItem2 = (FloatingActionButton) findViewById(R.id.fabItem2);
+        FloatingActionButton fabItem3 = (FloatingActionButton) findViewById(R.id.fabItem3);
 
-            }
-        });
-        FloatingActionMenu actionMenu = new FloatingActionMenu.Builder(this)
-                .addSubActionView(button1)
-                .addSubActionView(button2)
-                .addSubActionView(button3)
-                .setRadius(400)
-                .attachTo(floatingActionButton)
-                .build();
-        /*----------------------------------------------------------------------------------------*/
+
+
+
+
+        //llPictureTakenButtons.setVisibility(View.GONE);
+        //ibCapture.setOnClickListener(this);
+        //ibCheck.setOnClickListener(this);
+        //ibCancel.setOnClickListener(this);
+        //ibCapture.bringToFront();
+
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            /**
             case R.id.ibCapture:
                 mCamera.takePicture(mShutter, mRaw, mPicture);
                 break;
             case R.id.ibCheck:
                 if(imagePurpose.equals("Regular")) {
-                    startActivity(new Intent(this, SendTo.class)   /* starting SendTo.java */
-                            .putExtra("encodedImage",                /* sending the image in String form */
+                    startActivity(new Intent(this, SendTo.class)
+                            .putExtra("encodedImage",
                                     Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
                 }
                 else if(imagePurpose.equals("Profile")){
@@ -174,6 +150,8 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     finish();
                 }
                 break;
+
+             **/
         }
     }
 
@@ -216,7 +194,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             ibCapture.setVisibility(View.GONE);
             llPictureTakenButtons.setVisibility(View.VISIBLE);
             llPictureTakenButtons.bringToFront();
-            floatingActionButton.setVisibility(View.GONE);
             setImageDataByte(data);
         }
     };

@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/camera_preview">
 
 
+    <!--
     <ImageButton
         android:id="@+id/ibCapture"
         android:layout_gravity="center|bottom"
@@ -38,6 +41,64 @@
             android:src="@android:drawable/ic_menu_add"
             android:background="@android:color/transparent"/>
     </LinearLayout>
+
+    -->
+
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        fab:menu_animationDelayPerItem="0"
+        fab:menu_shadowColor="#444"
+        fab:menu_colorNormal="#FFB805"
+        fab:menu_colorPressed="#F2AB00"
+        fab:menu_colorRipple="#D99200">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabItem1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_icon_black_nopadd"
+            fab:fab_colorNormal="#FFB805"
+            fab:fab_colorPressed="#FFB805"
+            fab:fab_colorRipple="#FFB805"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_icon_black_nopadd" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabItem3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_icon_black_nopadd" />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+
+
+<!--
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="16dp"
+        app:fab_elevationCompat="4dp"/>
+-->
+
+
+
+
 
 
 </FrameLayout>
