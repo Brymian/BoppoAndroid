@@ -21,19 +21,29 @@ import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.ImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.objects.Image;
 
 
 public class TabFragment1 extends Fragment implements View.OnClickListener{
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     double longitude;
     double latitude;
+    ArrayList<String> imageArrayListPath = new ArrayList<>();
+    ArrayList<Double> longitudeImageArrayList = new ArrayList<>();
+    ArrayList<Double> latitudeImageArrayList = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tab_fragment_1, container, false);
-
+        getImages();
         return rootView;
     }
 
@@ -49,6 +59,46 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         super.onResume();
         setUpMapIfNeeded();
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //SaveSharedPreference.clearLongitude(getActivity());
+        //SaveSharedPreference.clearLatitude(getActivity());
+    }
+
+    private void getImages(){
+        new ImageRequest(getActivity()).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                System.out.println("imageList.size: " + imageList.size());
+                for (Image image : imageList) {
+                    imageArrayListPath.add(image.path);
+                    latitudeImageArrayList.add(image.userImageGpsLatitude);
+                    longitudeImageArrayList.add(image.userImageGpsLongitude);
+                }
+
+                for(int i = 0; i < imageArrayListPath.size(); i++){
+                    mMap.addMarker(
+                            new MarkerOptions()
+                                    .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
+                    );
+                }
+            }
+        });
+
+
+    }
+
+    private void setMarkers(){
+        for(int i = 0; i < imageArrayListPath.size(); i++){
+            mMap.addMarker(
+                    new MarkerOptions()
+                            .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
+            );
+        }
+    }
+
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
@@ -99,8 +149,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
             e.printStackTrace();
             Toast.makeText(getActivity(), "Map Unavailable.", Toast.LENGTH_SHORT).show();
         }
-        System.out.println("THIS IS FROM setUpMap(): latitude is " + latitude);
-        System.out.println("THIS IS FROM setUpMap(): longitude is " + longitude);
+
         // Create a LatLng object for the current location
         LatLng latLng = new LatLng(latitude, longitude);
 
@@ -108,11 +157,11 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
         // Zoom in the Google Map
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(5));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
 
         //Add markers here
 
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude))); //marker for current location
         mMap.getUiSettings().setMapToolbarEnabled(false); //disables the bottom right buttons that appear when you click on a marker
 
 
@@ -121,12 +170,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         //.snippet("Consider yourself located"));
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        //SaveSharedPreference.clearLongitude(getActivity());
-        //SaveSharedPreference.clearLatitude(getActivity());
-    }
+
 
     public void setLatitudeCurrent(double latitude){
         this.latitude = latitude;

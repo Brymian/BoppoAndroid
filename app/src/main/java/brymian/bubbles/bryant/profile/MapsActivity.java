@@ -108,7 +108,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                     Toast.makeText(MapsActivity.this, "User has no images uploaded", Toast.LENGTH_SHORT).show();
                 }
 
-                System.out.println("latitudeImageArrayList.size(): " + latitudeImageArrayList.size());
                 for (int i = 0; i < latitudeImageArrayList.size(); i++) {
                     mMap.addMarker(
                             (new MarkerOptions()
@@ -119,9 +118,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                     mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                         @Override
                         public boolean onMarkerClick(Marker marker) {
-                            System.out.println("getTitle(): " + marker.getTitle() + "\t getPosition(): " + marker.getPosition());
                             Toast.makeText(MapsActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
-
                             return false;
                         }
                     });
