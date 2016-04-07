@@ -343,8 +343,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventRequest(this).getEventDataByMember(2, new EventListCallback() {
+
+        new EventRequest(this).getEventDataByMember(1, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
                 System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED: ");
@@ -369,7 +369,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
+
         /*
         new ImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
             @Override
@@ -387,7 +387,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(1, "Request Sent", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -419,6 +419,7 @@ public class TESTActivity extends Activity {
                 System.out.println();
             }
         });
+        */
     }
 
 }
