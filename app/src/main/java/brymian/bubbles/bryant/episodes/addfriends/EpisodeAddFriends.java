@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,15 +18,12 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallbac
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
-/**
- * Created by Almanza on 4/5/2016.
- */
 public class EpisodeAddFriends extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-
+    TextView tvTesting;
     ArrayList<Friend> friendList = new ArrayList<>();
 
     @Override
@@ -41,9 +40,8 @@ public class EpisodeAddFriends extends AppCompatActivity implements CompoundButt
         new ServerRequestMethods(this).getFriends(SaveSharedPreference.getUserUID(this), new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                if(users.size() != 0){
-                    System.out.println("users.size(): " + users.size());
-                    for(User user : users){
+                if (users.size() != 0) {
+                    for (User user : users) {
                         Friend friend = new Friend(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid(), false);
                         friendList.add(friend);
                     }
@@ -54,6 +52,24 @@ public class EpisodeAddFriends extends AppCompatActivity implements CompoundButt
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);
 
+                }
+            }
+        });
+
+        tvTesting = (TextView) findViewById(R.id.tvTesting);
+        tvTesting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String data = "";
+                List<Friend> stList = ((EpisodeAddFriendsRecyclerAdapter) adapter)
+                        .getStudentist();
+
+                for (int i = 0; i < stList.size(); i++) {
+                    Friend singleStudent = stList.get(i);
+                    if (singleStudent.getIsSelected()) {
+
+                        data = data + "\n" + singleStudent.getFirstLastName();
+                    }
                 }
             }
         });

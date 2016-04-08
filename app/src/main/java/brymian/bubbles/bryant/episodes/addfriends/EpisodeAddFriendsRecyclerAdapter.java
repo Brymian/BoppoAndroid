@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -29,10 +31,26 @@ public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<Episo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
         holder.tvFriendsUsername.setText(friendList.get(position).getUsername());
         holder.tvFriendsFirstLastName.setText(friendList.get(position).getFirstLastName());
         holder.cbSelected.setChecked(friendList.get(position).getIsSelected());
+        holder.cbSelected.setTag(friendList.get(position));
+        holder.cbSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox) v;
+                Friend contact = (Friend) cb.getTag();
+
+                contact.setIsSelected(cb.isChecked());
+                friendList.get(position).setIsSelected(cb.isChecked());
+
+                Toast.makeText(
+                        v.getContext(),
+                        "Clicked on Checkbox: " + cb.getText() + " is "
+                                + cb.isChecked(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override
