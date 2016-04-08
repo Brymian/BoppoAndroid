@@ -71,18 +71,24 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
         new ImageRequest(getActivity()).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                System.out.println("imageList.size: " + imageList.size());
-                for (Image image : imageList) {
-                    imageArrayListPath.add(image.path);
-                    latitudeImageArrayList.add(image.userImageGpsLatitude);
-                    longitudeImageArrayList.add(image.userImageGpsLongitude);
-                }
+                try {
+                    if (imageList.size() != 0) {
+                        for (Image image : imageList) {
+                            imageArrayListPath.add(image.path);
+                            latitudeImageArrayList.add(image.userImageGpsLatitude);
+                            longitudeImageArrayList.add(image.userImageGpsLongitude);
+                        }
 
-                for(int i = 0; i < imageArrayListPath.size(); i++){
-                    mMap.addMarker(
-                            new MarkerOptions()
-                                    .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
-                    );
+                        for (int i = 0; i < imageArrayListPath.size(); i++) {
+                            mMap.addMarker(
+                                    new MarkerOptions()
+                                            .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
+                            );
+                        }
+                    }
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
                 }
             }
         });

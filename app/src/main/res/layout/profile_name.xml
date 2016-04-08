@@ -14,7 +14,6 @@
         <ImageButton android:id="@+id/ibMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/three_line_menu_w_pad"
             android:background="@android:color/transparent" />
         <TextView
             android:layout_width="match_parent"

@@ -209,9 +209,10 @@ public class MainActivity extends AppCompatActivity {
         /**--------------------------------------------------------------------------------------**/
 
         ImageView icon = new ImageView(this);
-        icon.setImageResource(R.mipmap.camera_nopadding);
+        icon.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
         FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
                 .setContentView(icon)
+                .setPosition(30)
                 .build();
 
         actionButton.setOnClickListener(new View.OnClickListener() {

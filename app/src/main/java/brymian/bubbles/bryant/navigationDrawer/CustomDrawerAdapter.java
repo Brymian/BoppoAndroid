@@ -72,7 +72,7 @@ public class CustomDrawerAdapter extends ArrayAdapter<DrawerItem> {
             List<SpinnerItem> userList = new ArrayList<SpinnerItem>();
 
             /* Add user information here */
-            userList.add(new SpinnerItem(R.mipmap.bubbles_no_padding,
+            userList.add(new SpinnerItem(android.R.drawable.ic_menu_myplaces,
                             getFirstNameUserDataLocal()
                     + " " + getLastNameUserDataLocal(),
                             getUsernameUserDataLocal()));

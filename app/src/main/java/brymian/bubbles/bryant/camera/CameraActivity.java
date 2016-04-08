@@ -38,6 +38,8 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     ImageButton ibCapture, ibCheck, ibCancel;
     FrameLayout preview;
     LinearLayout llPictureTakenButtons;
+    FloatingActionMenu fabMenu;
+    FloatingActionButton fabCapture, fabGoBack;
     FloatingActionButton fabItem1, fabItem2, fabItem3;
     private Camera mCamera;
     private CameraPreview mPreview;
@@ -100,14 +102,24 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         //ibCheck = (ImageButton) findViewById(R.id.ibCheck);
         //ibCancel = (ImageButton) findViewById(R.id.ibCancel);
 
-        final FloatingActionMenu fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
+        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
         fabMenu.hideMenuButton(false);
+        fabCapture.hide(false);
+        fabGoBack.hide(false);
         int delay = 400;
         mUiHandler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 fabMenu.showMenuButton(true);
                 fabMenu.bringToFront();
+
+                fabCapture.show(true);
+                fabCapture.bringToFront();
+
+                fabGoBack.show(true);
+                fabGoBack.bringToFront();
                 //fab.show(true);
                 //fab.setShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
                 //fab.setHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
@@ -157,10 +169,11 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            /**
-            case R.id.ibCapture:
+
+            case R.id.fabCapture:
                 mCamera.takePicture(mShutter, mRaw, mPicture);
                 break;
+            /*
             case R.id.ibCheck:
                 if(imagePurpose.equals("Regular")) {
                     startActivity(new Intent(this, SendTo.class)
@@ -174,8 +187,8 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     finish();
                 }
                 break;
+*/
 
-             **/
         }
     }
 
