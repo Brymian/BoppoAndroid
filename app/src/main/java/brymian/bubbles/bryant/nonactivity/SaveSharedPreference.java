@@ -17,6 +17,9 @@ public class SaveSharedPreference {
     static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
     static final String PREF_NOTIFICATIONS_SOUND = "sound";
 
+    static final String PREF_CAMERA_FLASH_ON = "flash on";
+    static final String PREF_CAMERA_FRONT_CAMERA = "front camera";
+
     static final String LATITUDE = "latitude";
     static final String LONGITUDE = "longitude";
 
@@ -280,6 +283,42 @@ public class SaveSharedPreference {
     public static void clearEncodedImage(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.remove(ENCODED_IMAGE);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
+    /**--------------------------------Camera - Flash--------------------------------------------**/
+    public static void setFlashOn(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_CAMERA_FLASH_ON, "flash on");
+        editor.apply();
+    }
+
+    public static String getFlashOn(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_CAMERA_FLASH_ON, "");
+    }
+
+    public static void clearFlashOn(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(PREF_CAMERA_FLASH_ON);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
+    /**------------------------------Camera - Front Camera--------------------------------------**/
+    public static void setFrontCamera(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_CAMERA_FRONT_CAMERA, "front camera");
+        editor.apply();
+    }
+
+    public static String getFrontCamera(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_CAMERA_FRONT_CAMERA, "");
+    }
+
+    public static void clearFrontCamera(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(PREF_CAMERA_FRONT_CAMERA);
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/

@@ -2,21 +2,18 @@ package brymian.bubbles.bryant.camera;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -37,12 +34,11 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 public class CameraActivity extends Activity implements View.OnClickListener{
     ImageButton ibCapture, ibCheck, ibCancel;
     FrameLayout preview;
-    LinearLayout llPictureTakenButtons;
     FloatingActionMenu fabMenu;
     FloatingActionButton fabCapture, fabGoBack;
-    FloatingActionButton fabItem1, fabItem2, fabItem3;
+    FloatingActionButton fabFlash, fabSwitchCamera;
     private Camera mCamera;
-    private CameraPreview mPreview;
+    CameraPreview mPreview;
     String imagePurpose;
 
     private Handler mUiHandler = new Handler();
@@ -88,6 +84,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        /* Setting xml layout */
         setContentView(R.layout.activity_camera);
 
         /* Create an instance of Camera */
@@ -97,11 +94,9 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         mPreview = new CameraPreview(this, mCamera);
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
-        //llPictureTakenButtons = (LinearLayout) findViewById(R.id.llPictureTakenButtons);
-        //ibCapture = (ImageButton) findViewById(R.id.ibCapture);
-        //ibCheck = (ImageButton) findViewById(R.id.ibCheck);
-        //ibCancel = (ImageButton) findViewById(R.id.ibCancel);
 
+
+        /*------------------------------Floating Action Buttons-----------------------------------*/
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
         fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
         fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
@@ -117,54 +112,30 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
                 fabCapture.show(true);
                 fabCapture.bringToFront();
+                fabCapture.setOnClickListener(CameraActivity.this);
 
                 fabGoBack.show(true);
                 fabGoBack.bringToFront();
-                //fab.show(true);
-                //fab.setShowAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.show_from_bottom));
-                //fab.setHideAnimation(AnimationUtils.loadAnimation(MainActivity.this, R.anim.hide_to_bottom));
+
             }
         }, delay);
 
-        FloatingActionButton fabItem1 = (FloatingActionButton) findViewById(R.id.fabItem1);
-        fabItem1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                flashLightOn();
-            }
-        });
-        FloatingActionButton fabItem2 = (FloatingActionButton) findViewById(R.id.fabItem2);
-        FloatingActionButton fabItem3 = (FloatingActionButton) findViewById(R.id.fabItem3);
-
-
-
-
-
-        //llPictureTakenButtons.setVisibility(View.GONE);
-        //ibCapture.setOnClickListener(this);
-        //ibCheck.setOnClickListener(this);
-        //ibCancel.setOnClickListener(this);
-        //ibCapture.bringToFront();
-
-    }
-
-    public void flashLightOn() {
-
-        try {
-            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-                //cam = Camera.open();
-                Camera.Parameters p = mCamera.getParameters();
-                p.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                //mCamera.setParameters(p);
-                //mCamera.startPreview();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getBaseContext(), "Exception flashLightOn()",
-                    Toast.LENGTH_SHORT).show();
+        fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
+        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
+            fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
+            flashLightOn();
         }
-    }
+        else{
+            fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
+            flashLightOff();
+        }
 
+        fabFlash.setOnClickListener(this);
+
+        fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
+        fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
+        fabSwitchCamera.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View v) {
@@ -172,6 +143,21 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
             case R.id.fabCapture:
                 mCamera.takePicture(mShutter, mRaw, mPicture);
+                break;
+            case R.id.fabFlash:
+                if(SaveSharedPreference.getFlashOn(this).length() == 0){
+                    flashLightOn();
+                    fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
+                    SaveSharedPreference.setFlashOn(this);
+                }
+                else if(SaveSharedPreference.getFlashOn(this).length() != 0){
+                    flashLightOff();
+                    fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
+                    SaveSharedPreference.clearFlashOn(this);
+                }
+                break;
+            case R.id.fabSwitchCamera:
+                switchToFrontCamera();
                 break;
             /*
             case R.id.ibCheck:
@@ -187,8 +173,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     finish();
                 }
                 break;
-*/
-
+                */
         }
     }
 
@@ -202,6 +187,38 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         //originally just mCamera.release();
     }
 
+    private void switchToFrontCamera(){
+        System.out.println("Number of cameras: " + mCamera.getNumberOfCameras());
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+
+    }
+    private void flashLightOn() {
+        try {
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+                Camera.Parameters p = mCamera.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                mCamera.setParameters(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Exception flashLightOn()", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void flashLightOff() {
+        try {
+            if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+                Camera.Parameters p = mCamera.getParameters();
+                p.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                mCamera.setParameters(p);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getBaseContext(), "Exception flashLightOn()", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void releaseCamera(){
         if (mCamera != null){
             mCamera.release();        // release the camera for other applications
@@ -212,7 +229,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     private Camera.ShutterCallback mShutter = new Camera.ShutterCallback(){
         @Override
         public void onShutter() {
-
         }
     };
 
@@ -228,9 +244,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
-            ibCapture.setVisibility(View.GONE);
-            llPictureTakenButtons.setVisibility(View.VISIBLE);
-            llPictureTakenButtons.bringToFront();
             setImageDataByte(data);
         }
     };

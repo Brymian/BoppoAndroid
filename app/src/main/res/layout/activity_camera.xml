@@ -1,48 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:id="@+id/camera_preview">
 
-
-    <!--
-    <ImageButton
-        android:id="@+id/ibCapture"
-        android:layout_gravity="center|bottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_camera"
-        android:background="@android:color/transparent"
-        android:paddingBottom="10dp"/>
-
-
-    <LinearLayout
-        android:id="@+id/llPictureTakenButtons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom">
-
-        <ImageButton
-            android:id="@+id/ibCancel"
-            android:layout_gravity="center|bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:background="@android:color/transparent"/>
-        <ImageButton
-            android:id="@+id/ibCheck"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_add"
-            android:background="@android:color/transparent"/>
-    </LinearLayout>
-
-    -->
     <com.github.clans.fab.FloatingActionButton
         android:id="@+id/fabGoBack"
         android:layout_width="wrap_content"
@@ -95,43 +57,13 @@
         fab:menu_colorRipple="#D99200">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabItem1"
+            android:id="@+id/fabSwitchCamera"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="#FFB805"
-            fab:fab_colorPressed="#FFB805"
-            fab:fab_colorRipple="#FFB805"/>
+            android:layout_height="wrap_content" />
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabItem2"
+            android:id="@+id/fabFlash"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_switch_camera_black_24dp" />
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabItem3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_flash_on_black_24dp" />
+            android:layout_height="wrap_content" />
 
         </com.github.clans.fab.FloatingActionMenu>
-
-
-
-
-
-<!--
-    <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="12dp"
-        android:layout_marginRight="16dp"
-        app:fab_elevationCompat="4dp"/>
--->
-
-
-
-
-
-
 </FrameLayout>
