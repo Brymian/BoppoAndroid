@@ -55,6 +55,8 @@ public class EpisodeMy extends AppCompatActivity {
             public void done(List<Event> eventList) {
 
                 for (Event event : eventList) {
+                    /* code below is for reference */
+                    /*
                     System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
@@ -69,6 +71,7 @@ public class EpisodeMy extends AppCompatActivity {
                     System.out.println("Event Like Count = " + event.eventLikeCount);
                     System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                     System.out.println("Event View Count = " + event.eventViewCount);
+                    */
 
                     if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeMy.this)) {
                         tvHosting.setVisibility(View.VISIBLE);
@@ -97,6 +100,8 @@ public class EpisodeMy extends AppCompatActivity {
             public void done(List<Event> eventList) {
 
                 for (Event event : eventList) {
+                    /* code below is for reference */
+                    /*
                     System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
@@ -111,6 +116,7 @@ public class EpisodeMy extends AppCompatActivity {
                     System.out.println("Event Like Count = " + event.eventLikeCount);
                     System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                     System.out.println("Event View Count = " + event.eventViewCount);
+                    */
 
                     if(event.eventHostUid != SaveSharedPreference.getUserUID(EpisodeMy.this)){
                         eventNameListAttending.add(event.eventName);

@@ -65,6 +65,8 @@ public class EpisodeActivity extends AppCompatActivity {
         new EventRequest(this).getEventData(eid, new EventCallback() {
             @Override
             public void done(Event event) {
+                /* code below is for reference */
+                /*
                 System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED: ");
                 System.out.println();
                 System.out.println("EID = " + event.eid);
@@ -80,16 +82,17 @@ public class EpisodeActivity extends AppCompatActivity {
                 System.out.println("Event Like Count = " + event.eventLikeCount);
                 System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                 System.out.println("Event View Count = " + event.eventViewCount);
+                */
 
             }
         });
     }
 
-    void setEid(int eid){
+    private void setEid(int eid){
         this.eid = eid;
     }
 
-    int getEid(){
+    private int getEid(){
         return eid;
     }
 }

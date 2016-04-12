@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void logOut() {
+    private void logOut() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.logout, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);

@@ -45,10 +45,12 @@ public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<Episo
                 contact.setIsSelected(cb.isChecked());
                 friendList.get(position).setIsSelected(cb.isChecked());
 
+                /**
                 Toast.makeText(
                         v.getContext(),
                         "Clicked on Checkbox: " + cb.getText() + " is "
                                 + cb.isChecked(), Toast.LENGTH_LONG).show();
+                 **/
             }
         });
     }
@@ -71,7 +73,7 @@ public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<Episo
     }
 
     // method to access in activity after updating selection
-    public List<Friend> getStudentist() {
+    public List<Friend> getFriendList() {
         return friendList;
     }
 

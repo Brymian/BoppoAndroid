@@ -34,7 +34,8 @@
                 android:id="@+id/etEpisodeTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/Add_Episode_Title"/>
+                android:hint="@string/Add_Episode_Title"
+                android:maxLines="1"/>
 
         </LinearLayout>
 
@@ -107,18 +108,19 @@
 
 
     <LinearLayout
-        android:id="@+id/llAddFriends"
+        android:id="@+id/llCreateEpisode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#42ffbf"
         android:orientation="horizontal">
         <ImageButton
-            android:id="@+id/ibAddFriends"
+            android:id="@+id/ibCreateEpisode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:src="@mipmap/addfriend_nopadding" />
-
+            android:src="@mipmap/ic_done_black_24dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"/>
     </LinearLayout>
 
 </LinearLayout>

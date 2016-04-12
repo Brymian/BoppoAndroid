@@ -58,6 +58,7 @@
     <string name="Friend_Requests">Friend Requests</string>
     <string name="Friends">Friends</string>
     <string name="Hosting">Hosting</string>
+    <string name="Later">Later</string>
     <string name="Live_Episodes">Live Episodes</string>
     <string name="Log_Out">Log Out</string>
     <string name="Logo">Logo</string>
@@ -85,6 +86,8 @@
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
     <string name="View_More_Current_Episodes">View More Current Episodes&#8230;</string>
     <string name="View_More_Top_Episodes">View More Top Episodes&#8230;</string>
+    <string name="Would_you_like_to_add_friends_now">Would you like to add friends now?</string>
+    <string name="Yes">Yes</string>
 
 
 
