@@ -159,9 +159,9 @@ public class MainActivity extends AppCompatActivity {
         /**--------------------------- Initializing TabLayout and Tabs --------------------------**/
         /**--------------------------------------------------------------------------------------**/
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.globeblackwhite_nopadding), 0, false);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.news_feed_black_and_white_no_padding), 1, true);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.friendslist_nopadding), 2, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_public_black_24dp), 0, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_black_24dp), 1, true);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_whatshot_black_24dp), 2, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -172,21 +172,39 @@ public class MainActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 if (position == 0) {
                     setTitle(R.string.Explore);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_public_white_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_people_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_whatshot_black_24dp);
+
                 } else if (position == 1) {
                     setTitle(R.string.News_Feed);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_public_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_people_white_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_whatshot_black_24dp);
                 } else if (position == 2) {
                     setTitle(R.string.Episodes);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_public_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_people_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_whatshot_white_24dp);
                 }
                 mToolbar.setTitleTextColor(Color.BLACK);
             }
+
         });
-        viewPager.setCurrentItem(0); //setCurrentItem(position) sets which tab MainActivity starts in
+        viewPager.setCurrentItem(1); //setCurrentItem(position) sets which tab MainActivity starts in
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
                 try {
                     viewPager.setCurrentItem(index);
+                    if(index == 0){
+                        tab.setIcon(R.mipmap.ic_public_white_24dp);
+                    }else if(index == 1){
+                        tab.setIcon(R.mipmap.ic_people_white_24dp);
+                    }else if(index == 2){
+                        tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
+                    }
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
                 } catch (IllegalStateException ise) {
@@ -196,6 +214,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                int index = tab.getPosition();
+                if(index == 0){
+                    tab.setIcon(R.mipmap.ic_public_black_24dp);
+                }else if(index == 1){
+                    tab.setIcon(R.mipmap.ic_people_black_24dp);
+                }else if(index == 2){
+                    tab.setIcon(R.mipmap.ic_whatshot_black_24dp);
+                }
 
             }
 
@@ -224,6 +250,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public void onPostCreate(Bundle savedInstanceState){

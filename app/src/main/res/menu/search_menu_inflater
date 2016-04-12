@@ -4,8 +4,7 @@
 
     <item
         android:id="@+id/filter"
-        android:icon="@android:drawable/ic_menu_more"
-        android:title="filter will go here"
+        android:icon="@mipmap/ic_filter_list_black_24dp"
         app:showAsAction="collapseActionView|ifRoom"
         android:orderInCategory="0"/>
 </menu>

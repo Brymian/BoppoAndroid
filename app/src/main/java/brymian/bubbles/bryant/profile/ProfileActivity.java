@@ -169,13 +169,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         switch (friendStatus){
             case "logged in user":
                 ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                ibMiddle.setImageResource(R.mipmap.ic_menu_allfriends);
+                ibMiddle.setImageResource(R.mipmap.ic_people_black_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 
             case "Already friends with user.":
                 ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                ibMiddle.setImageResource(R.mipmap.ic_menu_allfriends);
+                ibMiddle.setImageResource(R.mipmap.ic_people_black_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 

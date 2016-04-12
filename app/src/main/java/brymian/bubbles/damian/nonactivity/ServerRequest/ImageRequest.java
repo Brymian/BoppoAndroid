@@ -45,7 +45,7 @@ public class ImageRequest {
     public void getImagesByPrivacyAndPurpose(String imagePrivacyLabel, String imagePurposeLabel,
         ImageListCallback imageListCallback)
     {
-        pd.show();
+        //pd.show();
         new GetImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, imageListCallback).execute();
     }
 

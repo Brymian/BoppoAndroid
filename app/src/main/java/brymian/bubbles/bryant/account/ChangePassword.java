@@ -49,10 +49,10 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
                     String password = user.getPassword();
                     System.out.println("PASSWORD IS: " + password + ", USERNAME IS: " + user.getUsername());
                     if(etOldPassword.getText().toString().equals(password)){
-                        ivCurrentPassword.setImageResource(R.mipmap.green_checkmark_nopadding);
+                        ivCurrentPassword.setImageResource(R.mipmap.ic_done_black_24dp);
                     }
                     else{
-                        ivCurrentPassword.setImageResource(R.mipmap.red_x_nopadding);
+                        ivCurrentPassword.setImageResource(R.mipmap.ic_close_black_24dp);
                     }
                 }
             });
@@ -73,12 +73,12 @@ public class ChangePassword extends AppCompatActivity implements View.OnClickLis
         @Override
         public void afterTextChanged(Editable s) {
             if (etNewPasswordAgain.getText().toString().equals(etNewPassword.getText().toString())) {
-                ivConfirmNewPassword.setImageResource(R.mipmap.green_checkmark_nopadding);
+                ivConfirmNewPassword.setImageResource(R.mipmap.ic_done_black_24dp);
                 bChangePassword.setVisibility(View.VISIBLE);
                 isEquals = true;
             }
             else{
-                ivConfirmNewPassword.setImageResource(R.mipmap.red_x_nopadding);
+                ivConfirmNewPassword.setImageResource(R.mipmap.ic_close_black_24dp);
                 isEquals = false;
             }
         }
