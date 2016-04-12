@@ -1,10 +1,13 @@
 package brymian.bubbles.bryant.episodes;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
@@ -12,10 +15,12 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
@@ -28,7 +33,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     CheckBox cbPrivate, cbCurrentLocation;
     ImageButton ibAddFriends;
     LinearLayout llAddFriends;
-    String privacy;
+    String episodeTitle ,privacy;
     double latitude;
     double longitude;
 
@@ -48,8 +53,8 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
         cbCurrentLocation.setChecked(true);
         cbCurrentLocation.setOnCheckedChangeListener(this);
-        ibAddFriends = (ImageButton) findViewById(R.id.ibAddFriends);
-        llAddFriends = (LinearLayout) findViewById(R.id.llAddFriends);
+        ibAddFriends = (ImageButton) findViewById(R.id.ibCreateEpisode);
+        llAddFriends = (LinearLayout) findViewById(R.id.llCreateEpisode);
 
         ibAddFriends.setOnClickListener(this);
         llAddFriends.setOnClickListener(this);
@@ -91,16 +96,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
 
-        if(v.getId() == R.id.ibAddFriends) {
-            startActivity(new Intent(this, EpisodeAddFriends.class));
-        }
-
-
-        if(v.getId() == R.id.ibDone || v.getId() == R.id.llDone){
-            System.out.println("latitude: " + latitude + "\t longitude: " + longitude + "\t privacy: " + privacy);
+        if(v.getId() == R.id.ibCreateEpisode) {
             new EventRequest(this).createEvent(
                     SaveSharedPreference.getUserUID(this),      /* uid */
-                    etEpisodeTitle.getText().toString(),        /* Episode Title */
+                    getEpisodeTitle(),                          /* Episode Title */
                     getPrivacy(),                               /* Episode Privacy */
                     "Host",                                     /* Invite Type */
                     true,                                       /* Episode Image Allowed Indicator */
@@ -109,13 +108,28 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                     getLatitude(),                              /* Episode GPS latitude */
                     getLongitude(),                             /* Episode GPS longitude */
                     new StringCallback() {
-                @Override
-                public void done(String string) {
-                    System.out.println("String call back: " + string);
-                }
-            });
-        }
+                        @Override
+                        public void done(String string) {
+                            for(String something: string.split(" ")){
+                                if(something.equals("Success.")){
+                                    addFriends();
+                                }
+                            }
+                        }
+                    });
 
+            /* code below is if we decide to create the episode AND add the friends at the same time */
+            /**
+            startActivity(new Intent(this, EpisodeAddFriends.class)
+                .putExtra("title", etEpisodeTitle.getText().toString())
+                .putExtra("privacy", getPrivacy())
+                .putExtra("inviteType", "Host")
+                .putExtra("imageAllowed", true)
+                .putExtra("latitude", getLatitude())
+                .putExtra("longitude", getLongitude()));
+
+             **/
+        }
     }
 
     @Override
@@ -127,6 +141,36 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    private void addFriends() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_alertdialog, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton(R.string.Later, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(EpisodeCreate.this, EpisodeAddFriends.class)
+                    .putExtra("episodeTitle", getEpisodeTitle()));
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    private String getEpisodeTitle(){
+        this.episodeTitle = etEpisodeTitle.getText().toString();
+        return episodeTitle;
     }
 
     private void setPrivacy(String privacy){
