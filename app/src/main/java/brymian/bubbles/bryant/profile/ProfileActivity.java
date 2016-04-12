@@ -19,7 +19,7 @@ import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar mToolbar;
     int userUID;
     LinearLayout llMain;

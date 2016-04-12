@@ -14,7 +14,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
@@ -135,6 +134,8 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
         fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
         fabSwitchCamera.setOnClickListener(this);
+
+        setAutoFocus();
     }
 
     @Override
@@ -187,10 +188,36 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         //originally just mCamera.release();
     }
 
+    private void setAutoFocus(){
+        Camera.Parameters autoFocusParams = mCamera.getParameters();
+        autoFocusParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+        mCamera.setParameters(autoFocusParams);
+        Toast.makeText(this, "AutoFocus on", Toast.LENGTH_SHORT).show();
+    }
+
     private void switchToFrontCamera(){
         System.out.println("Number of cameras: " + mCamera.getNumberOfCameras());
+
+        int cameraId = -1;
+        int numberOfCameras = Camera.getNumberOfCameras();
+        for (int i = 0; i < numberOfCameras; i++) {
+            Camera.CameraInfo info = new Camera.CameraInfo();
+            Camera.getCameraInfo(i, info);
+            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                cameraId = i;
+                break;
+            }
+        }
+        /*
+        if(mCamera != null){
+            mCamera.stopPreview();
+        }
+
+        mCamera.release();
         Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+
         mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        */
 
     }
     private void flashLightOn() {
