@@ -29,7 +29,6 @@ public class EpisodeAddFriends extends AppCompatActivity{
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     TextView tvTesting;
-    ArrayList<Friend> friendList = new ArrayList<>();
 
     String title, privacy, inviteType;
     boolean imageAllowed;
@@ -118,6 +117,7 @@ public class EpisodeAddFriends extends AppCompatActivity{
             @Override
             public void done(List<User> users) {
                 if (users.size() != 0) {
+                    ArrayList<Friend> friendList = new ArrayList<>();
                     for (User user : users) {
                         Friend friend = new Friend(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid(), false);
                         friendList.add(friend);

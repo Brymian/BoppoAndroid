@@ -5,52 +5,53 @@
     android:orientation="vertical"
     android:background="@android:color/white"
     android:theme="@style/AppTheme">
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:background="#42ffbf"
-        android:elevation="6dp"
-        android:minHeight="?attr/actionBarSize"
-        android:transitionGroup="true"/>
-
-    <LinearLayout
-        android:id="@+id/llPendingFriendRequests"
+        android:minHeight="?attr/actionBarSize" />
+    <!-- code below is if we decide to user swipe refresh
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#8d727272">
-        <TextView
-            android:id="@+id/tvPendingRequests"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Pending_Sent_Requests"/>
-        <TextView
-            android:id="@+id/tvPendingFriendRequestsNumber"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
-
-    </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_friendRequest"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"/>
-
-    <View
-        android:id="@+id/vDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@android:color/black" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_friends"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="vertical"/>
-
+        android:layout_height="wrap_content"> -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/llPendingFriendRequests"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#8d727272">
+                <TextView
+                    android:id="@+id/tvPendingRequests"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Pending_Sent_Requests"/>
+                <TextView
+                    android:id="@+id/tvPendingFriendRequestsNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_friendRequest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"/>
+            <View
+                android:id="@+id/vDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/black" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView_friends"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="vertical"/>
+        </LinearLayout>
+<!--    </android.support.v4.widget.SwipeRefreshLayout> -->
 </LinearLayout>

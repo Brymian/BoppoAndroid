@@ -42,7 +42,6 @@ public class FriendsListRecyclerAdapter  extends RecyclerView.Adapter<FriendsLis
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvFriendsFirstLastName, tvFriendsUsername;
-
         public RecyclerViewHolder(View v){
             super(v);
             tvFriendsFirstLastName = (TextView) v.findViewById(R.id.tvFriendsFirstLastName);
