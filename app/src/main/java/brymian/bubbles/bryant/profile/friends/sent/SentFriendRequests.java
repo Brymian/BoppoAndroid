@@ -32,7 +32,7 @@ public class SentFriendRequests extends AppCompatActivity{
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Sent_Requests);
 
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Request Sent", new UserListCallback() {
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 ArrayList<String> sentFriendRequestFirstLastName = new ArrayList<String>();

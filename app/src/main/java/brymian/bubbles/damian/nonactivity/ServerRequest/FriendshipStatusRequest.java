@@ -38,18 +38,18 @@ public class FriendshipStatusRequest {
         httpConnection = new HTTPConnection();
     }
 
-    public void getFriendshipStatusRequestSentUsers(Integer uid1, String friendshipStatusLabel,
+    public void getFriendshipStatusRequestSentUsers(Integer uid1, String userRelationshipTypeLabel,
         UserListCallback userListCallback)
     {
         pd.show();
-        new GetFriendshipStatusRequestSentUsers(uid1, friendshipStatusLabel, userListCallback).execute();
+        new GetFriendshipStatusRequestSentUsers(uid1, userRelationshipTypeLabel, userListCallback).execute();
     }
 
-    public void getFriendshipStatusRequestReceivedUsers(Integer uid2, String friendshipStatusLabel,
+    public void getFriendshipStatusRequestReceivedUsers(Integer uid2, String userRelationshipTypeLabel,
         UserListCallback userListCallback)
     {
         pd.show();
-        new GetFriendshipStatusRequestReceivedUsers(uid2, friendshipStatusLabel, userListCallback).execute();
+        new GetFriendshipStatusRequestReceivedUsers(uid2, userRelationshipTypeLabel, userListCallback).execute();
     }
 
     public void blockUser(Integer uid1, Integer uid2, StringCallback stringCallback)
@@ -65,14 +65,14 @@ public class FriendshipStatusRequest {
     private class GetFriendshipStatusRequestSentUsers extends AsyncTask<Void, Void, List<User>> {
 
         Integer uid1;
-        String friendshipStatusTypeLabel;
+        String userRelationshipTypeLabel;
         UserListCallback userListCallback;
 
-        private GetFriendshipStatusRequestSentUsers(Integer uid1, String friendshipStatusLabel,
+        private GetFriendshipStatusRequestSentUsers(Integer uid1, String userRelationshipTypeLabel,
             UserListCallback userListCallback)
         {
             this.uid1 = uid1;
-            this.friendshipStatusTypeLabel = friendshipStatusLabel;
+            this.userRelationshipTypeLabel = userRelationshipTypeLabel;
             this.userListCallback = userListCallback;
         }
 
@@ -87,7 +87,7 @@ public class FriendshipStatusRequest {
             {
                 JSONObject jsonEventObject = new JSONObject();
                 jsonEventObject.put("uid1", getNullOrValue(uid1));
-                jsonEventObject.put("friendshipStatusTypeLabel", getNullOrValue(friendshipStatusTypeLabel));
+                jsonEventObject.put("userRelationshipTypeLabel", getNullOrValue(userRelationshipTypeLabel));
 
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
@@ -141,14 +141,14 @@ public class FriendshipStatusRequest {
     private class GetFriendshipStatusRequestReceivedUsers extends AsyncTask<Void, Void, List<User>> {
 
         Integer uid2;
-        String friendshipStatusTypeLabel;
+        String userRelationshipTypeLabel;
         UserListCallback userListCallback;
 
-        private GetFriendshipStatusRequestReceivedUsers(Integer uid2, String friendshipStatusLabel,
+        private GetFriendshipStatusRequestReceivedUsers(Integer uid2, String userRelationshipTypeLabel,
             UserListCallback userListCallback)
         {
             this.uid2 = uid2;
-            this.friendshipStatusTypeLabel = friendshipStatusLabel;
+            this.userRelationshipTypeLabel = userRelationshipTypeLabel;
             this.userListCallback = userListCallback;
         }
 
@@ -163,7 +163,7 @@ public class FriendshipStatusRequest {
             {
                 JSONObject jsonEventObject = new JSONObject();
                 jsonEventObject.put("uid2", getNullOrValue(uid2));
-                jsonEventObject.put("friendshipStatusTypeLabel", getNullOrValue(friendshipStatusTypeLabel));
+                jsonEventObject.put("userRelationshipTypeLabel", getNullOrValue(userRelationshipTypeLabel));
 
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
