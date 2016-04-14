@@ -116,7 +116,7 @@ public class FriendsList extends AppCompatActivity{
 
     /* Checks for any pending friend requests that were sent from logged in user */
     private void checkForSentFriendRequests(){
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Request sent", new UserListCallback() {
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 if (users.size() != 0){
@@ -141,7 +141,7 @@ public class FriendsList extends AppCompatActivity{
 
     /* Checks and displays for any friend requests for logged in user */
     private void checkForReceivedFriendRequests(){
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Request sent", new UserListCallback() {
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 if(users.size() != 0){
