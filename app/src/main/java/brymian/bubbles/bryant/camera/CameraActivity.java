@@ -2,6 +2,7 @@ package brymian.bubbles.bryant.camera;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,12 +11,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.support.v4.app.NavUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -33,11 +37,13 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
  * Created by Almanza on 3/14/2016.
  */
 public class CameraActivity extends Activity implements View.OnClickListener{
-    ImageButton ibCapture, ibCheck, ibCancel;
     FrameLayout preview;
-    FloatingActionMenu fabMenu;
-    FloatingActionButton fabCapture, fabGoBack;
+    FloatingActionMenu fabMenu, fabFilterMenu;
+    FloatingActionButton fabCapture, fabGoBack, fabConfirm, fabCancel;
+    /* sub fab buttons for fabMenu */
     FloatingActionButton fabFlash, fabSwitchCamera;
+    /* sub fab buttons for fabFilterMenu */
+    FloatingActionButton fabItem1, fabItem2;
     private Camera mCamera;
     CameraPreview mPreview;
     String imagePurpose;
@@ -86,7 +92,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /* Setting xml layout */
-        setContentView(R.layout.activity_camera);
+        setContentView(R.layout.camera_activity);
 
         /* Create an instance of Camera */
         mCamera = getCameraInstance();
@@ -96,32 +102,20 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
-
+        /*----------------------------------------------------------------------------------------*/
         /*------------------------------Floating Action Buttons-----------------------------------*/
+        /*----------------------------------------------------------------------------------------*/
+
+        /*-----------------------buttons that appear when in camera preview-----------------------*/
+        /* menu button - bottom right*/
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
-        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
         fabMenu.hideMenuButton(false);
-        fabCapture.hide(false);
-        fabGoBack.hide(false);
-        int delay = 400;
-        mUiHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                fabMenu.showMenuButton(true);
-                fabMenu.bringToFront();
+        fabMenu.showMenuButton(true);
+        fabMenu.bringToFront();
 
-                fabCapture.show(true);
-                fabCapture.bringToFront();
-                fabCapture.setOnClickListener(CameraActivity.this);
-
-                fabGoBack.show(true);
-                fabGoBack.bringToFront();
-
-            }
-        }, delay);
-
+        /* sub menu buttons */
         fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
+        /* checking for previous setting if user kept flash on/off */
         if(SaveSharedPreference.getFlashOn(this).length()  != 0){
             fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
             flashLightOn();
@@ -130,23 +124,58 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
             flashLightOff();
         }
-
         fabFlash.setOnClickListener(this);
 
         fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
         fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
         fabSwitchCamera.setOnClickListener(this);
 
+        /* capture button - bottom middle */
+        fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
+        fabCapture.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
+        fabCapture.hide(false);
+        fabCapture.show(true);
+        fabCapture.bringToFront();
+        fabCapture.setOnClickListener(CameraActivity.this);
+
+        /* go back to MainActivity button - bottom left */
+        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
+        fabGoBack.setImageResource(R.mipmap.ic_arrow_back_black_24dp);
+        fabGoBack.hide(false);
+        fabGoBack.show(true);
+        fabGoBack.bringToFront();
+        fabGoBack.setOnClickListener(CameraActivity.this);
+        /*----------------------------------------------------------------------------------------*/
+
+
+        /*---------------------buttons that appear after picture is taken-------------------------*/
+        /* cancel button - bottom left */
+        fabCancel = (FloatingActionButton) findViewById(R.id.fabCancel);
+        fabCancel.setImageResource(R.mipmap.ic_close_black_24dp);
+
+        /* confirm button - bottom middle */
+        fabConfirm = (FloatingActionButton) findViewById(R.id.fabConfirm);
+        fabConfirm.setImageResource(R.mipmap.ic_done_black_24dp);
+
+        fabFilterMenu = (FloatingActionMenu) findViewById(R.id.fabFilterMenu);
+        /*----------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------*/
+        /*----------------------------------------------------------------------------------------*/
         setAutoFocus();
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
+            case R.id.fabGoBack:
+                NavUtils.navigateUpFromSameTask(this);
+                releaseCamera();
+                break;
 
             case R.id.fabCapture:
-                mCamera.takePicture(mShutter, mRaw, mPicture);
+                takeImage();
                 break;
+
             case R.id.fabFlash:
                 if(SaveSharedPreference.getFlashOn(this).length() == 0){
                     flashLightOn();
@@ -159,11 +188,12 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     SaveSharedPreference.clearFlashOn(this);
                 }
                 break;
+
             case R.id.fabSwitchCamera:
-                switchToFrontCamera();
+                flipCamera();
                 break;
-            /*
-            case R.id.ibCheck:
+
+            case R.id.fabConfirm:
                 if(imagePurpose.equals("Regular")) {
                     startActivity(new Intent(this, SendTo.class)
                             .putExtra("encodedImage",
@@ -176,7 +206,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     finish();
                 }
                 break;
-                */
         }
     }
 
@@ -197,31 +226,15 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         Toast.makeText(this, "AutoFocus on", Toast.LENGTH_SHORT).show();
     }
 
-    private void switchToFrontCamera(){
-        System.out.println("Number of cameras: " + mCamera.getNumberOfCameras());
-
-        int cameraId = -1;
-        int numberOfCameras = Camera.getNumberOfCameras();
-        for (int i = 0; i < numberOfCameras; i++) {
-            Camera.CameraInfo info = new Camera.CameraInfo();
-            Camera.getCameraInfo(i, info);
-            if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
-                cameraId = i;
-                break;
-            }
-        }
+    private void flipCamera() {
+        //int id = (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK ? Camera.CameraInfo.CAMERA_FACING_FRONT : Camera.CameraInfo.CAMERA_FACING_BACK);
         /*
-        if(mCamera != null){
-            mCamera.stopPreview();
+        if (!openCamera(id)) {
+            Toast.makeText(CameraActivity.this, "error", Toast.LENGTH_SHORT).show();
         }
-
-        mCamera.release();
-        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-
-        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
         */
-
     }
+
     private void flashLightOn() {
         try {
             if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
@@ -254,36 +267,33 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             mCamera = null;
         }
     }
+    private void takeImage() {
+        /* Taking the actual picture */
+        mCamera.takePicture(null, null, new Camera.PictureCallback() {
+            @Override
+            public void onPictureTaken(byte[] data, Camera camera) {
+                setImageDataByte(data);
+            }
+        });
 
-    private Camera.ShutterCallback mShutter = new Camera.ShutterCallback(){
-        @Override
-        public void onShutter() {
-        }
-    };
+        /* hiding the buttons that appeared on camera preview */
+        fabGoBack.hide(true);
+        fabCapture.hide(true);
+        fabMenu.hideMenu(true);
 
-    private Camera.PictureCallback mRaw = new Camera.PictureCallback(){
+        /* showing the buttons that appear when picture is taken */
+        fabCancel.hide(false);
+        fabCancel.show(true);
+        fabCancel.bringToFront();
 
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
+        fabConfirm.hide(false);
+        fabConfirm.show(true);
+        fabConfirm.bringToFront();
 
-        }
-    };
-
-    private Camera.PictureCallback mPicture = new Camera.PictureCallback() {
-
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            Bitmap bitmapPicture = BitmapFactory.decodeByteArray(data, 0, data.length);
-            setImageDataByte(data);
-        }
-    };
-
-    private Camera.AutoFocusCallback mAutoFocus = new Camera.AutoFocusCallback() {
-        @Override
-        public void onAutoFocus(boolean success, Camera camera) {
-
-        }
-    };
+        fabFilterMenu.hideMenu(false);
+        fabFilterMenu.showMenu(true);
+        fabFilterMenu.bringToFront();
+    }
 
     private void setImageDataByte(byte[] data){
         this.data = data;
