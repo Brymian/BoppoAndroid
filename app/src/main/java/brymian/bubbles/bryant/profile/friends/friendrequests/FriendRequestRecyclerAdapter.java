@@ -18,9 +18,6 @@ import brymian.bubbles.bryant.profile.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
-/**
- * Created by Almanza on 3/24/2016.
- */
 public class FriendRequestRecyclerAdapter extends RecyclerView.Adapter<FriendRequestRecyclerAdapter.RecyclerViewHolder> {
 
     static List<FriendRequester> friendRequester;

@@ -3,6 +3,8 @@ package brymian.bubbles.bryant.camera;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -271,6 +273,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
+            Bitmap bitmapPicture = BitmapFactory.decodeByteArray(data, 0, data.length);
             setImageDataByte(data);
         }
     };
