@@ -85,11 +85,12 @@ public class FriendshipStatusRequest {
 
             try
             {
-                JSONObject jsonEventObject = new JSONObject();
-                jsonEventObject.put("uid1", getNullOrValue(uid1));
-                jsonEventObject.put("userRelationshipTypeLabel", getNullOrValue(userRelationshipTypeLabel));
+                JSONObject jsonUserRelationshipObject = new JSONObject();
+                jsonUserRelationshipObject.put("uid1", getNullOrValue(uid1));
+                jsonUserRelationshipObject.put("userRelationshipTypeLabel", getNullOrValue(userRelationshipTypeLabel));
 
-                String jsonEventString = jsonEventObject.toString();
+                String jsonEventString = jsonUserRelationshipObject.toString();
+                System.out.println(jsonEventString);
                 String response = request.post(url, jsonEventString);
 
                 JSONArray jUserArray = new JSONArray(response);

@@ -306,7 +306,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new FriendshipStatusRequest(this).blockUser(4, 3, new StringCallback() {
+        new FriendshipStatusRequest(this).blockUser(3, 1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING BLOCK USER RESPONSE HAS BEEN RETURNED: ");
@@ -343,7 +343,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByMember(1, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -369,7 +369,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
+        */
         /*
         new ImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
             @Override
@@ -387,8 +387,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(1, "Request Sent", new UserListCallback() {
+
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(3, "Blocked", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 System.out.println("TOTAL NUMBER OF USERS TO WHOM UID 1 SENT A REQUEST: " + users.size());
@@ -403,7 +403,7 @@ public class TESTActivity extends Activity {
                 System.out.println();
             }
         });
-
+        /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Request Sent", new UserListCallback() {
             @Override
             public void done(List<User> users) {
