@@ -131,6 +131,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void done(String string) {
                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                        System.out.println("string from setFriendStatus: " + string);
                         }
                     });
                 }

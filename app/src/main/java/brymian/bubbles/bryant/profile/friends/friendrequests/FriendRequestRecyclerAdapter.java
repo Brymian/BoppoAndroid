@@ -72,6 +72,7 @@ public class FriendRequestRecyclerAdapter extends RecyclerView.Adapter<FriendReq
                     new ServerRequestMethods(activity).setFriendStatus(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
                         @Override
                         public void done(String string) {
+                            System.out.println("accept string: " + string);
                             if(string.equals("Friend request accepted.")){
                                 friendRequester.remove(getAdapterPosition());
                                 notifyItemRemoved(getAdapterPosition());

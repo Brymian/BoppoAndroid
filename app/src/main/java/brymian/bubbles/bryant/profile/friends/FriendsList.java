@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -116,27 +117,35 @@ public class FriendsList extends AppCompatActivity{
 
     /* Checks for any pending friend requests that were sent from logged in user */
     private void checkForSentFriendRequests(){
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
-            @Override
-            public void done(List<User> users) {
-                if (users.size() != 0){
-                    tvPendingRequests.setVisibility(View.VISIBLE);
-                    tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
-                    tvPendingFriendRequestsNumber.setText(" " + users.size());
-                    tvPendingRequests.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
+            new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
+                @Override
+                public void done(List<User> users) {
+                    try{
+                        if (users.size() != 0) {
+                            tvPendingRequests.setVisibility(View.VISIBLE);
+                            tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
+                            tvPendingFriendRequestsNumber.setText(" " + users.size());
+                            tvPendingRequests.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
+                                }
+                            });
+                            tvPendingFriendRequestsNumber.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
+                                }
+                            });
                         }
-                    });
-                    tvPendingFriendRequestsNumber.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
-                        }
-                    });
-                }                    }
-        });
+                    }
+                    catch (NullPointerException npe){
+                        npe.printStackTrace();
+                        System.out.println("getFriendshipStatusRequestSentUsers() null pointer exception");
+                    }
+                }
+            });
+
     }
 
     /* Checks and displays for any friend requests for logged in user */
@@ -144,20 +153,27 @@ public class FriendsList extends AppCompatActivity{
         new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                if(users.size() != 0){
-                    ArrayList<FriendRequester> friendRequesterArrayList = new ArrayList<FriendRequester>();
+                try {
+                    if (users.size() != 0) {
+                        System.out.println("users.size(): "+users.size());
+                        ArrayList<FriendRequester> friendRequesterArrayList = new ArrayList<FriendRequester>();
 
-                    for(User user: users){
-                        FriendRequester friendRequester = new FriendRequester(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid());
-                        friendRequesterArrayList.add(friendRequester);
+                        for (User user : users) {
+                            FriendRequester friendRequester = new FriendRequester(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid());
+                            friendRequesterArrayList.add(friendRequester);
+                        }
+                        vDivider.setVisibility(View.VISIBLE);
+                        //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
+                        recyclerViewFriendRequests.setVisibility(View.VISIBLE);
+                        adapter = new FriendRequestRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
+                        layoutManager = new LinearLayoutManager(FriendsList.this);
+                        recyclerViewFriendRequests.setLayoutManager(layoutManager);
+                        recyclerViewFriendRequests.setAdapter(adapter);
                     }
-                    vDivider.setVisibility(View.VISIBLE);
-                    //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
-                    recyclerViewFriendRequests.setVisibility(View.VISIBLE);
-                    adapter = new FriendRequestRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
-                    layoutManager = new LinearLayoutManager(FriendsList.this);
-                    recyclerViewFriendRequests.setLayoutManager(layoutManager);
-                    recyclerViewFriendRequests.setAdapter(adapter);
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                    System.out.println("getFriendshipStatusRequestReceivedUsers() null pointer exception");
                 }
             }
         });
@@ -171,17 +187,24 @@ public class FriendsList extends AppCompatActivity{
             public void done(List<User> users) {
                 List<String> friendsFirstLastName = new ArrayList<String>();
                 List<String> friendsUsername = new ArrayList<String>();
-                for (int i = 0; i < users.size(); i++) {
-                    friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                    friendsUsername.add(i, users.get(i).getUsername());
-                    friendsUID.add(i, users.get(i).getUid());
-                    final int j = i;
-                    new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            friendsStatus.add(j, string);
-                        }
-                    });
+                try {
+                    System.out.println("users.size(): "+users.size());
+                    for (int i = 0; i < users.size(); i++) {
+                        friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                        friendsUsername.add(i, users.get(i).getUsername());
+                        friendsUID.add(i, users.get(i).getUid());
+                        final int j = i;
+                        new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
+                            @Override
+                            public void done(String string) {
+                                friendsStatus.add(j, string);
+                            }
+                        });
+                    }
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                    System.out.println("getFriends null pointer exception");
                 }
                 recyclerViewFriends.setVisibility(View.VISIBLE);
                 //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);

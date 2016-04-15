@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,8 +16,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -102,65 +98,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
 
-        /*----------------------------------------------------------------------------------------*/
-        /*------------------------------Floating Action Buttons-----------------------------------*/
-        /*----------------------------------------------------------------------------------------*/
-
-        /*-----------------------buttons that appear when in camera preview-----------------------*/
-        /* menu button - bottom right*/
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabMenu.hideMenuButton(false);
-        fabMenu.showMenuButton(true);
-        fabMenu.bringToFront();
-
-        /* sub menu buttons */
-        fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
-        /* checking for previous setting if user kept flash on/off */
-        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
-            fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
-            flashLightOn();
-        }
-        else{
-            fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
-            flashLightOff();
-        }
-        fabFlash.setOnClickListener(this);
-
-        fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
-        fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
-        fabSwitchCamera.setOnClickListener(this);
-
-        /* capture button - bottom middle */
-        fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
-        fabCapture.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
-        fabCapture.hide(false);
-        fabCapture.show(true);
-        fabCapture.bringToFront();
-        fabCapture.setOnClickListener(CameraActivity.this);
-
-        /* go back to MainActivity button - bottom left */
-        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
-        fabGoBack.setImageResource(R.mipmap.ic_arrow_back_black_24dp);
-        fabGoBack.hide(false);
-        fabGoBack.show(true);
-        fabGoBack.bringToFront();
-        fabGoBack.setOnClickListener(CameraActivity.this);
-        /*----------------------------------------------------------------------------------------*/
-
-
-        /*---------------------buttons that appear after picture is taken-------------------------*/
-        /* cancel button - bottom left */
-        fabCancel = (FloatingActionButton) findViewById(R.id.fabCancel);
-        fabCancel.setImageResource(R.mipmap.ic_close_black_24dp);
-
-        /* confirm button - bottom middle */
-        fabConfirm = (FloatingActionButton) findViewById(R.id.fabConfirm);
-        fabConfirm.setImageResource(R.mipmap.ic_done_black_24dp);
-
-        fabFilterMenu = (FloatingActionMenu) findViewById(R.id.fabFilterMenu);
-        /*----------------------------------------------------------------------------------------*/
-        /*----------------------------------------------------------------------------------------*/
-        /*----------------------------------------------------------------------------------------*/
+        setButtonsCameraPreview();
         setAutoFocus();
     }
 
@@ -205,6 +143,11 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 }
+                break;
+            case R.id.fabCancel:
+                mCamera.startPreview();
+                hideButtonsPictureTaken();
+                setButtonsCameraPreview();
                 break;
         }
     }
@@ -275,34 +218,110 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 setImageDataByte(data);
             }
         });
+        hideButtonsCameraPreview();
+        setButtonsPictureTaken();
+    }
 
+    private void hideButtonsCameraPreview(){
         /* hiding the buttons that appeared on camera preview */
         fabGoBack.hide(true);
         fabCapture.hide(true);
         fabMenu.hideMenu(true);
+        fabFlash.hide(true);
+        fabSwitchCamera.hide(true);
+    }
 
+    private void hideButtonsPictureTaken(){
+        fabCancel.hide(true);
+        fabConfirm.hide(true);
+        fabFilterMenu.hideMenu(true);
+        fabItem1.hide(true);
+        fabItem2.hide(true);
+    }
+
+    private void setButtonsPictureTaken(){
         /* showing the buttons that appear when picture is taken */
+        /* cancel button - bottom left */
+        fabCancel = (FloatingActionButton) findViewById(R.id.fabCancel);
+        fabCancel.setImageResource(R.mipmap.ic_close_black_24dp);
         fabCancel.hide(false);
         fabCancel.show(true);
         fabCancel.bringToFront();
+        fabCancel.setOnClickListener(this);
 
+        /* confirm button - bottom middle */
+        fabConfirm = (FloatingActionButton) findViewById(R.id.fabConfirm);
+        fabConfirm.setImageResource(R.mipmap.ic_done_black_24dp);
         fabConfirm.hide(false);
         fabConfirm.show(true);
         fabConfirm.bringToFront();
+        fabConfirm.setOnClickListener(this);
 
+        /* filter menu button - bottom right */
+        fabFilterMenu = (FloatingActionMenu) findViewById(R.id.fabFilterMenu);
         fabFilterMenu.hideMenu(false);
         fabFilterMenu.showMenu(true);
         fabFilterMenu.bringToFront();
+
+        fabItem1 = (FloatingActionButton) findViewById(R.id.fabItem1);
+        fabItem1.setImageResource(R.mipmap.ic_filter_list_black_24dp);
+        fabItem1.hide(false);
+
+        fabItem2 = (FloatingActionButton) findViewById(R.id.fabItem2);
+        fabItem2.setImageResource(R.mipmap.ic_person_add_black_24dp);
+        fabItem2.hide(false);
     }
 
-    private void setImageDataByte(byte[] data){
-        this.data = data;
+    private void setButtonsCameraPreview(){
+        /*-----------------------buttons that appear when in camera preview-----------------------*/
+        /* menu button - bottom right*/
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabMenu.hideMenuButton(false);
+        fabMenu.showMenuButton(true);
+        fabMenu.bringToFront();
+
+        /* sub menu buttons */
+        fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
+        /* checking for previous setting if user kept flash on/off */
+        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
+            fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
+            flashLightOn();
+        }
+        else{
+            fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
+            flashLightOff();
+        }
+        fabFlash.hide(false);
+        fabFlash.show(true);
+        fabFlash.setOnClickListener(this);
+
+        fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
+        fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
+        fabSwitchCamera.hide(false);
+        fabSwitchCamera.show(true);
+        fabSwitchCamera.setOnClickListener(this);
+
+        /* capture button - bottom middle */
+        fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
+        fabCapture.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
+        fabCapture.hide(false);
+        fabCapture.show(true);
+        fabCapture.bringToFront();
+        fabCapture.setOnClickListener(CameraActivity.this);
+
+        /* go back to MainActivity button - bottom left */
+        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
+        fabGoBack.setImageResource(R.mipmap.ic_arrow_back_black_24dp);
+        fabGoBack.hide(false);
+        fabGoBack.show(true);
+        fabGoBack.bringToFront();
+        fabGoBack.setOnClickListener(CameraActivity.this);
+        /*----------------------------------------------------------------------------------------*/
     }
 
-    private byte[] getImageDataByte(){
-        return data;
-    }
+    private void setImageDataByte(byte[] data){this.data = data;}
 
+    private byte[] getImageDataByte(){return data;}
 
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){
