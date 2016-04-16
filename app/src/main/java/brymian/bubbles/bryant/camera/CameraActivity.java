@@ -12,6 +12,7 @@ import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -44,8 +46,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     CameraPreview mPreview;
     String imagePurpose;
 
-    private Handler mUiHandler = new Handler();
-
+    int currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
 
     byte[] data;
 
@@ -170,12 +171,45 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     }
 
     private void flipCamera() {
-        //int id = (cameraId == Camera.CameraInfo.CAMERA_FACING_BACK ? Camera.CameraInfo.CAMERA_FACING_FRONT : Camera.CameraInfo.CAMERA_FACING_BACK);
+        if( mCamera != null){
+            mCamera.stopPreview();
+            mCamera.release();
+        }
+        //swap the id of the camera to be used
+        if(currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+            currentCameraId = Camera.CameraInfo.CAMERA_FACING_FRONT;
+        }
+        else {
+            currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
+        }
+        mCamera = Camera.open(currentCameraId);
+
         /*
-        if (!openCamera(id)) {
-            Toast.makeText(CameraActivity.this, "error", Toast.LENGTH_SHORT).show();
+        setCameraDisplayOrientation(CameraActivity.this, currentCameraId, camera);
+        try {
+
+            camera.setPreviewDisplay(previewHolder);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         */
+
+
+        SurfaceHolder mHolder = mPreview.getHolder();
+        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+
+       //mPreview = new CameraPreview(this, mCamera);
+        //preview.addView(mPreview);
+        try {
+            mCamera.setPreviewDisplay(mHolder);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mCamera.startPreview();
+
+
+
     }
 
     private void flashLightOn() {
@@ -372,6 +406,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         }
     }
 
+
     /** A safe way to get an instance of the Camera object. */
     public static Camera getCameraInstance(){
         Camera c = null;
@@ -391,7 +426,4 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         System.out.println(name);
         return name;
     }
-
-
-
 }

@@ -35,6 +35,8 @@ import brymian.bubbles.bryant.account.ChangePassword;
 import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
 import brymian.bubbles.bryant.camera.CameraActivity;
+import brymian.bubbles.bryant.camera.CameraDemoActivity;
+import brymian.bubbles.bryant.camera.CameraPRACTICE;
 import brymian.bubbles.bryant.episodes.EpisodeCreate;
 import brymian.bubbles.bryant.profile.MapsActivity;
 import brymian.bubbles.bryant.profile.Privacy;
@@ -241,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraActivity.class).putExtra("imagePurpose", "Regular"));
+                startActivity(new Intent(MainActivity.this, CameraPRACTICE.class).putExtra("imagePurpose", "Regular"));
             }
         });
 
