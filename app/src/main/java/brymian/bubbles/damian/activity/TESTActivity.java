@@ -102,7 +102,6 @@ public class TESTActivity extends Activity {
         // ANY setFriendStatus AND getFriendStatus FOR THE TWO USERS
         // ... SHOULD NOW SAY "Already friends with user."
         */
-
         /*
         new ServerRequestMethods(this).getFriends(1, new UserListCallback() {
             @Override
@@ -387,7 +386,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(3, "Blocked", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -403,8 +402,9 @@ public class TESTActivity extends Activity {
                 System.out.println();
             }
         });
+        */
         /*
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Request Sent", new UserListCallback() {
+        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 System.out.println("TOTAL NUMBER OF USERS FROM WHOM UID 2 RECEIVED A REQUEST: " + users.size());
@@ -420,6 +420,13 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new FriendshipStatusRequest(this).rejectFriend(1, 17, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING REJECT FRIEND RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
     }
 
 }
