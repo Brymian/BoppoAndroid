@@ -420,10 +420,19 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new FriendshipStatusRequest(this).rejectFriend(1, 17, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING REJECT FRIEND RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        */
+        new EventRequest(this).incrementEventViewCount(38, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING INCREMENT EVENT VIEW COUNT RESPONSE HAS BEEN RETURNED: ");
                 System.out.println(string);
             }
         });
