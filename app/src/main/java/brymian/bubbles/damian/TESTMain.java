@@ -6,6 +6,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
 import brymian.bubbles.objects.User;
 
 /**
@@ -26,5 +27,17 @@ public class TESTMain
             }
         });
         */
+
+        Integer uid = 3;
+        String objectTypeLabel = "Event";
+        Integer oid = 53;
+        Boolean userLikeIndicator = false;
+
+        new UserLikeRequest(this).setObjectLikeOrDislike(uid, objectTypeLabel, oid, userLikeIndicator, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
     }
 }
