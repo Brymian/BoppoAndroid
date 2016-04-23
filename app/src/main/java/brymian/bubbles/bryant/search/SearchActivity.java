@@ -96,17 +96,21 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
                 List<String> usersString = new ArrayList<String>();
                 List<String> usersUsername = new ArrayList<String>();
                 try {
-                    for(int i = 0; i< users.size(); i++){
-                        usersString.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                        usersUsername.add(i, users.get(i).getUsername());
-                        staticUID.add(i, users.get(i).getUid());
-                        final int j = i;
-                        new ServerRequestMethods(SearchActivity.this).getFriendStatus(SaveSharedPreference.getUserUID(SearchActivity.this), users.get(i).getUid(), new StringCallback() {
-                            @Override
-                            public void done(String string) {
-                                staticFriendStatus.add(j, string);
-                            }
-                        });
+                    if(users.size() > 0) {
+                        for (int i = 0; i < users.size(); i++) {
+                            //if (users.get(i).getUid() != SaveSharedPreference.getUserUID(SearchActivity.this)) {
+                                usersString.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                                usersUsername.add(i, users.get(i).getUsername());
+                                staticUID.add(i, users.get(i).getUid());
+                                final int j = i;
+                                new ServerRequestMethods(SearchActivity.this).getFriendStatus(SaveSharedPreference.getUserUID(SearchActivity.this), users.get(i).getUid(), new StringCallback() {
+                                    @Override
+                                    public void done(String string) {
+                                        staticFriendStatus.add(j, string);
+                                    }
+                                });
+                            //}
+                        }
                     }
                 }
                 catch (NullPointerException npe){

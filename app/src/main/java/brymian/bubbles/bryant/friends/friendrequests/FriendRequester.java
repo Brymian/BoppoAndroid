@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.friends.friendrequests;
+package brymian.bubbles.bryant.friends.friendrequests;
 
 import java.io.Serializable;
 

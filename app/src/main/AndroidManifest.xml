@@ -52,11 +52,11 @@
         <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"></activity>
 
-        <activity android:name=".bryant.profile.friends.sent.SentFriendRequests" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.friends.sent.SentFriendRequests" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.profile.MapsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.profile.friends.FriendsList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.friends.FriendsList" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait">
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"

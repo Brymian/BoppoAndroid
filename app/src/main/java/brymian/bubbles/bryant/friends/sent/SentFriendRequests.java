@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.friends.sent;
+package brymian.bubbles.bryant.friends.sent;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

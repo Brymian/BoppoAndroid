@@ -1,21 +1,19 @@
-package brymian.bubbles.bryant.profile.friends.friendrequests;
+package brymian.bubbles.bryant.friends.friendrequests;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.profile.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 public class FriendRequestRecyclerAdapter extends RecyclerView.Adapter<FriendRequestRecyclerAdapter.RecyclerViewHolder> {
@@ -85,7 +83,16 @@ public class FriendRequestRecyclerAdapter extends RecyclerView.Adapter<FriendReq
             tvDecline.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //System.out.println("friendRequestUid.get(getAdapterPosition()): " + friendRequester.get(getAdapterPosition()));
+                    new FriendshipStatusRequest(activity).rejectFriend(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            System.out.println("decline string: "+ string);
+                            if(string.equals("Friendship request has been successfully rejected.")){
+                                friendRequester.remove(getAdapterPosition());
+                                notifyItemRemoved(getAdapterPosition());
+                            }
+                        }
+                    });
                 }
             });
         }

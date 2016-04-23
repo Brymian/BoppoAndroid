@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.friends;
+package brymian.bubbles.bryant.friends;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

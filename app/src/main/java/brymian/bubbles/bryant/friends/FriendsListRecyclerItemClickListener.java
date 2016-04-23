@@ -1,13 +1,10 @@
-package brymian.bubbles.bryant.profile.friends;
+package brymian.bubbles.bryant.friends;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class FriendsListRecyclerItemClickListener implements RecyclerView.OnItemTouchListener {

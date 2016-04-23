@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.friends;
+package brymian.bubbles.bryant.friends;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,23 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.episodes.addfriends.Friend;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
-import brymian.bubbles.bryant.profile.friends.friendrequests.FriendRequestRecyclerAdapter;
-import brymian.bubbles.bryant.profile.friends.friendrequests.FriendRequestRecyclerItemClickListener;
-import brymian.bubbles.bryant.profile.friends.friendrequests.FriendRequester;
-import brymian.bubbles.bryant.profile.friends.sent.SentFriendRequests;
+import brymian.bubbles.bryant.friends.friendrequests.FriendRequestRecyclerAdapter;
+import brymian.bubbles.bryant.friends.friendrequests.FriendRequester;
+import brymian.bubbles.bryant.friends.sent.SentFriendRequests;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;

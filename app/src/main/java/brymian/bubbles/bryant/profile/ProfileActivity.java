@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.profile.friends.FriendsList;
+import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
@@ -169,34 +169,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void setButtons(String friendStatus) {
         switch (friendStatus){
             case "logged in user":
-                ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                ibMiddle.setImageResource(R.mipmap.ic_people_black_24dp);
+                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
+                ibMiddle.setImageResource(R.mipmap.ic_people_white_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 
             case "Already friends with user.":
-                ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                ibMiddle.setImageResource(R.mipmap.ic_people_black_24dp);
+                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
+                ibMiddle.setImageResource(R.mipmap.ic_people_white_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 
             case "Already sent friend request to user.":
-                ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                ibMiddle.setImageResource(android.R.drawable.ic_menu_delete);
-                //ibMiddle.setImageResource(android.R.drawable.ic_menu_add);
+                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
+                ibMiddle.setImageResource(R.mipmap.ic_cancel_white_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 
             case "User is awaiting confirmation for friend request.":
-                ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                //ibMiddle.setImageResource(android.R.drawable.ic_menu_delete);
-                ibMiddle.setImageResource(android.R.drawable.ic_menu_add);
+                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
+                ibMiddle.setImageResource(R.mipmap.ic_person_add_white_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 
             case "Not friends.":
-                ibLeft.setImageResource(android.R.drawable.ic_menu_mapmode);
-                ibMiddle.setImageResource(android.R.drawable.ic_menu_add);
+                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
+                ibMiddle.setImageResource(R.mipmap.ic_person_add_white_24dp);
                 ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
                 break;
 

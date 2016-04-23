@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.friends.friendrequests;
+package brymian.bubbles.bryant.friends.friendrequests;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
