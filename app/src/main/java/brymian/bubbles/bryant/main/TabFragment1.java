@@ -27,7 +27,7 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.ImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Image;
 
@@ -68,7 +68,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
     }
 
     private void getImages(){
-        new ImageRequest(getActivity()).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+        new UserImageRequest(getActivity()).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 try {

@@ -29,12 +29,12 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFrom
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
 
-public class ImageRequest {
+public class UserImageRequest {
 
     private HTTPConnection httpConnection = null;
     private ProgressDialog pd = null;
 
-    public ImageRequest(Activity activity) {
+    public UserImageRequest(Activity activity) {
         pd = new ProgressDialog(activity);
         pd.setCancelable(false);
         pd.setTitle("Processing");
@@ -47,6 +47,12 @@ public class ImageRequest {
     {
         //pd.show();
         new GetImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, imageListCallback).execute();
+    }
+
+    public void getImageProfileMaxAmount(IntegerCallback integerCallback)
+    {
+        pd.show();
+        new GetImageProfileMaxAmount(integerCallback).execute();
     }
 
 
@@ -119,6 +125,53 @@ public class ImageRequest {
             imageListCallback.done(imageList);
 
             super.onPostExecute(imageList);
+        }
+    }
+
+    private class GetImageProfileMaxAmount extends AsyncTask<Void, Void, Integer> {
+
+        IntegerCallback integerCallback;
+
+        private GetImageProfileMaxAmount(IntegerCallback integerCallback)
+        {
+            this.integerCallback = integerCallback;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params)
+        {
+            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=getImageProfileMaxAmount";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+
+                String jsonEventString = jsonEventObject.toString();
+
+                String response = request.post(url, jsonEventString);
+
+                if (isStringAnInteger(response))
+                    return Integer.parseInt(response.trim());
+                else {
+                    System.out.println(response);
+                    return -1;
+                }
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return -11;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Integer integer) {
+            pd.dismiss();
+            integerCallback.done(integer);
+
+            super.onPostExecute(integer);
         }
 
     }

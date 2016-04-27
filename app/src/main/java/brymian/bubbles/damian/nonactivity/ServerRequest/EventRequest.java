@@ -87,6 +87,18 @@ public class EventRequest {
         new GetEventDataByTopNDislikes(topN, eventListCallback).execute();
     }
 
+    public void updateEvent(
+        Integer eid, Integer eventHostUid, String eventName, String eventPrivacyLabel,
+        String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
+        String eventStartDatetime, String eventEndDatetime,
+        Double eventGpsLatitude, Double eventGpsLongitude, StringCallback objectCallback)
+    {
+        pd.show();
+        new UpdateEvent(eid, eventHostUid, eventName, eventPrivacyLabel, eventInviteTypeLabel,
+            eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
+            eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
+    }
+
     public void deleteEvent(int eid, StringCallback stringCallback)
     {
         pd.show();
@@ -567,19 +579,19 @@ public class EventRequest {
                 {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
-                            getIntegerObjectFromObject(jEvent.get("eid")),
-                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                            jEvent.getString("eventName"),
-                            jEvent.getString("eventInviteTypeLabel"),
-                            jEvent.getString("eventPrivacyLabel"),
-                            getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
-                            jEvent.getString("eventStartDatetime"),
-                            jEvent.getString("eventEndDatetime"),
-                            getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
-                            getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
-                            getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
-                            getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
+                        jEvent.getString("eventInviteTypeLabel"),
+                        jEvent.getString("eventPrivacyLabel"),
+                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                        jEvent.getString("eventStartDatetime"),
+                        jEvent.getString("eventEndDatetime"),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                        getLongObjectFromObject(jEvent.get("eventViewCount"))
                     );
                     eventList.add(event);
                 }
@@ -604,6 +616,90 @@ public class EventRequest {
             eventListCallback.done(eventList);
 
             super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
+    private class UpdateEvent extends AsyncTask<Void, Void, String> {
+
+        Integer eid;
+        Integer eventHostUid;
+        String  eventName;
+        String  eventPrivacyLabel;
+        String  eventInviteTypeLabel;
+        Boolean eventImageUploadAllowedIndicator;
+        String  eventStartDatetime;
+        String  eventEndDatetime;
+        Double  eventGpsLatitude;
+        Double  eventGpsLongitude;
+        StringCallback stringCallback;
+
+        private UpdateEvent(Integer eid, Integer eventHostUid, String eventName, String eventPrivacyLabel,
+            String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
+            String eventStartDatetime, String eventEndDatetime,
+            Double eventGpsLatitude, Double eventGpsLongitude,
+            StringCallback stringCallback)
+        {
+            this.eid = eid;
+            this.eventHostUid = eventHostUid;
+            this.eventName = eventName;
+            this.eventPrivacyLabel = eventPrivacyLabel;
+            this.eventInviteTypeLabel = eventInviteTypeLabel;
+            this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;
+            this.eventStartDatetime = eventStartDatetime;
+            this.eventEndDatetime = eventEndDatetime;
+            this.eventGpsLatitude = eventGpsLatitude;
+            this.eventGpsLongitude = eventGpsLongitude;
+
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=updateEvent";
+
+            Post request = new Post();
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+
+                jsonEventObject.put("eid", getNullOrValue(eid));
+                jsonEventObject.put("eventHostUid", getNullOrValue(eventHostUid));
+                jsonEventObject.put("eventName", getNullOrValue(eventName));
+                jsonEventObject.put("eventPrivacyLabel", getNullOrValue(eventPrivacyLabel));
+                jsonEventObject.put("eventInviteTypeLabel", getNullOrValue(eventInviteTypeLabel));
+                jsonEventObject.put("eventImageUploadAllowedIndicator",
+                    getNullOrValue(eventImageUploadAllowedIndicator));
+                /** THE ABOVE RETURNS AN ERROR IF NULL, FIX THIS! **/
+                jsonEventObject.put("eventStartDatetime", getNullOrValue(eventStartDatetime));
+                jsonEventObject.put("eventEndDatetime", getNullOrValue(eventEndDatetime));
+                jsonEventObject.put("eventGpsLatitude", getNullOrValue(eventGpsLatitude));
+                jsonEventObject.put("eventGpsLongitude", getNullOrValue(eventGpsLongitude));
+
+                String jsonEventString = jsonEventObject.toString();
+
+                return request.post(url, jsonEventString);
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
         }
 
     }
