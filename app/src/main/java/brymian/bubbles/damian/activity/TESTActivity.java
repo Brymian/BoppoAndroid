@@ -325,7 +325,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new EventUserRequest(this).addUserToEvent(56, 1, 2, new StringCallback() {
+        new EventUserRequest(this).addUserToEvent(53, 3, 4, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("MESSAGE REGARDING ADDING THE USER TO THE EVENT: ");
@@ -424,7 +424,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new FriendshipStatusRequest(this).rejectFriend(1, 17, new StringCallback() {
+        new FriendshipStatusRequest(this).rejectFriend(18, 1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING REJECT FRIEND RESPONSE HAS BEEN RETURNED: ");
@@ -432,6 +432,13 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new FriendshipStatusRequest(this).cancelFriend(1, 18, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING CANCEL FRIEND RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
         /*
         new EventRequest(this).incrementEventViewCount(38, new StringCallback() {
             @Override
@@ -548,7 +555,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByName("test", new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -574,6 +581,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
     }
 
 }

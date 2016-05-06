@@ -64,6 +64,12 @@ public class FriendshipStatusRequest {
         new RejectFriend(uid1, uid2, stringCallback).execute();
     }
 
+    public void cancelFriend(Integer uid1, Integer uid2, StringCallback stringCallback)
+    {
+        pd.show();
+        new CancelFriend(uid1, uid2, stringCallback).execute();
+    }
+
 
 
 
@@ -287,6 +293,58 @@ public class FriendshipStatusRequest {
         @Override
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/FriendshipStatusRequest.php?function=rejectFriend";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("uid1", getNullOrValue(uid1));
+                jsonEventObject.put("uid2", getNullOrValue(uid2));
+
+                String jsonEventString = jsonEventObject.toString();
+
+                return request.post(url, jsonEventString);
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
+
+    private class CancelFriend extends AsyncTask<Void, Void, String> {
+
+        Integer uid1;
+        Integer uid2;
+        StringCallback stringCallback;
+
+        private CancelFriend(Integer uid1, Integer uid2, StringCallback stringCallback) {
+            this.uid1 = uid1;
+            this.uid2 = uid2;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/FriendshipStatusRequest.php?function=cancelFriend";
 
             Post request = new Post();
 
