@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
                 try {
                     if (imageList.size() != 0) {
                         for (Image image : imageList) {
+                            Log.e("ExploreTabFragment", "image path: " + image.path);
                             imageArrayListPath.add(image.path);
                             latitudeImageArrayList.add(image.userImageGpsLatitude);
                             longitudeImageArrayList.add(image.userImageGpsLongitude);

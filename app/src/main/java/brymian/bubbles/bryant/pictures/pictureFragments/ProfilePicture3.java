@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.pictures.pictureFragments;
+package brymian.bubbles.bryant.pictures.pictureFragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

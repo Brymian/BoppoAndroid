@@ -107,7 +107,7 @@ public class CameraPRACTICE extends Activity {
 
         // Inflate our menu which can gather user input for switching camera
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.camera_menu, menu);
+        //inflater.inflate(R.menu.camera_menu, menu);
         return true;
     }
 

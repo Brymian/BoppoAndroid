@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.pictures;
+package brymian.bubbles.bryant.pictures;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
-import brymian.bubbles.bryant.profile.pictures.pictureFragments.ProfilePicture1;
+import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture1;
 
 /**
  * Created by Almanza on 3/17/2016.

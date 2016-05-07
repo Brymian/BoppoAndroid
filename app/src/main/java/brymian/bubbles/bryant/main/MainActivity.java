@@ -36,6 +36,7 @@ import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
 import brymian.bubbles.bryant.camera.CameraPRACTICE;
 import brymian.bubbles.bryant.episodes.EpisodeCreate;
+import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
 import brymian.bubbles.bryant.profile.MapsActivity;
 import brymian.bubbles.bryant.profile.Privacy;
 import brymian.bubbles.bryant.episodes.EpisodeCurrent;
@@ -46,7 +47,7 @@ import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.bryant.profile.ProfileActivity;
-import brymian.bubbles.bryant.profile.pictures.ProfilePicturesActivity;
+import brymian.bubbles.bryant.pictures.ProfilePicturesActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 
@@ -261,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_inflater, menu);
+        getMenuInflater().inflate(R.menu.main_activity_menu_inflater, menu);
         return true;
     }
 
@@ -311,7 +312,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
                 break;
             case 4:
-                startActivity(new Intent(this, ProfilePicturesActivity.class));
+                startActivity(new Intent(this, ProfilePicturesActivity2.class));
                 break;
             case 5:
                 startActivity(new Intent(this, Privacy.class));
@@ -378,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void logOut() {
         LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.logout, null);
+        View alertLayout = inflater.inflate(R.layout.alert_dialog_log_out, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(false);

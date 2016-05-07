@@ -66,8 +66,8 @@ public class SearchActivity extends AppCompatActivity implements TextWatcher{
             case R.id.home:
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
-            case R.id.filter:
-                searchFilter();
+            case R.id.cancel:
+                etSearch.setText("");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

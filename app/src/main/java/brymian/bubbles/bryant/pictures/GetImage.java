@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile.pictures;
+package brymian.bubbles.bryant.pictures;
 
 import android.app.Activity;
 import android.widget.Toast;

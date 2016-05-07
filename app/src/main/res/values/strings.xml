@@ -45,6 +45,7 @@
     <string name="Apply">Apply</string>
     <string name="Attending">Attending</string>
     <string name="Blocking">Blocking</string>
+    <string name="Camera">Camera</string>
     <string name="Cancel">Cancel</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Create_Episode">Create Episode</string>
@@ -60,6 +61,7 @@
     <string name="Friend_Requests">Friend Requests</string>
     <string name="Friends">Friends</string>
     <string name="Friend">Friend</string>
+    <string name="Gallery">Gallery</string>
     <string name="Hosting">Hosting</string>
     <string name="Later">Later</string>
     <string name="Live_Episodes">Live Episodes</string>
@@ -84,9 +86,11 @@
     <string name="Search">Search&#8230;</string>
     <string name="Send_To">Send To&#8230;</string>
     <string name="Sent_Requests">Sent Requests</string>
+    <string name="Select">Select</string>
     <string name="Settings">Settings</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Top_Episodes">Top Episodes</string>
+    <string name="Upload_From">Upload From:</string>
     <string name="Users">Users</string>
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
     <string name="View_More_Current_Episodes">View More Current Episodes&#8230;</string>

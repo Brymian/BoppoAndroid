@@ -1,13 +1,13 @@
-package brymian.bubbles.bryant.profile.pictures;
+package brymian.bubbles.bryant.pictures;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import brymian.bubbles.bryant.profile.pictures.pictureFragments.ProfilePicture1;
-import brymian.bubbles.bryant.profile.pictures.pictureFragments.ProfilePicture2;
-import brymian.bubbles.bryant.profile.pictures.pictureFragments.ProfilePicture3;
-import brymian.bubbles.bryant.profile.pictures.pictureFragments.ProfilePicture4;
+import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture1;
+import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture2;
+import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture3;
+import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture4;
 
 /**
  * Created by Almanza on 3/17/2016.

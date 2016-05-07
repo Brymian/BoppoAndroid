@@ -3,6 +3,7 @@ package brymian.bubbles.bryant.friends.friendrequests;
 
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,7 @@ public class FriendRequestRecyclerAdapter extends RecyclerView.Adapter<FriendReq
             tvDecline.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.e("FriendRequest Decline", "getUserUID(): " + SaveSharedPreference.getUserUID(activity) + "\t friendRequesterUID: " + friendRequester.get(getAdapterPosition()).getUid());
                     new FriendshipStatusRequest(activity).rejectFriend(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
                         @Override
                         public void done(String string) {

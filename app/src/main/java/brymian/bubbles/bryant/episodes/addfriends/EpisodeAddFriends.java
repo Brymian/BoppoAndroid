@@ -140,6 +140,7 @@ public class EpisodeAddFriends extends AppCompatActivity{
                 for (int i = 0; i < singleFriendList.size(); i++) {
                     Friend singleFriend = singleFriendList.get(i);
                     if (singleFriend.getIsSelected()) {
+                        System.out.println("getEID(): " + getEid() + "\t inviterUID: " + SaveSharedPreference.getUserUID(EpisodeAddFriends.this) + "\t signleFriend.getUID: " + singleFriend.getUid());
                         new EventUserRequest(EpisodeAddFriends.this).addUserToEvent(
                                 getEid(),
                                 SaveSharedPreference.getUserUID(EpisodeAddFriends.this),
