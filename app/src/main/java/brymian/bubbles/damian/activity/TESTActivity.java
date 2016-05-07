@@ -255,9 +255,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
-        new EventRequest(this).createEvent(3, "Something Event2", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
+        new EventRequest(this).createEvent(3, "Lel An Event 4", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
@@ -266,7 +265,6 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
         new EventRequest(this).getEid(3, "Fake Event", new IntegerCallback() {
             @Override
@@ -327,7 +325,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new EventUserRequest(this).addUserToEvent(10, 2, 1, new StringCallback() {
+        new EventUserRequest(this).addUserToEvent(53, 3, 4, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("MESSAGE REGARDING ADDING THE USER TO THE EVENT: ");
@@ -426,7 +424,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new FriendshipStatusRequest(this).rejectFriend(1, 17, new StringCallback() {
+        new FriendshipStatusRequest(this).rejectFriend(18, 1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING REJECT FRIEND RESPONSE HAS BEEN RETURNED: ");
@@ -434,6 +432,13 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new FriendshipStatusRequest(this).cancelFriend(1, 18, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING CANCEL FRIEND RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
         /*
         new EventRequest(this).incrementEventViewCount(38, new StringCallback() {
             @Override
@@ -542,12 +547,41 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new UserImageRequest(this).getImageProfileMaxAmount(new IntegerCallback() {
             @Override
             public void done(Integer integer) {
                 System.out.println("SERVER RESPONSE REGARDING IMAGE PROFILE MAX AMOUNT: " + integer);
             }
         });
+        */
+        /*
+        new EventRequest(this).getEventDataByName("test", new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED FOR THE FOLLOWING EVENT PARTIAL NAME: ");
+
+                for (Event event : eventList)
+                {
+                    System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
+                    System.out.println();
+                    System.out.println("EID = " + event.eid);
+                    System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Name = " + event.eventName);
+                    System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
+                    System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
+                    System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
+                    System.out.println("Event Start Datetime = " + event.eventStartDatetime);
+                    System.out.println("Event End Datetime = " + event.eventEndDatetime);
+                    System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
+                    System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
+                    System.out.println("Event Like Count = " + event.eventLikeCount);
+                    System.out.println("Event Dislike Count = " + event.eventDislikeCount);
+                    System.out.println("Event View Count = " + event.eventViewCount);
+                }
+            }
+        });
+        */
     }
 
 }
