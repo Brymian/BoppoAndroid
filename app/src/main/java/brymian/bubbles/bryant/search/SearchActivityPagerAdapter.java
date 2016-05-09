@@ -7,10 +7,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class SearchPagerAdapter extends FragmentStatePagerAdapter {
+public class SearchActivityPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
-    public SearchPagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public SearchActivityPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }

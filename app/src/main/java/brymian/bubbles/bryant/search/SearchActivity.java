@@ -1,34 +1,19 @@
 package brymian.bubbles.bryant.search;
 
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.profile.ProfileActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.User;
 
 public class SearchActivity extends AppCompatActivity{
     RecyclerView recyclerView;
@@ -55,7 +40,7 @@ public class SearchActivity extends AppCompatActivity{
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_my_location_black_24dp), 1, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager = (ViewPager) findViewById(R.id.pager);
-        final SearchPagerAdapter pagerAdapter= new SearchPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
+        final SearchActivityPagerAdapter pagerAdapter= new SearchActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override

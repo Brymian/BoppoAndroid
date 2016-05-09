@@ -1,5 +1,4 @@
 package brymian.bubbles.bryant.search;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,31 +10,31 @@ import java.util.List;
 import brymian.bubbles.R;
 
 
-public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.RecyclerViewHolder> {
+public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRecyclerAdapterEpisodes.RecyclerViewHolder> {
 
-    List<String> searchResultsFirstLastName;
-    List<String> searchResultsUsername;
+    List<String> episodeTitle;
+    List<String> episodeHostName;
 
-    public SearchRecyclerAdapter(List searchResultsFirstLastName, List searchResultsUsername){
-        this.searchResultsFirstLastName = searchResultsFirstLastName;
-        this.searchResultsUsername = searchResultsUsername;
+    public SearchRecyclerAdapterEpisodes(List<String> searchResultsFirstLastName, List<String> searchResultsUsername){
+        this.episodeTitle = searchResultsFirstLastName;
+        this.episodeHostName = searchResultsUsername;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_search_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_search_episodes_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.tvSearchResultsFirstLastName.setText(searchResultsFirstLastName.get(position));
-        holder.tvSearchUsername.setText(searchResultsUsername.get(position));
+        holder.tvSearchResultsFirstLastName.setText(episodeTitle.get(position));
+        holder.tvSearchUsername.setText(episodeHostName.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return searchResultsFirstLastName.size();
+        return episodeTitle.size();
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
