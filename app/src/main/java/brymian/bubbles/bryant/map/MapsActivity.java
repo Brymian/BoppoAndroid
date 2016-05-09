@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.profile;
+package brymian.bubbles.bryant.map;
 
 import android.content.Context;
 import android.location.Criteria;

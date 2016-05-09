@@ -84,6 +84,8 @@
     <string name="Register">Register</string>
     <string name="Save">Save</string>
     <string name="Search">Search&#8230;</string>
+    <string name="Search_Episodes">Search Episodes&#8230;</string>
+    <string name="Search_Users">Search Users&#8230;</string>
     <string name="Send_To">Send To&#8230;</string>
     <string name="Sent_Requests">Sent Requests</string>
     <string name="Select">Select</string>

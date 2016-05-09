@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,7 +20,6 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
-import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture1;
 
 public class ProfilePicturesActivity2 extends AppCompatActivity implements View.OnClickListener {
     Toolbar mToolbar;
@@ -85,15 +86,28 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+
             byte[] byteArrayImage =  data.getExtras().getByteArray("encodedImage");
-            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayImage, 0, byteArrayImage.length);
-            int[] ridProfilePicture = {R.id.ivProfilePicture1, R.id.ivProfilePicture2, R.id.ivProfilePicture3, R.id.ivProfilePicture4};
+            System.out.println("Byte array length: " + byteArrayImage.length);
+
             ImageView[] ivProfilePicture = {ivProfilePicture1, ivProfilePicture2, ivProfilePicture3, ivProfilePicture4};
 
             for(int i = 0; i < ivProfilePicture.length; i++){
                 if(ivProfilePicture[i].getTag() == null){
+                    Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayImage, 0, byteArrayImage.length);
                     ivProfilePicture[i].setImageBitmap(bitmap);
                     ivProfilePicture[i].setTag("Profile picture " + i);
                     break;
@@ -109,8 +123,6 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
 
         TextView tvCamera = (TextView) dialog.findViewById(R.id.tvCamera);
         TextView tvGallery = (TextView) dialog.findViewById(R.id.tvGallery);
-        ImageView ivCamera = (ImageView) dialog.findViewById(R.id.ivCamera);
-        ImageView ivGallery = (ImageView) dialog.findViewById(R.id.ivGallery);
         tvCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

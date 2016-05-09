@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.hardware.Camera;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,13 +21,18 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,6 +53,8 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     FloatingActionButton fabItem1, fabItem2;
     private Camera mCamera;
     CameraPreview mPreview;
+    SurfaceHolder mHolder;
+
     String imagePurpose;
 
     int currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
@@ -98,7 +109,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         mPreview = new CameraPreview(this, mCamera);
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
-
+        mHolder = mPreview.getHolder();
         setButtonsCameraPreview();
         setAutoFocus();
     }
@@ -135,8 +146,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             case R.id.fabConfirm:
                 if(imagePurpose.equals("Regular")) {
                     startActivity(new Intent(this, SendTo.class)
-                            .putExtra("encodedImage",
-                                    Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
+                            .putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
                 }
                 else if(imagePurpose.equals("Profile")){
                     Intent resultIntent = new Intent();
@@ -148,7 +158,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             case R.id.fabCancel:
                 mCamera.startPreview();
                 hideButtonsPictureTaken();
-                setButtonsCameraPreview();
+                showButtonsCameraPreview();
                 break;
         }
     }
@@ -194,8 +204,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         }
         */
 
-
-        SurfaceHolder mHolder = mPreview.getHolder();
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
        //mPreview = new CameraPreview(this, mCamera);
@@ -249,11 +257,76 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                setImageDataByte(data);
+                //setImageDataByte(data);
+                String timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss").format( new Date( ));
+                String output_file_name = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + timeStamp + ".jpeg";
+
+                File pictureFile = new File(output_file_name);
+                if (pictureFile.exists()) {
+                    pictureFile.delete();
+                }
+
+                try {
+                    FileOutputStream fos = new FileOutputStream(pictureFile);
+
+                    Bitmap realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+
+                    ExifInterface exif=new ExifInterface(pictureFile.toString());
+
+                    Log.d("EXIF value", exif.getAttribute(ExifInterface.TAG_ORIENTATION));
+                    if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")){
+                        realImage= rotate(realImage, 90);
+                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")){
+                        realImage= rotate(realImage, 270);
+                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")){
+                        realImage= rotate(realImage, 180);
+                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")){
+                        realImage= rotate(realImage, 90);
+                    }
+
+                    boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+                    fos.close();
+
+                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
+                    realImage.compress(Bitmap.CompressFormat.JPEG, 50, bs);
+                    setImageDataByte(bs.toByteArray());
+                    System.out.println("getImageByteArray length: " + getImageDataByte().length);
+
+                    Log.d("Info", bo + "");
+
+                } catch (FileNotFoundException e) {
+                    Log.d("Info", "File not found: " + e.getMessage());
+                } catch (IOException e) {
+                    Log.d("TAG", "Error accessing file: " + e.getMessage());
+                }
             }
         });
         hideButtonsCameraPreview();
         setButtonsPictureTaken();
+    }
+
+    public static Bitmap rotate(Bitmap bitmap, int degree) {
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+
+        Matrix mtx = new Matrix();
+        //       mtx.postRotate(degree);
+        mtx.setRotate(degree);
+
+        return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
+    private void showButtonsPictureTaken(){
+        fabCancel.show(true);
+        fabConfirm.show(true);
+        fabFilterMenu.showMenu(true);
+    }
+
+    private void showButtonsCameraPreview(){
+        fabGoBack.show(true);
+        fabCapture.show(true);
+        fabMenu.showMenu(true);
     }
 
     private void hideButtonsCameraPreview(){
@@ -261,57 +334,44 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         fabGoBack.hide(true);
         fabCapture.hide(true);
         fabMenu.hideMenu(true);
-        fabFlash.hide(true);
-        fabSwitchCamera.hide(true);
     }
 
     private void hideButtonsPictureTaken(){
         fabCancel.hide(true);
         fabConfirm.hide(true);
         fabFilterMenu.hideMenu(true);
-        fabItem1.hide(true);
-        fabItem2.hide(true);
     }
+
 
     private void setButtonsPictureTaken(){
         /* showing the buttons that appear when picture is taken */
         /* cancel button - bottom left */
         fabCancel = (FloatingActionButton) findViewById(R.id.fabCancel);
         fabCancel.setImageResource(R.mipmap.ic_close_black_24dp);
-        fabCancel.hide(false);
-        fabCancel.show(true);
         fabCancel.bringToFront();
         fabCancel.setOnClickListener(this);
 
         /* confirm button - bottom middle */
         fabConfirm = (FloatingActionButton) findViewById(R.id.fabConfirm);
         fabConfirm.setImageResource(R.mipmap.ic_done_black_24dp);
-        fabConfirm.hide(false);
-        fabConfirm.show(true);
         fabConfirm.bringToFront();
         fabConfirm.setOnClickListener(this);
 
         /* filter menu button - bottom right */
         fabFilterMenu = (FloatingActionMenu) findViewById(R.id.fabFilterMenu);
-        fabFilterMenu.hideMenu(false);
-        fabFilterMenu.showMenu(true);
         fabFilterMenu.bringToFront();
 
         fabItem1 = (FloatingActionButton) findViewById(R.id.fabItem1);
         fabItem1.setImageResource(R.mipmap.ic_filter_list_black_24dp);
-        fabItem1.hide(false);
 
         fabItem2 = (FloatingActionButton) findViewById(R.id.fabItem2);
         fabItem2.setImageResource(R.mipmap.ic_person_add_black_24dp);
-        fabItem2.hide(false);
     }
 
     private void setButtonsCameraPreview(){
         /*-----------------------buttons that appear when in camera preview-----------------------*/
         /* menu button - bottom right*/
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabMenu.hideMenuButton(false);
-        fabMenu.showMenuButton(true);
         fabMenu.bringToFront();
 
         /* sub menu buttons */
@@ -325,29 +385,21 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
             flashLightOff();
         }
-        fabFlash.hide(false);
-        fabFlash.show(true);
         fabFlash.setOnClickListener(this);
 
         fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
         fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
-        fabSwitchCamera.hide(false);
-        fabSwitchCamera.show(true);
         fabSwitchCamera.setOnClickListener(this);
 
         /* capture button - bottom middle */
         fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
         fabCapture.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
-        fabCapture.hide(false);
-        fabCapture.show(true);
         fabCapture.bringToFront();
         fabCapture.setOnClickListener(CameraActivity.this);
 
         /* go back to MainActivity button - bottom left */
         fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
         fabGoBack.setImageResource(R.mipmap.ic_arrow_back_black_24dp);
-        fabGoBack.hide(false);
-        fabGoBack.show(true);
         fabGoBack.bringToFront();
         fabGoBack.setOnClickListener(CameraActivity.this);
         /*----------------------------------------------------------------------------------------*/
@@ -356,6 +408,15 @@ public class CameraActivity extends Activity implements View.OnClickListener{
     private void setImageDataByte(byte[] data){this.data = data;}
 
     private byte[] getImageDataByte(){return data;}
+
+    Bitmap bitmap;
+    private void setBitmap(Bitmap bitmap){
+        this.bitmap = bitmap;
+    }
+
+    private Bitmap getBitmap(){
+        return bitmap;
+    }
 
     /** Create a file Uri for saving an image or video */
     private static Uri getOutputMediaFileUri(int type){

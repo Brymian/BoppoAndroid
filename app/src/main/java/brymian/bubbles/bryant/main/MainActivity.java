@@ -18,11 +18,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.oguzdev.circularfloatingactionmenu.library.FloatingActionButton;
+
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 
@@ -34,10 +35,10 @@ import brymian.bubbles.bryant.account.Notifications;
 import brymian.bubbles.bryant.account.ChangePassword;
 import brymian.bubbles.bryant.account.SyncFacebook;
 import brymian.bubbles.bryant.account.VerifyEmail;
-import brymian.bubbles.bryant.camera.CameraPRACTICE;
+import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.episodes.EpisodeCreate;
 import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
-import brymian.bubbles.bryant.profile.MapsActivity;
+import brymian.bubbles.bryant.map.MapsActivity;
 import brymian.bubbles.bryant.profile.Privacy;
 import brymian.bubbles.bryant.episodes.EpisodeCurrent;
 import brymian.bubbles.bryant.episodes.EpisodeTop;
@@ -47,7 +48,6 @@ import brymian.bubbles.bryant.navigationDrawer.DrawerItem;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.bryant.profile.ProfileActivity;
-import brymian.bubbles.bryant.pictures.ProfilePicturesActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 
@@ -232,20 +232,32 @@ public class MainActivity extends AppCompatActivity {
         /**--------------------------------------------------------------------------------------**/
         /**--------------------------------------------------------------------------------------**/
 
-        ImageView icon = new ImageView(this);
-        icon.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
-        FloatingActionButton actionButton = new FloatingActionButton.Builder(this)
-                .setContentView(icon)
-                .setPosition(30)
-                .build();
+        FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
+        famMenu.showMenuButton(true);
 
-        actionButton.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
+        fabCamera.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, CameraPRACTICE.class).putExtra("imagePurpose", "Regular"));
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, CameraActivity.class).putExtra("imagePurpose", "Regular"));
             }
         });
 
+        FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
+        fabMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+            }
+        });
+
+        FloatingActionButton fabMyEpisodes = (FloatingActionButton) findViewById(R.id.fabMyEpisodes);
+        fabMyEpisodes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, EpisodeMy.class));
+            }
+        });
     }
 
 
