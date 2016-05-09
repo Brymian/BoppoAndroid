@@ -1,8 +1,5 @@
 package brymian.bubbles.bryant.main;
 
-/**
- * Created by Almanza on 3/3/2016.
- */
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +12,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeTop;
 import brymian.bubbles.bryant.episodes.EpisodeMy;
 
-public class TabFragment3 extends Fragment implements View.OnClickListener{
+public class MainTabEpisodes extends Fragment implements View.OnClickListener{
 
     TextView tvMoreTopEvents, tvYourEvents;
 
@@ -23,7 +20,7 @@ public class TabFragment3 extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.tab_fragment_3, container, false);
+        View rootView = inflater.inflate(R.layout.main_tab_episodes, container, false);
 
         tvMoreTopEvents = (TextView) rootView.findViewById(R.id.tvMoreTopEvents);
         tvYourEvents = (TextView) rootView.findViewById(R.id.tvYourEvents);

@@ -1,16 +1,14 @@
 package brymian.bubbles.bryant.main;
 
-/**
- * Created by Almanza on 3/3/2016.
- */
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class PagerAdapter extends FragmentStatePagerAdapter {
+public class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
     int mNumOfTabs;
 
-    public PagerAdapter(FragmentManager fm, int NumOfTabs) {
+    public MainActivityPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
         this.mNumOfTabs = NumOfTabs;
     }
@@ -20,14 +18,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0:
-                TabFragment1 tab1 = new TabFragment1();
-                return tab1;
+                return new MainTabNewsFeed();
             case 1:
-                TabFragment2 tab2 = new TabFragment2();
-                return tab2;
+                return new MainTabEpisodes();
             case 2:
-                TabFragment3 tab3 = new TabFragment3();
-                return tab3;
+                return new MainTabAccount();
             default:
                 return null;
         }

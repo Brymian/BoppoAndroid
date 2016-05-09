@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -157,39 +157,39 @@ public class MainActivity extends AppCompatActivity {
         /**--------------------------- Initializing TabLayout and Tabs --------------------------**/
         /**--------------------------------------------------------------------------------------**/
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_public_black_24dp), 0, false);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_black_24dp), 1, true);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_whatshot_black_24dp), 2, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_black_24dp), 0, true);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_whatshot_black_24dp), 1, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_account_circle_black_24dp), 2, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        final PagerAdapter pagerAdapter= new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
+        final MainActivityPagerAdapter pagerAdapter= new MainActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    setTitle(R.string.Explore);
-                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_public_white_24dp);
-                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_people_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_whatshot_black_24dp);
+                    setTitle(R.string.News_Feed);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_white_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_black_24dp);
 
                 } else if (position == 1) {
-                    setTitle(R.string.News_Feed);
-                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_public_black_24dp);
-                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_people_white_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_whatshot_black_24dp);
-                } else if (position == 2) {
                     setTitle(R.string.Episodes);
-                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_public_black_24dp);
-                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_people_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_whatshot_white_24dp);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_white_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                } else if (position == 2) {
+                    setTitle(R.string.Account);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_white_24dp);
                 }
                 mToolbar.setTitleTextColor(Color.BLACK);
             }
 
         });
-        viewPager.setCurrentItem(1); //setCurrentItem(position) sets which tab MainActivity starts in
+        viewPager.setCurrentItem(0); //setCurrentItem(position) sets which tab MainActivity starts in
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -197,11 +197,11 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     viewPager.setCurrentItem(index);
                     if(index == 0){
-                        tab.setIcon(R.mipmap.ic_public_white_24dp);
-                    }else if(index == 1){
                         tab.setIcon(R.mipmap.ic_people_white_24dp);
-                    }else if(index == 2){
+                    }else if(index == 1){
                         tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
+                    }else if(index == 2){
+                        tab.setIcon(R.mipmap.ic_account_circle_white_24dp);
                     }
                 } catch (NullPointerException npe) {
                     npe.printStackTrace();
@@ -214,11 +214,11 @@ public class MainActivity extends AppCompatActivity {
             public void onTabUnselected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
                 if(index == 0){
-                    tab.setIcon(R.mipmap.ic_public_black_24dp);
-                }else if(index == 1){
                     tab.setIcon(R.mipmap.ic_people_black_24dp);
-                }else if(index == 2){
+                }else if(index == 1){
                     tab.setIcon(R.mipmap.ic_whatshot_black_24dp);
+                }else if(index == 2){
+                    tab.setIcon(R.mipmap.ic_account_circle_black_24dp);
                 }
 
             }
