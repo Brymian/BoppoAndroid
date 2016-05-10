@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.main;
 
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -31,6 +32,7 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.Blocking;
+import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Notifications;
 import brymian.bubbles.bryant.account.ChangePassword;
 import brymian.bubbles.bryant.account.SyncFacebook;
@@ -51,8 +53,11 @@ import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
-public class MainActivity extends AppCompatActivity {
+
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar mToolbar;
@@ -186,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_white_24dp);
                 }
                 mToolbar.setTitleTextColor(Color.BLACK);
+                MainTabAccount.tvMyProfile.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvMyMap.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvFriends.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvNotifications.setOnClickListener(MainActivity.this);
             }
 
         });
@@ -258,8 +267,68 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, EpisodeMy.class));
             }
         });
+
     }
 
+    @Override
+    public void onClick(View view) {
+        FragmentManager fm = getFragmentManager();
+        switch (view.getId()){
+            /*---------------------------------MainTabAccount-------------------------------------*/
+            /* Profile */
+            case R.id.tvMyProfile:
+                startFragment(fm, R.id.main_activity, new Email());
+                break;
+
+            case R.id.tvMyEpisodes:
+
+                break;
+
+            case R.id.tvMyMap:
+
+                break;
+
+            case R.id.tvProfilePictures:
+
+                break;
+
+            case R.id.tvFriends:
+                //startFragment(fm, R.id.main_activity, new FriendsList());
+                break;
+
+            /* Settings */
+            case R.id.tvNotifications:
+                startFragment(fm, R.id.main_activity, new Notifications());
+                break;
+
+            case R.id.tvPrivacy:
+
+                break;
+
+            /* Account */
+            case R.id.tvPassword:
+
+                break;
+
+            case R.id.tvEmail:
+
+                break;
+
+            case R.id.tvPhoneNumber:
+
+                break;
+
+            case R.id.tvBlocking:
+
+                break;
+
+            case R.id.tvLogOut:
+                logOut();
+                break;
+
+
+        }
+    }
 
     @Override
     public void onPostCreate(Bundle savedInstanceState){
@@ -267,9 +336,11 @@ public class MainActivity extends AppCompatActivity {
         mDrawerToggle.syncState();
     }
 
+
     @Override
     public void onStart(){
         super.onStart();
+
     }
 
     @Override

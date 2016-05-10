@@ -5,13 +5,13 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvSearchResultsUsername"
+        android:id="@+id/tvEpisodeTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceMedium" />
 
     <TextView
-        android:id="@+id/tvSearchResultsFirstLastName"
+        android:id="@+id/tvEpisodeHostName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:textAppearanceSmall"

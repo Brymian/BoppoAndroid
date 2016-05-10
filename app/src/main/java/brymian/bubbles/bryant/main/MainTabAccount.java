@@ -1,6 +1,5 @@
 package brymian.bubbles.bryant.main;
 
-import android.app.FragmentManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,50 +8,31 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
-
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.account.Email;
 
-
-public class MainTabAccount extends Fragment implements View.OnClickListener{
-    TextView tvMyProfile, tvMyMap, tvFriends, tvNotifications, tvBlocking, tvLogOut;
+public class MainTabAccount extends Fragment{
+    public static TextView tvMyProfile, tvMyEpisodes, tvMyMap, tvProfilePictures, tvFriends, tvNotifications, tvPrivacy, tvPassword, tvEmail, tvPhoneNumber, tvBlocking, tvLogOut;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.main_tab_account, container, false);
+        View rootView = inflater.inflate(R.layout.main_tab_account, container, false);
+        /* Profile */
+        tvMyProfile = (TextView) rootView.findViewById(R.id.tvMyProfile);
+        tvMyEpisodes = (TextView) rootView.findViewById(R.id.tvMyEpisodes);
+        tvMyMap = (TextView) rootView.findViewById(R.id.tvMyMap);
+        tvProfilePictures = (TextView) rootView.findViewById(R.id.tvProfilePictures);
+        tvFriends = (TextView) rootView.findViewById(R.id.tvFriends);
 
-        tvMyProfile = (TextView) view.findViewById(R.id.tvMyProfile);
-        tvMyProfile.setOnClickListener(this);
+        /* Settings */
+        tvNotifications = (TextView) rootView.findViewById(R.id.tvNotifications);
+        tvPrivacy = (TextView) rootView.findViewById(R.id.tvPrivacy);
 
-        tvMyMap = (TextView) view.findViewById(R.id.tvMyMap);
-        tvMyMap.setOnClickListener(this);
-
-        tvFriends = (TextView) view.findViewById(R.id.tvFriends);
-        tvFriends.setOnClickListener(this);
-
-        tvNotifications = (TextView) view.findViewById(R.id.tvNotifications);
-        tvNotifications.setOnClickListener(this);
-
-        tvBlocking = (TextView) view.findViewById(R.id.tvBlocking);
-        tvBlocking.setOnClickListener(this);
-
-        tvLogOut = (TextView) view.findViewById(R.id.tvLogOut);
-        tvLogOut.setOnClickListener(this);
-
-        return view;
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        FragmentManager fm = getActivity().getFragmentManager();
-
-        switch (view.getId()){
-            case R.id.tvMyProfile:
-                startFragment(fm, R.id.main_tab_account, new Email());
-
-                break;
-        }
+        /* Account */
+        tvPassword = (TextView) rootView.findViewById(R.id.tvPassword);
+        tvEmail = (TextView) rootView.findViewById(R.id.tvEmail);
+        tvPhoneNumber = (TextView) rootView.findViewById(R.id.tvPhoneNumber);
+        tvBlocking = (TextView) rootView.findViewById(R.id.tvBlocking);
+        tvLogOut = (TextView) rootView.findViewById(R.id.tvLogOut);
+        return rootView;
     }
 }

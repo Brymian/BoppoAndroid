@@ -28,8 +28,8 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.tvSearchResultsFirstLastName.setText(episodeTitle.get(position));
-        holder.tvSearchUsername.setText(episodeHostName.get(position));
+        holder.tvEpisodeTitle.setText(episodeTitle.get(position));
+        holder.tvEpisodeHostName.setText(episodeHostName.get(position));
     }
 
     @Override
@@ -38,12 +38,12 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        TextView tvSearchResultsFirstLastName, tvSearchUsername;
+        TextView tvEpisodeTitle, tvEpisodeHostName;
 
         public RecyclerViewHolder(View v){
             super(v);
-            tvSearchResultsFirstLastName = (TextView) v.findViewById(R.id.tvSearchResultsFirstLastName);
-            tvSearchUsername = (TextView) v.findViewById(R.id.tvSearchResultsUsername);
+            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
         }
     }
 }
