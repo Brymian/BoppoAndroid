@@ -32,10 +32,9 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.Blocking;
-import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Notifications;
 import brymian.bubbles.bryant.account.ChangePassword;
-import brymian.bubbles.bryant.account.SyncFacebook;
+import brymian.bubbles.bryant.account.SyncWithOtherMedia;
 import brymian.bubbles.bryant.account.VerifyEmail;
 import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.episodes.EpisodeCreate;
@@ -131,16 +130,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mToolbar, R.string.drawer_open,
                 R.string.drawer_closed) {
             public void onDrawerClosed(View view) {
-                invalidateOptionsMenu(); // creates call to
-                // onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
 
             public void onDrawerOpened(View drawerView) {
-                invalidateOptionsMenu(); // creates call to
-                // onPrepareOptionsMenu()
+                invalidateOptionsMenu();
             }
         };
-        mDrawerLayout.setDrawerListener(mDrawerToggle);//gonna be deprecated, change to addDrawerListener
+        //mDrawerLayout.setDrawerListener(mDrawerToggle);
 
         /**--------------------------------------------------------------------------------------**/
         /**------------------------------------------------------------ -------------------------**/
@@ -191,10 +188,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_white_24dp);
                 }
                 mToolbar.setTitleTextColor(Color.BLACK);
+                /* Profile */
                 MainTabAccount.tvMyProfile.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvMyEpisodes.setOnClickListener(MainActivity.this);
                 MainTabAccount.tvMyMap.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvProfilePictures.setOnClickListener(MainActivity.this);
                 MainTabAccount.tvFriends.setOnClickListener(MainActivity.this);
+
+                /* Settings */
                 MainTabAccount.tvNotifications.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvPrivacy.setOnClickListener(MainActivity.this);
+
+                /* Account */
+                MainTabAccount.tvPassword.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvEmail.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvPhoneNumber.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvBlocking.setOnClickListener(MainActivity.this);
+                MainTabAccount.tvLogOut.setOnClickListener(MainActivity.this);
             }
 
         });
@@ -277,7 +287,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             /*---------------------------------MainTabAccount-------------------------------------*/
             /* Profile */
             case R.id.tvMyProfile:
-                startFragment(fm, R.id.main_activity, new Email());
+
                 break;
 
             case R.id.tvMyEpisodes:
@@ -307,11 +317,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             /* Account */
             case R.id.tvPassword:
-
+                startFragment(fm, R.id.main_activity, new ChangePassword());
                 break;
 
             case R.id.tvEmail:
-
+                startFragment(fm, R.id.main_activity, new VerifyEmail());
                 break;
 
             case R.id.tvPhoneNumber:
@@ -322,6 +332,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
 
+            case R.id.tvSyncWithOtherMedia:
+                startFragment(fm, R.id.main_activity, new SyncWithOtherMedia());
+                break;
+
             case R.id.tvLogOut:
                 logOut();
                 break;
@@ -329,6 +343,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
+
+
 
     @Override
     public void onPostCreate(Bundle savedInstanceState){
@@ -382,7 +398,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+            Toast.makeText(MainActivity.this, "doesnt work", Toast.LENGTH_SHORT).show();
+        } else {
+            getFragmentManager().popBackStack();
+        }
     }
 
     public void SelectItem(int position) {
@@ -437,7 +461,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(this, Blocking.class));
                 break;
             case 17:
-                startActivity(new Intent(this, SyncFacebook.class));
+                startActivity(new Intent(this, SyncWithOtherMedia.class));
                 break;
             case 18:
                 logOut();

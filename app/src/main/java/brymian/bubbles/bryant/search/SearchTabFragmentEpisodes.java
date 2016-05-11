@@ -43,7 +43,7 @@ public class SearchTabFragmentEpisodes extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                /**
+
                 new EventRequest(getActivity()).getEventDataByName(SearchActivity.etSearch.getText().toString(), new EventListCallback() {
                     @Override
                     public void done(List<Event> eventList) {
@@ -52,7 +52,7 @@ public class SearchTabFragmentEpisodes extends Fragment {
                         if(eventList.size() > 0){
                             for(int i = 0; i < eventList.size(); i++){
                                 episodeTitle.add(i, eventList.get(i).eventName);
-                                //episodeHostName.add(i, eventList.get(i).eventHostName);
+                                episodeHostName.add(i, eventList.get(i).eventName);//suppose to be eventHostName
                             }
 
                             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_episodes);
@@ -64,7 +64,6 @@ public class SearchTabFragmentEpisodes extends Fragment {
                     }
                 });
 
-                 **/
             }
         });
 

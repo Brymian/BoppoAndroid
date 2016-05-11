@@ -11,7 +11,9 @@ import android.widget.TextView;
 import brymian.bubbles.R;
 
 public class MainTabAccount extends Fragment{
-    public static TextView tvMyProfile, tvMyEpisodes, tvMyMap, tvProfilePictures, tvFriends, tvNotifications, tvPrivacy, tvPassword, tvEmail, tvPhoneNumber, tvBlocking, tvLogOut;
+    public static TextView  tvMyProfile, tvMyEpisodes, tvMyMap, tvProfilePictures, tvFriends,
+                            tvNotifications, tvPrivacy,
+                            tvPassword, tvEmail, tvPhoneNumber, tvBlocking, tvSyncWithOtherMedia, tvLogOut;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,7 +34,9 @@ public class MainTabAccount extends Fragment{
         tvEmail = (TextView) rootView.findViewById(R.id.tvEmail);
         tvPhoneNumber = (TextView) rootView.findViewById(R.id.tvPhoneNumber);
         tvBlocking = (TextView) rootView.findViewById(R.id.tvBlocking);
+        tvSyncWithOtherMedia = (TextView) rootView.findViewById(R.id.tvSyncWithOtherMedia);
         tvLogOut = (TextView) rootView.findViewById(R.id.tvLogOut);
+        
         return rootView;
     }
 }
