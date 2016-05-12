@@ -286,6 +286,9 @@ public class EventRequest {
                 Event event = new Event(
                     eid,
                     getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                    null,
+                    null,
+                    null,
                     jEvent.getString("eventName"),
                     jEvent.getString("eventInviteTypeLabel"),
                     jEvent.getString("eventPrivacyLabel"),
@@ -362,6 +365,9 @@ public class EventRequest {
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
                         getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
                         jEvent.getString("eventName"),
                         jEvent.getString("eventInviteTypeLabel"),
                         jEvent.getString("eventPrivacyLabel"),
@@ -437,6 +443,9 @@ public class EventRequest {
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
                         getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
                         jEvent.getString("eventName"),
                         jEvent.getString("eventInviteTypeLabel"),
                         jEvent.getString("eventPrivacyLabel"),
@@ -512,6 +521,9 @@ public class EventRequest {
                     Event event = new Event(
                             getIntegerObjectFromObject(jEvent.get("eid")),
                             getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            jEvent.getString("eventHostUsername"),
+                            jEvent.getString("eventHostFirstName"),
+                            jEvent.getString("eventHostLastName"),
                             jEvent.getString("eventName"),
                             jEvent.getString("eventInviteTypeLabel"),
                             jEvent.getString("eventPrivacyLabel"),
@@ -587,6 +599,9 @@ public class EventRequest {
                     Event event = new Event(
                             getIntegerObjectFromObject(jEvent.get("eid")),
                             getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            jEvent.getString("eventHostUsername"),
+                            jEvent.getString("eventHostFirstName"),
+                            jEvent.getString("eventHostLastName"),
                             jEvent.getString("eventName"),
                             jEvent.getString("eventInviteTypeLabel"),
                             jEvent.getString("eventPrivacyLabel"),
@@ -662,6 +677,9 @@ public class EventRequest {
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
                         getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
                         jEvent.getString("eventName"),
                         jEvent.getString("eventInviteTypeLabel"),
                         jEvent.getString("eventPrivacyLabel"),

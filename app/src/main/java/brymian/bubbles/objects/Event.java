@@ -7,6 +7,9 @@ public class Event {
     public Integer eventHostUid;
     public String  eventName;
 
+    public String eventHostUsername;
+    public String eventHostFirstName;
+    public String eventHostLastName;
     public String  eventInviteTypeLabel;
     public String  eventPrivacyLabel;
     public Boolean eventImageUploadAllowedIndicator;
@@ -18,8 +21,9 @@ public class Event {
     public Integer eventDislikeCount;
     public Long    eventViewCount;
 
-    public Event(Integer eid, Integer eventHostUid, String eventName, String eventInviteTypeLabel,
-                 String eventPrivacyLabel, Boolean eventImageUploadAllowedIndicator,
+    public Event(Integer eid, Integer eventHostUid, String eventName,
+                 String eventHostUsername, String eventHostFirstName, String eventHostLastName,
+                 String eventInviteTypeLabel, String eventPrivacyLabel, Boolean eventImageUploadAllowedIndicator,
                  String eventStartDatetime, String eventEndDatetime, Double eventGpsLatitude, Double eventGpsLongitude,
                  Integer eventLikeCount, Integer eventDislikeCount, Long eventViewCount)
     {
@@ -28,6 +32,9 @@ public class Event {
         this.eventHostUid = eventHostUid;
         this.eventName = eventName;
 
+        this.eventHostUsername = eventHostUsername;
+        this.eventHostFirstName = eventHostFirstName;
+        this.eventHostLastName = eventHostLastName;
         this.eventInviteTypeLabel = eventInviteTypeLabel;
         this.eventPrivacyLabel = eventPrivacyLabel;
         this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;

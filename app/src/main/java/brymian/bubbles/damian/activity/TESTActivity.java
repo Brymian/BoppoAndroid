@@ -448,7 +448,6 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
         new EventRequest(this).getEventDataByTopNViews(3, new EventListCallback() {
             @Override
@@ -461,6 +460,9 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Host Username = " + event.eventHostUsername);
+                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
+                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
                     System.out.println("Event Name = " + event.eventName);
                     System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
                     System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
