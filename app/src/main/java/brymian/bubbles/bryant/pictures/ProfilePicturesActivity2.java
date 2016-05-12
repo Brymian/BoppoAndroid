@@ -14,10 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -154,7 +152,8 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             byte[] byteArrayImage =  data.getExtras().getByteArray("encodedImage");
             String imageName = data.getExtras().getString("imageName");
-            Log.e("key","byte array length: " + byteArrayImage.length);
+            ImageView[] ivProfilePicture = {ivProfilePicture1, ivProfilePicture2, ivProfilePicture3, ivProfilePicture4};
+
             for(int i = 0; i < ivProfilePicture.length; i++){
                 if(ivProfilePicture[i].getTag() == null){
                     Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayImage, 0, byteArrayImage.length);
