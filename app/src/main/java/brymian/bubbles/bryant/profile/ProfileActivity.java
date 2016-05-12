@@ -93,7 +93,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        llMain = (LinearLayout) findViewById(R.id.llMain);
+        llMain = (LinearLayout) findViewById(R.id.profile_activity);
         ibLeft.setOnClickListener(this);
         ibMiddle.setOnClickListener(this);
         ibRight.setOnClickListener(this);

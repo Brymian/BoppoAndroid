@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:theme="@style/AppTheme">
+    android:theme="@style/AppTheme"
+    android:id="@+id/profile_pictures_activity2">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -16,6 +17,13 @@
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         android:transitionGroup="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,9 +92,8 @@
             </com.github.clans.fab.FloatingActionMenu>
         </RelativeLayout>
 
-
-
+    </LinearLayout>
     </LinearLayout>
 
 
-</LinearLayout>
+</RelativeLayout>

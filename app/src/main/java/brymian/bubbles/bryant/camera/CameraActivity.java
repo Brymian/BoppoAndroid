@@ -151,6 +151,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 else if(imagePurpose.equals("Profile")){
                     Intent resultIntent = new Intent();
                     resultIntent.putExtra("encodedImage", getImageDataByte());
+                    resultIntent.putExtra("imageName", imageName());
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish();
                 }
@@ -257,7 +258,7 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
             public void onPictureTaken(byte[] data, Camera camera) {
-                //setImageDataByte(data);
+
                 String timeStamp = new SimpleDateFormat( "yyyyMMdd_HHmmss").format( new Date( ));
                 String output_file_name = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + timeStamp + ".jpeg";
 
@@ -291,7 +292,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
                     realImage.compress(Bitmap.CompressFormat.JPEG, 50, bs);
                     setImageDataByte(bs.toByteArray());
-                    System.out.println("getImageByteArray length: " + getImageDataByte().length);
 
                     Log.d("Info", bo + "");
 
@@ -409,52 +409,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
     private byte[] getImageDataByte(){return data;}
 
-    Bitmap bitmap;
-    private void setBitmap(Bitmap bitmap){
-        this.bitmap = bitmap;
-    }
-
-    private Bitmap getBitmap(){
-        return bitmap;
-    }
-
-    /** Create a file Uri for saving an image or video */
-    private static Uri getOutputMediaFileUri(int type){
-        return Uri.fromFile(getOutputMediaFile(type));
-    }
-
-    /** Create a File for saving an image or video */
-    private static File getOutputMediaFile(int type){
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "MyCameraApp");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()){
-                Log.d("MyCameraApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "IMG_"+ timeStamp + ".jpg");
-        }
-        else if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_"+ timeStamp + ".mp4");
-        }
-        else {
-            return null;
-        }
-
-        return mediaFile;
-    }
 
     /** Checks if the device has a camera **/
     private boolean checkCameraHardware(Context context) {
@@ -483,8 +437,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
 
     String imageName(){
         String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
-        String name = SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
-        System.out.println(name);
-        return name;
+        return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
     }
 }

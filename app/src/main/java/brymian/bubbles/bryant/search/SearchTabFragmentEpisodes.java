@@ -52,7 +52,7 @@ public class SearchTabFragmentEpisodes extends Fragment {
                         if(eventList.size() > 0){
                             for(int i = 0; i < eventList.size(); i++){
                                 episodeTitle.add(i, eventList.get(i).eventName);
-                                episodeHostName.add(i, eventList.get(i).eventName);//suppose to be eventHostName
+                                episodeHostName.add(i, eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);//suppose to be eventHostName
                             }
 
                             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_episodes);
