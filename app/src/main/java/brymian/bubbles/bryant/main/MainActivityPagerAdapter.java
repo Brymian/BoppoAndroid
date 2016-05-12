@@ -22,7 +22,7 @@ public class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return new MainTabEpisodes();
             case 2:
-                return new MainTabAccount();
+                return new MainTabPersonal();
             default:
                 return null;
         }

@@ -4,7 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+    android:theme="@style/AppTheme"
+    android:clickable="true">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"

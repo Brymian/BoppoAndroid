@@ -26,7 +26,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
-public class ChangePassword extends Fragment implements View.OnClickListener{
+public class Password extends Fragment implements View.OnClickListener{
     Toolbar mToolbar;
     EditText etOldPassword, etNewPassword, etNewPasswordAgain;
     TextView bChangePassword;
@@ -90,7 +90,7 @@ public class ChangePassword extends Fragment implements View.OnClickListener{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.change_password, container, false);
+        View rootView = inflater.inflate(R.layout.account_password, container, false);
 
         mToolbar = (Toolbar) rootView.findViewById(R.id.tool_bar);
         mToolbar.setTitle(R.string.Password);

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.app.Fragment;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
@@ -23,7 +21,7 @@ import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.UserDataLocal;
 
 
-public class VerifyEmail extends Fragment implements View.OnClickListener{
+public class Email extends Fragment implements View.OnClickListener{
     Toolbar mToolbar;
     EditText etVerifyEmail;
     TextView bVerifyEmail;
@@ -31,7 +29,7 @@ public class VerifyEmail extends Fragment implements View.OnClickListener{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.verify_email, container, false);
+        View rootView = inflater.inflate(R.layout.account_email, container, false);
         mToolbar = (Toolbar) rootView.findViewById(R.id.tool_bar);
         mToolbar.setTitle(R.string.Email);
         mToolbar.setTitleTextColor(Color.BLACK);

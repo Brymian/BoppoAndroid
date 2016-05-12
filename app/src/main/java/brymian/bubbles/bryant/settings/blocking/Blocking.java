@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.account;
+package brymian.bubbles.bryant.settings.blocking;
 
 
 import android.os.Bundle;
@@ -21,7 +21,7 @@ public class Blocking extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.blocking, container, false);
+        View rootView = inflater.inflate(R.layout.settings_blocking, container, false);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Blocking);
 
@@ -38,7 +38,6 @@ public class Blocking extends Fragment {
         switch (item.getItemId()){
             case R.id.home:
                 //NavUtils.navigateUpFromSameTask(this);
-                //finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

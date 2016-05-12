@@ -10,14 +10,14 @@ import android.widget.TextView;
 
 import brymian.bubbles.R;
 
-public class MainTabAccount extends Fragment{
+public class MainTabPersonal extends Fragment{
     public static TextView  tvMyProfile, tvMyEpisodes, tvMyMap, tvProfilePictures, tvFriends,
-                            tvNotifications, tvPrivacy,
-                            tvPassword, tvEmail, tvPhoneNumber, tvBlocking, tvSyncWithOtherMedia, tvLogOut;
+                            tvNotifications, tvPrivacy, tvMedia, tvBlocking, tvAbout,
+                            tvPassword, tvEmail, tvPhoneNumber, tvSyncWithOtherMedia, tvLogOut;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.main_tab_account, container, false);
+        View rootView = inflater.inflate(R.layout.main_tab_personal, container, false);
         /* Profile */
         tvMyProfile = (TextView) rootView.findViewById(R.id.tvMyProfile);
         tvMyEpisodes = (TextView) rootView.findViewById(R.id.tvMyEpisodes);
@@ -28,15 +28,17 @@ public class MainTabAccount extends Fragment{
         /* Settings */
         tvNotifications = (TextView) rootView.findViewById(R.id.tvNotifications);
         tvPrivacy = (TextView) rootView.findViewById(R.id.tvPrivacy);
+        tvMedia = (TextView) rootView.findViewById(R.id.tvMedia);
+        tvBlocking = (TextView) rootView.findViewById(R.id.tvBlocking);
+        tvAbout = (TextView) rootView.findViewById(R.id.tvAbout);
 
         /* Account */
         tvPassword = (TextView) rootView.findViewById(R.id.tvPassword);
         tvEmail = (TextView) rootView.findViewById(R.id.tvEmail);
         tvPhoneNumber = (TextView) rootView.findViewById(R.id.tvPhoneNumber);
-        tvBlocking = (TextView) rootView.findViewById(R.id.tvBlocking);
         tvSyncWithOtherMedia = (TextView) rootView.findViewById(R.id.tvSyncWithOtherMedia);
         tvLogOut = (TextView) rootView.findViewById(R.id.tvLogOut);
-        
+
         return rootView;
     }
 }

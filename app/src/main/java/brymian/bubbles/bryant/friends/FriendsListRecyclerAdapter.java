@@ -10,9 +10,7 @@ import java.util.List;
 
 import brymian.bubbles.R;
 
-/**
- * Created by Almanza on 3/24/2016.
- */
+
 public class FriendsListRecyclerAdapter  extends RecyclerView.Adapter<FriendsListRecyclerAdapter.RecyclerViewHolder> {
 
     List<String> friendsFirstLastName;

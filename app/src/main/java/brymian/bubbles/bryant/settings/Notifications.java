@@ -1,8 +1,9 @@
-package brymian.bubbles.bryant.account;
+package brymian.bubbles.bryant.settings;
 
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.search.SearchActivity;
 
 
 public class Notifications extends Fragment implements CompoundButton.OnCheckedChangeListener{
@@ -32,7 +34,7 @@ public class Notifications extends Fragment implements CompoundButton.OnCheckedC
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.notifications, container, false);
+        View rootView = inflater.inflate(R.layout.settings_notifications, container, false);
         mToolbar = (Toolbar) rootView.findViewById(R.id.tool_bar);
         mToolbar.setTitle(R.string.Notifications);
         mToolbar.setTitleTextColor(Color.BLACK);
@@ -60,24 +62,6 @@ public class Notifications extends Fragment implements CompoundButton.OnCheckedC
         sSound.setOnCheckedChangeListener(this);
 
         return rootView;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        //getActivity().getMenuInflater().inflate(R.menu.profile_pictures_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                //finish();
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override
