@@ -841,7 +841,8 @@ public class ServerRequestMethods {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() + "Older/getFriendStatus.php";
+            String url = httpConnection.getWebServerString() +
+                "AndroidIO/FriendshipStatusRequest.php?function=getFriendshipStatus";
 
             String jsonFriends = "{\"uid1\":" + loggedUid + "," + " \"uid2\":" + otherUid + "}";
             Post request = new Post();
