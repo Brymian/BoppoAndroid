@@ -81,9 +81,9 @@ public class ServerRequestMethods {
         new AuthUserFacebook(user, voidCallback).execute();
     }
 
-    public void getUsers(String searchedUser, UserListCallback userListCallback) {
+    public void getUsers(Integer searchedByUid, String searchedUser, UserListCallback userListCallback) {
         //pd.show();
-        new GetUsers(searchedUser, userListCallback).execute();
+        new GetUsers(searchedByUid, searchedUser, userListCallback).execute();
     }
 
     public void getUserData(int uid, UserCallback userCallback) {
@@ -539,10 +539,12 @@ public class ServerRequestMethods {
 
     private class GetUsers extends AsyncTask<Void, Void, List<User>> {
 
+        Integer searchedByUid;
         String searchedUser;
         UserListCallback userListCallback;
 
-        private GetUsers(String searchedUser, UserListCallback userListCallback) {
+        private GetUsers(Integer searchedByUid, String searchedUser, UserListCallback userListCallback) {
+            this.searchedByUid = searchedByUid;
             this.searchedUser = searchedUser;
             this.userListCallback = userListCallback;
         }
@@ -551,15 +553,19 @@ public class ServerRequestMethods {
         protected List<User> doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "Older/getUsers.php";
 
-            System.out.println("SEARCHED USER: " + searchedUser);
-            //String searched_user = "";
-            String jsonSearchedUser = "{\"searchedUser\":\"" + searchedUser + "\"}";
             Post request = new Post();
             //SearchUsers friendsActivity = new SearchUsers();
             try {
-                String response = request.post(url, jsonSearchedUser);
+                //System.out.println("SEARCHED USER: " + searchedUser);
+                //String searched_user = "";
+                JSONObject jsonSearchUser = new JSONObject();
+                jsonSearchUser.put("searchedByUid", searchedByUid);
+                jsonSearchUser.put("searchedUser", searchedUser);
+                String jsonSearchUserString = jsonSearchUser.toString();
+
+                String response = request.post(url, jsonSearchUserString);
                 //friendsActivity.tShowFriends.setText(response);
-                //System.out.println("RESPONSE: " + response);
+                System.out.println("RESPONSE: " + response);
                 if (response.equals("INCORRECT STRING."))
                 {
                     System.out.println(response);
@@ -576,8 +582,10 @@ public class ServerRequestMethods {
                         String username = jUser.getString("username");
                         String firstName = jUser.getString("firstName");
                         String lastName = jUser.getString("lastName");
+                        String friendshipStatus = jUser.getString("friendshipStatus");
                         User user = new User();
                         user.setUser(uid, null, null, username, null, firstName, lastName, null, null, null);
+                        user.setFriendshipStatus(friendshipStatus);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database

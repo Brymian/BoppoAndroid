@@ -17,6 +17,8 @@ public class User {
     private String userAccountPrivacy;
     private boolean init = false;
 
+    private String friendshipStatus = null;
+
     private final int NORMAL = 1;
     private final int FACEBOOK = 2;
     private final int GOOGLEP = 3;
@@ -95,6 +97,10 @@ public class User {
         this.userAccountPrivacy = userAccountPrivacy;
     }
 
+    public void setFriendshipStatus(String friendshipStatus) {
+        this.friendshipStatus = friendshipStatus;
+    }
+
     public Integer getUid() {
         return uid;
     }
@@ -130,4 +136,6 @@ public class User {
     public String getUserAccountCreationTimestamp() { return userAccountCreationTimestamp; }
 
     public String getUserAccountPrivacy() { return userAccountPrivacy; }
+
+    public String getFriendshipStatus() { return friendshipStatus; }
 }

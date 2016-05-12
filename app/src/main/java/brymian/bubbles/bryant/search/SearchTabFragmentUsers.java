@@ -52,7 +52,7 @@ public class SearchTabFragmentUsers extends Fragment{
 
             @Override
             public void afterTextChanged(Editable editable) {
-                new ServerRequestMethods(getActivity()).getUsers(SearchActivity.etSearch.getText().toString(), new UserListCallback() {
+                new ServerRequestMethods(getActivity()).getUsers(null, SearchActivity.etSearch.getText().toString(), new UserListCallback() {
                     @Override
                     public void done(List<User> users) {
                         List<String> usersFirstLastName = new ArrayList<String>();

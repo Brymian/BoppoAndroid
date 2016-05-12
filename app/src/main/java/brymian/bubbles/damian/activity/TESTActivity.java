@@ -52,7 +52,7 @@ public class TESTActivity extends Activity {
     private void test() {
 
         /*
-        new ServerRequestMethods(this).getUsers("Damian", new UserListCallback() {
+        new ServerRequestMethods(this).getUsers(1, "Damian", new UserListCallback() {
             @Override
             public void done(List<User> userList) {
                 for (User user : userList)
@@ -61,6 +61,7 @@ public class TESTActivity extends Activity {
                     System.out.println("First Name: " + user.getFirstName());
                     System.out.println("Last Name: " + user.getLastName());
                     System.out.println("Username: " + user.getUsername());
+                    System.out.println("Friendship Status: " + user.getFriendshipStatus());
                 }
             }
         });
@@ -432,6 +433,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new FriendshipStatusRequest(this).cancelFriend(1, 18, new StringCallback() {
             @Override
             public void done(String string) {
@@ -439,6 +441,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
+        */
         /*
         new EventRequest(this).incrementEventViewCount(38, new StringCallback() {
             @Override
