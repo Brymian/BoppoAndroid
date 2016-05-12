@@ -365,10 +365,10 @@ public class EventRequest {
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
                         getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
                         jEvent.getString("eventHostUsername"),
                         jEvent.getString("eventHostFirstName"),
                         jEvent.getString("eventHostLastName"),
-                        jEvent.getString("eventName"),
                         jEvent.getString("eventInviteTypeLabel"),
                         jEvent.getString("eventPrivacyLabel"),
                         getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
@@ -442,11 +442,11 @@ public class EventRequest {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
-                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
                         jEvent.getString("eventHostUsername"),
                         jEvent.getString("eventHostFirstName"),
                         jEvent.getString("eventHostLastName"),
-                        jEvent.getString("eventName"),
                         jEvent.getString("eventInviteTypeLabel"),
                         jEvent.getString("eventPrivacyLabel"),
                         getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
@@ -521,10 +521,10 @@ public class EventRequest {
                     Event event = new Event(
                             getIntegerObjectFromObject(jEvent.get("eid")),
                             getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            jEvent.getString("eventName"),
                             jEvent.getString("eventHostUsername"),
                             jEvent.getString("eventHostFirstName"),
                             jEvent.getString("eventHostLastName"),
-                            jEvent.getString("eventName"),
                             jEvent.getString("eventInviteTypeLabel"),
                             jEvent.getString("eventPrivacyLabel"),
                             getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
@@ -599,10 +599,10 @@ public class EventRequest {
                     Event event = new Event(
                             getIntegerObjectFromObject(jEvent.get("eid")),
                             getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            jEvent.getString("eventName"),
                             jEvent.getString("eventHostUsername"),
                             jEvent.getString("eventHostFirstName"),
                             jEvent.getString("eventHostLastName"),
-                            jEvent.getString("eventName"),
                             jEvent.getString("eventInviteTypeLabel"),
                             jEvent.getString("eventPrivacyLabel"),
                             getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
@@ -676,11 +676,11 @@ public class EventRequest {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
-                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
                         jEvent.getString("eventHostUsername"),
                         jEvent.getString("eventHostFirstName"),
                         jEvent.getString("eventHostLastName"),
-                        jEvent.getString("eventName"),
                         jEvent.getString("eventInviteTypeLabel"),
                         jEvent.getString("eventPrivacyLabel"),
                         getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
