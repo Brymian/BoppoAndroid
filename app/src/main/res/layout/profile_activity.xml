@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/profile_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+    android:clickable="true">
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
         android:layout_width="match_parent"
@@ -15,21 +13,22 @@
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         android:transitionGroup="true"/>
-    <LinearLayout
+    <ImageView
+        android:id="@+id/ivProfilePictures"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="450dp">
-
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/llButtons"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@drawable/background_black_fading_holo"
-        android:paddingTop="5dp"
-        android:paddingBottom="15dp">
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingTop="40dp"
+        android:paddingBottom="40dp">
         <ImageButton
             android:id="@+id/ibLeft"
             android:layout_gravity="bottom"
@@ -53,4 +52,4 @@
             android:background="@android:color/transparent" />
 
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

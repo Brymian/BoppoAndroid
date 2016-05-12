@@ -20,6 +20,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
+import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.bryant.settings.About;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
@@ -40,7 +41,6 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-
     private Toolbar mToolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fabMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, MapsActivity.class));
+                startActivity(new Intent(MainActivity.this, MapsActivity.class).putExtra("profile", "all"));
             }
         });
 
@@ -177,15 +177,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             /*---------------------------------MainTabPersonal-------------------------------------*/
             /* Profile */
             case R.id.tvMyProfile:
-
+                startActivity(new Intent(this, ProfileActivity.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(this)));
                 break;
 
             case R.id.tvMyEpisodes:
-
+                startActivity(new Intent(this, EpisodeMy.class));
                 break;
 
             case R.id.tvMyMap:
-
+                startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
                 break;
 
             case R.id.tvProfilePictures:

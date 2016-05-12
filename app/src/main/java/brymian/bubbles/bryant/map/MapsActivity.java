@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,6 +22,7 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -66,9 +68,14 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
             if(profile.equals("logged in user")){
                 mToolbar.setTitle(R.string.My_Map);
                 setUID(SaveSharedPreference.getUserUID(this));
+                getUserImages(SaveSharedPreference.getUserUID(this));
+
+            }else if(profile.equals("all")){
+                getAllImages();
             }
             else{
                 mToolbar.setTitle(profile + "'s Map");
+                getUserImages(uid);
                 setUID(uid);
             }
         }
@@ -77,7 +84,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getImages();
 
     }
 
@@ -92,8 +98,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         return false;
     }
 
-    private void getImages(){
-        new ServerRequestMethods(this).getImagesByUid(getUID(), "Regular", new ImageListCallback() {
+    private void getUserImages(int uid){
+        new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() != 0) {
@@ -126,6 +132,45 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 }
             }
         });
+    }
+
+    private void getAllImages(){
+        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                try {
+                    if (imageList.size() != 0) {
+                        for (Image image : imageList) {
+                            Log.e("ExploreTabFragment", "image path: " + image.path);
+                            imageListPath.add(image.path);
+                            latitudeImageArrayList.add(image.userImageGpsLatitude);
+                            longitudeImageArrayList.add(image.userImageGpsLongitude);
+                        }
+
+                        for (int i = 0; i < imageListPath.size(); i++) {
+                            mMap.addMarker(
+                                    new MarkerOptions()
+                                            .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
+                                            .title(imageListPath.get(i))
+                            );
+                            mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                                @Override
+                                public boolean onMarkerClick(Marker marker) {
+                                    Toast.makeText(MapsActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+                                    return false;
+                                }
+                            });
+                            mMap.getUiSettings().setMapToolbarEnabled(false);
+                        }
+                    }
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
     private void setUpMapIfNeeded() {
@@ -180,7 +225,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
 
         //Add markers here
-        mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        //mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
+        mMap.getUiSettings().setMapToolbarEnabled(false); //disables the bottom right buttons that appear when you click on a marker
+
     }
 
     private void setUID(int uid){

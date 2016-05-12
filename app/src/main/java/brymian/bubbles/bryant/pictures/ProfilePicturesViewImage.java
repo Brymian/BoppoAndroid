@@ -63,7 +63,7 @@ public class ProfilePicturesViewImage extends Fragment {
         ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //new ServerRequestMethods(getActivity()).deleteImage(SaveSharedPreference.getUserUID(getActivity()), );
+                //new ServerRequestMethods(getActivity()).deleteImage();
             }
         });
         return rootView;

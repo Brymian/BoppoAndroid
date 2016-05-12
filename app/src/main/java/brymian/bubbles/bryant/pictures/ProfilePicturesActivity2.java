@@ -5,7 +5,6 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,7 +12,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -179,6 +177,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
             public void done(List<Image> imageList) {
                 if(imageList.size() > 0){
                     for (int i =0; i < imageList.size(); i++){
+                        //setImageUiid(imageList.get(i).imageUiid, i);
                         new DownloadImage(imageList.get(i).path, i).execute();
                     }
                 }
@@ -250,12 +249,9 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
 
 
     public static int num;
-    private void setImageNumber(int n){
-        num = n;
-    }
-
-    public static int getImageNumber(){
-        return num;
-    }
-
+    public static int[] uiid;
+    private void setImageNumber(int n){num = n;}
+    public static int getImageNumber(){return num;}
+    private void setImageUiid(int n, int i){uiid[i] = n;}
+    public static int getImageUiid(int i){return uiid[i];}
 }

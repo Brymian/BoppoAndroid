@@ -1,21 +1,34 @@
 package brymian.bubbles.bryant.profile;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.map.MapsActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
@@ -23,8 +36,8 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar mToolbar;
     int userUID;
-    LinearLayout llMain;
     ImageButton ibLeft, ibMiddle, ibRight;
+    public static ImageView ivProfilePictures;
     String profile;
     String firstName, lastName, privacy;
     @Override
@@ -52,8 +65,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         /*----------------------------------------------------------------------------------------*/
 
-
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.bringToFront();
+        ivProfilePictures = (ImageView) findViewById(R.id.ivProfilePictures);
+        getProfilePictures(uid);
 
         ibLeft = (ImageButton) findViewById(R.id.ibLeft); /* left button will be users map */
         ibMiddle = (ImageButton) findViewById(R.id.ibMiddle); /* middle button will handle friend requests */
@@ -62,8 +77,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         if (profile != null) {
             if (profile.equals("logged in user")) {
                 setUID(SaveSharedPreference.getUserUID(this));
-                mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " +
-                        SaveSharedPreference.getUserLastName(this));
+                //mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
                 setButtons(profile);
                 setProfile(profile);
 
@@ -85,7 +99,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
                     }
                 });
-
             }
         }
 
@@ -93,7 +106,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        llMain = (LinearLayout) findViewById(R.id.profile_activity);
         ibLeft.setOnClickListener(this);
         ibMiddle.setOnClickListener(this);
         ibRight.setOnClickListener(this);
@@ -209,6 +221,49 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             default:
 
 
+        }
+    }
+
+    private void getProfilePictures(int uid){
+        new ServerRequestMethods(this).getImagesByUid(uid, "Profile", new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                if(imageList.size() > 0){
+                    for(int i = 0; i < imageList.size(); i++){
+                        new DownloadImage(imageList.get(i).path).execute();
+                    }
+                }
+            }
+        });
+    }
+
+    private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
+        String path;
+        int location;
+        public DownloadImage(String path){
+            this.path = path;
+            //this.location = location;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            try {
+                URLConnection connection = new URL(path).openConnection();
+                connection.setConnectTimeout(1000 * 30);
+                connection.setReadTimeout(1000 * 30);
+                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (bitmap!=null){
+                ivProfilePictures.setImageBitmap(bitmap);
+            }
         }
     }
 
