@@ -75,8 +75,8 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
                 try {
                     if (imageList.size() != 0) {
                         for (Image image : imageList) {
-                            Log.e("ExploreTabFragment", "image path: " + image.path);
-                            imageArrayListPath.add(image.path);
+                            Log.e("ExploreTabFragment", "image path: " + image.userImagePath);
+                            imageArrayListPath.add(image.userImagePath);
                             latitudeImageArrayList.add(image.userImageGpsLatitude);
                             longitudeImageArrayList.add(image.userImageGpsLongitude);
                         }

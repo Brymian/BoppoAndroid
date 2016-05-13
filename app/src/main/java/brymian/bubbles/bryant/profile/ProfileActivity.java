@@ -27,6 +27,7 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
@@ -225,12 +226,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getProfilePictures(int uid){
-        new ServerRequestMethods(this).getImagesByUid(uid, "Profile", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                if(imageList.size() > 0){
-                    for(int i = 0; i < imageList.size(); i++){
-                        new DownloadImage(imageList.get(i).path).execute();
+                if (imageList.size() > 0) {
+                    for (int i = 0; i < imageList.size(); i++) {
+                        new DownloadImage(imageList.get(i).userImagePath).execute();
                     }
                 }
             }

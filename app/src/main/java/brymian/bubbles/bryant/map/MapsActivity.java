@@ -123,13 +123,13 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     private void getUserImages(int uid){
-        new ServerRequestMethods(this).getImagesByUid(uid, "Regular", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() != 0) {
                     for (int i = 0; i < imageList.size(); i++) {
-                        System.out.println("Path: " + imageList.get(i).path);
-                        imageListPath.add(i, imageList.get(i).path);
+                        System.out.println("Path: " + imageList.get(i).userImagePath);
+                        imageListPath.add(i, imageList.get(i).userImagePath);
                         longitudeImageArrayList.add(i, imageList.get(i).userImageGpsLongitude);
                         latitudeImageArrayList.add(i, imageList.get(i).userImageGpsLatitude);
                         privacyImageArrayList.add(i, imageList.get(i).userImagePrivacyLabel);
@@ -165,8 +165,8 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 try {
                     if (imageList.size() != 0) {
                         for (Image image : imageList) {
-                            Log.e("ExploreTabFragment", "image path: " + image.path);
-                            imageListPath.add(image.path);
+                            Log.e("ExploreTabFragment", "image path: " + image.userImagePath);
+                            imageListPath.add(image.userImagePath);
                             latitudeImageArrayList.add(image.userImageGpsLatitude);
                             longitudeImageArrayList.add(image.userImageGpsLongitude);
                         }

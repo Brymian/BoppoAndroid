@@ -111,11 +111,6 @@ public class ServerRequestMethods {
         new GetFriends(uid, userListCallback).execute();
     }
 
-    public void getImagesByUid(int uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
-        pd.show();
-        new GetImages(uid, imagePurposeLabel, imageListCallback).execute();
-    }
-
     public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
         pd.show();
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
@@ -126,9 +121,9 @@ public class ServerRequestMethods {
         new SetUserAccountPrivacy(uid, privacyLabel, stringCallback).execute();
     }
 
-    public void setUserImagePurpose(int uid, int uiid, String purposeLabel, StringCallback stringCallback) {
+    public void setUserImagePurpose(int uid, int userImageSequence, String purposeLabel, StringCallback stringCallback) {
         pd.show();
-        new SetUserImagePurpose(uid, uiid, purposeLabel, stringCallback).execute();
+        new SetUserImagePurpose(uid, userImageSequence, purposeLabel, stringCallback).execute();
     }
 
     public void uploadImage(int uid, String userImageName, String userImagePurposeLabel,
@@ -140,18 +135,11 @@ public class ServerRequestMethods {
             userImageGpsLatitude, userImageGpsLongitude, userImage, stringCallback).execute();
     }
 
-    public void deleteImage(int uid, int uiid, StringCallback stringCallback)
+    public void deleteImage(int uid, int userImageSequence, StringCallback stringCallback)
     {
         pd.show();
-        new DeleteImage(uid, uiid, stringCallback).execute();
+        new DeleteImage(uid, userImageSequence, stringCallback).execute();
     }
-
-    /*
-    public void uploadVideo(String name, StringCallback stringCallback) {
-        pd.show();
-        new UploadVideo(name, stringCallback).execute();
-    }
-    */
 
     private class ChangeEmail extends AsyncTask<Void, Void, String> {
 
@@ -929,92 +917,6 @@ public class ServerRequestMethods {
 
     }
 
-    private class GetImages extends AsyncTask<Void, Void, List<Image>> {
-
-        int uid;
-        String imagePurposeLabel;
-        ImageListCallback imageListCallback;
-
-        private GetImages(int uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
-            this.uid = uid;
-            this.imagePurposeLabel = imagePurposeLabel;
-            this.imageListCallback = imageListCallback;
-        }
-
-        @Override
-        protected List<Image> doInBackground(Void... params) {
-
-            String url = httpConnection.getWebServerString() + "Older/Functions/Image.php?function=getImagesByUid";
-            String jsonGetImagePaths =
-                "{\"uid\":" + uid + "," +
-                " \"imagePurposeLabel\":\"" + imagePurposeLabel + "\"}";
-            Post request = new Post();
-
-            try {
-
-                String response = request.post(url, jsonGetImagePaths);
-                System.out.println("URL: " + url);
-                System.out.println("jsonGetImagePaths: " + jsonGetImagePaths);
-                System.out.println("RESPONSE: " + response);
-
-
-                if (response.equals("PURPOSE DOES NOT EXIST IN THE DATABASE."))
-                {
-                    System.out.println(response);
-                    return null;
-                }
-                else if (response.equals("UID IS NOT A NUMBER."))
-                {
-                    System.out.println(response);
-                    return null;
-                }
-                else if (response.equals("USER WITH PROVIDED UID DOES NOT EXIST."))
-                {
-                    System.out.println(response);
-                    return null;
-                }
-                else
-                {
-                    JSONArray jImages = new JSONArray(response);
-                    List<Image> imageList = new ArrayList<Image>();
-                    for (int i = 0; i < jImages.length(); i++)
-                    {
-                        JSONObject jImage = (JSONObject) jImages.get(i);
-
-                        String path = httpConnection.getUploadServerString() +
-                        jImage.getString("userImagePath").replaceAll(" ", "%20");
-                        String userImagePrivacyLabel = jImage.getString("userImagePrivacyLabel");
-                        String userImagePurposeLabel = jImage.getString("userImagePurposeLabel");
-                        double userImageGpsLatitude = jImage.getDouble("userImageGpsLatitude");
-                        double userImageGpsLongitude = jImage.getDouble("userImageGpsLongitude");
-
-                        Image image = new Image(path, userImagePrivacyLabel, userImagePurposeLabel,
-                            -1, userImageGpsLatitude, userImageGpsLongitude);
-
-                        imageList.add(image);
-                    }
-
-                    return imageList;
-                }
-            } catch (IOException ioe) {
-                System.out.println(ioe.toString());
-                return null;
-            } catch (JSONException jsone) {
-                jsone.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Image> imageList) {
-            pd.dismiss();
-            imageListCallback.done(imageList);
-
-            super.onPostExecute(imageList);
-        }
-
-    }
-
     private class SetFriendStatus extends AsyncTask<Void, Void, String> {
 
         int loggedUserUid;
@@ -1111,13 +1013,13 @@ public class ServerRequestMethods {
     private class SetUserImagePurpose extends AsyncTask<Void, Void, String> {
 
         int uid;
-        int uiid;
+        int userImageSequence;
         String userImagePurposeLabel;
         StringCallback stringCallback;
 
-        private SetUserImagePurpose(int uid, int uiid, String userImagePurposeLabel, StringCallback stringCallback) {
+        private SetUserImagePurpose(int uid, int userImageSequence, String userImagePurposeLabel, StringCallback stringCallback) {
             this.uid = uid;
-            this.uiid = uiid;
+            this.userImageSequence = userImageSequence;
             this.userImagePurposeLabel = userImagePurposeLabel;
             this.stringCallback = stringCallback;
         }
@@ -1132,7 +1034,7 @@ public class ServerRequestMethods {
                 JSONObject jsonUserImagePurposeLabelObject = new JSONObject();
 
                 jsonUserImagePurposeLabelObject.put("uid", uid);
-                jsonUserImagePurposeLabelObject.put("uiid", uiid);
+                jsonUserImagePurposeLabelObject.put("userImageSequence", userImageSequence);
                 jsonUserImagePurposeLabelObject.put("userImagePurposeLabel", userImagePurposeLabel);
 
                 String jsonUserImagePurposeLabel = jsonUserImagePurposeLabelObject.toString();
@@ -1237,13 +1139,13 @@ public class ServerRequestMethods {
     private class DeleteImage extends AsyncTask<Void, Void, String> {
 
         int uid;
-        int uiid;
+        int userImageSequence;
         StringCallback stringCallback;
 
-        private DeleteImage(int uid, int uiid, StringCallback stringCallback) {
+        private DeleteImage(int uid, int userImageSequence, StringCallback stringCallback) {
 
             this.uid = uid;
-            this.uiid = uiid;
+            this.userImageSequence = userImageSequence;
             this.stringCallback = stringCallback;
         }
 
@@ -1255,7 +1157,7 @@ public class ServerRequestMethods {
             {
                 JSONObject jsonImageObject = new JSONObject();
                 jsonImageObject.put("uid", uid);
-                jsonImageObject.put("uiid", uiid);
+                jsonImageObject.put("userImageSequence", userImageSequence);
 
                 String jsonImage = jsonImageObject.toString();
                 Post request = new Post();

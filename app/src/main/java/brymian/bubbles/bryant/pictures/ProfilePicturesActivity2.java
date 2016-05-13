@@ -33,6 +33,7 @@ import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Image;
 
@@ -172,13 +173,13 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
     }
 
     private void getProfileImages() {
-        new ServerRequestMethods(this).getImagesByUid(SaveSharedPreference.getUserUID(this), "Profile", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
-                if(imageList.size() > 0){
-                    for (int i =0; i < imageList.size(); i++){
+                if (imageList.size() > 0) {
+                    for (int i = 0; i < imageList.size(); i++) {
                         //setImageUiid(imageList.get(i).imageUiid, i);
-                        new DownloadImage(imageList.get(i).path, i).execute();
+                        new DownloadImage(imageList.get(i).userImagePath, i).execute();
                     }
                 }
             }

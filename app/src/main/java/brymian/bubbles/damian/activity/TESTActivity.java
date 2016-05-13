@@ -129,23 +129,52 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
-        new ServerRequestMethods(this).getImagesByUid(1, "All", new ImageListCallback() {
+
+        new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
                 System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
 
                 for (Image image : images) {
-                    System.out.println("Image #" + images.indexOf(image));
-                    System.out.println("Path: " + image.getPath());
-                    System.out.println("Path: " + image.getUserImagePrivacyLabel());
-                    System.out.println("Path: " + image.getUserImagePurposeLabel());
-                    System.out.println("Path: " + image.getUserImageGpsLatitude());
-                    System.out.println("Path: " + image.getUserImageGpsLongitude());
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.uiid);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image Event Identifier: " + image.userImageEid);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
                 }
             }
         });
-        */
+
+        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
+                for (Image image : images) {
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.uiid);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image Event Identifier: " + image.userImageEid);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
 
         /*
         int uidA = 1;
@@ -369,23 +398,6 @@ public class TESTActivity extends Activity {
                     System.out.println("Event Like Count = " + event.eventLikeCount);
                     System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                     System.out.println("Event View Count = " + event.eventViewCount);
-                }
-            }
-        });
-        */
-        /*
-        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
-            @Override
-            public void done(List<Image> images) {
-                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
-
-                for (Image image : images) {
-                    System.out.println("Image #" + images.indexOf(image));
-                    System.out.println("Image EID: " + image.userImageEid);
-                    System.out.println("Image Privacy Label: " + image.userImagePrivacyLabel);
-                    System.out.println("Image Purpose Label: " + image.userImagePurposeLabel);
-                    System.out.println("Image GPS Latitude: " + image.userImageGpsLatitude);
-                    System.out.println("Image GPS Longitude: " + image.userImageGpsLongitude);
                 }
             }
         });

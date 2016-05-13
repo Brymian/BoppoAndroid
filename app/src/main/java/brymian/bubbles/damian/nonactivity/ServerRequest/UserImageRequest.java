@@ -25,6 +25,7 @@ import brymian.bubbles.objects.Image;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableInt;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
@@ -42,6 +43,11 @@ public class UserImageRequest {
         httpConnection = new HTTPConnection();
     }
 
+    public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
+        pd.show();
+        new GetImagesByUidAndPurpose(uid, imagePurposeLabel, imageListCallback).execute();
+    }
+
     public void getImagesByPrivacyAndPurpose(String imagePrivacyLabel, String imagePurposeLabel,
         ImageListCallback imageListCallback)
     {
@@ -53,6 +59,82 @@ public class UserImageRequest {
     {
         pd.show();
         new GetImageProfileMaxAmount(integerCallback).execute();
+    }
+
+
+
+    private class GetImagesByUidAndPurpose extends AsyncTask<Void, Void, List<Image>> {
+
+        Integer uid;
+        String imagePurposeLabel;
+        ImageListCallback imageListCallback;
+
+        private GetImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
+            this.uid = uid;
+            this.imagePurposeLabel = imagePurposeLabel;
+            this.imageListCallback = imageListCallback;
+        }
+
+        @Override
+        protected List<Image> doInBackground(Void... params) {
+
+            String url = httpConnection.getWebServerString() +
+                    "AndroidIO/UserImageRequest.php?function=getImagesByUidAndPurpose";
+
+            Post request = new Post();
+
+            try {
+
+                JSONObject jsonImageObject = new JSONObject();
+                jsonImageObject.put("uid", getNullOrValue(uid));
+                jsonImageObject.put("imagePurposeLabel", imagePurposeLabel);
+                String jsonImageString = jsonImageObject.toString();
+
+                String response = request.post(url, jsonImageString);
+                JSONArray jImageArray = new JSONArray(response);
+
+                List<Image> imageList = new ArrayList<>();
+                for (int i = 0; i < jImageArray.length(); i++)
+                {
+                    JSONObject jImage = jImageArray.getJSONObject(i);
+                    Image image = new Image (
+                        getLongObjectFromObject(jImage.get("uiid")),
+                        getIntegerObjectFromObject(jImage.get("uid")),
+                        getIntegerObjectFromObject(jImage.get("userImageSequence")),
+                        httpConnection.getUploadServerString() +
+                                jImage.getString("userImagePath").replaceAll(" ", "%20"),
+                        jImage.getString("userImageName"),
+                        jImage.getString("userImagePrivacyLabel"),
+                        jImage.getString("userImagePurposeLabel"),
+                        getIntegerObjectFromObject(jImage.get("userImageEid")),
+                        getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")),
+                        getDoubleObjectFromObject(jImage.get("userImageGpsLongitude"))
+                    );
+                    imageList.add(image);
+                }
+
+                return imageList;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Image> imageList) {
+            pd.dismiss();
+            imageListCallback.done(imageList);
+
+            super.onPostExecute(imageList);
+        }
+
     }
 
 
@@ -94,8 +176,13 @@ public class UserImageRequest {
                 for (int i = 0; i < jImageArray.length(); i++)
                 {
                     JSONObject jImage = jImageArray.getJSONObject(i);
-                    Image image = new Image(
-                        jImage.getString("userImagePath"),
+                    Image image = new Image (
+                        getLongObjectFromObject(jImage.get("uiid")),
+                        getIntegerObjectFromObject(jImage.get("uid")),
+                        getIntegerObjectFromObject(jImage.get("userImageSequence")),
+                        httpConnection.getUploadServerString() +
+                            jImage.getString("userImagePath").replaceAll(" ", "%20"),
+                        jImage.getString("userImageName"),
                         jImage.getString("userImagePrivacyLabel"),
                         jImage.getString("userImagePurposeLabel"),
                         getIntegerObjectFromObject(jImage.get("userImageEid")),
