@@ -178,7 +178,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
                     for (int i = 0; i < imageList.size(); i++) {
-                        //setImageUiid(imageList.get(i).imageUiid, i);
+                        setImageUiid(imageList.get(i).uiid, i);
                         new DownloadImage(imageList.get(i).userImagePath, i).execute();
                     }
                 }
@@ -250,9 +250,9 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
 
 
     public static int num;
-    public static int[] uiid;
+    public static long[] uiid;
     private void setImageNumber(int n){num = n;}
     public static int getImageNumber(){return num;}
-    private void setImageUiid(int n, int i){uiid[i] = n;}
-    public static int getImageUiid(int i){return uiid[i];}
+    private void setImageUiid(long n, int i){uiid[i] = n;}
+    public static long getImageUiid(int i){return uiid[i];}
 }

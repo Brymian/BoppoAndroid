@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profile_activity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,46 +10,81 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        android:elevation="6dp"
-        android:minHeight="?attr/actionBarSize"
-        android:transitionGroup="true"/>
+        android:minHeight="?attr/actionBarSize" />
     <ImageView
         android:id="@+id/ivProfilePictures"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:id="@+id/llButtons"
+
+    <TextView
+        android:id="@+id/tvProfileUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@drawable/background_black_fading_holo"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingTop="40dp"
-        android:paddingBottom="40dp">
-        <ImageButton
-            android:id="@+id/ibLeft"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent" />
-        <ImageButton
-            android:id="@+id/ibMiddle"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent" />
-        <ImageButton
-            android:id="@+id/ibRight"
-            android:layout_gravity="bottom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent" />
+        android:textAppearance="?android:textAppearanceLarge"
+        android:layout_above="@+id/tvProfileFirstLastName"
+        android:layout_alignLeft="@+id/tvProfileFirstLastName"
+        android:layout_alignStart="@+id/tvProfileFirstLastName" />
 
-    </LinearLayout>
+    <TextView
+        android:id="@+id/tvProfileFirstLastName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_above="@+id/fabMessage"
+        android:layout_alignLeft="@+id/fabMessage"
+        android:layout_alignStart="@+id/fabMessage" />
+
+
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="#42ffbf"
+            fab:fab_colorPressed="#FFB805"
+            fab:fab_colorRipple="#FFB805"
+            android:layout_gravity="bottom|start"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabStatusAction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="#42ffbf"
+            fab:fab_colorPressed="#FFB805"
+            fab:fab_colorRipple="#FFB805"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp" />
+
+
+        <com.github.clans.fab.FloatingActionMenu
+            android:id="@+id/fabMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:menu_animationDelayPerItem="0"
+            fab:menu_shadowColor="#444"
+            fab:menu_colorNormal="#42ffbf"
+            fab:menu_colorPressed="#F2AB00"
+            fab:menu_colorRipple="#D99200"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp">
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fabEpisodes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fabMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

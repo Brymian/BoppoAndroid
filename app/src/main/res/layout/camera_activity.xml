@@ -10,7 +10,7 @@
         android:id="@+id/fabGoBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_colorNormal="#FFB805"
+        fab:fab_colorNormal="#42ffbf"
         fab:fab_colorPressed="#FFB805"
         fab:fab_colorRipple="#FFB805"
         android:layout_gravity="bottom|start"
@@ -21,7 +21,7 @@
         android:id="@+id/fabCancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_colorNormal="#FFB805"
+        fab:fab_colorNormal="#42ffbf"
         fab:fab_colorPressed="#FFB805"
         fab:fab_colorRipple="#FFB805"
         android:layout_gravity="bottom|start"
@@ -32,7 +32,7 @@
         android:id="@+id/fabCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_colorNormal="#FFB805"
+        fab:fab_colorNormal="#42ffbf"
         fab:fab_colorPressed="#FFB805"
         fab:fab_colorRipple="#FFB805"
         android:layout_gravity="bottom|center_horizontal"
@@ -42,7 +42,7 @@
         android:id="@+id/fabConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_colorNormal="#FFB805"
+        fab:fab_colorNormal="#42ffbf"
         fab:fab_colorPressed="#FFB805"
         fab:fab_colorRipple="#FFB805"
         android:layout_gravity="bottom|center_horizontal"
@@ -59,7 +59,7 @@
         android:layout_marginTop="10dp"
         fab:menu_animationDelayPerItem="0"
         fab:menu_shadowColor="#444"
-        fab:menu_colorNormal="#FFB805"
+        fab:menu_colorNormal="#42ffbf"
         fab:menu_colorPressed="#F2AB00"
         fab:menu_colorRipple="#D99200">
         <com.github.clans.fab.FloatingActionButton
@@ -83,7 +83,7 @@
         android:layout_marginTop="10dp"
         fab:menu_animationDelayPerItem="0"
         fab:menu_shadowColor="#444"
-        fab:menu_colorNormal="#FFB805"
+        fab:menu_colorNormal="#42ffbf"
         fab:menu_colorPressed="#F2AB00"
         fab:menu_colorRipple="#D99200">
         <com.github.clans.fab.FloatingActionButton

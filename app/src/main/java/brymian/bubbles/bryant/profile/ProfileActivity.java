@@ -13,7 +13,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,11 +40,14 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
     Toolbar mToolbar;
-    int userUID;
-    ImageButton ibLeft, ibMiddle, ibRight;
     public static ImageView ivProfilePictures;
+    TextView tvProfileUsername, tvProfileFirstLastName;
+    FloatingActionButton fabMessage, fabStatusAction, fabMap, fabEpisodes;
+    FloatingActionMenu fabMenu;
+    int userUID;
     String profile;
     String firstName, lastName, privacy;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,58 +74,83 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
+        mToolbar.setTitle("");
         mToolbar.bringToFront();
         ivProfilePictures = (ImageView) findViewById(R.id.ivProfilePictures);
-        getProfilePictures(uid);
+        tvProfileUsername = (TextView) findViewById(R.id.tvProfileUsername);
+        tvProfileFirstLastName = (TextView) findViewById(R.id.tvProfileFirstLastName);
 
-        ibLeft = (ImageButton) findViewById(R.id.ibLeft); /* left button will be users map */
-        ibMiddle = (ImageButton) findViewById(R.id.ibMiddle); /* middle button will handle friend requests */
-        ibRight = (ImageButton) findViewById(R.id.ibRight);
+        getProfilePictures(uid);
+        fabMessage = (FloatingActionButton) findViewById(R.id.fabMessage);
+        fabMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProfileActivity.this, "Under construction: Message", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        fabStatusAction = (FloatingActionButton) findViewById(R.id.fabStatusAction);
+        fabStatusAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        fabEpisodes = (FloatingActionButton) findViewById(R.id.fabEpisodes);
+        fabEpisodes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
+        fabMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
 
         if (profile != null) {
             if (profile.equals("logged in user")) {
                 setUID(SaveSharedPreference.getUserUID(this));
-                //mToolbar.setTitle(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
+                tvProfileUsername.setText(SaveSharedPreference.getUsername(this));
+                tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
                 setButtons(profile);
                 setProfile(profile);
-
             }
             else {
                 setUID(uid);
                 setButtons(profile);
                 setProfile(profile);
                 Toast.makeText(ProfileActivity.this, profile, Toast.LENGTH_SHORT).show();
-
                 new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
                     @Override
                     public void done(User user) {
                         setFirstName(user.getFirstName());
                         setLastName(user.getLastName());
-                        mToolbar.setTitle(user.getFirstName() + " " + user.getLastName());
-                        System.out.println("privacy: " + user.getUserAccountPrivacy());
+                        tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
+                        tvProfileUsername.setText(user.getUsername());
                         setPrivacy(user.getUserAccountPrivacy());
-
                     }
                 });
             }
         }
-
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        ibLeft.setOnClickListener(this);
-        ibMiddle.setOnClickListener(this);
-        ibRight.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.ibLeft:
+            case R.id.fabMessage:
                 if(getProfile().equals("logged in user")){
-                    startActivity(new Intent(this, MapsActivity.class)
-                            .putExtra("profile", "logged in user"));
+                    startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
                 }
                 else if(getPrivacy().equals("Private")){
                     Toast.makeText(ProfileActivity.this, "User account is private", Toast.LENGTH_SHORT).show();
@@ -129,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             .putExtra("profile", getFirstName() + " " + getLastName()));
                 }
                 break;
-            case R.id.ibMiddle:
+            case R.id.fabStatusAction:
                 if(getProfile().equals("logged in user")){
                     startActivity(new Intent(this, FriendsList.class)
                             .putExtra("uid", getUID())
@@ -163,7 +195,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
 
-            case R.id.ibRight:
+            case R.id.fabMenu:
                 break;
         }
     }
@@ -181,47 +213,32 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setButtons(String friendStatus) {
+        fabMessage.setImageResource(R.mipmap.ic_chat_bubble_outline_black_24dp);
+        fabMap.setImageResource(R.mipmap.ic_public_black_24dp);
+        fabEpisodes.setImageResource(R.mipmap.ic_my_location_black_24dp);
         switch (friendStatus){
             case "logged in user":
-                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
-                ibMiddle.setImageResource(R.mipmap.ic_people_white_24dp);
-                ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
+                fabStatusAction.setImageResource(R.mipmap.ic_people_outline_black_24dp);
                 break;
-
             case "Already friends with user.":
-                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
-                ibMiddle.setImageResource(R.mipmap.ic_people_white_24dp);
-                ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
+                fabStatusAction.setImageResource(R.mipmap.ic_people_outline_black_24dp);
                 break;
-
             case "Already sent friend request to user.":
-                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
-                ibMiddle.setImageResource(R.mipmap.ic_cancel_white_24dp);
-                ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
+                fabStatusAction.setImageResource(R.mipmap.ic_more_horiz_black_24dp);
                 break;
-
             case "User is awaiting confirmation for friend request.":
-                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
-                ibMiddle.setImageResource(R.mipmap.ic_person_add_white_24dp);
-                ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
+                fabStatusAction.setImageResource(R.mipmap.ic_more_horiz_black_24dp);
                 break;
-
             case "Not friends.":
-                ibLeft.setImageResource(R.mipmap.ic_public_white_24dp);
-                ibMiddle.setImageResource(R.mipmap.ic_person_add_white_24dp);
-                ibRight.setImageResource(android.R.drawable.ic_menu_myplaces);
+                fabStatusAction.setImageResource(R.mipmap.ic_person_add_black_24dp);
                 break;
-
             case "User is currently being blocked.":
 
                 break;
-
             case "Currently being blocked by user.":
 
                 break;
             default:
-
-
         }
     }
 
