@@ -31,6 +31,7 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Image;
@@ -38,11 +39,11 @@ import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class ProfileActivity extends AppCompatActivity {
     Toolbar mToolbar;
     public static ImageView ivProfilePictures;
     TextView tvProfileUsername, tvProfileFirstLastName;
-    FloatingActionButton fabMessage, fabStatusAction, fabMap, fabEpisodes;
+    FloatingActionButton fabMessage, fabStatusAction, fabMap, fabEpisodes, fabBlock, fabRemove;
     FloatingActionMenu fabMenu;
     int userUID;
     String profile;
@@ -73,6 +74,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         /*----------------------------------------------------------------------------------------*/
 
+        System.out.println("UID: " + uid);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         mToolbar.setTitle("");
         mToolbar.bringToFront();
@@ -81,39 +83,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tvProfileFirstLastName = (TextView) findViewById(R.id.tvProfileFirstLastName);
 
         getProfilePictures(uid);
-        fabMessage = (FloatingActionButton) findViewById(R.id.fabMessage);
-        fabMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(ProfileActivity.this, "Under construction: Message", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        fabStatusAction = (FloatingActionButton) findViewById(R.id.fabStatusAction);
-        fabStatusAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabEpisodes = (FloatingActionButton) findViewById(R.id.fabEpisodes);
-        fabEpisodes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-        fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
-        fabMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
+        setFloatingActionButtons();
 
         if (profile != null) {
             if (profile.equals("logged in user")) {
@@ -145,60 +115,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.fabMessage:
-                if(getProfile().equals("logged in user")){
-                    startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
-                }
-                else if(getPrivacy().equals("Private")){
-                    Toast.makeText(ProfileActivity.this, "User account is private", Toast.LENGTH_SHORT).show();
-                }
-                else if(getPrivacy().equals("Public")){
-                    startActivity(new Intent(this, MapsActivity.class)
-                            .putExtra("uid", getUID())
-                            .putExtra("profile", getFirstName() + " " + getLastName()));
-                }
-                break;
-            case R.id.fabStatusAction:
-                if(getProfile().equals("logged in user")){
-                    startActivity(new Intent(this, FriendsList.class)
-                            .putExtra("uid", getUID())
-                            .putExtra("profile", "logged in user"));
-                }
-                else if(getProfile().equals("Already friends with user.")){
-                    startActivity(new Intent(this, FriendsList.class)
-                            .putExtra("uid", getUID())
-                            .putExtra("profile", getFirstName() + " " + getLastName()));
-                }
-                else if(getProfile().equals("Not friends.")){
-                    new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
-                        System.out.println("string from setFriendStatus: " + string);
-                        }
-                    });
-                }
-                else if(getProfile().equals("Already sent friend request to user.")){
-                    Toast.makeText(ProfileActivity.this, "Already sent friend request to user.", Toast.LENGTH_SHORT).show();
-                }
-                else if (getProfile().equals("User is awaiting confirmation for friend request.")){
-                    new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-                break;
-
-
-            case R.id.fabMenu:
-                break;
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -212,13 +128,122 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    private void setFloatingActionButtons(){
+        /* buttons go from left to right according to the design */
+        /* left most FAB */
+        fabMessage = (FloatingActionButton) findViewById(R.id.fabMessage);
+        fabMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProfileActivity.this, "Under construction: Message", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        /* middle FAB */
+        fabStatusAction = (FloatingActionButton) findViewById(R.id.fabStatusAction);
+        fabStatusAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (getProfile()) {
+                    case "logged in user":
+                        startActivity(new Intent(ProfileActivity.this, FriendsList.class)
+                                .putExtra("uid", getUID())
+                                .putExtra("profile", "logged in user"));
+                        break;
+                    case "Already friends with user.":
+                        startActivity(new Intent(ProfileActivity.this, FriendsList.class)
+                                .putExtra("uid", getUID())
+                                .putExtra("profile", getFirstName() + " " + getLastName()));
+                        break;
+                    case "Not friends.":
+                        new ServerRequestMethods(ProfileActivity.this).setFriendStatus(
+                                SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(),
+                                new StringCallback() {
+                                    @Override
+                                    public void done(String string) {
+                                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        break;
+                    case "Already sent friend request to user.":
+                        Toast.makeText(ProfileActivity.this, "Already sent friend request to user.", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "User is awaiting confirmation for friend request.":
+                        new ServerRequestMethods(ProfileActivity.this).setFriendStatus(
+                                SaveSharedPreference.getUserUID(ProfileActivity.this),
+                                getUID(),
+                                new StringCallback() {
+                                    @Override
+                                    public void done(String string) {
+                                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        break;
+                }
+            }
+        });
+
+        /* right most FAM and FABs that are attached to the FAM */
+        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
+        /* order of the FAB that is attached to the FAM goes from top to bottom */
+        fabRemove = (FloatingActionButton) findViewById(R.id.fabRemove);
+        fabRemove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        fabBlock = (FloatingActionButton) findViewById(R.id.fabBlock);
+        fabBlock.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new FriendshipStatusRequest(ProfileActivity.this).blockUser(
+                        SaveSharedPreference.getUserUID(ProfileActivity.this),
+                        getUID(),
+                        new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+        fabEpisodes = (FloatingActionButton) findViewById(R.id.fabEpisodes);
+        fabEpisodes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
+        fabMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(getProfile().equals("logged in user")){
+                    startActivity(new Intent(ProfileActivity.this, MapsActivity.class)
+                            .putExtra("profile", "logged in user"));
+                }
+                else if(getPrivacy().equals("Private")){
+                    Toast.makeText(ProfileActivity.this, "Private account", Toast.LENGTH_SHORT).show();
+                }
+                else if(getPrivacy().equals("Public")){
+                    startActivity(new Intent(ProfileActivity.this, MapsActivity.class)
+                            .putExtra("uid", getUID())
+                            .putExtra("profile", getFirstName() + " " + getLastName()));
+                }
+            }
+        });
+
+    }
+
     private void setButtons(String friendStatus) {
-        fabMessage.setImageResource(R.mipmap.ic_chat_bubble_outline_black_24dp);
-        fabMap.setImageResource(R.mipmap.ic_public_black_24dp);
-        fabEpisodes.setImageResource(R.mipmap.ic_my_location_black_24dp);
         switch (friendStatus){
             case "logged in user":
                 fabStatusAction.setImageResource(R.mipmap.ic_people_outline_black_24dp);
+                fabRemove.hide(true);
                 break;
             case "Already friends with user.":
                 fabStatusAction.setImageResource(R.mipmap.ic_people_outline_black_24dp);
@@ -231,6 +256,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case "Not friends.":
                 fabStatusAction.setImageResource(R.mipmap.ic_person_add_black_24dp);
+                fabRemove.hide(true);
                 break;
             case "User is currently being blocked.":
 

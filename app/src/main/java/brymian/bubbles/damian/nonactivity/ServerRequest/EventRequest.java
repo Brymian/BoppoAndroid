@@ -30,6 +30,7 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger
 public class EventRequest {
 
     private HTTPConnection httpConnection = null;
+
     private ProgressDialog pd = null;
 
     public EventRequest(Activity activity) {
@@ -65,13 +66,13 @@ public class EventRequest {
 
     public void getEventDataByMember(Integer uid, EventListCallback eventListCallback)
     {
-        pd.show();
+        //pd.show();
         new GetEventDataByMember(uid, eventListCallback).execute();
     }
 
     public void getEventDataByName(String eventName, EventListCallback eventListCallback)
     {
-        pd.show();
+        //pd.show();
         new GetEventDataByName(eventName, eventListCallback).execute();
     }
 
@@ -399,7 +400,7 @@ public class EventRequest {
 
         @Override
         protected void onPostExecute(List<Event> eventList) {
-            pd.dismiss();
+            //-pd.dismiss();
             eventListCallback.done(eventList);
 
             super.onPostExecute(eventList);
@@ -477,7 +478,7 @@ public class EventRequest {
 
         @Override
         protected void onPostExecute(List<Event> eventList) {
-            pd.dismiss();
+            //pd.dismiss();
             eventListCallback.done(eventList);
 
             super.onPostExecute(eventList);

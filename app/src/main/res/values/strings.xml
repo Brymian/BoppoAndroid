@@ -42,6 +42,8 @@
     <string name="Add_Episode_Title">Add Episode Title</string>
     <string name="Add_Friends">Add Friends</string>
     <string name="Add_To_Current_Location">Add To Current Location</string>
+    <string name="All_time_most_views">ALL TIME - MOST VIEWS</string>
+    <string name="All_time_top_rated">ALL TIME - TOP RATED</string>
     <string name="Apply">Apply</string>
     <string name="Attending">Attending</string>
     <string name="Blocking">Blocking</string>
@@ -65,6 +67,9 @@
     <string name="Hosting">Hosting</string>
     <string name="Later">Later</string>
     <string name="Live_Episodes">Live Episodes</string>
+    <string name="live_in_your_neighborhood">LIVE - IN YOUR NEIGHBORHOOD</string>
+    <string name="live_most_views">LIVE - MOST VIEWS</string>
+    <string name="live_top_rated">LIVE - TOP RATED</string>
     <string name="Locations">Locations</string>
     <string name="Log_Out">Log Out</string>
     <string name="Logo">Logo</string>

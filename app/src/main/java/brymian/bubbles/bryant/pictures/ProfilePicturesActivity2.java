@@ -250,9 +250,11 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
 
 
     public static int num;
-    public static long[] uiid;
+    public static long[] uiid = new long[4];
     private void setImageNumber(int n){num = n;}
     public static int getImageNumber(){return num;}
-    private void setImageUiid(long n, int i){uiid[i] = n;}
+    private void setImageUiid(long n, int i){
+        uiid[i] = n;
+    }
     public static long getImageUiid(int i){return uiid[i];}
 }

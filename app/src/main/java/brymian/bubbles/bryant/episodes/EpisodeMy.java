@@ -54,7 +54,8 @@ public class EpisodeMy extends AppCompatActivity {
             @Override
             public void done(List<Event> eventList) {
 
-                for (Event event : eventList) {
+                if(eventList.size() > 0) {
+                    for (Event event : eventList) {
                     /* code below is for reference */
                     /*
                     System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
@@ -72,13 +73,13 @@ public class EpisodeMy extends AppCompatActivity {
                     System.out.println("Event Dislike Count = " + event.eventDislikeCount);
                     System.out.println("Event View Count = " + event.eventViewCount);
                     */
-
-                    if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeMy.this)) {
-                        tvHosting.setVisibility(View.VISIBLE);
-                        eventNameListHosting.add(event.eventName);
-                        eventEidListHosting.add(event.eid);
-                        vDivider.setVisibility(View.VISIBLE);
-                        tvAttending.setVisibility(View.VISIBLE);
+                        if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeMy.this)) {
+                            tvHosting.setVisibility(View.VISIBLE);
+                            eventNameListHosting.add(event.eventName);
+                            eventEidListHosting.add(event.eid);
+                            vDivider.setVisibility(View.VISIBLE);
+                            tvAttending.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_episode_my_hosted);
