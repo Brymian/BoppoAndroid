@@ -61,7 +61,9 @@
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"></activity>
         <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.friends.FriendsList" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.friends.FriendsList" android:screenOrientation="portrait">
+
+        </activity>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait">
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"

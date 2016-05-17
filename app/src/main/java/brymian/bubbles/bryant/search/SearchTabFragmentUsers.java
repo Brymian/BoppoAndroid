@@ -53,7 +53,6 @@ public class SearchTabFragmentUsers extends Fragment{
                         List<String> usersUsername = new ArrayList<>();
                         try {
                             if(users.size() > 0) {
-
                                 for (int i = 0; i < users.size(); i++) {
                                     //if (users.get(i).getUid() != SaveSharedPreference.getUserUID(SearchActivity.this)) {
                                     usersFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());

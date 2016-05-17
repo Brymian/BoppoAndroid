@@ -15,7 +15,6 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.friends.friendrequests.FriendRequestRecyclerAdapter;
 import brymian.bubbles.bryant.friends.friendrequests.FriendRequester;
 import brymian.bubbles.bryant.friends.sent.SentFriendRequests;
@@ -34,9 +33,7 @@ public class FriendsList extends AppCompatActivity{
     Toolbar mToolbar;
     View vDivider;
     TextView tvPendingFriendRequestsNumber, tvPendingRequests;
-    public static List<Integer> friendsUID = new ArrayList<>();
-    public static List<String> friendsStatus = new ArrayList<>();
-
+    String profile;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +41,6 @@ public class FriendsList extends AppCompatActivity{
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
         int uid;
-        String profile;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
@@ -142,7 +138,7 @@ public class FriendsList extends AppCompatActivity{
                             friendRequesterArrayList.add(friendRequester);
                         }
                         vDivider.setVisibility(View.VISIBLE);
-                        recyclerViewFriendRequests = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
+                        //recyclerViewFriendRequests = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
                         recyclerViewFriendRequests.setVisibility(View.VISIBLE);
                         adapter = new FriendRequestRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
                         layoutManager = new LinearLayoutManager(FriendsList.this);
@@ -159,45 +155,34 @@ public class FriendsList extends AppCompatActivity{
     }
 
 
+    public static List<Integer> friendsUID = new ArrayList<>();
+    public static List<String> friendsStatus = new ArrayList<>();
     /* Checks and displays if use has any friends */
     private void getFriends(int uid){
         new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
+                setFriendListSize(users.size());
                 List<String> friendsFirstLastName = new ArrayList<>();
                 List<String> friendsUsername = new ArrayList<>();
-                try {
-                    System.out.println("users.size(): "+users.size());
-                    for (int i = 0; i < users.size(); i++) {
-                        friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                        friendsUsername.add(i, users.get(i).getUsername());
-                        friendsUID.add(i, users.get(i).getUid());
-                        final int j = i;
-                        new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
+                for (int i = 0; i < users.size(); i++) {
+                    friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                    friendsUsername.add(i, users.get(i).getUsername());
+                    friendsUID.add(i, users.get(i).getUid());
+                    final int j = i;
+                    new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
                             @Override
                             public void done(String string) {
                                 friendsStatus.add(j, string);
                             }
                         });
-                    }
-                }
-                catch (NullPointerException npe){
-                    npe.printStackTrace();
-                    System.out.println("getFriends null pointer exception");
                 }
                 recyclerViewFriends.setVisibility(View.VISIBLE);
                 //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
-                adapter = new FriendsListRecyclerAdapter(friendsFirstLastName, friendsUsername);
+                adapter = new FriendsListRecyclerAdapter(FriendsList.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
                 layoutManager = new LinearLayoutManager(FriendsList.this);
                 recyclerViewFriends.setLayoutManager(layoutManager);
                 recyclerViewFriends.setAdapter(adapter);
-                recyclerViewFriends.addOnItemTouchListener(new FriendsListRecyclerItemClickListener(FriendsList.this, new FriendsListRecyclerItemClickListener.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View view, int position) {
-                                startActivity(new Intent(FriendsList.this, ProfileActivity.class).putExtra("uid", friendsUID.get(position)).putExtra("profile", friendsStatus.get(position)));
-                            }
-                        })
-                );
             }
         });
 
@@ -212,5 +197,26 @@ public class FriendsList extends AppCompatActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (profile.equals("logged in user")){
+            super.onBackPressed();
+        }else if(getFriendListSize() !=0) {
+            for(int i = 0; i < getFriendListSize(); i++){
+                friendsStatus.remove(i);
+                friendsUID.remove(i);
+            }
+            super.onBackPressed();
+        }
+    }
+    int size;
+    private void setFriendListSize(int size){
+        this.size = size;
+    }
+
+    private int getFriendListSize(){
+        return size;
     }
 }
