@@ -72,7 +72,7 @@ public class ServerRequestMethods {
     }
 
     public void authUserNormal(User user, VoidCallback voidCallback) {
-        pd.show();
+        //pd.show();
         new AuthUserNormal(user, voidCallback).execute();
     }
 

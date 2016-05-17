@@ -178,7 +178,8 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
                     for (int i = 0; i < imageList.size(); i++) {
-                        setImageUiid(imageList.get(i).uiid, i);
+                        //setImageUiid(imageList.get(i).uiid, i);
+                        System.out.println("image uiid : "+ imageList.get(i).uiid + " at position: " + i);
                         new DownloadImage(imageList.get(i).userImagePath, i).execute();
                     }
                 }

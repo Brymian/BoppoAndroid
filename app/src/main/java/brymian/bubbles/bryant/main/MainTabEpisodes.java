@@ -73,7 +73,7 @@ public class MainTabEpisodes extends Fragment implements View.OnClickListener {
         tvAllTimeTopRatedEpisode3 = (TextView) rootView.findViewById(R.id.tvAllTimeTopRatedEpisode3);
         tvAllTimeTopRatedEpisode3.setOnClickListener(this);
 
-        //setMostViewsEpisodes();
+        setMostViewsEpisodes();
         return rootView;
     }
 
@@ -129,7 +129,7 @@ public class MainTabEpisodes extends Fragment implements View.OnClickListener {
     }
 
     private void setMostViewsEpisodes(){
-        new EventRequest(getActivity()).getEventDataByTopNLikes(3, new EventListCallback() {
+        new EventRequest(getActivity()).getEventDataByTopNLikes(1, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
                 for (int i = 0; i < eventList.size(); i++){

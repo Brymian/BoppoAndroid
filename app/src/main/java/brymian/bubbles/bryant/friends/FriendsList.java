@@ -169,7 +169,6 @@ public class FriendsList extends AppCompatActivity{
                 }
                 catch (NullPointerException npe){
                     npe.printStackTrace();
-                    System.out.println("getFriendshipStatusRequestReceivedUsers() null pointer exception");
                 }
             }
         });

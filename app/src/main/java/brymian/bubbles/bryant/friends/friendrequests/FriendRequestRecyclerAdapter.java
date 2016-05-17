@@ -47,13 +47,6 @@ public class FriendRequestRecyclerAdapter extends RecyclerView.Adapter<FriendReq
         return friendRequester.size();
     }
 
-    /* removes rows */
-    /**
-    static void delete(int position) {
-        friendRequester.remove(position);
-        notifyItemRemoved(position);
-    }
-     **/
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvFriendRequestFirstLastName, tvFriendRequestUsername;
