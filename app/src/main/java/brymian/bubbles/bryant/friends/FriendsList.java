@@ -40,7 +40,7 @@ public class FriendsList extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friends_list);
+        setContentView(R.layout.friends_list_activity);
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
         int uid;

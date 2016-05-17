@@ -28,7 +28,7 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_search_episodes_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_tab_fragment_episodes_recyclervoew_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 

@@ -33,7 +33,7 @@ public class SearchRecyclerAdapterUsers extends RecyclerView.Adapter<SearchRecyc
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_search_users_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_tab_fragment_users_recyclerview_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 
