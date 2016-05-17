@@ -128,8 +128,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -175,7 +174,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
+        */
         /*
         int uidA = 1;
         String facebookUid = "1098660393497582";
@@ -304,15 +303,17 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
         new EventRequest(this).getEventData(30, new EventCallback() {
             @Override
             public void done(Event event) {
-                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED: ");
+                System.out.println("EVENT:");
                 System.out.println();
                 System.out.println("EID = " + event.eid);
                 System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                System.out.println("Event Host Username = " + event.eventHostUsername);
+                System.out.println("Event Host First Name = " + event.eventHostFirstName);
+                System.out.println("Event Host Last Name = " + event.eventHostUsername);
                 System.out.println("Event Name = " + event.eventName);
                 System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
                 System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
@@ -327,7 +328,6 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
@@ -354,7 +354,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventUserRequest(this).addUserToEvent(53, 3, 4, new StringCallback() {
             @Override
             public void done(String string) {
@@ -362,7 +362,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-        */
+
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
             @Override
@@ -387,6 +387,9 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Host Username = " + event.eventHostUsername);
+                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
+                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
                     System.out.println("Event Name = " + event.eventName);
                     System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
                     System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
@@ -492,7 +495,6 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
         new EventRequest(this).getEventDataByTopNLikes(3, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -504,6 +506,9 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Host Username = " + event.eventHostUsername);
+                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
+                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
                     System.out.println("Event Name = " + event.eventName);
                     System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
                     System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
@@ -518,7 +523,6 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
         new EventRequest(this).getEventDataByTopNDislikes(3, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -530,6 +534,9 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Host Username = " + event.eventHostUsername);
+                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
+                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
                     System.out.println("Event Name = " + event.eventName);
                     System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
                     System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
@@ -584,6 +591,9 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("EID = " + event.eid);
                     System.out.println("Event Host User Identifier = " + event.eventHostUid);
+                    System.out.println("Event Host Username = " + event.eventHostUsername);
+                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
+                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
                     System.out.println("Event Name = " + event.eventName);
                     System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
                     System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);

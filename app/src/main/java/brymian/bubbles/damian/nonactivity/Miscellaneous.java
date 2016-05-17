@@ -70,7 +70,7 @@ public class Miscellaneous {
 
     public static Long getLongObjectFromObject(Object object)
     {
-        try { return new Long(object.toString()); }
+        try { return (Long)object; }
         catch (ClassCastException cce) { return null; }
     }
 
