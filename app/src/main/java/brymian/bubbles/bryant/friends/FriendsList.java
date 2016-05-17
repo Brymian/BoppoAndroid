@@ -2,7 +2,6 @@ package brymian.bubbles.bryant.friends;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,8 +34,7 @@ public class FriendsList extends AppCompatActivity{
     Toolbar mToolbar;
     View vDivider;
     TextView tvPendingFriendRequestsNumber, tvPendingRequests;
-    SwipeRefreshLayout swipeRefreshLayout;
-    public static List<Integer> friendsUID = new ArrayList<Integer>();
+    public static List<Integer> friendsUID = new ArrayList<>();
     public static List<String> friendsStatus = new ArrayList<>();
 
     @Override
@@ -65,20 +63,6 @@ public class FriendsList extends AppCompatActivity{
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        /* code below is if we decide to use swipe refresh for friends list */
-        /**
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                recyclerViewFriendRequests.setVisibility(View.GONE);
-                recyclerViewFriends.setVisibility(View.GONE);
-                checkForSentFriendRequests();
-                checkForReceivedFriendRequests();
-            }
-        });
-         **/
-
         tvPendingFriendRequestsNumber = (TextView) findViewById(R.id.tvPendingFriendRequestsNumber);
         tvPendingFriendRequestsNumber.setVisibility(View.GONE);
         tvPendingRequests = (TextView) findViewById(R.id.tvPendingRequests);
@@ -136,8 +120,8 @@ public class FriendsList extends AppCompatActivity{
                         }
                     }
                     catch (NullPointerException npe){
-                        npe.printStackTrace();
                         System.out.println("getFriendshipStatusRequestSentUsers() null pointer exception");
+                        npe.printStackTrace();
                     }
                 }
             });
@@ -151,15 +135,14 @@ public class FriendsList extends AppCompatActivity{
             public void done(List<User> users) {
                 try {
                     if (users.size() != 0) {
-                        System.out.println("users.size(): "+users.size());
-                        ArrayList<FriendRequester> friendRequesterArrayList = new ArrayList<FriendRequester>();
+                        ArrayList<FriendRequester> friendRequesterArrayList = new ArrayList<>();
 
                         for (User user : users) {
                             FriendRequester friendRequester = new FriendRequester(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid());
                             friendRequesterArrayList.add(friendRequester);
                         }
                         vDivider.setVisibility(View.VISIBLE);
-                        //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
+                        recyclerViewFriendRequests = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
                         recyclerViewFriendRequests.setVisibility(View.VISIBLE);
                         adapter = new FriendRequestRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
                         layoutManager = new LinearLayoutManager(FriendsList.this);
@@ -168,6 +151,7 @@ public class FriendsList extends AppCompatActivity{
                     }
                 }
                 catch (NullPointerException npe){
+                    System.out.println("getFriendshipStatusRequestReceivedUsers()");
                     npe.printStackTrace();
                 }
             }
@@ -180,8 +164,8 @@ public class FriendsList extends AppCompatActivity{
         new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                List<String> friendsFirstLastName = new ArrayList<String>();
-                List<String> friendsUsername = new ArrayList<String>();
+                List<String> friendsFirstLastName = new ArrayList<>();
+                List<String> friendsUsername = new ArrayList<>();
                 try {
                     System.out.println("users.size(): "+users.size());
                     for (int i = 0; i < users.size(); i++) {
