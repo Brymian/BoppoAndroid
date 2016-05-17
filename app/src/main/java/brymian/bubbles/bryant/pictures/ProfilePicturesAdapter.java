@@ -9,9 +9,7 @@ import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture2;
 import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture3;
 import brymian.bubbles.bryant.pictures.pictureFragments.ProfilePicture4;
 
-/**
- * Created by Almanza on 3/17/2016.
- */
+
 public class ProfilePicturesAdapter extends FragmentStatePagerAdapter{
 
     int mNumOfTabs;
@@ -26,17 +24,13 @@ public class ProfilePicturesAdapter extends FragmentStatePagerAdapter{
 
         switch (position) {
             case 0:
-                ProfilePicture1 picture1 = new ProfilePicture1();
-                return picture1;
+                return new ProfilePicture1();
             case 1:
-                ProfilePicture2 picture2 = new ProfilePicture2();
-                return picture2;
+                return new ProfilePicture2();
             case 2:
-                ProfilePicture3 picture3 = new ProfilePicture3();
-                return picture3;
+                return new ProfilePicture3();
             case 3:
-                ProfilePicture4 picture4 = new ProfilePicture4();
-                return picture4;
+                return new ProfilePicture4();
             default:
                 return null;
         }

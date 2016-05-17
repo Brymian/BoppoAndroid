@@ -58,13 +58,9 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ivProfilePicture1 = (ImageView) findViewById(R.id.ivProfilePicture1);
-        ivProfilePicture1.setOnClickListener(this);
         ivProfilePicture2 = (ImageView) findViewById(R.id.ivProfilePicture2);
-        ivProfilePicture2.setOnClickListener(this);
         ivProfilePicture3 = (ImageView) findViewById(R.id.ivProfilePicture3);
-        ivProfilePicture3.setOnClickListener(this);
         ivProfilePicture4 = (ImageView) findViewById(R.id.ivProfilePicture4);
-        ivProfilePicture4.setOnClickListener(this);
 
         famProfilePictures = (FloatingActionMenu) findViewById(R.id.famProfilePictures);
         famProfilePictures.showMenu(true);
@@ -144,13 +140,12 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
         }
     }
 
-    public static ImageView[] ivProfilePicture = {ivProfilePicture1, ivProfilePicture2, ivProfilePicture3, ivProfilePicture4};
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(requestCode == REQUEST_CODE && resultCode == RESULT_OK){
             byte[] byteArrayImage =  data.getExtras().getByteArray("encodedImage");
-            String imageName = data.getExtras().getString("imageName");
+            //String imageName = data.getExtras().getString("imageName");
             ImageView[] ivProfilePicture = {ivProfilePicture1, ivProfilePicture2, ivProfilePicture3, ivProfilePicture4};
 
             for(int i = 0; i < ivProfilePicture.length; i++){
@@ -158,6 +153,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
                     Bitmap bitmap = BitmapFactory.decodeByteArray(byteArrayImage, 0, byteArrayImage.length);
                     ivProfilePicture[i].setImageBitmap(bitmap);
                     ivProfilePicture[i].setTag(i);
+                    ivProfilePicture[i].setOnClickListener(this);
 
                     String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
                     new ServerRequestMethods(this).uploadImage(SaveSharedPreference.getUserUID(this), Integer.toString(i), "Profile", "Public", SaveSharedPreference.getLatitude(this), SaveSharedPreference.getLongitude(this), encodedImage, new StringCallback() {
@@ -178,8 +174,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
                     for (int i = 0; i < imageList.size(); i++) {
-                        //setImageUiid(imageList.get(i).uiid, i);
-                        System.out.println("image uiid : "+ imageList.get(i).uiid + " at position: " + i);
+                        setImageSequence(imageList.get(i).userImageSequence, i);
                         new DownloadImage(imageList.get(i).userImagePath, i).execute();
                     }
                 }
@@ -238,12 +233,20 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
             if (bitmap!=null){
                 if(location == 0){
                     ivProfilePicture1.setImageBitmap(bitmap);
+                    ivProfilePicture1.setTag(location);
+                    ivProfilePicture1.setOnClickListener(ProfilePicturesActivity2.this);
                 }else if (location == 1){
                     ivProfilePicture2.setImageBitmap(bitmap);
+                    ivProfilePicture2.setTag(location);
+                    ivProfilePicture2.setOnClickListener(ProfilePicturesActivity2.this);
                 }else if (location == 2){
                     ivProfilePicture3.setImageBitmap(bitmap);
+                    ivProfilePicture3.setTag(location);
+                    ivProfilePicture3.setOnClickListener(ProfilePicturesActivity2.this);
                 }else if(location == 3){
                     ivProfilePicture4.setImageBitmap(bitmap);
+                    ivProfilePicture4.setTag(location);
+                    ivProfilePicture4.setOnClickListener(ProfilePicturesActivity2.this);
                 }
             }
         }
@@ -251,11 +254,11 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
 
 
     public static int num;
-    public static long[] uiid = new long[4];
+    public static int[] userImageSequence = new int[4];
     private void setImageNumber(int n){num = n;}
     public static int getImageNumber(){return num;}
-    private void setImageUiid(long n, int i){
-        uiid[i] = n;
+    private void setImageSequence(int n, int i){
+        userImageSequence[i] = n;
     }
-    public static long getImageUiid(int i){return uiid[i];}
+    public static int getImageSequence(int i){return userImageSequence[i];}
 }

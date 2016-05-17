@@ -44,7 +44,7 @@ public class UserImageRequest {
     }
 
     public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
-        pd.show();
+        //pd.show();
         new GetImagesByUidAndPurpose(uid, imagePurposeLabel, imageListCallback).execute();
     }
 
@@ -98,7 +98,7 @@ public class UserImageRequest {
                 {
                     JSONObject jImage = jImageArray.getJSONObject(i);
                     Image image = new Image (
-                        getLongObjectFromObject(jImage.get("uiid")),
+                        getLongObjectFromObject(jImage.get("userImageSequence")),
                         getIntegerObjectFromObject(jImage.get("uid")),
                         getIntegerObjectFromObject(jImage.get("userImageSequence")),
                         httpConnection.getUploadServerString() +
@@ -129,7 +129,7 @@ public class UserImageRequest {
 
         @Override
         protected void onPostExecute(List<Image> imageList) {
-            pd.dismiss();
+            //pd.dismiss();
             imageListCallback.done(imageList);
 
             super.onPostExecute(imageList);
@@ -177,7 +177,7 @@ public class UserImageRequest {
                 {
                     JSONObject jImage = jImageArray.getJSONObject(i);
                     Image image = new Image (
-                        getLongObjectFromObject(jImage.get("uiid")),
+                        getLongObjectFromObject(jImage.get("userImageSequence")),
                         getIntegerObjectFromObject(jImage.get("uid")),
                         getIntegerObjectFromObject(jImage.get("userImageSequence")),
                         httpConnection.getUploadServerString() +

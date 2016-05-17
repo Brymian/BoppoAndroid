@@ -2,7 +2,6 @@ package brymian.bubbles.bryant.pictures;
 
 import android.app.Fragment;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,17 +10,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
-/**
- * Created by almanza1112 on 5/12/16.
- */
+import static brymian.bubbles.bryant.pictures.ProfilePicturesActivity2.*;
+
 public class ProfilePicturesViewImage extends Fragment {
 
     Toolbar mToolbar;
@@ -44,17 +43,17 @@ public class ProfilePicturesViewImage extends Fragment {
 
 
         ivProfilePictureViewImage = (ImageView) rootView.findViewById(R.id.ivProfilePictureViewImage);
-        if(ProfilePicturesActivity2.getImageNumber() == 0){
-            Bitmap bitmap =((BitmapDrawable)ProfilePicturesActivity2.ivProfilePicture1.getDrawable()).getBitmap();
+        if(getImageNumber() == 0){
+            Bitmap bitmap =((BitmapDrawable) ivProfilePicture1.getDrawable()).getBitmap();
             ivProfilePictureViewImage.setImageBitmap(bitmap);
-        }else if (ProfilePicturesActivity2.getImageNumber() == 1){
-            Bitmap bitmap =((BitmapDrawable)ProfilePicturesActivity2.ivProfilePicture2.getDrawable()).getBitmap();
+        }else if (getImageNumber() == 1){
+            Bitmap bitmap =((BitmapDrawable) ivProfilePicture2.getDrawable()).getBitmap();
             ivProfilePictureViewImage.setImageBitmap(bitmap);
-        }else if(ProfilePicturesActivity2.getImageNumber() == 2){
-            Bitmap bitmap =((BitmapDrawable)ProfilePicturesActivity2.ivProfilePicture3.getDrawable()).getBitmap();
+        }else if(getImageNumber() == 2){
+            Bitmap bitmap =((BitmapDrawable) ivProfilePicture3.getDrawable()).getBitmap();
             ivProfilePictureViewImage.setImageBitmap(bitmap);
-        }else if(ProfilePicturesActivity2.getImageNumber() == 3){
-            Bitmap bitmap =((BitmapDrawable)ProfilePicturesActivity2.ivProfilePicture4.getDrawable()).getBitmap();
+        }else if(getImageNumber() == 3){
+            Bitmap bitmap =((BitmapDrawable) ivProfilePicture4.getDrawable()).getBitmap();
             ivProfilePictureViewImage.setImageBitmap(bitmap);
         }
 
@@ -63,7 +62,15 @@ public class ProfilePicturesViewImage extends Fragment {
         ivDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //new ServerRequestMethods(getActivity()).deleteImage();
+                new ServerRequestMethods(getActivity()).deleteImage(SaveSharedPreference.getUserUID(getActivity()), getImageSequence(getImageNumber()), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        if(string.equals("User image deleted successfully.")){
+                            getFragmentManager().popBackStack();
+                            getActivity().recreate();
+                        }
+                    }
+                });
             }
         });
         return rootView;

@@ -138,7 +138,7 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.uiid);
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
@@ -161,7 +161,7 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.uiid);
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
@@ -197,9 +197,9 @@ public class TESTActivity extends Activity {
 
         /*
         int uid = 1;
-        int uiid = 32;
+        int userImageSequence = 32;
         String purposeLabel = "Regular";
-        new ServerRequestMethods(this).setUserImagePurpose(uid, uiid, purposeLabel, new StringCallback() {
+        new ServerRequestMethods(this).setUserImagePurpose(uid, userImageSequence, purposeLabel, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESULT: " + string);
@@ -208,8 +208,8 @@ public class TESTActivity extends Activity {
         */
         /*
         int uid = 1;
-        int uiid = 30;
-        new ServerRequestMethods(this).deleteImage(uid, uiid, new StringCallback() {
+        int userImageSequence = 30;
+        new ServerRequestMethods(this).deleteImage(uid, userImageSequence, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESULT: " + string);
