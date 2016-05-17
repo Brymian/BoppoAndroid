@@ -47,16 +47,18 @@ public class SearchTabFragmentEpisodes extends Fragment {
                 new EventRequest(getActivity()).getEventDataByName(SearchActivity.etSearch.getText().toString(), new EventListCallback() {
                     @Override
                     public void done(List<Event> eventList) {
-                        List<String> episodeTitle = new ArrayList<String>();
-                        List<String> episodeHostName = new ArrayList<String>();
+                        List<String> episodeTitle = new ArrayList<>();
+                        List<String> episodeHostName = new ArrayList<>();
+                        List<Integer> episodeEid = new ArrayList<>();
                         if(eventList.size() > 0){
                             for(int i = 0; i < eventList.size(); i++){
+                                episodeEid.add(i, eventList.get(i).eid);
                                 episodeTitle.add(i, eventList.get(i).eventName);
                                 episodeHostName.add(i, eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);//suppose to be eventHostName
                             }
 
                             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_episodes);
-                            adapter = new SearchRecyclerAdapterEpisodes(episodeTitle, episodeHostName);
+                            adapter = new SearchRecyclerAdapterEpisodes(getActivity(), episodeTitle, episodeHostName, episodeEid);
                             layoutManager = new LinearLayoutManager(getActivity());
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter);

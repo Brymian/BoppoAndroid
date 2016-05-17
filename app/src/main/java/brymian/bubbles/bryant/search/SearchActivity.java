@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,9 +15,6 @@ import android.widget.EditText;
 import brymian.bubbles.R;
 
 public class SearchActivity extends AppCompatActivity{
-    RecyclerView recyclerView;
-    RecyclerView.Adapter adapter;
-    RecyclerView.LayoutManager layoutManager;
     Toolbar mToolbar;
     public static EditText etSearch;
     TabLayout tabLayout;
@@ -70,10 +66,8 @@ public class SearchActivity extends AppCompatActivity{
                     }else if(index == 1){
                         tab.setIcon(R.mipmap.ic_my_location_white_24dp);
                     }
-                } catch (NullPointerException npe) {
+                } catch (NullPointerException | IllegalStateException npe) {
                     npe.printStackTrace();
-                } catch (IllegalStateException ise) {
-                    ise.printStackTrace();
                 }
             }
 

@@ -1,8 +1,10 @@
 package brymian.bubbles.bryant.search;
+import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,10 +16,14 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
 
     List<String> episodeTitle;
     List<String> episodeHostName;
+    List<Integer> episodeEid;
+    Activity activity;
 
-    public SearchRecyclerAdapterEpisodes(List<String> searchResultsFirstLastName, List<String> searchResultsUsername){
-        this.episodeTitle = searchResultsFirstLastName;
-        this.episodeHostName = searchResultsUsername;
+    public SearchRecyclerAdapterEpisodes(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid){
+        this.activity = activity;
+        this.episodeTitle = episodeTitle;
+        this.episodeHostName = episodeHostName;
+        this.episodeEid = episodeEid;
     }
 
     @Override
@@ -39,11 +45,19 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvEpisodeHostName;
+        LinearLayout row;
 
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
             tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
+            row = (LinearLayout) v.findViewById(R.id.row);
+            row.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
     }
 }
