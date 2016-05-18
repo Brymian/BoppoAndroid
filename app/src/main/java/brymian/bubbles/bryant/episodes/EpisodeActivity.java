@@ -1,10 +1,9 @@
 package brymian.bubbles.bryant.episodes;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.clans.fab.FloatingActionButton;
@@ -16,10 +15,9 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.objects.Event;
 
 
-public class EpisodeActivity extends AppCompatActivity {
-    Toolbar mToolbar;
+public class EpisodeActivity extends Activity {
     TextView tvEpisodeTitle, tvEpisodeHostName;
-    FloatingActionButton fabComment, fabPlay, fabMap, fabParticipants, fabSettings;
+    FloatingActionButton fabGoBack, fabPlay, fabMap, fabComment, fabParticipants, fabSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,32 +38,28 @@ public class EpisodeActivity extends AppCompatActivity {
             eid = savedInstanceState.getInt("eid");
         }
         /*----------------------------------------------------------------------------------------*/
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle("");
+
         tvEpisodeTitle = (TextView) findViewById(R.id.tvEpisodeTitle);
         tvEpisodeHostName = (TextView) findViewById(R.id.tvEpisodeHostName);
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         incrementViewCount(eid);
         getEpisodeInfo(eid);
-        fabComment = (FloatingActionButton) findViewById(R.id.fabComment);
-        fabPlay = (FloatingActionButton) findViewById(R.id.fabPlay);
-        fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
-        fabParticipants = (FloatingActionButton) findViewById(R.id.fabParticipants);
-        fabSettings = (FloatingActionButton) findViewById(R.id.fabSettings);
+        setFloatingActionButtons();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.home:
+    private void setFloatingActionButtons(){
+        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
+        fabGoBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+            }
+        });
+        fabPlay = (FloatingActionButton) findViewById(R.id.fabPlay);
+
+        fabSettings = (FloatingActionButton) findViewById(R.id.fabSettings);
+        fabComment = (FloatingActionButton) findViewById(R.id.fabComment);
+        fabParticipants = (FloatingActionButton) findViewById(R.id.fabParticipants);
+        fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
     }
 
     private void getEpisodeInfo(int eid){
