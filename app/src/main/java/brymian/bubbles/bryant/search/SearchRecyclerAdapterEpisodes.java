@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.search;
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,20 +11,21 @@ import android.widget.TextView;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
 
 public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRecyclerAdapterEpisodes.RecyclerViewHolder> {
 
     List<String> episodeTitle;
     List<String> episodeHostName;
-    List<Integer> episodeEid;
-    Activity activity;
+    static List<Integer> episodeEid;
+    static Activity activity;
 
     public SearchRecyclerAdapterEpisodes(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid){
-        this.activity = activity;
+        SearchRecyclerAdapterEpisodes.activity = activity;
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
-        this.episodeEid = episodeEid;
+        SearchRecyclerAdapterEpisodes.episodeEid = episodeEid;
     }
 
     @Override
@@ -55,7 +57,7 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
                 }
             });
         }
