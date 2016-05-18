@@ -6,13 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +35,9 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
 public class ProfileActivity extends AppCompatActivity {
-    Toolbar mToolbar;
     public static ImageView ivProfilePictures;
     TextView tvProfileUsername, tvProfileFirstLastName;
-    FloatingActionButton fabMessage, fabStatusAction, fabMap, fabEpisodes, fabBlock, fabRemove;
+    FloatingActionButton fabGoBack, fabStatusAction, fabMap, fabEpisodes, fabBlock, fabMessage, fabRemove;
     FloatingActionMenu fabMenu;
     int userUID;
     String profile;
@@ -74,10 +68,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
         /*----------------------------------------------------------------------------------------*/
 
-        System.out.println("UID: " + uid);
-        mToolbar = (Toolbar) findViewById(R.id.tool_bar);
-        mToolbar.setTitle("");
-        mToolbar.bringToFront();
         ivProfilePictures = (ImageView) findViewById(R.id.ivProfilePictures);
         tvProfileUsername = (TextView) findViewById(R.id.tvProfileUsername);
         tvProfileFirstLastName = (TextView) findViewById(R.id.tvProfileFirstLastName);
@@ -110,32 +100,18 @@ public class ProfileActivity extends AppCompatActivity {
                 });
             }
         }
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.home:
-                //NavUtils.navigateUpFromSameTask(this);
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 
     private void setFloatingActionButtons(){
         /* buttons go from left to right according to the design */
         /* left most FAB */
-        fabMessage = (FloatingActionButton) findViewById(R.id.fabMessage);
-        fabMessage.setOnClickListener(new View.OnClickListener() {
+        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
+        fabGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ProfileActivity.this, "Under construction: Message", Toast.LENGTH_SHORT).show();
+                onBackPressed();
             }
         });
 
@@ -191,6 +167,14 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        fabMessage = (FloatingActionButton) findViewById(R.id.fabMessage);
+        fabMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(ProfileActivity.this, "Under construction: Message", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -283,7 +267,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
         String path;
-        int location;
+        //int location;
         public DownloadImage(String path){
             this.path = path;
             //this.location = location;

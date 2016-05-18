@@ -54,22 +54,20 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".bryant.main.MainActivity" />
         </activity>
-        <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".bryant.friends.sent.SentFriendRequests" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"></activity>
-        <activity android:name=".bryant.friends.FriendsList" android:screenOrientation="portrait">
-
-        </activity>
+        <activity android:name=".bryant.friends.sent.SentFriendRequests" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.friends.FriendsList" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait">
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".bryant.main.MainActivity" />
         </activity>
-        <activity android:name=".bryant.camera.SendTo" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.camera.SendTo" android:screenOrientation="portrait"/>
 
         <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait">
             <meta-data
@@ -83,7 +81,7 @@
                 android:value=".bryant.main.MainActivity" />
         </activity>
 
-        <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"></activity>
+        <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"/>
         <!-- EVENTS CLASSES -->
         <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait">
             <meta-data
@@ -110,11 +108,7 @@
 
         </activity>
         <!-- PROFILE CLASSES -->
-        <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.main.MainActivity" />
-        </activity>
+        <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
         <!-- END OF PROFILE CLASSES -->
 
         <!-- DAMIAN'S STUFF -->
@@ -142,10 +136,10 @@
         </activity>
         <activity
             android:name=".damian.activity.AuthenticateActivityFacebook"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".damian.activity.TESTActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait"/>
         <activity android:name=".damian.fragment.Authenticate.RegisterFragment" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
