@@ -2,6 +2,7 @@ package brymian.bubbles.bryant.main;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,6 +74,7 @@ public class MainTabEpisodes extends Fragment implements View.OnClickListener {
         tvAllTimeTopRatedEpisode3 = (TextView) rootView.findViewById(R.id.tvAllTimeTopRatedEpisode3);
         tvAllTimeTopRatedEpisode3.setOnClickListener(this);
 
+        setMostLikesEpisodes();
         setMostViewsEpisodes();
         return rootView;
     }
@@ -128,12 +130,27 @@ public class MainTabEpisodes extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void setMostViewsEpisodes(){
-        new EventRequest(getActivity()).getEventDataByTopNLikes(1, new EventListCallback() {
+    private void setMostLikesEpisodes(){
+        new EventRequest(getActivity()).getEventDataByTopNLikes(10, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-                for (int i = 0; i < eventList.size(); i++){
-                    System.out.println("Event name: " + eventList.get(i).eventName);
+                if(eventList.size() > 0) {
+                    for (int i = 0; i < eventList.size(); i++) {
+                        Log.e("Event Top Likes", eventList.get(i).eventName);
+                    }
+                }
+            }
+        });
+    }
+
+    private void setMostViewsEpisodes(){
+        new EventRequest(getActivity()).getEventDataByTopNViews(10, new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+                if (eventList.size() > 0){
+                    for(int i = 0; i < eventList.size(); i++){
+                        Log.e("Event Most Views", eventList.get(i).eventName);
+                    }
                 }
             }
         });
