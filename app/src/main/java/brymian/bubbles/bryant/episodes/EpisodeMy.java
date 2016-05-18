@@ -1,7 +1,5 @@
 package brymian.bubbles.bryant.episodes;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +27,6 @@ public class EpisodeMy extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList<String> eventNameListHosting = new ArrayList<>();
-    ArrayList<Integer> eventEidListHosting = new ArrayList<>();
     ArrayList<String> eventNameListAttending = new ArrayList<>();
     ArrayList<Integer> eventEidListAttending = new ArrayList<>();
 
@@ -53,46 +49,25 @@ public class EpisodeMy extends AppCompatActivity {
         new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-
+                ArrayList<String> eventTitleHosting = new ArrayList<>();
+                ArrayList<Integer> eventEidHosting = new ArrayList<>();
                 if(eventList.size() > 0) {
                     for (Event event : eventList) {
-                    /* code below is for reference */
-                    /*
-                    System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
-                    System.out.println("EID = " + event.eid);
-                    System.out.println("Event Host User Identifier = " + event.eventHostUid);
-                    System.out.println("Event Name = " + event.eventName);
-                    System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
-                    System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
-                    System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
-                    System.out.println("Event Start Datetime = " + event.eventStartDatetime);
-                    System.out.println("Event End Datetime = " + event.eventEndDatetime);
-                    System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
-                    System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
-                    System.out.println("Event Like Count = " + event.eventLikeCount);
-                    System.out.println("Event Dislike Count = " + event.eventDislikeCount);
-                    System.out.println("Event View Count = " + event.eventViewCount);
-                    */
+
                         if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeMy.this)) {
                             tvHosting.setVisibility(View.VISIBLE);
-                            eventNameListHosting.add(event.eventName);
-                            eventEidListHosting.add(event.eid);
+                            eventTitleHosting.add(event.eventName);
+                            eventEidHosting.add(event.eid);
                             vDivider.setVisibility(View.VISIBLE);
                             tvAttending.setVisibility(View.VISIBLE);
                         }
                     }
                 }
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_episode_my_hosted);
-                adapter = new EpisodeRecyclerAdapter(eventNameListHosting);
+                adapter = new EpisodeHostingRecyclerAdapter(EpisodeMy.this, eventTitleHosting, eventEidHosting);
                 layoutManager = new LinearLayoutManager(EpisodeMy.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
-                recyclerView.addOnItemTouchListener(new EpisodeRecyclerItemClickListener(EpisodeMy.this, new EpisodeRecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        startActivity(new Intent(EpisodeMy.this, EpisodeActivity.class).putExtra("eid", eventEidListHosting.get(position)).putExtra("eventName", eventNameListHosting.get(position)));
-                    }
-                }));
             }
         });
 
@@ -127,8 +102,9 @@ public class EpisodeMy extends AppCompatActivity {
                 }
 
 
+                /*
                 recyclerView = (RecyclerView) findViewById(R.id.recyclerView_episode_my_attending);
-                adapter = new EpisodeRecyclerAdapter(eventNameListAttending);
+                adapter = new EpisodeHostingRecyclerAdapter(eventNameListAttending);
                 layoutManager = new LinearLayoutManager(EpisodeMy.this);
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.setAdapter(adapter);
@@ -138,6 +114,8 @@ public class EpisodeMy extends AppCompatActivity {
                         startActivity(new Intent(EpisodeMy.this, EpisodeActivity.class).putExtra("eid", eventEidListAttending.get(position)).putExtra("eventName", eventNameListAttending.get(position)));
                     }
                 }));
+
+                */
             }
         });
 
