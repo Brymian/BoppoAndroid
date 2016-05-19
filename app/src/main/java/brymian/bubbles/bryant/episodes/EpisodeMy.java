@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -24,17 +25,20 @@ public class EpisodeMy extends AppCompatActivity {
     Toolbar mToolbar;
     View vDivider;
     TextView tvHosting, tvAttending;
-    RecyclerView recyclerView;
+    RecyclerView rvEpisodesHosting, rvEpisodesAttending;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    ArrayList<String> eventNameListAttending = new ArrayList<>();
-    ArrayList<Integer> eventEidListAttending = new ArrayList<>();
+
 
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.episode_my);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.My_Episodes);
+
+        rvEpisodesHosting = (RecyclerView) findViewById(R.id.rvEpisodesHosting);
+        rvEpisodesAttending = (RecyclerView) findViewById(R.id.rvEpisodesAttending);
+
 
         tvHosting = (TextView) findViewById(R.id.tvHosting);
         tvHosting.setVisibility(View.GONE);
@@ -46,12 +50,18 @@ public class EpisodeMy extends AppCompatActivity {
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        getHostingEpisodes();
+        getAttendingEpisodes();
+    }
+
+    private void getHostingEpisodes(){
         new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-                ArrayList<String> eventTitleHosting = new ArrayList<>();
-                ArrayList<Integer> eventEidHosting = new ArrayList<>();
+                Log.e("Hosting", String.valueOf(eventList.size()));
                 if(eventList.size() > 0) {
+                    ArrayList<String> eventTitleHosting = new ArrayList<>();
+                    ArrayList<Integer> eventEidHosting = new ArrayList<>();
                     for (Event event : eventList) {
 
                         if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeMy.this)) {
@@ -62,63 +72,40 @@ public class EpisodeMy extends AppCompatActivity {
                             tvAttending.setVisibility(View.VISIBLE);
                         }
                     }
+                    adapter = new EpisodeHostingRecyclerAdapter(EpisodeMy.this, eventTitleHosting, eventEidHosting);
+                    layoutManager = new LinearLayoutManager(EpisodeMy.this);
+                    rvEpisodesHosting.setLayoutManager(layoutManager);
+                    rvEpisodesHosting.setAdapter(adapter);
                 }
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerView_episode_my_hosted);
-                adapter = new EpisodeHostingRecyclerAdapter(EpisodeMy.this, eventTitleHosting, eventEidHosting);
-                layoutManager = new LinearLayoutManager(EpisodeMy.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
             }
         });
+    }
 
+    private void getAttendingEpisodes(){
         new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-
-                for (Event event : eventList) {
-                    /* code below is for reference */
-                    /*
-                    System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
-                    System.out.println("EID = " + event.eid);
-                    System.out.println("Event Host User Identifier = " + event.eventHostUid);
-                    System.out.println("Event Name = " + event.eventName);
-                    System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
-                    System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
-                    System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
-                    System.out.println("Event Start Datetime = " + event.eventStartDatetime);
-                    System.out.println("Event End Datetime = " + event.eventEndDatetime);
-                    System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
-                    System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
-                    System.out.println("Event Like Count = " + event.eventLikeCount);
-                    System.out.println("Event Dislike Count = " + event.eventDislikeCount);
-                    System.out.println("Event View Count = " + event.eventViewCount);
-                    */
-
-                    if(event.eventHostUid != SaveSharedPreference.getUserUID(EpisodeMy.this)){
-                        eventNameListAttending.add(event.eventName);
-                        eventEidListAttending.add(event.eid);
+                Log.e("Attending", String.valueOf(eventList.size()));
+                if(eventList.size() > 0) {
+                    List<String> episodeTitleAttending = new ArrayList<>();
+                    List<String> episodeHostNameAttending = new ArrayList<>();
+                    List<Integer> episodeEidAttending = new ArrayList<>();
+                    for (Event event : eventList) {
+                        if (event.eventHostUid != SaveSharedPreference.getUserUID(EpisodeMy.this)) {
+                            episodeTitleAttending.add(event.eventName);
+                            episodeHostNameAttending.add(event.eventHostFirstName + " " + event.eventHostLastName);
+                            episodeEidAttending.add(event.eid);
+                            Log.e("Attending title event", event.eventName);
+                        }
                     }
 
+                    adapter = new EpisodeAttendingRecyclerAdapter(EpisodeMy.this, episodeTitleAttending, episodeHostNameAttending, episodeEidAttending);
+                    layoutManager = new LinearLayoutManager(EpisodeMy.this);
+                    rvEpisodesAttending.setLayoutManager(layoutManager);
+                    rvEpisodesAttending.setAdapter(adapter);
                 }
-
-
-                /*
-                recyclerView = (RecyclerView) findViewById(R.id.recyclerView_episode_my_attending);
-                adapter = new EpisodeHostingRecyclerAdapter(eventNameListAttending);
-                layoutManager = new LinearLayoutManager(EpisodeMy.this);
-                recyclerView.setLayoutManager(layoutManager);
-                recyclerView.setAdapter(adapter);
-                recyclerView.addOnItemTouchListener(new EpisodeRecyclerItemClickListener(EpisodeMy.this, new EpisodeRecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        startActivity(new Intent(EpisodeMy.this, EpisodeActivity.class).putExtra("eid", eventEidListAttending.get(position)).putExtra("eventName", eventNameListAttending.get(position)));
-                    }
-                }));
-
-                */
             }
         });
-
     }
 
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:theme="@style/AppTheme">
@@ -10,11 +10,8 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:background="#42ffbf"
-        android:elevation="6dp"
-        android:minHeight="?attr/actionBarSize"
-        android:transitionGroup="true"/>
+        android:minHeight="?attr/actionBarSize" />
 
 
 
@@ -100,27 +97,19 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-
-
-
-
     </LinearLayout>
 
 
-    <LinearLayout
-        android:id="@+id/llCreateEpisode"
-        android:layout_width="match_parent"
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabDone"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="#42ffbf"
-        android:orientation="horizontal">
-        <ImageButton
-            android:id="@+id/ibCreateEpisode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:src="@mipmap/ic_done_black_24dp"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"/>
-    </LinearLayout>
+        fab:fab_colorNormal="#42ffbf"
+        fab:fab_colorPressed="#FF239A72"
+        fab:fab_colorRipple="#FF239A72"
+        android:layout_gravity="right"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:src="@mipmap/ic_done_black_24dp"/>
 
 </LinearLayout>

@@ -13,8 +13,8 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+
+import com.github.clans.fab.FloatingActionButton;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,12 +27,10 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
 
-public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class EpisodeCreate extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     EditText etEpisodeTitle;
     CheckBox cbPrivate, cbCurrentLocation;
-    ImageButton ibAddFriends;
-    LinearLayout llAddFriends;
     String episodeTitle ,privacy;
     double latitude;
     double longitude;
@@ -53,15 +51,39 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
         cbCurrentLocation.setChecked(true);
         cbCurrentLocation.setOnCheckedChangeListener(this);
-        ibAddFriends = (ImageButton) findViewById(R.id.ibCreateEpisode);
-        llAddFriends = (LinearLayout) findViewById(R.id.llCreateEpisode);
 
-        ibAddFriends.setOnClickListener(this);
-        llAddFriends.setOnClickListener(this);
+
 
         setPrivacy("Public");
         setLatitude(SaveSharedPreference.getLatitude(this));
         setLongitude(SaveSharedPreference.getLongitude(this));
+
+        FloatingActionButton fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
+        fabDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new EventRequest(EpisodeCreate.this).createEvent(
+                        SaveSharedPreference.getUserUID(EpisodeCreate.this),      /* uid */
+                        getEpisodeTitle(),                          /* Episode Title */
+                        getPrivacy(),                               /* Episode Privacy */
+                        "Host",                                     /* Invite Type */
+                        true,                                       /* Episode Image Allowed Indicator */
+                        getDatetime(),                              /* Episode start time */
+                        null,                                       /* Episode end time */
+                        getLatitude(),                              /* Episode GPS latitude */
+                        getLongitude(),                             /* Episode GPS longitude */
+                        new StringCallback() {
+                            @Override
+                            public void done(String string) {
+                                for(String something: string.split(" ")){
+                                    if(something.equals("Success.")){
+                                        addFriends();
+                                    }
+                                }
+                            }
+                        });
+            }
+        });
 
 
     }
@@ -93,44 +115,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    @Override
-    public void onClick(View v) {
-
-        if(v.getId() == R.id.ibCreateEpisode) {
-            new EventRequest(this).createEvent(
-                    SaveSharedPreference.getUserUID(this),      /* uid */
-                    getEpisodeTitle(),                          /* Episode Title */
-                    getPrivacy(),                               /* Episode Privacy */
-                    "Host",                                     /* Invite Type */
-                    true,                                       /* Episode Image Allowed Indicator */
-                    getDatetime(),                              /* Episode start time */
-                    null,                                       /* Episode end time */
-                    getLatitude(),                              /* Episode GPS latitude */
-                    getLongitude(),                             /* Episode GPS longitude */
-                    new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            for(String something: string.split(" ")){
-                                if(something.equals("Success.")){
-                                    addFriends();
-                                }
-                            }
-                        }
-                    });
-
-            /* code below is if we decide to create the episode AND add the friends at the same time */
-            /**
-            startActivity(new Intent(this, EpisodeAddFriends.class)
-                .putExtra("title", etEpisodeTitle.getText().toString())
-                .putExtra("privacy", getPrivacy())
-                .putExtra("inviteType", "Host")
-                .putExtra("imageAllowed", true)
-                .putExtra("latitude", getLatitude())
-                .putExtra("longitude", getLongitude()));
-
-             **/
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

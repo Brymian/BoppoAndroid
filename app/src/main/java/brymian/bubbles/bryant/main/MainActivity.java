@@ -20,6 +20,7 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
+import brymian.bubbles.bryant.episodes.EpisodeCreate;
 import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
@@ -161,11 +162,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        FloatingActionButton fabMyEpisodes = (FloatingActionButton) findViewById(R.id.fabMyEpisodes);
-        fabMyEpisodes.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
+        fabCreateEpisode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, EpisodeMy.class));
+                startActivity(new Intent(MainActivity.this, EpisodeCreate.class));
             }
         });
 

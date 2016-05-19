@@ -51,15 +51,15 @@
             fab:menu_colorRipple="#FF239A72">
 
             <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fabCreateEpisode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ic_create_white_24dp"/>
+            <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fabMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_public_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabMyEpisodes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_my_location_white_24dp"/>
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fabCamera"
                 android:layout_width="wrap_content"
