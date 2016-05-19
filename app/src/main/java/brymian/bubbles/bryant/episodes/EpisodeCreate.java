@@ -15,18 +15,18 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
-/**
- * Created by Almanza on 2/9/2016.
- */
+
 public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     EditText etEpisodeTitle;
@@ -103,7 +103,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                     getPrivacy(),                               /* Episode Privacy */
                     "Host",                                     /* Invite Type */
                     true,                                       /* Episode Image Allowed Indicator */
-                    null,                                       /* Episode start time */
+                    getDatetime(),                              /* Episode start time */
                     null,                                       /* Episode end time */
                     getLatitude(),                              /* Episode GPS latitude */
                     getLongitude(),                             /* Episode GPS longitude */
@@ -171,6 +171,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     private String getEpisodeTitle(){
         this.episodeTitle = etEpisodeTitle.getText().toString();
         return episodeTitle;
+    }
+
+    private String getDatetime(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//research getDateTimeInstance()
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
     private void setPrivacy(String privacy){

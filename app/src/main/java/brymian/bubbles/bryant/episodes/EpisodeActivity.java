@@ -18,7 +18,7 @@ import brymian.bubbles.objects.Event;
 
 
 public class EpisodeActivity extends Activity implements View.OnClickListener{
-    TextView tvEpisodeTitle, tvEpisodeHostName, tvLikeCount, tvDislikeCount;
+    TextView tvEpisodeTitle, tvEpisodeHostName, tvLikeCount, tvDislikeCount, tvViewCount;
     FloatingActionButton fabLike, fabDislike, fabGoBack, fabPlay, fabMap, fabComment, fabParticipants, fabSettings;
     int eid;
     @Override
@@ -46,6 +46,7 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
         tvEpisodeHostName = (TextView) findViewById(R.id.tvEpisodeHostName);
         tvLikeCount = (TextView) findViewById(R.id.tvLikeCount);
         tvDislikeCount = (TextView) findViewById(R.id.tvDislikeCount);
+        tvViewCount = (TextView) findViewById(R.id.tvViewCount);
         setEid(eid);
         incrementViewCount(eid);
         getEpisodeInfo(eid);
@@ -103,8 +104,8 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
                 tvEpisodeHostName.setText(event.eventHostFirstName + " " + event.eventHostLastName);
                 tvLikeCount.setText(String.valueOf(event.eventLikeCount));
                 tvDislikeCount.setText(String.valueOf(event.eventDislikeCount));
-
-                Log.e("Title", event.eventName);
+                tvViewCount.setText(String.valueOf(event.eventViewCount));
+                Log.e("View Count", String.valueOf(event.eventViewCount));//returning null
             }
         });
     }

@@ -16,21 +16,10 @@
             android:gravity="center"
             android:text="@string/live_in_your_neighborhood"
             android:textAppearance="?android:textAppearanceSmall"/>
-        <TextView
-            android:id="@+id/tvLiveInYourNeighborhoodEpisode1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvLiveInYourNeighborhood"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-        <TextView
-            android:id="@+id/tvLiveInYourNeighborhoodEpisode2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-        <TextView
-            android:id="@+id/tvLiveInYourNeighborhoodEpisode3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -39,23 +28,10 @@
             android:text="@string/live_most_views"
             android:textAppearance="?android:textAppearanceSmall"/>
 
-        <TextView
-            android:id="@+id/tvLiveMostViewsEpisode1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvLiveMostViews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-
-        <TextView
-            android:id="@+id/tvLiveMostViewsEpisode2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-
-        <TextView
-            android:id="@+id/tvLiveMostViewsEpisode3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -64,23 +40,10 @@
             android:text="@string/live_top_rated"
             android:textAppearance="?android:textAppearanceSmall"/>
 
-        <TextView
-            android:id="@+id/tvLiveTopRatedEpisode1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvLiveTopRated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-
-        <TextView
-            android:id="@+id/tvLiveTopRatedEpisode2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-
-        <TextView
-            android:id="@+id/tvLiveTopRatedEpisode3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -89,23 +52,10 @@
             android:text="@string/All_time_most_views"
             android:textAppearance="?android:textAppearanceSmall"/>
 
-        <TextView
-            android:id="@+id/tvAllTimeMostViewsEpisode1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeMostViews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-
-        <TextView
-            android:id="@+id/tvAllTimeMostViewsEpisode2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
-
-        <TextView
-            android:id="@+id/tvAllTimeMostViewsEpisode3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
@@ -114,24 +64,34 @@
             android:text="@string/All_time_top_rated"
             android:textAppearance="?android:textAppearanceSmall"/>
 
-        <TextView
-            android:id="@+id/tvAllTimeTopRatedEpisode1"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeTopRated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tvAllTimeTopRatedEpisode2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:gravity="center"
+            android:text="@string/All_time_most_likes"
+            android:textAppearance="?android:textAppearanceSmall"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeMostLikes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/tvAllTimeTopRatedEpisode3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceMedium"/>
+            android:gravity="center"
+            android:text="@string/All_time_most_dislikes"
+            android:textAppearance="?android:textAppearanceSmall"/>
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeMostDislikes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
 

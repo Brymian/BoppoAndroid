@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -192,6 +193,7 @@ public class FriendsList extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.home:
+                Log.e("help", "it worksssss");
                 onBackPressed();
                 return true;
             default:
@@ -208,6 +210,8 @@ public class FriendsList extends AppCompatActivity{
                 friendsStatus.remove(i);
                 friendsUID.remove(i);
             }
+            super.onBackPressed();
+        }else{
             super.onBackPressed();
         }
     }

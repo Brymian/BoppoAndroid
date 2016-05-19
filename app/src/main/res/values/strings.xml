@@ -42,6 +42,8 @@
     <string name="Add_Episode_Title">Add Episode Title</string>
     <string name="Add_Friends">Add Friends</string>
     <string name="Add_To_Current_Location">Add To Current Location</string>
+    <string name="All_time_most_dislikes">ALL TIME - MOST DISLIKES</string>
+    <string name="All_time_most_likes">ALL TIME - MOST LIKES</string>
     <string name="All_time_most_views">ALL TIME - MOST VIEWS</string>
     <string name="All_time_top_rated">ALL TIME - TOP RATED</string>
     <string name="Apply">Apply</string>
