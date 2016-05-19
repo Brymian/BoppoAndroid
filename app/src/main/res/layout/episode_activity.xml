@@ -31,6 +31,69 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" />
 
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabViews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="#42ffbf"
+        fab:fab_colorPressed="#FF239A72"
+        fab:fab_colorRipple="#FF239A72"
+        android:src="@mipmap/ic_remove_red_eye_black_24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/llLikeDislike"/>
+
+    <LinearLayout
+        android:id="@+id/llLikeDislike"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/tvLikeCount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="#42ffbf"
+            fab:fab_colorPressed="#FF239A72"
+            fab:fab_colorRipple="#FF239A72"
+            android:src="@mipmap/ic_thumb_up_black_24dp" />
+        <View
+            android:layout_width="70dp"
+            android:layout_height="1dp"/>
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/fabDislike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            fab:fab_colorNormal="#42ffbf"
+            fab:fab_colorPressed="#FF239A72"
+            fab:fab_colorRipple="#FF239A72"
+            android:src="@mipmap/ic_thumb_down_black_24dp"/>
+        <TextView
+            android:id="@+id/tvDislikeCount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        fab:fab_colorNormal="#42ffbf"
+        fab:fab_colorPressed="#FF239A72"
+        fab:fab_colorRipple="#FF239A72"
+        android:src="@mipmap/ic_comment_black_24dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/llLikeDislike"/>
 
 
     <com.github.clans.fab.FloatingActionButton
@@ -86,11 +149,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_people_white_24dp"/>
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabComment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_comment_white_24dp"/>
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/fabMap"
             android:layout_width="wrap_content"

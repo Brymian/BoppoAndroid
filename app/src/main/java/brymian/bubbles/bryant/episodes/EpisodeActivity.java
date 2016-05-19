@@ -9,15 +9,18 @@ import android.widget.TextView;
 import com.github.clans.fab.FloatingActionButton;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
 import brymian.bubbles.objects.Event;
 
 
-public class EpisodeActivity extends Activity {
-    TextView tvEpisodeTitle, tvEpisodeHostName;
-    FloatingActionButton fabGoBack, fabPlay, fabMap, fabComment, fabParticipants, fabSettings;
+public class EpisodeActivity extends Activity implements View.OnClickListener{
+    TextView tvEpisodeTitle, tvEpisodeHostName, tvLikeCount, tvDislikeCount;
+    FloatingActionButton fabLike, fabDislike, fabGoBack, fabPlay, fabMap, fabComment, fabParticipants, fabSettings;
+    int eid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,19 +44,49 @@ public class EpisodeActivity extends Activity {
 
         tvEpisodeTitle = (TextView) findViewById(R.id.tvEpisodeTitle);
         tvEpisodeHostName = (TextView) findViewById(R.id.tvEpisodeHostName);
+        tvLikeCount = (TextView) findViewById(R.id.tvLikeCount);
+        tvDislikeCount = (TextView) findViewById(R.id.tvDislikeCount);
+        setEid(eid);
         incrementViewCount(eid);
         getEpisodeInfo(eid);
         setFloatingActionButtons();
     }
 
-    private void setFloatingActionButtons(){
-        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
-        fabGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.fabLike:
+                new UserLikeRequest(EpisodeActivity.this).setObjectLikeOrDislike(SaveSharedPreference.getUserUID(EpisodeActivity.this), "Event", getEid(), true, new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Log.e("Like", string);
+                    }
+                });
+
+                break;
+
+            case R.id.fabDislike:
+                new UserLikeRequest(EpisodeActivity.this).setObjectLikeOrDislike(SaveSharedPreference.getUserUID(EpisodeActivity.this), "Event", getEid(), false, new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Log.e("Dislike", string);
+                    }
+                });
+                break;
+
+            case R.id.fabGoBack:
                 onBackPressed();
-            }
-        });
+                break;
+        }
+    }
+
+    private void setFloatingActionButtons(){
+        fabLike = (FloatingActionButton) findViewById(R.id.fabLike);
+        fabLike.setOnClickListener(this);
+        fabDislike = (FloatingActionButton) findViewById(R.id.fabDislike);
+        fabDislike.setOnClickListener(this);
+        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
+        fabGoBack.setOnClickListener(this);
         fabPlay = (FloatingActionButton) findViewById(R.id.fabPlay);
 
         fabSettings = (FloatingActionButton) findViewById(R.id.fabSettings);
@@ -66,10 +99,12 @@ public class EpisodeActivity extends Activity {
         new EventRequest(this).getEventData(eid, new EventCallback() {
             @Override
             public void done(Event event) {
-                //tvEpisodeTitle.setText(event.eventName);
+                tvEpisodeTitle.setText(event.eventName);
                 tvEpisodeHostName.setText(event.eventHostFirstName + " " + event.eventHostLastName);
-                Log.e("Host", event.eventHostFirstName + " " + event.eventHostLastName);
-                //Log.e("Title", event.eventName);
+                tvLikeCount.setText(String.valueOf(event.eventLikeCount));
+                tvDislikeCount.setText(String.valueOf(event.eventDislikeCount));
+
+                Log.e("Title", event.eventName);
             }
         });
     }
@@ -83,5 +118,12 @@ public class EpisodeActivity extends Activity {
         });
     }
 
+    private void setEid(int eid){
+        this.eid = eid;
+    }
+
+    private int getEid(){
+        return eid;
+    }
 
 }
