@@ -285,12 +285,12 @@ public class EventRequest {
                 JSONObject jEvent = new JSONObject(response);
 
                 Event event = new Event(
-                    eid,
+                    getIntegerObjectFromObject(jEvent.get("eid")),
                     getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                    null,
-                    null,
-                    null,
                     jEvent.getString("eventName"),
+                    jEvent.getString("eventHostUsername"),
+                    jEvent.getString("eventHostFirstName"),
+                    jEvent.getString("eventHostLastName"),
                     jEvent.getString("eventInviteTypeLabel"),
                     jEvent.getString("eventPrivacyLabel"),
                     getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
@@ -443,7 +443,7 @@ public class EventRequest {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
                         getIntegerObjectFromObject(jEvent.get("eid")),
-                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
                         jEvent.getString("eventName"),
                         jEvent.getString("eventHostUsername"),
                         jEvent.getString("eventHostFirstName"),
