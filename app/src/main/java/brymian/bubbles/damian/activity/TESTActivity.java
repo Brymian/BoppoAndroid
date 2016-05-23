@@ -354,7 +354,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventUserRequest(this).addUserToEvent(53, 3, 4, new StringCallback() {
             @Override
             public void done(String string) {
@@ -362,7 +362,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
             @Override
@@ -422,7 +422,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -438,7 +438,7 @@ public class TESTActivity extends Activity {
                 System.out.println();
             }
         });
-        */
+
         /*
         new FriendshipStatusRequest(this).rejectFriend(18, 1, new StringCallback() {
             @Override
@@ -466,7 +466,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventRequest(this).getEventDataByTopNViews(3, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -551,7 +551,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
+
         /*
         new UserLikeRequest(this).setObjectLikeOrDislike(3, "Event", 53, false, new StringCallback() {
             @Override

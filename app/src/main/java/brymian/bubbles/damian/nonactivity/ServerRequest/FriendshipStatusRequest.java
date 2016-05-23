@@ -179,6 +179,7 @@ public class FriendshipStatusRequest {
 
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
+                System.out.println("THE RESPONSE: " + response);
 
                 JSONArray jUserArray = new JSONArray(response);
 

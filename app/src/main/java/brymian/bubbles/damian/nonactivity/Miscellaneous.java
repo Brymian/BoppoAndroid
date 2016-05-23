@@ -70,8 +70,8 @@ public class Miscellaneous {
 
     public static Long getLongObjectFromObject(Object object)
     {
-        try { return (Long)object; }
-        catch (ClassCastException cce) { return null; }
+        try { return Long.valueOf((Integer)object); }
+        catch (ClassCastException cce) { System.out.println("ERROR CASTING: " + object.toString()); return null; }
     }
 
     public static Double getDoubleObjectFromObject(Object object)
