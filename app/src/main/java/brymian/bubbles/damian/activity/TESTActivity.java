@@ -346,6 +346,13 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new FriendshipStatusRequest(this).unblockUser(3, 1, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING UNBLOCK USER RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
         /*
         new ServerRequestMethods(this).getFriendStatus(1, 4, new StringCallback() {
             @Override
@@ -422,7 +429,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -438,7 +445,7 @@ public class TESTActivity extends Activity {
                 System.out.println();
             }
         });
-
+        */
         /*
         new FriendshipStatusRequest(this).rejectFriend(18, 1, new StringCallback() {
             @Override
@@ -466,7 +473,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByTopNViews(3, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -551,7 +558,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
+        */
         /*
         new UserLikeRequest(this).setObjectLikeOrDislike(3, "Event", 53, false, new StringCallback() {
             @Override
