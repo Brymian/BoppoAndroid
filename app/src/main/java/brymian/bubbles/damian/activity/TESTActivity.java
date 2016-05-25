@@ -3,6 +3,7 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -26,6 +27,9 @@ import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.EventUser;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
+
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -346,6 +350,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new FriendshipStatusRequest(this).unblockUser(3, 1, new StringCallback() {
             @Override
             public void done(String string) {
@@ -353,6 +358,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
+        */
         /*
         new ServerRequestMethods(this).getFriendStatus(1, 4, new StringCallback() {
             @Override
@@ -412,6 +418,47 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new EventRequest(this).getEventDataByRadius(-74.2, 40.7, 50.0, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("<!!!> JSON STRING: <!!!>");
+                System.out.println(string);
+
+                try
+                {
+                    JSONArray jArray = new JSONArray(string);
+                    for (int i = 0; i < jArray.length(); i++)
+                    {
+                        JSONObject jArray_jObject = jArray.getJSONObject(i);
+                        JSONObject jEvent = jArray_jObject.getJSONObject("event");
+                        System.out.println("<!> EVENT #: " + i + " <!>");
+
+                        System.out.println("Event ID: " + jEvent.getInt("eid"));
+                        System.out.println("Event Host UID: " + jEvent.getInt("eventHostUid"));
+                        System.out.println("Event Name: " + jEvent.getString("eventName"));
+                        System.out.println("Event Host Username: " + jEvent.getString("eventHostUsername"));
+                        System.out.println("Event Host First Name: " + jEvent.getString("eventHostFirstName"));
+                        System.out.println("Event Host Last Name: " + jEvent.getString("eventHostLastName"));
+                        System.out.println("Event Invite Type Label: " +
+                            jEvent.getString("eventInviteTypeLabel"));
+                        System.out.println("Event Privacy Label: " + jEvent.getString("eventPrivacyLabel"));
+                        System.out.println("Event Image Upload Allowed Indicator: " +
+                            getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")));
+                        System.out.println("Event Start Datetime: " + jEvent.getString("eventStartDatetime"));
+                        System.out.println("Event End Datetime: " + jEvent.getString("eventEndDatetime"));
+                        System.out.println("Event GPS Latitude: " + jEvent.getDouble("eventGpsLatitude"));
+                        System.out.println("Event GPS Longitude: " + jEvent.getDouble("eventGpsLongitude"));
+                        System.out.println("Event Like Count: " + jEvent.getInt("eventLikeCount"));
+                        System.out.println("Event Dislike Count: " + jEvent.getInt("eventDislikeCount"));
+                        System.out.println("Event View Count: " + jEvent.getLong("eventViewCount"));
+
+                        Double distanceFromLocation = jArray_jObject.getDouble("distanceFromLocation");
+                        System.out.println("Distance From Location: " + distanceFromLocation);
+                    }
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
+            }
+        });
         /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(3, "Blocked", new UserListCallback() {
             @Override

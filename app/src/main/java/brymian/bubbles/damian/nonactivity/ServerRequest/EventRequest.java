@@ -64,6 +64,12 @@ public class EventRequest {
         new GetEventData(eid, eventCallback).execute();
     }
 
+    public void getEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
+    {
+        pd.show();
+        new GetEventDataByRadius(longitude, latitude, radius, stringCallback).execute();
+    }
+
     public void getEventDataByMember(Integer uid, EventListCallback eventListCallback)
     {
         //pd.show();
@@ -303,9 +309,6 @@ public class EventRequest {
                     getLongObjectFromObject(jEvent.get("eventViewCount"))
                 );
 
-                System.out.println("TESTING: ");
-                System.out.println(response);
-
                 return event;
             }
             catch (IOException ioe)
@@ -326,6 +329,63 @@ public class EventRequest {
             eventCallback.done(event);
 
             super.onPostExecute(event);
+        }
+
+    }
+
+
+
+    private class GetEventDataByRadius extends AsyncTask<Void, Void, String> {
+
+        Double longitude;
+        Double latitude;
+        Double radius;
+        StringCallback stringCallback;
+
+        private GetEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
+        {
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.radius = radius;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByRadius";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("longitude", getNullOrValue(longitude));
+                jsonEventObject.put("latitude", getNullOrValue(latitude));
+                jsonEventObject.put("radius", getNullOrValue(radius));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
         }
 
     }
@@ -520,22 +580,22 @@ public class EventRequest {
                 {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
-                            getIntegerObjectFromObject(jEvent.get("eid")),
-                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                            jEvent.getString("eventName"),
-                            jEvent.getString("eventHostUsername"),
-                            jEvent.getString("eventHostFirstName"),
-                            jEvent.getString("eventHostLastName"),
-                            jEvent.getString("eventInviteTypeLabel"),
-                            jEvent.getString("eventPrivacyLabel"),
-                            getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
-                            jEvent.getString("eventStartDatetime"),
-                            jEvent.getString("eventEndDatetime"),
-                            getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
-                            getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
-                            getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
-                            getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
+                        jEvent.getString("eventInviteTypeLabel"),
+                        jEvent.getString("eventPrivacyLabel"),
+                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                        jEvent.getString("eventStartDatetime"),
+                        jEvent.getString("eventEndDatetime"),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                        getLongObjectFromObject(jEvent.get("eventViewCount"))
                     );
                     eventList.add(event);
                 }
