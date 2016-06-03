@@ -64,10 +64,10 @@ public class EventRequest {
         new GetEventData(eid, eventCallback).execute();
     }
 
-    public void getEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
+    public void getLiveEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
     {
         pd.show();
-        new GetEventDataByRadius(longitude, latitude, radius, stringCallback).execute();
+        new GetLiveEventDataByRadius(longitude, latitude, radius, stringCallback).execute();
     }
 
     public void getEventDataByMember(Integer uid, EventListCallback eventListCallback)
@@ -76,10 +76,22 @@ public class EventRequest {
         new GetEventDataByMember(uid, eventListCallback).execute();
     }
 
+    public void getLiveEventDataByMember(Integer uid, EventListCallback eventListCallback)
+    {
+        //pd.show();
+        new GetLiveEventDataByMember(uid, eventListCallback).execute();
+    }
+
     public void getEventDataByName(String eventName, EventListCallback eventListCallback)
     {
         //pd.show();
         new GetEventDataByName(eventName, eventListCallback).execute();
+    }
+
+    public void getLiveEventDataByName(String eventName, EventListCallback eventListCallback)
+    {
+        //pd.show();
+        new GetLiveEventDataByName(eventName, eventListCallback).execute();
     }
 
     public void getEventDataByTopNViews(Integer topN, EventListCallback eventListCallback)
@@ -88,16 +100,46 @@ public class EventRequest {
         new GetEventDataByTopNViews(topN, eventListCallback).execute();
     }
 
+    public void getLiveEventDataByTopNViews(Integer topN, EventListCallback eventListCallback)
+    {
+        pd.show();
+        new GetLiveEventDataByTopNViews(topN, eventListCallback).execute();
+    }
+
     public void getEventDataByTopNLikes(Integer topN, EventListCallback eventListCallback)
     {
         pd.show();
         new GetEventDataByTopNLikes(topN, eventListCallback).execute();
     }
 
+    public void getLiveEventDataByTopNLikes(Integer topN, EventListCallback eventListCallback)
+    {
+        pd.show();
+        new GetLiveEventDataByTopNLikes(topN, eventListCallback).execute();
+    }
+
     public void getEventDataByTopNDislikes(Integer topN, EventListCallback eventListCallback)
     {
         pd.show();
         new GetEventDataByTopNDislikes(topN, eventListCallback).execute();
+    }
+
+    public void getLiveEventDataByTopNDislikes(Integer topN, EventListCallback eventListCallback)
+    {
+        pd.show();
+        new GetLiveEventDataByTopNDislikes(topN, eventListCallback).execute();
+    }
+
+    public void getEventDataByTopNRatings(Integer topN, StringCallback stringCallback)
+    {
+        pd.show();
+        new GetEventDataByTopNRatings(topN, stringCallback).execute();
+    }
+
+    public void getLiveEventDataByTopNRatings(Integer topN, StringCallback stringCallback)
+    {
+        pd.show();
+        new GetLiveEventDataByTopNRatings(topN, stringCallback).execute();
     }
 
     public void updateEvent(
@@ -335,14 +377,14 @@ public class EventRequest {
 
 
 
-    private class GetEventDataByRadius extends AsyncTask<Void, Void, String> {
+    private class GetLiveEventDataByRadius extends AsyncTask<Void, Void, String> {
 
         Double longitude;
         Double latitude;
         Double radius;
         StringCallback stringCallback;
 
-        private GetEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
+        private GetLiveEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
         {
             this.longitude = longitude;
             this.latitude = latitude;
@@ -352,7 +394,7 @@ public class EventRequest {
 
         @Override
         protected String doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByRadius";
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByRadius";
 
             Post request = new Post();
 
@@ -406,6 +448,84 @@ public class EventRequest {
         @Override
         protected List<Event> doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByMember";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("uid", getNullOrValue(uid));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                JSONArray jEventArray = new JSONArray(response);
+
+                List<Event> eventList = new ArrayList<>();
+                for (int i = 0; i < jEventArray.length(); i++)
+                {
+                    JSONObject jEvent = jEventArray.getJSONObject(i);
+                    Event event = new Event(
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
+                        jEvent.getString("eventInviteTypeLabel"),
+                        jEvent.getString("eventPrivacyLabel"),
+                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                        jEvent.getString("eventStartDatetime"),
+                        jEvent.getString("eventEndDatetime"),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                    );
+                    eventList.add(event);
+                }
+
+                return eventList;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> eventList) {
+            //-pd.dismiss();
+            eventListCallback.done(eventList);
+
+            super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
+    private class GetLiveEventDataByMember extends AsyncTask<Void, Void, List<Event>> {
+
+        Integer uid;
+        EventListCallback eventListCallback;
+
+        private GetLiveEventDataByMember(Integer uid, EventListCallback eventListCallback)
+        {
+            this.uid = uid;
+            this.eventListCallback = eventListCallback;
+        }
+
+        @Override
+        protected List<Event> doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByMember";
 
             Post request = new Post();
 
@@ -548,6 +668,86 @@ public class EventRequest {
 
 
 
+    private class GetLiveEventDataByName extends AsyncTask<Void, Void, List<Event>> {
+
+        String eventName;
+        EventListCallback eventListCallback;
+
+        private GetLiveEventDataByName(String eventName, EventListCallback eventListCallback)
+        {
+            this.eventName = eventName;
+            this.eventListCallback = eventListCallback;
+        }
+
+        @Override
+        protected List<Event> doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByName";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("eventName", getNullOrValue(eventName));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                System.out.println("RESPONSE: " + response);
+
+                JSONArray jEventArray = new JSONArray(response);
+
+                List<Event> eventList = new ArrayList<>();
+                for (int i = 0; i < jEventArray.length(); i++)
+                {
+                    JSONObject jEvent = jEventArray.getJSONObject(i);
+                    Event event = new Event(
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
+                        jEvent.getString("eventInviteTypeLabel"),
+                        jEvent.getString("eventPrivacyLabel"),
+                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                        jEvent.getString("eventStartDatetime"),
+                        jEvent.getString("eventEndDatetime"),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                    );
+                    eventList.add(event);
+                }
+
+                return eventList;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> eventList) {
+            //pd.dismiss();
+            eventListCallback.done(eventList);
+
+            super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
     private class GetEventDataByTopNViews extends AsyncTask<Void, Void, List<Event>> {
 
         Integer topNViews;
@@ -626,6 +826,84 @@ public class EventRequest {
 
 
 
+    private class GetLiveEventDataByTopNViews extends AsyncTask<Void, Void, List<Event>> {
+
+        Integer topNViews;
+        EventListCallback eventListCallback;
+
+        private GetLiveEventDataByTopNViews(Integer topNViews, EventListCallback eventListCallback)
+        {
+            this.topNViews = topNViews;
+            this.eventListCallback = eventListCallback;
+        }
+
+        @Override
+        protected List<Event> doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByTopNViews";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("topNViews", getNullOrValue(topNViews));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                JSONArray jEventArray = new JSONArray(response);
+
+                List<Event> eventList = new ArrayList<>();
+                for (int i = 0; i < jEventArray.length(); i++)
+                {
+                    JSONObject jEvent = jEventArray.getJSONObject(i);
+                    Event event = new Event(
+                            getIntegerObjectFromObject(jEvent.get("eid")),
+                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            jEvent.getString("eventName"),
+                            jEvent.getString("eventHostUsername"),
+                            jEvent.getString("eventHostFirstName"),
+                            jEvent.getString("eventHostLastName"),
+                            jEvent.getString("eventInviteTypeLabel"),
+                            jEvent.getString("eventPrivacyLabel"),
+                            getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                            jEvent.getString("eventStartDatetime"),
+                            jEvent.getString("eventEndDatetime"),
+                            getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                            getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                            getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                            getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                    );
+                    eventList.add(event);
+                }
+
+                return eventList;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> eventList) {
+            pd.dismiss();
+            eventListCallback.done(eventList);
+
+            super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
     private class GetEventDataByTopNLikes extends AsyncTask<Void, Void, List<Event>> {
 
         Integer topN;
@@ -640,6 +918,84 @@ public class EventRequest {
         @Override
         protected List<Event> doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByTopNLikes";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("topN", getNullOrValue(topN));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                JSONArray jEventArray = new JSONArray(response);
+
+                List<Event> eventList = new ArrayList<>();
+                for (int i = 0; i < jEventArray.length(); i++)
+                {
+                    JSONObject jEvent = jEventArray.getJSONObject(i);
+                    Event event = new Event(
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
+                        jEvent.getString("eventInviteTypeLabel"),
+                        jEvent.getString("eventPrivacyLabel"),
+                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                        jEvent.getString("eventStartDatetime"),
+                        jEvent.getString("eventEndDatetime"),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                    );
+                    eventList.add(event);
+                }
+
+                return eventList;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> eventList) {
+            pd.dismiss();
+            eventListCallback.done(eventList);
+
+            super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
+    private class GetLiveEventDataByTopNLikes extends AsyncTask<Void, Void, List<Event>> {
+
+        Integer topN;
+        EventListCallback eventListCallback;
+
+        private GetLiveEventDataByTopNLikes(Integer topN, EventListCallback eventListCallback)
+        {
+            this.topN = topN;
+            this.eventListCallback = eventListCallback;
+        }
+
+        @Override
+        protected List<Event> doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByTopNLikes";
 
             Post request = new Post();
 
@@ -736,8 +1092,86 @@ public class EventRequest {
                 {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
-                        getIntegerObjectFromObject(jEvent.get("eid")),
+                            getIntegerObjectFromObject(jEvent.get("eid")),
                             getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                            jEvent.getString("eventName"),
+                            jEvent.getString("eventHostUsername"),
+                            jEvent.getString("eventHostFirstName"),
+                            jEvent.getString("eventHostLastName"),
+                            jEvent.getString("eventInviteTypeLabel"),
+                            jEvent.getString("eventPrivacyLabel"),
+                            getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                            jEvent.getString("eventStartDatetime"),
+                            jEvent.getString("eventEndDatetime"),
+                            getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                            getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                            getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                            getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                    );
+                    eventList.add(event);
+                }
+
+                return eventList;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<Event> eventList) {
+            pd.dismiss();
+            eventListCallback.done(eventList);
+
+            super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
+    private class GetLiveEventDataByTopNDislikes extends AsyncTask<Void, Void, List<Event>> {
+
+        Integer topN;
+        EventListCallback eventListCallback;
+
+        private GetLiveEventDataByTopNDislikes(Integer topN, EventListCallback eventListCallback)
+        {
+            this.topN = topN;
+            this.eventListCallback = eventListCallback;
+        }
+
+        @Override
+        protected List<Event> doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByTopNDislikes";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("topN", getNullOrValue(topN));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                JSONArray jEventArray = new JSONArray(response);
+
+                List<Event> eventList = new ArrayList<>();
+                for (int i = 0; i < jEventArray.length(); i++)
+                {
+                    JSONObject jEvent = jEventArray.getJSONObject(i);
+                    Event event = new Event(
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
                         jEvent.getString("eventName"),
                         jEvent.getString("eventHostUsername"),
                         jEvent.getString("eventHostFirstName"),
@@ -776,6 +1210,108 @@ public class EventRequest {
             eventListCallback.done(eventList);
 
             super.onPostExecute(eventList);
+        }
+
+    }
+
+
+
+    private class GetEventDataByTopNRatings extends AsyncTask<Void, Void, String> {
+
+        Integer topN;
+        StringCallback stringCallback;
+
+        private GetEventDataByTopNRatings(Integer topN, StringCallback stringCallback)
+        {
+            this.topN = topN;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByTopNRatings";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("topN", getNullOrValue(topN));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
+
+    private class GetLiveEventDataByTopNRatings extends AsyncTask<Void, Void, String> {
+
+        Integer topN;
+        StringCallback stringCallback;
+
+        private GetLiveEventDataByTopNRatings(Integer topN, StringCallback stringCallback)
+        {
+            this.topN = topN;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByTopNRatings";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("topN", getNullOrValue(topN));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
         }
 
     }
