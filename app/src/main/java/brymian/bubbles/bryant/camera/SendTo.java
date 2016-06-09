@@ -18,6 +18,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 public class SendTo extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
@@ -75,7 +76,7 @@ public class SendTo extends AppCompatActivity implements View.OnClickListener, C
     public void onClick(View v) {
         if(v.getId() == R.id.llDone || v.getId() == R.id.ibDone) {
             System.out.println("privacy: " + privacy);
-            new ServerRequestMethods(this).uploadImage(
+            new UserImageRequest(this).uploadImage(
                     SaveSharedPreference.getUserUID(this),      /* uid */
                     imageName(),                                /* image name */
                     "Regular",                                  /* image purpose label */

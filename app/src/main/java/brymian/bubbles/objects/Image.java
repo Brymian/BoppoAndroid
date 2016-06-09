@@ -14,13 +14,12 @@ public class  Image {
     public String  userImageName;
     public String  userImagePrivacyLabel;
     public String  userImagePurposeLabel;
-    public Integer userImageEid;
     public Double  userImageGpsLatitude;
     public Double  userImageGpsLongitude;
 
     public Image(Long uiid, Integer uid, Integer userImageSequence, String userImagePath,
         String userImageName, String userImagePrivacyLabel, String userImagePurposeLabel,
-        Integer userImageEid, Double userImageGpsLatitude, Double userImageGpsLongitude)
+        Double userImageGpsLatitude, Double userImageGpsLongitude)
     {
         this.uiid = uiid;
         this.uid = uid;
@@ -29,7 +28,6 @@ public class  Image {
         this.userImageName = userImageName;
         this.userImagePrivacyLabel = userImagePrivacyLabel;
         this.userImagePurposeLabel = userImagePurposeLabel;
-        this.userImageEid = userImageEid;
         this.userImageGpsLatitude = userImageGpsLatitude;
         this.userImageGpsLongitude = userImageGpsLongitude;
     }

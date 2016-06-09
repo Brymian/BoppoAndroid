@@ -3,13 +3,17 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
@@ -17,10 +21,10 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallba
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
@@ -30,6 +34,7 @@ import brymian.bubbles.objects.User;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -125,7 +130,7 @@ public class TESTActivity extends Activity {
         */
 
         /*
-        new ServerRequestMethods(this).uploadImage(1, "UserImageName", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
+        new UserImageRequest(this).uploadImage(1, "UserImageName", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESPONSE: " + string);
@@ -149,7 +154,6 @@ public class TESTActivity extends Activity {
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
                     System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
-                    System.out.println("User Image Event Identifier: " + image.userImageEid);
                     System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
                     System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
                 }
@@ -172,7 +176,6 @@ public class TESTActivity extends Activity {
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
                     System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
-                    System.out.println("User Image Event Identifier: " + image.userImageEid);
                     System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
                     System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
                 }
@@ -418,7 +421,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getLiveEventDataByRadius(-74.2, 40.7, 50.0, new StringCallback() {
             @Override
             public void done(String string) {
@@ -462,7 +465,7 @@ public class TESTActivity extends Activity {
                 catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-
+        */
         /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(3, "Blocked", new UserListCallback() {
             @Override
@@ -809,7 +812,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -889,6 +892,67 @@ public class TESTActivity extends Activity {
                         System.out.println("Event Dislike Count: " + jEvent.getInt("eventDislikeCount"));
                         System.out.println("Event View Count: " + jEvent.getLong("eventViewCount"));
                         System.out.println("Event Rating Ratio: " + jEvent.getDouble("eventRatingRatio"));
+                    }
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
+            }
+        });
+        */
+        /*
+        new UserImageRequest(this).uploadImage(1, "UserImageName2", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESPONSE: " + string);
+            }
+        });
+        */
+        new UserImageRequest(this).addImagesToEvent(59, 1, Arrays.asList(1, 4, 7), new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("<!!!> JSON STRING: <!!!>");
+                System.out.println(string);
+                System.out.println("<!!!> END OF JSON STRING: <!!!>");
+
+                try
+                {
+                    JSONArray jArray = new JSONArray(string);
+                    for (int i = 0; i < jArray.length(); i++)
+                    {
+                        System.out.println("Status of Adding Image #" + i + " to UIID: " + jArray.get(i));
+                    }
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
+            }
+        });
+
+        new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("<!!!> JSON STRING: <!!!>");
+                System.out.println(string);
+                System.out.println("<!!!> END OF JSON STRING: <!!!>");
+
+                try
+                {
+                    HTTPConnection httpConnection = new HTTPConnection();
+                    JSONArray jArray = new JSONArray(string);
+                    for (int i = 0; i < jArray.length(); i++)
+                    {
+                        JSONObject jArray_jObject = jArray.getJSONObject(i);
+                        JSONObject jImage = jArray_jObject.getJSONObject("image");
+                        System.out.println("<!> IMAGE #: " + i + " <!>");
+
+                        System.out.println("User Image ID: " + getIntegerObjectFromObject(jImage.get("uiid")));
+                        System.out.println("User ID: " + getIntegerObjectFromObject(jImage.get("uid")));
+                        System.out.println("User Image Sequence: " + getIntegerObjectFromObject(jImage.get("userImageSequence")));
+                        System.out.println("User Image Path: " +
+                            httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
+                        System.out.println("User Image Name: " + jImage.getString("userImageName"));
+                        System.out.println("User Image Privacy Label: " + jImage.getString("userImagePrivacyLabel"));
+                        System.out.println("User Image Purpose Label: " + jImage.getString("userImagePurposeLabel"));
+                        System.out.println("User Image GPS Latitude: " + getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")));
+                        System.out.println("User Image GPS Longitude: " + getDoubleObjectFromObject(jImage.get("userImageGpsLongitude")));
+                        System.out.println("User Image Upload Timestamp: " + jImage.getString("userImageUploadTimestamp"));
                     }
                 }
                 catch (JSONException jsone) { jsone.printStackTrace(); }

@@ -43,6 +43,18 @@ public class UserImageRequest {
         httpConnection = new HTTPConnection();
     }
 
+
+
+    public void addImagesToEvent(Integer eid, Integer uid, List<Integer> uiids, StringCallback stringCallback) {
+        pd.show();
+        new AddImagesToEvent(eid, uid, uiids, stringCallback).execute();
+    }
+
+    public void getImagesByEid(Integer eid, StringCallback stringCallback) {
+        pd.show();
+        new GetImagesByEid(eid, stringCallback).execute();
+    }
+
     public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
         //pd.show();
         new GetImagesByUidAndPurpose(uid, imagePurposeLabel, imageListCallback).execute();
@@ -59,6 +71,124 @@ public class UserImageRequest {
     {
         pd.show();
         new GetImageProfileMaxAmount(integerCallback).execute();
+    }
+
+    public void uploadImage(Integer uid, String userImageName, String userImagePurposeLabel,
+        String userImagePrivacyLabel, Double userImageGpsLatitude, Double userImageGpsLongitude,
+        String userImage, StringCallback stringCallback)
+    {
+        pd.show();
+        new UploadImage(uid, userImageName, userImagePurposeLabel, userImagePrivacyLabel,
+            userImageGpsLatitude, userImageGpsLongitude, userImage, stringCallback).execute();
+    }
+
+
+
+    private class AddImagesToEvent extends AsyncTask<Void, Void, String> {
+
+        Integer eid;
+        Integer uid;
+        List<Integer> uiids;
+        StringCallback stringCallback;
+
+        private AddImagesToEvent(Integer eid, Integer uid, List<Integer> uiids, StringCallback stringCallback) {
+            this.eid = eid;
+            this.uid = uid;
+            this.uiids = uiids;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=addImagesToEvent";
+
+            Post request = new Post();
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("eid", getNullOrValue(eid));
+                jsonObject.put("uid", getNullOrValue(uid));
+                JSONArray jsonArray = new JSONArray(uiids);
+                jsonObject.put("uiids", jsonArray);
+                String jsonString = jsonObject.toString();
+
+                String response = request.post(url, jsonString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
+
+    private class GetImagesByEid extends AsyncTask<Void, Void, String> {
+
+        Integer eid;
+        StringCallback stringCallback;
+
+        private GetImagesByEid(Integer eid, StringCallback stringCallback) {
+            this.eid = eid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=getImagesByEid";
+
+            Post request = new Post();
+
+            try {
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("eid", getNullOrValue(eid));
+                String jsonString = jsonObject.toString();
+
+                String response = request.post(url, jsonString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
     }
 
 
@@ -91,6 +221,8 @@ public class UserImageRequest {
                 String jsonImageString = jsonImageObject.toString();
 
                 String response = request.post(url, jsonImageString);
+
+                System.out.println("RESPONSE: " + response);
                 JSONArray jImageArray = new JSONArray(response);
 
                 List<Image> imageList = new ArrayList<>();
@@ -106,7 +238,6 @@ public class UserImageRequest {
                         jImage.getString("userImageName"),
                         jImage.getString("userImagePrivacyLabel"),
                         jImage.getString("userImagePurposeLabel"),
-                        getIntegerObjectFromObject(jImage.get("userImageEid")),
                         getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")),
                         getDoubleObjectFromObject(jImage.get("userImageGpsLongitude"))
                     );
@@ -185,7 +316,6 @@ public class UserImageRequest {
                         jImage.getString("userImageName"),
                         jImage.getString("userImagePrivacyLabel"),
                         jImage.getString("userImagePurposeLabel"),
-                        getIntegerObjectFromObject(jImage.get("userImageEid")),
                         getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")),
                         getDoubleObjectFromObject(jImage.get("userImageGpsLongitude"))
                     );
@@ -261,6 +391,69 @@ public class UserImageRequest {
             super.onPostExecute(integer);
         }
 
+    }
+
+    private class UploadImage extends AsyncTask<Void, Void, String> {
+
+        Integer uid;
+        String userImageName;
+        String userImagePurposeLabel;
+        String userImagePrivacyLabel;
+        Double userImageGpsLatitude;
+        Double userImageGpsLongitude;
+        String userImage;
+        StringCallback stringCallback;
+
+        private UploadImage(Integer uid, String userImageName, String userImagePurposeLabel,
+            String userImagePrivacyLabel, Double userImageGpsLatitude, Double userImageGpsLongitude,
+            String userImage, StringCallback stringCallback) {
+
+            this.uid = uid;
+            this.userImageName = userImageName;
+            this.userImagePurposeLabel = userImagePurposeLabel;
+            this.userImagePrivacyLabel = userImagePrivacyLabel;
+            this.userImageGpsLatitude = userImageGpsLatitude;
+            this.userImageGpsLongitude = userImageGpsLongitude;
+            this.userImage = userImage;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=uploadImage";
+
+            try {
+                JSONObject jsonImageObject = new JSONObject();
+                jsonImageObject.put("uid", uid);
+                jsonImageObject.put("userImageName", userImageName);
+                jsonImageObject.put("userImagePurposeLabel", userImagePurposeLabel);
+                jsonImageObject.put("userImagePrivacyLabel", userImagePrivacyLabel);
+                jsonImageObject.put("userImageGpsLatitude", userImageGpsLatitude);
+                jsonImageObject.put("userImageGpsLongitude", userImageGpsLongitude);
+                jsonImageObject.put("userImage", userImage);
+                String jsonImage = jsonImageObject.toString();
+                Post request = new Post();
+                String response = request.post(url, jsonImage);
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+            super.onPostExecute(string);
+        }
     }
 
 }
