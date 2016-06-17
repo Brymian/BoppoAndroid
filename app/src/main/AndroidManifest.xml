@@ -57,7 +57,6 @@
         <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"/>
 
-        <activity android:name=".bryant.friends.sent.SentFriendRequests" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"/>

@@ -1,6 +1,6 @@
 package brymian.bubbles.bryant.friends;
 
-import android.content.Intent;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,36 +9,33 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+
+import com.github.clans.fab.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.friends.friendrequests.FriendRequestRecyclerAdapter;
-import brymian.bubbles.bryant.friends.friendrequests.FriendRequester;
-import brymian.bubbles.bryant.friends.sent.SentFriendRequests;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 public class FriendsList extends AppCompatActivity{
 
-    RecyclerView recyclerViewFriendRequests, recyclerViewFriends;
+    RecyclerView recyclerViewFriends;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     Toolbar mToolbar;
-    View vDivider;
-    TextView tvPendingFriendRequestsNumber, tvPendingRequests;
     String profile;
+    FloatingActionButton fabAddFriend, fabFriendRequestReceived, fabFriendRequestSent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.friends_list_activity);
+        setContentView(R.layout.friends_activity);
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
         int uid;
@@ -60,25 +57,14 @@ public class FriendsList extends AppCompatActivity{
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        tvPendingFriendRequestsNumber = (TextView) findViewById(R.id.tvPendingFriendRequestsNumber);
-        tvPendingFriendRequestsNumber.setVisibility(View.GONE);
-        tvPendingRequests = (TextView) findViewById(R.id.tvPendingRequests);
-        tvPendingRequests.setVisibility(View.GONE);
-
-        recyclerViewFriendRequests = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
-        recyclerViewFriendRequests.setVisibility(View.GONE);
 
         recyclerViewFriends = (RecyclerView) findViewById(R.id.recyclerView_friends);
 
 
-        vDivider = findViewById(R.id.vDivider);
-        vDivider.setVisibility(View.GONE);
-
         if (profile != null) {
             if(profile.equals("logged in user")){
                 mToolbar.setTitle(R.string.Friends);
-                checkForSentFriendRequests();
-                checkForReceivedFriendRequests();
+                //checkForReceivedFriendRequests();
             }
             else{
                 mToolbar.setTitle(profile + "'s Friends");
@@ -89,46 +75,37 @@ public class FriendsList extends AppCompatActivity{
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        setFAB();
     }
 
-    /* Checks for any pending friend requests that were sent from logged in user */
-    private void checkForSentFriendRequests(){
-            new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
-                @Override
-                public void done(List<User> users) {
-                    try{
-                        if (users.size() != 0) {
-                            tvPendingRequests.setVisibility(View.VISIBLE);
-                            tvPendingFriendRequestsNumber.setVisibility(View.VISIBLE);
-                            tvPendingFriendRequestsNumber.setText(" " + users.size());
-                            tvPendingRequests.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
-                                }
-                            });
-                            tvPendingFriendRequestsNumber.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    startActivity(new Intent(FriendsList.this, SentFriendRequests.class));
-                                }
-                            });
-                        }
-                    }
-                    catch (NullPointerException npe){
-                        System.out.println("getFriendshipStatusRequestSentUsers() null pointer exception");
-                        npe.printStackTrace();
-                    }
-                }
-            });
+    private void setFAB(){
+        fabAddFriend = (FloatingActionButton) findViewById(R.id.fabAddFriend);
 
+        fabFriendRequestReceived = (FloatingActionButton) findViewById(R.id.fabFriendRequestReceived);
+        fabFriendRequestReceived.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                startFragment(fm, R.id.friends_activity, new FriendRequestReceived());
+            }
+        });
+
+        fabFriendRequestSent = (FloatingActionButton) findViewById(R.id.fabFriendRequestSent);
+        fabFriendRequestSent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fm = getFragmentManager();
+                startFragment(fm, R.id.friends_activity, new FriendRequestSent());
+            }
+        });
     }
+
 
     /* Checks and displays for any friend requests for logged in user */
+    /**
     private void checkForReceivedFriendRequests(){
         new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
-            @Override
+            //@Override
             public void done(List<User> users) {
                 try {
                     if (users.size() != 0) {
@@ -141,20 +118,19 @@ public class FriendsList extends AppCompatActivity{
                         vDivider.setVisibility(View.VISIBLE);
                         //recyclerViewFriendRequests = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
                         recyclerViewFriendRequests.setVisibility(View.VISIBLE);
-                        adapter = new FriendRequestRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
+                        adapter = new FriendRequestReceivedRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
                         layoutManager = new LinearLayoutManager(FriendsList.this);
                         recyclerViewFriendRequests.setLayoutManager(layoutManager);
                         recyclerViewFriendRequests.setAdapter(adapter);
                     }
                 }
                 catch (NullPointerException npe){
-                    System.out.println("getFriendshipStatusRequestReceivedUsers()");
                     npe.printStackTrace();
                 }
             }
         });
     }
-
+**/
 
     public static List<Integer> friendsUID = new ArrayList<>();
     public static List<String> friendsStatus = new ArrayList<>();
@@ -163,27 +139,32 @@ public class FriendsList extends AppCompatActivity{
         new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                setFriendListSize(users.size());
-                List<String> friendsFirstLastName = new ArrayList<>();
-                List<String> friendsUsername = new ArrayList<>();
-                for (int i = 0; i < users.size(); i++) {
-                    friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                    friendsUsername.add(i, users.get(i).getUsername());
-                    friendsUID.add(i, users.get(i).getUid());
-                    final int j = i;
-                    new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
+                try {
+                    setFriendListSize(users.size());
+                    List<String> friendsFirstLastName = new ArrayList<>();
+                    List<String> friendsUsername = new ArrayList<>();
+                    for (int i = 0; i < users.size(); i++) {
+                        friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
+                        friendsUsername.add(i, users.get(i).getUsername());
+                        friendsUID.add(i, users.get(i).getUid());
+                        final int j = i;
+                        new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
                             @Override
                             public void done(String string) {
                                 friendsStatus.add(j, string);
                             }
                         });
+                    }
+                    recyclerViewFriends.setVisibility(View.VISIBLE);
+                    //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
+                    adapter = new FriendsListRecyclerAdapter(FriendsList.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
+                    layoutManager = new LinearLayoutManager(FriendsList.this);
+                    recyclerViewFriends.setLayoutManager(layoutManager);
+                    recyclerViewFriends.setAdapter(adapter);
                 }
-                recyclerViewFriends.setVisibility(View.VISIBLE);
-                //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
-                adapter = new FriendsListRecyclerAdapter(FriendsList.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
-                layoutManager = new LinearLayoutManager(FriendsList.this);
-                recyclerViewFriends.setLayoutManager(layoutManager);
-                recyclerViewFriends.setAdapter(adapter);
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
             }
         });
 
@@ -201,7 +182,8 @@ public class FriendsList extends AppCompatActivity{
         }
     }
 
-    @Override
+    /**
+    //@Override
     public void onBackPressed() {
         if (profile.equals("logged in user")){
             super.onBackPressed();
@@ -213,6 +195,27 @@ public class FriendsList extends AppCompatActivity{
             super.onBackPressed();
         }else{
             super.onBackPressed();
+        }
+    }
+     **/
+
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            if (profile.equals("logged in user")){
+                super.onBackPressed();
+            }else if(getFriendListSize() !=0) {
+                for(int i = 0; i < getFriendListSize(); i++){
+                    friendsStatus.remove(i);
+                    friendsUID.remove(i);
+                }
+                super.onBackPressed();
+            }else{
+                super.onBackPressed();
+            }        } else {
+            getFragmentManager().popBackStack();
         }
     }
     int size;

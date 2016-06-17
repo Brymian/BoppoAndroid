@@ -1,8 +1,8 @@
-package brymian.bubbles.bryant.settings.blocking;
+package brymian.bubbles.bryant.friends;
 
-
-import android.os.Bundle;
 import android.app.Fragment;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,7 +11,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,41 +21,45 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallbac
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.objects.User;
 
-public class Blocking extends Fragment {
+
+public class FriendRequestSent extends Fragment{
 
     Toolbar mToolbar;
-    RecyclerView rvBlockedUsers;
+    RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.settings_blocking, container, false);
+        View rootView = inflater.inflate(R.layout.friends_request_sent, container, false);
         mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
-        mToolbar.setTitle(R.string.Blocking);
+        mToolbar.setTitle(R.string.Sent_Friend_Requests);
+        mToolbar.setTitleTextColor(Color.BLACK);
+
         ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_friend_request_sent);
 
-        rvBlockedUsers = (RecyclerView) rootView.findViewById(R.id.rvBlockedUsers);
-
-        new FriendshipStatusRequest(getActivity()).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(getActivity()), "Blocked", new UserListCallback() {
+        new FriendshipStatusRequest(getActivity()).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(getActivity()), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                List<BlockedUser> blockedUserArrayList = new ArrayList<>();
+                List<FriendRequester> friendRequesterArrayList = new ArrayList<>();
+
 
                 for (User user : users) {
-                    BlockedUser friendRequester = new BlockedUser(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid());
-                    blockedUserArrayList.add(friendRequester);
+                    FriendRequester friendRequester = new FriendRequester(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid());
+                    friendRequesterArrayList.add(friendRequester);
                 }
-                adapter = new BlockingRecyclerAdapter(getActivity(), blockedUserArrayList);
+
+                adapter = new FriendRequestSentRecyclerAdapter(getActivity(), friendRequesterArrayList);
                 layoutManager = new LinearLayoutManager(getActivity());
-                rvBlockedUsers.setLayoutManager(layoutManager);
-                rvBlockedUsers.setAdapter(adapter);
+                recyclerView.setLayoutManager(layoutManager);
+                recyclerView.setAdapter(adapter);
+
             }
         });
         return rootView;
     }
-
 }

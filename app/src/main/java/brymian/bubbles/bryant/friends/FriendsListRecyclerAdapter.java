@@ -3,11 +3,13 @@ package brymian.bubbles.bryant.friends;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -32,7 +34,7 @@ public class FriendsListRecyclerAdapter  extends RecyclerView.Adapter<FriendsLis
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_list_recyclerview_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.friends_recyclerview_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 

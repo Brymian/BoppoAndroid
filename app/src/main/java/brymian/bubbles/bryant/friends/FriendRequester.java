@@ -1,10 +1,7 @@
-package brymian.bubbles.bryant.friends.friendrequests;
+package brymian.bubbles.bryant.friends;
 
 import java.io.Serializable;
 
-/**
- * Created by Almanza on 4/13/2016.
- */
 public class FriendRequester implements Serializable {
 
     private static final long serialVersionUID = 1L;

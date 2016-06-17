@@ -70,6 +70,7 @@
     <string name="Later">Later</string>
     <string name="Live_Episodes">Live Episodes</string>
     <string name="live_in_your_neighborhood">LIVE - IN YOUR NEIGHBORHOOD</string>
+    <string name="live_most_likes">LIVE - MOST LIKES</string>
     <string name="live_most_views">LIVE - MOST VIEWS</string>
     <string name="live_top_rated">LIVE - TOP RATED</string>
     <string name="Locations">Locations</string>
@@ -83,7 +84,6 @@
     <string name="News_Feed">News Feed</string>
     <string name="Notifications">Notifications</string>
     <string name="Password">Password</string>
-    <string name="Pending_Sent_Requests">Pending Sent Requests: </string>
     <string name="Personal">Personal</string>
     <string name="Phone_Number">Phone Number</string>
     <string name="Privacy">Privacy</string>
@@ -91,18 +91,20 @@
     <string name="Profile">PROFILE</string>
     <string name="Profile_Pictures">Profile Pictures</string>
     <string name="Pictures">Pictures</string>
+    <string name="Received_Friend_Requests">Received Friend Requests</string>
     <string name="Register">Register</string>
     <string name="Save">Save</string>
     <string name="Search">Search&#8230;</string>
     <string name="Search_Episodes">Search Episodes&#8230;</string>
     <string name="Search_Users">Search Users&#8230;</string>
     <string name="Send_To">Send To&#8230;</string>
-    <string name="Sent_Requests">Sent Requests</string>
+    <string name="Sent_Friend_Requests">Sent Friend Requests</string>
     <string name="Select">Select</string>
     <string name="Settings">SETTINGS</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Sync_With_Other_Media">Sync With Other Media</string>
     <string name="Top_Episodes">Top Episodes</string>
+    <string name="Unblock">Unblock</string>
     <string name="Upload_From">Upload From:</string>
     <string name="Users">Users</string>
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
