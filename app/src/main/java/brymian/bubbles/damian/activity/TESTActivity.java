@@ -3,38 +3,14 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
-import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
-import brymian.bubbles.objects.EventUser;
-import brymian.bubbles.objects.Image;
-import brymian.bubbles.objects.User;
-
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -518,15 +494,13 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventRequest(this).incrementEventViewCount(38, new StringCallback() {
+        new MiscellaneousRequest(this).incrementObjectViewCount(38, "Event", new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println("THE FOLLOWING INCREMENT EVENT VIEW COUNT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println("THE FOLLOWING INCREMENT OBJECT VIEW COUNT RESPONSE HAS BEEN RETURNED: ");
                 System.out.println(string);
             }
         });
-        */
         /*
         new EventRequest(this).getEventDataByTopNViews(3, new EventListCallback() {
             @Override
@@ -556,6 +530,8 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
+        /*
         new EventRequest(this).getEventDataByTopNLikes(3, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -906,6 +882,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new UserImageRequest(this).addImagesToEvent(59, 1, Arrays.asList(1, 4, 7), new StringCallback() {
             @Override
             public void done(String string) {
@@ -924,7 +901,6 @@ public class TESTActivity extends Activity {
                 catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-
         new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
             @Override
             public void done(String string) {
@@ -958,6 +934,7 @@ public class TESTActivity extends Activity {
                 catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
+        */
     }
 
 }

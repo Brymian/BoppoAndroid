@@ -11,6 +11,7 @@ import com.github.clans.fab.FloatingActionButton;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
@@ -111,7 +112,7 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
     }
 
     private void incrementViewCount(int eid){
-        new EventRequest(this).incrementEventViewCount(eid, new StringCallback() {
+        new MiscellaneousRequest(this).incrementObjectViewCount(eid, "Event", new StringCallback() {
             @Override
             public void done(String string) {
                 Log.e("View Count", string);

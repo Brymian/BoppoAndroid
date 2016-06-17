@@ -160,12 +160,6 @@ public class EventRequest {
         new DeleteEvent(eid, stringCallback).execute();
     }
 
-    public void incrementEventViewCount(Integer eid, StringCallback stringCallback)
-    {
-        pd.show();
-        new IncrementEventViewCount(eid, stringCallback).execute();
-    }
-
     private class CreateEvent extends AsyncTask<Void, Void, String> {
 
         Integer eventHostUid;
@@ -1431,57 +1425,6 @@ public class EventRequest {
                     return response;
                 else
                     return "Failed.";
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
-            }
-            catch (JSONException jsone)
-            {
-                jsone.printStackTrace();
-                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String string) {
-            pd.dismiss();
-            stringCallback.done(string);
-
-            super.onPostExecute(string);
-        }
-
-    }
-
-
-
-    private class IncrementEventViewCount extends AsyncTask<Void, Void, String> {
-
-        Integer eid;
-        StringCallback stringCallback;
-
-        private IncrementEventViewCount(Integer eid, StringCallback stringCallback)
-        {
-            this.eid = eid;
-            this.stringCallback = stringCallback;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=incrementEventViewCount";
-
-            Post request = new Post();
-
-            try
-            {
-                JSONObject jsonEventObject = new JSONObject();
-                jsonEventObject.put("eid", getNullOrValue(eid));
-
-                String jsonEventString = jsonEventObject.toString();
-                String response = request.post(url, jsonEventString);
-
-                return response;
             }
             catch (IOException ioe)
             {
