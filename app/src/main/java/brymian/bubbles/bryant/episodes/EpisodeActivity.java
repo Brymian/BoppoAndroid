@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.episodes;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,9 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
 import brymian.bubbles.objects.Event;
+
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
+
 
 
 public class EpisodeActivity extends Activity implements View.OnClickListener{
@@ -50,12 +54,13 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
         tvViewCount = (TextView) findViewById(R.id.tvViewCount);
         setEid(eid);
         incrementViewCount(eid);
-        getEpisodeInfo(eid);
         setFloatingActionButtons();
+        getEpisodeInfo(eid);
     }
 
     @Override
     public void onClick(View view) {
+        FragmentManager fm = getFragmentManager();
         switch (view.getId()){
             case R.id.fabLike:
                 new UserLikeRequest(EpisodeActivity.this).setObjectLikeOrDislike(SaveSharedPreference.getUserUID(EpisodeActivity.this), "Event", getEid(), true, new StringCallback() {
@@ -79,6 +84,22 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
             case R.id.fabGoBack:
                 onBackPressed();
                 break;
+
+            case R.id.fabParticipants:
+                startFragment(fm, R.id.episode_activity, new EpisodeParticipants());
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        int count = getFragmentManager().getBackStackEntryCount();
+
+        if (count == 0) {
+            super.onBackPressed();
+            //additional code
+        } else {
+            getFragmentManager().popBackStack();
         }
     }
 
@@ -106,7 +127,6 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
                 tvLikeCount.setText(String.valueOf(event.eventLikeCount));
                 tvDislikeCount.setText(String.valueOf(event.eventDislikeCount));
                 tvViewCount.setText(String.valueOf(event.eventViewCount));
-                Log.e("View Count", String.valueOf(event.eventViewCount));//returning null
             }
         });
     }

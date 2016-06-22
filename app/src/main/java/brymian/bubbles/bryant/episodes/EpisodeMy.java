@@ -85,7 +85,6 @@ public class EpisodeMy extends AppCompatActivity {
         new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-                Log.e("Attending", String.valueOf(eventList.size()));
                 if(eventList.size() > 0) {
                     List<String> episodeTitleAttending = new ArrayList<>();
                     List<String> episodeHostNameAttending = new ArrayList<>();

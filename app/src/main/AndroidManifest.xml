@@ -66,7 +66,7 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".bryant.main.MainActivity" />
         </activity>
-        <activity android:name=".bryant.camera.SendTo" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.sendTo.SendTo" android:screenOrientation="portrait"/>
 
         <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait">
             <meta-data

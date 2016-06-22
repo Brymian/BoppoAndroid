@@ -9,10 +9,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.media.ExifInterface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -21,14 +19,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.sendTo.SendTo;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 
 /**

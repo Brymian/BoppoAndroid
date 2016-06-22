@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:theme="@style/AppTheme">
@@ -16,26 +16,46 @@
         android:minHeight="?attr/actionBarSize"/>
 
     <LinearLayout
+        android:id="@+id/llMap"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvMap"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Map"
+            android:textAppearance="@android:style/TextAppearance.Large"
+            android:padding="10dp"/>
+        <CheckBox
+            android:id="@+id/cbMap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:id="@+id/llPrivate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
-
+        android:layout_below="@+id/llMap"
+        android:layout_alignLeft="@+id/llCurrentLocation"
+        android:layout_alignStart="@+id/llCurrentLocation">
         <TextView
             android:id="@+id/tvPrivate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/Private"/>
-
         <CheckBox
             android:id="@+id/cbPrivate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -43,8 +63,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_below="@+id/llPrivate">
         <TextView
             android:id="@+id/tvCurrentLocation"
             android:layout_width="0dp"
@@ -60,13 +79,34 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/Episodes"/>
+        android:text="@string/Episodes"
+        android:layout_below="@+id/llCurrentLocation"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/textView2"
+        android:textAppearance="@android:style/TextAppearance.Large"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvMyEpisodes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabDone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        fab:fab_colorNormal="#42ffbf"
+        fab:fab_colorPressed="#FF239A72"
+        fab:fab_colorRipple="#FF239A72"
+        android:src="@mipmap/ic_done_black_24dp"
+        android:layout_gravity="bottom|center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp" />
 
 
 
-
-
-</LinearLayout>
+</RelativeLayout>

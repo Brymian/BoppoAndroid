@@ -2,9 +2,7 @@ package brymian.bubbles.bryant.episodes.addfriends;
 
 import java.io.Serializable;
 
-/**
- * Created by Almanza on 4/6/2016.
- */
+
 public class Friend implements Serializable {
 
     private static final long serialVersionUID = 1L;

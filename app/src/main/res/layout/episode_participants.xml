@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:theme="@style/AppTheme"
+    android:background="@android:color/white"
+    android:clickable="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#42ffbf"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:transitionGroup="true"/>
+
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fabAddParticipant"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        fab:fab_colorNormal="#42ffbf"
+        fab:fab_colorPressed="#FF239A72"
+        fab:fab_colorRipple="#FF239A72"
+        android:src="@mipmap/ic_person_add_black_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"/>
+
+</RelativeLayout>
