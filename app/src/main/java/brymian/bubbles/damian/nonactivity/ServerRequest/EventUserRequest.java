@@ -47,6 +47,13 @@ public class EventUserRequest {
         new GetEventUserData(eid, uid, eventUserCallback).execute();
     }
 
+    public void getEventUsersData(String eventUserInviteStatusTypeLabel, Integer eid, StringCallback stringCallback)
+    {
+        pd.show();
+        new GetEventUsersData(eventUserInviteStatusTypeLabel, eid, stringCallback).execute();
+    }
+
+
 
 
     private class AddUserToEvent extends AsyncTask<Void, Void, String> {
@@ -67,7 +74,7 @@ public class EventUserRequest {
         @Override
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
-                "AndroidIO/EventUserRequest.php?function=addUserToEvent";
+                    "AndroidIO/EventUserRequest.php?function=addUserToEvent";
 
             Post request = new Post();
 
@@ -104,6 +111,8 @@ public class EventUserRequest {
         }
 
     }
+
+
 
     private class GetEventUserData extends AsyncTask<Void, Void, EventUser> {
 
@@ -168,6 +177,61 @@ public class EventUserRequest {
             eventUserCallback.done(eventUser);
 
             super.onPostExecute(eventUser);
+        }
+
+    }
+
+
+
+    private class GetEventUsersData extends AsyncTask<Void, Void, String> {
+
+        Integer eid;
+        String eventUserInviteStatusTypeLabel;
+        StringCallback stringCallback;
+
+        private GetEventUsersData(String eventUserInviteStatusTypeLabel, Integer eid, StringCallback stringCallback)
+        {
+            this.eventUserInviteStatusTypeLabel = eventUserInviteStatusTypeLabel;
+            this.eid = eid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() +
+                    "AndroidIO/EventUserRequest.php?function=getEventUsersData";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventUserObject = new JSONObject();
+                jsonEventUserObject.put("eid", getNullOrValue(eid));
+                jsonEventUserObject.put("eventUserInviteStatusTypeLabel", getNullOrValue(eventUserInviteStatusTypeLabel));
+
+                String jsonEventUserString = jsonEventUserObject.toString();
+                String response = request.post(url, jsonEventUserString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
         }
 
     }

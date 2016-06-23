@@ -8,6 +8,8 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.objects.Event;
@@ -494,6 +496,16 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
+        new FriendshipStatusRequest(this).unFriend(22, 1, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING CANCEL FRIEND RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        */
+        /*
         new MiscellaneousRequest(this).incrementObjectViewCount(38, "Event", new StringCallback() {
             @Override
             public void done(String string) {
@@ -501,6 +513,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
+        */
         /*
         new EventRequest(this).getEventDataByTopNViews(3, new EventListCallback() {
             @Override
@@ -935,6 +948,12 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new EventUserRequest(this).getEventUsersData("Joined", 56, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
     }
 
 }
