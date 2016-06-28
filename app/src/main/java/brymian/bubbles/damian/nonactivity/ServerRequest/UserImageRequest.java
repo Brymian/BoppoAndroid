@@ -45,9 +45,9 @@ public class UserImageRequest {
 
 
 
-    public void addImagesToEvent(Integer eid, Integer uid, List<Integer> uiids, StringCallback stringCallback) {
+    public void addImagesToEvent(Integer eid, List<Integer> uiids, StringCallback stringCallback) {
         pd.show();
-        new AddImagesToEvent(eid, uid, uiids, stringCallback).execute();
+        new AddImagesToEvent(eid, uiids, stringCallback).execute();
     }
 
     public void getImagesByEid(Integer eid, StringCallback stringCallback) {
@@ -55,16 +55,18 @@ public class UserImageRequest {
         new GetImagesByEid(eid, stringCallback).execute();
     }
 
-    public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
+    public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, Boolean eventIndicator,
+        ImageListCallback imageListCallback) {
         //pd.show();
-        new GetImagesByUidAndPurpose(uid, imagePurposeLabel, imageListCallback).execute();
+        new GetImagesByUidAndPurpose(uid, imagePurposeLabel,eventIndicator,  imageListCallback).execute();
     }
 
     public void getImagesByPrivacyAndPurpose(String imagePrivacyLabel, String imagePurposeLabel,
-        ImageListCallback imageListCallback)
+        Boolean eventIndicator, ImageListCallback imageListCallback)
     {
-        //pd.show();
-        new GetImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, imageListCallback).execute();
+        pd.show();
+        new GetImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, eventIndicator,
+            imageListCallback).execute();
     }
 
     public void getImageProfileMaxAmount(IntegerCallback integerCallback)
@@ -87,13 +89,11 @@ public class UserImageRequest {
     private class AddImagesToEvent extends AsyncTask<Void, Void, String> {
 
         Integer eid;
-        Integer uid;
         List<Integer> uiids;
         StringCallback stringCallback;
 
-        private AddImagesToEvent(Integer eid, Integer uid, List<Integer> uiids, StringCallback stringCallback) {
+        private AddImagesToEvent(Integer eid, List<Integer> uiids, StringCallback stringCallback) {
             this.eid = eid;
-            this.uid = uid;
             this.uiids = uiids;
             this.stringCallback = stringCallback;
         }
@@ -109,7 +109,6 @@ public class UserImageRequest {
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("eid", getNullOrValue(eid));
-                jsonObject.put("uid", getNullOrValue(uid));
                 JSONArray jsonArray = new JSONArray(uiids);
                 jsonObject.put("uiids", jsonArray);
                 String jsonString = jsonObject.toString();
@@ -197,11 +196,14 @@ public class UserImageRequest {
 
         Integer uid;
         String imagePurposeLabel;
+        Boolean eventIndicator;
         ImageListCallback imageListCallback;
 
-        private GetImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, ImageListCallback imageListCallback) {
+        private GetImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, Boolean eventIndicator,
+            ImageListCallback imageListCallback) {
             this.uid = uid;
             this.imagePurposeLabel = imagePurposeLabel;
+            this.eventIndicator = eventIndicator;
             this.imageListCallback = imageListCallback;
         }
 
@@ -215,10 +217,11 @@ public class UserImageRequest {
 
             try {
 
-                JSONObject jsonImageObject = new JSONObject();
-                jsonImageObject.put("uid", getNullOrValue(uid));
-                jsonImageObject.put("imagePurposeLabel", imagePurposeLabel);
-                String jsonImageString = jsonImageObject.toString();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("uid", getNullOrValue(uid));
+                jsonObject.put("imagePurposeLabel", imagePurposeLabel);
+                jsonObject.put("eventIndicator", getNullOrValue(eventIndicator));
+                String jsonImageString = jsonObject.toString();
 
                 String response = request.post(url, jsonImageString);
 
@@ -274,14 +277,15 @@ public class UserImageRequest {
 
         String imagePrivacyLabel;
         String imagePurposeLabel;
+        Boolean eventIndicator;
         ImageListCallback imageListCallback;
 
         private GetImagesByPrivacyAndPurpose(String imagePrivacyLabel, String imagePurposeLabel,
-             ImageListCallback imageListCallback)
+             Boolean eventIndicator, ImageListCallback imageListCallback)
         {
             this.imagePrivacyLabel = imagePrivacyLabel;
             this.imagePurposeLabel = imagePurposeLabel;
-
+            this.eventIndicator = eventIndicator;
             this.imageListCallback = imageListCallback;
         }
 
@@ -293,14 +297,16 @@ public class UserImageRequest {
             Post request = new Post();
             try
             {
-                JSONObject jsonImageObject = new JSONObject();
+                JSONObject jsonObject = new JSONObject();
 
-                jsonImageObject.put("imagePrivacyLabel", getNullOrValue(imagePrivacyLabel));
-                jsonImageObject.put("imagePurposeLabel", getNullOrValue(imagePurposeLabel));
+                jsonObject.put("imagePrivacyLabel", getNullOrValue(imagePrivacyLabel));
+                jsonObject.put("imagePurposeLabel", getNullOrValue(imagePurposeLabel));
+                jsonObject.put("eventIndicator", getNullOrValue(eventIndicator));
 
-                String jsonImageString = jsonImageObject.toString();
+                String jsonImageString = jsonObject.toString();
 
                 String response = request.post(url, jsonImageString);
+                System.out.println(response);
                 JSONArray jImageArray = new JSONArray(response);
 
                 List<Image> imageList = new ArrayList<>();

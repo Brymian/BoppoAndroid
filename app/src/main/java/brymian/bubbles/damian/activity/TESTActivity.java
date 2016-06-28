@@ -3,16 +3,28 @@ package brymian.bubbles.damian.activity;
 import android.app.Activity;
 import android.os.Bundle;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.objects.Event;
+import brymian.bubbles.objects.Image;
+
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -116,7 +128,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", true, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
                 System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
@@ -137,8 +149,28 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", false, new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
 
-        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+                for (Image image : images) {
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
+        new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", null, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
                 System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
@@ -160,6 +192,72 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", true, new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
+                for (Image image : images) {
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
+        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", false, new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
+                for (Image image : images) {
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
+        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", null, new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
+                Boolean lel = true;
+                System.out.println(lel);
+
+                for (Image image : images) {
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
         /*
         int uidA = 1;
         String facebookUid = "1098660393497582";
@@ -896,7 +994,7 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new UserImageRequest(this).addImagesToEvent(59, 1, Arrays.asList(1, 4, 7), new StringCallback() {
+        new UserImageRequest(this).addImagesToEvent(59, Arrays.asList(1, 4, 7), new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("<!!!> JSON STRING: <!!!>");
@@ -914,9 +1012,13 @@ public class TESTActivity extends Activity {
                 catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-        new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
+        */
+        /*
+        new UserImageRequest(this).getImagesByEid(59, true, new StringCallback() {
             @Override
             public void done(String string) {
+                System.out.println(string);
+                /*
                 System.out.println("<!!!> JSON STRING: <!!!>");
                 System.out.println(string);
                 System.out.println("<!!!> END OF JSON STRING: <!!!>");
@@ -945,15 +1047,30 @@ public class TESTActivity extends Activity {
                     }
                 }
                 catch (JSONException jsone) { jsone.printStackTrace(); }
+                *
+            }
+        });
+        new UserImageRequest(this).getImagesByEid(59, false, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+        new UserImageRequest(this).getImagesByEid(59, null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
             }
         });
         */
+        /*
         new EventUserRequest(this).getEventUsersData("Joined", 56, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
+        */
     }
 
 }

@@ -14,13 +14,13 @@ import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 public class GetImage {
 
     public static void image(final Activity activity, int uid, String purpose){
-        new UserImageRequest(activity).getImagesByUidAndPurpose(uid, purpose, new ImageListCallback() {
+
+        new UserImageRequest(activity).getImagesByUidAndPurpose(uid, purpose, null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 System.out.println("imageList.size(): " + imageList.size());
                 Toast.makeText(activity, "imageList.size(): " + imageList.size(), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 }

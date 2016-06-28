@@ -253,7 +253,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void getProfilePictures(int uid){
-        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {

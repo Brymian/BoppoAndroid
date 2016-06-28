@@ -123,7 +123,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     private void getUserImages(int uid){
-        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Regular", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Regular", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() != 0) {
@@ -159,7 +159,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     private void getAllImages(){
-        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 try {

@@ -69,7 +69,7 @@ public class TabFragment1 extends Fragment implements View.OnClickListener{
     }
 
     private void getImages(){
-        new UserImageRequest(getActivity()).getImagesByPrivacyAndPurpose("Public", "Regular", new ImageListCallback() {
+        new UserImageRequest(getActivity()).getImagesByPrivacyAndPurpose("Public", "Regular", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 try {

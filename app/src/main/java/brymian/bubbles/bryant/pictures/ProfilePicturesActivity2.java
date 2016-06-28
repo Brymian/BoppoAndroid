@@ -168,7 +168,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
     }
 
     private void getProfileImages() {
-        new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
@@ -179,7 +179,6 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
                 }
             }
         });
-
     }
 
     private void uploadAlert() {
