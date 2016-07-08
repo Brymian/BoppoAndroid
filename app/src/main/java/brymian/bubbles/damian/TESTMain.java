@@ -11,6 +11,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
 import brymian.bubbles.objects.Event;

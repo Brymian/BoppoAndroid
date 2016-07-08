@@ -43,6 +43,11 @@ public class Miscellaneous {
                 return JSONObject.NULL;
             else
                 return (Integer)object;
+        else if (object instanceof Long)
+            if ((Long)object == -1L)
+                return JSONObject.NULL;
+            else
+                return (Long)object;
         else if (object instanceof Double)
             if ((Double)object == -1.0)
                 return JSONObject.NULL;
@@ -70,7 +75,7 @@ public class Miscellaneous {
 
     public static Long getLongObjectFromObject(Object object)
     {
-        try { return Long.valueOf((Integer)object); }
+        try { return Long.valueOf((String)object); }
         catch (ClassCastException cce) { System.out.println("ERROR CASTING: " + object.toString()); return null; }
     }
 

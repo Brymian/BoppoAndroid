@@ -19,7 +19,9 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.Image;
 
@@ -192,6 +194,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", true, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -258,6 +261,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+        */
         /*
         int uidA = 1;
         String facebookUid = "1098660393497582";
@@ -705,6 +709,106 @@ public class TESTActivity extends Activity {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING SET OBJECT LIKE OR DISLIKE RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        */
+        /*
+        new UserCommentRequest(this).setObjectComment(3, "Event", 53, null,
+            "This is the second test comment.", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(1, "User Image", 10, null,
+            "gadgafd", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(3, "User Image", 22, null,
+            "sdhghdsfgfddfs", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(4, "User Image", 22, null,
+            "MORE GIBBERISH.", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(4, "User Image", 22, null,
+            "AAAAAAAAAAAAAAAH", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(5, "User Image", 24, null,
+            "The rofflecopter goes schwooh schwooh schwooh", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(1, "User", 3, null,
+            "Sup dawg?", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(3, "User", 3, null,
+            "Updog.", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(3, "User", 3, null,
+            "fghhdsfgsdfsdfhgdfgfsadsfdg", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        try {Thread.sleep(1000);} catch (InterruptedException ie) { ie.printStackTrace();}
+        new UserCommentRequest(this).setObjectComment(3, "User", 1, null,
+            "Amigo!", null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING SET OBJECT COMMENT RESPONSE HAS BEEN RETURNED: ");
+                System.out.println(string);
+            }
+        });
+        */
+        /*
+        new UserCommentRequest(this).getObjectComments("User Image", 22L, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING GET OBJECT COMMENTS RESPONSE HAS BEEN RETURNED: ");
                 System.out.println(string);
             }
         });
