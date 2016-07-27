@@ -25,7 +25,8 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 public class EpisodeActivity extends Activity implements View.OnClickListener{
     TextView tvEpisodeTitle, tvEpisodeHostName, tvLikeCount, tvDislikeCount, tvViewCount;
     FloatingActionButton fabLike, fabDislike, fabGoBack, fabPlay, fabMap, fabComment, fabParticipants, fabSettings;
-    int eid;
+    public static int eid;
+    private boolean isHost;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +89,10 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
             case R.id.fabParticipants:
                 startFragment(fm, R.id.episode_activity, new EpisodeParticipants());
                 break;
+
+            case R.id.fabPlay:
+                startFragment(fm, R.id.episode_activity, new EpisodeView());
+                break;
         }
     }
 
@@ -111,10 +116,21 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
         fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
         fabGoBack.setOnClickListener(this);
         fabPlay = (FloatingActionButton) findViewById(R.id.fabPlay);
+        fabPlay.setOnClickListener(this);
 
         fabSettings = (FloatingActionButton) findViewById(R.id.fabSettings);
+
+        if(getIsHost()){
+            fabSettings.setOnClickListener(this);
+        }else{
+            fabSettings.hide(true);
+            //fabSettings.show(false);
+        }
+
+
         fabComment = (FloatingActionButton) findViewById(R.id.fabComment);
         fabParticipants = (FloatingActionButton) findViewById(R.id.fabParticipants);
+        fabParticipants.setOnClickListener(this);
         fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
     }
 
@@ -127,6 +143,14 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
                 tvLikeCount.setText(String.valueOf(event.eventLikeCount));
                 tvDislikeCount.setText(String.valueOf(event.eventDislikeCount));
                 tvViewCount.setText(String.valueOf(event.eventViewCount));
+                Log.e("View Count", ""+event.eventViewCount);
+                Log.e("Episode EID", ""+event.eid);
+                if(event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
+                    setIsHost(true);
+                }
+                else{
+                    setIsHost(false);
+                }
             }
         });
     }
@@ -141,11 +165,19 @@ public class EpisodeActivity extends Activity implements View.OnClickListener{
     }
 
     private void setEid(int eid){
-        this.eid = eid;
+        EpisodeActivity.eid = eid;
     }
 
-    private int getEid(){
+    public static int getEid(){
         return eid;
+    }
+
+    private void setIsHost(boolean isHost){
+        this.isHost = isHost;
+    }
+
+    private boolean getIsHost(){
+        return isHost;
     }
 
 }

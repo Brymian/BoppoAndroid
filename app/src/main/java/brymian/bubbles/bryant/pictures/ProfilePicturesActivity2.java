@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -33,7 +34,6 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Image;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;

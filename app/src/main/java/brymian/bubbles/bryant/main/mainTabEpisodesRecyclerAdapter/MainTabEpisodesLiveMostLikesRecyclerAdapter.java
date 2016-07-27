@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.main;
+package brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter;
 
 
 import android.app.Activity;
@@ -16,19 +16,19 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
-public class MainTabEpisodesLiveTopRatedRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesLiveTopRatedRecyclerAdapter.RecyclerViewHolder> {
+public class MainTabEpisodesLiveMostLikesRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesLiveMostLikesRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> episodeTitle;
     List<String> episodeHostName;
     static List<Integer> episodeEid;
-    List<Double> episodeRating;
+    List<Integer> episodeLikeCount;
 
-    public MainTabEpisodesLiveTopRatedRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<Double> episodeRating){
-        MainTabEpisodesLiveTopRatedRecyclerAdapter.activity = activity;
+    public MainTabEpisodesLiveMostLikesRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<Integer> episodeLikeCount){
+        MainTabEpisodesLiveMostLikesRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
-        MainTabEpisodesLiveTopRatedRecyclerAdapter.episodeEid = episodeEid;
-        this.episodeRating = episodeRating;
+        MainTabEpisodesLiveMostLikesRecyclerAdapter.episodeEid = episodeEid;
+        this.episodeLikeCount = episodeLikeCount;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class MainTabEpisodesLiveTopRatedRecyclerAdapter extends RecyclerView.Ada
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
         holder.tvEpisodeHostName.setText(episodeHostName.get(position));
-        holder.tvEpisodeNum.setText(String.valueOf(episodeRating.get(position)));
+        holder.tvEpisodeNum.setText(String.valueOf(episodeLikeCount.get(position)));
     }
 
     @Override
@@ -63,7 +63,8 @@ public class MainTabEpisodesLiveTopRatedRecyclerAdapter extends RecyclerView.Ada
             ivMoreInformation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class)
+                            .putExtra("eid", episodeEid.get(getAdapterPosition())));
                 }
             });
         }

@@ -13,97 +13,133 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@string/Live"
             android:gravity="center"
-            android:text="@string/live_in_your_neighborhood"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:textAppearance="?android:textAppearanceMedium" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:text="@string/IN_YOUR_NEIGHBORHOOD"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLiveInYourNeighborhood"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/live_most_views"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/MOST_VIEWS"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLiveMostViews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/live_top_rated"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/TOP_RATED"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLiveTopRated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/live_most_likes"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/MOST_LIKES"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLiveMostLikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/All_Time"
+            android:gravity="center"
+            android:textAppearance="?android:textAppearanceMedium" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/All_time_most_views"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/MOST_VIEWS"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostViews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/All_time_top_rated"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/TOP_RATED"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeTopRated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/All_time_most_likes"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/MOST_LIKES"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostLikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/All_time_most_dislikes"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:gravity="left|center_vertical"
+            android:text="@string/MOST_DISLIKES"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostDislikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
     </LinearLayout>
 </ScrollView>
 

@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.main;
+package brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter;
 
 
 import android.app.Activity;
@@ -17,18 +17,18 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
 
-public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeMostViewsRecyclerAdapter.RecyclerViewHolder> {
+public class MainTabEpisodesAllTimeMostDislikesRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeMostDislikesRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> episodeTitle;
     List<String> episodeHostName;
     static List<Integer> episodeEid;
     List<String> episodeNum;
 
-    public MainTabEpisodesAllTimeMostViewsRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<String> episodeNum){
-        MainTabEpisodesAllTimeMostViewsRecyclerAdapter.activity = activity;
+    public MainTabEpisodesAllTimeMostDislikesRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<String> episodeNum){
+        MainTabEpisodesAllTimeMostDislikesRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
-        MainTabEpisodesAllTimeMostViewsRecyclerAdapter.episodeEid = episodeEid;
+        MainTabEpisodesAllTimeMostDislikesRecyclerAdapter.episodeEid = episodeEid;
         this.episodeNum = episodeNum;
     }
 
@@ -70,3 +70,4 @@ public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView
         }
     }
 }
+

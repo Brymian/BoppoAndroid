@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.main;
+package brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter;
 
 
 import android.app.Activity;
@@ -16,20 +16,19 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
-public class MainTabEpisodesLiveMostViewsRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesLiveMostViewsRecyclerAdapter.RecyclerViewHolder> {
-
+public class MainTabEpisodesAllTimeTopRatedRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeTopRatedRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> episodeTitle;
     List<String> episodeHostName;
     static List<Integer> episodeEid;
-    List<Long> episodeViewCount;
+    List<Double> episodeRating;
 
-    public MainTabEpisodesLiveMostViewsRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<Long> episodeViewCount){
-        MainTabEpisodesLiveMostViewsRecyclerAdapter.activity = activity;
+    public MainTabEpisodesAllTimeTopRatedRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<Double> episodeRating){
+        MainTabEpisodesAllTimeTopRatedRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
-        MainTabEpisodesLiveMostViewsRecyclerAdapter.episodeEid = episodeEid;
-        this.episodeViewCount = episodeViewCount;
+        MainTabEpisodesAllTimeTopRatedRecyclerAdapter.episodeEid = episodeEid;
+        this.episodeRating = episodeRating;
     }
 
     @Override
@@ -42,7 +41,7 @@ public class MainTabEpisodesLiveMostViewsRecyclerAdapter extends RecyclerView.Ad
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
         holder.tvEpisodeHostName.setText(episodeHostName.get(position));
-        holder.tvEpisodeNum.setText(String.valueOf(episodeViewCount.get(position)));
+        holder.tvEpisodeNum.setText(String.valueOf(episodeRating.get(position)));
     }
 
     @Override
@@ -70,3 +69,4 @@ public class MainTabEpisodesLiveMostViewsRecyclerAdapter extends RecyclerView.Ad
         }
     }
 }
+

@@ -1,4 +1,4 @@
-package brymian.bubbles.bryant.main;
+package brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter;
 
 
 import android.app.Activity;
@@ -16,19 +16,20 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
-public class MainTabEpisodesAllTimeTopRatedRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeTopRatedRecyclerAdapter.RecyclerViewHolder> {
+
+public class MainTabEpisodesAllTimeMostLikesRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeMostLikesRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> episodeTitle;
     List<String> episodeHostName;
     static List<Integer> episodeEid;
-    List<Double> episodeRating;
+    List<String> episodeNum;
 
-    public MainTabEpisodesAllTimeTopRatedRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<Double> episodeRating){
-        MainTabEpisodesAllTimeTopRatedRecyclerAdapter.activity = activity;
+    public MainTabEpisodesAllTimeMostLikesRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<String> episodeNum){
+        MainTabEpisodesAllTimeMostLikesRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
-        MainTabEpisodesAllTimeTopRatedRecyclerAdapter.episodeEid = episodeEid;
-        this.episodeRating = episodeRating;
+        MainTabEpisodesAllTimeMostLikesRecyclerAdapter.episodeEid = episodeEid;
+        this.episodeNum = episodeNum;
     }
 
     @Override
@@ -41,7 +42,7 @@ public class MainTabEpisodesAllTimeTopRatedRecyclerAdapter extends RecyclerView.
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
         holder.tvEpisodeHostName.setText(episodeHostName.get(position));
-        holder.tvEpisodeNum.setText(String.valueOf(episodeRating.get(position)));
+        holder.tvEpisodeNum.setText(episodeNum.get(position));
     }
 
     @Override
@@ -69,4 +70,3 @@ public class MainTabEpisodesAllTimeTopRatedRecyclerAdapter extends RecyclerView.
         }
     }
 }
-

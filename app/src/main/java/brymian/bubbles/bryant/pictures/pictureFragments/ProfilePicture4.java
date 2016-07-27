@@ -8,9 +8,7 @@ import android.view.ViewGroup;
 
 import brymian.bubbles.R;
 
-/**
- * Created by Almanza on 3/17/2016.
- */
+
 public class ProfilePicture4 extends Fragment{
 
     @Override

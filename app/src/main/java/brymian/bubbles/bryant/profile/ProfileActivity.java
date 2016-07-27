@@ -166,7 +166,12 @@ public class ProfileActivity extends AppCompatActivity {
         fabRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                new FriendshipStatusRequest(ProfileActivity.this).unFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
 

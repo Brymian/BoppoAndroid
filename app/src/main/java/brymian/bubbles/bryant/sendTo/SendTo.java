@@ -18,6 +18,9 @@ import android.widget.Toast;
 
 import com.github.clans.fab.FloatingActionButton;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     CheckBox cbMap, cbPrivate, cbCurrentLocation;
     FloatingActionButton fabDone;
     String privacy = "Public", encodedImage;
+    List<Integer> uiid = new ArrayList<>();
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -68,17 +72,23 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tvPrivate = (TextView) findViewById(R.id.tvPrivate);
+        tvPrivate.setTextColor(Color.GRAY);
         tvCurrentLocation = (TextView) findViewById(R.id.tvCurrentLocation);
+        tvCurrentLocation.setTextColor(Color.GRAY);
         cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
         if(SaveSharedPreference.getUserPicturePrivacy(this).length() != 0){
             cbPrivate.setChecked(true);
             privacy = "Private";
         }
         cbPrivate.setOnCheckedChangeListener(this);
+        cbPrivate.setClickable(false);
         cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
         cbCurrentLocation.setOnCheckedChangeListener(this);
+        cbCurrentLocation.setClickable(false);
         cbMap = (CheckBox) findViewById(R.id.cbMap);
         cbMap.setOnCheckedChangeListener(this);
+
+
         recyclerView = (RecyclerView) findViewById(R.id.rvMyEpisodes);
         setLiveParticipatedEpisodes();
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
@@ -101,12 +111,14 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                     tvCurrentLocation.setTextColor(Color.BLACK);
                     cbPrivate.setClickable(true);
                     cbCurrentLocation.setClickable(true);
+                    setIsChecked(true);
                 }
                 else{
                     tvPrivate.setTextColor(Color.GRAY);
                     tvCurrentLocation.setTextColor(Color.GRAY);
                     cbPrivate.setClickable(false);
-                    cbPrivate.setClickable(false);
+                    cbCurrentLocation.setClickable(false);
+                    setIsChecked(false);
                 }
                 break;
             case R.id.cbPrivate:
@@ -156,7 +168,19 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
             Episode singleEpisode = singleEpisodeList.get(i);
             if(singleEpisode.getIsSelected()){
                 uploadImage();
-                //new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), SaveSharedPreference.getUserUID(this), );
+                new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        try{
+                            JSONArray jArray = new JSONArray(string);
+                            for(int i =0; i < jArray.length(); i++){
+                                Log.e("JSON String","Status of Adding Image #" + i + " to UIID: " + jArray.get(i));
+                            }
+                        }catch (JSONException jsone){
+                            jsone.printStackTrace();
+                        }
+                    }
+                });
             }
         }
     }
@@ -183,13 +207,21 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         });
     }
 
-    int uiid;
     private void setUiid(int uiid){
-        this.uiid = uiid;
+        this.uiid.add(uiid);
     }
 
-    private int getUiid(){
+    private List<Integer> getUiid(){
         return uiid;
+    }
+
+    boolean isChecked;
+    private void setIsChecked(boolean isChecked){
+        this.isChecked = isChecked;
+    }
+
+    private boolean getIsChecked(){
+        return isChecked;
     }
 
     private String imageName(){

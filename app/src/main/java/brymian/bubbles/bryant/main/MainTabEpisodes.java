@@ -17,6 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesAllTimeMostDislikesRecyclerAdapter;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesAllTimeMostLikesRecyclerAdapter;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesAllTimeMostViewsRecyclerAdapter;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesAllTimeTopRatedRecyclerAdapter;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesLiveMostLikesRecyclerAdapter;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesLiveMostViewsRecyclerAdapter;
+import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesLiveTopRatedRecyclerAdapter;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
@@ -38,55 +45,39 @@ public class MainTabEpisodes extends Fragment {
         rvAllTimeTopRated = (RecyclerView) rootView.findViewById(R.id.rvAllTimeTopRated);
         rvAllTimeMostLikes = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostLikes);
         rvAllTimeMostDislikes = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostDislikes);
-        setLiveMostLikesEpisodes();
+
+        /* in order from top to bottom */
+        /* LIVE */
+        setLiveInYourNeighborhood();
         setLiveMostViewsEpisodes();
         setLiveTopRated();
+        setLiveMostLikesEpisodes();
+        setLiveMostDislikesEpisodes();
+
+        /* ALL TIME */
+        setAllTimeMostViewsEpisodes();
         setALlTimeTopRated();
         setAllTimeMostLikesEpisodes();
         setAllTimeMostDislikes();
-        setAllTimeMostViewsEpisodes();
 
         return rootView;
     }
 
-
-    private void setLiveMostLikesEpisodes(){
-        new EventRequest(getActivity()).getLiveEventDataByTopNLikes(5, new EventListCallback() {
+    private void setLiveInYourNeighborhood(){
+        new EventRequest(getActivity()).getLiveEventDataByRadius(1.0, 0.0, 0.0, new StringCallback() {
             @Override
-            public void done(List<Event> eventList) {
-                try{
-                    if(eventList.size() > 0){
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<Integer> episodeLikeCount = new ArrayList<>();
-                        for (int i = 0; i < eventList.size(); i++) {
-                            episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
-                            episodeEid.add(eventList.get(i).eid);
-                            Log.e("live likes", "eid: "+eventList.get(i).eid);
-                            episodeLikeCount.add(eventList.get(i).eventLikeCount);
-                        }
-
-                        adapter = new MainTabEpisodesLiveMostLikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeLikeCount);
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvLiveMostLikes.setLayoutManager(layoutManager);
-                        rvLiveMostLikes.setAdapter(adapter);
-                    }
-                }
-                catch (NullPointerException npe){
-                    npe.printStackTrace();
-                }
+            public void done(String string) {
 
             }
         });
     }
 
-
     private void setLiveMostViewsEpisodes(){
         new EventRequest(getActivity()).getLiveEventDataByTopNViews(5, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
+                System.out.println("Live Most Views");
+                Log.e("Live Views", ""+eventList.size());
                 if(eventList.size() > 0){
                     List<String> episodeTitle = new ArrayList<>();
                     List<String> episodeHostName = new ArrayList<>();
@@ -114,6 +105,8 @@ public class MainTabEpisodes extends Fragment {
             @Override
             public void done(String string) {
                 try{
+                    System.out.println("Live Top Rated");
+                    Log.e("Live Top Rated", "string: "+string.length());
                     if(string.length() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
                         List<String> episodeHostName = new ArrayList<>();
@@ -127,6 +120,9 @@ public class MainTabEpisodes extends Fragment {
                             episodeHostName.add(jEvent.getString("eventHostFirstName") + " " + jEvent.getString("eventHostLastName"));
                             episodeEid.add(jEvent.getInt("eid"));
                             episodeRating.add(jEvent.getDouble("eventRatingRatio"));
+                            Log.e("Live Top Rated", "eventName: "+jEvent.getString("eventName"));
+                            Log.e("Live Top Rated", "eventHostName: " + jEvent.getString("eventHostFirstName") + " " + jEvent.getString("eventHostLastName"));
+                            Log.e("Live Top Rated", "eid: " +jEvent.getInt("eid"));
                         }
 
                         adapter = new MainTabEpisodesLiveTopRatedRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeRating);
@@ -142,6 +138,80 @@ public class MainTabEpisodes extends Fragment {
         });
     }
 
+    private void setLiveMostLikesEpisodes(){
+        new EventRequest(getActivity()).getLiveEventDataByTopNLikes(5, new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+                try{
+                    System.out.println("Live Most Likes");
+                    Log.e("Live Likes", ""+eventList.size());
+                    if(eventList.size() > 0){
+                        List<String> episodeTitle = new ArrayList<>();
+                        List<String> episodeHostName = new ArrayList<>();
+                        List<Integer> episodeEid = new ArrayList<>();
+                        List<Integer> episodeLikeCount = new ArrayList<>();
+                        for (int i = 0; i < eventList.size(); i++) {
+                            episodeTitle.add(eventList.get(i).eventName);
+                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
+                            episodeEid.add(eventList.get(i).eid);
+                            Log.e("live likes", "eid: "+eventList.get(i).eid);
+                            episodeLikeCount.add(eventList.get(i).eventLikeCount);
+                        }
+
+                        adapter = new MainTabEpisodesLiveMostLikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeLikeCount);
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rvLiveMostLikes.setLayoutManager(layoutManager);
+                        rvLiveMostLikes.setAdapter(adapter);
+                    }
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
+
+            }
+        });
+    }
+
+    private void setLiveMostDislikesEpisodes(){
+        new EventRequest(getActivity()).getLiveEventDataByTopNDislikes(5, new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+
+            }
+        });
+    }
+
+
+    private void setAllTimeMostViewsEpisodes(){
+        new EventRequest(getActivity()).getEventDataByTopNViews(5, new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+                try {
+                    if (eventList.size() > 0) {
+                        List<String> episodeTitle = new ArrayList<>();
+                        List<String> episodeHostName = new ArrayList<>();
+                        List<Integer> episodeEid = new ArrayList<>();
+                        List<String> episodeViewCount = new ArrayList<>();
+                        for (int i = 0; i < eventList.size(); i++) {
+                            episodeTitle.add(eventList.get(i).eventName);
+                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
+                            episodeEid.add(eventList.get(i).eid);
+                            episodeViewCount.add(String.valueOf(eventList.get(i).eventViewCount));
+                            Log.e("Alltime Views","View count" + eventList.get(i).eventViewCount);
+                        }
+
+                        adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeViewCount);
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rvAllTimeMostViews.setLayoutManager(layoutManager);
+                        rvAllTimeMostViews.setAdapter(adapter);
+                    }
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
+            }
+        });
+    }
 
     private void setALlTimeTopRated(){
         new EventRequest(getActivity()).getEventDataByTopNRatings(5, new StringCallback() {
@@ -199,36 +269,6 @@ public class MainTabEpisodes extends Fragment {
                         rvAllTimeMostLikes.setAdapter(adapter);
                     }
                 }catch (NullPointerException npe){
-                    npe.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void setAllTimeMostViewsEpisodes(){
-        new EventRequest(getActivity()).getEventDataByTopNViews(5, new EventListCallback() {
-            @Override
-            public void done(List<Event> eventList) {
-                try {
-                    if (eventList.size() > 0) {
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<String> episodeViewCount = new ArrayList<>();
-                        for (int i = 0; i < eventList.size(); i++) {
-                            episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
-                            episodeEid.add(eventList.get(i).eid);
-                            episodeViewCount.add(String.valueOf(eventList.get(i).eventViewCount));
-                        }
-
-                        adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeViewCount);
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvAllTimeMostViews.setLayoutManager(layoutManager);
-                        rvAllTimeMostViews.setAdapter(adapter);
-                    }
-                }
-                catch (NullPointerException npe){
                     npe.printStackTrace();
                 }
             }

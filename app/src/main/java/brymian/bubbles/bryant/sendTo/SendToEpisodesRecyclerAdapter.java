@@ -41,15 +41,9 @@ public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
             @Override
             public void onClick(View v) {
                 CheckBox cb = (CheckBox) v;
-                Friend contact = (Friend) cb.getTag();
-
+                Episode contact = (Episode) cb.getTag();
                 contact.setIsSelected(cb.isChecked());
                 episodeList.get(position).setIsSelected(cb.isChecked());
-
-                 Toast.makeText(
-                 v.getContext(),
-                 "Clicked on Checkbox: " + cb.getText() + " is "
-                 + cb.isChecked(), Toast.LENGTH_LONG).show();
             }
         });
 }
@@ -70,7 +64,6 @@ public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
         row = (LinearLayout) v.findViewById(R.id.row);
         cbSelected = (CheckBox) v.findViewById(R.id.cbSelected);
-
     }
 }
     // method to access in activity after updating selection

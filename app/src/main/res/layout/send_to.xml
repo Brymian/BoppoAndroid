@@ -22,19 +22,22 @@
         android:layout_below="@+id/toolbar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp">
         <TextView
             android:id="@+id/tvMap"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/Map"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:padding="10dp"/>
+            android:textAppearance="@android:style/TextAppearance.Large" />
         <CheckBox
             android:id="@+id/cbMap"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
     </LinearLayout>
 
 
@@ -45,13 +48,16 @@
         android:orientation="horizontal"
         android:layout_below="@+id/llMap"
         android:layout_alignLeft="@+id/llCurrentLocation"
-        android:layout_alignStart="@+id/llCurrentLocation">
+        android:layout_alignStart="@+id/llCurrentLocation"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
         <TextView
             android:id="@+id/tvPrivate"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Private"/>
+            android:text="@string/Private"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
         <CheckBox
             android:id="@+id/cbPrivate"
             android:layout_width="wrap_content"
@@ -63,13 +69,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/llPrivate">
+        android:layout_below="@+id/llPrivate"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
         <TextView
             android:id="@+id/tvCurrentLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/Current_Location"/>
+            android:text="@string/Current_Location"
+            android:textAppearance="@android:style/TextAppearance.Medium" />
         <CheckBox
             android:id="@+id/cbCurrentLocation"
             android:layout_width="wrap_content"
@@ -77,14 +86,17 @@
     </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Episodes"
         android:layout_below="@+id/llCurrentLocation"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/textView2"
-        android:textAppearance="@android:style/TextAppearance.Large"/>
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:paddingLeft="5dp"
+        android:paddingTop="5dp"
+        android:padding="5dp" />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvMyEpisodes"
         android:layout_width="match_parent"

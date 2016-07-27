@@ -14,18 +14,18 @@
             android:id="@+id/tvEpisodeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
+            android:textAppearance="?android:textAppearanceMedium"/>
         <TextView
             android:id="@+id/tvEpisodeHostName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@android:style/TextAppearance.Small"/>
+            android:textAppearance="?android:textAppearanceSmall"/>
     </LinearLayout>
     <TextView
         android:id="@+id/tvEpisodeNum"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="center" />
+        android:gravity="center" />
     <ImageView
         android:id="@+id/ivMoreInformation"
         android:layout_width="wrap_content"

@@ -12,7 +12,7 @@ public class SaveSharedPreference {
     static final String PREF_USER_LASTNAME = "last name";
     static final String PREF_USER_ACCOUNT_PRIVACY = "privacy";
     static final String PREF_USER_PICTURE_PRIVACY = "picture privacy";
-
+    static final String PREF_USER_SEND_TO_MAP = "map";
     static final String PREF_NOTIFICATIONS_VIBRATION = "vibration";
     static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
     static final String PREF_NOTIFICATIONS_SOUND = "sound";
@@ -265,6 +265,24 @@ public class SaveSharedPreference {
     public static void clearLongitude(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.remove(LONGITUDE);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
+    /**---------------------------------------Map------------------------------------------------**/
+    public static void setSendToMap(Context ctx, String map){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_SEND_TO_MAP, map);
+        editor.apply();
+    }
+
+    public static String getSendToMap(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_SEND_TO_MAP, "");
+    }
+
+    public static void clearSendToMap(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(ENCODED_IMAGE);
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/
