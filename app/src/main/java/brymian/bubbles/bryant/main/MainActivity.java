@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
+        /**
         //FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
         //famMenu.showMenuButton(true);
 
@@ -163,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        FloatingActionButton fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
+        //FloatingActionButton fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
         fabCreateEpisode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, EpisodeCreate.class));
             }
-        });
+        }); **/
 
     }
 
