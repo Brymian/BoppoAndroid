@@ -27,6 +27,7 @@ import brymian.bubbles.objects.Image;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -1003,7 +1004,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventRequest(this).getEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -1088,7 +1089,7 @@ public class TESTActivity extends Activity {
                 catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-        */
+
         /*
         new UserImageRequest(this).uploadImage(1, "UserImageName2", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
             @Override

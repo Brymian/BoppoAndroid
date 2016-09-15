@@ -34,7 +34,7 @@ public class MainApplication extends Application {
             Log.e("Name not found: ", e.toString());
         }
         catch (NoSuchAlgorithmException e) {
-            Log.e("No such an algorithm: ", e.toString());
+            Log.e("No such algorithm: ", e.toString());
         }
     }
 }

@@ -342,7 +342,7 @@ public class EventRequest {
                     getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                     getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                     getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                    getLongObjectFromObject(jEvent.get("eventViewCount"))
+                    jEvent.getLong("eventViewCount")
                 );
 
                 return event;
@@ -401,6 +401,8 @@ public class EventRequest {
 
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
+
+                System.out.println(jsonEventString);
 
                 return response;
             }
@@ -475,7 +477,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -553,7 +555,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -631,7 +633,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -711,7 +713,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -789,7 +791,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -852,22 +854,22 @@ public class EventRequest {
                 {
                     JSONObject jEvent = jEventArray.getJSONObject(i);
                     Event event = new Event(
-                            getIntegerObjectFromObject(jEvent.get("eid")),
-                            getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                            jEvent.getString("eventName"),
-                            jEvent.getString("eventHostUsername"),
-                            jEvent.getString("eventHostFirstName"),
-                            jEvent.getString("eventHostLastName"),
-                            jEvent.getString("eventInviteTypeLabel"),
-                            jEvent.getString("eventPrivacyLabel"),
-                            getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
-                            jEvent.getString("eventStartDatetime"),
-                            jEvent.getString("eventEndDatetime"),
-                            getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
-                            getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
-                            getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
-                            getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        getIntegerObjectFromObject(jEvent.get("eid")),
+                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
+                        jEvent.getString("eventName"),
+                        jEvent.getString("eventHostUsername"),
+                        jEvent.getString("eventHostFirstName"),
+                        jEvent.getString("eventHostLastName"),
+                        jEvent.getString("eventInviteTypeLabel"),
+                        jEvent.getString("eventPrivacyLabel"),
+                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
+                        jEvent.getString("eventStartDatetime"),
+                        jEvent.getString("eventEndDatetime"),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
+                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
+                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
+                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -945,7 +947,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -1023,7 +1025,7 @@ public class EventRequest {
                             getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                             getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                             getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                            jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -1101,7 +1103,7 @@ public class EventRequest {
                             getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                             getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                             getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                            getLongObjectFromObject(jEvent.get("eventViewCount"))
+                            jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
@@ -1179,7 +1181,7 @@ public class EventRequest {
                         getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
                         getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
                         getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        getLongObjectFromObject(jEvent.get("eventViewCount"))
+                        jEvent.getLong("eventViewCount")
                     );
                     eventList.add(event);
                 }
