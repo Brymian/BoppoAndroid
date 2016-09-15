@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -15,8 +16,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+//import com.github.clans.fab.FloatingActionButton;
+//import com.github.clans.fab.FloatingActionMenu;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
@@ -143,8 +144,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
-        famMenu.showMenuButton(true);
+
+        /**
+        //FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
+        //famMenu.showMenuButton(true);
 
         FloatingActionButton fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
         fabCamera.setOnClickListener(new View.OnClickListener() {
@@ -162,13 +165,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        FloatingActionButton fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
+        //FloatingActionButton fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
         fabCreateEpisode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, EpisodeCreate.class));
             }
-        });
+        }); **/
 
     }
 

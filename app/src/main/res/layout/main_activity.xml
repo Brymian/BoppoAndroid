@@ -34,6 +34,7 @@
             android:layout_height="fill_parent"
             android:layout_below="@id/tab_layout"
             android:background="@android:color/white"/>
+    <!--
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/famMenu"
@@ -67,7 +68,17 @@
                 android:src="@mipmap/ic_photo_camera_white_24dp"/>
 
         </com.github.clans.fab.FloatingActionMenu>
-    </RelativeLayout>
+
+        -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabMain"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
 
 
 
