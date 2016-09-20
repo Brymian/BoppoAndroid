@@ -37,23 +37,27 @@ public class MainTabEpisodes extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_tab_episodes, container, false);
+        /**
         rvLiveInYourNeighborhood = (RecyclerView) rootView.findViewById(R.id.rvLiveInYourNeighborhood);
         rvLiveMostViews = (RecyclerView) rootView.findViewById(R.id.rvLiveMostViews);
         rvLiveTopRated = (RecyclerView) rootView.findViewById(R.id.rvLiveTopRated);
         rvLiveMostLikes = (RecyclerView) rootView.findViewById(R.id.rvLiveMostLikes);
+         **/
         rvAllTimeMostViews = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostViews);
         rvAllTimeTopRated = (RecyclerView) rootView.findViewById(R.id.rvAllTimeTopRated);
         rvAllTimeMostLikes = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostLikes);
         rvAllTimeMostDislikes = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostDislikes);
 
+
         /* in order from top to bottom */
         /* LIVE */
-        setLiveInYourNeighborhood();
+        //setLiveInYourNeighborhood();
+        /**
         setLiveMostViewsEpisodes();
         setLiveTopRated();
         setLiveMostLikesEpisodes();
         setLiveMostDislikesEpisodes();
-
+        **/
         /* ALL TIME */
         setAllTimeMostViewsEpisodes();
         setALlTimeTopRated();
@@ -76,25 +80,35 @@ public class MainTabEpisodes extends Fragment {
         new EventRequest(getActivity()).getLiveEventDataByTopNViews(5, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-                System.out.println("Live Most Views");
-                Log.e("Live Views", ""+eventList.size());
-                if(eventList.size() > 0){
-                    List<String> episodeTitle = new ArrayList<>();
-                    List<String> episodeHostName = new ArrayList<>();
-                    List<Integer> episodeEid = new ArrayList<>();
-                    List<Long> episodeViewCount = new ArrayList<>();
-                    for(int i = 0; i < eventList.size(); i++){
-                        episodeTitle.add(eventList.get(i).eventName);
-                        episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
-                        Log.e("live views", "eid: "+eventList.get(i).eid);
-                        episodeEid.add(eventList.get(i).eid);
-                        episodeViewCount.add(eventList.get(i).eventViewCount);
-                    }
+                try {
+                    //if (eventList.size() > 0) {
+                        List<String> episodeTitle = new ArrayList<>();
+                        List<String> episodeHostName = new ArrayList<>();
+                        List<Integer> episodeEid = new ArrayList<>();
+                        List<Long> episodeViewCount = new ArrayList<>();
+                        for (int i = 0; i < eventList.size(); i++) {
+                            episodeTitle.add(eventList.get(i).eventName);
+                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
+                            Log.e("live views", "eid: " + eventList.get(i).eid);
+                            episodeEid.add(eventList.get(i).eid);
+                            episodeViewCount.add(eventList.get(i).eventViewCount);
+                        }
 
-                    adapter = new MainTabEpisodesLiveMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeViewCount);
-                    layoutManager = new LinearLayoutManager(getActivity());
-                    rvLiveMostViews.setLayoutManager(layoutManager);
-                    rvLiveMostViews.setAdapter(adapter);
+                        adapter = new MainTabEpisodesLiveMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeViewCount);
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rvLiveMostViews.setLayoutManager(layoutManager);
+                        rvLiveMostViews.setAdapter(adapter);
+                    /**
+                    }
+                    else{
+                        Log.e("Live views", "0");
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rvLiveMostViews.setLayoutManager(layoutManager);
+                    }
+                     **/
+                }
+                catch (NullPointerException e){
+                    e.printStackTrace();
                 }
             }
         });
@@ -129,6 +143,11 @@ public class MainTabEpisodes extends Fragment {
                         layoutManager = new LinearLayoutManager(getActivity());
                         rvLiveTopRated.setLayoutManager(layoutManager);
                         rvLiveTopRated.setAdapter(adapter);
+                    }
+                    else{
+                        Log.e("Live Top Rated", "else...");
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rvLiveTopRated.setLayoutManager(layoutManager);
                     }
                 }
                 catch (JSONException | NullPointerException e){
@@ -197,7 +216,7 @@ public class MainTabEpisodes extends Fragment {
                             episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
                             episodeEid.add(eventList.get(i).eid);
                             episodeViewCount.add(String.valueOf(eventList.get(i).eventViewCount));
-                            Log.e("Alltime Views","View count" + eventList.get(i).eventViewCount);
+                            Log.e("AllTime Views","View count: " + eventList.get(i).eventViewCount);
                         }
 
                         adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeViewCount);
@@ -219,6 +238,7 @@ public class MainTabEpisodes extends Fragment {
             public void done(String string) {
                 try{
                     if(string.length() > 0) {
+                        Log.e("AllTime Top Rated", "string: "+string);
                         List<String> episodeTitle = new ArrayList<>();
                         List<String> episodeHostName = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
@@ -231,6 +251,7 @@ public class MainTabEpisodes extends Fragment {
                             episodeHostName.add(jEvent.getString("eventHostFirstName") + " " + jEvent.getString("eventHostLastName"));
                             episodeEid.add(jEvent.getInt("eid"));
                             episodeRating.add(jEvent.getDouble("eventRatingRatio"));
+                            Log.e("AllTime Top Rated", "rating: " + episodeRating.get(i));
                         }
 
                         adapter = new MainTabEpisodesAllTimeTopRatedRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeRating);
@@ -251,6 +272,7 @@ public class MainTabEpisodes extends Fragment {
             @Override
             public void done(List<Event> eventList) {
                 try {
+                    Log.e("AllTime Most Likes", "eventList.size(): "+ eventList.size());
                     if (eventList.size() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
                         List<String> episodeHostName = new ArrayList<>();
@@ -261,6 +283,7 @@ public class MainTabEpisodes extends Fragment {
                             episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
                             episodeEid.add(eventList.get(i).eid);
                             episodeLikeCount.add(String.valueOf(eventList.get(i).eventLikeCount));
+                            Log.e("AllTime Most Likes", "Likes: " + episodeLikeCount.get(i));
                         }
 
                         adapter = new MainTabEpisodesAllTimeMostLikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeLikeCount);
@@ -280,6 +303,7 @@ public class MainTabEpisodes extends Fragment {
             @Override
             public void done(List<Event> eventList) {
                 try {
+                    Log.e("AllTime Most Dislikes","eventList.size(): " + eventList.size());
                     if (eventList.size() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
                         List<String> episodeHostName = new ArrayList<>();
@@ -290,6 +314,7 @@ public class MainTabEpisodes extends Fragment {
                             episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
                             episodeEid.add(eventList.get(i).eid);
                             episodeDislikeCount.add(String.valueOf(eventList.get(i).eventDislikeCount));
+                            Log.e("AllTime Most Dislikes", "Dislikes: " + episodeDislikeCount.get(i));
                         }
 
                         adapter = new MainTabEpisodesAllTimeMostDislikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeDislikeCount);

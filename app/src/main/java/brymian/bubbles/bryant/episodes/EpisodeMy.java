@@ -103,6 +103,9 @@ public class EpisodeMy extends AppCompatActivity {
                     rvEpisodesAttending.setLayoutManager(layoutManager);
                     rvEpisodesAttending.setAdapter(adapter);
                 }
+                else {
+                    Log.e("Attending Episodes", "Attending 0 events.");
+                }
             }
         });
     }

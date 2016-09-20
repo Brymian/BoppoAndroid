@@ -67,11 +67,13 @@ public class SearchTabFragmentUsers extends Fragment{
                             npe.printStackTrace();
                         }
 
+                        /**
                         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_users);
                         adapter = new SearchRecyclerAdapterUsers(getActivity(), usersFirstLastName, usersUsername, uid, friendStatus);
                         layoutManager = new LinearLayoutManager(getActivity());
                         recyclerView.setLayoutManager(layoutManager);
                         recyclerView.setAdapter(adapter);
+                         **/
 
                         /*
                         recyclerView.addOnItemTouchListener(new SearchRecyclerItemClickListener(getActivity(), new SearchRecyclerItemClickListener.OnItemClickListener() {

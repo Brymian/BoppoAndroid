@@ -34,7 +34,6 @@
             android:layout_height="fill_parent"
             android:layout_below="@id/tab_layout"
             android:background="@android:color/white"/>
-    <!--
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/famMenu"
@@ -69,7 +68,8 @@
 
         </com.github.clans.fab.FloatingActionMenu>
 
-        -->
+</RelativeLayout>
+<!--
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabMain"
         android:layout_height="wrap_content"
@@ -78,7 +78,9 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
-</RelativeLayout>
+        -->
+
+
 
 
 

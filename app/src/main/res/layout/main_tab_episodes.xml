@@ -10,12 +10,15 @@
         android:orientation="vertical"
         android:background="@android:color/white"
         android:theme="@style/AppTheme">
+
+        <!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/Live"
             android:gravity="center"
             android:textAppearance="?android:textAppearanceMedium" />
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -23,6 +26,7 @@
             android:text="@string/IN_YOUR_NEIGHBORHOOD"
             android:textAppearance="?android:textAppearanceSmall"
             android:paddingLeft="10dp" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvLiveInYourNeighborhood"
             android:layout_width="match_parent"
@@ -74,6 +78,8 @@
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
+
+        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -92,7 +98,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostViews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="275dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
@@ -107,7 +113,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeTopRated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="275dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
@@ -122,7 +128,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostLikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="275dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
@@ -137,7 +143,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostDislikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="275dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
     </LinearLayout>
