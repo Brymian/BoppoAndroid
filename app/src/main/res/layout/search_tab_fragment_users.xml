@@ -5,11 +5,9 @@
     android:background="@android:color/white"
     android:theme="@style/AppTheme"
     android:orientation="vertical">
-<!--
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_search_users"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"/>
-        -->
+        android:layout_height="match_parent" />
 </LinearLayout>

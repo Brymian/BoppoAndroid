@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="@android:color/white"
-        android:theme="@style/AppTheme">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@android:color/white"
+    android:theme="@style/AppTheme"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
         <!--
         <TextView
@@ -79,30 +81,22 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
-        -->
-        <TextView
+
+            EVERYTHING BELOW THIS IS JUST A TEMP COPY PASTE
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/All_Time"
             android:gravity="center"
             android:textAppearance="?android:textAppearanceMedium" />
-
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="@string/MOST_VIEWS"
             android:textAppearance="?android:textAppearanceSmall"
             android:paddingLeft="10dp" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAllTimeMostViews"
-            android:layout_width="match_parent"
-            android:layout_height="275dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
@@ -110,14 +104,7 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:paddingLeft="10dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAllTimeTopRated"
-            android:layout_width="match_parent"
-            android:layout_height="275dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
@@ -125,23 +112,51 @@
             android:textAppearance="?android:textAppearanceSmall"
             android:paddingLeft="10dp" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvAllTimeMostLikes"
-            android:layout_width="match_parent"
-            android:layout_height="275dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
-
-        <TextView
+            <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="@string/MOST_DISLIKES"
             android:textAppearance="?android:textAppearanceSmall"
             android:paddingLeft="10dp" />
+        -->
+
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeMostViews"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeTopRated"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAllTimeMostLikes"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="275dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostDislikes"
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="275dp"
             android:paddingLeft="10dp"
