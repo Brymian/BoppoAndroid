@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -257,6 +259,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+
     private void getProfilePictures(int uid){
         new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
             @Override
@@ -265,17 +268,24 @@ public class ProfileActivity extends AppCompatActivity {
                     for (int i = 0; i < imageList.size(); i++) {
                         new DownloadImage(imageList.get(i).userImagePath).execute();
                     }
+
+                    showSetProfileImagesArray();
                 }
             }
         });
     }
 
+    public static List<Bitmap> bitmapList = new ArrayList<>();
+
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
         String path;
-        //int location;
+
         public DownloadImage(String path){
             this.path = path;
-            //this.location = location;
+        }
+
+        public DownloadImage(){
+            super();
         }
 
         @Override
@@ -295,10 +305,51 @@ public class ProfileActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (bitmap!=null){
-                ivProfilePictures.setImageBitmap(bitmap);
+                //ivProfilePictures.setImageBitmap(bitmap);
+                bitmapList.add(bitmap);
+                Log.e("onPostExecute" , "bitmapList size: " + bitmapList.size());
             }
         }
     }
+
+    private void showSetProfileImagesArray(){
+        DownloadImage downloadImage = new DownloadImage();
+        
+        if(downloadImage.getStatus() == AsyncTask.Status.RUNNING){
+            Log.e("showSetProfileImagesArr", "this shit is still running");
+        }
+        Log.e("showSetProfileImagesArr", "size of list: " + bitmapList.size());
+
+        //ivProfilePictures.setImageBitmap(bitmapList.get(0));
+        //ivProfilePictures.setImageBitmap(bitmapList.get(1));
+        //ivProfilePictures.setImageBitmap(bitmapList.get(2));
+        //ivProfilePictures.setImageBitmap(bitmapList.get(3));
+        /**
+        new java.util.Timer().schedule(
+                new java.util.TimerTask(){
+                    @Override
+                    public void run() {
+                        Log.e("before", "works");
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.e("runOnUiThread", "working i guess");
+                                Log.e("runOnUiThread", ""+bitmapArray[0].getByteCount());
+                                Log.e("runOnUiThread", ""+bitmapArray[1].getByteCount());
+                                Log.e("runOnUiThread", ""+bitmapArray[2].getByteCount());
+                                Log.e("runOnUiThread", ""+bitmapArray[3].getByteCount());
+
+                                ivProfilePictures.setImageBitmap(bitmapArray[1]);
+                            }
+                        });
+                    }
+                },
+                5000
+        );
+
+         **/
+    }
+
 
     private void setUID(int uid){
         this.userUID = uid;

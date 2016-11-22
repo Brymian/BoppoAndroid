@@ -3,9 +3,18 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:id="@+id/row">
+
+    <ImageView
+        android:id="@+id/ivEpisodeImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:padding="10dp"
+        android:src="@mipmap/ic_add_a_photo_black_24dp"/>
+
     <LinearLayout
-        android:id="@+id/row"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -20,16 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAppearance="?android:textAppearanceSmall"/>
+        <TextView
+            android:id="@+id/tvEpisodeNum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceSmall"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/tvEpisodeNum"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="center" />
-    <ImageView
-        android:id="@+id/ivMoreInformation"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@mipmap/ic_info_outline_black_24dp"
-        android:padding="10dp"/>
 </LinearLayout>
