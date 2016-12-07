@@ -47,17 +47,24 @@ public class SearchTabFragmentEpisodes extends Fragment {
                     @Override
                     public void done(List<Event> eventList) {
                         List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
+                        List<String> episodeHostUsername = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
+                        List<String> episodeNum = new ArrayList<>();
                         if(eventList.size() > 0){
                             for(int i = 0; i < eventList.size(); i++){
-                                episodeEid.add(i, eventList.get(i).eid);
-                                episodeTitle.add(i, eventList.get(i).eventName);
-                                episodeHostName.add(i, eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);//suppose to be eventHostName
+                                episodeEid.add(eventList.get(i).eid);
+                                episodeTitle.add(eventList.get(i).eventName);
+                                episodeHostUsername.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);//suppose to be eventHostName
+                                if (eventList.get(i).eventEndDatetime.isEmpty()){
+                                    episodeNum.add(eventList.get(i).eventViewCount.toString());
+                                }
+                                else {
+                                    episodeNum.add(eventList.get(i).eventStartDatetime + " " + eventList.get(i).eventEndDatetime);
+                                }
                             }
 
                             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_episodes);
-                            adapter = new SearchRecyclerAdapterEpisodes(getActivity(), episodeTitle, episodeHostName, episodeEid);
+                            adapter = new SearchRecyclerAdapterEpisodes(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeNum);
                             layoutManager = new LinearLayoutManager(getActivity());
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter);

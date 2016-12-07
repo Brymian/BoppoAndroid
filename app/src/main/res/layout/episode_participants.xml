@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:theme="@style/AppTheme"
-    android:background="@android:color/white"
+    android:theme="@style/BubblesTheme"
     android:clickable="true">
 
     <android.support.v7.widget.Toolbar

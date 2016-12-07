@@ -1,19 +1,27 @@
 <resources>
-
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--   your app branding color for the app bar -->
         <item name="colorPrimary">#42ffbf</item>
         <!--   darker variant for the status bar and contextual app bars -->
-        <item name="colorPrimaryDark">#303F9F</item>
+        <item name="colorPrimaryDark">#2ba67c</item>
+        <item name="colorAccent">@android:color/darker_gray</item>
+        <item name="android:colorForeground">@android:color/holo_red_dark</item>
+        <item name="android:textColor">@android:color/black</item>
         <!--   theme UI controls like checkboxes and text fields -->
-        <item name="colorAccent">@android:color/black</item>
+        <!--
         <item name="colorControlNormal">@android:color/black</item>
         <item name="colorControlActivated">@android:color/black</item>
         <item name="colorControlHighlight">@android:color/black</item>
-        <item name="android:textColor">@android:color/black</item>
+        -->
     </style>
+
+    <!-- Base toolbar theme -->
+    <style name="AppColor">
+        <item name="android:background">#3ae1a8</item>
+    </style>
+
 
     <style name="Theme.AppCompat.Light.NoActionBar.FullScreen" parent="@style/Theme.AppCompat.Light">
         <item name="windowNoTitle">true</item>

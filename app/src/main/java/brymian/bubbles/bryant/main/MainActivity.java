@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_black_24dp), 0, true);
@@ -83,26 +83,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_white_24dp);
                 }
-                mToolbar.setTitleTextColor(Color.BLACK);
                 /* Profile */
-                MainTabPersonal.tvMyProfile.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvMyEpisodes.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvMyMap.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvProfilePictures.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvFriends.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvMyProfile.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvMyEpisodes.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvMyMap.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvProfilePictures.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvFriends.setOnClickListener(MainActivity.this);
 
                 /* Settings */
-                MainTabPersonal.tvNotifications.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvPrivacy.setOnClickListener(MainActivity.this);
-                //MainTabPersonal.tvMedia.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvBlocking.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvAbout.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvNotifications.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvPrivacy.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvBlocking.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvAbout.setOnClickListener(MainActivity.this);
+
                 /* Account */
-                MainTabPersonal.tvPassword.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvEmail.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvPhoneNumber.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvSyncWithOtherMedia.setOnClickListener(MainActivity.this);
-                MainTabPersonal.tvLogOut.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvPassword.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvEmail.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvPhoneNumber.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvSyncWithOtherMedia.setOnClickListener(MainActivity.this);
+                MainTabPersonal.cvLogOut.setOnClickListener(MainActivity.this);
+
             }
 
         });
@@ -144,6 +144,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+        setSupportActionBar(mToolbar);
+
 
 
         FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
@@ -181,63 +183,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             /*---------------------------------MainTabPersonal-------------------------------------*/
             /* Profile */
-            case R.id.tvMyProfile:
-                startActivity(new Intent(this, ProfileActivity.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(this)));
+            case R.id.cvMyProfile:
+                startActivity(new Intent(this, ProfileActivity.class).putExtra("profile", "logged in user").putExtra("username", SaveSharedPreference.getUsername(this)).putExtra("uid", SaveSharedPreference.getUserUID(this)));
                 break;
 
-            case R.id.tvMyEpisodes:
+            case R.id.cvMyEpisodes:
                 startActivity(new Intent(this, EpisodeMy.class));
                 break;
 
-            case R.id.tvMyMap:
+            case R.id.cvMyMap:
                 startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
                 break;
 
-            case R.id.tvProfilePictures:
+            case R.id.cvProfilePictures:
                 startActivity(new Intent(this, ProfilePicturesActivity2.class));
                 break;
 
-            case R.id.tvFriends:
+            case R.id.cvFriends:
                 //startFragment(fm, R.id.main_activity, new FriendsList());
                 startActivity(new Intent(this, FriendsList.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(this)));
                 break;
 
             /* Settings */
-            case R.id.tvNotifications:
+            case R.id.cvNotifications:
                 startFragment(fm, R.id.main_activity, new Notifications());
                 break;
 
-            case R.id.tvPrivacy:
+            case R.id.cvPrivacy:
                 startFragment(fm, R.id.main_activity, new Privacy());
                 break;
 
-            case R.id.tvBlocking:
+            case R.id.cvBlocking:
                 startFragment(fm, R.id.main_activity, new Blocking());
                 break;
 
-            case R.id.tvAbout:
+            case R.id.cvAbout:
                 startFragment(fm, R.id.main_activity, new About());
                 break;
 
             /* Account */
-            case R.id.tvPassword:
+            case R.id.cvPassword:
                 startFragment(fm, R.id.main_activity, new Password());
                 break;
 
-            case R.id.tvEmail:
-
+            case R.id.cvEmail:
                 startFragment(fm, R.id.main_activity, new Email());
                 break;
 
-            case R.id.tvPhoneNumber:
+            case R.id.cvPhoneNumber:
                 startFragment(fm, R.id.main_activity, new PhoneNumber());
                 break;
 
-            case R.id.tvSyncWithOtherMedia:
+            case R.id.cvSyncWithOtherMedia:
                 startFragment(fm, R.id.main_activity, new SyncWithOtherMedia());
                 break;
 
-            case R.id.tvLogOut:
+            case R.id.cvLogOut:
                 logOut();
                 break;
         }

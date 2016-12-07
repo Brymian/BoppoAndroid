@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+        <LinearLayout
+            android:id="@+id/llUserProfileImage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical"
+            android:gravity="top"
+            android:layout_marginRight="10dp">
+            <ImageView
+                android:id="@+id/ivUserProfileImage"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@android:color/black"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tvUserUsername"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/llUserProfileImage"
+            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tvUserCommentTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/tvUserUsername"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:textAppearance="@android:style/TextAppearance.Small"/>
+        <TextView
+            android:id="@+id/tvUserComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvUserUsername"
+            android:layout_toRightOf="@+id/llUserProfileImage"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
+

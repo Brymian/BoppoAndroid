@@ -1,39 +1,36 @@
-<?xml version="1.0" encoding="utf-8"?>
-
-
-    <RelativeLayout
+<RelativeLayout
         android:id="@+id/main_activity"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fab="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
+            android:titleTextColor="@android:color/white"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="#42ffbf"
             android:elevation="6dp"
             android:minHeight="?attr/actionBarSize"
-            android:transitionGroup="true"/>
+            android:transitionGroup="true"
+            android:theme="@style/AppColor"/>
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/toolbar"
-            android:textColor="@android:color/black"
-            android:background="#42ffbf"
+            android:background="#3ae1a8"
             android:elevation="6dp"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+            android:minHeight="?attr/actionBarSize" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
-            android:layout_below="@id/tab_layout"
-            android:background="@android:color/white"/>
+            android:layout_below="@id/tab_layout" />
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/famMenu"

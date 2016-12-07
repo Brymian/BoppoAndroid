@@ -1,11 +1,11 @@
 package brymian.bubbles.bryant.search;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,17 +15,18 @@ import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
 
 public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRecyclerAdapterEpisodes.RecyclerViewHolder> {
-
-    List<String> episodeTitle;
-    List<String> episodeHostName;
+    static List<String> episodeTitle;
+    List<String> episodeHostUsername;
     static List<Integer> episodeEid;
+    List<String> episodeNum;
     static Activity activity;
 
-    public SearchRecyclerAdapterEpisodes(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid){
+    public SearchRecyclerAdapterEpisodes(Activity activity, List<String> episodeTitle, List<String> episodeHostUsername, List<Integer> episodeEid, List<String> episodeNum){
         SearchRecyclerAdapterEpisodes.activity = activity;
-        this.episodeTitle = episodeTitle;
-        this.episodeHostName = episodeHostName;
+        SearchRecyclerAdapterEpisodes.episodeTitle = episodeTitle;
+        this.episodeHostUsername = episodeHostUsername;
         SearchRecyclerAdapterEpisodes.episodeEid = episodeEid;
+        this.episodeNum = episodeNum;
     }
 
     @Override
@@ -37,7 +38,8 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
-        holder.tvEpisodeHostName.setText(episodeHostName.get(position));
+        holder.tvEpisodeHostUsername.setText(episodeHostUsername.get(position));
+        holder.tvEpisodeNum.setText(episodeNum.get(position));
     }
 
     @Override
@@ -46,18 +48,18 @@ public class SearchRecyclerAdapterEpisodes extends RecyclerView.Adapter<SearchRe
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        TextView tvEpisodeTitle, tvEpisodeHostName;
-        LinearLayout row;
-
+        TextView tvEpisodeTitle, tvEpisodeHostUsername, tvEpisodeNum;
+        CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
-            tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
-            row = (LinearLayout) v.findViewById(R.id.row);
-            row.setOnClickListener(new View.OnClickListener() {
+            tvEpisodeHostUsername = (TextView) v.findViewById(R.id.tvEpisodeHostUsername);
+            tvEpisodeNum = (TextView) v.findViewById(R.id.tvEpisodeNum);
+            cardView = (CardView) v.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("episodeTitle", episodeTitle.get(getAdapterPosition())).putExtra("eid", episodeEid.get(getAdapterPosition())));
                 }
             });
         }

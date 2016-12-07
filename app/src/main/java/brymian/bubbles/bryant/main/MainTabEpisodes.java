@@ -208,20 +208,20 @@ public class MainTabEpisodes extends Fragment {
                 try {
                     if (eventList.size() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
+                        List<String> episodeHostUsername = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
                         List<String> episodeViewCount = new ArrayList<>();
                         for (int i = 0; i < eventList.size(); i++) {
                             episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
+                            episodeHostUsername.add(eventList.get(i).eventHostUsername);
                             episodeEid.add(eventList.get(i).eid);
                             episodeViewCount.add(String.valueOf(eventList.get(i).eventViewCount));
-                            Log.e("AllTime Views","View count: " + eventList.get(i).eventViewCount);
                         }
 
-                        adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeViewCount);
+                        adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeViewCount);
                         layoutManager = new LinearLayoutManager(getActivity());
                         rvAllTimeMostViews.setLayoutManager(layoutManager);
+                        rvAllTimeMostViews.setNestedScrollingEnabled(false);
                         rvAllTimeMostViews.setAdapter(adapter);
                     }
                 }
@@ -238,9 +238,8 @@ public class MainTabEpisodes extends Fragment {
             public void done(String string) {
                 try{
                     if(string.length() > 0) {
-                        Log.e("AllTime Top Rated", "string: "+string);
                         List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
+                        List<String> episodeHostUsername = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
                         List<Double> episodeRating = new ArrayList<>();
                         JSONArray jArray = new JSONArray(string);
@@ -248,15 +247,15 @@ public class MainTabEpisodes extends Fragment {
                             JSONObject jArray_jObject = jArray.getJSONObject(i);
                             JSONObject jEvent = jArray_jObject.getJSONObject("event");
                             episodeTitle.add(jEvent.getString("eventName"));
-                            episodeHostName.add(jEvent.getString("eventHostFirstName") + " " + jEvent.getString("eventHostLastName"));
+                            episodeHostUsername.add(jEvent.getString("eventHostUsername"));
                             episodeEid.add(jEvent.getInt("eid"));
-                            episodeRating.add(jEvent.getDouble("eventRatingRatio"));
-                            Log.e("AllTime Top Rated", "rating: " + episodeRating.get(i));
+                            episodeRating.add(jEvent.getDouble("eventRatingRatio")*100);
                         }
 
-                        adapter = new MainTabEpisodesAllTimeTopRatedRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeRating);
+                        adapter = new MainTabEpisodesAllTimeTopRatedRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeRating);
                         layoutManager = new LinearLayoutManager(getActivity());
                         rvAllTimeTopRated.setLayoutManager(layoutManager);
+                        rvAllTimeTopRated.setNestedScrollingEnabled(false);
                         rvAllTimeTopRated.setAdapter(adapter);
                     }
                 }
@@ -272,23 +271,22 @@ public class MainTabEpisodes extends Fragment {
             @Override
             public void done(List<Event> eventList) {
                 try {
-                    Log.e("AllTime Most Likes", "eventList.size(): "+ eventList.size());
                     if (eventList.size() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
+                        List<String> episodeHostUsername = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
                         List<String> episodeLikeCount = new ArrayList<>();
                         for (int i = 0; i < eventList.size(); i++) {
                             episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
+                            episodeHostUsername.add(eventList.get(i).eventHostUsername);
                             episodeEid.add(eventList.get(i).eid);
                             episodeLikeCount.add(String.valueOf(eventList.get(i).eventLikeCount));
-                            Log.e("AllTime Most Likes", "Likes: " + episodeLikeCount.get(i));
                         }
 
-                        adapter = new MainTabEpisodesAllTimeMostLikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeLikeCount);
+                        adapter = new MainTabEpisodesAllTimeMostLikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeLikeCount);
                         layoutManager = new LinearLayoutManager(getActivity());
                         rvAllTimeMostLikes.setLayoutManager(layoutManager);
+                        rvAllTimeMostLikes.setNestedScrollingEnabled(false);
                         rvAllTimeMostLikes.setAdapter(adapter);
                     }
                 }catch (NullPointerException npe){
@@ -303,23 +301,22 @@ public class MainTabEpisodes extends Fragment {
             @Override
             public void done(List<Event> eventList) {
                 try {
-                    Log.e("AllTime Most Dislikes","eventList.size(): " + eventList.size());
                     if (eventList.size() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostName = new ArrayList<>();
+                        List<String> episodeHostUsername = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
                         List<String> episodeDislikeCount = new ArrayList<>();
                         for (int i = 0; i < eventList.size(); i++) {
                             episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostName.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);
+                            episodeHostUsername.add(eventList.get(i).eventHostUsername);
                             episodeEid.add(eventList.get(i).eid);
                             episodeDislikeCount.add(String.valueOf(eventList.get(i).eventDislikeCount));
-                            Log.e("AllTime Most Dislikes", "Dislikes: " + episodeDislikeCount.get(i));
                         }
 
-                        adapter = new MainTabEpisodesAllTimeMostDislikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostName, episodeEid, episodeDislikeCount);
+                        adapter = new MainTabEpisodesAllTimeMostDislikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeDislikeCount);
                         layoutManager = new LinearLayoutManager(getActivity());
                         rvAllTimeMostDislikes.setLayoutManager(layoutManager);
+                        rvAllTimeMostDislikes.setNestedScrollingEnabled(false);
                         rvAllTimeMostDislikes.setAdapter(adapter);
                     }
                 }

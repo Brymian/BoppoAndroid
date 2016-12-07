@@ -9,8 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@android:color/white"
-    android:theme="@style/AppTheme"
+    android:theme="@android:style/Theme.Light"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
         <!--
@@ -89,36 +88,32 @@
             android:layout_height="wrap_content"
             android:text="@string/All_Time"
             android:gravity="center"
-            android:textAppearance="?android:textAppearanceMedium" />
+            android:textAppearance="@android:style/TextAppearance.Small" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="@string/MOST_VIEWS"
-            android:textAppearance="?android:textAppearanceSmall"
+            android:textAppearance="@android:style/TextAppearance.Medium"
             android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostViews"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="@string/TOP_RATED"
-            android:textAppearance="?android:textAppearanceSmall"
+            android:textAppearance="@android:style/TextAppearance.Small"
             android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeTopRated"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:layout_height="wrap_content" />
 
 
         <TextView
@@ -126,15 +121,13 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="@string/MOST_LIKES"
-            android:textAppearance="?android:textAppearanceSmall"
+            android:textAppearance="@android:style/TextAppearance.Medium"
             android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostLikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:layout_height="wrap_content" />
 
 
         <TextView
@@ -147,9 +140,7 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvAllTimeMostDislikes"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>
 

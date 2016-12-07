@@ -1,22 +1,25 @@
 package brymian.bubbles.bryant.profile;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.annotation.Target;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -36,79 +40,144 @@ import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
-public class ProfileActivity extends AppCompatActivity {
-    public static ImageView ivProfilePictures;
-    TextView tvProfileUsername, tvProfileFirstLastName;
-    FloatingActionButton fabGoBack, fabStatusAction, fabMap, fabEpisodes, fabBlock, fabMessage, fabRemove;
-    FloatingActionMenu fabMenu;
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
+    public static ImageView ivProfilePicture;
+    FloatingActionButton fabStatus;
+    TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus;
+    CardView cvUserFriends;
     int userUID;
     String profile;
-    String firstName, lastName, privacy;
+    String firstName, lastName, username, privacy;
+    Toolbar mToolbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
-
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         /*--------------------------------Checking for putExtras()--------------------------------*/
         String profile;
+        String username;
         int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 profile = null;
+                username = null;
                 uid = 0;
             }
             else {
                 profile = extras.getString("profile");
+                username = extras.getString("username");
                 uid = extras.getInt("uid");
             }
         }
         else {
             profile= savedInstanceState.getString("profile");
+            username = savedInstanceState.getString("username");
             uid = savedInstanceState.getInt("uid");
         }
         /*----------------------------------------------------------------------------------------*/
-
-        ivProfilePictures = (ImageView) findViewById(R.id.ivProfilePictures);
-        tvProfileUsername = (TextView) findViewById(R.id.tvProfileUsername);
-        tvProfileFirstLastName = (TextView) findViewById(R.id.tvProfileFirstLastName);
-
+        ivProfilePicture = (ImageView) findViewById(R.id.ivProfilePicture);
+        fabStatus = (FloatingActionButton) findViewById(R.id.fabStatus);
+        tvFriendStatus = (TextView) findViewById(R.id.tvFriendStatus);
+        tvFriendStatus.setVisibility(View.GONE);
+        tvProfileFirstLastName = (TextView) findViewById(R.id.tvUserFirstLastName);
+        cvUserFriends = (CardView) findViewById(R.id.cvUserFriends);
+        cvUserFriends.setOnClickListener(this);
+        tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
         getProfilePictures(uid);
-        setFloatingActionButtons();
+        //setFloatingActionButtons();
+
+        Toast.makeText(ProfileActivity.this, profile, Toast.LENGTH_SHORT).show();
 
         if (profile != null) {
             if (profile.equals("logged in user")) {
                 setUID(SaveSharedPreference.getUserUID(this));
-                tvProfileUsername.setText(SaveSharedPreference.getUsername(this));
+                mToolbar.setTitle(SaveSharedPreference.getUsername(this));
                 tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
-                setButtons(profile);
+                //setButtons(profile);
                 setProfile(profile);
             }
             else {
                 setUID(uid);
-                setButtons(profile);
+                //setButtons(profile);
                 setProfile(profile);
-                Toast.makeText(ProfileActivity.this, profile, Toast.LENGTH_SHORT).show();
+                mToolbar.setTitle(username);
                 new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
                     @Override
                     public void done(User user) {
-                        setFirstName(user.getFirstName());
-                        setLastName(user.getLastName());
+                        setFirstLastName(user.getFirstName(), user.getLastName());
                         tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
-                        tvProfileUsername.setText(user.getUsername());
                         setPrivacy(user.getUserAccountPrivacy());
                     }
                 });
             }
         }
+        getFriendsNum();
+        setUserProfileInfo(profile);
+
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.cvUserFriends:
+                startActivity(new Intent(this, FriendsList.class).putExtra("uid", SaveSharedPreference.getUserUID(this)).putExtra("profile", getUsername()));
+            break;
 
+            default:
+
+        }
+    }
+
+    private void setUserProfileInfo(String profile){
+        switch (profile){
+            case "logged in user":
+                fabStatus.hide();
+                break;
+            case "Already friends with user.":
+                fabStatus.hide();
+                break;
+            case "Already sent friend request to user.":
+                fabStatus.setImageResource(R.mipmap.ic_dots_horizontal_white_24dp);
+                tvFriendStatus.setText(profile);
+                tvFriendStatus.setVisibility(View.VISIBLE);
+                break;
+            case "User is awaiting confirmation for friend request.":
+                fabStatus.setImageResource(R.mipmap.ic_dots_horizontal_white_24dp);
+                tvFriendStatus.setText(profile);
+                tvFriendStatus.setVisibility(View.VISIBLE);
+                break;
+            case "Not friends.":
+                fabStatus.setImageResource(R.mipmap.ic_person_add_white_24dp);
+                break;
+            case "User is currently being blocked.":
+                /* hide everything, show user doesnt exist like facebook? */
+                fabStatus.hide();
+                break;
+            case "Currently being blocked by user.":
+                /* hide everything, show user doesnt exist like facebook? */
+                fabStatus.hide();
+                break;
+            default:
+        }
+    }
+
+    private void getFriendsNum(){
+        new ServerRequestMethods(this).getFriends(getUID(), new UserListCallback() {
+            @Override
+            public void done(List<User> users) {
+                tvFriendsNum.setText(String.valueOf(users.size()));
+            }
+        });
+    }
+    /**
 
     private void setFloatingActionButtons(){
-        /* buttons go from left to right according to the design */
-        /* left most FAB */
         fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
         fabGoBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +186,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        /* middle FAB */
         fabStatusAction = (FloatingActionButton) findViewById(R.id.fabStatusAction);
         fabStatusAction.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,9 +229,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        /* right most FAM and FABs that are attached to the FAM */
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        /* order of the FAB that is attached to the FAM goes from top to bottom */
         fabRemove = (FloatingActionButton) findViewById(R.id.fabRemove);
         fabRemove.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,34 +324,25 @@ public class ProfileActivity extends AppCompatActivity {
             default:
         }
     }
-
+**/
 
     private void getProfilePictures(int uid){
         new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
-                    for (int i = 0; i < imageList.size(); i++) {
-                        new DownloadImage(imageList.get(i).userImagePath).execute();
-                    }
-
-                    showSetProfileImagesArray();
+                    new DownloadImage(imageList.get(0).userImagePath).execute();
                 }
             }
         });
     }
 
-    public static List<Bitmap> bitmapList = new ArrayList<>();
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
         String path;
 
         public DownloadImage(String path){
             this.path = path;
-        }
-
-        public DownloadImage(){
-            super();
         }
 
         @Override
@@ -305,51 +362,10 @@ public class ProfileActivity extends AppCompatActivity {
         protected void onPostExecute(Bitmap bitmap) {
             super.onPostExecute(bitmap);
             if (bitmap!=null){
-                //ivProfilePictures.setImageBitmap(bitmap);
-                bitmapList.add(bitmap);
-                Log.e("onPostExecute" , "bitmapList size: " + bitmapList.size());
+                ivProfilePicture.setImageBitmap(bitmap);
             }
         }
     }
-
-    private void showSetProfileImagesArray(){
-        DownloadImage downloadImage = new DownloadImage();
-        
-        if(downloadImage.getStatus() == AsyncTask.Status.RUNNING){
-            Log.e("showSetProfileImagesArr", "this shit is still running");
-        }
-        Log.e("showSetProfileImagesArr", "size of list: " + bitmapList.size());
-
-        //ivProfilePictures.setImageBitmap(bitmapList.get(0));
-        //ivProfilePictures.setImageBitmap(bitmapList.get(1));
-        //ivProfilePictures.setImageBitmap(bitmapList.get(2));
-        //ivProfilePictures.setImageBitmap(bitmapList.get(3));
-        /**
-        new java.util.Timer().schedule(
-                new java.util.TimerTask(){
-                    @Override
-                    public void run() {
-                        Log.e("before", "works");
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Log.e("runOnUiThread", "working i guess");
-                                Log.e("runOnUiThread", ""+bitmapArray[0].getByteCount());
-                                Log.e("runOnUiThread", ""+bitmapArray[1].getByteCount());
-                                Log.e("runOnUiThread", ""+bitmapArray[2].getByteCount());
-                                Log.e("runOnUiThread", ""+bitmapArray[3].getByteCount());
-
-                                ivProfilePictures.setImageBitmap(bitmapArray[1]);
-                            }
-                        });
-                    }
-                },
-                5000
-        );
-
-         **/
-    }
-
 
     private void setUID(int uid){
         this.userUID = uid;
@@ -367,22 +383,22 @@ public class ProfileActivity extends AppCompatActivity {
         return profile;
     }
 
-    private void setFirstName(String firstName){
+    private void setFirstLastName(String firstName, String lastName){
         this.firstName = firstName;
-    }
-
-    private String getFirstName(){
-        return firstName;
-    }
-
-    private void setLastName(String lastName){
         this.lastName = lastName;
     }
 
-    private String getLastName(){
-        return lastName;
+    private String getFirstLastName(){
+        return firstName + " " + lastName;
     }
 
+    private void setUsername(String username){
+        this.username = username;
+    }
+
+    private String getUsername(){
+        return username;
+    }
     private void setPrivacy(String privacy){
         this.privacy = privacy;
     }

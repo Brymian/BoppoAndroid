@@ -3,12 +3,11 @@ package brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -19,15 +18,15 @@ import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
 public class MainTabEpisodesAllTimeMostLikesRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeMostLikesRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
-    List<String> episodeTitle;
-    List<String> episodeHostName;
+    static List<String> episodeTitle;
+    List<String> episodeHostUsername;
     static List<Integer> episodeEid;
     List<String> episodeNum;
 
-    public MainTabEpisodesAllTimeMostLikesRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid, List<String> episodeNum){
+    public MainTabEpisodesAllTimeMostLikesRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostUsername, List<Integer> episodeEid, List<String> episodeNum){
         MainTabEpisodesAllTimeMostLikesRecyclerAdapter.activity = activity;
-        this.episodeTitle = episodeTitle;
-        this.episodeHostName = episodeHostName;
+        MainTabEpisodesAllTimeMostLikesRecyclerAdapter.episodeTitle = episodeTitle;
+        this.episodeHostUsername = episodeHostUsername;
         MainTabEpisodesAllTimeMostLikesRecyclerAdapter.episodeEid = episodeEid;
         this.episodeNum = episodeNum;
     }
@@ -41,8 +40,8 @@ public class MainTabEpisodesAllTimeMostLikesRecyclerAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
-        holder.tvEpisodeHostName.setText(episodeHostName.get(position));
-        holder.tvEpisodeNum.setText(episodeNum.get(position));
+        holder.tvEpisodeHostUsername.setText("By " + episodeHostUsername.get(position));
+        holder.tvEpisodeNum.setText(episodeNum.get(position) + " likes");
     }
 
     @Override
@@ -51,14 +50,20 @@ public class MainTabEpisodesAllTimeMostLikesRecyclerAdapter extends RecyclerView
     }
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        TextView tvEpisodeTitle, tvEpisodeHostName, tvEpisodeNum;
-        LinearLayout row;
+        TextView tvEpisodeTitle, tvEpisodeHostUsername, tvEpisodeNum;
+        CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
-            tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
+            tvEpisodeHostUsername = (TextView) v.findViewById(R.id.tvEpisodeHostUsername);
             tvEpisodeNum = (TextView) v.findViewById(R.id.tvEpisodeNum);
-            row = (LinearLayout) v.findViewById(R.id.row);
+            cardView = (CardView) v.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())).putExtra("episodeTitle", episodeTitle.get(getAdapterPosition())));
+                }
+            });
 
         }
     }
