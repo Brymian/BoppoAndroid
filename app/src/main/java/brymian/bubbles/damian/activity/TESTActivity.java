@@ -130,8 +130,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", true, new ImageListCallback() {
+
+        new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
                 System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
@@ -152,6 +152,37 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+
+        new UserImageRequest(this).setImage(7, 9, null, null, null, null, null, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+
+        new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
+            @Override
+            public void done(List<Image> images) {
+                System.out.println("TOTAL NUMBER OF IMAGES: " + images.size());
+
+                for (Image image : images) {
+                    System.out.println();
+                    System.out.println("USER IMAGE #: " + images.indexOf(image));
+                    System.out.println("--------------------");
+                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Path: " + image.userImagePath);
+                    System.out.println("User Image Name: " + image.userImageName);
+                    System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
+                    System.out.println("User Image Purpose Label: " + image.userImagePurposeLabel);
+                    System.out.println("User Image GPS Latitude: " + image.userImageGpsLatitude);
+                    System.out.println("User Image GPS Longitude: " + image.userImageGpsLongitude);
+                }
+            }
+        });
+
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", false, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -1004,7 +1035,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -1089,7 +1120,7 @@ public class TESTActivity extends Activity {
                 catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-
+        */
         /*
         new UserImageRequest(this).uploadImage(1, "UserImageName2", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
             @Override

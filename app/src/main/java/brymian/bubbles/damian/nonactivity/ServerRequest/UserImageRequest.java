@@ -75,13 +75,25 @@ public class UserImageRequest {
         new GetImageProfileMaxAmount(integerCallback).execute();
     }
 
-    public void uploadImage(Integer uid, String userImageName, String userImagePurposeLabel,
-        String userImagePrivacyLabel, Double userImageGpsLatitude, Double userImageGpsLongitude,
+    public void setImage(Integer uiid, Integer userImageProfileSequence, String userImageName,
+      String userImagePurposeLabel, String userImagePrivacyLabel,
+      Double userImageGpsLatitude, Double userImageGpsLongitude,
+      StringCallback stringCallback) {
+        pd.show();
+        new SetImage(uiid, userImageProfileSequence, userImageName, userImagePurposeLabel,
+            userImagePrivacyLabel, userImageGpsLatitude, userImageGpsLongitude,
+            stringCallback).execute();
+    }
+
+    public void uploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
+        String userImagePurposeLabel, String userImagePrivacyLabel,
+        Double userImageGpsLatitude, Double userImageGpsLongitude,
         String userImage, StringCallback stringCallback)
     {
         pd.show();
-        new UploadImage(uid, userImageName, userImagePurposeLabel, userImagePrivacyLabel,
-            userImageGpsLatitude, userImageGpsLongitude, userImage, stringCallback).execute();
+        new UploadImage(uid, userImageProfileSequence, userImageName, userImagePurposeLabel,
+            userImagePrivacyLabel,  userImageGpsLatitude, userImageGpsLongitude,
+            userImage, stringCallback).execute();
     }
 
 
@@ -236,8 +248,9 @@ public class UserImageRequest {
                         getLongObjectFromObject(jImage.get("userImageSequence")),
                         getIntegerObjectFromObject(jImage.get("uid")),
                         getIntegerObjectFromObject(jImage.get("userImageSequence")),
+                        getIntegerObjectFromObject(jImage.get("userImageProfileSequence")),
                         httpConnection.getUploadServerString() +
-                                jImage.getString("userImagePath").replaceAll(" ", "%20"),
+                            jImage.getString("userImagePath").replaceAll(" ", "%20"),
                         jImage.getString("userImageName"),
                         jImage.getString("userImagePrivacyLabel"),
                         jImage.getString("userImagePurposeLabel"),
@@ -317,6 +330,7 @@ public class UserImageRequest {
                         getLongObjectFromObject(jImage.get("userImageSequence")),
                         getIntegerObjectFromObject(jImage.get("uid")),
                         getIntegerObjectFromObject(jImage.get("userImageSequence")),
+                        getIntegerObjectFromObject(jImage.get("userImageProfileSequence")),
                         httpConnection.getUploadServerString() +
                             jImage.getString("userImagePath").replaceAll(" ", "%20"),
                         jImage.getString("userImageName"),
@@ -399,9 +413,74 @@ public class UserImageRequest {
 
     }
 
+    private class SetImage extends AsyncTask<Void, Void, String> {
+
+        Integer uiid;
+        Integer userImageProfileSequence;
+        String userImageName;
+        String userImagePurposeLabel;
+        String userImagePrivacyLabel;
+        Double userImageGpsLatitude;
+        Double userImageGpsLongitude;
+        StringCallback stringCallback;
+
+        private SetImage(Integer uiid, Integer userImageProfileSequence, String userImageName,
+            String userImagePurposeLabel, String userImagePrivacyLabel,
+            Double userImageGpsLatitude, Double userImageGpsLongitude,
+            StringCallback stringCallback) {
+
+            this.uiid = uiid;
+            this.userImageProfileSequence = userImageProfileSequence;
+            this.userImageName = userImageName;
+            this.userImagePurposeLabel = userImagePurposeLabel;
+            this.userImagePrivacyLabel = userImagePrivacyLabel;
+            this.userImageGpsLatitude = userImageGpsLatitude;
+            this.userImageGpsLongitude = userImageGpsLongitude;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=setImage";
+
+            try {
+                JSONObject jsonImageObject = new JSONObject();
+                jsonImageObject.put("uiid", getNullOrValue(uiid));
+                jsonImageObject.put("userImageProfileSequence", getNullOrValue(userImageProfileSequence));
+                jsonImageObject.put("userImageName", getNullOrValue(userImageName));
+                jsonImageObject.put("userImagePurposeLabel", getNullOrValue(userImagePurposeLabel));
+                jsonImageObject.put("userImagePrivacyLabel", getNullOrValue(userImagePrivacyLabel));
+                jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
+                jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));
+                String jsonImage = jsonImageObject.toString();
+                Post request = new Post();
+                String response = request.post(url, jsonImage);
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+
+            super.onPostExecute(string);
+        }
+    }
+
     private class UploadImage extends AsyncTask<Void, Void, String> {
 
         Integer uid;
+        Integer userImageProfileSequence;
         String userImageName;
         String userImagePurposeLabel;
         String userImagePrivacyLabel;
@@ -410,11 +489,13 @@ public class UserImageRequest {
         String userImage;
         StringCallback stringCallback;
 
-        private UploadImage(Integer uid, String userImageName, String userImagePurposeLabel,
-            String userImagePrivacyLabel, Double userImageGpsLatitude, Double userImageGpsLongitude,
+        private UploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
+            String userImagePurposeLabel, String userImagePrivacyLabel,
+            Double userImageGpsLatitude, Double userImageGpsLongitude,
             String userImage, StringCallback stringCallback) {
 
             this.uid = uid;
+            this.userImageProfileSequence = userImageProfileSequence;
             this.userImageName = userImageName;
             this.userImagePurposeLabel = userImagePurposeLabel;
             this.userImagePrivacyLabel = userImagePrivacyLabel;
@@ -431,6 +512,7 @@ public class UserImageRequest {
             try {
                 JSONObject jsonImageObject = new JSONObject();
                 jsonImageObject.put("uid", uid);
+                jsonImageObject.put("userImageProfileSequence", userImageProfileSequence);
                 jsonImageObject.put("userImageName", userImageName);
                 jsonImageObject.put("userImagePurposeLabel", userImagePurposeLabel);
                 jsonImageObject.put("userImagePrivacyLabel", userImagePrivacyLabel);

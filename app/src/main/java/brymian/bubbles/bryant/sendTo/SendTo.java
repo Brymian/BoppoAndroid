@@ -146,6 +146,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     private void uploadImage(){
         new UserImageRequest(SendTo.this).uploadImage(
                 SaveSharedPreference.getUserUID(SendTo.this),       /* uid */
+                9999,                                               /* image profile sequence */
                 imageName(),                                        /* image name */
                 "Regular",                                          /* image purpose label */
                 privacy,                                            /* image privacy label */
