@@ -245,7 +245,7 @@ public class UserImageRequest {
                 {
                     JSONObject jImage = jImageArray.getJSONObject(i);
                     Image image = new Image (
-                        getLongObjectFromObject(jImage.get("userImageSequence")),
+                        jImage.getLong("uiid"),
                         getIntegerObjectFromObject(jImage.get("uid")),
                         getIntegerObjectFromObject(jImage.get("userImageSequence")),
                         getIntegerObjectFromObject(jImage.get("userImageProfileSequence")),
@@ -327,7 +327,7 @@ public class UserImageRequest {
                 {
                     JSONObject jImage = jImageArray.getJSONObject(i);
                     Image image = new Image (
-                        getLongObjectFromObject(jImage.get("userImageSequence")),
+                        jImage.getLong("uiid"),
                         getIntegerObjectFromObject(jImage.get("uid")),
                         getIntegerObjectFromObject(jImage.get("userImageSequence")),
                         getIntegerObjectFromObject(jImage.get("userImageProfileSequence")),

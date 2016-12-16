@@ -27,6 +27,7 @@ import brymian.bubbles.objects.Image;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 
 /**
@@ -130,7 +131,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -140,8 +141,9 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
+                    System.out.println("User Image Profile Sequence" + image.userImageProfileSequence);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
@@ -152,14 +154,12 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
         new UserImageRequest(this).setImage(7, 9, null, null, null, null, null, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-
         new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -169,9 +169,10 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Profile Sequence" + image.userImageProfileSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
@@ -181,8 +182,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
-        /*
+        */
         new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", false, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -192,9 +192,10 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Profile Sequence: " + image.userImageProfileSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
@@ -213,9 +214,10 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Profile Sequence: " + image.userImageProfileSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
@@ -225,8 +227,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
-        /*
+
         new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", true, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -236,9 +237,10 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Profile Sequence: " + image.userImageProfileSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
@@ -257,9 +259,10 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Profile Sequence: " + image.userImageProfileSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
@@ -281,9 +284,10 @@ public class TESTActivity extends Activity {
                     System.out.println();
                     System.out.println("USER IMAGE #: " + images.indexOf(image));
                     System.out.println("--------------------");
-                    System.out.println("User Image Identifier: " + image.userImageSequence);
+                    System.out.println("User Image Identifier: " + image.uiid);
                     System.out.println("User Identifier: " + image.uid);
                     System.out.println("User Image Sequence: " + image.userImageSequence);
+                    System.out.println("User Image Profile Sequence: " + image.userImageProfileSequence);
                     System.out.println("User Image Path: " + image.userImagePath);
                     System.out.println("User Image Name: " + image.userImageName);
                     System.out.println("User Image Privacy Label: " + image.userImagePrivacyLabel);
@@ -293,7 +297,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        */
+
         /*
         int uidA = 1;
         String facebookUid = "1098660393497582";
@@ -1149,12 +1153,10 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new UserImageRequest(this).getImagesByEid(59, true, new StringCallback() {
+        new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println(string);
-                /*
+
                 System.out.println("<!!!> JSON STRING: <!!!>");
                 System.out.println(string);
                 System.out.println("<!!!> END OF JSON STRING: <!!!>");
@@ -1169,9 +1171,10 @@ public class TESTActivity extends Activity {
                         JSONObject jImage = jArray_jObject.getJSONObject("image");
                         System.out.println("<!> IMAGE #: " + i + " <!>");
 
-                        System.out.println("User Image ID: " + getIntegerObjectFromObject(jImage.get("uiid")));
+                        System.out.println("User Image ID: " + jImage.getLong("uiid"));
                         System.out.println("User ID: " + getIntegerObjectFromObject(jImage.get("uid")));
                         System.out.println("User Image Sequence: " + getIntegerObjectFromObject(jImage.get("userImageSequence")));
+                        System.out.println("User Image Profile Sequence: " + getIntegerObjectFromObject(jImage.get("userImageProfileSequence")));
                         System.out.println("User Image Path: " +
                             httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
                         System.out.println("User Image Name: " + jImage.getString("userImageName"));
@@ -1183,22 +1186,16 @@ public class TESTActivity extends Activity {
                     }
                 }
                 catch (JSONException jsone) { jsone.printStackTrace(); }
-                *
+
             }
         });
-        new UserImageRequest(this).getImagesByEid(59, false, new StringCallback() {
+        new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-        new UserImageRequest(this).getImagesByEid(59, null, new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println(string);
-            }
-        });
-        */
+
         /*
         new EventUserRequest(this).getEventUsersData("Joined", 56, new StringCallback() {
             @Override

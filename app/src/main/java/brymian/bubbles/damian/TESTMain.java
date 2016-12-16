@@ -29,17 +29,20 @@ public class TESTMain
     public static void main (String[] args)
     {
         /*
-        Integer eid = ##;
-        Integer uid = ##;
+        Integer uiid = 1;
+        Integer userImageProfileSequence = 1;/null
+        String userImageName = "";/null
+        String userImagePurposeLabel = "";/null
+        String userImagePrivacyLabel = "";/null
+        Double userImageGpsLatitude = 1.1;/null
+        Double userImageGpsLongitude = 1.1;/null
 
-        new EventUserRequest(this).getEventUserData(eid, uid, new EventUserCallback() {
+        new UserImageRequest(this).setImage(uiid, userImageProfileSequence, userImageName,
+            userImagePurposeLabel, userImagePrivacyLabel,
+            userImageGpsLatitude, userImageGpsLongitude, new StringCallback() {
             @Override
-            public void done(EventUser eventUser) {
-                System.out.println("EID: " + eventUser.eid);
-                System.out.println("UID: " + eventUser.uid);
-                System.out.println("Event User Type Label: " + eventUser.eventUserTypeLabel);
-                System.out.println("Event User Invite Status Label: " + eventUser.eventUserInviteStatusLabel);
-                System.out.println("eventUserInviteStatusActionTimestamp: " + eventUser.eventUserInviteStatusActionTimestamp);
+            public void done(String string) {
+                System.out.println(string);
             }
         });
         */

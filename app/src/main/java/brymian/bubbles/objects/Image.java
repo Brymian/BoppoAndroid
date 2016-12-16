@@ -3,7 +3,7 @@ package brymian.bubbles.objects;
 /**
  * Created by Ziomster on 8/29/2015.
  */
-public class  Image {
+public class Image {
 
     public Long uiid;
 
