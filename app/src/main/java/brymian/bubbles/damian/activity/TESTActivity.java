@@ -14,6 +14,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
@@ -21,9 +22,11 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.Image;
+import brymian.bubbles.objects.User;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
@@ -183,6 +186,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", false, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -227,7 +231,6 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
         new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", true, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -297,7 +300,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
+        */
         /*
         int uidA = 1;
         String facebookUid = "1098660393497582";
@@ -362,9 +365,14 @@ public class TESTActivity extends Activity {
         });
         */
 
-        /*
-        int uid = 1;
-        new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
+        new UserRequest(this).setUser(3, null, null, null, "987-654-3210", "Public", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
+
+        new ServerRequestMethods(this).getUserData(3, new UserCallback() {
             @Override
             public void done(User user) {
                 System.out.println("Uid: " + user.getUid());
@@ -375,11 +383,11 @@ public class TESTActivity extends Activity {
                 System.out.println("First Name: " + user.getFirstName());
                 System.out.println("Last Name: " + user.getLastName());
                 System.out.println("E-mail: " + user.getEmail());
+                System.out.println("Phone: " + user.getPhone());
                 System.out.println("Creation date: " + user.getUserAccountCreationTimestamp());
                 System.out.println("Privacy: " + user.getUserAccountPrivacy());
             }
         });
-        */
 
         /*
         new ServerRequestMethods(this).getUserFriendRequestUsers(1, new UserListCallback() {
@@ -1153,6 +1161,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
             @Override
             public void done(String string) {
@@ -1195,7 +1204,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventUserRequest(this).getEventUsersData("Joined", 56, new StringCallback() {
             @Override

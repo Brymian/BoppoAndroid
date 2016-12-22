@@ -16,6 +16,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.EventUser;
 import brymian.bubbles.objects.User;
@@ -25,26 +26,23 @@ import brymian.bubbles.objects.User;
  */
 public class TESTMain
 {
-
+    /*
     public static void main (String[] args)
     {
-        /*
-        Integer uiid = 1;
-        Integer userImageProfileSequence = 1;/null
-        String userImageName = "";/null
-        String userImagePurposeLabel = "";/null
-        String userImagePrivacyLabel = "";/null
-        Double userImageGpsLatitude = 1.1;/null
-        Double userImageGpsLongitude = 1.1;/null
+        Integer uid = #;
+        String firstName = ""/null;
+        String lastName = ""/null;
+        String email = ""/null;
+        String phone = ""/null;
+        String user_account_privacy_label = ""/null;
 
-        new UserImageRequest(this).setImage(uiid, userImageProfileSequence, userImageName,
-            userImagePurposeLabel, userImagePrivacyLabel,
-            userImageGpsLatitude, userImageGpsLongitude, new StringCallback() {
+        new UserRequest(this).setUser(uid, firstName, lastName, email, phone, user_account_privacy_label,
+            new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-        */
     }
+    */
 }
