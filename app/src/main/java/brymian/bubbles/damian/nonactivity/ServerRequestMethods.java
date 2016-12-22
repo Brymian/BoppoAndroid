@@ -245,20 +245,38 @@ public class ServerRequestMethods {
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "Older/createUserNormal.php";
 
+            /*
             String jsonUser =
                 "{\"username\":\"" + user.getUsername() + "\"," +
                 " \"password\":\"" + user.getPassword() + "\"," +
                 " \"firstName\":\"" + user.getFirstName() + "\"," +
                 " \"lastName\":\"" + user.getLastName() + "\"," +
                 " \"email\":\"" + user.getEmail() + "\"}";
+            */
+
+            JSONObject jObject = new JSONObject();
             Post request = new Post();
+
             try
             {   // Successful SQL command returns one empty space (" ")
+                jObject.put("username", user.getUsername());
+                jObject.put("password", user.getPassword());
+                jObject.put("firstName", user.getFirstName());
+                jObject.put("lastName", user.getLastName());
+                jObject.put("email", user.getEmail());
+                jObject.put("phone", user.getPhone());
+
+                String jsonUser = jObject.toString();
+
                 return request.post(url, jsonUser);
             }
             catch (IOException ioe)
             {
                 return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
             }
         }
 
@@ -288,16 +306,32 @@ public class ServerRequestMethods {
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "Older/createUserFacebook.php";
 
+            /*
             String jsonUser =
                 "{\"facebookUid\":\"" + user.getFacebookUid() + "\"," +
                 " \"firstName\":\"" + user.getFirstName() + "\"," +
                 " \"lastName\":\"" + user.getLastName() + "\"," +
                 " \"email\":\"" + user.getEmail() + "\"}";
+            */
+            JSONObject jObject = new JSONObject();
             Post request = new Post();
+
             try { // The response - uccessful SQL command returns one empty space (" ")
+                jObject.put("facebookUid", user.getFacebookUid());
+                jObject.put("firstName", user.getFirstName());
+                jObject.put("lastName", user.getLastName());
+                jObject.put("email", user.getEmail());
+                jObject.put("phone", user.getPhone());
+
+                String jsonUser = jObject.toString();
+
                 return request.post(url, jsonUser);
-            } catch (IOException ioe) {
+            }
+            catch (IOException ioe) {
                 return ioe.toString();
+            }
+            catch (JSONException jsone) {
+                return jsone.toString();
             }
         }
 
@@ -415,6 +449,7 @@ public class ServerRequestMethods {
                             jObject.getString("firstName"),
                             jObject.getString("lastName"),
                             jObject.getString("email"),
+                            jObject.getString("phone"),
                             jObject.getString("userAccountCreationTimestamp"),
                             jObject.getString("userAccountPrivacy")
                         );
@@ -496,6 +531,7 @@ public class ServerRequestMethods {
                             jObject.getString("firstName"),
                             jObject.getString("lastName"),
                             jObject.getString("email"),
+                            jObject.getString("phone"),
                             jObject.getString("userAccountCreationTimestamp"),
                             jObject.getString("userAccountPrivacy")
                         );
@@ -572,7 +608,7 @@ public class ServerRequestMethods {
                         String lastName = jUser.getString("lastName");
                         String friendshipStatus = jUser.getString("friendshipStatus");
                         User user = new User();
-                        user.setUser(uid, null, null, username, null, firstName, lastName, null, null, null);
+                        user.setUser(uid, null, null, username, null, firstName, lastName, null, null, null, null);
                         user.setFriendshipStatus(friendshipStatus);
                         userList.add(user);
                     }
@@ -647,6 +683,7 @@ public class ServerRequestMethods {
                         jObject.getString("firstName"),
                         jObject.getString("lastName"),
                         jObject.getString("email"),
+                        jObject.getString("phone"),
                         jObject.getString("userAccountCreationTimestamp"),
                         jObject.getString("userAccountPrivacy")
                     );
@@ -715,7 +752,7 @@ public class ServerRequestMethods {
                     {
                         int uid = jArray.getInt(i);
                         User user = new User();
-                        user.setUser(uid, null, null, null, null, null, null, null, null, null);
+                        user.setUser(uid, null, null, null, null, null, null, null, null, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
@@ -785,7 +822,7 @@ public class ServerRequestMethods {
                     {
                         int uid = jArray.getInt(i);
                         User user = new User();
-                        user.setUser(uid, null, null, null, null, null, null, null, null, null);
+                        user.setUser(uid, null, null, null, null, null, null, null, null, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database
@@ -892,7 +929,7 @@ public class ServerRequestMethods {
                         String namefirst = jUser.getString("firstName");
                         String namelast = jUser.getString("lastName");
                         User user = new User();
-                        user.setUser(uid, null, null, username, null, namefirst, namelast, null, null, null);
+                        user.setUser(uid, null, null, username, null, namefirst, namelast, null, null, null, null);
                         userList.add(user);
                     }
                     // The set will be null if nothing matched in the database

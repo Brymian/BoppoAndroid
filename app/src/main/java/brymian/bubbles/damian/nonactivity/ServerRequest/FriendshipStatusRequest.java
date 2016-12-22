@@ -133,6 +133,7 @@ public class FriendshipStatusRequest {
                         jUser.getString("lastName"),
                         null,
                         null,
+                        null,
                         null
                     );
                     users.add(user);
@@ -208,6 +209,7 @@ public class FriendshipStatusRequest {
                         null,
                         jUser.getString("firstName"),
                         jUser.getString("lastName"),
+                        null,
                         null,
                         null,
                         null

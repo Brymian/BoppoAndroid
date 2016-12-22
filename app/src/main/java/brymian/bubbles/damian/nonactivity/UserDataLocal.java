@@ -45,6 +45,7 @@ public class UserDataLocal {
             userDataLocal.getString("namefirst", null),
             userDataLocal.getString("namelast", null),
             userDataLocal.getString("email", null),
+            userDataLocal.getString("phone", null),
             userDataLocal.getString("userAccountCreationTimestamp", null),
             userDataLocal.getString("userAccountPrivacy", null)
         );
