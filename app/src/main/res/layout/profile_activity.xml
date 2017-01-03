@@ -120,8 +120,17 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
+                        android:layout_marginRight="10dp"
                         android:textAppearance="@android:style/TextAppearance.Medium"
                         android:text="@string/Episodes"/>
+                    <TextView
+                        android:id="@+id/tvEpisodesNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_toRightOf="@+id/tvEpisodesString"
+                        android:textAppearance="@android:style/TextAppearance.Medium"
+                        android:textColor="@android:color/darker_gray"/>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvUserEpisodes"
                         android:layout_width="match_parent"

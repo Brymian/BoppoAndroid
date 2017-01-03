@@ -1,17 +1,16 @@
 package brymian.bubbles.bryant.profile;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,22 +18,23 @@ import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.annotation.Target;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.map.MapsActivity;
+import brymian.bubbles.bryant.episodes.EpisodeAttendingRecyclerAdapter;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsList;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
@@ -43,12 +43,16 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
     public static ImageView ivProfilePicture;
     FloatingActionButton fabStatus;
-    TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus;
+    TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum;
     CardView cvUserFriends;
     int userUID;
     String profile;
     String firstName, lastName, username, privacy;
     Toolbar mToolbar;
+
+    RecyclerView rvUserEpisodes;
+    RecyclerView.LayoutManager layoutManager;
+    RecyclerView.Adapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         cvUserFriends = (CardView) findViewById(R.id.cvUserFriends);
         cvUserFriends.setOnClickListener(this);
         tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
+        tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
+        rvUserEpisodes = (RecyclerView) findViewById(R.id.rvUserEpisodes);
         getProfilePictures(uid);
         //setFloatingActionButtons();
 
@@ -115,6 +121,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             }
         }
         getFriendsNum();
+        getEpisodesNum();
         setUserProfileInfo(profile);
 
         setSupportActionBar(mToolbar);
@@ -172,6 +179,55 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             @Override
             public void done(List<User> users) {
                 tvFriendsNum.setText(String.valueOf(users.size()));
+            }
+        });
+    }
+
+    private void getEpisodesNum(){
+        new EventRequest(this).getEventDataByMember(getUID(), new EventListCallback() {
+            @Override
+            public void done(List<Event> eventList) {
+                if(eventList.size() > 0){
+                    tvEpisodesNum.setText(String.valueOf(eventList.size()));
+
+                    List<String> episodeTitle = new ArrayList<>();
+                    List<String> episodeHostUsername = new ArrayList<>();
+                    List<Integer> episodeEid = new ArrayList<>();
+
+                    if(eventList.size() <= 3){
+                        for (Event event: eventList){
+                            episodeTitle.add(event.eventName);
+                            episodeHostUsername.add(event.eventHostUsername);
+                            episodeEid.add(event.eid);
+                        }
+
+                        adapter = new ProfileActivityUserEpisodesRecyclerAdapter(ProfileActivity.this, episodeTitle, episodeHostUsername, episodeEid);
+                        layoutManager = new LinearLayoutManager(ProfileActivity.this);
+                        rvUserEpisodes.setLayoutManager(layoutManager);
+                        rvUserEpisodes.setNestedScrollingEnabled(false);
+                        rvUserEpisodes.setAdapter(adapter);
+                    }
+                    else{
+                        ArrayList<Integer> list = new ArrayList<>();
+                        for (int i = 0; i < eventList.size() - 1; i++) {
+                            list.add(i, i);
+                        }
+                        Collections.shuffle(list);
+                        for (int i = 0; i < 3; i++) {
+                            episodeTitle.add(eventList.get(list.get(i)).eventName);
+                            episodeHostUsername.add(eventList.get(list.get(i)).eventHostUsername);
+                            episodeEid.add(eventList.get(list.get(i)).eid);
+                        }
+                        adapter = new ProfileActivityUserEpisodesRecyclerAdapter(ProfileActivity.this, episodeTitle, episodeHostUsername, episodeEid);
+                        layoutManager = new LinearLayoutManager(ProfileActivity.this);
+                        rvUserEpisodes.setLayoutManager(layoutManager);
+                        rvUserEpisodes.setNestedScrollingEnabled(false);
+                        rvUserEpisodes.setAdapter(adapter);
+                    }
+                }
+                else {
+                    tvEpisodesNum.setText("0");
+                }
             }
         });
     }
