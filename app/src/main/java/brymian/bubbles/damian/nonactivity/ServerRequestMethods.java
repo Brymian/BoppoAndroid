@@ -421,6 +421,8 @@ public class ServerRequestMethods {
                 "{\"username\":\"" + user.getUsername() + "\"," +
                 " \"password\":\"" + user.getPassword() + "\"}";
             Post request = new Post();
+            System.out.println("JSON STRING TO BE SENT: ");
+            System.out.println(jsonUser);
 
             try
             {
@@ -435,33 +437,27 @@ public class ServerRequestMethods {
                 }
                 else
                 {
-                    JSONObject jObject = new JSONObject(response);
-                    System.out.println("jObject length: " + jObject.length());
-                    if (jObject.length() == 10)
-                    {
-                        System.out.println("PASSWORD CHECK: " + jObject.getString("password"));
-                        user.setUser(
-                            getJsonNullableInt(jObject, "uid"),
-                            jObject.getString("facebookUid"),
-                            jObject.getString("googlepUid"),
-                            jObject.getString("username"),
-                            jObject.getString("password"),
-                            jObject.getString("firstName"),
-                            jObject.getString("lastName"),
-                            jObject.getString("email"),
-                            jObject.getString("phone"),
-                            jObject.getString("userAccountCreationTimestamp"),
-                            jObject.getString("userAccountPrivacy")
-                        );
-                        udl = new UserDataLocal(activity);
-                        udl.setUserData(user);
-                        udl.setLoggedStatus(true);
-                        try{ Thread.sleep(1000); } catch (InterruptedException ie) {/**/}
-                        System.out.println("getLoggedStatus; " + udl.getLoggedStatus());
-                    }
-                    else {
-                        System.out.println("Unknown login error: ");
-                    }
+                JSONObject jObject = new JSONObject(response);
+                System.out.println("jObject length: " + jObject.length());
+                    System.out.println("PASSWORD CHECK: " + jObject.getString("password"));
+                    user.setUser(
+                        getJsonNullableInt(jObject, "uid"),
+                        jObject.getString("facebookUid"),
+                        jObject.getString("googlepUid"),
+                        jObject.getString("username"),
+                        jObject.getString("password"),
+                        jObject.getString("firstName"),
+                        jObject.getString("lastName"),
+                        jObject.getString("email"),
+                        jObject.getString("phone"),
+                        jObject.getString("userAccountCreationTimestamp"),
+                        jObject.getString("userAccountPrivacy")
+                    );
+                    udl = new UserDataLocal(activity);
+                    udl.setUserData(user);
+                    udl.setLoggedStatus(true);
+                    try{ Thread.sleep(1000); } catch (InterruptedException ie) {/**/}
+                    System.out.println("getLoggedStatus; " + udl.getLoggedStatus());
                 }
             }
             catch (IOException ioe)
