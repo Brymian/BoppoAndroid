@@ -515,26 +515,25 @@ public class ServerRequestMethods {
                 else
                 {
                     JSONObject jObject = new JSONObject(response);
-                    if (jObject.length() == 9) {
-                        System.out.println("jObject length: " + jObject.length());
-                        System.out.println("UID : " + user.getUid());
-                        user.setUser(
-                            getJsonNullableInt(jObject, "uid"),
-                            jObject.getString("facebookUid"),
-                            jObject.getString("googlepUid"),
-                            jObject.getString("username"),
-                            jObject.getString("password"),
-                            jObject.getString("firstName"),
-                            jObject.getString("lastName"),
-                            jObject.getString("email"),
-                            jObject.getString("phone"),
-                            jObject.getString("userAccountCreationTimestamp"),
-                            jObject.getString("userAccountPrivacy")
-                        );
-                        udl = new UserDataLocal(activity);
-                        udl.setUserData(user);
-                        udl.setLoggedStatus(true);
-                    }
+
+                    System.out.println("jObject length: " + jObject.length());
+                    System.out.println("UID : " + user.getUid());
+                    user.setUser(
+                        getJsonNullableInt(jObject, "uid"),
+                        jObject.getString("facebookUid"),
+                        jObject.getString("googlepUid"),
+                        jObject.getString("username"),
+                        jObject.getString("password"),
+                        jObject.getString("firstName"),
+                        jObject.getString("lastName"),
+                        jObject.getString("email"),
+                        jObject.getString("phone"),
+                        jObject.getString("userAccountCreationTimestamp"),
+                        jObject.getString("userAccountPrivacy")
+                    );
+                    udl = new UserDataLocal(activity);
+                    udl.setUserData(user);
+                    udl.setLoggedStatus(true);
                 }
             } catch (IOException ioe) {
                 User user = new User();
