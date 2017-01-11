@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.MainActivity;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.activity.AuthenticateActivityFacebook;
 import brymian.bubbles.damian.activity.TESTActivity;
 
@@ -48,6 +50,14 @@ public class LaunchFragment extends Fragment implements View.OnClickListener {
         tvNewLayout = (TextView) rootView.findViewById(R.id.tvNewLayout);
         tvDebug.setOnClickListener(this);
         tvNewLayout.setOnClickListener(this);
+
+        Log.e("sharedPref", "Name: " + SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()) +
+                            "\n" +
+                            "Username: " + SaveSharedPreference.getUsername(getActivity()) +
+                            "\n" +
+                            "UID: " + SaveSharedPreference.getUserUID(getActivity()) +
+                            "\n" +
+                            "Password" + SaveSharedPreference.getUserPassword(getActivity()));
 
         return rootView;
     }

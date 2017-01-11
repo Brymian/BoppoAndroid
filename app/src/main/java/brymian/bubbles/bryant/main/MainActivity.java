@@ -22,7 +22,7 @@ import com.github.clans.fab.FloatingActionMenu;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
 import brymian.bubbles.bryant.episodes.EpisodeCreate;
-import brymian.bubbles.bryant.friends.FriendsList;
+import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 import brymian.bubbles.bryant.settings.About;
@@ -200,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.cvFriends:
-                //startFragment(fm, R.id.main_activity, new FriendsList());
-                startActivity(new Intent(this, FriendsList.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(this)));
+                //startFragment(fm, R.id.main_activity, new FriendsActivity());
+                startActivity(new Intent(this, FriendsActivity.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(this)));
                 break;
 
             /* Settings */

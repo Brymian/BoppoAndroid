@@ -25,9 +25,8 @@ import java.util.Collections;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.episodes.EpisodeAttendingRecyclerAdapter;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.friends.FriendsList;
+import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
@@ -133,7 +132,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.cvUserFriends:
-                startActivity(new Intent(this, FriendsList.class).putExtra("uid", SaveSharedPreference.getUserUID(this)).putExtra("profile", getUsername()));
+                startActivity(new Intent(this, FriendsActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(this)).putExtra("profile", getUsername()));
             break;
 
             default:
@@ -248,12 +247,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             public void onClick(View view) {
                 switch (getProfile()) {
                     case "logged in user":
-                        startActivity(new Intent(ProfileActivity.this, FriendsList.class)
+                        startActivity(new Intent(ProfileActivity.this, FriendsActivity.class)
                                 .putExtra("uid", getUID())
                                 .putExtra("profile", "logged in user"));
                         break;
                     case "Already friends with user.":
-                        startActivity(new Intent(ProfileActivity.this, FriendsList.class)
+                        startActivity(new Intent(ProfileActivity.this, FriendsActivity.class)
                                 .putExtra("uid", getUID())
                                 .putExtra("profile", getFirstName() + " " + getLastName()));
                         break;

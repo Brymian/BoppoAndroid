@@ -3,13 +3,11 @@ package brymian.bubbles.bryant.friends;
 import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -17,19 +15,19 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 
 
-public class FriendsListRecyclerAdapter  extends RecyclerView.Adapter<FriendsListRecyclerAdapter.RecyclerViewHolder> {
+public class FriendsRecyclerAdapter extends RecyclerView.Adapter<FriendsRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> friendFirstLastName;
     List<String> friendUsername;
     static List<Integer> friendUid;
     static List<String> friendStatus;
 
-    public FriendsListRecyclerAdapter(Activity activity, List<String> friendFirstLastName, List<String> friendUsername, List<Integer> friendUid, List<String> friendStatus){
-        FriendsListRecyclerAdapter.activity = activity;
+    public FriendsRecyclerAdapter(Activity activity, List<String> friendFirstLastName, List<String> friendUsername, List<Integer> friendUid, List<String> friendStatus){
+        FriendsRecyclerAdapter.activity = activity;
         this.friendFirstLastName = friendFirstLastName;
         this.friendUsername = friendUsername;
-        FriendsListRecyclerAdapter.friendUid = friendUid;
-        FriendsListRecyclerAdapter.friendStatus = friendStatus;
+        FriendsRecyclerAdapter.friendUid = friendUid;
+        FriendsRecyclerAdapter.friendStatus = friendStatus;
     }
 
     @Override
@@ -60,7 +58,7 @@ public class FriendsListRecyclerAdapter  extends RecyclerView.Adapter<FriendsLis
             row.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.startActivity(new Intent(FriendsListRecyclerAdapter.activity, ProfileActivity.class).putExtra("uid", FriendsListRecyclerAdapter.friendUid.get(getAdapterPosition())).putExtra("profile", friendStatus.get(getAdapterPosition())));
+                    activity.startActivity(new Intent(FriendsRecyclerAdapter.activity, ProfileActivity.class).putExtra("uid", FriendsRecyclerAdapter.friendUid.get(getAdapterPosition())).putExtra("profile", friendStatus.get(getAdapterPosition())));
                 }
             });
         }

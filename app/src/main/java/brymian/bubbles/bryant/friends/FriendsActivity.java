@@ -24,7 +24,7 @@ import brymian.bubbles.objects.User;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
-public class FriendsList extends AppCompatActivity{
+public class FriendsActivity extends AppCompatActivity{
 
     RecyclerView recyclerViewFriends;
     RecyclerView.Adapter adapter;
@@ -118,8 +118,8 @@ public class FriendsList extends AppCompatActivity{
                         vDivider.setVisibility(View.VISIBLE);
                         //recyclerViewFriendRequests = (RecyclerView) findViewById(R.id.recyclerView_friendRequest);
                         recyclerViewFriendRequests.setVisibility(View.VISIBLE);
-                        adapter = new FriendRequestReceivedRecyclerAdapter(FriendsList.this, friendRequesterArrayList);
-                        layoutManager = new LinearLayoutManager(FriendsList.this);
+                        adapter = new FriendRequestReceivedRecyclerAdapter(FriendsActivity.this, friendRequesterArrayList);
+                        layoutManager = new LinearLayoutManager(FriendsActivity.this);
                         recyclerViewFriendRequests.setLayoutManager(layoutManager);
                         recyclerViewFriendRequests.setAdapter(adapter);
                     }
@@ -148,7 +148,7 @@ public class FriendsList extends AppCompatActivity{
                         friendsUsername.add(i, users.get(i).getUsername());
                         friendsUID.add(i, users.get(i).getUid());
                         final int j = i;
-                        new ServerRequestMethods(FriendsList.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsList.this), users.get(i).getUid(), new StringCallback() {
+                        new ServerRequestMethods(FriendsActivity.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsActivity.this), users.get(i).getUid(), new StringCallback() {
                             @Override
                             public void done(String string) {
                                 friendsStatus.add(j, string);
@@ -157,8 +157,8 @@ public class FriendsList extends AppCompatActivity{
                     }
                     recyclerViewFriends.setVisibility(View.VISIBLE);
                     //recyclerView = (RecyclerView) findViewById(R.id.recyclerView_friends);
-                    adapter = new FriendsListRecyclerAdapter(FriendsList.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
-                    layoutManager = new LinearLayoutManager(FriendsList.this);
+                    adapter = new FriendsRecyclerAdapter(FriendsActivity.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
+                    layoutManager = new LinearLayoutManager(FriendsActivity.this);
                     recyclerViewFriends.setLayoutManager(layoutManager);
                     recyclerViewFriends.setAdapter(adapter);
                 }
