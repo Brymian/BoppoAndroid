@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/friends_activity">
 
@@ -12,10 +11,11 @@
         android:layout_height="wrap_content"
         android:background="#42ffbf"
         android:minHeight="?attr/actionBarSize"
+        android:elevation="6dp"
         android:theme="@style/AppColor"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_friends"
+        android:id="@+id/rvFriendRequests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="vertical"
@@ -23,36 +23,13 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/famMenu"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_friends"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom|end"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        fab:menu_animationDelayPerItem="0"
-        fab:menu_shadowColor="#444"
-        fab:menu_colorNormal="#42ffbf"
-        fab:menu_colorPressed="#FF239A72"
-        fab:menu_colorRipple="#FF239A72">
+        android:layout_height="wrap_content"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/rvFriendRequests"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabFriendRequestReceived"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_call_received_white_24dp"/>
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabFriendRequestSent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_call_made_white_24dp"/>
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabAddFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/ic_person_add_white_24dp"/>
-
-    </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>
