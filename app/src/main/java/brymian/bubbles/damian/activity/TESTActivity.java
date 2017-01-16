@@ -186,7 +186,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", false, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -231,6 +231,8 @@ public class TESTActivity extends Activity {
                 }
             }
         });
+
+        /*
         new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", true, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -364,7 +366,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new UserRequest(this).setUser(3, null, null, null, "987-654-3210", "Public", new StringCallback() {
             @Override
             public void done(String string) {
@@ -388,7 +390,7 @@ public class TESTActivity extends Activity {
                 System.out.println("Privacy: " + user.getUserAccountPrivacy());
             }
         });
-
+        */
         /*
         new ServerRequestMethods(this).getUserFriendRequestUsers(1, new UserListCallback() {
             @Override
