@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/profile_activity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:theme="@style/AppTheme">
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
@@ -22,7 +23,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
-                android:fitsSystemWindows="true"/>
+                app:layout_collapseMode="pin"
+                android:fitsSystemWindows="true"
+                android:theme="@style/OverflowMenu"/>
             <ImageView
                 android:id="@+id/ivProfilePicture"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
@@ -69,6 +72,34 @@
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    <LinearLayout
+                        android:id="@+id/llButtons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvUserFirstLastName"
+                        android:layout_alignParentLeft="true"
+                        android:paddingTop="10dp"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:id="@+id/ivAddToEpisode"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:src="@mipmap/ic_add_black_24dp"/>
+                        <ImageView
+                            android:id="@+id/ivMap"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:src="@mipmap/ic_public_black_24dp"/>
+                        <ImageView
+                            android:id="@+id/ivMessage"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:src="@mipmap/ic_chat_bubble_black_24dp"/>
+
+                    </LinearLayout>
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
@@ -149,114 +180,3 @@
         app:layout_anchorGravity="bottom|end"
         app:backgroundTint="#3ae1a8" />
 </android.support.design.widget.CoordinatorLayout>
-
-
-    <!--
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/profile_activity"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:clickable="true">
-
-    <ImageView
-        android:id="@+id/ivProfilePictures"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
-    <TextView
-        android:id="@+id/tvProfileUsername"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp" />
-
-    <TextView
-        android:id="@+id/tvProfileFirstLastName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:layout_below="@+id/tvProfileUsername"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
-
-
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabGoBack"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="#42ffbf"
-            fab:fab_colorPressed="#FF239A72"
-            fab:fab_colorRipple="#FF239A72"
-            android:layout_gravity="bottom|start"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@mipmap/ic_arrow_back_black_24dp"/>
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/fabStatusAction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="#42ffbf"
-            fab:fab_colorPressed="#FF239A72"
-            fab:fab_colorRipple="#FF239A72"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="10dp" />
-
-
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/fabMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:menu_animationDelayPerItem="0"
-            fab:menu_shadowColor="#444"
-            fab:menu_colorNormal="#42ffbf"
-            fab:menu_colorPressed="#FF239A72"
-            fab:menu_colorRipple="#FF239A72"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="10dp">
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabRemove"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_remove_circle_outline_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_chat_bubble_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabBlock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_block_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabEpisodes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_my_location_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_public_white_24dp"/>
-        </com.github.clans.fab.FloatingActionMenu>
-</RelativeLayout>
--->

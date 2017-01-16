@@ -1,20 +1,27 @@
 package brymian.bubbles.bryant.profile;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.wallet.fragment.WalletFragmentInitParams;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,8 +36,10 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
@@ -39,7 +48,7 @@ import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
-public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
+public class ProfileActivity extends AppCompatActivity{
     public static ImageView ivProfilePicture;
     FloatingActionButton fabStatus;
     TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum;
@@ -87,7 +96,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tvFriendStatus.setVisibility(View.GONE);
         tvProfileFirstLastName = (TextView) findViewById(R.id.tvUserFirstLastName);
         cvUserFriends = (CardView) findViewById(R.id.cvUserFriends);
-        cvUserFriends.setOnClickListener(this);
+        cvUserFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, FriendsActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(ProfileActivity.this)).putExtra("profile", getUsername()));
+            }
+        });
         tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
         tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
         rvUserEpisodes = (RecyclerView) findViewById(R.id.rvUserEpisodes);
@@ -129,15 +143,41 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.cvUserFriends:
-                startActivity(new Intent(this, FriendsActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(this)).putExtra("profile", getUsername()));
-            break;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.profile_activity_menu_inflater, menu);
+        return true;
+    }
 
-            default:
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.removeAsFriend:
+                new FriendshipStatusRequest(this).unFriend(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
 
+            case R.id.Block:
+                new FriendshipStatusRequest(this).blockUser(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+                break;
+
+            case R.id.Report_user:
+                Toast.makeText(this, "Report under construction", Toast.LENGTH_SHORT).show();
+                break;
+
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setUserProfileInfo(String profile){
@@ -152,14 +192,38 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 fabStatus.setImageResource(R.mipmap.ic_dots_horizontal_white_24dp);
                 tvFriendStatus.setText(profile);
                 tvFriendStatus.setVisibility(View.VISIBLE);
+                fabStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialogFriendRequestSent();
+                    }
+                });
                 break;
             case "User is awaiting confirmation for friend request.":
                 fabStatus.setImageResource(R.mipmap.ic_dots_horizontal_white_24dp);
                 tvFriendStatus.setText(profile);
                 tvFriendStatus.setVisibility(View.VISIBLE);
+                fabStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialogFriendRequestReceived();
+                    }
+                });
                 break;
             case "Not friends.":
                 fabStatus.setImageResource(R.mipmap.ic_person_add_white_24dp);
+                fabStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new ServerRequestMethods(ProfileActivity.this).setFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(),
+                                new StringCallback() {
+                                    public void done(String string) {
+                                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                        );
+                    }
+                });
                 break;
             case "User is currently being blocked.":
                 /* hide everything, show user doesnt exist like facebook? */
@@ -235,7 +299,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void setFloatingActionButtons(){
         fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
         fabGoBack.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 onBackPressed();
             }
@@ -243,7 +306,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         fabStatusAction = (FloatingActionButton) findViewById(R.id.fabStatusAction);
         fabStatusAction.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 switch (getProfile()) {
                     case "logged in user":
@@ -260,7 +322,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         new ServerRequestMethods(ProfileActivity.this).setFriendStatus(
                                 SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(),
                                 new StringCallback() {
-                                    @Override
                                     public void done(String string) {
                                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                                     }
@@ -274,7 +335,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 SaveSharedPreference.getUserUID(ProfileActivity.this),
                                 getUID(),
                                 new StringCallback() {
-                                    @Override
                                     public void done(String string) {
                                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                                     }
@@ -287,10 +347,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
         fabRemove = (FloatingActionButton) findViewById(R.id.fabRemove);
         fabRemove.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 new FriendshipStatusRequest(ProfileActivity.this).unFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
-                    @Override
                     public void done(String string) {
                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                     }
@@ -300,7 +358,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         fabMessage = (FloatingActionButton) findViewById(R.id.fabMessage);
         fabMessage.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 Toast.makeText(ProfileActivity.this, "Under construction: Message", Toast.LENGTH_SHORT).show();
             }
@@ -308,13 +365,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         fabBlock = (FloatingActionButton) findViewById(R.id.fabBlock);
         fabBlock.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 new FriendshipStatusRequest(ProfileActivity.this).blockUser(
                         SaveSharedPreference.getUserUID(ProfileActivity.this),
                         getUID(),
                         new StringCallback() {
-                    @Override
                     public void done(String string) {
                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                     }
@@ -324,7 +379,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         fabEpisodes = (FloatingActionButton) findViewById(R.id.fabEpisodes);
         fabEpisodes.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
 
             }
@@ -332,7 +386,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
         fabMap.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View view) {
                 if(getProfile().equals("logged in user")){
                     startActivity(new Intent(ProfileActivity.this, MapsActivity.class)
@@ -381,8 +434,67 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 **/
 
+    private void alertDialogFriendRequestReceived(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.alert_dialog_friend_request_received, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("Decline", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new FriendshipStatusRequest(ProfileActivity.this).rejectFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        alert.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new ServerRequestMethods(ProfileActivity.this).setFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
+    private void alertDialogFriendRequestSent(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.alert_dialog_friend_request_sent, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new FriendshipStatusRequest(ProfileActivity.this).cancelFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
+    }
+
     private void getProfilePictures(int uid){
-        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
+        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Public", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
@@ -396,7 +508,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
         String path;
 
-        public DownloadImage(String path){
+        DownloadImage(String path){
             this.path = path;
         }
 

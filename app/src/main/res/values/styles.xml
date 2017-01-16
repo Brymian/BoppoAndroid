@@ -17,6 +17,10 @@
         -->
     </style>
 
+    <style name="OverflowMenu" parent="@android:style/Widget.Holo.Light.PopupWindow">
+        <item name="android:colorBackground">@android:color/background_light</item>
+    </style>
+
     <!-- Base toolbar theme -->
     <style name="AppColor">
         <item name="android:background">#3ae1a8</item>
