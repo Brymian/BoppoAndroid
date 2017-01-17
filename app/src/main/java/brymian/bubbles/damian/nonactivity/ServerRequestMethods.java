@@ -421,13 +421,13 @@ public class ServerRequestMethods {
                 "{\"username\":\"" + user.getUsername() + "\"," +
                 " \"password\":\"" + user.getPassword() + "\"}";
             Post request = new Post();
-            System.out.println("JSON STRING TO BE SENT: ");
+            //System.out.println("JSON STRING TO BE SENT: ");
             System.out.println(jsonUser);
 
             try
             {
                 String response = request.post(url, jsonUser);
-                System.out.println("RESPONSE: " + response);
+                //System.out.println("RESPONSE: " + response);
 
                 if (response.equals("USERNAME AND PASSWORD COMBINATION IS INCORRECT."))
                 {
@@ -438,8 +438,8 @@ public class ServerRequestMethods {
                 else
                 {
                 JSONObject jObject = new JSONObject(response);
-                System.out.println("jObject length: " + jObject.length());
-                    System.out.println("PASSWORD CHECK: " + jObject.getString("password"));
+                //System.out.println("jObject length: " + jObject.length());
+                //    System.out.println("PASSWORD CHECK: " + jObject.getString("password"));
                     user.setUser(
                         getJsonNullableInt(jObject, "uid"),
                         jObject.getString("facebookUid"),
@@ -457,7 +457,7 @@ public class ServerRequestMethods {
                     udl.setUserData(user);
                     udl.setLoggedStatus(true);
                     try{ Thread.sleep(1000); } catch (InterruptedException ie) {/**/}
-                    System.out.println("getLoggedStatus; " + udl.getLoggedStatus());
+                    //System.out.println("getLoggedStatus; " + udl.getLoggedStatus());
                 }
             }
             catch (IOException ioe)
