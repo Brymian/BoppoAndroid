@@ -1,122 +1,94 @@
 package brymian.bubbles.bryant.episodes;
 
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.objects.Event;
-
 
 public class EpisodeMy extends AppCompatActivity {
     Toolbar mToolbar;
-    View vDivider;
-    TextView tvHosting, tvAttending;
-    RecyclerView rvEpisodesHosting, rvEpisodesAttending;
-    RecyclerView.Adapter adapter;
-    RecyclerView.LayoutManager layoutManager;
-
+    ViewPager viewPager;
+    TabLayout tabLayout;
 
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
         setContentView(R.layout.episode_my);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.My_Episodes);
+        mToolbar.setTitleTextColor(Color.WHITE);
 
-        rvEpisodesHosting = (RecyclerView) findViewById(R.id.rvEpisodesHosting);
-        rvEpisodesAttending = (RecyclerView) findViewById(R.id.rvEpisodesAttending);
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_star_white_24dp), 0, true);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_run_black_24dp), 1, false);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        EpisodeMyPagerAdapter pagerAdapter = new EpisodeMyPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(pagerAdapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
+            @Override
+            public void onPageSelected(int position) {
+                if (position == 0) {
+                    mToolbar.setTitle(R.string.Hosting);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_star_white_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_run_black_24dp);
+                }
+                else if(position == 1){
+                    mToolbar.setTitle(R.string.Attending);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_star_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_run_white_24dp);
+                }
 
-        tvHosting = (TextView) findViewById(R.id.tvHosting);
-        tvHosting.setVisibility(View.GONE);
-        tvAttending = (TextView) findViewById(R.id.tvAttending);
-        tvAttending.setVisibility(View.GONE);
-        vDivider = findViewById(R.id.vDivider);
-        vDivider.setVisibility(View.GONE);
+            }
 
+        });
+        viewPager.setCurrentItem(0);
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                int index = tab.getPosition();
+                try {
+                    viewPager.setCurrentItem(index);
+                    if(index == 0){
+                        tab.setIcon(R.mipmap.ic_star_white_24dp);
+                    }else if(index == 1) {
+                        tab.setIcon(R.mipmap.ic_run_white_24dp);
+                    }
+                } catch (NullPointerException | IllegalStateException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                int index = tab.getPosition();
+                if(index == 0){
+                    tab.setIcon(R.mipmap.ic_star_black_24dp);
+                }else if(index == 1){
+                    tab.setIcon(R.mipmap.ic_run_black_24dp);
+                }
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        getHostingEpisodes();
-        getAttendingEpisodes();
     }
-
-    private void getHostingEpisodes(){
-        new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
-            @Override
-            public void done(List<Event> eventList) {
-                Log.e("Hosting", String.valueOf(eventList.size()));
-                if(eventList.size() > 0) {
-                    ArrayList<String> eventTitleHosting = new ArrayList<>();
-                    ArrayList<Integer> eventEidHosting = new ArrayList<>();
-                    for (Event event : eventList) {
-
-                        if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeMy.this)) {
-                            tvHosting.setVisibility(View.VISIBLE);
-                            eventTitleHosting.add(event.eventName);
-                            eventEidHosting.add(event.eid);
-                            vDivider.setVisibility(View.VISIBLE);
-                            tvAttending.setVisibility(View.VISIBLE);
-                        }
-                    }
-                    adapter = new EpisodeHostingRecyclerAdapter(EpisodeMy.this, eventTitleHosting, eventEidHosting);
-                    layoutManager = new LinearLayoutManager(EpisodeMy.this);
-                    rvEpisodesHosting.setLayoutManager(layoutManager);
-                    rvEpisodesHosting.setAdapter(adapter);
-                }
-            }
-        });
-    }
-
-    private void getAttendingEpisodes(){
-        new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
-            @Override
-            public void done(List<Event> eventList) {
-                if(eventList.size() > 0) {
-                    List<String> episodeTitleAttending = new ArrayList<>();
-                    List<String> episodeHostNameAttending = new ArrayList<>();
-                    List<Integer> episodeEidAttending = new ArrayList<>();
-                    for (Event event : eventList) {
-                        if (event.eventHostUid != SaveSharedPreference.getUserUID(EpisodeMy.this)) {
-                            episodeTitleAttending.add(event.eventName);
-                            episodeHostNameAttending.add(event.eventHostFirstName + " " + event.eventHostLastName);
-                            episodeEidAttending.add(event.eid);
-                            Log.e("Attending title event", event.eventName);
-                        }
-                    }
-
-                    adapter = new EpisodeAttendingRecyclerAdapter(EpisodeMy.this, episodeTitleAttending, episodeHostNameAttending, episodeEidAttending);
-                    layoutManager = new LinearLayoutManager(EpisodeMy.this);
-                    rvEpisodesAttending.setLayoutManager(layoutManager);
-                    rvEpisodesAttending.setAdapter(adapter);
-                }
-                else {
-                    Log.e("Attending Episodes", "Attending 0 events.");
-                }
-            }
-        });
-    }
-
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

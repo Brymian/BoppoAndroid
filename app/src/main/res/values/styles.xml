@@ -3,7 +3,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <!--   your app branding color for the app bar -->
-        <item name="colorPrimary">#42ffbf</item>
+        <item name="colorPrimary">#3ae1a8</item>
         <!--   darker variant for the status bar and contextual app bars -->
         <item name="colorPrimaryDark">#2ba67c</item>
         <item name="colorAccent">@android:color/darker_gray</item>

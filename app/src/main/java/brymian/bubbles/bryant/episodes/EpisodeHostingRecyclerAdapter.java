@@ -2,6 +2,7 @@ package brymian.bubbles.bryant.episodes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,12 +15,12 @@ import java.util.List;
 import brymian.bubbles.R;
 
 
-public class EpisodeHostingRecyclerAdapter extends RecyclerView.Adapter<EpisodeHostingRecyclerAdapter.RecyclerViewHolder> {
+class EpisodeHostingRecyclerAdapter extends RecyclerView.Adapter<EpisodeHostingRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> episodeTitle;
     static List<Integer> episodeEid;
 
-    public EpisodeHostingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<Integer> episodeEid){
+    EpisodeHostingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<Integer> episodeEid){
         EpisodeHostingRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
         EpisodeHostingRecyclerAdapter.episodeEid = episodeEid;
@@ -43,12 +44,12 @@ public class EpisodeHostingRecyclerAdapter extends RecyclerView.Adapter<EpisodeH
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle;
-        LinearLayout row;
+        CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
-            row = (LinearLayout) v.findViewById(R.id.row);
-            row.setOnClickListener(new View.OnClickListener() {
+            cardView = (CardView) v.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
