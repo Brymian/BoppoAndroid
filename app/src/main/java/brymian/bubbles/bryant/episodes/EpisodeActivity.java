@@ -1,6 +1,9 @@
 package brymian.bubbles.bryant.episodes;
 
 import android.app.FragmentManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -20,6 +23,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +45,12 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 
 public class EpisodeActivity extends AppCompatActivity implements View.OnClickListener{
+    public static List<Bitmap> userProfileImageBitmap = new ArrayList<>();
+    public static List<String> userProfileImagePath = new ArrayList<>();
+    public static List<Integer> uid = new ArrayList<>();
+    public static List<String> userComment = new ArrayList<>();
+    public static List<String> userCommentTimestamp = new ArrayList<>();
+    public static List<String> userUsername = new ArrayList<>();
     TextView  tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvViewCount, tvCommentsNumber;
     FloatingActionButton fabPlay;
     ImageView ivLike, ivDislike, ivAddComment;
@@ -213,9 +226,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     }
                     else{
                         Log.e("comments", string);
-                        List<Integer> uid = new ArrayList<>();
-                        List<String> userComment = new ArrayList<>();
-                        List<String> userCommentTimestamp = new ArrayList<>();
                         //List<Integer> userCommentParentUcid = new ArrayList<>();
 
                         JSONObject object = new JSONObject(string);
@@ -226,10 +236,13 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                             uid.add(jArray_jObject.getInt("uid"));
                             userComment.add(jArray_jObject.getString("userComment"));
                             userCommentTimestamp.add(jArray_jObject.getString("userCommentSetTimestamp"));
+                            userUsername.add(jArray_jObject.getJSONObject("user").getString("username"));
+                            userProfileImagePath.add(jArray_jObject.getJSONObject("image").getString("userImagePath"));
+                            new DownloadImage(jArray_jObject.getJSONObject("image").getString("userImagePath")).execute();
                             //userCommentParentUcid.add(jArray_jObject.getInt("parentUcid"));
                         }
 
-                        adapter = new EpisodeActivityCommentsRecyclerAdapter(EpisodeActivity.this, uid, userComment, userCommentTimestamp);
+                        adapter = new EpisodeActivityCommentsRecyclerAdapter(EpisodeActivity.this, uid, userUsername, userProfileImagePath, userComment, userCommentTimestamp);
                         layoutManager = new LinearLayoutManager(EpisodeActivity.this);
                         rvComments.setLayoutManager(layoutManager);
                         rvComments.setNestedScrollingEnabled(false);
@@ -241,6 +254,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+
     }
 
     private void getEpisodeInfo(int eid){
@@ -288,4 +302,33 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         return isHost;
     }
 
+    private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
+        String path;
+
+        DownloadImage(String path){
+            this.path = path;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            try {
+                URLConnection connection = new URL(path).openConnection();
+                connection.setConnectTimeout(1000 * 30);
+                connection.setReadTimeout(1000 * 30);
+                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (bitmap!=null){
+                userProfileImageBitmap.add(bitmap);
+                Log.e("onPostExecute", "size: " + userProfileImageBitmap);
+            }
+        }
+    }
 }

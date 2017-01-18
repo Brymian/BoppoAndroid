@@ -19,8 +19,7 @@
             <ImageView
                 android:id="@+id/ivUserProfileImage"
                 android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@android:color/black"/>
+                android:layout_height="50dp" />
         </LinearLayout>
         <TextView
             android:id="@+id/tvUserUsername"
