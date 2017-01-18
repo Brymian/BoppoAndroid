@@ -69,6 +69,7 @@
     <string name="Explore">Explore</string>
     <string name="Filter">Filter</string>
     <string name="Friend_Requests">Friend Requests</string>
+    <string name="Friend_Requests_caps">FRIEND REQUESTS</string>
     <string name="Friends">Friends</string>
     <string name="Friend">Friend</string>
     <string name="Gallery">Gallery</string>

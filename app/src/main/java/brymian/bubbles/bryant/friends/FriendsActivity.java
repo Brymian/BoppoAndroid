@@ -5,10 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +22,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
 public class FriendsActivity extends AppCompatActivity{
-
+    LinearLayout llFriendRequests;
     RecyclerView recyclerViewFriends, rvFriendRequests;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
@@ -53,27 +53,27 @@ public class FriendsActivity extends AppCompatActivity{
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        llFriendRequests = (LinearLayout) findViewById(R.id.llFriendRequests);
+        llFriendRequests.setVisibility(View.GONE);
         recyclerViewFriends = (RecyclerView) findViewById(R.id.recyclerView_friends);
         rvFriendRequests = (RecyclerView) findViewById(R.id.rvFriendRequests);
 
         if (profile != null) {
             if(profile.equals("logged in user")){
                 mToolbar.setTitle(R.string.Friends);
-                //checkForReceivedFriendRequests();
+                checkForReceivedFriendRequests();
             }
             else{
                 mToolbar.setTitle(profile + "'s Friends");
             }
         }
-        checkForReceivedFriendRequests();
+        //checkForReceivedFriendRequests();
         getFriends(uid);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
 
     /* Checks and displays for any friend requests for logged in user */
     private void checkForReceivedFriendRequests(){
@@ -82,7 +82,7 @@ public class FriendsActivity extends AppCompatActivity{
             public void done(List<User> users) {
                 try {
                     if (users.size() > 0) {
-                        Log.e("FriendRequests" , "size: " + users.size());
+                        llFriendRequests.setVisibility(View.VISIBLE);
                         ArrayList<FriendRequester> friendRequesterArrayList = new ArrayList<>();
 
                         for (User user : users) {
@@ -92,6 +92,7 @@ public class FriendsActivity extends AppCompatActivity{
                         adapter = new FriendRequestReceivedRecyclerAdapter(FriendsActivity.this, friendRequesterArrayList);
                         layoutManager = new LinearLayoutManager(FriendsActivity.this);
                         rvFriendRequests.setLayoutManager(layoutManager);
+                        rvFriendRequests.setNestedScrollingEnabled(false);
                         rvFriendRequests.setAdapter(adapter);
                     }
                 }
@@ -128,6 +129,7 @@ public class FriendsActivity extends AppCompatActivity{
                     adapter = new FriendsRecyclerAdapter(FriendsActivity.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
                     layoutManager = new LinearLayoutManager(FriendsActivity.this);
                     recyclerViewFriends.setLayoutManager(layoutManager);
+                    recyclerViewFriends.setNestedScrollingEnabled(false);
                     recyclerViewFriends.setAdapter(adapter);
                 }
                 catch (NullPointerException npe){
@@ -142,7 +144,6 @@ public class FriendsActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.home:
-                Log.e("help", "it worksssss");
                 onBackPressed();
                 return true;
 
