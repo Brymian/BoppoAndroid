@@ -95,4 +95,19 @@ public class Miscellaneous {
 
         return true;
     }
+
+    public static void printLongString(String string)
+    {
+        final int MAX_LENGTH = 2000;
+
+        if (string.length() > MAX_LENGTH)
+        {
+            System.out.println(string.substring(0, MAX_LENGTH));
+            printLongString(string.substring(MAX_LENGTH));
+        }
+        else
+        {
+            System.out.println(string);
+        }
+    }
 }

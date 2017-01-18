@@ -204,7 +204,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
  **/
 
     private void getEpisodeComments() {
-        new UserCommentRequest(this).getObjectComments("Event", Long.parseLong(String.valueOf(getEid()), 10), new StringCallback() {
+        new UserCommentRequest(this).getObjectComments("Event", getEid(), new StringCallback() {
             @Override
             public void done(String string) {
                 try{

@@ -38,7 +38,7 @@ public class UserCommentRequest
             userComment, parentUcid, stringCallback).execute();
     }
 
-    public void getObjectComments(String objectTypeLabel, Long oid, StringCallback stringCallback)
+    public void getObjectComments(String objectTypeLabel, Integer oid, StringCallback stringCallback)
     {
         pd.show();
         new GetObjectComments(objectTypeLabel, oid, stringCallback).execute();
@@ -115,10 +115,10 @@ public class UserCommentRequest
     private class GetObjectComments extends AsyncTask<Void, Void, String> {
 
         String objectTypeLabel;
-        Long oid;
+        Integer oid;
         StringCallback stringCallback;
 
-        private GetObjectComments(String objectTypeLabel, Long oid, StringCallback stringCallback)
+        private GetObjectComments(String objectTypeLabel, Integer oid, StringCallback stringCallback)
         {
             this.objectTypeLabel = objectTypeLabel;
             this.oid = oid;
@@ -139,8 +139,11 @@ public class UserCommentRequest
                 jObject.put("oid", getNullOrValue(oid));
 
                 String jString = jObject.toString();
-                String response = request.post(url, jString);
 
+                String response = request.post(url, jString);
+                response = response.replaceAll(
+                    "(\"image\":\\{\"userImagePath\":\")(1\\\\/13\\\\/0)\"\\}",
+                    "$1" + httpConnection.getUploadServerString() + "$2\"}");
                 return response;
             }
             catch (IOException ioe)

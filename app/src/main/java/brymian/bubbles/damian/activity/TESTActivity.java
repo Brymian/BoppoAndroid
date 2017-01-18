@@ -2,6 +2,7 @@ package brymian.bubbles.damian.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +33,7 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFr
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.printLongString;
 
 /**
  * Created by Ziomster on 7/29/2015.
@@ -186,7 +188,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(1, "Regular", false, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -231,7 +233,7 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-
+        */
         /*
         new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", true, new ImageListCallback() {
             @Override
@@ -850,15 +852,22 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new UserCommentRequest(this).getObjectComments("User Image", 22L, new StringCallback() {
+
+        new UserCommentRequest(this).getObjectComments("Event", 56, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING GET OBJECT COMMENTS RESPONSE HAS BEEN RETURNED: ");
-                System.out.println(string);
+                printLongString(string);
+                /*
+                try {
+                    JSONObject jObject = new JSONObject(string);
+                    System.out.println(jObject.getJSONArray("comments").getJSONObject(0).getJSONObject("image").getString("userImagePath"));
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
+                */
             }
         });
-        */
+
         /*
         new EventRequest(this).updateEvent(38, 3, "Funniest Shiz Evah", "Private", "Friends", null, null, null, null, null, new StringCallback() {
             @Override
