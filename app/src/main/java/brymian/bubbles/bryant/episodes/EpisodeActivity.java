@@ -327,7 +327,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             super.onPostExecute(bitmap);
             if (bitmap!=null){
                 userProfileImageBitmap.add(bitmap);
-                Log.e("onPostExecute", "size: " + userProfileImageBitmap);
+                Log.e("onPostExecute", "size: " + userProfileImageBitmap.size());
             }
         }
     }
