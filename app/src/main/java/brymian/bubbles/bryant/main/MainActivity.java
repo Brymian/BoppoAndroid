@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -145,36 +144,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fabMain = (FloatingActionButton) findViewById(R.id.fabMain);
         fabMain.setOnClickListener(this);
-
-
-/**
-        FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
-        famMenu.showMenuButton(true);
-
-        FloatingActionButton fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
-        fabCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, CameraActivity.class).putExtra("imagePurpose", "Regular"));
-            }
-        });
-
-        FloatingActionButton fabMap = (FloatingActionButton) findViewById(R.id.fabMap);
-        fabMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, MapsActivity.class).putExtra("profile", "all"));
-            }
-        });
-
-        FloatingActionButton fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
-        fabCreateEpisode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, EpisodeCreate.class));
-            }
-        });
-**/
     }
 
     @Override
