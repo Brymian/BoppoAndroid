@@ -56,6 +56,7 @@
     <string name="Block">Block</string>
     <string name="Camera">Camera</string>
     <string name="Cancel">Cancel</string>
+    <string name="CHOOSE_FROM_OUR_COLLECTION">CHOOSE FROM OUR COLLECTION:</string>
     <string name="Comments">Comments</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Create_Episode">Create Episode</string>
@@ -93,6 +94,7 @@
     <string name="News_Feed">News Feed</string>
     <string name="Notifications">Notifications</string>
     <string name="Options_Menu">Options Menu</string>
+    <string name="OR"><i><b><u>OR</u></b></i></string>
     <string name="Participants">Participants</string>
     <string name="Password">Password</string>
     <string name="Personal">Personal</string>
@@ -116,9 +118,11 @@
     <string name="Settings">SETTINGS</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Sync_With_Other_Media">Sync With Other Media</string>
+    <string name="Title">Title</string>
     <string name="Top_Episodes">Top Episodes</string>
     <string name="Unblock">Unblock</string>
     <string name="Upload_From">Upload From:</string>
+    <string name="UPLOAD_IMAGE">UPLOAD IMAGE FROM: </string>
     <string name="Users">Users</string>
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
     <string name="View_More_Current_Episodes">View More Current Episodes&#8230;</string>

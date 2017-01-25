@@ -1,115 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="@android:color/white"
-    android:theme="@style/BubblesTheme">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:theme="@style/AppTheme">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#42ffbf"
-        android:minHeight="?attr/actionBarSize" />
-
-
-
+        android:minHeight="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:transitionGroup="true"
+        app:theme="@style/AppColor"/>
     <LinearLayout
-        android:id="@+id/llMainLayout"
+        android:id="@+id/llTitle"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/toolbar"
+        android:layout_marginBottom="1dp"
+        android:padding="10dp"
+        android:background="@android:color/white"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/llEpisodeTitle"
+        <TextView
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <EditText
-                android:id="@+id/etEpisodeTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Add_Episode_Title"
-                android:maxLines="1"/>
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:id="@+id/llPrivate"
+            android:text="@string/Title"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+        <EditText
+            android:id="@+id/etEpisodeTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvPrivate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/Private"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
-            <CheckBox
-                android:id="@+id/cbPrivate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/llCurrentLocation"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvCurrentLocation"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/Add_To_Current_Location"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
-            <CheckBox
-                android:id="@+id/cbCurrentLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/llLogo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/Logo"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp" />
-
-            <ImageButton
-                android:id="@+id/ibLogo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:inputType="text"
+            android:maxLines="1"/>
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/llPrivate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/llTitle"
+        android:layout_marginBottom="1dp"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Private"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+        <CheckBox
+            android:id="@+id/cbPrivate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
 
-    <com.github.clans.fab.FloatingActionButton
+    <LinearLayout
+        android:id="@+id/llCurrentLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llPrivate"
+        android:layout_marginBottom="1dp"
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Add_To_Current_Location"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+        <CheckBox
+            android:id="@+id/cbCurrentLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvLogo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llCurrentLocation"
+        android:layout_margin="10dp"
+        android:text="@string/Logo"
+        android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+    <LinearLayout
+        android:id="@+id/llUploadImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLogo"
+        android:orientation="vertical"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:id="@+id/tvUploadImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/UPLOAD_IMAGE"
+            android:textAppearance="@android:style/TextAppearance.Small"/>
+        <TextView
+            android:id="@+id/tvCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:drawableLeft="@mipmap/ic_photo_camera_black_24dp"
+            android:text="@string/Camera"
+            android:drawablePadding="5dp"/>
+        <TextView
+            android:id="@+id/tvGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_vertical|center_horizontal"
+            android:drawableLeft="@mipmap/ic_collections_black_24dp"
+            android:text="@string/Gallery"
+            android:drawablePadding="5dp"/>
+        <ImageView
+            android:id="@+id/ivImagePreview"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvOr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llUploadImage"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/OR"
+        android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+    <LinearLayout
+        android:id="@+id/llChooseFromOurCollection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvOr"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/CHOOSE_FROM_OUR_COLLECTION"
+            android:textAppearance="@android:style/TextAppearance.Small"/>
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabDone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_colorNormal="#42ffbf"
-        fab:fab_colorPressed="#FF239A72"
-        fab:fab_colorRipple="#FF239A72"
-        android:layout_gravity="right"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:src="@mipmap/ic_done_black_24dp"/>
-
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:backgroundTint="#3ae1a8"
+        android:src="@mipmap/ic_done_white_24dp"/>
+</RelativeLayout>

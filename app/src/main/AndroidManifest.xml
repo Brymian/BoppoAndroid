@@ -82,11 +82,7 @@
 
         <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"/>
         <!-- EVENTS CLASSES -->
-        <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.main.MainActivity" />
-        </activity>
+        <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeMy" android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

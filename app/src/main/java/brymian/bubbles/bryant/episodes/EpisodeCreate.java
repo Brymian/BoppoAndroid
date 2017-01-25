@@ -2,7 +2,9 @@ package brymian.bubbles.bryant.episodes;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,25 +15,29 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-
-import com.github.clans.fab.FloatingActionButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
 
-public class EpisodeCreate extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
+public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     EditText etEpisodeTitle;
     CheckBox cbPrivate, cbCurrentLocation;
     String episodeTitle ,privacy;
+    TextView tvCamera, tvGallery;
+    ImageView ivImagePreview;
+    FloatingActionButton fabDone;
     double latitude;
     double longitude;
 
@@ -40,28 +46,50 @@ public class EpisodeCreate extends AppCompatActivity implements CompoundButton.O
         super.onCreate(saveInstanceState);
         setContentView(R.layout.episode_create);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setTitle(R.string.Create_Episode);
+        mToolbar.setTitle(R.string.Create_Episode);
+        mToolbar.setTitleTextColor(Color.WHITE);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         etEpisodeTitle = (EditText) findViewById(R.id.etEpisodeTitle);
+
         cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
         cbPrivate.setOnCheckedChangeListener(this);
+
         cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
         cbCurrentLocation.setChecked(true);
         cbCurrentLocation.setOnCheckedChangeListener(this);
 
+        tvCamera = (TextView) findViewById(R.id.tvCamera);
+        tvCamera.setOnClickListener(this);
 
+        tvGallery = (TextView) findViewById(R.id.tvGallery);
+        tvGallery.setOnClickListener(this);
+
+        ivImagePreview = (ImageView) findViewById(R.id.ivImagePreview);
+        ivImagePreview.setVisibility(View.GONE);
 
         setPrivacy("Public");
         setLatitude(SaveSharedPreference.getLatitude(this));
         setLongitude(SaveSharedPreference.getLongitude(this));
 
-        FloatingActionButton fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
-        fabDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tvCamera:
+                startActivity(new Intent(this, CameraActivity.class));
+                break;
+
+            case R.id.tvGallery:
+
+                break;
+
+            case R.id.fabDone:
                 new EventRequest(EpisodeCreate.this).createEvent(
                         SaveSharedPreference.getUserUID(EpisodeCreate.this),      /* uid */
                         getEpisodeTitle(),                          /* Episode Title */
@@ -82,10 +110,8 @@ public class EpisodeCreate extends AppCompatActivity implements CompoundButton.O
                                 }
                             }
                         });
-            }
-        });
-
-
+                break;
+        }
     }
 
     @Override
@@ -119,14 +145,18 @@ public class EpisodeCreate extends AppCompatActivity implements CompoundButton.O
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 
     private void addFriends() {
         LayoutInflater inflater = getLayoutInflater();
