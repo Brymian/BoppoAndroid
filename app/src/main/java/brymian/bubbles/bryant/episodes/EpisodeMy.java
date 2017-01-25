@@ -1,12 +1,15 @@
 package brymian.bubbles.bryant.episodes;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 import brymian.bubbles.R;
 
@@ -14,6 +17,7 @@ public class EpisodeMy extends AppCompatActivity {
     Toolbar mToolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
+    FloatingActionButton fabCreateEpisode;
 
     protected void onCreate(Bundle saveInstanceState){
         super.onCreate(saveInstanceState);
@@ -81,8 +85,8 @@ public class EpisodeMy extends AppCompatActivity {
         });
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setCreateEpisodeFAB();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -93,5 +97,15 @@ public class EpisodeMy extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void setCreateEpisodeFAB(){
+        fabCreateEpisode = (FloatingActionButton) findViewById(R.id.fabCreateEpisode);
+        fabCreateEpisode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(EpisodeMy.this, EpisodeCreate.class));
+            }
+        });
     }
 }
