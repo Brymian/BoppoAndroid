@@ -5,13 +5,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-//import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,7 +19,6 @@ import android.view.View;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
-import brymian.bubbles.bryant.episodes.EpisodeCreate;
 import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
@@ -29,7 +28,6 @@ import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.account.SyncWithOtherMedia;
 import brymian.bubbles.bryant.account.Email;
-import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
 import brymian.bubbles.bryant.map.MapsActivity;
 import brymian.bubbles.bryant.settings.Privacy;
@@ -45,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar mToolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
-    NestedScrollView nestedScrollView;
+    FloatingActionButton fabMain;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setSupportActionBar(mToolbar);
 
+        fabMain = (FloatingActionButton) findViewById(R.id.fabMain);
+        fabMain.setOnClickListener(this);
+
 
 /**
         FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
@@ -180,6 +181,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         FragmentManager fm = getFragmentManager();
         switch (view.getId()){
+            /* FloatingActionButton */
+            case R.id.fabMain:
+                startFragment(fm, R.id.main_activity, new MainActivityFab());
+                break;
+
+            case R.id.fabClose:
+                onBackPressed();
+                break;
             /*---------------------------------MainTabPersonal-------------------------------------*/
             /* Profile */
             case R.id.cvMyProfile:
