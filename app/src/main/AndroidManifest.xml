@@ -49,50 +49,21 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.main.MainActivity" />
-        </activity>
+        <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"/>
-
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.friends.FriendsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait">
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".bryant.main.MainActivity" />
-        </activity>
+        <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.sendTo.SendTo" android:screenOrientation="portrait"/>
-
-        <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.main.MainActivity" />
-        </activity>
-
-        <activity android:name=".bryant.camera.CameraActivity" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.main.MainActivity" />
-        </activity>
-
+        <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.camera.CameraActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"/>
-        <!-- EVENTS CLASSES -->
         <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.episodes.EpisodeMy" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".bryant.main.MainActivity" />
-        </activity>
-        <!-- END OF EVENTS CLASSES -->
-        <activity android:name=".bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop">
-
-        </activity>
-        <!-- PROFILE CLASSES -->
+        <activity android:name=".bryant.episodes.EpisodeMy" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>
         <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
         <!-- END OF PROFILE CLASSES -->
 
