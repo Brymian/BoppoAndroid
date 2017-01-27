@@ -342,15 +342,4 @@ public class SaveSharedPreference {
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/
-
-    public static void setDontDisplayAgainEpisodeAddFriends(Context ctx){
-        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
-        editor.putString(PREF_DONT_DISPLAY_AGAIN, "don't display again");
-        editor.apply();
-    }
-
-    public static String getDontDisplayAgainEpisodeAddFriends(Context ctx){
-        return getSharedPreferences(ctx).getString(PREF_DONT_DISPLAY_AGAIN, "");
-    }
-
 }
