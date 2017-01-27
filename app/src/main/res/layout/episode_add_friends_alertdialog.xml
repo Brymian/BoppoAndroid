@@ -7,5 +7,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/An_Episode_with_the_title_already_exists."/>
+        android:text="@string/Invites_successfully_sent"/>
 </LinearLayout>

@@ -41,11 +41,13 @@
     <string name="Account">ACCOUNT</string>
     <string name="Add_comment">Add comment</string>
     <string name="Add_Episode_Title">Add Episode Title</string>
-    <string name="Add_Friends">Add Friends</string>
+    <string name="Add_Friends_to_Episode">Add Friends to Episode</string>
     <string name="Add_To_Current_Location">Add To Current Location</string>
     <string name="alert_dialog_friend_request_received">Friend request received.</string>
     <string name="alert_dialog_friend_request_sent">Friend request sent.\n\nDo you want to cancel the friend request?</string>
     <string name="All_Time">ALL TIME</string>
+    <string name="An_Episode_with_the_title_already_exists.">An Episode with the title already exists.</string>
+    <string name="Are_you_sure_you_do_not_want_to_send_add_friends">Are you sure you don\'t want to add friends to the Episode now? You can always do so later.</string>
     <string name="MOST_DISLIKES">Most Likes</string>
     <string name="MOST_LIKES">Most Likes</string>
     <string name="MOST_VIEWS">Most Views</string>
@@ -63,6 +65,7 @@
     <string name="Current_Location">Current Location</string>
     <string name="Current_Password">Current Password</string>
     <string name="Decline">Decline</string>
+    <string name="Do_not_display_again">Don\'t display again</string>
     <string name="Done">Done</string>
     <string name="Email">Email</string>
     <string name="Episode_Requests">Episode Requests</string>
@@ -75,6 +78,7 @@
     <string name="Friend">Friend</string>
     <string name="Gallery">Gallery</string>
     <string name="Hosting">Hosting</string>
+    <string name="Invites_successfully_sent">Invite(s) successfully sent!</string>
     <string name="Later">Later</string>
     <string name="Live">Live</string>
     <string name="Live_Episodes">Live Episodes</string>
@@ -94,6 +98,7 @@
     <string name="News_Feed">News Feed</string>
     <string name="Notifications">Notifications</string>
     <string name="Options_Menu">Options Menu</string>
+    <string name="OK">OK</string>
     <string name="OR"><i><b><u>OR</u></b></i></string>
     <string name="Participants">Participants</string>
     <string name="Password">Password</string>

@@ -1,14 +1,18 @@
 package brymian.bubbles.bryant.episodes.addfriends;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +32,7 @@ public class EpisodeAddFriends extends AppCompatActivity{
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    TextView tvTesting;
+    FloatingActionButton fabDone;
 
     String title, privacy, inviteType;
     boolean imageAllowed;
@@ -40,11 +44,9 @@ public class EpisodeAddFriends extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.episode_add_friends);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setTitle(R.string.Add_Friends);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        mToolbar.setTitle(R.string.Add_Friends_to_Episode);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
 
@@ -63,40 +65,6 @@ public class EpisodeAddFriends extends AppCompatActivity{
 
         setEpisodeTitle(title);
 
-        /* code below is if we decide to create the episode AND add the friends at the same time */
-        /**
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                title = null;
-                privacy = null;
-                inviteType = null;
-                imageAllowed = false;
-                latitude = 0;
-                longitude = 0;
-            }
-            else {
-                title = extras.getString("title");
-                privacy = extras.getString("privacy");
-                inviteType = extras.getString("inviteType");
-                imageAllowed = extras.getBoolean("imageAllowed");
-                latitude = extras.getDouble("latitude");
-                longitude = extras.getDouble("longitude");
-            }
-        }
-        else {
-            title = savedInstanceState.getString("title");
-            privacy = savedInstanceState.getString("privacy");
-            inviteType = savedInstanceState.getString("inviteType");
-            imageAllowed = savedInstanceState.getBoolean("imageAllowed");
-            latitude = savedInstanceState.getDouble("latitude");
-            longitude = savedInstanceState.getDouble("longitude");
-        }
-
-         **/
-        /*----------------------------------------------------------------------------------------*/
-
-
         new EventRequest(this).getEid(SaveSharedPreference.getUserUID(this), getEpisodeTitle(), new IntegerCallback() {
             @Override
             public void done(Integer integer) {
@@ -112,7 +80,11 @@ public class EpisodeAddFriends extends AppCompatActivity{
             }
         });
 
+        getFriends();
+        setFAB();
+    }
 
+    private void getFriends(){
         new ServerRequestMethods(this).getFriends(SaveSharedPreference.getUserUID(this), new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -122,59 +94,72 @@ public class EpisodeAddFriends extends AppCompatActivity{
                         Friend friend = new Friend(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid(), false);
                         friendList.add(friend);
                     }
-                    recyclerView = (RecyclerView) findViewById(R.id.recyclerView_addFriends);
+                    recyclerView = (RecyclerView) findViewById(R.id.rvAddFriends);
                     adapter = new EpisodeAddFriendsRecyclerAdapter(friendList);
                     layoutManager = new LinearLayoutManager(EpisodeAddFriends.this);
                     recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setNestedScrollingEnabled(false);
                     recyclerView.setAdapter(adapter);
-
                 }
             }
         });
+    }
 
-        tvTesting = (TextView) findViewById(R.id.tvTesting);
-        tvTesting.setOnClickListener(new View.OnClickListener() {
+    private void setFAB(){
+        fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
+        fabDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<Friend> singleFriendList = ((EpisodeAddFriendsRecyclerAdapter) adapter).getFriendList();
                 for (int i = 0; i < singleFriendList.size(); i++) {
                     Friend singleFriend = singleFriendList.get(i);
                     if (singleFriend.getIsSelected()) {
-                        System.out.println("getEID(): " + getEid() + "\t inviterUID: " + SaveSharedPreference.getUserUID(EpisodeAddFriends.this) + "\t signleFriend.getUID: " + singleFriend.getUid());
-                        new EventUserRequest(EpisodeAddFriends.this).addUserToEvent(
-                                getEid(),
-                                SaveSharedPreference.getUserUID(EpisodeAddFriends.this),
-                                singleFriend.getUid(),
+                        new EventUserRequest(EpisodeAddFriends.this).addUserToEvent(getEid(), SaveSharedPreference.getUserUID(EpisodeAddFriends.this), singleFriend.getUid(),
                                 new StringCallback() {
                                     @Override
                                     public void done(String string) {
-                                        System.out.println("String from adding friends: " + string);
                                     }
                                 });
                     }
                 }
-
-                /* code below is if we decide to create the episode AND add the friends at the same time */
-                /**
-                 new EventRequest(EpisodeAddFriends.this).createEvent(
-                 SaveSharedPreference.getUserUID(EpisodeAddFriends.this),
-                 getEpisodeTitle(),
-                 getEpisodePrivacy(),
-                 getInviteType(),
-                 getImageAllowed(),
-                 null,
-                 null,
-                 getLatitude(),
-                 getLongitude(),
-                 new StringCallback() {
-                @Override public void done(String string) {
-                System.out.println("String call back: " + string);
-                }
-                });
-
-                 **/
+                inviteSentAD();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        goBackToEpisodeMy();
+    }
+
+    private void goBackToEpisodeMy(){
+        setResultOkSoSecondActivityWontBeShown();
+        finish();
+    }
+
+    private void setResultOkSoSecondActivityWontBeShown() {
+        Intent intent = new Intent();
+        if (getParent() == null) {
+            setResult(Activity.RESULT_OK, intent);
+        } else {
+            getParent().setResult(Activity.RESULT_OK, intent);
+        }
+    }
+
+    private void inviteSentAD() {
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_add_friends_alertdialog, null);
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        alert.setCancelable(false);
+        alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                goBackToEpisodeMy();
+            }
+        });
+        AlertDialog dialog = alert.create();
+        dialog.show();
     }
 
     private void setEid(int eid){

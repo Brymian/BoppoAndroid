@@ -25,6 +25,8 @@ public class SaveSharedPreference {
 
     static final String ENCODED_IMAGE = "encoded image";
 
+    static final String PREF_DONT_DISPLAY_AGAIN = "don't display again";
+
     static SharedPreferences getSharedPreferences(Context ctx) {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
@@ -340,4 +342,15 @@ public class SaveSharedPreference {
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/
+
+    public static void setDontDisplayAgainEpisodeAddFriends(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_DONT_DISPLAY_AGAIN, "don't display again");
+        editor.apply();
+    }
+
+    public static String getDontDisplayAgainEpisodeAddFriends(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_DONT_DISPLAY_AGAIN, "");
+    }
+
 }

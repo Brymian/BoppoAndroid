@@ -5,10 +5,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,7 +59,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         cbPrivate.setOnCheckedChangeListener(this);
 
         cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
-        cbCurrentLocation.setChecked(true);
         cbCurrentLocation.setOnCheckedChangeListener(this);
 
         tvCamera = (TextView) findViewById(R.id.tvCamera);
@@ -76,6 +75,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         setLongitude(SaveSharedPreference.getLongitude(this));
 
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
+        fabDone.setOnClickListener(this);
     }
 
     @Override
@@ -103,9 +103,15 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                         new StringCallback() {
                             @Override
                             public void done(String string) {
+                                Log.e("createEvent", string);
                                 for(String something: string.split(" ")){
                                     if(something.equals("Success.")){
-                                        addFriends();
+                                        int REQUEST_CODE = 123;
+                                        startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), REQUEST_CODE);
+                                        //startActivity(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()));
+                                    }
+                                    else if(something.equals("Duplicate")){
+                                        duplicateEntry();
                                     }
                                 }
                             }
@@ -114,16 +120,15 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
     }
 
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if(buttonView.getId() == R.id.cbPrivate){
             if(isChecked){
                 privacy = "Private";
-                System.out.println("getPrivacy(): " + getPrivacy());
             }
             else{
                 privacy = "Public";
-                System.out.println("getPrivacy(): " + getPrivacy());
             }
         }
 
@@ -131,12 +136,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             if (!isChecked){
                 latitude = 0;
                 longitude = 0;
-                System.out.println("getLatitude(): " + getLatitude() + "\t getLongitude(): " + getLongitude());
             }
             else{
                 latitude = SaveSharedPreference.getLatitude(this);
                 longitude = SaveSharedPreference.getLongitude(this);
-                System.out.println("getLatitude(): " + getLatitude() + "\t getLongitude(): " + getLongitude());
             }
         }
     }
@@ -154,28 +157,23 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 123) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        }
     }
 
-    private void addFriends() {
+    private void duplicateEntry() {
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_alertdialog, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         alert.setCancelable(false);
-        alert.setNegativeButton(R.string.Later, new DialogInterface.OnClickListener() {
+        alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alert.setPositiveButton(R.string.Yes, new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(EpisodeCreate.this, EpisodeAddFriends.class)
-                    .putExtra("episodeTitle", getEpisodeTitle()));
             }
         });
         AlertDialog dialog = alert.create();

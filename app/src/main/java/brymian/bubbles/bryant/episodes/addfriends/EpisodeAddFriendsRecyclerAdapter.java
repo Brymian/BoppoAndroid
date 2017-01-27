@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.episodes.addfriends;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,17 +13,17 @@ import java.util.List;
 import brymian.bubbles.R;
 
 
-public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<EpisodeAddFriendsRecyclerAdapter.RecyclerViewHolder> {
+class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<EpisodeAddFriendsRecyclerAdapter.RecyclerViewHolder> {
 
     List<Friend> friendList;
 
-    public EpisodeAddFriendsRecyclerAdapter(List<Friend> friendList){
+    EpisodeAddFriendsRecyclerAdapter(List<Friend> friendList){
         this.friendList = friendList;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recyclerview_episode_add_friends_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.episode_add_friends_recyclerview_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 
@@ -41,12 +42,6 @@ public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<Episo
                 contact.setIsSelected(cb.isChecked());
                 friendList.get(position).setIsSelected(cb.isChecked());
 
-                /**
-                Toast.makeText(
-                        v.getContext(),
-                        "Clicked on Checkbox: " + cb.getText() + " is "
-                                + cb.isChecked(), Toast.LENGTH_LONG).show();
-                 **/
             }
         });
     }
@@ -59,12 +54,13 @@ public class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<Episo
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvFriendsFirstLastName, tvFriendsUsername;
         CheckBox cbSelected;
-
+        CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvFriendsFirstLastName = (TextView) v.findViewById(R.id.tvFriendsFirstLastName);
             tvFriendsUsername = (TextView) v.findViewById(R.id.tvFriendsUsername);
             cbSelected = (CheckBox) v.findViewById(R.id.cbSelected);
+            cardView  =(CardView) v.findViewById(R.id.card_view);
         }
     }
 

@@ -173,5 +173,5 @@
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
         android:backgroundTint="#3ae1a8"
-        android:src="@mipmap/ic_done_white_24dp"/>
+        android:src="@mipmap/ic_arrow_right_white_24dp"/>
 </RelativeLayout>
