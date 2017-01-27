@@ -40,14 +40,14 @@ public class EpisodeMyHosting extends Fragment{
                 if(eventList.size() > 0) {
                     List<String> eventTitleHosting = new ArrayList<>();
                     List<Integer> eventEidHosting = new ArrayList<>();
-                    List<Integer> episodeParticipants = new ArrayList<>();
+                    //List<Integer> episodeParticipants = new ArrayList<>();
                     for (Event event : eventList) {
                         if (event.eventHostUid == SaveSharedPreference.getUserUID(getActivity())) {
                             eventTitleHosting.add(event.eventName);
                             eventEidHosting.add(event.eid);
                         }
                     }
-                    adapter = new EpisodeHostingRecyclerAdapter(getActivity(), eventTitleHosting, eventEidHosting);
+                    adapter = new EpisodeMyHostingRecyclerAdapter(getActivity(), eventTitleHosting, eventEidHosting);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvEpisodeMyHosting.setLayoutManager(layoutManager);
                     rvEpisodeMyHosting.setAdapter(adapter);
@@ -55,5 +55,4 @@ public class EpisodeMyHosting extends Fragment{
             }
         });
     }
-
 }

@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,15 +14,15 @@ import java.util.List;
 import brymian.bubbles.R;
 
 
-class EpisodeHostingRecyclerAdapter extends RecyclerView.Adapter<EpisodeHostingRecyclerAdapter.RecyclerViewHolder> {
+class EpisodeMyHostingRecyclerAdapter extends RecyclerView.Adapter<EpisodeMyHostingRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
-    List<String> episodeTitle;
+    static List<String> episodeTitle;
     static List<Integer> episodeEid;
 
-    EpisodeHostingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<Integer> episodeEid){
-        EpisodeHostingRecyclerAdapter.activity = activity;
+    EpisodeMyHostingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<Integer> episodeEid){
+        EpisodeMyHostingRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
-        EpisodeHostingRecyclerAdapter.episodeEid = episodeEid;
+        EpisodeMyHostingRecyclerAdapter.episodeEid = episodeEid;
     }
 
     @Override
@@ -52,7 +51,7 @@ class EpisodeHostingRecyclerAdapter extends RecyclerView.Adapter<EpisodeHostingR
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())).putExtra("episodeTitle", episodeTitle.get(getAdapterPosition())));
                 }
             });
         }
