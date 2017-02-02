@@ -2,8 +2,10 @@ package brymian.bubbles.bryant.episodes;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +43,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     FloatingActionButton fabDone;
     double latitude;
     double longitude;
+
+    int DONE_CODE = 1;
+    int CAMERA_CODE = 2;
+    int GALLERY_CODE = 3;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -82,11 +89,14 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tvCamera:
-                startActivity(new Intent(this, CameraActivity.class));
+                startActivityForResult(new Intent(this, CameraActivity.class), CAMERA_CODE);
                 break;
 
             case R.id.tvGallery:
-
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
                 break;
 
             case R.id.fabDone:
@@ -106,9 +116,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                                 Log.e("createEvent", string);
                                 for(String something: string.split(" ")){
                                     if(something.equals("Success.")){
-                                        int REQUEST_CODE = 123;
-                                        startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), REQUEST_CODE);
-                                        //startActivity(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()));
+                                        startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), DONE_CODE);
                                     }
                                     else if(something.equals("Duplicate")){
                                         duplicateEntry();
@@ -158,9 +166,28 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 123) {
+        if (requestCode == DONE_CODE) {
             if (resultCode == RESULT_OK) {
                 finish();
+            }
+        }
+        else if (requestCode == GALLERY_CODE){
+            if(resultCode == RESULT_OK) {
+                if (data != null) {
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                        ivImagePreview.setVisibility(View.VISIBLE);
+                        ivImagePreview.setImageBitmap(bitmap);
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        else if (requestCode == CAMERA_CODE){
+            if (resultCode == RESULT_OK){
+                Log.e("camera", "works");
             }
         }
     }

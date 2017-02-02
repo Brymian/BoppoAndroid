@@ -94,76 +94,59 @@
         android:text="@string/Logo"
         android:textAppearance="@android:style/TextAppearance.Medium"/>
 
+    <TextView
+        android:id="@+id/tvUploadImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvLogo"
+        android:gravity="center_horizontal"
+        android:layout_marginBottom="10dp"
+        android:text="@string/UPLOAD_IMAGE"
+        android:textAppearance="@android:style/TextAppearance.Small"/>
+
     <LinearLayout
         android:id="@+id/llUploadImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvLogo"
-        android:orientation="vertical"
+        android:layout_below="@+id/tvUploadImage"
+        android:orientation="horizontal"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp">
         <TextView
-            android:id="@+id/tvUploadImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/UPLOAD_IMAGE"
-            android:textAppearance="@android:style/TextAppearance.Small"/>
-        <TextView
             android:id="@+id/tvCamera"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:drawableLeft="@mipmap/ic_photo_camera_black_24dp"
             android:text="@string/Camera"
             android:drawablePadding="5dp"/>
         <TextView
             android:id="@+id/tvGallery"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical|center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
             android:drawableLeft="@mipmap/ic_collections_black_24dp"
             android:text="@string/Gallery"
             android:drawablePadding="5dp"/>
-        <ImageView
-            android:id="@+id/ivImagePreview"
-            android:layout_width="100dp"
-            android:layout_height="100dp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvOr"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llUploadImage"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/OR"
-        android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-    <LinearLayout
-        android:id="@+id/llChooseFromOurCollection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvOr"
-        android:orientation="vertical"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tvOurCollection"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/CHOOSE_FROM_OUR_COLLECTION"
-            android:textAppearance="@android:style/TextAppearance.Small"/>
-
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:drawableLeft="@mipmap/ic_collections_black_24dp"
+            android:text="@string/Bubbles"
+            android:drawablePadding="5dp" />
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivImagePreview"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_margin="20dp"
+        android:layout_below="@+id/llUploadImage"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabDone"
