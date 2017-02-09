@@ -1,43 +1,116 @@
 package brymian.bubbles.bryant.episodes;
 
-import android.app.Fragment;
+import android.app.FragmentManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
-import com.github.clans.fab.FloatingActionButton;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 
-public class EpisodeParticipants extends Fragment {
-    FloatingActionButton fabAddParticipant;
-    View rootView;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
+
+public class EpisodeParticipants extends AppCompatActivity {
     Toolbar mToolbar;
+    FloatingActionButton fabMenu;
+    RecyclerView rvParticipants;
+    RecyclerView.Adapter adapter;
+    RecyclerView.LayoutManager layoutManager;
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.episode_participants, container, false);
-        mToolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.episode_participants);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Participants);
-        mToolbar.setTitleTextColor(Color.BLACK);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        setFAM();
-        return rootView;
+        /*--------------------------------Checking for putExtras()--------------------------------*/
+        int eid;
+        boolean isHost;
+        if (savedInstanceState == null) {
+            Bundle extras = getIntent().getExtras();
+            if(extras == null) {
+                eid = 0;
+                isHost = false;
+            }
+            else {
+                eid = extras.getInt("eid");
+                isHost = extras.getBoolean("isHost");
+            }
+        }
+        else {
+            eid = savedInstanceState.getInt("eid");
+            isHost = savedInstanceState.getBoolean("isHost");
+        }
+        /*----------------------------------------------------------------------------------------*/
+
+        Log.e("isHost", ""+ isHost);
+        getParticipants(eid);
+        if (isHost) {
+            setFab();
+        }
     }
 
-    private void setFAM(){
-        fabAddParticipant = (FloatingActionButton) rootView.findViewById(R.id.fabAddParticipant);
-        fabAddParticipant.setOnClickListener(new View.OnClickListener() {
+    private void setFab(){
+        fabMenu = (FloatingActionButton) findViewById(R.id.fabMenu);
+        fabMenu.setVisibility(View.VISIBLE);
+        fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-
+            public void onClick(View v) {
+                FragmentManager fm = getFragmentManager();
+                startFragment(fm, R.id.episode_participants, new EpisodeParticipantsFab());
             }
         });
     }
+
+    private void getParticipants(int eid){
+        rvParticipants = (RecyclerView) findViewById(R.id.rvParticipants);
+        new EventUserRequest(this).getEventUsersData("Joined", eid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    if (string.length() > 0){
+                        List<String> participantFirstLastName = new ArrayList<>();
+                        List<String> participantUsername = new ArrayList<>();
+                        List<Integer> participantsUid = new ArrayList<>();
+
+                        JSONArray jArray = new JSONArray(string);
+                        for (int i = 0; i < jArray.length(); i++) {
+                            JSONObject jArray_jObject = jArray.getJSONObject(i);
+                            JSONObject jEvent = jArray_jObject.getJSONObject("user");
+                            participantFirstLastName.add(jEvent.getString("firstName") + " " + jEvent.getString("lastName"));
+                            participantUsername.add(jEvent.getString("username"));
+                            participantsUid.add(jEvent.getInt("uid"));
+                        }
+
+                        adapter = new EpisodeParticipantsRecyclerAdapter(EpisodeParticipants.this, participantFirstLastName, participantUsername, participantsUid);
+                        layoutManager = new LinearLayoutManager(EpisodeParticipants.this);
+                        rvParticipants.setLayoutManager(layoutManager);
+                        rvParticipants.setAdapter(adapter);
+                    }
+                }
+                catch (JSONException | NullPointerException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }

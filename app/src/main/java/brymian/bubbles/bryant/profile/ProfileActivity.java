@@ -139,6 +139,7 @@ public class ProfileActivity extends AppCompatActivity{
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(1);
     }
 
     @Override

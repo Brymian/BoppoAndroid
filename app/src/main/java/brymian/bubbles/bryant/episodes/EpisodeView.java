@@ -46,6 +46,7 @@ public class EpisodeView extends Fragment {
     }
 
     private void downloadEpisodePictures(){
+        /*
         EpisodeActivity episodeActivity = new EpisodeActivity();
         new UserImageRequest(getActivity()).getImagesByEid(EpisodeActivity.getEid(), new StringCallback() {
             @Override
@@ -67,6 +68,7 @@ public class EpisodeView extends Fragment {
                 }
             }
         });
+        */
     }
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {

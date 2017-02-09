@@ -151,7 +151,6 @@ public class EpisodeAddFriends extends AppCompatActivity{
         View alertLayout = inflater.inflate(R.layout.episode_add_friends_alertdialog, null);
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
-        alert.setCancelable(false);
         alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

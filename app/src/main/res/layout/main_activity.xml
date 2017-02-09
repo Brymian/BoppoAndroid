@@ -39,59 +39,17 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fabMain"
+            android:id="@+id/fabCamera"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|right|end"
             android:layout_margin="16dp"
-            android:src="@mipmap/ic_add_white_24dp"
-            android:backgroundTint="#3ae1a8"
+            android:src="@mipmap/ic_photo_camera_white_24dp"
+            android:backgroundTint="@color/AppColor"
             android:elevation="6dp"/>
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>
-<!--
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabMain"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
 
-
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/famMenu"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="bottom|end"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            fab:menu_animationDelayPerItem="0"
-            fab:menu_shadowColor="#444"
-            fab:menu_colorNormal="#42ffbf"
-            fab:menu_colorPressed="#FF239A72"
-            fab:menu_colorRipple="#FF239A72">
-
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabCreateEpisode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_create_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_public_white_24dp"/>
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/fabCamera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_photo_camera_white_24dp"/>
-
-        </com.github.clans.fab.FloatingActionMenu>
-        -->
 
 
 

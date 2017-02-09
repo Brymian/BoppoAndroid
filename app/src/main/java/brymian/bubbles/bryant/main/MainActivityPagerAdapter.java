@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
-    int mNumOfTabs;
+    private int mNumOfTabs;
 
     public MainActivityPagerAdapter(FragmentManager fm, int NumOfTabs) {
         super(fm);
@@ -22,6 +22,8 @@ public class MainActivityPagerAdapter extends FragmentStatePagerAdapter {
             case 1:
                 return new MainTabEpisodes();
             case 2:
+                return new MainTabMap();
+            case 3:
                 return new MainTabPersonal();
             default:
                 return null;

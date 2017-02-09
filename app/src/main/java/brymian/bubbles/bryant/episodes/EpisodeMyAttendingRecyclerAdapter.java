@@ -14,17 +14,17 @@ import java.util.List;
 import brymian.bubbles.R;
 
 
-public class EpisodeAttendingRecyclerAdapter extends RecyclerView.Adapter<EpisodeAttendingRecyclerAdapter.RecyclerViewHolder> {
+public class EpisodeMyAttendingRecyclerAdapter extends RecyclerView.Adapter<EpisodeMyAttendingRecyclerAdapter.RecyclerViewHolder> {
     static Activity activity;
     List<String> episodeTitle;
     List<String> episodeHostName;
     static List<Integer> episodeEid;
 
-    public EpisodeAttendingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid){
-        EpisodeAttendingRecyclerAdapter.activity = activity;
+    public EpisodeMyAttendingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid){
+        EpisodeMyAttendingRecyclerAdapter.activity = activity;
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
-        EpisodeAttendingRecyclerAdapter.episodeEid = episodeEid;
+        EpisodeMyAttendingRecyclerAdapter.episodeEid = episodeEid;
     }
 
     @Override

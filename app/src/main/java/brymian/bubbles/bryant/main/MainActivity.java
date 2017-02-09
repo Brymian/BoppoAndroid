@@ -18,6 +18,7 @@ import android.view.View;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
+import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
@@ -42,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Toolbar mToolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
-    FloatingActionButton fabMain;
+    FloatingActionButton fabCamera;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_white_24dp), 0, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_whatshot_black_24dp), 1, false);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_account_circle_black_24dp), 2, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_public_black_24dp), 2, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_account_circle_black_24dp), 3, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -66,39 +68,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mToolbar.setTitle(R.string.News_Feed);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_white_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
+                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
 
                 } else if (position == 1) {
                     mToolbar.setTitle(R.string.Episodes);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_white_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
+                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
                 } else if (position == 2) {
+                    mToolbar.setTitle(R.string.Map);
+                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
+                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_white_24dp);
+                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                } else if (position == 3) {
                     mToolbar.setTitle(R.string.Personal);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_white_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
+                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_white_24dp);
                 }
-                /* Profile */
-                MainTabPersonal.cvMyProfile.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvMyEpisodes.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvMyMap.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvProfilePictures.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvFriends.setOnClickListener(MainActivity.this);
-
-                /* Settings */
-                MainTabPersonal.cvNotifications.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvPrivacy.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvBlocking.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvAbout.setOnClickListener(MainActivity.this);
-
-                /* Account */
-                MainTabPersonal.cvPassword.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvEmail.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvPhoneNumber.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvSyncWithOtherMedia.setOnClickListener(MainActivity.this);
-                MainTabPersonal.cvLogOut.setOnClickListener(MainActivity.this);
-
             }
 
         });
@@ -113,7 +104,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         tab.setIcon(R.mipmap.ic_people_white_24dp);
                     }else if(index == 1){
                         tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
-                    }else if(index == 2){
+                    }else if (index == 2){
+                        tab.setIcon(R.mipmap.ic_public_white_24dp);
+                    }
+                    else if(index == 3){
                         tab.setIcon(R.mipmap.ic_account_circle_white_24dp);
                     }
                 } catch (NullPointerException | IllegalStateException e) {
@@ -129,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }else if(index == 1){
                     tab.setIcon(R.mipmap.ic_whatshot_black_24dp);
                 }else if(index == 2){
+                    tab.setIcon(R.mipmap.ic_public_black_24dp);
+                }else if(index == 3){
                     tab.setIcon(R.mipmap.ic_account_circle_black_24dp);
                 }
 
@@ -142,8 +138,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setSupportActionBar(mToolbar);
 
-        fabMain = (FloatingActionButton) findViewById(R.id.fabMain);
-        fabMain.setOnClickListener(this);
+        fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
+        fabCamera.setOnClickListener(this);
     }
 
     @Override
@@ -151,52 +147,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fm = getFragmentManager();
         switch (view.getId()){
             /* FloatingActionButton */
-            case R.id.fabMain:
-                startFragment(fm, R.id.main_activity, new MainActivityFab());
-                break;
-
-            case R.id.fabClose:
-                onBackPressed();
+            case R.id.fabCamera:
+                startActivity(new Intent(this, CameraActivity.class));
                 break;
             /*---------------------------------MainTabPersonal-------------------------------------*/
-            /* Profile */
-            case R.id.cvMyProfile:
-                startActivity(new Intent(this, ProfileActivity.class).putExtra("profile", "logged in user").putExtra("username", SaveSharedPreference.getUsername(this)).putExtra("uid", SaveSharedPreference.getUserUID(this)));
-                break;
-
-            case R.id.cvMyEpisodes:
-                startActivity(new Intent(this, EpisodeMy.class));
-                break;
-
-            case R.id.cvMyMap:
-                startActivity(new Intent(this, MapsActivity.class).putExtra("profile", "logged in user"));
-                break;
-
-            case R.id.cvProfilePictures:
-                startActivity(new Intent(this, ProfilePicturesActivity2.class));
-                break;
-
-            case R.id.cvFriends:
-                //startFragment(fm, R.id.main_activity, new FriendsActivity());
-                startActivity(new Intent(this, FriendsActivity.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(this)));
-                break;
-
-            /* Settings */
-            case R.id.cvNotifications:
-                startFragment(fm, R.id.main_activity, new Notifications());
-                break;
-
-            case R.id.cvPrivacy:
-                startFragment(fm, R.id.main_activity, new Privacy());
-                break;
-
-            case R.id.cvBlocking:
-                startFragment(fm, R.id.main_activity, new Blocking());
-                break;
-
-            case R.id.cvAbout:
-                startFragment(fm, R.id.main_activity, new About());
-                break;
 
             /* Account */
             case R.id.cvPassword:

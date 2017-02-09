@@ -50,7 +50,7 @@ public class EpisodeMyAttending extends Fragment{
                         }
                     }
 
-                    adapter = new EpisodeAttendingRecyclerAdapter(getActivity(), episodeTitleAttending, episodeHostNameAttending, episodeEidAttending);
+                    adapter = new EpisodeMyAttendingRecyclerAdapter(getActivity(), episodeTitleAttending, episodeHostNameAttending, episodeEidAttending);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvEpisodeMyAttending.setLayoutManager(layoutManager);
                     rvEpisodeMyAttending.setAdapter(adapter);

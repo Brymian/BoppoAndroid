@@ -22,6 +22,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"/>
                 <ImageView
                     android:src="@mipmap/ic_add_a_photo_black_24dp"
@@ -61,37 +62,81 @@
                         android:paddingBottom="10dp"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <LinearLayout
+                        android:id="@+id/llRatings"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@id/tvViewCount"
+                        android:gravity="center_vertical"
                         android:orientation="horizontal">
-                        <ImageView
-                            android:id="@+id/ivLike"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp"
-                            android:src="@mipmap/ic_thumb_up_black_24dp"/>
                         <TextView
                             android:id="@+id/tvLikeCount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:paddingRight="30dp"
-                            android:textAppearance="@android:style/TextAppearance.Small"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|right|end"
+                            android:paddingRight="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
+                        <ImageView
+                            android:id="@+id/ivLike"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:src="@mipmap/ic_thumb_up_black_24dp"/>
+                        <TextView
+                            android:id="@+id/tvRating"
+                            android:layout_width="80dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:paddingRight="10dp"
+                            android:paddingLeft="10dp" />
                         <ImageView
                             android:id="@+id/ivDislike"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:paddingRight="5dp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:src="@mipmap/ic_thumb_down_black_24dp"/>
                         <TextView
                             android:id="@+id/tvDislikeCount"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:textAppearance="@android:style/TextAppearance.Small"
-                            android:layout_gravity="center_vertical" />
+                            android:layout_weight="1"
+                            android:gravity="center_vertical|start|left"
+                            android:paddingLeft="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Small" />
                     </LinearLayout>
                 </RelativeLayout>
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvButtons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:background="@android:color/white"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/llRatings"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+                    <ImageView
+                        android:id="@+id/ivParticipants"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_people_black_24dp" />
+                    <ImageView
+                        android:id="@+id/ivMap"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_public_black_24dp"/>
+                    <ImageView
+                        android:id="@+id/ivAddImage"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:src="@mipmap/ic_add_a_photo_black_24dp"/>
+                </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
                 android:id="@+id/cvHostInfo"

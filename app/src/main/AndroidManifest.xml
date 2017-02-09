@@ -49,11 +49,13 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+        <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.episodes.EpisodeParticipants" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.friends.FriendsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait"/>
