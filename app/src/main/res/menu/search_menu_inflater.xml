@@ -5,7 +5,7 @@
     <item
         android:id="@+id/cancel"
         android:title="@string/Cancel"
-        android:icon="@mipmap/ic_close_black_24dp"
+        android:icon="@mipmap/ic_close_white_24dp"
         app:showAsAction="collapseActionView|ifRoom"
         android:orderInCategory="0"/>
 </menu>

@@ -53,6 +53,7 @@
     <string name="MOST_VIEWS">Most Views</string>
     <string name="TOP_RATED">Top Rated</string>
     <string name="Apply">Apply</string>
+    <string name="at">&#160;at&#160;</string>
     <string name="Attending">Attending</string>
     <string name="Blocking">Blocking</string>
     <string name="Block">Block</string>
@@ -127,6 +128,7 @@
     <string name="Sent_Friend_Requests">Sent Friend Requests</string>
     <string name="Select">Select</string>
     <string name="Settings">SETTINGS</string>
+    <string name="Starting_Date_and_Time">Starting Date &amp; Time</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Sync_With_Other_Media">Sync With Other Media</string>
     <string name="Title">Title</string>
@@ -140,19 +142,6 @@
     <string name="View_More_Top_Episodes">View More Top Episodes&#8230;</string>
     <string name="Would_you_like_to_add_friends_now">Would you like to add friends now?</string>
     <string name="Yes">Yes</string>
-
-
-
-    <!-- MENU NAVIGATION DRAWER -->
-    <string name="drawer_open">Open drawer</string>
-    <string name="drawer_closed">Closed drawer</string>
-
-
-    <string name="profile_name">Profile Name</string>
-    <string name="search_users">Search Users</string>
-
-
-
 
     <!-- CONTENT DESCRIPTION -->
     <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>

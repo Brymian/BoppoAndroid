@@ -4,7 +4,6 @@ package brymian.bubbles.bryant.search;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -32,7 +31,7 @@ public class SearchActivity extends AppCompatActivity{
         etSearch.setHint(R.string.Search_Users);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_black_24dp), 0, true);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_white_24dp), 0, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_my_location_black_24dp), 1, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         viewPager = (ViewPager) findViewById(R.id.pager);
@@ -93,11 +92,12 @@ public class SearchActivity extends AppCompatActivity{
         getMenuInflater().inflate(R.menu.search_menu_inflater, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             case R.id.cancel:
                 etSearch.setText("");

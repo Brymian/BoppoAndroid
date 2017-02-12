@@ -25,8 +25,7 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
                 app:layout_collapseMode="pin"
-                android:fitsSystemWindows="true"
-                android:theme="@style/OverflowMenu"/>
+                android:fitsSystemWindows="true"/>
             <ImageView
                 android:id="@+id/ivProfilePicture"
                 app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"

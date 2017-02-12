@@ -17,17 +17,16 @@
             android:elevation="6dp">
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:titleTextColor="@android:color/white"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 app:layout_scrollFlags="scroll|enterAlways"
-                android:transitionGroup="true"/>
+                android:fitsSystemWindows="true"/>
 
             <android.support.design.widget.TabLayout
                 android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#3ae1a8"
+                android:background="@color/AppColor"
                 android:minHeight="?attr/actionBarSize"
                 app:tabTextColor="@android:color/white"
                 app:tabSelectedTextColor="@android:color/white"

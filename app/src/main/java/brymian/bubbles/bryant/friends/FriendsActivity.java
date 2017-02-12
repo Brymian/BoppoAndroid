@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.friends;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -53,6 +54,7 @@ public class FriendsActivity extends AppCompatActivity{
         /*----------------------------------------------------------------------------------------*/
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+
         llFriendRequests = (LinearLayout) findViewById(R.id.llFriendRequests);
         llFriendRequests.setVisibility(View.GONE);
         recyclerViewFriends = (RecyclerView) findViewById(R.id.recyclerView_friends);
@@ -143,7 +145,7 @@ public class FriendsActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
+            case android.R.id.home:
                 onBackPressed();
                 return true;
 

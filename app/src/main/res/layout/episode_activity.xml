@@ -25,7 +25,6 @@
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"/>
                 <ImageView
-                    android:src="@mipmap/ic_add_a_photo_black_24dp"
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -407,6 +407,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             vLeaveEpisode.setVisibility(View.GONE);
             tvChangeStartDate.setVisibility(View.GONE);
             vChangeStartDate.setVisibility(View.GONE);
+            vDeleteEpisode.setVisibility(View.GONE);
             tvReport.setVisibility(View.GONE);
         }
         else if (getIsHost() && getIsStarted() && getIsEnded()){
