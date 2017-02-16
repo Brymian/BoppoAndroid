@@ -19,9 +19,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -41,8 +38,6 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 public class ProfilePicturesActivity2 extends AppCompatActivity implements View.OnClickListener {
     Toolbar mToolbar;
     public static ImageView ivProfilePicture1, ivProfilePicture2, ivProfilePicture3, ivProfilePicture4;
-    FloatingActionMenu famProfilePictures;
-    FloatingActionButton fabAddProfilePicture, fabDeleteProfilePicture;
     final int REQUEST_CODE = 1;
 
 
@@ -60,16 +55,6 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
         ivProfilePicture2 = (ImageView) findViewById(R.id.ivProfilePicture2);
         ivProfilePicture3 = (ImageView) findViewById(R.id.ivProfilePicture3);
         ivProfilePicture4 = (ImageView) findViewById(R.id.ivProfilePicture4);
-
-        famProfilePictures = (FloatingActionMenu) findViewById(R.id.famProfilePictures);
-        famProfilePictures.showMenu(true);
-
-        fabAddProfilePicture = (FloatingActionButton) findViewById(R.id.fabAddProfilePicture);
-        fabAddProfilePicture.show(true);
-        fabAddProfilePicture.setOnClickListener(this);
-        fabDeleteProfilePicture = (FloatingActionButton) findViewById(R.id.fabDeleteProfilePicture);
-        fabDeleteProfilePicture.show(true);
-        fabDeleteProfilePicture.setOnClickListener(this);
 
         getProfileImages();
     }
@@ -97,14 +82,6 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
             case R.id.ivProfilePicture4:
                 setImageNumber(3);
                 startFragment(fm, R.id.profile_pictures_activity2, new ProfilePicturesViewImage());
-                break;
-
-            case R.id.fabAddProfilePicture:
-                    uploadAlert();
-                break;
-
-            case R.id.fabDeleteProfilePicture:
-
                 break;
         }
 

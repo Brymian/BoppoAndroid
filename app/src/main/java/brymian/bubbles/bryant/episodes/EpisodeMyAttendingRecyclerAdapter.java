@@ -2,6 +2,7 @@ package brymian.bubbles.bryant.episodes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,13 +47,13 @@ public class EpisodeMyAttendingRecyclerAdapter extends RecyclerView.Adapter<Epis
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvEpisodeHostName;
-        LinearLayout row;
+        CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
             tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
-            row = (LinearLayout) v.findViewById(R.id.row);
-            row.setOnClickListener(new View.OnClickListener() {
+            cardView = (CardView) v.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));

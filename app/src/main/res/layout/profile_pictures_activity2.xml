@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/white"
     android:theme="@style/BubblesTheme"
@@ -64,32 +63,6 @@
                 android:id="@+id/ivProfilePicture4"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-            <com.github.clans.fab.FloatingActionMenu
-                android:id="@+id/famProfilePictures"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom|end"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                fab:menu_animationDelayPerItem="0"
-                fab:menu_shadowColor="#444"
-                fab:menu_colorNormal="#42ffbf"
-                fab:menu_colorPressed="#F2AB00"
-                fab:menu_colorRipple="#D99200">
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/fabAddProfilePicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_add_a_photo_white_24dp"/>
-                <com.github.clans.fab.FloatingActionButton
-                    android:id="@+id/fabDeleteProfilePicture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_delete_white_24dp" />
-
-            </com.github.clans.fab.FloatingActionMenu>
         </RelativeLayout>
 
     </LinearLayout>

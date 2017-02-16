@@ -11,19 +11,24 @@ import android.hardware.Camera;
 import android.media.ExifInterface;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.v4.app.NavUtils;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
+import android.support.v7.widget.Toolbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -34,28 +39,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.sendTo.SendTo;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.sendTo.SendTo;
 
-/**
- * Created by Almanza on 3/14/2016.
- */
-public class CameraActivity extends Activity implements View.OnClickListener{
+public class CameraActivity extends AppCompatActivity implements View.OnClickListener{
     FrameLayout preview;
-    FloatingActionMenu fabMenu, fabFilterMenu;
-    FloatingActionButton fabCapture, fabGoBack, fabConfirm, fabCancel;
-    /* sub fab buttons for fabMenu */
-    FloatingActionButton fabFlash, fabSwitchCamera;
-    /* sub fab buttons for fabFilterMenu */
-    FloatingActionButton fabItem1, fabItem2;
+    Toolbar toolbar;
     private Camera mCamera;
     CameraPreview mPreview;
     SurfaceHolder mHolder;
-
     String imagePurpose;
-
+    RelativeLayout rlCamera;
+    ImageView ivFlash;
+    MenuItem switchCamera;
+    FloatingActionButton fabDone;
     int currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
-
+    int order = 1;
     byte[] data;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
@@ -70,8 +69,6 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             Toast.makeText(CameraActivity.this, "No camera found", Toast.LENGTH_SHORT).show();
             finish();
         }
-        /*----------------------------------------------------------------------------------------*/
-
         /*--------------------------------Checking for putExtras()--------------------------------*/
         String imagePurpose;
         if (savedInstanceState == null) {
@@ -89,15 +86,37 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         /*----------------------------------------------------------------------------------------*/
         if(imagePurpose != null){
             this.imagePurpose = imagePurpose;
-            System.out.println("imagePurpose: " + imagePurpose);
+            Log.e("imagePurpose", imagePurpose);
         }
-
         /* Makes the activity fullscreen */
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         /* Setting xml layout */
         setContentView(R.layout.camera_activity);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ivFlash = (ImageView) findViewById(R.id.ivFlash);
+        ivFlash.setOnClickListener(this);
+        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
+            ivFlash.setImageResource(R.mipmap.ic_flash_off_white_24dp);
+            flashLightOn();
+        }
+        else{
+            ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
+            flashLightOff();
+        }
+
+        rlCamera = (RelativeLayout) findViewById(R.id.rlCamera);
+        rlCamera.setOnClickListener(this);
+
+        fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
+        fabDone.hide();
+        fabDone.setOnClickListener(this);
 
         /* Create an instance of Camera */
         mCamera = getCameraInstance();
@@ -107,57 +126,62 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
         mHolder = mPreview.getHolder();
-        setButtonsCameraPreview();
-        setAutoFocus();
+        //setAutoFocus();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.e("onTouchEvent", "works");
+        return true;
     }
 
     @Override
     public void onClick(View v) {
         switch(v.getId()){
-            case R.id.fabGoBack:
-                NavUtils.navigateUpFromSameTask(this);
-                releaseCamera();
-                break;
-
-            case R.id.fabCapture:
+            case R.id.rlCamera:
                 takeImage();
                 break;
 
-            case R.id.fabFlash:
+            case R.id.ivFlash:
                 if(SaveSharedPreference.getFlashOn(this).length() == 0){
                     flashLightOn();
-                    fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
+                    ivFlash.setImageResource(R.mipmap.ic_flash_off_white_24dp);
                     SaveSharedPreference.setFlashOn(this);
                 }
                 else if(SaveSharedPreference.getFlashOn(this).length() != 0){
                     flashLightOff();
-                    fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
+                    ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
                     SaveSharedPreference.clearFlashOn(this);
                 }
                 break;
-
-            case R.id.fabSwitchCamera:
-                flipCamera();
-                break;
-
-            case R.id.fabConfirm:
-                if(imagePurpose.equals("Regular")) {
-                    startActivity(new Intent(this, SendTo.class)
-                            .putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
-                }
-                else if(imagePurpose.equals("Profile")){
-                    Intent resultIntent = new Intent();
-                    resultIntent.putExtra("encodedImage", getImageDataByte());
-                    resultIntent.putExtra("imageName", imageName());
-                    setResult(Activity.RESULT_OK, resultIntent);
-                    finish();
+            case R.id.fabDone:
+                switch(imagePurpose){
+                    case "Regular":
+                        startActivity(new Intent(this, SendTo.class).putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
+                        break;
+                    case "Profile":
+                        Intent resultIntent = new Intent();
+                        resultIntent.putExtra("encodedImage", getImageDataByte());
+                        resultIntent.putExtra("imageName", imageName());
+                        setResult(Activity.RESULT_OK, resultIntent);
+                        finish();
+                        break;
                 }
                 break;
-            case R.id.fabCancel:
-                mCamera.startPreview();
-                hideButtonsPictureTaken();
-                showButtonsCameraPreview();
-                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (order == 1){
+            super.onBackPressed();
+        } else if (order == 2){
+            order = 1;
+            mCamera.startPreview();
+            ivFlash.setVisibility(View.VISIBLE);
+            switchCamera.setVisible(true);
+            rlCamera.setVisibility(View.VISIBLE);
+            fabDone.hide();
         }
     }
 
@@ -168,14 +192,33 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             mCamera.release();
             mCamera = null;
         }
-        //originally just mCamera.release();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.camera_activity_menu, menu);
+        switchCamera = menu.findItem(R.id.switch_cam);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.switch_cam:
+                flipCamera();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setAutoFocus(){
         Camera.Parameters autoFocusParams = mCamera.getParameters();
         autoFocusParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
         mCamera.setParameters(autoFocusParams);
-        Toast.makeText(this, "AutoFocus on", Toast.LENGTH_SHORT).show();
     }
 
     private void flipCamera() {
@@ -191,31 +234,13 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
         }
         mCamera = Camera.open(currentCameraId);
-
-        /*
-        setCameraDisplayOrientation(CameraActivity.this, currentCameraId, camera);
-        try {
-
-            camera.setPreviewDisplay(previewHolder);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
-
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-       //mPreview = new CameraPreview(this, mCamera);
-        //preview.addView(mPreview);
+        setCameraDisplayOrientation(CameraActivity.this, currentCameraId, mCamera);
         try {
             mCamera.setPreviewDisplay(mHolder);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         mCamera.startPreview();
-
-
-
     }
 
     private void flashLightOn() {
@@ -299,11 +324,14 @@ public class CameraActivity extends Activity implements View.OnClickListener{
                 }
             }
         });
-        hideButtonsCameraPreview();
-        setButtonsPictureTaken();
+        order = 2;
+        ivFlash.setVisibility(View.GONE);
+        switchCamera.setVisible(false);
+        rlCamera.setVisibility(View.GONE);
+        fabDone.show();
     }
 
-    public static Bitmap rotate(Bitmap bitmap, int degree) {
+    private static Bitmap rotate(Bitmap bitmap, int degree) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
 
@@ -314,66 +342,14 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
     }
 
-    private void showButtonsPictureTaken(){
-        fabCancel.show(true);
-        fabConfirm.show(true);
-        fabFilterMenu.showMenu(true);
-    }
-
-    private void showButtonsCameraPreview(){
-        fabGoBack.show(true);
-        fabCapture.show(true);
-        fabMenu.showMenu(true);
-    }
-
-    private void hideButtonsCameraPreview(){
-        /* hiding the buttons that appeared on camera preview */
-        fabGoBack.hide(true);
-        fabCapture.hide(true);
-        fabMenu.hideMenu(true);
-    }
-
-    private void hideButtonsPictureTaken(){
-        fabCancel.hide(true);
-        fabConfirm.hide(true);
-        fabFilterMenu.hideMenu(true);
-    }
 
 
-    private void setButtonsPictureTaken(){
-        /* showing the buttons that appear when picture is taken */
-        /* cancel button - bottom left */
-        fabCancel = (FloatingActionButton) findViewById(R.id.fabCancel);
-        fabCancel.setImageResource(R.mipmap.ic_close_black_24dp);
-        fabCancel.bringToFront();
-        fabCancel.setOnClickListener(this);
-
-        /* confirm button - bottom middle */
-        fabConfirm = (FloatingActionButton) findViewById(R.id.fabConfirm);
-        fabConfirm.setImageResource(R.mipmap.ic_done_black_24dp);
-        fabConfirm.bringToFront();
-        fabConfirm.setOnClickListener(this);
-
-        /* filter menu button - bottom right */
-        fabFilterMenu = (FloatingActionMenu) findViewById(R.id.fabFilterMenu);
-        fabFilterMenu.bringToFront();
-
-        fabItem1 = (FloatingActionButton) findViewById(R.id.fabItem1);
-        fabItem1.setImageResource(R.mipmap.ic_filter_list_black_24dp);
-
-        fabItem2 = (FloatingActionButton) findViewById(R.id.fabItem2);
-        fabItem2.setImageResource(R.mipmap.ic_person_add_black_24dp);
-    }
-
+/**
     private void setButtonsCameraPreview(){
-        /*-----------------------buttons that appear when in camera preview-----------------------*/
-        /* menu button - bottom right*/
         fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
         fabMenu.bringToFront();
 
-        /* sub menu buttons */
         fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
-        /* checking for previous setting if user kept flash on/off */
         if(SaveSharedPreference.getFlashOn(this).length()  != 0){
             fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
             flashLightOn();
@@ -383,29 +359,12 @@ public class CameraActivity extends Activity implements View.OnClickListener{
             flashLightOff();
         }
         fabFlash.setOnClickListener(this);
-
-        fabSwitchCamera = (FloatingActionButton) findViewById(R.id.fabSwitchCamera);
-        fabSwitchCamera.setImageResource(R.mipmap.ic_switch_camera_black_24dp);
-        fabSwitchCamera.setOnClickListener(this);
-
-        /* capture button - bottom middle */
-        fabCapture = (FloatingActionButton) findViewById(R.id.fabCapture);
-        fabCapture.setImageResource(R.mipmap.ic_photo_camera_black_24dp);
-        fabCapture.bringToFront();
-        fabCapture.setOnClickListener(CameraActivity.this);
-
-        /* go back to MainActivity button - bottom left */
-        fabGoBack = (FloatingActionButton) findViewById(R.id.fabGoBack);
-        fabGoBack.setImageResource(R.mipmap.ic_arrow_back_black_24dp);
-        fabGoBack.bringToFront();
-        fabGoBack.setOnClickListener(CameraActivity.this);
-        /*----------------------------------------------------------------------------------------*/
     }
+    **/
 
     private void setImageDataByte(byte[] data){this.data = data;}
 
     private byte[] getImageDataByte(){return data;}
-
 
     /** Checks if the device has a camera **/
     private boolean checkCameraHardware(Context context) {
@@ -418,22 +377,45 @@ public class CameraActivity extends Activity implements View.OnClickListener{
         }
     }
 
-
     /** A safe way to get an instance of the Camera object. */
     public static Camera getCameraInstance(){
         Camera c = null;
         try {
-            c = Camera.open(); // attempt to get a Camera instance
+            c = Camera.open();//attempt to get a Camera instance
         }
         catch (Exception e){
-            // Camera is not available (in use or does not exist)
+            //Camera is not available (in use or does not exist)
         }
-        return c; // returns null if camera is unavailable
+        return c;//returns null if camera is unavailable
     }
-
 
     String imageName(){
         String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
         return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
     }
+
+    public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
+        android.hardware.Camera.CameraInfo info =
+                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.getCameraInfo(cameraId, info);
+        int rotation = activity.getWindowManager().getDefaultDisplay()
+                .getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
+    }
+
 }

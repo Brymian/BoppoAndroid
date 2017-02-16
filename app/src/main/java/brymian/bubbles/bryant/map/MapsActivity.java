@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -89,6 +87,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*
 
         FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
         famMenu.showMenuButton(true);
@@ -108,6 +107,7 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
 
             }
         });
+        */
 
     }
 

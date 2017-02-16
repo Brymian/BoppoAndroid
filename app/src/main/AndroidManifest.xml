@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-feature android:name="android.hardware.camera.autofocus" />
     <uses-feature android:name="android.hardware.camera.flash"/>
+    <uses-feature android:name="android.hardware.camera.front" android:required="false" />
     <!--_________________________________________________________________________________________-->
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -51,8 +52,6 @@
             android:value="@string/google_maps_key" />
         <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.camera.CameraPRACTICE" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.camera.CameraDemoActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeParticipants" android:screenOrientation="portrait"/>

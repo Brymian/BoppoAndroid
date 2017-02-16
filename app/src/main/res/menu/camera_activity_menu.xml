@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/switch_cam"
-        android:icon="@mipmap/ic_search_black_24dp"
+        android:icon="@mipmap/ic_camera_switch_white_24dp"
         android:title="@string/Search"
         app:showAsAction="collapseActionView|ifRoom"
         android:orderInCategory="0"/>

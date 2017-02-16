@@ -52,13 +52,11 @@ public class MainTabEpisodesLiveMostViewsRecyclerAdapter extends RecyclerView.Ad
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvEpisodeHostName, tvEpisodeNum;
-        LinearLayout row;
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
             tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
             tvEpisodeNum = (TextView) v.findViewById(R.id.tvEpisodeNum);
-            row = (LinearLayout) v.findViewById(R.id.row);
         }
     }
 }

@@ -136,14 +136,23 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-                tvNumberOfEpisodes.setText(String.valueOf(eventList.size()));
+                try{
+                    tvNumberOfEpisodes.setText(String.valueOf(eventList.size()));
+
+                }catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
             }
         });
 
         new ServerRequestMethods(getActivity()).getFriends(SaveSharedPreference.getUserUID(getActivity()), new UserListCallback() {
             @Override
             public void done(List<User> users) {
-                tvNumberOfFriends.setText(String.valueOf(users.size()));
+                try{
+                    tvNumberOfFriends.setText(String.valueOf(users.size()));
+                }catch (NullPointerException npe){
+                    npe.printStackTrace();
+                }
             }
         });
 

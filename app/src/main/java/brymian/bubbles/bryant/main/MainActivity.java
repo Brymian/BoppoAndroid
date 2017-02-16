@@ -19,19 +19,10 @@ import android.view.View;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.PhoneNumber;
 import brymian.bubbles.bryant.camera.CameraActivity;
-import brymian.bubbles.bryant.friends.FriendsActivity;
-import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
-import brymian.bubbles.bryant.settings.About;
-import brymian.bubbles.bryant.settings.blocking.Blocking;
-import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.account.SyncWithOtherMedia;
 import brymian.bubbles.bryant.account.Email;
-import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
-import brymian.bubbles.bryant.map.MapsActivity;
-import brymian.bubbles.bryant.settings.Privacy;
-import brymian.bubbles.bryant.episodes.EpisodeMy;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
 
@@ -49,6 +40,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        mToolbar.setTitle(R.string.News_Feed);
         mToolbar.setTitleTextColor(Color.WHITE);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -136,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        setSupportActionBar(mToolbar);
 
         fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
         fabCamera.setOnClickListener(this);
@@ -148,7 +141,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (view.getId()){
             /* FloatingActionButton */
             case R.id.fabCamera:
-                startActivity(new Intent(this, CameraActivity.class));
+                startActivity(new Intent(this, CameraActivity.class).putExtra("imagePurpose", "Regular"));
                 break;
             /*---------------------------------MainTabPersonal-------------------------------------*/
 

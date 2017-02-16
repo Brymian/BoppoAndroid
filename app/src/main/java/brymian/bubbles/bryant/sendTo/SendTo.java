@@ -1,8 +1,8 @@
 package brymian.bubbles.bryant.sendTo;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,16 +12,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.Toast;
-
-
-import com.github.clans.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -35,11 +33,13 @@ import brymian.bubbles.objects.Event;
 
 public class SendTo extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
-    TextView tvPrivate, tvCurrentLocation;
-    CheckBox cbMap, cbPrivate, cbCurrentLocation;
+    CheckBox cbMap;
     FloatingActionButton fabDone;
+    boolean isMap = false;
     String privacy = "Public", encodedImage;
     List<Integer> uiid = new ArrayList<>();
+
+    int year, month, day, hour, minute, second;
 
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -71,75 +71,47 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        tvPrivate = (TextView) findViewById(R.id.tvPrivate);
-        tvPrivate.setTextColor(Color.GRAY);
-        tvCurrentLocation = (TextView) findViewById(R.id.tvCurrentLocation);
-        tvCurrentLocation.setTextColor(Color.GRAY);
-        cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
-        if(SaveSharedPreference.getUserPicturePrivacy(this).length() != 0){
-            cbPrivate.setChecked(true);
-            privacy = "Private";
-        }
-        cbPrivate.setOnCheckedChangeListener(this);
-        cbPrivate.setClickable(false);
-        cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
-        cbCurrentLocation.setOnCheckedChangeListener(this);
-        cbCurrentLocation.setClickable(false);
         cbMap = (CheckBox) findViewById(R.id.cbMap);
         cbMap.setOnCheckedChangeListener(this);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.rvMyEpisodes);
+        setDateTime();
         setLiveParticipatedEpisodes();
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
         fabDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadImage();
+                if (isMap){
+                    //uploadImage();
+                    Log.e("isMap", "why");
+                }
                 uploadImageToEpisode();
             }
         });
     }
 
-
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
         switch (compoundButton.getId()){
             case R.id.cbMap:
-                if(isChecked){
-                    tvPrivate.setTextColor(Color.BLACK);
-                    tvCurrentLocation.setTextColor(Color.BLACK);
-                    cbPrivate.setClickable(true);
-                    cbCurrentLocation.setClickable(true);
-                    setIsChecked(true);
+                if (isChecked){
+                    isMap = true;
                 }
-                else{
-                    tvPrivate.setTextColor(Color.GRAY);
-                    tvCurrentLocation.setTextColor(Color.GRAY);
-                    cbPrivate.setClickable(false);
-                    cbCurrentLocation.setClickable(false);
-                    setIsChecked(false);
+                else if (!isChecked){
+                    isMap = false;
                 }
-                break;
-            case R.id.cbPrivate:
-                if(isChecked){
-                    privacy = "Private";
-                }
-                else{
-                    privacy = "Public";
-                }
-
-                break;
-
-            case R.id.cbCurrentLocation:
-
-
                 break;
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -156,7 +128,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                 new StringCallback() {
                     @Override
                     public void done(String string) {
-                        Log.e("String response", string);
+                        Log.e("uploadImage", string);
                         setUiid(Integer.parseInt(string));
                         //startActivity(new Intent(SendTo.this, MainActivity.class));
                     }
@@ -165,25 +137,28 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
 
     private void uploadImageToEpisode(){
         List<Episode> singleEpisodeList = ((SendToEpisodesRecyclerAdapter) adapter).getEpisodeList();
-        for(int i = 0; i < singleEpisodeList.size(); i++){
-            Episode singleEpisode = singleEpisodeList.get(i);
-            if(singleEpisode.getIsSelected()){
-                uploadImage();
-                new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        try{
-                            JSONArray jArray = new JSONArray(string);
-                            for(int i =0; i < jArray.length(); i++){
-                                Log.e("JSON String","Status of Adding Image #" + i + " to UIID: " + jArray.get(i));
+        if (singleEpisodeList.size() > 1){
+            uploadImage();
+            for(int i = 0; i < singleEpisodeList.size(); i++){
+                Episode singleEpisode = singleEpisodeList.get(i);
+                if(singleEpisode.getIsSelected()){
+                    new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            try{
+                                JSONArray jArray = new JSONArray(string);
+                                for(int i =0; i < jArray.length(); i++){
+                                    Log.e("JSON String","Status of Adding Image #" + i + " to UIID: " + jArray.get(i));
+                                }
+                            }catch (JSONException jsone){
+                                jsone.printStackTrace();
                             }
-                        }catch (JSONException jsone){
-                            jsone.printStackTrace();
                         }
-                    }
-                });
+                    });
+                }
             }
         }
+        startActivity(new Intent(this, MainActivity.class));
     }
 
 
@@ -191,21 +166,80 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
-                if(eventList.size() > 0){
-                    ArrayList<Episode> episodeList = new ArrayList<>();
-                    for (Event event : eventList) {
-                        Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
-                        episodeList.add(episode);
+                try{
+                    if(eventList.size() > 0){
+                        ArrayList<Episode> episodeList = new ArrayList<>();
+                        String[] dateTime, dateArray, timeArray;
+                        for (Event event : eventList) {
+                            if (event.eventEndDatetime.equals("null")){
+                                String startTime = event.eventStartDatetime;
+                                dateTime = startTime.split("\\s");
+                                dateArray = dateTime[0].split("-");
+                                timeArray = dateTime[1].split(":");
+
+                                if (year > Integer.valueOf(dateArray[0])){ //if current year is greater than eventStartDate year, automatically add into List
+                                    Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                    episodeList.add(episode);
+                                }
+                                else if (year == Integer.valueOf(dateArray[0])){ //if current year is equal to eventStartDate year
+                                    if (month > Integer.valueOf(dateArray[1])){
+                                        Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                        episodeList.add(episode);
+                                    }
+                                    else if (month == Integer.valueOf(dateArray[1])){
+                                        if (day > Integer.valueOf(dateArray[2])){
+                                            Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                            episodeList.add(episode);
+                                        }
+                                        else if (day == Integer.valueOf(dateArray[2])){
+                                            if (hour > Integer.valueOf(timeArray[0])){
+                                                Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                                episodeList.add(episode);
+                                            }
+                                            else if (hour == Integer.valueOf(timeArray[0])){
+                                                if (minute > Integer.valueOf(timeArray[1])){
+                                                    Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                                    episodeList.add(episode);
+                                                }
+                                                else if (minute == Integer.valueOf(timeArray[1])){
+                                                    if (second > Integer.valueOf(timeArray[2])){
+                                                        Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                                        episodeList.add(episode);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        adapter = new SendToEpisodesRecyclerAdapter(episodeList);
+                        layoutManager = new LinearLayoutManager(SendTo.this);
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerView.setNestedScrollingEnabled(false);
+                        recyclerView.setAdapter(adapter);
                     }
 
-                    adapter = new SendToEpisodesRecyclerAdapter(SendTo.this, episodeList);
-                    layoutManager = new LinearLayoutManager(SendTo.this);
-                    recyclerView.setLayoutManager(layoutManager);
-                    recyclerView.setAdapter(adapter);
-
+                }catch (NullPointerException npe){
+                    npe.printStackTrace();
                 }
             }
         });
+    }
+
+    private void setDateTime(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String[] dateTime = dateFormat.format(date).split("\\s");
+        String[] dateArray = dateTime[0].split("-");
+        String[] timeArray = dateTime[1].split(":");
+        this.year = Integer.valueOf(dateArray[0]);
+        this.month = Integer.valueOf(dateArray[1]);
+        this.day = Integer.valueOf(dateArray[2]);
+        this.hour = Integer.valueOf(timeArray[0]);
+        this.minute = Integer.valueOf(timeArray[1]);
+        this.second = Integer.valueOf(timeArray[2]);
     }
 
     private void setUiid(int uiid){
@@ -214,15 +248,6 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
 
     private List<Integer> getUiid(){
         return uiid;
-    }
-
-    boolean isChecked;
-    private void setIsChecked(boolean isChecked){
-        this.isChecked = isChecked;
-    }
-
-    private boolean getIsChecked(){
-        return isChecked;
     }
 
     private String imageName(){
