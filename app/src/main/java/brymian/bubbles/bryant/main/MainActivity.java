@@ -1,34 +1,20 @@
 package brymian.bubbles.bryant.main;
 
-import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.account.PhoneNumber;
 import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
-import brymian.bubbles.bryant.account.Password;
-import brymian.bubbles.bryant.account.SyncWithOtherMedia;
-import brymian.bubbles.bryant.account.Email;
-import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.activity.AuthenticateActivity;
-
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
-
-
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar mToolbar;
@@ -53,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        final MainActivityPagerAdapter pagerAdapter= new MainActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
+        MainActivityPagerAdapter pagerAdapter= new MainActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
@@ -64,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                    viewPager.setCurrentItem(position);
 
                 } else if (position == 1) {
                     mToolbar.setTitle(R.string.Episodes);
@@ -71,38 +58,45 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_white_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                    viewPager.setCurrentItem(position);
                 } else if (position == 2) {
                     mToolbar.setTitle(R.string.Map);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_white_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                    viewPager.setCurrentItem(position);
                 } else if (position == 3) {
                     mToolbar.setTitle(R.string.Personal);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_white_24dp);
+                    viewPager.setCurrentItem(position);
                 }
             }
 
         });
-        viewPager.setCurrentItem(0); //setCurrentItem(position) sets which tab MainActivity starts in
+        //tabLayout.setupWithViewPager(viewPager);
+        //viewPager.setCurrentItem(0); //setCurrentItem(position) sets which tab MainActivity starts in
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
                 try {
-                    viewPager.setCurrentItem(index);
                     if(index == 0){
                         tab.setIcon(R.mipmap.ic_people_white_24dp);
+                        viewPager.setCurrentItem(index);
                     }else if(index == 1){
                         tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
+                        viewPager.setCurrentItem(index);
                     }else if (index == 2){
                         tab.setIcon(R.mipmap.ic_public_white_24dp);
+                        viewPager.setCurrentItem(index);
                     }
                     else if(index == 3){
                         tab.setIcon(R.mipmap.ic_account_circle_white_24dp);
+                        viewPager.setCurrentItem(index);
                     }
                 } catch (NullPointerException | IllegalStateException e) {
                     e.printStackTrace();
@@ -137,33 +131,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        FragmentManager fm = getFragmentManager();
         switch (view.getId()){
             /* FloatingActionButton */
             case R.id.fabCamera:
                 startActivity(new Intent(this, CameraActivity.class).putExtra("imagePurpose", "Regular"));
-                break;
-            /*---------------------------------MainTabPersonal-------------------------------------*/
-
-            /* Account */
-            case R.id.cvPassword:
-                startFragment(fm, R.id.main_activity, new Password());
-                break;
-
-            case R.id.cvEmail:
-                startFragment(fm, R.id.main_activity, new Email());
-                break;
-
-            case R.id.cvPhoneNumber:
-                startFragment(fm, R.id.main_activity, new PhoneNumber());
-                break;
-
-            case R.id.cvSyncWithOtherMedia:
-                startFragment(fm, R.id.main_activity, new SyncWithOtherMedia());
-                break;
-
-            case R.id.cvLogOut:
-                logOut();
                 break;
         }
     }
@@ -214,29 +185,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             getFragmentManager().popBackStack();
         }
-    }
-
-    private void logOut() {
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.alert_dialog_log_out, null);
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setView(alertLayout);
-        alert.setCancelable(false);
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(MainActivity.this, AuthenticateActivity.class));
-                SaveSharedPreference.clearAll(getApplicationContext());
-            }
-        });
-        AlertDialog dialog = alert.create();
-        dialog.show();
     }
 }

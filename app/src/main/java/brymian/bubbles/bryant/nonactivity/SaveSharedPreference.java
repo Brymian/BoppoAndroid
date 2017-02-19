@@ -5,25 +5,26 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 public class SaveSharedPreference {
-    static final String PREF_USER_UID = "uid";
-    static final String PREF_USER_USERNAME = "username";
-    static final String PREF_USER_PASSWORD = "password";
-    static final String PREF_USER_FIRSTNAME = "first name";
-    static final String PREF_USER_LASTNAME = "last name";
-    static final String PREF_USER_ACCOUNT_PRIVACY = "privacy";
-    static final String PREF_USER_PICTURE_PRIVACY = "picture privacy";
-    static final String PREF_USER_SEND_TO_MAP = "map";
-    static final String PREF_NOTIFICATIONS_VIBRATION = "vibration";
-    static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
-    static final String PREF_NOTIFICATIONS_SOUND = "sound";
+    private static final String PREF_USER_UID = "uid";
+    private static final String PREF_USER_USERNAME = "username";
+    private static final String PREF_USER_PASSWORD = "password";
+    private static final String PREF_USER_FIRSTNAME = "first name";
+    private static final String PREF_USER_LASTNAME = "last name";
+    private static final String PREF_USER_EMAIL = "email";
+    private static final String PREF_USER_ACCOUNT_PRIVACY = "privacy";
+    private static final String PREF_USER_PICTURE_PRIVACY = "picture privacy";
+    private static final String PREF_USER_SEND_TO_MAP = "map";
+    private static final String PREF_NOTIFICATIONS_VIBRATION = "vibration";
+    private static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
+    private static final String PREF_NOTIFICATIONS_SOUND = "sound";
 
-    static final String PREF_CAMERA_FLASH_ON = "flash on";
-    static final String PREF_CAMERA_FRONT_CAMERA = "front camera";
+    private static final String PREF_CAMERA_FLASH_ON = "flash on";
+    private static final String PREF_CAMERA_FRONT_CAMERA = "front camera";
 
-    static final String LATITUDE = "latitude";
-    static final String LONGITUDE = "longitude";
+    private static final String LATITUDE = "latitude";
+    private static final String LONGITUDE = "longitude";
 
-    static final String ENCODED_IMAGE = "encoded image";
+    private static final String ENCODED_IMAGE = "encoded image";
 
     static final String PREF_DONT_DISPLAY_AGAIN = "don't display again";
 
@@ -120,6 +121,25 @@ public class SaveSharedPreference {
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         //editor.clear(); //clear all stored data
         editor.remove(PREF_USER_USERNAME);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
+    /**----------------------------------------Email---------------------------------------------**/
+
+    public static void setEmail(Context ctx, String email){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_EMAIL, email);
+        editor.apply();
+    }
+
+    public static String getEmail(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_EMAIL, "");
+    }
+
+    public static void clearEmail(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(PREF_USER_EMAIL);
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/

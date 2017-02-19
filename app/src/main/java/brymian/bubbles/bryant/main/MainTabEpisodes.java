@@ -34,6 +34,8 @@ public class MainTabEpisodes extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
+    boolean isEpisodesLoaded = false;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_tab_episodes, container, false);
@@ -58,13 +60,19 @@ public class MainTabEpisodes extends Fragment {
         setLiveMostLikesEpisodes();
         setLiveMostDislikesEpisodes();
         **/
-        /* ALL TIME */
-        setAllTimeMostViewsEpisodes();
-        setALlTimeTopRated();
-        setAllTimeMostLikesEpisodes();
-        setAllTimeMostDislikes();
-
         return rootView;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isEpisodesLoaded){
+            setAllTimeMostViewsEpisodes();
+            setALlTimeTopRated();
+            setAllTimeMostLikesEpisodes();
+            setAllTimeMostDislikes();
+            isEpisodesLoaded = true;
+        }
     }
 
     private void setLiveInYourNeighborhood(){

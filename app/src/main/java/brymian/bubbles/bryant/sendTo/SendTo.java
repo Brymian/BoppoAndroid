@@ -82,10 +82,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         fabDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isMap){
-                    //uploadImage();
-                    Log.e("isMap", "why");
-                }
+                uploadImage();
                 uploadImageToEpisode();
             }
         });

@@ -42,12 +42,18 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/darker_gray"
             android:textAppearance="@android:style/TextAppearance.Small"/>
-        <CheckBox
-            android:id="@+id/cbSelected"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
-            android:layout_toRightOf="@id/tvEpisodeTitle"/>
+            android:layout_toRightOf="@id/tvEpisodeTitle"
+            android:gravity="center_vertical|right">
+            <CheckBox
+                android:id="@+id/cbSelected"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"/>
+        </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
 

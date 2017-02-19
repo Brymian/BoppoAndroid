@@ -413,7 +413,7 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/llEmail"
                 android:layout_below="@id/tvEmailString"
-                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@android:color/darker_gray" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>

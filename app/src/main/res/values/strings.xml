@@ -39,6 +39,7 @@
     <string name="About">About</string>
     <string name="Accept">Accept</string>
     <string name="Account">ACCOUNT</string>
+    <string name="Account_">Account</string>
     <string name="Add_comment">Add comment</string>
     <string name="Add_Episode_Title">Add Episode Title</string>
     <string name="Add_Friends_to_Episode">Add Friends to Episode</string>
@@ -86,6 +87,7 @@
     <string name="Invites_successfully_sent">Invite(s) successfully sent!</string>
     <string name="Later">Later</string>
     <string name="Leave_episode">Leave episode</string>
+    <string name="LED_Light">LED Light</string>
     <string name="Live">Live</string>
     <string name="Live_Episodes">Live Episodes</string>
     <string name="IN_YOUR_NEIGHBORHOOD">IN YOUR NEIGHBORHOOD</string>
@@ -128,15 +130,17 @@
     <string name="Sent_Friend_Requests">Sent Friend Requests</string>
     <string name="Select">Select</string>
     <string name="Settings">SETTINGS</string>
+    <string name="Sound">Sound</string>
     <string name="Starting_Date_and_Time">Starting Date &amp; Time</string>
     <string name="Sync_With_Facebook">Sync With Facebook</string>
     <string name="Sync_With_Other_Media">Sync With Other Media</string>
     <string name="Title">Title</string>
     <string name="Top_Episodes">Top Episodes</string>
-    <string name="Unblock">Unblock</string>
+    <string name="Unblock">UNBLOCK</string>
     <string name="Upload_From">Upload From:</string>
     <string name="UPLOAD_IMAGE">UPLOAD IMAGE FROM</string>
     <string name="Users">Users</string>
+    <string name="Vibration">Vibration</string>
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
     <string name="View_More_Current_Episodes">View More Current Episodes&#8230;</string>
     <string name="View_More_Top_Episodes">View More Top Episodes&#8230;</string>

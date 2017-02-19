@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,11 +103,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                         System.out.println("PASSWORD CHECK: " + user.getPassword());
                         System.out.println("NOW REDIRECTED TO BRYANT'S APP.");
 
-                        SaveSharedPreference.setUsername(getActivity(), etUsername.getText().toString());
+                        SaveSharedPreference.setUsername(getActivity(), user.getUsername());
                         SaveSharedPreference.setUserPassword(getActivity(), etPassword.getText().toString());
                         SaveSharedPreference.setUserUID(getActivity(), user.getUid());
                         SaveSharedPreference.setUserFirstName(getActivity(), user.getFirstName());
                         SaveSharedPreference.setUserLastName(getActivity(), user.getLastName());
+                        SaveSharedPreference.setEmail(getActivity(), user.getEmail());
 
                         User loggedInUser = udl.getUserData();
                         int loggedInUserUID = loggedInUser.getUid();

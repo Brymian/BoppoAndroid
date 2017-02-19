@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -23,10 +24,9 @@ public class Notifications extends AppCompatActivity implements CompoundButton.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_tab_personal_notifications);
+        setContentView(R.layout.notifications);
         mToolbar = (Toolbar) findViewById(R.id.tool_bar);
         mToolbar.setTitle(R.string.Notifications);
-        mToolbar.setTitleTextColor(Color.BLACK);
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -96,6 +96,16 @@ public class Notifications extends AppCompatActivity implements CompoundButton.O
                 }
                 break;
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void notificationVibration(){

@@ -66,6 +66,10 @@
         <activity android:name=".bryant.episodes.EpisodeMy" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>
         <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.settings.blocking.Blocking" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.settings.Privacy" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.account.Password" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.account.Email" android:screenOrientation="portrait"/>
         <!-- END OF PROFILE CLASSES -->
 
         <!-- DAMIAN'S STUFF -->

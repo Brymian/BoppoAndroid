@@ -17,8 +17,8 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 
 public class BlockingRecyclerAdapter extends RecyclerView.Adapter<BlockingRecyclerAdapter.RecyclerViewHolder> {
 
-    static Activity activity;
-    static List<BlockedUser> blockedUser;
+    private static Activity activity;
+    private static List<BlockedUser> blockedUser;
 
     public BlockingRecyclerAdapter(Activity activity, List<BlockedUser> blockedUser){
         BlockingRecyclerAdapter.activity = activity;
@@ -27,14 +27,14 @@ public class BlockingRecyclerAdapter extends RecyclerView.Adapter<BlockingRecycl
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.settings_blocking_recyclerview_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.blocking_recyclerview_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.tvBlockedUserUsername.setText(blockedUser.get(position).getFirstLastName());
-        holder.tvBlockedUserFirstLastName.setText(blockedUser.get(position).getUsername());
+        holder.tvBlockedUserUsername.setText(blockedUser.get(position).getUsername());
+        holder.tvBlockedUserFirstLastName.setText(blockedUser.get(position).getFirstLastName());
     }
 
     @Override

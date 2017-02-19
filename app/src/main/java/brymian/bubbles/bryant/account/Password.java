@@ -3,16 +3,12 @@ package brymian.bubbles.bryant.account;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.app.Fragment;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,7 +22,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
-public class Password extends Fragment implements View.OnClickListener{
+public class Password extends AppCompatActivity implements View.OnClickListener{
     Toolbar mToolbar;
     EditText etOldPassword, etNewPassword, etNewPasswordAgain;
     TextView bChangePassword;
@@ -46,7 +42,7 @@ public class Password extends Fragment implements View.OnClickListener{
 
         @Override
         public void afterTextChanged(Editable s) {
-            new ServerRequestMethods(getActivity()).getUserData(SaveSharedPreference.getUserUID(getActivity()), new UserCallback() {
+            new ServerRequestMethods(Password.this).getUserData(SaveSharedPreference.getUserUID(Password.this), new UserCallback() {
                 @Override
                 public void done(User user) {
                     String password = user.getPassword();
@@ -87,35 +83,31 @@ public class Password extends Fragment implements View.OnClickListener{
         }
     };
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.account_password, container, false);
-
-        mToolbar = (Toolbar) rootView.findViewById(R.id.tool_bar);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.password);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Password);
-        mToolbar.setTitleTextColor(Color.BLACK);
 
-        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        etOldPassword = (EditText) rootView.findViewById(R.id.etOldPassword);
+        etOldPassword = (EditText) findViewById(R.id.etOldPassword);
         etOldPassword.setHint(R.string.Current_Password);
-        etNewPassword = (EditText) rootView.findViewById(R.id.etNewPassword);
-        etNewPasswordAgain = (EditText) rootView.findViewById(R.id.etNewPasswordAgain);
-        bChangePassword = (TextView) rootView.findViewById(R.id.bChangePassword);
+        etNewPassword = (EditText) findViewById(R.id.etNewPassword);
+        etNewPasswordAgain = (EditText) findViewById(R.id.etNewPasswordAgain);
+        bChangePassword = (TextView) findViewById(R.id.bChangePassword);
         bChangePassword.setText(R.string.Done);
-        ivCurrentPassword = (ImageView) rootView.findViewById(R.id.ivCurrentPassword);
-        ivConfirmNewPassword = (ImageView) rootView.findViewById(R.id.ivConfirmNewPassword);
+        ivCurrentPassword = (ImageView) findViewById(R.id.ivCurrentPassword);
+        ivConfirmNewPassword = (ImageView) findViewById(R.id.ivConfirmNewPassword);
 
         bChangePassword.setOnClickListener(this);
         bChangePassword.setVisibility(View.GONE);
 
         etOldPassword.addTextChangedListener(oldPasswordWatcher);
         etNewPasswordAgain.addTextChangedListener(newPasswordAgainWatcher);
-
-        return rootView;
     }
 
 
@@ -123,7 +115,7 @@ public class Password extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.bChangePassword:
                 if(isEquals){
-                    new ServerRequestMethods(getActivity()).changePassword(SaveSharedPreference.getUserUID(getActivity()), etNewPasswordAgain.getText().toString(), new StringCallback() {
+                    new ServerRequestMethods(this).changePassword(SaveSharedPreference.getUserUID(this), etNewPasswordAgain.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             if(string.equals("Password changed successfully.")){
@@ -133,7 +125,7 @@ public class Password extends Fragment implements View.OnClickListener{
                     });
                 }
                 else{
-                    Toast.makeText(getActivity(), "New Password needs to confirm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "New Password needs to confirm", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -144,8 +136,8 @@ public class Password extends Fragment implements View.OnClickListener{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.home:
-                NavUtils.navigateUpFromSameTask(getActivity());
+            case android.R.id.home:
+                onBackPressed();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

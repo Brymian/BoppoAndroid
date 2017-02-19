@@ -46,12 +46,14 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.map.MapsActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
 import brymian.bubbles.objects.Event;
 
@@ -64,6 +66,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     public static List<String> userComment = new ArrayList<>();
     public static List<String> userCommentTimestamp = new ArrayList<>();
     public static List<String> userUsername = new ArrayList<>();
+    public static List<Bitmap> episodeImage = new ArrayList<>();
     TextView  tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvRating, tvViewCount, tvCommentsNumber;
     FloatingActionButton fabPlay;
     ImageView ivLike, ivDislike, ivAddComment, ivParticipants, ivMap, ivAddImage;
@@ -73,7 +76,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     //int ADD_PARTICIPANTS_CODE = 123;
-    public static int eid;
+    private int eid;
     private boolean isHost, isParticipant, isStarted, isEnded;
 
     @Override
@@ -113,6 +116,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         ivDislike.setOnClickListener(this);
         tvRating = (TextView) findViewById(R.id.tvRating);
         fabPlay = (FloatingActionButton) findViewById(R.id.fabPlay);
+        fabPlay.setOnClickListener(this);
         ivParticipants = (ImageView) findViewById(R.id.ivParticipants);
         ivParticipants.setOnClickListener(this);
         ivMap = (ImageView) findViewById(R.id.ivMap);
@@ -135,6 +139,9 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setElevation(1);
+        downloadEpisodePictures();
+
+        Log.e("episodeImage.size()", ""+episodeImage.size());
     }
 
     @Override
@@ -505,7 +512,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setEid(int eid){
-        EpisodeActivity.eid = eid;
+        this.eid = eid;
     }
 
     private int getEid(){
@@ -518,6 +525,61 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean getIsHost(){
         return isHost;
+    }
+
+    private void downloadEpisodePictures(){
+        new UserImageRequest(this).getImagesByEid(getEid(), new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    List<String> episodeImagePath = new ArrayList<>();
+                    HTTPConnection httpConnection = new HTTPConnection();
+                    JSONArray jsonArray = new JSONArray(string);
+                    Log.e("try","length: " + jsonArray.length());
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jArray_jObject = jsonArray.getJSONObject(i);
+                        JSONObject jImage = jArray_jObject.getJSONObject("image");
+                        episodeImagePath.add(httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
+                        Log.e("image path", httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
+                        new DownloadEpisodeImage(episodeImagePath.get(i)).execute();
+                    }
+                }catch (JSONException jsone){
+                    jsone.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private class DownloadEpisodeImage extends AsyncTask<Void, Void, Bitmap> {
+        String path;
+        public DownloadEpisodeImage(String path){
+            this.path = path;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            try {
+                URLConnection connection = new URL(path).openConnection();
+                connection.setConnectTimeout(1000 * 30);
+                connection.setReadTimeout(1000 * 30);
+                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            if (bitmap!=null){
+                Log.e("bitmap", "bitmap here" );
+                episodeImage.add(bitmap);
+            }
+            else{
+                Log.e("bitmap", "bitmap not here");
+            }
+        }
     }
 
     private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
