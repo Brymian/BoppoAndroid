@@ -21,6 +21,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.NewsFeedRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
@@ -853,21 +854,21 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         new UserCommentRequest(this).getObjectComments("Event", 56, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("THE FOLLOWING GET OBJECT COMMENTS RESPONSE HAS BEEN RETURNED: ");
                 printLongString(string);
-                /*
-                try {
-                    JSONObject jObject = new JSONObject(string);
-                    System.out.println(jObject.getJSONArray("comments").getJSONObject(0).getJSONObject("image").getString("userImagePath"));
-                }
-                catch (JSONException jsone) { jsone.printStackTrace(); }
-                */
+
+                //try {
+                //    JSONObject jObject = new JSONObject(string);
+                //    System.out.println(jObject.getJSONArray("comments").getJSONObject(0).getJSONObject("image").getString("userImagePath"));
+                //}
+                //catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-
+        */
         /*
         new EventRequest(this).updateEvent(38, 3, "Funniest Shiz Evah", "Private", "Friends", null, null, null, null, null, new StringCallback() {
             @Override
@@ -1224,6 +1225,12 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        new NewsFeedRequest(this).getNewsEvents(2, 5, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
+            }
+        });
     }
 
 }

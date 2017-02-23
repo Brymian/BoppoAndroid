@@ -4,7 +4,7 @@ package brymian.bubbles.damian.nonactivity.Connection;
 public class HTTPConnection {
 
     private final String PROTOCOL = "http";
-    //private final String SERVER   = "192.168.1.12";
+    //private final String SERVER   = "192.168.0.12";
     private final String SERVER  = "68.83.39.228";
     private final int    PORT     = 8080;
     private final String UPLOADS  = "Bubbles/Uploads/";
