@@ -1,7 +1,7 @@
 package brymian.bubbles.bryant.map;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -9,7 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,14 +23,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
-public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener{
+public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     Toolbar mToolbar;
@@ -40,11 +38,15 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     ArrayList<Double> latitudeImageArrayList = new ArrayList<>();
     ArrayList<String> privacyImageArrayList = new ArrayList<>();
     ArrayList<String> imagePurposeArrayList = new ArrayList<>();
+    public static String imagePath;
+
+    private boolean isClicked = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.maps_activity);
+        setContentView(R.layout.map_activity);
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
         String profile;
@@ -68,47 +70,29 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.bringToFront();
         if(profile != null){
-            if(profile.equals("logged in user")){
-                mToolbar.setTitle(R.string.My_Map);
-                setUID(SaveSharedPreference.getUserUID(this));
-                getUserImages(SaveSharedPreference.getUserUID(this));
+            switch (profile) {
+                case "logged in user":
+                    mToolbar.setTitle(R.string.My_Map);
+                    setUID(SaveSharedPreference.getUserUID(this));
+                    getUserImages(SaveSharedPreference.getUserUID(this));
+                    break;
 
-            }else if(profile.equals("all")){
-                mToolbar.setTitle(R.string.Explore);
-                getAllImages();
-            }
-            else{
-                mToolbar.setTitle(profile + "'s Map");
-                getUserImages(uid);
-                setUID(uid);
+                case "all":
+                    mToolbar.setTitle(R.string.Explore);
+                    getAllImages();
+                    break;
+
+                default:
+                    mToolbar.setTitle(profile + "'s Map");
+                    getUserImages(uid);
+                    setUID(uid);
+                    break;
             }
         }
 
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        /*
-
-        FloatingActionMenu famMenu = (FloatingActionMenu) findViewById(R.id.famMenu);
-        famMenu.showMenuButton(true);
-
-        FloatingActionButton fabCamera = (FloatingActionButton) findViewById(R.id.fabCamera);
-        fabCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MapsActivity.this, CameraActivity.class).putExtra("imagePurpose", "Regular"));
-            }
-        });
-
-        FloatingActionButton fabFilter = (FloatingActionButton) findViewById(R.id.fabFilter);
-        fabFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-        */
-
     }
 
     @Override
@@ -118,7 +102,29 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
     }
 
     @Override
+    public void onBackPressed() {
+        if (isClicked){
+            getFragmentManager().popBackStack();
+            isClicked = false;
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
     public boolean onMarkerClick(Marker marker) {
+        marker.hideInfoWindow();
         return false;
     }
 
@@ -135,27 +141,51 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                         privacyImageArrayList.add(i, imageList.get(i).userImagePrivacyLabel);
                     }
                 } else {
-                    Toast.makeText(MapsActivity.this, "User has no images uploaded", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivity.this, "User has no images uploaded", Toast.LENGTH_SHORT).show();
                 }
 
-                for (int i = 0; i < latitudeImageArrayList.size(); i++) {
-                    mMap.addMarker(
-                            (new MarkerOptions()
-                                    .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
-                                    .title(imageListPath.get(i))
-                            )
-                    );
-                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                        @Override
-                        public boolean onMarkerClick(Marker marker) {
-                            Toast.makeText(MapsActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                    });
-                    mMap.getUiSettings().setMapToolbarEnabled(false); //disables the bottom right buttons that appear when you click on a marker
+                try{
+                    for (int i = 0; i < latitudeImageArrayList.size(); i++) {
+                        mMap.addMarker(
+                                (new MarkerOptions()
+                                        .position(new LatLng(latitudeImageArrayList.get(i), longitudeImageArrayList.get(i)))
+                                        .title(imageListPath.get(i))
+                                )
+                        );
+                        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+                                marker.hideInfoWindow();
+                                viewImage(marker.getTitle());
+                                return false;
+                            }
+                        });
+                        mMap.getUiSettings().setMapToolbarEnabled(false); //disables the bottom right buttons that appear when you click on a marker
+                    }
+                }
+                catch (NullPointerException npe){
+                    npe.printStackTrace();
                 }
             }
         });
+    }
+
+    private void viewImage(String imageListPath){
+        setImagePath(imageListPath);
+        isClicked = true;
+        MapViewImage mapViewImage = new MapViewImage();
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.map_activity, mapViewImage);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+    }
+
+    private void setImagePath(String imagePath){
+        MapActivity.imagePath = imagePath;
+    }
+
+    public static String getImagePath(){
+        return imagePath;
     }
 
     private void getAllImages(){
@@ -180,11 +210,10 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                             mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                                 @Override
                                 public boolean onMarkerClick(Marker marker) {
-                                    Toast.makeText(MapsActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MapActivity.this, marker.getTitle(), Toast.LENGTH_SHORT).show();
                                     return false;
                                 }
                             });
-                            mMap.getUiSettings().setMapToolbarEnabled(false);
                         }
                     }
                 }
@@ -193,8 +222,6 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
                 }
             }
         });
-
-
     }
 
     private void setUpMapIfNeeded() {
@@ -205,6 +232,9 @@ public class MapsActivity extends AppCompatActivity implements GoogleMap.OnMarke
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
+                mMap.getUiSettings().setRotateGesturesEnabled(false);
+                mMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mMap.getUiSettings().setMapToolbarEnabled(true);
             }
         }
     }

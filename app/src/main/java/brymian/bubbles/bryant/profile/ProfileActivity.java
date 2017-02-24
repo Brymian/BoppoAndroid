@@ -2,9 +2,6 @@ package brymian.bubbles.bryant.profile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -13,7 +10,6 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,11 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -54,8 +47,7 @@ public class ProfileActivity extends AppCompatActivity{
     TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum;
     CardView cvUserFriends;
     int userUID;
-    String profile;
-    String firstName, lastName, username, privacy;
+    String username, privacy;
     Toolbar mToolbar;
 
     RecyclerView rvUserEpisodes;
@@ -67,26 +59,23 @@ public class ProfileActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(1);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         /*--------------------------------Checking for putExtras()--------------------------------*/
-        String profile;
-        String username;
         int uid;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
-                profile = null;
-                username = null;
                 uid = 0;
             }
             else {
-                profile = extras.getString("profile");
-                username = extras.getString("username");
                 uid = extras.getInt("uid");
             }
         }
         else {
-            profile= savedInstanceState.getString("profile");
-            username = savedInstanceState.getString("username");
             uid = savedInstanceState.getInt("uid");
         }
         /*----------------------------------------------------------------------------------------*/
@@ -105,41 +94,13 @@ public class ProfileActivity extends AppCompatActivity{
         tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
         tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
         rvUserEpisodes = (RecyclerView) findViewById(R.id.rvUserEpisodes);
-        getProfilePictures(uid);
 
-        Toast.makeText(ProfileActivity.this, profile, Toast.LENGTH_SHORT).show();
-
-        if (profile != null) {
-            if (profile.equals("logged in user")) {
-                setUID(SaveSharedPreference.getUserUID(this));
-                mToolbar.setTitle(SaveSharedPreference.getUsername(this));
-                tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
-                //setButtons(profile);
-                setProfile(profile);
-            }
-            else {
-                setUID(uid);
-                //setButtons(profile);
-                setProfile(profile);
-                mToolbar.setTitle(username);
-                new ServerRequestMethods(this).getUserData(uid, new UserCallback() {
-                    @Override
-                    public void done(User user) {
-                        setFirstLastName(user.getFirstName(), user.getLastName());
-                        tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
-                        setPrivacy(user.getUserAccountPrivacy());
-                    }
-                });
-            }
+        if(uid != 0){
+            setFriendshipStatus(uid);
+            getProfilePictures(uid);
+            getFriendsNum(uid);
+            getEpisodesNum(uid);
         }
-        getFriendsNum();
-        getEpisodesNum();
-        setUserProfileInfo(profile);
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setElevation(1);
     }
 
     @Override
@@ -178,6 +139,34 @@ public class ProfileActivity extends AppCompatActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void setFriendshipStatus(int uid){
+        if (uid == SaveSharedPreference.getUserUID(this)){
+            setUserProfileInfo("logged in user");
+            setUID(SaveSharedPreference.getUserUID(this));
+            setUsername(SaveSharedPreference.getUsername(this));
+            mToolbar.setTitle(SaveSharedPreference.getUsername(this));
+            tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
+        }
+        else{
+            final int innerUid = uid;
+            new ServerRequestMethods(this).getFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), uid, new StringCallback() {
+                @Override
+                public void done(String string) {
+                    setUserProfileInfo(string);
+                    new ServerRequestMethods(ProfileActivity.this).getUserData(innerUid, new UserCallback() {
+                        @Override
+                        public void done(User user) {
+                            setUsername(user.getUsername());
+                            mToolbar.setTitle(user.getUsername());
+                            tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
+                            setPrivacy(user.getUserAccountPrivacy());
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private void setUserProfileInfo(String profile){
@@ -237,8 +226,8 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-    private void getFriendsNum(){
-        new ServerRequestMethods(this).getFriends(getUID(), new UserListCallback() {
+    private void getFriendsNum(int uid){
+        new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 tvFriendsNum.setText(String.valueOf(users.size()));
@@ -246,8 +235,8 @@ public class ProfileActivity extends AppCompatActivity{
         });
     }
 
-    private void getEpisodesNum(){
-        new EventRequest(this).getEventDataByMember(getUID(), new EventListCallback() {
+    private void getEpisodesNum(int uid){
+        new EventRequest(this).getEventDataByMember(uid, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
                 if(eventList.size() > 0){
@@ -359,40 +348,10 @@ public class ProfileActivity extends AppCompatActivity{
             @Override
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
-                    new DownloadImage(imageList.get(0).userImagePath).execute();
+                    Picasso.with(ProfileActivity.this).load(imageList.get(0).userImagePath).into(ivProfilePicture);
                 }
             }
         });
-    }
-
-
-    private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
-        String path;
-
-        DownloadImage(String path){
-            this.path = path;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            try {
-                URLConnection connection = new URL(path).openConnection();
-                connection.setConnectTimeout(1000 * 30);
-                connection.setReadTimeout(1000 * 30);
-                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap!=null){
-                ivProfilePicture.setImageBitmap(bitmap);
-            }
-        }
     }
 
     private void setUID(int uid){
@@ -403,22 +362,6 @@ public class ProfileActivity extends AppCompatActivity{
         return userUID;
     }
 
-    private void setProfile(String profile){
-        this.profile = profile;
-    }
-
-    private String getProfile(){
-        return profile;
-    }
-
-    private void setFirstLastName(String firstName, String lastName){
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-
-    private String getFirstLastName(){
-        return firstName + " " + lastName;
-    }
 
     private void setUsername(String username){
         this.username = username;
@@ -427,6 +370,7 @@ public class ProfileActivity extends AppCompatActivity{
     private String getUsername(){
         return username;
     }
+
     private void setPrivacy(String privacy){
         this.privacy = privacy;
     }

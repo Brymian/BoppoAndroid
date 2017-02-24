@@ -102,14 +102,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         ivFlash = (ImageView) findViewById(R.id.ivFlash);
         ivFlash.setOnClickListener(this);
-        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
-            ivFlash.setImageResource(R.mipmap.ic_flash_off_white_24dp);
-            flashLightOn();
-        }
-        else{
-            ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
-            flashLightOff();
-        }
 
         rlCamera = (RelativeLayout) findViewById(R.id.rlCamera);
         rlCamera.setOnClickListener(this);
@@ -126,14 +118,19 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
         mHolder = mPreview.getHolder();
+
+        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
+            ivFlash.setImageResource(R.mipmap.ic_flash_off_white_24dp);
+            flashLightOn();
+        }
+        else{
+            ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
+            flashLightOff();
+        }
         //setAutoFocus();
+
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.e("onTouchEvent", "works");
-        return true;
-    }
 
     @Override
     public void onClick(View v) {

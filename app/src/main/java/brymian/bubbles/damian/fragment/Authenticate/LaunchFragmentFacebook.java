@@ -46,7 +46,7 @@ public class LaunchFragmentFacebook extends Fragment {
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
             login(profile);
-            //startActivity(new Intent(getActivity(), MapsActivity.class));
+            //startActivity(new Intent(getActivity(), MapActivity.class));
         }
 
         @Override
