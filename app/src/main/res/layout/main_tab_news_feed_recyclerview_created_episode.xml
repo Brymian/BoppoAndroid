@@ -1,7 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@android:color/holo_red_dark">
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="1dp"
+    card_view:cardElevation="0dp"
+    card_view:cardBackgroundColor="@android:color/white"
+    card_view:cardCornerRadius="0dp">
 
-</LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tvUserCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/tvUserCreated"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text=" created..."/>
+
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/tvUserCreated"
+                android:background="@android:color/black"
+                android:layout_alignParentLeft="true"/>
+            <TextView
+                android:id="@+id/tvEpisodeTitle"
+                android:layout_toRightOf="@+id/ivIcon"
+                android:layout_below="@+id/tvUserCreated"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
+        </RelativeLayout>
+</android.support.v7.widget.CardView>

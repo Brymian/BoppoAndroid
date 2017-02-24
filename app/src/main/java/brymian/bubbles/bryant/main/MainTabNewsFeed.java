@@ -43,11 +43,11 @@ public class MainTabNewsFeed extends Fragment {
     }
 
     private void setNewsFeed(){
-        new NewsFeedRequest(getActivity()).getNewsEvents(SaveSharedPreference.getUserUID(getActivity()), 10, new StringCallback() {
+        new NewsFeedRequest(getActivity()).getNewsEvents(SaveSharedPreference.getUserUID(getActivity()), 5, new StringCallback() {
             @Override
             public void done(String string) {
                 try{
-                    //Log.e("getNewsEvents", string);
+                    Log.e("getNewsEvents", string);
                     List<String> types = new ArrayList<>();
                     List<MainTabNewsFeedInfo> mainTabNewsFeedInfoList = new ArrayList<>();
                     JSONArray jsonArray  = new JSONArray(string);
@@ -76,30 +76,35 @@ public class MainTabNewsFeed extends Fragment {
                                 break;
 
                             case "FriendActiveEvent":
-                                //Log.e("ActiveEvent", "here");
+                                String activeEpisode = jsonObject.getString("event");
+                                JSONObject activeEpisodeObject = new JSONObject(activeEpisode);
 
+                                String activeUser = jsonObject.getString("user");
+                                JSONObject activeUserObject = new JSONObject(activeUser);
+                                MainTabNewsFeedInfo infoActive = new MainTabNewsFeedInfo(activeEpisodeObject.getString("eid"), activeEpisodeObject.getString("eventName"), activeEpisodeObject.getString("eventEndDatetime"), activeUserObject.getString("username"), activeUserObject.getString("uid"));
+                                mainTabNewsFeedInfoList.add(infoActive);
+                                Log.e("activeEvent", activeEpisode + " " + activeUserObject);
                                 break;
                             case "FriendsThatBecameFriends":
                                 String user1 = jsonObject.getString("user1");
                                 JSONObject user1Obj = new JSONObject(user1);
-                                String user1Uid = user1Obj.getString("uid");
-                                String user1Username = user1Obj.getString("username");
-
 
                                 String user2 = jsonObject.getString("user2");
                                 JSONObject user2Obj = new JSONObject(user2);
-                                String user2Uid = user2Obj.getString("uid");
-                                String user2Username = user2Obj.getString("username");
-                                //Log.e("becameFriends", "user1uid: " + user1Uid + " user1Username: " + user1Username + " user2Uid: " +user2Uid + " user2Username: " + user2Username);
+                                MainTabNewsFeedInfo infoBecame = new MainTabNewsFeedInfo(user1Obj.getString("username"),  user1Obj.getString("uid"), user2Obj.getString("username"), user2Obj.getString("uid"));
+                                mainTabNewsFeedInfoList.add(infoBecame);
+                                Log.e("becameFriends", "user1uid: " + user1Obj.getString("uid") + " user1Username: " + user1Obj.getString("username") + " user2Uid: " +user2Obj.getString("uid") + " user2Username: " + user2Obj.getString("username"));
                                 break;
                             case "FriendCreatedEvent":
                                 String createdEpisode = jsonObject.getString("event");
                                 JSONObject createdEpisodeObject = new JSONObject(createdEpisode);
-                                String createdEpisodeEid = createdEpisodeObject.getString("eid");
-                                String createdEpisodeTitle = createdEpisodeObject.getString("eventName");
-                                String createdEpisodeTimeStamp = createdEpisodeObject.getString("eventCreationTimestamp");
 
-                                //Log.e("createdEvent", createdEpisodeEid + " " + createdEpisodeTitle + " "+ createdEpisodeTimeStamp);
+                                String createdUser = jsonObject.getString("eventHostUser");
+                                JSONObject createdUserObject = new JSONObject(createdUser);
+
+                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(createdEpisodeObject.getString("eid"), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventCreationTimestamp"), createdUserObject.getString("username"), createdUserObject.getString("uid"));
+                                mainTabNewsFeedInfoList.add(info);
+                                Log.e("createdEvent", "eid: " + createdEpisodeObject.getString("eid") + " title: " + createdEpisodeObject.getString("eventName") + " timestamp: " + createdEpisodeObject.getString("eventCreationTimestamp") + " username: " + createdUserObject.getString("username") + " uid: " + createdUserObject.getString("uid"));
                                 break;
                             case "FriendsUploadedImages":
                                 String userImage = jsonObject.getString("userImage");
@@ -113,7 +118,6 @@ public class MainTabNewsFeed extends Fragment {
                     adapter = new MainTabNewsFeedRecyclerAdapter(types, mainTabNewsFeedInfoList);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvNewsFeed.setLayoutManager(layoutManager);
-                    rvNewsFeed.setNestedScrollingEnabled(false);
                     rvNewsFeed.setAdapter(adapter);
                 }
                 catch (JSONException | NullPointerException e){

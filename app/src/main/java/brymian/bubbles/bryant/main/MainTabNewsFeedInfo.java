@@ -6,8 +6,9 @@ import java.util.List;
 public class MainTabNewsFeedInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    String username, firstLastName, eid, episodeTitle, timestamp;
-    int uid;
+    String username, firstLastName, eid, episodeTitle, timestamp, uid;
+    String user1Username, user1Uid, user2Username, user2Uid;
+    //int uid;
     List<String> uids, usernames;
 
     public MainTabNewsFeedInfo(){
@@ -23,10 +24,26 @@ public class MainTabNewsFeedInfo implements Serializable {
         this.uids = uids;
     }
 
+    /* for FriendCreatedEvent, ActiveEvent as well */
+    public MainTabNewsFeedInfo(String eid, String episodeTitle, String episodeTimestamp, String username, String uid){
+        this.eid = eid;
+        this.episodeTitle = episodeTitle;
+        this.timestamp = episodeTimestamp;
+        this.username = username;
+        this.uid = uid;
+    }
+
+    /* for FriendsThatBecameFriends */
+    public MainTabNewsFeedInfo(String user1Username, String user1Uid, String user2Username, String user2Uid){
+        this.user1Username = user1Username;
+        this.user1Uid = user1Uid;
+        this.user2Username = user2Username;
+        this.user2Uid = user2Uid;
+    }
+
     public MainTabNewsFeedInfo(String username, String firstLastName, int uid){
         this.username = username;
         this.firstLastName = firstLastName;
-        this.uid = uid;
     }
 
 
@@ -50,29 +67,15 @@ public class MainTabNewsFeedInfo implements Serializable {
         return uids;
     }
 
-    public void setUsername(String username){
-        this.username = username;
-    }
-
     public String getUsername(){
         return username;
     }
 
-    public void setFirstLastName(String firstLastName){
-        this.firstLastName = firstLastName;
+    public String getUser1Username(){
+        return user1Username;
     }
 
-    public String getFirstLastName(){
-        return firstLastName;
+    public String getUser2Username(){
+        return user2Username;
     }
-
-    public void setUid(int uid){
-        this.uid = uid;
-    }
-
-    public int getUid(){
-        return uid;
-    }
-
-
 }

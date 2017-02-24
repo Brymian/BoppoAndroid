@@ -58,14 +58,16 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
                 ((JoinedMutualEpisodeHolder)holder).tvUserJoined.setText(mainTabNewsFeedInfoList.get(position).getUsernames().get(0));
                 break;
             case TYPE_ACTIVE_EPISODE:
-
+                ((ActiveEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
+                ((ActiveEpisodeHolder)holder).tvUserActive.setText(mainTabNewsFeedInfoList.get(position).getUsername());
                 break;
             case TYPE_BECAME_FRIENDS:
-
+                ((BecameFriendsHolder)holder).tvUser1Username.setText(mainTabNewsFeedInfoList.get(position).getUser1Username());
+                ((BecameFriendsHolder)holder).tvUser2Username.setText(mainTabNewsFeedInfoList.get(position).getUser2Username());
                 break;
-
             case TYPE_CREATED_EPISODE:
-
+                ((CreatedEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
+                ((CreatedEpisodeHolder)holder).tvUserCreated.setText(mainTabNewsFeedInfoList.get(position).getUsername());
                 break;
             case TYPE_UPLOAD_IMAGE:
 
@@ -106,24 +108,27 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
         }
     }
     public static class ActiveEpisodeHolder extends RecyclerView.ViewHolder{
-
+        TextView tvEpisodeTitle, tvUserActive;
         public ActiveEpisodeHolder(View v){
             super(v);
-
+            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            tvUserActive = (TextView) v.findViewById(R.id.tvUserActive);
         }
     }
     public static class BecameFriendsHolder extends RecyclerView.ViewHolder{
-
+        TextView tvUser1Username, tvUser2Username;
         public BecameFriendsHolder(View v){
             super(v);
-
+            tvUser1Username = (TextView) v.findViewById(R.id.tvUser1Username);
+            tvUser2Username = (TextView) v.findViewById(R.id.tvUser2Username);
         }
     }
     public static class CreatedEpisodeHolder extends RecyclerView.ViewHolder{
-
+        TextView tvUserCreated, tvEpisodeTitle;
         public CreatedEpisodeHolder(View v){
             super(v);
-
+            tvUserCreated = (TextView) v.findViewById(R.id.tvUserCreated);
+            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
         }
     }
 
