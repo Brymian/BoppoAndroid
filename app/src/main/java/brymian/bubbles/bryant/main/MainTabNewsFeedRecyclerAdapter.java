@@ -70,7 +70,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
                 ((CreatedEpisodeHolder)holder).tvUserCreated.setText(mainTabNewsFeedInfoList.get(position).getUsername());
                 break;
             case TYPE_UPLOAD_IMAGE:
-
+                ((UploadImageHolder)holder).tvUserUsername.setText(mainTabNewsFeedInfoList.get(position).getUidImage());
                 break;
         }
     }
@@ -98,7 +98,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
     }
 
 
-    public static class JoinedMutualEpisodeHolder extends RecyclerView.ViewHolder{
+    private static class JoinedMutualEpisodeHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvUserJoined;
         public JoinedMutualEpisodeHolder(View v){
             super(v);
@@ -107,7 +107,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
 
         }
     }
-    public static class ActiveEpisodeHolder extends RecyclerView.ViewHolder{
+    private static class ActiveEpisodeHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvUserActive;
         public ActiveEpisodeHolder(View v){
             super(v);
@@ -115,7 +115,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             tvUserActive = (TextView) v.findViewById(R.id.tvUserActive);
         }
     }
-    public static class BecameFriendsHolder extends RecyclerView.ViewHolder{
+    private static class BecameFriendsHolder extends RecyclerView.ViewHolder{
         TextView tvUser1Username, tvUser2Username;
         public BecameFriendsHolder(View v){
             super(v);
@@ -123,7 +123,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             tvUser2Username = (TextView) v.findViewById(R.id.tvUser2Username);
         }
     }
-    public static class CreatedEpisodeHolder extends RecyclerView.ViewHolder{
+    private static class CreatedEpisodeHolder extends RecyclerView.ViewHolder{
         TextView tvUserCreated, tvEpisodeTitle;
         public CreatedEpisodeHolder(View v){
             super(v);
@@ -132,11 +132,11 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
         }
     }
 
-    public static class UploadImageHolder extends RecyclerView.ViewHolder{
-
+    private static class UploadImageHolder extends RecyclerView.ViewHolder{
+        TextView tvUserUsername;
         public UploadImageHolder(View v){
             super(v);
-
+            tvUserUsername = (TextView) v.findViewById(R.id.tvUserUsername);
         }
     }
 

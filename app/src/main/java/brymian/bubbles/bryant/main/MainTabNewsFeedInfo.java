@@ -8,6 +8,7 @@ public class MainTabNewsFeedInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     String username, firstLastName, eid, episodeTitle, timestamp, uid;
     String user1Username, user1Uid, user2Username, user2Uid;
+    String uiid, uidImage, userImagePurposeLabel, userImageGpsLatitude, userImageGpsLongitude, userImageUploadTimestamp, userImageLikeCount, userImageDislikeCount, userImageCommentCount;
     //int uid;
     List<String> uids, usernames;
 
@@ -41,11 +42,18 @@ public class MainTabNewsFeedInfo implements Serializable {
         this.user2Uid = user2Uid;
     }
 
-    public MainTabNewsFeedInfo(String username, String firstLastName, int uid){
-        this.username = username;
-        this.firstLastName = firstLastName;
+    /* for UploadImages */
+    public MainTabNewsFeedInfo(String uiid, String uidImage, String userImagePurposeLabel, String userImageGpsLatitude, String userImageGpsLongitude, String userImageUploadTimestamp, String userImageLikeCount, String userImageDislikeCount, String userImageCommentCount){
+        this.uiid = uiid;
+        this.uidImage = uidImage;
+        this.userImagePurposeLabel = userImagePurposeLabel;
+        this.userImageGpsLatitude = userImageGpsLatitude;
+        this.userImageGpsLongitude = userImageGpsLongitude;
+        this.userImageUploadTimestamp = userImageUploadTimestamp;
+        this.userImageLikeCount = userImageLikeCount;
+        this.userImageDislikeCount = userImageDislikeCount;
+        this.userImageCommentCount = userImageCommentCount;
     }
-
 
     public String getEid(){
         return eid;
@@ -78,4 +86,13 @@ public class MainTabNewsFeedInfo implements Serializable {
     public String getUser2Username(){
         return user2Username;
     }
+
+    public String getUiid(){
+        return uiid;
+    }
+
+    public String getUidImage(){
+        return uidImage;
+    }
+
 }

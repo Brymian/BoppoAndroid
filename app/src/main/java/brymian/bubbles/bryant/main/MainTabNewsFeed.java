@@ -39,11 +39,12 @@ public class MainTabNewsFeed extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && !isNewsFeedLoaded){
             setNewsFeed();
+            isNewsFeedLoaded = true;
         }
     }
 
     private void setNewsFeed(){
-        new NewsFeedRequest(getActivity()).getNewsEvents(SaveSharedPreference.getUserUID(getActivity()), 5, new StringCallback() {
+        new NewsFeedRequest(getActivity()).getNewsEvents(SaveSharedPreference.getUserUID(getActivity()), 10, new StringCallback() {
             @Override
             public void done(String string) {
                 try{
@@ -106,15 +107,18 @@ public class MainTabNewsFeed extends Fragment {
                                 mainTabNewsFeedInfoList.add(info);
                                 Log.e("createdEvent", "eid: " + createdEpisodeObject.getString("eid") + " title: " + createdEpisodeObject.getString("eventName") + " timestamp: " + createdEpisodeObject.getString("eventCreationTimestamp") + " username: " + createdUserObject.getString("username") + " uid: " + createdUserObject.getString("uid"));
                                 break;
-                            case "FriendsUploadedImages":
+                                case "FriendsUploadedImages":
                                 String userImage = jsonObject.getString("userImage");
+                                JSONObject userImageObject = new JSONObject(userImage);
 
-                                //Log.e("UploadedImages", userImage);
+                                MainTabNewsFeedInfo infoUploadImage = new MainTabNewsFeedInfo(userImageObject.getString("uiid"), userImageObject.getString("uid"), userImageObject.getString("userImagePurposeLabel"), userImageObject.getString("userImageGpsLatitude"), userImageObject.getString("userImageGpsLongitude"), userImageObject.getString("userImageUploadTimestamp"), userImageObject.getString("userImageLikeCount"), userImageObject.getString("userImageDislikeCount"), userImageObject.getString("userImageCommentCount"));
+                                mainTabNewsFeedInfoList.add(infoUploadImage);
+
+                                Log.e("UploadedImages", " uiid: " + userImageObject.getString("uiid") + " uid: " + userImageObject.getString("uid") + " purposeLabel: " + userImageObject.getString("userImagePurposeLabel") + " latitude: " + userImageObject.getString("userImageGpsLatitude") + " longitude: " + userImageObject.getString("userImageGpsLongitude") + " timestamp: " + userImageObject.getString("userImageUploadTimestamp") + " likeCount: " + userImageObject.getString("userImageLikeCount") + " dislikeCount: " + userImageObject.getString("userImageDislikeCount") + " commentCount: "  + userImageObject.getString("userImageCommentCount"));
                                 break;
                         }
                     }
 
-                    //do recyclerview here
                     adapter = new MainTabNewsFeedRecyclerAdapter(types, mainTabNewsFeedInfoList);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvNewsFeed.setLayoutManager(layoutManager);
