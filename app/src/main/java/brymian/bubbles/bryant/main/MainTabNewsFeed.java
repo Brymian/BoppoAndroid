@@ -31,7 +31,7 @@ public class MainTabNewsFeed extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_tab_news_feed, container, false);
         rvNewsFeed = (RecyclerView) rootView.findViewById(R.id.rvNewsFeed);
-        return rvNewsFeed;
+        return rootView;
     }
 
     @Override
@@ -122,6 +122,7 @@ public class MainTabNewsFeed extends Fragment {
                     adapter = new MainTabNewsFeedRecyclerAdapter(types, mainTabNewsFeedInfoList);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvNewsFeed.setLayoutManager(layoutManager);
+                    rvNewsFeed.setNestedScrollingEnabled(false);
                     rvNewsFeed.setAdapter(adapter);
                 }
                 catch (JSONException | NullPointerException e){
