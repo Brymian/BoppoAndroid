@@ -119,7 +119,7 @@ public class MainTabNewsFeed extends Fragment {
                         }
                     }
 
-                    adapter = new MainTabNewsFeedRecyclerAdapter(types, mainTabNewsFeedInfoList);
+                    adapter = new MainTabNewsFeedRecyclerAdapter(getActivity(), types, mainTabNewsFeedInfoList);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvNewsFeed.setLayoutManager(layoutManager);
                     rvNewsFeed.setNestedScrollingEnabled(false);

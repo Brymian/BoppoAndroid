@@ -43,9 +43,9 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     EditText etEpisodeTitle;
-    CheckBox cbPrivate, cbCurrentLocation;
+    CheckBox cbEndDateTime ,cbPrivate, cbCurrentLocation;
     String episodeTitle ,privacy;
-    TextView tvCamera, tvGallery, tvDate, tvTime;
+    TextView tvCamera, tvGallery, tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvAt;
     ImageView ivImagePreview;
     FloatingActionButton fabDone;
     double latitude;
@@ -72,15 +72,31 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         etEpisodeTitle = (EditText) findViewById(R.id.etEpisodeTitle);
 
-        tvDate = (TextView) findViewById(R.id.tvDate);
-        tvDate.setText(getDateOnCreate());
-        tvDate.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tvDate.setOnClickListener(this);
+        tvStartDate = (TextView) findViewById(R.id.tvStartDate);
+        tvStartDate.setText(getDateOnCreate());
+        tvStartDate.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvStartDate.setOnClickListener(this);
 
-        tvTime = (TextView) findViewById(R.id.tvTime);
-        tvTime.setText(getTimeOnCreate());
-        tvTime.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tvTime.setOnClickListener(this);
+        tvStartTime = (TextView) findViewById(R.id.tvStartTime);
+        tvStartTime.setText(getTimeOnCreate());
+        tvStartTime.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvStartTime.setOnClickListener(this);
+
+        cbEndDateTime = (CheckBox) findViewById(R.id.cbEndDateTime);
+        cbEndDateTime.setOnCheckedChangeListener(this);
+
+        tvEndDate = (TextView) findViewById(R.id.tvEndDate);
+        tvEndDate.setText(getDateOnCreate());
+        tvEndDate.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvEndDate.setTextColor(Color.GRAY);
+
+        tvAt = (TextView) findViewById(R.id.tvAt);
+        tvAt.setTextColor(Color.GRAY);
+
+        tvEndTime = (TextView) findViewById(R.id.tvEndTime);
+        tvEndTime.setText(getTimeOnCreate());
+        tvEndTime.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvEndTime.setTextColor(Color.GRAY);
 
         cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
         cbPrivate.setOnCheckedChangeListener(this);
@@ -108,11 +124,11 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.tvDate:
+            case R.id.tvStartDate:
                 calendarAlertDialog();
                 break;
 
-            case R.id.tvTime:
+            case R.id.tvStartTime:
                 timeAlertDialog();
                 break;
 
@@ -160,24 +176,43 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if(buttonView.getId() == R.id.cbPrivate){
-            if(isChecked){
-                privacy = "Private";
-            }
-            else{
-                privacy = "Public";
-            }
-        }
+        switch (buttonView.getId()){
+            case R.id.cbPrivate:
+                if(isChecked){
+                    privacy = "Private";
+                }
+                else{
+                    privacy = "Public";
+                }
+                break;
 
-        if(buttonView.getId() == R.id.cbCurrentLocation){
-            if (!isChecked){
-                latitude = 0;
-                longitude = 0;
-            }
-            else{
-                latitude = SaveSharedPreference.getLatitude(this);
-                longitude = SaveSharedPreference.getLongitude(this);
-            }
+            case R.id.cbCurrentLocation:
+                if (!isChecked){
+                    latitude = 0;
+                    longitude = 0;
+                }
+                else{
+                    latitude = SaveSharedPreference.getLatitude(this);
+                    longitude = SaveSharedPreference.getLongitude(this);
+                }
+                break;
+
+            case R.id.cbEndDateTime:
+                if (isChecked){
+                    tvEndDate.setTextColor(Color.BLACK);
+                    tvEndDate.setOnClickListener(this);
+                    tvAt.setTextColor(Color.BLACK);
+                    tvEndTime.setTextColor(Color.BLACK);
+                    tvEndTime.setOnClickListener(this);
+                }
+                else {
+                    tvEndDate.setTextColor(Color.GRAY);
+                    tvEndDate.setOnClickListener(null);
+                    tvAt.setTextColor(Color.GRAY);
+                    tvEndTime.setTextColor(Color.GRAY);
+                    tvEndTime.setOnClickListener(null);
+                }
+                break;
         }
     }
 
@@ -233,7 +268,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 setSelectedDate(year, month, dayOfMonth, true);
                 setDate(String.valueOf(year), String.valueOf(month), String.valueOf(dayOfMonth));
-                tvDate.setText(getDateToDisplay());
+                tvStartDate.setText(getDateToDisplay());
             }
         });
 
@@ -270,7 +305,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                         setTime(String.valueOf(hourOfDay), String.valueOf(minute), "00");
                     }
                 }
-                tvTime.setText(getTimeToDisplay());
+                tvStartTime.setText(getTimeToDisplay());
             }
         });
 

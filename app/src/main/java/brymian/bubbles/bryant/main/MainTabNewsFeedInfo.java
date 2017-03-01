@@ -83,6 +83,14 @@ public class MainTabNewsFeedInfo implements Serializable {
         return user1Username;
     }
 
+    public String getUser1Uid(){
+        return user1Uid;
+    }
+
+    public String getUser2Uid(){
+        return user2Uid;
+    }
+
     public String getUser2Username(){
         return user2Username;
     }
@@ -93,6 +101,10 @@ public class MainTabNewsFeedInfo implements Serializable {
 
     public String getUidImage(){
         return uidImage;
+    }
+
+    public String getUid(){
+        return uid;
     }
 
 }

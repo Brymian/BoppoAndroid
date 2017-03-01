@@ -1,28 +1,36 @@
 package brymian.bubbles.bryant.main;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.episodes.EpisodeActivity;
+import brymian.bubbles.bryant.profile.ProfileActivity;
 
 public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<String> episodeType;
-    private List<MainTabNewsFeedInfo> mainTabNewsFeedInfoList;
+    private static Activity activity;
+    private static List<MainTabNewsFeedInfo> mainTabNewsFeedInfoList;
     private static final int TYPE_JOINED_MUTUAL_EPISODE = 1;
     private static final int TYPE_ACTIVE_EPISODE = 2;
     private static final int TYPE_BECAME_FRIENDS = 3;
     private static final int TYPE_CREATED_EPISODE = 4;
     private static final int TYPE_UPLOAD_IMAGE = 5;
 
-    public MainTabNewsFeedRecyclerAdapter(List<String> episodeType, List<MainTabNewsFeedInfo> mainTabNewsFeedInfoList){
+    public MainTabNewsFeedRecyclerAdapter(Activity activity, List<String> episodeType, List<MainTabNewsFeedInfo> mainTabNewsFeedInfoList){
+        MainTabNewsFeedRecyclerAdapter.activity = activity;
         this.episodeType = episodeType;
-        this.mainTabNewsFeedInfoList = mainTabNewsFeedInfoList;
+        MainTabNewsFeedRecyclerAdapter.mainTabNewsFeedInfoList = mainTabNewsFeedInfoList;
     }
 
     @Override
@@ -97,16 +105,38 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
         return 6;
     }
 
-
     private static class JoinedMutualEpisodeHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvUserJoined;
+        ImageView ivUserProfileImage, ivEpisodeImage;
+        LinearLayout llEpisode;
         public JoinedMutualEpisodeHolder(View v){
             super(v);
-            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
+            ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0))));
+                }
+            });
             tvUserJoined = (TextView) v.findViewById(R.id.tvUserJoined);
-
+            tvUserJoined.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0))));
+                }
+            });
+            ivEpisodeImage = (ImageView) v.findViewById(R.id.ivEpisodeImage);
+            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            llEpisode = (LinearLayout) v.findViewById(R.id.llEpisode);
+            llEpisode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getEid())).putExtra("episodeTitle", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEpisodeTitle()));
+                }
+            });
         }
     }
+
     private static class ActiveEpisodeHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvUserActive;
         public ActiveEpisodeHolder(View v){
@@ -115,20 +145,68 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             tvUserActive = (TextView) v.findViewById(R.id.tvUserActive);
         }
     }
+
     private static class BecameFriendsHolder extends RecyclerView.ViewHolder{
         TextView tvUser1Username, tvUser2Username;
+        ImageView ivUser1ProfileImage, ivUser2ProfileImage;
+        LinearLayout llUser2;
         public BecameFriendsHolder(View v){
             super(v);
+            ivUser1ProfileImage = (ImageView) v.findViewById(R.id.ivUser1ProfileImage);
+            ivUser1ProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser1Uid())));
+                }
+            });
             tvUser1Username = (TextView) v.findViewById(R.id.tvUser1Username);
+            tvUser1Username.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser1Uid())));
+                }
+            });
             tvUser2Username = (TextView) v.findViewById(R.id.tvUser2Username);
+            ivUser2ProfileImage = (ImageView) v.findViewById(R.id.ivUser2ProfileImage);
+            llUser2 = (LinearLayout) v.findViewById(R.id.llUser2);
+            llUser2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser2Uid())));
+                }
+            });
         }
     }
+
     private static class CreatedEpisodeHolder extends RecyclerView.ViewHolder{
         TextView tvUserCreated, tvEpisodeTitle;
+        ImageView ivUserProfileImage, ivEpisodeImage;
+        LinearLayout llEpisode;
         public CreatedEpisodeHolder(View v){
             super(v);
             tvUserCreated = (TextView) v.findViewById(R.id.tvUserCreated);
+            tvUserCreated.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid())));
+                }
+            });
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
+            ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid())));
+                }
+            });
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            ivEpisodeImage = (ImageView) v.findViewById(R.id.ivEpisodeImage);
+            llEpisode = (LinearLayout) v.findViewById(R.id.llEpisode);
+            llEpisode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getEid())).putExtra("episodeTitle", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEpisodeTitle()));
+                }
+            });
         }
     }
 
@@ -139,9 +217,6 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             tvUserUsername = (TextView) v.findViewById(R.id.tvUserUsername);
         }
     }
-
-
-
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
 

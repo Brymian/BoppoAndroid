@@ -341,24 +341,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
 
 
-/**
-    private void setButtonsCameraPreview(){
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabMenu.bringToFront();
-
-        fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
-        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
-            fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
-            flashLightOn();
-        }
-        else{
-            fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
-            flashLightOff();
-        }
-        fabFlash.setOnClickListener(this);
-    }
-    **/
-
     private void setImageDataByte(byte[] data){this.data = data;}
 
     private byte[] getImageDataByte(){return data;}

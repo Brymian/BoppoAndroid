@@ -23,7 +23,7 @@ public class MapViewImage extends Fragment {
         ivImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().popBackStack();
+                getActivity().onBackPressed();
             }
         });
         getImage();
