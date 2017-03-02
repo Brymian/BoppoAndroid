@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
             public void onPageSelected(int position) {
-                viewPager.setCurrentItem(position);
+                tabLayout.getTabAt(position).select();
+                //viewPager.setCurrentItem(position);
                 if (position == 0) {
                     mToolbar.setTitle(R.string.News_Feed);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_white_24dp);
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
+                //tabLayout.getTabAt(index).select();
                 viewPager.setCurrentItem(tab.getPosition());
                 try {
                     if(index == 0){
