@@ -169,6 +169,11 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         }
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
     private void getPersonalInfo(){
         tvUserUsername.setText(SaveSharedPreference.getUsername(getActivity()));
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
