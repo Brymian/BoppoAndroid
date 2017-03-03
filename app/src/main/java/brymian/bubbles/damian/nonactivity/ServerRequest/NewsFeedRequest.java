@@ -13,6 +13,8 @@ import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
+
 public class NewsFeedRequest
 {
     private HTTPConnection httpConnection = null;
@@ -63,7 +65,7 @@ public class NewsFeedRequest
                 jObject.put("max", max);
 
                 String jString = jObject.toString();
-                String response = request.post(url, jString);
+                String response = convertPathsToFull(request.post(url, jString));
 
                 return response;
             }

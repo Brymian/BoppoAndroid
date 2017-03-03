@@ -1,5 +1,7 @@
 package brymian.bubbles.damian.nonactivity;
 
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;;
+
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -109,5 +111,16 @@ public class Miscellaneous {
         {
             System.out.println(string);
         }
+    }
+
+    public static String convertPathsToFull(String string)
+    {
+        HTTPConnection httpConnection = new HTTPConnection();
+        string = string.replaceAll(
+            "(magePath\\\":\\\")(.*)\\\"", "$1" + httpConnection.getUploadServerString() + "$2\"");
+        string = string.replaceAll(
+            "(magePath\\\":\\\")(.*)\\\"", "$1" + "$2".replaceAll(" ", "%20") + "\"");
+
+        return string;
     }
 }

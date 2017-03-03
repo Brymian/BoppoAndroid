@@ -1225,10 +1225,10 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        new NewsFeedRequest(this).getNewsEvents(2, 5, new StringCallback() {
+        new NewsFeedRequest(this).getNewsEvents(2, 10, new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println(string);
+                printLongString(string);
             }
         });
     }
