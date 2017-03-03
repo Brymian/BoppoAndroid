@@ -66,6 +66,7 @@ public class NewsFeedRequest
 
                 String jString = jObject.toString();
                 String response = convertPathsToFull(request.post(url, jString));
+                //String response = request.post(url, jString);
 
                 return response;
             }

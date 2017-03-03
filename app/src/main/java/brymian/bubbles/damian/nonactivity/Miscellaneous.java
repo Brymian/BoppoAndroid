@@ -117,9 +117,12 @@ public class Miscellaneous {
     {
         HTTPConnection httpConnection = new HTTPConnection();
         string = string.replaceAll(
-            "(magePath\\\":\\\")(.*)\\\"", "$1" + httpConnection.getUploadServerString() + "$2\"");
+            "(ath\":\")([^\"]*)\"", "$1" +
+            httpConnection.getUploadServerString().replaceAll("/", "\\\\\\\\/") + "$2\""
+        );
         string = string.replaceAll(
-            "(magePath\\\":\\\")(.*)\\\"", "$1" + "$2".replaceAll(" ", "%20") + "\"");
+            "(ath\":\")([^\"]*)\"", "$1" + "$2".replaceAll(" ", "%20") + "\""
+        );
 
         return string;
     }
