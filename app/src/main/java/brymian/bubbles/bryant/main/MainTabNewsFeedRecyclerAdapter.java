@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -72,13 +74,18 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             case TYPE_BECAME_FRIENDS:
                 ((BecameFriendsHolder)holder).tvUser1Username.setText(mainTabNewsFeedInfoList.get(position).getUser1Username());
                 ((BecameFriendsHolder)holder).tvUser2Username.setText(mainTabNewsFeedInfoList.get(position).getUser2Username());
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser1ProfileImage()).into(((BecameFriendsHolder)holder).ivUser1ProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser2ProfileImage()).into(((BecameFriendsHolder)holder).ivUser2ProfileImage);
                 break;
             case TYPE_CREATED_EPISODE:
                 ((CreatedEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
                 ((CreatedEpisodeHolder)holder).tvUserCreated.setText(mainTabNewsFeedInfoList.get(position).getUsername());
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser1ProfileImage()).into(((CreatedEpisodeHolder)holder).ivUserProfileImage);
                 break;
             case TYPE_UPLOAD_IMAGE:
-                ((UploadImageHolder)holder).tvUserUsername.setText(mainTabNewsFeedInfoList.get(position).getUidImage());
+                ((UploadImageHolder)holder).tvUserUsername.setText(mainTabNewsFeedInfoList.get(position).getUsername());
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).into(((UploadImageHolder)holder).ivUserProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUploadedImage()).into(((UploadImageHolder)holder).ivUploadedImage);
                 break;
         }
     }
@@ -115,14 +122,14 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0))));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0)));
                 }
             });
             tvUserJoined = (TextView) v.findViewById(R.id.tvUserJoined);
             tvUserJoined.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0))));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0)));
                 }
             });
             ivEpisodeImage = (ImageView) v.findViewById(R.id.ivEpisodeImage);
@@ -131,7 +138,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             llEpisode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getEid())).putExtra("episodeTitle", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEpisodeTitle()));
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEid()).putExtra("episodeTitle", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEpisodeTitle()));
                 }
             });
         }
@@ -156,14 +163,14 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             ivUser1ProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser1Uid())));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser1Uid()));
                 }
             });
             tvUser1Username = (TextView) v.findViewById(R.id.tvUser1Username);
             tvUser1Username.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser1Uid())));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser1Uid()));
                 }
             });
             tvUser2Username = (TextView) v.findViewById(R.id.tvUser2Username);
@@ -172,7 +179,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             llUser2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser2Uid())));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUser2Uid()));
                 }
             });
         }
@@ -188,14 +195,14 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             tvUserCreated.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid())));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid()));
                 }
             });
             ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
             ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid())));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid()));
                 }
             });
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
@@ -204,7 +211,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             llEpisode.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", Integer.valueOf(mainTabNewsFeedInfoList.get(getAdapterPosition()).getEid())).putExtra("episodeTitle", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEpisodeTitle()));
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEid()).putExtra("episodeTitle", mainTabNewsFeedInfoList.get(getAdapterPosition()).getEpisodeTitle()));
                 }
             });
         }
@@ -212,9 +219,12 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
 
     private static class UploadImageHolder extends RecyclerView.ViewHolder{
         TextView tvUserUsername;
+        ImageView ivUserProfileImage, ivUploadedImage;
         public UploadImageHolder(View v){
             super(v);
             tvUserUsername = (TextView) v.findViewById(R.id.tvUserUsername);
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
+            ivUploadedImage = (ImageView) v.findViewById(R.id.ivUploadedImage);
         }
     }
 
