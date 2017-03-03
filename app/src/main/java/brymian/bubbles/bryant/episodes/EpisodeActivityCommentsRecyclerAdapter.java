@@ -3,44 +3,35 @@ package brymian.bubbles.bryant.episodes;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.profile.ProfileActivity;
 
 
 class EpisodeActivityCommentsRecyclerAdapter extends RecyclerView.Adapter<EpisodeActivityCommentsRecyclerAdapter.RecyclerViewHolder> {
-    static Activity activity;
-    List<Integer> uid;
-    List<String> userUsername;
-    List<Bitmap> userProfileImageBitmap;
-    List<String> userProfileImagePath;
-    List<String> userComment;
-    List<String> userCommentTimestamp;
-    public static ImageView ivUserProfileImage;
-
+    private static Activity activity;
+    private static List<Integer> uid;
+    private static List<String> userUsername;
+    private List<String> userProfileImagePath;
+    private List<String> userComment;
+    private List<String> userCommentTimestamp;
+    private static ImageView ivUserProfileImage;
 
     EpisodeActivityCommentsRecyclerAdapter(Activity activity, List<Integer> uid, List<String> userUsername, List<String> userProfileImagePath, List<String> userComment, List<String> userCommentTimestamp){
         EpisodeActivityCommentsRecyclerAdapter.activity = activity;
-        this.uid = uid;
-        this.userUsername = userUsername;
+        EpisodeActivityCommentsRecyclerAdapter.uid = uid;
+        EpisodeActivityCommentsRecyclerAdapter.userUsername = userUsername;
         this.userProfileImagePath = userProfileImagePath;
-        this.userProfileImageBitmap = userProfileImageBitmap;
         this.userComment = userComment;
         this.userCommentTimestamp = userCommentTimestamp;
     }
@@ -56,9 +47,7 @@ class EpisodeActivityCommentsRecyclerAdapter extends RecyclerView.Adapter<Episod
         holder.tvUserUsername.setText(userUsername.get(position));
         holder.tvUserCommentTimestamp.setText(userCommentTimestamp.get(position));
         holder.tvUserComment.setText(userComment.get(position));
-        Log.e("onBindViewHolder", "position: " + position);
-        //new DownloadImage(userProfileImagePath.get(position)).execute();
-        //holder.ivUserProfileImage.setImageBitmap(new DownloadImage(userProfileImagePath.get(position)).execute());
+        Picasso.with(activity).load(userProfileImagePath.get(position)).into(ivUserProfileImage);
     }
 
     @Override
@@ -74,36 +63,12 @@ class EpisodeActivityCommentsRecyclerAdapter extends RecyclerView.Adapter<Episod
             tvUserUsername = (TextView) v.findViewById(R.id.tvUserUsername);
             tvUserComment = (TextView) v.findViewById(R.id.tvUserComment);
             tvUserCommentTimestamp = (TextView) v.findViewById(R.id.tvUserCommentTimestamp);
-        }
-    }
-
-    private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
-        String path;
-
-        DownloadImage(String path){
-            this.path = path;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            try {
-                URLConnection connection = new URL(path).openConnection();
-                connection.setConnectTimeout(1000 * 30);
-                connection.setReadTimeout(1000 * 30);
-                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap!=null){
-                ivUserProfileImage.setImageBitmap(bitmap);
-                //userProfileImageBitmap.add(bitmap);
-            }
+            ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", uid.get(getAdapterPosition())).putExtra("username", userUsername.get(getAdapterPosition())));
+                }
+            });
         }
     }
 }

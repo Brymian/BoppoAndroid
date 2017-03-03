@@ -38,13 +38,14 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.map.MapsActivity;
+import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
@@ -60,12 +61,6 @@ import brymian.bubbles.objects.Event;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 public class EpisodeActivity extends AppCompatActivity implements View.OnClickListener{
-    public static List<Bitmap> userProfileImageBitmap = new ArrayList<>();
-    public static List<String> userProfileImagePath = new ArrayList<>();
-    public static List<Integer> uid = new ArrayList<>();
-    public static List<String> userComment = new ArrayList<>();
-    public static List<String> userCommentTimestamp = new ArrayList<>();
-    public static List<String> userUsername = new ArrayList<>();
     public static List<Bitmap> episodeImage = new ArrayList<>();
     TextView  tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvRating, tvViewCount, tvCommentsNumber;
     FloatingActionButton fabPlay;
@@ -173,7 +168,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.ivMap:
-                startActivity(new Intent(this, MapsActivity.class));
+                startActivity(new Intent(this, MapActivity.class));
                 break;
 
             case R.id.ivAddImage:
@@ -181,8 +176,9 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.fabPlay:
-                startFragment(fm, R.id.episode_activity, new EpisodeView());
-                Log.e("fabPlay", "touched");
+                if (episodeImage.size() > 0){
+                    startFragment(fm, R.id.episode_activity, new EpisodeView());
+                }
                 break;
 
             case R.id.ivAddComment:
@@ -253,6 +249,12 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        episodeImage.clear();
+    }
+
     private void addComment(){
         new UserCommentRequest(this).setObjectComment(SaveSharedPreference.getUserUID(this), "Event", getEid(), null, etAddComment.getText().toString(), null, new StringCallback() {
             @Override
@@ -271,9 +273,11 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         tvCommentsNumber.setText("0");
                     }
                     else{
-                        Log.e("comments", string);
-                        //List<Integer> userCommentParentUcid = new ArrayList<>();
-
+                        List<String> userProfileImagePath = new ArrayList<>();
+                        List<Integer> uid = new ArrayList<>();
+                        List<String> userComment = new ArrayList<>();
+                        List<String> userCommentTimestamp = new ArrayList<>();
+                        List<String> userUsername = new ArrayList<>();
                         JSONObject object = new JSONObject(string);
                         JSONArray jArray  = object.getJSONArray("comments");
                         tvCommentsNumber.setText(String.valueOf(jArray.length()));
@@ -281,11 +285,9 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                             JSONObject jArray_jObject = jArray.getJSONObject(i);
                             uid.add(jArray_jObject.getInt("uid"));
                             userComment.add(jArray_jObject.getString("userComment"));
-                            userCommentTimestamp.add(jArray_jObject.getString("userCommentSetTimestamp"));
+                            userCommentTimestamp.add(commentTimestampLayout(jArray_jObject.getString("userCommentSetTimestamp")));
                             userUsername.add(jArray_jObject.getJSONObject("user").getString("username"));
                             userProfileImagePath.add(jArray_jObject.getJSONObject("image").getString("userImagePath"));
-                            new DownloadImage(jArray_jObject.getJSONObject("image").getString("userImagePath")).execute();
-                            //userCommentParentUcid.add(jArray_jObject.getInt("parentUcid"));
                         }
 
                         adapter = new EpisodeActivityCommentsRecyclerAdapter(EpisodeActivity.this, uid, userUsername, userProfileImagePath, userComment, userCommentTimestamp);
@@ -301,6 +303,205 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
 
+    }
+
+    private String commentTimestampLayout(String timestamp){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String currentDateTimeString = dateFormat.format(date);
+        String[] currentDateTimeArray = currentDateTimeString.split("\\s");
+        String currentDateString = currentDateTimeArray[0];
+        String currentTimeString = currentDateTimeArray[1];
+        String[] currentDateArray = currentDateString.split("-");
+        String[] currentTimeArray = currentTimeString.split(":");
+        int currentYear = Integer.valueOf(currentDateArray[0]);
+        int currentMonth = Integer.valueOf(currentDateArray[1]);
+        int currentDay = Integer.valueOf(currentDateArray[2]);
+        int currentHour = Integer.valueOf(currentTimeArray[0]);
+        int currentMinute = Integer.valueOf(currentTimeArray[1]);
+        int currentSecond = Integer.valueOf(currentTimeArray[2]);
+
+        String[] commentDateTimeArray = timestamp.split("\\s");
+        String commentDateString = commentDateTimeArray[0];
+        String commentTimeString = commentDateTimeArray[1];
+        String[] commentDateArray = commentDateString.split("-");
+        String[] commentTimeArray = commentTimeString.split(":");
+        int commentYear = Integer.valueOf(commentDateArray[0]);
+        int commentMonth = Integer.valueOf(commentDateArray[1]);
+        int commentDay = Integer.valueOf(commentDateArray[2]);
+        int commentHour = Integer.valueOf(commentTimeArray[0]);
+        int commentMinute = Integer.valueOf(commentTimeArray[1]);
+        int commentSecond = Integer.valueOf(commentTimeArray[2]);
+        if (commentYear == currentYear){
+            if (commentMonth < currentMonth){
+                int monthDifference = currentMonth - commentMonth;
+                if (monthDifference == 1){
+                    if (commentDay <= currentDay){
+                        return "1 month ago";
+                    }
+                    else if (commentDay > currentDay){
+                        int commentDaysInMonth = 0;
+                        if (commentMonth == 1 || commentMonth == 3 || commentMonth == 5 || commentMonth == 7 || commentMonth == 8 || commentMonth == 10 || commentMonth == 12){
+                            commentDaysInMonth = 31;
+                        }
+                        else if (commentMonth == 5 || commentMonth == 6 || commentMonth == 9 || commentMonth == 11){
+                            commentDaysInMonth = 30;
+                        }
+                        else if (commentMonth == 2){
+                            if (commentYear == 2020 || commentYear == 2024){
+                                commentDaysInMonth = 29;
+                            }
+                            else {
+                                commentDaysInMonth = 28;
+                            }
+                        }
+                        int dayDifference = (commentDaysInMonth - commentDay) + currentDay;
+                        if (dayDifference < 7){
+                            if (dayDifference == 1){
+                                if (commentHour <= currentHour){
+                                    return "Yesterday";
+                                }
+                                else if (commentHour > currentHour){
+                                    int hourDifference = (24 - commentHour) + currentHour;
+                                    if (hourDifference == 1){
+                                        if (commentMinute < currentMinute){
+                                            return "1 hour ago";
+                                        }
+                                        else if (commentMinute > currentMinute){
+                                            int minuteDifference = (60 - commentMinute) + currentMinute;
+                                            if (minuteDifference == 1){
+                                                if (commentSecond <= currentSecond){
+                                                    return "1 minute ago";
+                                                }
+                                                else if (commentSecond > currentSecond){
+                                                    int secondDifference = (60 - commentSecond) + currentSecond;
+                                                    if (secondDifference == 1){
+                                                        return "1 second ago";
+                                                    }
+                                                    else if (secondDifference > 1){
+                                                        return secondDifference + " seconds ago";
+                                                    }
+                                                }
+                                            }
+                                            else if (minuteDifference > 1){
+                                                if (commentSecond <= currentSecond){
+                                                    return minuteDifference + " minutes ago";
+                                                }
+                                                else if (commentSecond > currentSecond){
+                                                    int newMinuteDifference = minuteDifference - 1;
+                                                    if (newMinuteDifference == 1){
+                                                        return "1 minute ago";
+                                                    }
+                                                    else if (newMinuteDifference > 1){
+                                                        return newMinuteDifference + " minutes ago";
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else if (commentMinute == currentMinute){
+
+                                        }
+                                    }
+                                    else if (hourDifference > 1){
+
+                                    }
+                                }
+                            }
+                        }
+                        else if (dayDifference >= 7){
+                            int weeks = dayDifference / 7;
+                            if (weeks == 1){
+                                return "1 week ago";
+                            }
+                            else if (weeks > 1){
+                                return weeks + " weeks ago";
+                            }
+                        }
+                    }
+                }
+                else if (monthDifference > 1){
+
+                }
+            }
+            if (commentMonth == currentMonth){
+                if (commentDay == currentDay){
+                    if (commentHour == currentHour){
+                        if (commentMinute == currentMinute){
+                            return "Just now";
+                        }
+                    }
+                }
+            }
+        }
+        else if (commentYear < currentYear) {
+            int yearDifference = currentYear - commentYear;
+            if (yearDifference == 1) {
+                if (commentMonth < currentMonth) {
+                    return "1 year ago";
+                }
+                else if (commentMonth > currentMonth) {
+                    int monthDifference = 12 - (commentMonth - currentMonth);
+                    if (monthDifference == 1) {//handles december basically
+                        if (commentDay > currentDay) {//do weeks here
+                            int daysInDecemberLeft = (31 - commentDay) + currentDay;
+                            int weeks = daysInDecemberLeft / 4;
+                            if (weeks == 1) {
+                                return "1 week ago";
+                            }
+                            else if (weeks > 1) {
+                                return weeks + " weeks ago";
+                            }
+                        }
+                        if (commentDay <= currentDay) {
+                            return "1 month ago";
+                        }
+                    }
+                    else if (monthDifference > 1) {
+                        if (commentDay < currentDay) {
+                            return monthDifference + " months ago";
+                        }
+                        else if (commentDay > currentDay) {
+                            int newMonthDifference = monthDifference - 1;
+                            if (newMonthDifference == 1) {
+                                return "1 month ago";
+                            }
+                            else if (newMonthDifference > 1) {
+                                return newMonthDifference + " months ago";
+                            }
+                        }
+                    }
+                }
+            }
+            else if (yearDifference > 1) {
+                if (commentMonth < currentMonth) {
+                    return yearDifference + " years ago";
+                }
+                else if (commentMonth > currentMonth) {
+                    int newYearDifference = yearDifference - 1;
+                    if (newYearDifference == 1) {
+                        return "1 year ago";
+                    }
+                    else if (newYearDifference > 1) {
+                        return newYearDifference + " years ago";
+                    }
+                }
+                else if (commentMonth == currentMonth){
+                    if (commentDay <= currentDay){
+                        return yearDifference + " years ago";
+                    }
+                    else if (commentDay > currentDay){
+                        int newYearDifference = yearDifference - 1;
+                        if (newYearDifference == 1) {
+                            return "1 year ago";
+                        }
+                        else if (newYearDifference > 1) {
+                            return newYearDifference + " years ago";
+                        }
+                    }
+                }
+            }
+        }
+        return timestamp;
     }
 
     private void getEpisodeInfo(int eid){
@@ -578,36 +779,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             }
             else{
                 Log.e("bitmap", "bitmap not here");
-            }
-        }
-    }
-
-    private class DownloadImage extends AsyncTask<Void, Void, Bitmap> {
-        String path;
-
-        DownloadImage(String path){
-            this.path = path;
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            try {
-                URLConnection connection = new URL(path).openConnection();
-                connection.setConnectTimeout(1000 * 30);
-                connection.setReadTimeout(1000 * 30);
-                return BitmapFactory.decodeStream((InputStream) connection.getContent(), null, null);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            if (bitmap!=null){
-                userProfileImageBitmap.add(bitmap);
-                Log.e("onPostExecute", "size: " + userProfileImageBitmap.size());
             }
         }
     }

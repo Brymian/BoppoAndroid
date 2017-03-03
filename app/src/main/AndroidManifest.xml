@@ -55,7 +55,7 @@
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeParticipants" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.map.MapsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".bryant.map.MapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.friends.FriendsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.sendTo.SendTo" android:screenOrientation="portrait"/>

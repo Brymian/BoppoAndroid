@@ -56,7 +56,8 @@
     <string name="Apply">Apply</string>
     <string name="at">&#160;at&#160;</string>
     <string name="Attending">Attending</string>
-    <string name="Blocking">Blocking</string>
+        <string name="BECAME_FRIENDS_WITH">&#160;BECAME FRIENDS WITH</string>
+        <string name="Blocking">Blocking</string>
     <string name="Block">Block</string>
     <string name="Bubbles">Bubbles</string>
     <string name="Camera">Camera</string>
@@ -66,6 +67,7 @@
     <string name="Comments">Comments</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Create_Episode">Create Episode</string>
+    <string name="CREATED">&#160;CREATED</string>
     <string name="Current_Location">Current Location</string>
     <string name="Current_Password">Current Password</string>
     <string name="Decline">Decline</string>
@@ -74,6 +76,7 @@
     <string name="Done">Done</string>
     <string name="Email">Email</string>
     <string name="End_Episode">End episode</string>
+    <string name="Ending_date_time">Ending Date &amp; Time</string>
     <string name="Episode_Requests">Episode Requests</string>
     <string name="Episodes">Episodes</string>
     <string name="Explore">Explore</string>
@@ -85,6 +88,7 @@
     <string name="Gallery">Gallery</string>
     <string name="Hosting">Hosting</string>
     <string name="Invites_successfully_sent">Invite(s) successfully sent!</string>
+    <string name="JOINED">&#160;JOINED</string>
     <string name="Later">Later</string>
     <string name="Leave_episode">Leave episode</string>
     <string name="LED_Light">LED Light</string>

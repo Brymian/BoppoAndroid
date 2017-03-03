@@ -18,7 +18,6 @@ import brymian.bubbles.bryant.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar mToolbar;
-    ViewPager viewPager;
     TabLayout tabLayout;
     FloatingActionButton fabCamera;
     @Override
@@ -38,19 +37,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_account_circle_black_24dp), 3, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        MainActivityPagerAdapter pagerAdapter= new MainActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setOffscreenPageLimit(3);
+        final MainActivityPagerAdapter pagerAdapter= new MainActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
             public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
+                //viewPager.setCurrentItem(position);
                 if (position == 0) {
                     mToolbar.setTitle(R.string.News_Feed);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_white_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
-                    viewPager.setCurrentItem(position);
 
                 } else if (position == 1) {
                     mToolbar.setTitle(R.string.Episodes);
@@ -58,45 +59,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_white_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
-                    viewPager.setCurrentItem(position);
                 } else if (position == 2) {
                     mToolbar.setTitle(R.string.Map);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_white_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
-                    viewPager.setCurrentItem(position);
                 } else if (position == 3) {
                     mToolbar.setTitle(R.string.Personal);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
                     tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
                     tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_white_24dp);
-                    viewPager.setCurrentItem(position);
                 }
             }
-
         });
-        //tabLayout.setupWithViewPager(viewPager);
-        //viewPager.setCurrentItem(0); //setCurrentItem(position) sets which tab MainActivity starts in
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
+                //tabLayout.getTabAt(index).select();
+                viewPager.setCurrentItem(tab.getPosition());
                 try {
                     if(index == 0){
                         tab.setIcon(R.mipmap.ic_people_white_24dp);
-                        viewPager.setCurrentItem(index);
                     }else if(index == 1){
                         tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
-                        viewPager.setCurrentItem(index);
                     }else if (index == 2){
                         tab.setIcon(R.mipmap.ic_public_white_24dp);
-                        viewPager.setCurrentItem(index);
                     }
                     else if(index == 3){
                         tab.setIcon(R.mipmap.ic_account_circle_white_24dp);
-                        viewPager.setCurrentItem(index);
                     }
                 } catch (NullPointerException | IllegalStateException e) {
                     e.printStackTrace();

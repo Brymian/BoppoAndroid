@@ -5,13 +5,17 @@ package brymian.bubbles.bryant.camera;
  */
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.hardware.Camera;
+import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /** A basic Camera preview class */
@@ -20,10 +24,12 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
     private Camera mCamera;
     private List<Camera.Size> mSupportedPreviewSizes;
     private Camera.Size mPreviewSize;
-
-    private static final String TAG = "CameraPreview";
-
-
+    private CameraPreview camPreview;
+    private boolean listenerSet;
+    private DrawingView drawingView;
+    private boolean drawingViewSet;
+    List<Integer> width = new ArrayList<>();
+    List<Integer> height = new ArrayList<>();
 
     public CameraPreview(Context context, Camera camera) {
         super(context);
@@ -32,8 +38,13 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         // supported preview sizes
         mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
         for(Camera.Size str: mSupportedPreviewSizes) {
-            Log.e(TAG, str.width + "/" + str.height);
+            Log.e("CameraSizes", str.width + "/" + str.height);
+            width.add(str.width);
+            height.add(str.height);
         }
+
+        //mCamera.getParameters().setPreviewSize(width.get(0), height.get(0));
+        //mCamera.getParameters().setPictureSize(width.get(0), height.get(0));
 
         // Install a SurfaceHolder.Callback so we get notified when the
         // underlying surface is created and destroyed.
@@ -41,6 +52,103 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
         mHolder.addCallback(this);
         // deprecated setting, but required on Android versions prior to 3.0
         mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+    }
+
+    Camera.AutoFocusCallback myAutoFocusCallback = new Camera.AutoFocusCallback(){
+
+        @Override
+        public void onAutoFocus(boolean arg0, Camera arg1) {
+            if (arg0){
+                mCamera.cancelAutoFocus();
+            }
+        }
+    };
+
+    /**
+     * Called from PreviewSurfaceView to set touch focus.
+     * @param - Rect - new area for auto focus
+     */
+    public void doTouchFocus(final Rect tfocusRect) {
+        try {
+            List<Camera.Area> focusList = new ArrayList<Camera.Area>();
+            Camera.Area focusArea = new Camera.Area(tfocusRect, 1000);
+            focusList.add(focusArea);
+
+            Camera.Parameters param = mCamera.getParameters();
+            param.setFocusAreas(focusList);
+            param.setMeteringAreas(focusList);
+            mCamera.setParameters(param);
+
+            mCamera.autoFocus(myAutoFocusCallback);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("doTouchFocus", "Unable to autofocus");
+        }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        Log.e("onTouchEvent", "works");
+        if (!listenerSet) {
+            return false;
+        }
+
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            Log.e("onTouchEvent", "works");
+            float x = event.getX();
+            float y = event.getY();
+
+            Rect touchRect = new Rect(
+                    (int)(x - 100),
+                    (int)(y - 100),
+                    (int)(x + 100),
+                    (int)(y + 100));
+
+
+            final Rect targetFocusRect = new Rect(
+                    touchRect.left * 2000/this.getWidth() - 1000,
+                    touchRect.top * 2000/this.getHeight() - 1000,
+                    touchRect.right * 2000/this.getWidth() - 1000,
+                    touchRect.bottom * 2000/this.getHeight() - 1000);
+
+            camPreview.doTouchFocus(targetFocusRect);
+            if (drawingViewSet) {
+                drawingView.setHaveTouch(true, touchRect);
+                drawingView.invalidate();
+
+                // Remove the square indicator after 1000 msec
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        drawingView.setHaveTouch(false, new Rect(0,0,0,0));
+                        drawingView.invalidate();
+                    }
+                }, 1000);
+            }
+
+        }
+
+        return false;
+    }
+
+    /**
+     * set CameraPreview instance for touch focus.
+     * @param camPreview - CameraPreview
+     */
+    public void setListener(CameraPreview camPreview) {
+        this.camPreview = camPreview;
+        listenerSet = true;
+    }
+
+    /**
+     * set DrawingView instance for touch focus indication.
+     * //@param camPreview - DrawingView
+     */
+    public void setDrawingView(DrawingView dView) {
+        drawingView = dView;
+        drawingViewSet = true;
     }
 
     @Override
@@ -98,7 +206,7 @@ public class CameraPreview extends SurfaceView implements SurfaceHolder.Callback
             mCamera.startPreview();
 
         } catch (Exception e){
-            Log.d(TAG, "Error starting camera preview: " + e.getMessage());
+            Log.d("CameraPreview", "Error starting camera preview: " + e.getMessage());
         }
     }
     @Override

@@ -102,14 +102,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         ivFlash = (ImageView) findViewById(R.id.ivFlash);
         ivFlash.setOnClickListener(this);
-        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
-            ivFlash.setImageResource(R.mipmap.ic_flash_off_white_24dp);
-            flashLightOn();
-        }
-        else{
-            ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
-            flashLightOff();
-        }
 
         rlCamera = (RelativeLayout) findViewById(R.id.rlCamera);
         rlCamera.setOnClickListener(this);
@@ -126,14 +118,19 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.addView(mPreview);
         mHolder = mPreview.getHolder();
+
+        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
+            ivFlash.setImageResource(R.mipmap.ic_flash_off_white_24dp);
+            flashLightOn();
+        }
+        else{
+            ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
+            flashLightOff();
+        }
         //setAutoFocus();
+
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        Log.e("onTouchEvent", "works");
-        return true;
-    }
 
     @Override
     public void onClick(View v) {
@@ -343,24 +340,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
 
-
-/**
-    private void setButtonsCameraPreview(){
-        fabMenu = (FloatingActionMenu) findViewById(R.id.fabMenu);
-        fabMenu.bringToFront();
-
-        fabFlash = (FloatingActionButton) findViewById(R.id.fabFlash);
-        if(SaveSharedPreference.getFlashOn(this).length()  != 0){
-            fabFlash.setImageResource(R.mipmap.ic_flash_off_black_24dp);
-            flashLightOn();
-        }
-        else{
-            fabFlash.setImageResource(R.mipmap.ic_flash_on_black_24dp);
-            flashLightOff();
-        }
-        fabFlash.setOnClickListener(this);
-    }
-    **/
 
     private void setImageDataByte(byte[] data){this.data = data;}
 

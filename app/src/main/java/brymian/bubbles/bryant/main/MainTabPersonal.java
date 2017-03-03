@@ -19,7 +19,7 @@ import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.episodes.EpisodeMy;
 import brymian.bubbles.bryant.friends.FriendsActivity;
-import brymian.bubbles.bryant.map.MapsActivity;
+import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
 import brymian.bubbles.bryant.profile.ProfileActivity;
@@ -121,7 +121,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.cvMyMap:
-                startActivity(new Intent(getActivity(), MapsActivity.class).putExtra("profile", "logged in user"));
+                startActivity(new Intent(getActivity(), MapActivity.class).putExtra("profile", "logged in user"));
                 break;
 
             case R.id.cvProfilePictures:
@@ -167,6 +167,11 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 logOut();
                 break;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     private void getPersonalInfo(){
