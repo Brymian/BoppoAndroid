@@ -1227,21 +1227,23 @@ public class TESTActivity extends Activity {
         */
         new NewsFeedRequest(this).getNewsEvents(2, 10, new StringCallback() {
             @Override
-            public void done(String string) {
-            printLongString(string);
-
-            try
+            public void done(String string)
             {
-                JSONArray l1 = new JSONArray(string);
-                JSONObject l2 = l1.getJSONObject(0);
-                JSONObject l3 = l2.getJSONObject("uploadedUserImage");
+                printLongString(string);
+                /*
+                try
+                {
+                    JSONArray l1 = new JSONArray(string);
+                    JSONObject l2 = l1.getJSONObject(0);
+                    JSONObject l3 = l2.getJSONObject("uploadedUserImage");
 
-                System.out.println("TEST: " + l3.getString("userImagePath"));
-            }
-            catch (JSONException jsone)
-            {
-                jsone.printStackTrace();
-            }
+                    System.out.println("TEST: " + l3.getString("userImagePath"));
+                }
+                catch (JSONException jsone)
+                {
+                    jsone.printStackTrace();
+                }
+                */
             }
         });
     }
