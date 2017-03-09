@@ -52,8 +52,7 @@
                 android:id="@+id/ivUser2ProfileImage"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:background="@android:color/black"/>
+                android:layout_marginRight="10dp"/>
             <TextView
                 android:id="@+id/tvUser2Username"
                 android:layout_width="wrap_content"

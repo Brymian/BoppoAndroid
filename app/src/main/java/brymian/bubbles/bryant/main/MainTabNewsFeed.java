@@ -48,7 +48,6 @@ public class MainTabNewsFeed extends Fragment {
             @Override
             public void done(String string) {
                 try{
-                    Log.e("getNewsEvents", string);
                     List<String> types = new ArrayList<>();
                     List<MainTabNewsFeedInfo> mainTabNewsFeedInfoList = new ArrayList<>();
                     JSONArray jsonArray  = new JSONArray(string);
@@ -57,6 +56,7 @@ public class MainTabNewsFeed extends Fragment {
                         String type = jsonObject.getString("newsEventType");
                         types.add(type);
                         Log.e("newsEventType", type);
+                        Log.e("jsonString", "" + jsonObject);
                         switch (type){
                             case "FriendsJoinedMutualEvent":
                                 String mutualEpisode = jsonObject.getString("event");
@@ -72,7 +72,7 @@ public class MainTabNewsFeed extends Fragment {
                                     mutualUids.add(jsonObject1.getString("uid"));
                                     Log.e("j", jsonObject1.getString("username") + " " + jsonObject1.getString("uid"));
                                 }
-                                MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(mutualEpisodeObject.getString("eid"), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusActionTimestamp"), mutualUsernames, mutualUids);
+                                MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(Integer.valueOf(mutualEpisodeObject.getString("eid")), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusActionTimestamp"), mutualUsernames, mutualUids);
                                 mainTabNewsFeedInfoList.add(infoMutual);
                                 break;
 
@@ -82,39 +82,62 @@ public class MainTabNewsFeed extends Fragment {
 
                                 String activeUser = jsonObject.getString("user");
                                 JSONObject activeUserObject = new JSONObject(activeUser);
-                                MainTabNewsFeedInfo infoActive = new MainTabNewsFeedInfo(activeEpisodeObject.getString("eid"), activeEpisodeObject.getString("eventName"), activeEpisodeObject.getString("eventEndDatetime"), activeUserObject.getString("username"), activeUserObject.getString("uid"));
+
+                                String activeUserProfileImage = jsonObject.getString("userProfileImage");
+                                JSONObject activeUserProfileImageObj = new JSONObject(activeUserProfileImage);
+
+                                MainTabNewsFeedInfo infoActive = new MainTabNewsFeedInfo(Integer.valueOf(activeEpisodeObject.getString("eid")), activeEpisodeObject.getString("eventName"), activeEpisodeObject.getString("eventEndDatetime"), activeUserObject.getString("username"), Integer.valueOf(activeUserObject.getString("uid")), activeUserProfileImageObj.getString("userProfileImage"));
                                 mainTabNewsFeedInfoList.add(infoActive);
-                                Log.e("activeEvent", activeEpisode + " " + activeUserObject);
+
+                                Log.e("activeEvent", "userProfileImage: " + activeUserProfileImageObj.getString("UserProfileImage"));
                                 break;
                             case "FriendsThatBecameFriends":
                                 String user1 = jsonObject.getString("user1");
                                 JSONObject user1Obj = new JSONObject(user1);
 
+                                String user1ProfileImage = user1Obj.getString("userProfileImage");
+                                JSONObject user1ProfileImageObj = new JSONObject(user1ProfileImage);
+
                                 String user2 = jsonObject.getString("user2");
                                 JSONObject user2Obj = new JSONObject(user2);
-                                MainTabNewsFeedInfo infoBecame = new MainTabNewsFeedInfo(user1Obj.getString("username"),  user1Obj.getString("uid"), user2Obj.getString("username"), user2Obj.getString("uid"));
+
+                                String user2ProfileImage = user1Obj.getString("userProfileImage");
+                                JSONObject user2ProfileImageObj = new JSONObject(user2ProfileImage);
+
+                                MainTabNewsFeedInfo infoBecame = new MainTabNewsFeedInfo(user1Obj.getString("username"),  Integer.valueOf(user1Obj.getString("uid")), user1ProfileImageObj.getString("userImagePath"), user2Obj.getString("username"), Integer.valueOf(user2Obj.getString("uid")), user2ProfileImageObj.getString("userImagePath"));
                                 mainTabNewsFeedInfoList.add(infoBecame);
-                                Log.e("becameFriends", "user1uid: " + user1Obj.getString("uid") + " user1Username: " + user1Obj.getString("username") + " user2Uid: " +user2Obj.getString("uid") + " user2Username: " + user2Obj.getString("username"));
+
+                                Log.e("becameFriends", "user1uid: " + user1Obj.getString("uid") + "\tuser1Username: " + user1Obj.getString("username") + "\tuser1ProfileImage: " + user1ProfileImageObj.getString("userImagePath") + "\tuser2Uid: " +user2Obj.getString("uid") + "\tuser2Username: " + user2Obj.getString("username") + "\tuser2ProfileImage: " + user2ProfileImageObj.getString("userImagePath"));
                                 break;
                             case "FriendCreatedEvent":
                                 String createdEpisode = jsonObject.getString("event");
                                 JSONObject createdEpisodeObject = new JSONObject(createdEpisode);
 
-                                String createdUser = jsonObject.getString("eventHostUser");
+                                String createdUser = createdEpisodeObject.getString("eventHostUser");
                                 JSONObject createdUserObject = new JSONObject(createdUser);
 
-                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(createdEpisodeObject.getString("eid"), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventCreationTimestamp"), createdUserObject.getString("username"), createdUserObject.getString("uid"));
-                                mainTabNewsFeedInfoList.add(info);
-                                Log.e("createdEvent", "eid: " + createdEpisodeObject.getString("eid") + " title: " + createdEpisodeObject.getString("eventName") + " timestamp: " + createdEpisodeObject.getString("eventCreationTimestamp") + " username: " + createdUserObject.getString("username") + " uid: " + createdUserObject.getString("uid"));
-                                break;
-                                case "FriendsUploadedImages":
-                                String userImage = jsonObject.getString("userImage");
-                                JSONObject userImageObject = new JSONObject(userImage);
+                                String createdUserProfileImage = createdUserObject.getString("userImage");
+                                JSONObject createdUserProfileImageObj = new JSONObject(createdUserProfileImage);
 
-                                MainTabNewsFeedInfo infoUploadImage = new MainTabNewsFeedInfo(userImageObject.getString("uiid"), userImageObject.getString("uid"), userImageObject.getString("userImagePurposeLabel"), userImageObject.getString("userImageGpsLatitude"), userImageObject.getString("userImageGpsLongitude"), userImageObject.getString("userImageUploadTimestamp"), userImageObject.getString("userImageLikeCount"), userImageObject.getString("userImageDislikeCount"), userImageObject.getString("userImageCommentCount"));
+                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(Integer.valueOf(createdEpisodeObject.getString("eid")), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventCreationTimestamp"), createdUserObject.getString("username"), Integer.valueOf(createdUserObject.getString("uid")), createdUserProfileImageObj.getString("userImagePath"));
+                                mainTabNewsFeedInfoList.add(info);
+                                Log.e("createdEvent", "eid: " + createdEpisodeObject.getString("eid") + "\ttitle: " + createdEpisodeObject.getString("eventName") + "\ttimestamp: " + createdEpisodeObject.getString("eventCreationTimestamp") + "\tusername: " + createdUserObject.getString("username") + "\tuid: " + createdUserObject.getString("uid") + "\timagePath: " + createdUserProfileImageObj.getString("userImagePath"));
+                                break;
+
+                            case "FriendsUploadedImages":
+                                String uploadedImage = jsonObject.getString("uploadedUserImage");
+                                JSONObject uploadedImageObj = new JSONObject(uploadedImage);
+
+                                String uploadedUser = jsonObject.getString("user");
+                                JSONObject uploadedUserObj = new JSONObject(uploadedUser);
+
+                                String uploadedUserProfileImage = uploadedUserObj.getString("userImage");
+                                JSONObject uploadedUserProfileImageObj = new JSONObject(uploadedUserProfileImage);
+
+                                MainTabNewsFeedInfo infoUploadImage = new MainTabNewsFeedInfo(Integer.valueOf(uploadedUserObj.getString("uid")), uploadedUserObj.getString("username"), uploadedUserProfileImageObj.getString("userImagePath"), uploadedImageObj.getString("userImagePath"), uploadedImageObj.getString("userImagePurposeLabel"), uploadedImageObj.getString("userImageGpsLatitude"), uploadedImageObj.getString("userImageGpsLongitude"), uploadedImageObj.getString("userImageUploadTimestamp"), uploadedImageObj.getString("userImageLikeCount"), uploadedImageObj.getString("userImageDislikeCount"), uploadedImageObj.getString("userImageCommentCount"));
                                 mainTabNewsFeedInfoList.add(infoUploadImage);
 
-                                Log.e("UploadedImages", " uiid: " + userImageObject.getString("uiid") + " uid: " + userImageObject.getString("uid") + " purposeLabel: " + userImageObject.getString("userImagePurposeLabel") + " latitude: " + userImageObject.getString("userImageGpsLatitude") + " longitude: " + userImageObject.getString("userImageGpsLongitude") + " timestamp: " + userImageObject.getString("userImageUploadTimestamp") + " likeCount: " + userImageObject.getString("userImageLikeCount") + " dislikeCount: " + userImageObject.getString("userImageDislikeCount") + " commentCount: "  + userImageObject.getString("userImageCommentCount"));
+                                Log.e("UploadedImages"," uid: " + uploadedUserObj.getString("uid") + "username: " +  uploadedUserObj.getString("username") + "imagePath: " + uploadedUserProfileImageObj.getString("userImagePath") + " purposeLabel: " + uploadedImageObj.getString("userImagePurposeLabel") + " latitude: " + uploadedImageObj.getString("userImageGpsLatitude") + " longitude: " + uploadedImageObj.getString("userImageGpsLongitude") + " timestamp: " + uploadedImageObj.getString("userImageUploadTimestamp") + " likeCount: " + uploadedImageObj.getString("userImageLikeCount") + " dislikeCount: " + uploadedImageObj.getString("userImageDislikeCount") + " commentCount: "  + uploadedImageObj.getString("userImageCommentCount"));
                                 break;
                         }
                     }
