@@ -44,7 +44,7 @@
             android:layout_gravity="bottom|right|end"
             android:layout_margin="16dp"
             android:src="@mipmap/ic_photo_camera_white_24dp"
-            android:backgroundTint="@color/AppColor"
+            app:backgroundTint="@color/AppColor"
             android:elevation="6dp"/>
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

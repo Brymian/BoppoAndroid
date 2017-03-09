@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.camera;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -21,6 +22,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -43,6 +45,7 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.sendTo.SendTo;
 
 public class CameraActivity extends AppCompatActivity implements View.OnClickListener{
+    SurfaceView svPreview;
     FrameLayout preview;
     Toolbar toolbar;
     private Camera mCamera;
@@ -55,7 +58,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton fabDone;
     int currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     int order = 1;
-    byte[] data;
+    static byte[] data;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -95,6 +98,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         /* Setting xml layout */
         setContentView(R.layout.camera_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.bringToFront();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -115,7 +119,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
 
         /* Create our Preview view and set it as the content of our activity. */
         mPreview = new CameraPreview(this, mCamera);
-        preview = (FrameLayout) findViewById(R.id.camera_preview);
+        //svPreview = (SurfaceView) findViewById(R.id.svPreview);
+        preview = (FrameLayout) findViewById(R.id.camera_activity);
         preview.addView(mPreview);
         mHolder = mPreview.getHolder();
 
@@ -152,6 +157,12 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case R.id.fabDone:
+                CameraTest camFrag = new CameraTest();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.camera_activity, camFrag);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                /**
                 switch(imagePurpose){
                     case "Regular":
                         startActivity(new Intent(this, SendTo.class).putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
@@ -164,6 +175,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         finish();
                         break;
                 }
+                 **/
                 break;
         }
     }
@@ -234,7 +246,8 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         setCameraDisplayOrientation(CameraActivity.this, currentCameraId, mCamera);
         try {
             mCamera.setPreviewDisplay(mHolder);
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
         mCamera.startPreview();
@@ -296,27 +309,37 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     Log.d("EXIF value", exif.getAttribute(ExifInterface.TAG_ORIENTATION));
                     if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("6")){
                         realImage= rotate(realImage, 90);
-                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")){
+                    }
+                    else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("8")){
                         realImage= rotate(realImage, 270);
-                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")){
+                    }
+                    else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("3")){
                         realImage= rotate(realImage, 180);
-                    } else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")){
-                        realImage= rotate(realImage, 90);
+                    }
+                    else if(exif.getAttribute(ExifInterface.TAG_ORIENTATION).equalsIgnoreCase("0")){
+                        if (currentCameraId == Camera.CameraInfo.CAMERA_FACING_BACK){
+                            realImage = rotate(realImage, 90);
+                        }
+                        else if (currentCameraId == Camera.CameraInfo.CAMERA_FACING_FRONT){
+                            realImage = rotate(realImage, 270);
+                        }
                     }
 
                     boolean bo = realImage.compress(Bitmap.CompressFormat.JPEG, 100, fos);
 
                     fos.close();
 
+                    Log.d("Info", bo + "");
+
                     ByteArrayOutputStream bs = new ByteArrayOutputStream();
                     realImage.compress(Bitmap.CompressFormat.JPEG, 50, bs);
                     setImageDataByte(bs.toByteArray());
 
-                    Log.d("Info", bo + "");
-
-                } catch (FileNotFoundException e) {
+                }
+                catch (FileNotFoundException e) {
                     Log.d("Info", "File not found: " + e.getMessage());
-                } catch (IOException e) {
+                }
+                catch (IOException e) {
                     Log.d("TAG", "Error accessing file: " + e.getMessage());
                 }
             }
@@ -333,17 +356,61 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         int h = bitmap.getHeight();
 
         Matrix mtx = new Matrix();
-        //       mtx.postRotate(degree);
+        // mtx.postRotate(degree);
         mtx.setRotate(degree);
 
         return Bitmap.createBitmap(bitmap, 0, 0, w, h, mtx, true);
+    }
+
+    public static Bitmap rotateBitmap(Bitmap bitmap, int orientation) {
+
+        Matrix matrix = new Matrix();
+        switch (orientation) {
+            case ExifInterface.ORIENTATION_NORMAL:
+                return bitmap;
+            case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+                matrix.setScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_180:
+                matrix.setRotate(180);
+                break;
+            case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+                matrix.setRotate(180);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_TRANSPOSE:
+                matrix.setRotate(90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_90:
+                matrix.setRotate(90);
+                break;
+            case ExifInterface.ORIENTATION_TRANSVERSE:
+                matrix.setRotate(-90);
+                matrix.postScale(-1, 1);
+                break;
+            case ExifInterface.ORIENTATION_ROTATE_270:
+                matrix.setRotate(-90);
+                break;
+            default:
+                return bitmap;
+        }
+        try {
+            Bitmap bmRotated = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            bitmap.recycle();
+            return bmRotated;
+        }
+        catch (OutOfMemoryError e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
 
     private void setImageDataByte(byte[] data){this.data = data;}
 
-    private byte[] getImageDataByte(){return data;}
+    public static byte[] getImageDataByte(){return data;}
 
     /** Checks if the device has a camera **/
     private boolean checkCameraHardware(Context context) {
@@ -374,11 +441,9 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {
-        android.hardware.Camera.CameraInfo info =
-                new android.hardware.Camera.CameraInfo();
+        android.hardware.Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
         android.hardware.Camera.getCameraInfo(cameraId, info);
-        int rotation = activity.getWindowManager().getDefaultDisplay()
-                .getRotation();
+        int rotation = activity.getWindowManager().getDefaultDisplay().getRotation();
         int degrees = 0;
         switch (rotation) {
             case Surface.ROTATION_0: degrees = 0; break;
@@ -391,8 +456,11 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
             result = (info.orientation + degrees) % 360;
             result = (360 - result) % 360;  // compensate the mirror
-        } else {  // back-facing
+            Log.e("CameraActivity", "front: "+result);
+        }
+        else {  // back-facing
             result = (info.orientation - degrees + 360) % 360;
+            Log.e("CameraActivity", "back: "+result);
         }
         camera.setDisplayOrientation(result);
     }
