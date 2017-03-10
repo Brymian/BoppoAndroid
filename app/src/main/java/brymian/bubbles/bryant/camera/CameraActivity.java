@@ -157,12 +157,13 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case R.id.fabDone:
+                /*
                 CameraTest camFrag = new CameraTest();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.camera_activity, camFrag);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                /**
+                */
                 switch(imagePurpose){
                     case "Regular":
                         startActivity(new Intent(this, SendTo.class).putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
@@ -175,7 +176,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                         finish();
                         break;
                 }
-                 **/
                 break;
         }
     }

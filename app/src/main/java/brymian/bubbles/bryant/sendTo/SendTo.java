@@ -83,7 +83,6 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
             @Override
             public void onClick(View view) {
                 uploadImage();
-                uploadImageToEpisode();
             }
         });
     }
@@ -115,7 +114,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     private void uploadImage(){
         new UserImageRequest(SendTo.this).uploadImage(
                 SaveSharedPreference.getUserUID(SendTo.this),       /* uid */
-                9999,                                               /* image profile sequence */
+                null,                                               /* image profile sequence */
                 imageName(),                                        /* image name */
                 "Regular",                                          /* image purpose label */
                 privacy,                                            /* image privacy label */
@@ -127,25 +126,28 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                     public void done(String string) {
                         Log.e("uploadImage", string);
                         setUiid(Integer.parseInt(string));
-                        //startActivity(new Intent(SendTo.this, MainActivity.class));
+                        uploadImageToEpisode();
                     }
                 });
     }
 
     private void uploadImageToEpisode(){
         List<Episode> singleEpisodeList = ((SendToEpisodesRecyclerAdapter) adapter).getEpisodeList();
-        if (singleEpisodeList.size() > 1){
-            uploadImage();
+        if (singleEpisodeList.size() >= 1){
             for(int i = 0; i < singleEpisodeList.size(); i++){
                 Episode singleEpisode = singleEpisodeList.get(i);
                 if(singleEpisode.getIsSelected()){
                     new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
                         @Override
                         public void done(String string) {
+                            Log.e("UITE", string);
                             try{
                                 JSONArray jArray = new JSONArray(string);
                                 for(int i =0; i < jArray.length(); i++){
                                     Log.e("JSON String","Status of Adding Image #" + i + " to UIID: " + jArray.get(i));
+                                    if(i == jArray.length() - 1){
+                                        startActivity(new Intent(SendTo.this, MainActivity.class));
+                                    }
                                 }
                             }catch (JSONException jsone){
                                 jsone.printStackTrace();
@@ -155,7 +157,9 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                 }
             }
         }
-        startActivity(new Intent(this, MainActivity.class));
+        else {
+            startActivity(new Intent(SendTo.this, MainActivity.class));
+        }
     }
 
 
