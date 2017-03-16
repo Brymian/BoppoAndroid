@@ -34,6 +34,8 @@ public class EpisodeMyAttending extends Fragment{
     }
 
     private void getAttendingEpisodes(){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -60,5 +62,6 @@ public class EpisodeMyAttending extends Fragment{
                 }
             }
         });
+        */
     }
 }

@@ -178,6 +178,8 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvUserUsername.setText(SaveSharedPreference.getUsername(getActivity()));
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
 
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -189,6 +191,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 }
             }
         });
+        */
 
         new ServerRequestMethods(getActivity()).getFriends(SaveSharedPreference.getUserUID(getActivity()), new UserListCallback() {
             @Override

@@ -236,6 +236,8 @@ public class ProfileActivity extends AppCompatActivity{
     }
 
     private void getEpisodesNum(int uid){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(this).getEventDataByMember(uid, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -282,6 +284,7 @@ public class ProfileActivity extends AppCompatActivity{
                 }
             }
         });
+        */
     }
 
     private void alertDialogFriendRequestReceived(){

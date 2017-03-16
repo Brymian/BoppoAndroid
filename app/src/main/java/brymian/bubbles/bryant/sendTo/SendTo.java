@@ -164,6 +164,8 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
 
 
     private void setLiveParticipatedEpisodes(){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -227,6 +229,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                 }
             }
         });
+        */
     }
 
     private void setDateTime(){
