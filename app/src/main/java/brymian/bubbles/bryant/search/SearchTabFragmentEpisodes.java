@@ -42,7 +42,8 @@ public class SearchTabFragmentEpisodes extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                /* BRYANT, REVISIT THIS */
+                /*
                 new EventRequest(getActivity()).getEventDataByName(SearchActivity.etSearch.getText().toString(), new EventListCallback() {
                     @Override
                     public void done(List<Event> eventList) {
@@ -71,7 +72,7 @@ public class SearchTabFragmentEpisodes extends Fragment {
                         }
                     }
                 });
-
+                */
             }
         });
 

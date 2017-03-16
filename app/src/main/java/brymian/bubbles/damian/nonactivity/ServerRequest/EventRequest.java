@@ -82,16 +82,16 @@ public class EventRequest {
         new GetLiveEventDataByMember(uid, stringCallback).execute();
     }
 
-    public void getEventDataByName(String eventName, EventListCallback eventListCallback)
+    public void getEventDataByName(String eventName, StringCallback stringCallback)
     {
         //pd.show();
-        new GetEventDataByName(eventName, eventListCallback).execute();
+        new GetEventDataByName(eventName, stringCallback).execute();
     }
 
-    public void getLiveEventDataByName(String eventName, EventListCallback eventListCallback)
+    public void getLiveEventDataByName(String eventName, StringCallback stringCallback)
     {
         //pd.show();
-        new GetLiveEventDataByName(eventName, eventListCallback).execute();
+        new GetLiveEventDataByName(eventName, stringCallback).execute();
     }
 
     public void getEventDataByTopNViews(Integer topN, EventListCallback eventListCallback)
@@ -532,19 +532,19 @@ public class EventRequest {
 
 
 
-    private class GetEventDataByName extends AsyncTask<Void, Void, List<Event>> {
+    private class GetEventDataByName extends AsyncTask<Void, Void, String> {
 
         String eventName;
-        EventListCallback eventListCallback;
+        StringCallback stringCallback;
 
-        private GetEventDataByName(String eventName, EventListCallback eventListCallback)
+        private GetEventDataByName(String eventName, StringCallback stringCallback)
         {
             this.eventName = eventName;
-            this.eventListCallback = eventListCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected List<Event> doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByName";
 
             Post request = new Post();
@@ -557,34 +557,7 @@ public class EventRequest {
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
 
-                JSONArray jEventArray = new JSONArray(response);
-
-                List<Event> eventList = new ArrayList<>();
-                for (int i = 0; i < jEventArray.length(); i++)
-                {
-                    JSONObject jEvent = jEventArray.getJSONObject(i);
-                    Event event = new Event(
-                        getIntegerObjectFromObject(jEvent.get("eid")),
-                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                        jEvent.getString("eventName"),
-                        jEvent.getString("eventHostUsername"),
-                        jEvent.getString("eventHostFirstName"),
-                        jEvent.getString("eventHostLastName"),
-                        jEvent.getString("eventInviteTypeLabel"),
-                        jEvent.getString("eventPrivacyLabel"),
-                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
-                        jEvent.getString("eventStartDatetime"),
-                        jEvent.getString("eventEndDatetime"),
-                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
-                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
-                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
-                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        jEvent.getLong("eventViewCount")
-                    );
-                    eventList.add(event);
-                }
-
-                return eventList;
+                return response;
             }
             catch (IOException ioe)
             {
@@ -599,30 +572,30 @@ public class EventRequest {
         }
 
         @Override
-        protected void onPostExecute(List<Event> eventList) {
+        protected void onPostExecute(String string) {
             //pd.dismiss();
-            eventListCallback.done(eventList);
+            stringCallback.done(string);
 
-            super.onPostExecute(eventList);
+            super.onPostExecute(string);
         }
 
     }
 
 
 
-    private class GetLiveEventDataByName extends AsyncTask<Void, Void, List<Event>> {
+    private class GetLiveEventDataByName extends AsyncTask<Void, Void, String> {
 
         String eventName;
-        EventListCallback eventListCallback;
+        StringCallback stringCallback;
 
-        private GetLiveEventDataByName(String eventName, EventListCallback eventListCallback)
+        private GetLiveEventDataByName(String eventName, StringCallback stringCallback)
         {
             this.eventName = eventName;
-            this.eventListCallback = eventListCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected List<Event> doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getLiveEventDataByName";
 
             Post request = new Post();
@@ -637,34 +610,7 @@ public class EventRequest {
 
                 System.out.println("RESPONSE: " + response);
 
-                JSONArray jEventArray = new JSONArray(response);
-
-                List<Event> eventList = new ArrayList<>();
-                for (int i = 0; i < jEventArray.length(); i++)
-                {
-                    JSONObject jEvent = jEventArray.getJSONObject(i);
-                    Event event = new Event(
-                        getIntegerObjectFromObject(jEvent.get("eid")),
-                        getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                        jEvent.getString("eventName"),
-                        jEvent.getString("eventHostUsername"),
-                        jEvent.getString("eventHostFirstName"),
-                        jEvent.getString("eventHostLastName"),
-                        jEvent.getString("eventInviteTypeLabel"),
-                        jEvent.getString("eventPrivacyLabel"),
-                        getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
-                        jEvent.getString("eventStartDatetime"),
-                        jEvent.getString("eventEndDatetime"),
-                        getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
-                        getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
-                        getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
-                        getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                        jEvent.getLong("eventViewCount")
-                    );
-                    eventList.add(event);
-                }
-
-                return eventList;
+                return response;
             }
             catch (IOException ioe)
             {
@@ -679,11 +625,11 @@ public class EventRequest {
         }
 
         @Override
-        protected void onPostExecute(List<Event> eventList) {
+        protected void onPostExecute(String string) {
             //pd.dismiss();
-            eventListCallback.done(eventList);
+            stringCallback.done(string);
 
-            super.onPostExecute(eventList);
+            super.onPostExecute(string);
         }
 
     }
