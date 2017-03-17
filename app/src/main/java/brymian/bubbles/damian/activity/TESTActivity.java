@@ -677,7 +677,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByTopNDislikes(3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -690,7 +690,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new UserLikeRequest(this).setObjectLikeOrDislike(3, "Event", 53, false, new StringCallback() {
             @Override
@@ -853,92 +853,20 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventRequest(this).getEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println("<!!!> JSON STRING: <!!!>");
                 System.out.println(string);
-                System.out.println("<!!!> END OF JSON STRING: <!!!>");
-
-                try
-                {
-                    JSONArray jArray = new JSONArray(string);
-                    for (int i = 0; i < jArray.length(); i++)
-                    {
-                        JSONObject jArray_jObject = jArray.getJSONObject(i);
-                        JSONObject jEvent = jArray_jObject.getJSONObject("event");
-                        System.out.println("<!> EVENT #: " + i + " <!>");
-
-                        System.out.println("Event ID: " + jEvent.getInt("eid"));
-                        System.out.println("Event Host UID: " + jEvent.getInt("eventHostUid"));
-                        System.out.println("Event Name: " + jEvent.getString("eventName"));
-                        System.out.println("Event Host Username: " + jEvent.getString("eventHostUsername"));
-                        System.out.println("Event Host First Name: " + jEvent.getString("eventHostFirstName"));
-                        System.out.println("Event Host Last Name: " + jEvent.getString("eventHostLastName"));
-                        System.out.println("Event Invite Type Label: " +
-                                jEvent.getString("eventInviteTypeLabel"));
-                        System.out.println("Event Privacy Label: " + jEvent.getString("eventPrivacyLabel"));
-                        System.out.println("Event Image Upload Allowed Indicator: " +
-                                getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")));
-                        System.out.println("Event Start Datetime: " + jEvent.getString("eventStartDatetime"));
-                        System.out.println("Event End Datetime: " + jEvent.getString("eventEndDatetime"));
-                        System.out.println("Event GPS Latitude: " +
-                                getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")));
-                        System.out.println("Event GPS Longitude: " +
-                                getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")));
-                        System.out.println("Event Like Count: " + jEvent.getInt("eventLikeCount"));
-                        System.out.println("Event Dislike Count: " + jEvent.getInt("eventDislikeCount"));
-                        System.out.println("Event View Count: " + jEvent.getLong("eventViewCount"));
-                        System.out.println("Event Rating Ratio: " + jEvent.getDouble("eventRatingRatio"));
-                    }
-                }
-                catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
         new EventRequest(this).getLiveEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println("<!!!> JSON STRING: <!!!>");
                 System.out.println(string);
-                System.out.println("<!!!> END OF JSON STRING: <!!!>");
-
-                try
-                {
-                    JSONArray jArray = new JSONArray(string);
-                    for (int i = 0; i < jArray.length(); i++)
-                    {
-                        JSONObject jArray_jObject = jArray.getJSONObject(i);
-                        JSONObject jEvent = jArray_jObject.getJSONObject("event");
-                        System.out.println("<!> EVENT #: " + i + " <!>");
-
-                        System.out.println("Event ID: " + jEvent.getInt("eid"));
-                        System.out.println("Event Host UID: " + jEvent.getInt("eventHostUid"));
-                        System.out.println("Event Name: " + jEvent.getString("eventName"));
-                        System.out.println("Event Host Username: " + jEvent.getString("eventHostUsername"));
-                        System.out.println("Event Host First Name: " + jEvent.getString("eventHostFirstName"));
-                        System.out.println("Event Host Last Name: " + jEvent.getString("eventHostLastName"));
-                        System.out.println("Event Invite Type Label: " +
-                                jEvent.getString("eventInviteTypeLabel"));
-                        System.out.println("Event Privacy Label: " + jEvent.getString("eventPrivacyLabel"));
-                        System.out.println("Event Image Upload Allowed Indicator: " +
-                                getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")));
-                        System.out.println("Event Start Datetime: " + jEvent.getString("eventStartDatetime"));
-                        System.out.println("Event End Datetime: " + jEvent.getString("eventEndDatetime"));
-                        System.out.println("Event GPS Latitude: " +
-                                getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")));
-                        System.out.println("Event GPS Longitude: " +
-                                getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")));
-                        System.out.println("Event Like Count: " + jEvent.getInt("eventLikeCount"));
-                        System.out.println("Event Dislike Count: " + jEvent.getInt("eventDislikeCount"));
-                        System.out.println("Event View Count: " + jEvent.getLong("eventViewCount"));
-                        System.out.println("Event Rating Ratio: " + jEvent.getDouble("eventRatingRatio"));
-                    }
-                }
-                catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-        */
+
         /*
         new UserImageRequest(this).uploadImage(1, "UserImageName2", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
             @Override
