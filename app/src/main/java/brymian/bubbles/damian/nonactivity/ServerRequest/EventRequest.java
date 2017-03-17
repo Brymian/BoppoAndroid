@@ -64,6 +64,12 @@ public class EventRequest {
         new GetEventData(eid, eventCallback).execute();
     }
 
+    public void getEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
+    {
+        pd.show();
+        new GetEventDataByRadius(longitude, latitude, radius, stringCallback).execute();
+    }
+
     public void getLiveEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
     {
         pd.show();
@@ -371,6 +377,63 @@ public class EventRequest {
 
 
 
+    private class GetEventDataByRadius extends AsyncTask<Void, Void, String> {
+
+        Double longitude;
+        Double latitude;
+        Double radius;
+        StringCallback stringCallback;
+
+        private GetEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
+        {
+            this.longitude = longitude;
+            this.latitude = latitude;
+            this.radius = radius;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventDataByRadius";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonEventObject = new JSONObject();
+                jsonEventObject.put("longitude", getNullOrValue(longitude));
+                jsonEventObject.put("latitude", getNullOrValue(latitude));
+                jsonEventObject.put("radius", getNullOrValue(radius));
+
+                String jsonEventString = jsonEventObject.toString();
+                String response = request.post(url, jsonEventString);
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string) {
+            pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+
+
     private class GetLiveEventDataByRadius extends AsyncTask<Void, Void, String> {
 
         Double longitude;
@@ -401,8 +464,6 @@ public class EventRequest {
 
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
-
-                System.out.println(jsonEventString);
 
                 return response;
             }
