@@ -645,36 +645,15 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventRequest(this).getEventDataByTopNViews(3, new EventListCallback() {
-            @Override
-            public void done(List<Event> eventList) {
-                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED FOR THE FOLLOWING TOP 3 VIEW EVENTS: ");
 
-                for (Event event : eventList)
-                {
-                    System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
-                    System.out.println();
-                    System.out.println("EID = " + event.eid);
-                    System.out.println("Event Host User Identifier = " + event.eventHostUid);
-                    System.out.println("Event Host Username = " + event.eventHostUsername);
-                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
-                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
-                    System.out.println("Event Name = " + event.eventName);
-                    System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
-                    System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
-                    System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
-                    System.out.println("Event Start Datetime = " + event.eventStartDatetime);
-                    System.out.println("Event End Datetime = " + event.eventEndDatetime);
-                    System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
-                    System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
-                    System.out.println("Event Like Count = " + event.eventLikeCount);
-                    System.out.println("Event Dislike Count = " + event.eventDislikeCount);
-                    System.out.println("Event View Count = " + event.eventViewCount);
-                }
+        new EventRequest(this).getEventDataByTopNViews(3, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED FOR THE FOLLOWING TOP 3 VIEW EVENTS: ");
+                System.out.println(string);
             }
         });
-        */
+
         /*
         new EventRequest(this).getEventDataByTopNLikes(3, new EventListCallback() {
             @Override
@@ -876,7 +855,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getLiveEventDataByName("test", new StringCallback() {
             @Override
             public void done(String string) {
@@ -884,7 +863,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventRequest(this).getLiveEventDataByMember(1, new StringCallback() {
             @Override
@@ -895,35 +874,15 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventRequest(this).getLiveEventDataByTopNViews(3, new EventListCallback() {
-            @Override
-            public void done(List<Event> eventList) {
-                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED FOR THE FOLLOWING TOP 3 VIEW EVENTS: ");
 
-                for (Event event : eventList)
-                {
-                    System.out.println("EVENT #" + eventList.indexOf(event) + ": ");
-                    System.out.println();
-                    System.out.println("EID = " + event.eid);
-                    System.out.println("Event Host User Identifier = " + event.eventHostUid);
-                    System.out.println("Event Host Username = " + event.eventHostUsername);
-                    System.out.println("Event Host First Name = " + event.eventHostFirstName);
-                    System.out.println("Event Host Last Name = " + event.eventHostUsername);
-                    System.out.println("Event Name = " + event.eventName);
-                    System.out.println("Event Invite Type Label = " + event.eventInviteTypeLabel);
-                    System.out.println("Event Privacy Label = " + event.eventPrivacyLabel);
-                    System.out.println("Event Image Upload Allowed Indicator = " + event.eventImageUploadAllowedIndicator);
-                    System.out.println("Event Start Datetime = " + event.eventStartDatetime);
-                    System.out.println("Event End Datetime = " + event.eventEndDatetime);
-                    System.out.println("Event GPS Latitude = " + event.eventGpsLatitude);
-                    System.out.println("Event GPS Longitude = " + event.eventGpsLongitude);
-                    System.out.println("Event Like Count = " + event.eventLikeCount);
-                    System.out.println("Event Dislike Count = " + event.eventDislikeCount);
-                    System.out.println("Event View Count = " + event.eventViewCount);
-                }
+        new EventRequest(this).getLiveEventDataByTopNViews(3, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("THE FOLLOWING EVENT DATA HAS BEEN RETURNED FOR THE FOLLOWING TOP 3 VIEW EVENTS: ");
+                System.out.println(string);
             }
         });
+        /*
         new EventRequest(this).getLiveEventDataByTopNLikes(3, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {

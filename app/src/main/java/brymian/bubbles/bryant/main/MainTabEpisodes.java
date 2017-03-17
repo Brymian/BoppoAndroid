@@ -85,6 +85,8 @@ public class MainTabEpisodes extends Fragment {
     }
 
     private void setLiveMostViewsEpisodes(){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(getActivity()).getLiveEventDataByTopNViews(5, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -106,20 +108,19 @@ public class MainTabEpisodes extends Fragment {
                         layoutManager = new LinearLayoutManager(getActivity());
                         rvLiveMostViews.setLayoutManager(layoutManager);
                         rvLiveMostViews.setAdapter(adapter);
-                    /**
-                    }
-                    else{
-                        Log.e("Live views", "0");
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvLiveMostViews.setLayoutManager(layoutManager);
-                    }
-                     **/
+                    //}
+                    //else{
+                    //    Log.e("Live views", "0");
+                    //    layoutManager = new LinearLayoutManager(getActivity());
+                    //    rvLiveMostViews.setLayoutManager(layoutManager);
+                    //}
                 }
                 catch (NullPointerException e){
                     e.printStackTrace();
                 }
             }
         });
+        */
     }
 
     private void setLiveTopRated(){
@@ -210,9 +211,12 @@ public class MainTabEpisodes extends Fragment {
 
 
     private void setAllTimeMostViewsEpisodes(){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(getActivity()).getEventDataByTopNViews(5, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
+
                 try {
                     if (eventList.size() > 0) {
                         List<String> episodeTitle = new ArrayList<>();
@@ -238,6 +242,7 @@ public class MainTabEpisodes extends Fragment {
                 }
             }
         });
+        */
     }
 
     private void setALlTimeTopRated(){
