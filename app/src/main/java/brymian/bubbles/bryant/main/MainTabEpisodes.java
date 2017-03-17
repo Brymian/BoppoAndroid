@@ -167,6 +167,8 @@ public class MainTabEpisodes extends Fragment {
     }
 
     private void setLiveMostLikesEpisodes(){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(getActivity()).getLiveEventDataByTopNLikes(5, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -198,6 +200,7 @@ public class MainTabEpisodes extends Fragment {
 
             }
         });
+        */
     }
 
     private void setLiveMostDislikesEpisodes(){
@@ -280,6 +283,8 @@ public class MainTabEpisodes extends Fragment {
     }
 
     private void setAllTimeMostLikesEpisodes(){
+        /* BRYANT, REVISIT THIS */
+        /*
         new EventRequest(getActivity()).getEventDataByTopNLikes(5, new EventListCallback() {
             @Override
             public void done(List<Event> eventList) {
@@ -307,6 +312,7 @@ public class MainTabEpisodes extends Fragment {
                 }
             }
         });
+        */
     }
 
     private void setAllTimeMostDislikes(){
