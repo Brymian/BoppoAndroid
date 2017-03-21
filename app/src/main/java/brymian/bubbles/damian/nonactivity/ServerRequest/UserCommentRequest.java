@@ -13,6 +13,7 @@ import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 
 public class UserCommentRequest
@@ -141,9 +142,8 @@ public class UserCommentRequest
                 String jString = jObject.toString();
 
                 String response = request.post(url, jString);
-                response = response.replaceAll(
-                    "(\"image\":\\{\"userImagePath\":\")(1\\\\/13\\\\/0)\"\\}",
-                    "$1" + httpConnection.getUploadServerString() + "$2\"}");
+                response = convertPathsToFull(response);
+
                 return response;
             }
             catch (IOException ioe)
