@@ -264,14 +264,18 @@ public class MainTabEpisodes extends Fragment {
                         List<String> episodeHostUsername = new ArrayList<>();
                         List<Integer> episodeEid = new ArrayList<>();
                         List<Double> episodeRating = new ArrayList<>();
-                        JSONArray jArray = new JSONArray(string);
-                        for (int i = 0; i < jArray.length(); i++) {
-                            JSONObject jArray_jObject = jArray.getJSONObject(i);
-                            JSONObject jEvent = jArray_jObject.getJSONObject("event");
-                            episodeTitle.add(jEvent.getString("eventName"));
-                            episodeHostUsername.add(jEvent.getString("eventHostUsername"));
-                            episodeEid.add(jEvent.getInt("eid"));
-                            episodeRating.add(jEvent.getDouble("eventRatingRatio")*100);
+                        JSONObject jsonObject = new JSONObject(string);
+                        String episodeString = jsonObject.getString("events");
+                        JSONArray episodesArray = new JSONArray(episodeString);
+                        for (int i = 0; i < episodesArray.length(); i++) {
+                            JSONObject episodeObj = episodesArray.getJSONObject(i);
+                            String episodeHostString = episodeObj.getString("eventHost");
+                            JSONObject episodeHostObj = new JSONObject(episodeHostString);
+
+                            episodeTitle.add(episodeObj.getString("eventName"));
+                            episodeHostUsername.add(episodeHostObj.getString("username"));
+                            episodeEid.add(episodeObj.getInt("eid"));
+                            episodeRating.add(episodeObj.getDouble("eventRatingRatio")*100);
                         }
 
                         adapter = new MainTabEpisodesAllTimeTopRatedRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeRating);
