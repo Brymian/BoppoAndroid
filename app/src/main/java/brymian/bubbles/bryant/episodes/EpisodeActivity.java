@@ -18,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -278,8 +279,10 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         List<String> userComment = new ArrayList<>();
                         List<String> userCommentTimestamp = new ArrayList<>();
                         List<String> userUsername = new ArrayList<>();
+
                         JSONObject object = new JSONObject(string);
                         JSONArray jArray  = object.getJSONArray("comments");
+                        Log.e("comments", string);
                         tvCommentsNumber.setText(String.valueOf(jArray.length()));
                         for (int i = 0; i < jArray.length(); i++){
                             JSONObject jArray_jObject = jArray.getJSONObject(i);

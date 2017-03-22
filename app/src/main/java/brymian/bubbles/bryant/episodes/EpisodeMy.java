@@ -15,7 +15,6 @@ import brymian.bubbles.R;
 
 public class EpisodeMy extends AppCompatActivity {
     Toolbar mToolbar;
-    ViewPager viewPager;
     TabLayout tabLayout;
     FloatingActionButton fabCreateEpisode;
 
@@ -31,12 +30,13 @@ public class EpisodeMy extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_run_black_24dp), 1, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        viewPager = (ViewPager) findViewById(R.id.pager);
-        EpisodeMyPagerAdapter pagerAdapter = new EpisodeMyPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final EpisodeMyPagerAdapter pagerAdapter = new EpisodeMyPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
             public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
                 if (position == 0) {
                     mToolbar.setTitle(R.string.Hosting);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_star_white_24dp);
@@ -47,23 +47,23 @@ public class EpisodeMy extends AppCompatActivity {
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_star_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_run_white_24dp);
                 }
-
             }
 
         });
-        viewPager.setCurrentItem(0);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
+                viewPager.setCurrentItem(index);
                 try {
-                    viewPager.setCurrentItem(index);
                     if(index == 0){
                         tab.setIcon(R.mipmap.ic_star_white_24dp);
-                    }else if(index == 1) {
+                    }
+                    else if(index == 1) {
                         tab.setIcon(R.mipmap.ic_run_white_24dp);
                     }
-                } catch (NullPointerException | IllegalStateException e) {
+                }
+                catch (NullPointerException | IllegalStateException e) {
                     e.printStackTrace();
                 }
             }
@@ -73,7 +73,8 @@ public class EpisodeMy extends AppCompatActivity {
                 int index = tab.getPosition();
                 if(index == 0){
                     tab.setIcon(R.mipmap.ic_star_black_24dp);
-                }else if(index == 1){
+                }
+                else if(index == 1){
                     tab.setIcon(R.mipmap.ic_run_black_24dp);
                 }
             }

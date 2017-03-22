@@ -17,6 +17,7 @@ public class SaveSharedPreference {
     private static final String PREF_NOTIFICATIONS_VIBRATION = "vibration";
     private static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
     private static final String PREF_NOTIFICATIONS_SOUND = "sound";
+    private static final String PREF_USER_PROFILE_IMAGE_PATH = "userProfileImagePath";
 
     private static final String PREF_CAMERA_FLASH_ON = "flash on";
     private static final String PREF_CAMERA_FRONT_CAMERA = "front camera";
@@ -143,6 +144,25 @@ public class SaveSharedPreference {
         editor.apply();
     }
     /**------------------------------------------------------------------------------------------**/
+
+    /**--------------------------------Profile Image Path----------------------------------------**/
+    public static void setUserProfileImagePath(Context ctx, String path){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_PROFILE_IMAGE_PATH, path);
+        editor.apply();
+    }
+
+    public static String getUserProfileImagePath(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_PROFILE_IMAGE_PATH, "");
+    }
+
+    public static void clearUserProfileImagePath(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(PREF_USER_PROFILE_IMAGE_PATH);
+        editor.apply();
+    }
+    /**------------------------------------------------------------------------------------------**/
+
 
 
     /**-----------------------------------Account Privacy----------------------------------------**/

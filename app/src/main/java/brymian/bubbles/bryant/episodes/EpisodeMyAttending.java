@@ -2,7 +2,6 @@ package brymian.bubbles.bryant.episodes;
 
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,57 +10,69 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.objects.Event;
 
 public class EpisodeMyAttending extends Fragment{
     RecyclerView rvEpisodeMyAttending;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
-    @Nullable
+    private boolean isLoaded = false;
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.episode_my_attending, container, false);
         rvEpisodeMyAttending = (RecyclerView) rootView.findViewById(R.id.rvEpisodeMyAttending);
-        getAttendingEpisodes();
         return rootView;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser && !isLoaded){
+            getAttendingEpisodes();
+            isLoaded = true;
+        }
+    }
+
     private void getAttendingEpisodes(){
-        /* BRYANT, REVISIT THIS */
-        /*
-        new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new EventListCallback() {
+        new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new StringCallback() {
             @Override
-            public void done(List<Event> eventList) {
-                if(eventList.size() > 0) {
+            public void done(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    String eventsString = jsonObject.getString("events");
+                    JSONArray eventsArray = new JSONArray(eventsString);
                     List<String> episodeTitleAttending = new ArrayList<>();
                     List<String> episodeHostNameAttending = new ArrayList<>();
                     List<Integer> episodeEidAttending = new ArrayList<>();
-                    for (Event event : eventList) {
-                        if (event.eventHostUid != SaveSharedPreference.getUserUID(getActivity())) {
-                            episodeTitleAttending.add(event.eventName);
-                            episodeHostNameAttending.add(event.eventHostFirstName + " " + event.eventHostLastName);
-                            episodeEidAttending.add(event.eid);
-                            Log.e("Attending title event", event.eventName);
+                    for (int i = 0; i < eventsArray.length(); i++){
+                        JSONObject eventsObj = eventsArray.getJSONObject(i);
+                        String eventHostString = eventsObj.getString("eventHost");
+                        JSONObject eventHostObj = new JSONObject(eventHostString);
+                        if (!eventHostObj.getString("uid").equals(String.valueOf(SaveSharedPreference.getUserUID(getActivity())))){
+                            episodeTitleAttending.add(eventsObj.getString("eventName"));
+                            episodeHostNameAttending.add(eventHostObj.getString("username"));
+                            episodeEidAttending.add(Integer.valueOf(eventsObj.getString("eid")));
                         }
                     }
-
                     adapter = new EpisodeMyAttendingRecyclerAdapter(getActivity(), episodeTitleAttending, episodeHostNameAttending, episodeEidAttending);
                     layoutManager = new LinearLayoutManager(getActivity());
                     rvEpisodeMyAttending.setLayoutManager(layoutManager);
                     rvEpisodeMyAttending.setAdapter(adapter);
                 }
-                else {
-                    Log.e("Attending Episodes", "Attending 0 events.");
+                catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
-        */
     }
 }

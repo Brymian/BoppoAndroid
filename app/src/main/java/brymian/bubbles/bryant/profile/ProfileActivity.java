@@ -2,14 +2,17 @@ package brymian.bubbles.bryant.profile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,27 +30,24 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
-public class ProfileActivity extends AppCompatActivity{
-    public static ImageView ivProfilePicture;
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
+    ImageView ivProfilePicture;
     FloatingActionButton fabStatus;
     TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum;
     CardView cvUserFriends;
     int userUID;
-    String username, privacy;
+    String username, privacy, friendShipStatus;
     Toolbar mToolbar;
 
     RecyclerView rvUserEpisodes;
@@ -57,6 +57,7 @@ public class ProfileActivity extends AppCompatActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.profile_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -99,7 +100,7 @@ public class ProfileActivity extends AppCompatActivity{
             setFriendshipStatus(uid);
             getProfilePictures(uid);
             getFriendsNum(uid);
-            getEpisodesNum(uid);
+            //getEpisodesNum(uid);
         }
     }
 
@@ -112,7 +113,24 @@ public class ProfileActivity extends AppCompatActivity{
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.removeAsFriend:
+            case android.R.id.home:
+                onBackPressed();
+                break;
+
+            case R.id.popUpMenu:
+                popUpMenu();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tvEditProfile:
+                startActivity(new Intent(this, ProfileEdit.class));
+                break;
+            case R.id.tvRemoveFriend:
                 new FriendshipStatusRequest(this).unFriend(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -121,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity{
                 });
                 break;
 
-            case R.id.Block:
+            case R.id.tvBlockUser:
                 new FriendshipStatusRequest(this).blockUser(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -130,15 +148,71 @@ public class ProfileActivity extends AppCompatActivity{
                 });
                 break;
 
-            case R.id.Report_user:
+            case R.id.tvReportUser:
                 Toast.makeText(this, "Report under construction", Toast.LENGTH_SHORT).show();
                 break;
-
-            case android.R.id.home:
-                onBackPressed();
-                break;
         }
-        return super.onOptionsItemSelected(item);
+    }
+
+    private void popUpMenu(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.profile_activity_menu_alertdialog, null);
+
+        TextView tvEditProfile = (TextView) alertLayout.findViewById(R.id.tvEditProfile);
+        tvEditProfile.setOnClickListener(this);
+        TextView tvRemoveFriend = (TextView) alertLayout.findViewById(R.id.tvRemoveFriend);
+        tvRemoveFriend.setOnClickListener(this);
+        TextView tvBlockUser = (TextView) alertLayout.findViewById(R.id.tvBlockUser);
+        tvBlockUser.setOnClickListener(this);
+        TextView tvReportUser = (TextView) alertLayout.findViewById(R.id.tvReportUser);
+        tvReportUser.setOnClickListener(this);
+
+        View vEditProfile = alertLayout.findViewById(R.id.vEditProfile);
+        View vRemoveFriend = alertLayout.findViewById(R.id.vRemoveFriend);
+        View vBlockUser = alertLayout.findViewById(R.id.vBlockUser);
+
+        switch (getFriendShipStatus()){
+            case "logged in user":
+                tvRemoveFriend.setVisibility(View.GONE);
+                vRemoveFriend.setVisibility(View.GONE);
+                tvBlockUser.setVisibility(View.GONE);
+                vBlockUser.setVisibility(View.GONE);
+                tvReportUser.setVisibility(View.GONE);
+                break;
+            case "Already friends with user.":
+                tvEditProfile.setVisibility(View.GONE);
+                vEditProfile.setVisibility(View.GONE);
+                break;
+            case "Already sent friend request to user.":
+                tvEditProfile.setVisibility(View.GONE);
+                vEditProfile.setVisibility(View.GONE);
+                break;
+            case "User is awaiting confirmation for friend request.":
+                tvEditProfile.setVisibility(View.GONE);
+                vEditProfile.setVisibility(View.GONE);
+                break;
+            case "Not friends.":
+                tvEditProfile.setVisibility(View.GONE);
+                vEditProfile.setVisibility(View.GONE);
+                break;
+            case "User is currently being blocked.":
+                break;
+            case "Currently being blocked by user.":
+                break;
+            default:
+        }
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        final AlertDialog dialog = alert.create();
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
 
     private void setFriendshipStatus(int uid){
@@ -170,12 +244,13 @@ public class ProfileActivity extends AppCompatActivity{
     }
 
     private void setUserProfileInfo(String profile){
+        this.friendShipStatus = profile;
         switch (profile){
             case "logged in user":
                 fabStatus.hide();
                 break;
             case "Already friends with user.":
-                fabStatus.hide();
+                fabStatus.setVisibility(View.INVISIBLE);
                 break;
             case "Already sent friend request to user.":
                 fabStatus.setImageResource(R.mipmap.ic_dots_horizontal_white_24dp);
@@ -376,6 +451,10 @@ public class ProfileActivity extends AppCompatActivity{
 
     private void setPrivacy(String privacy){
         this.privacy = privacy;
+    }
+
+    private String getFriendShipStatus(){
+        return friendShipStatus;
     }
 
     private String getPrivacy(){

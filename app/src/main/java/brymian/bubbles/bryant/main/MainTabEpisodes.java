@@ -217,38 +217,41 @@ public class MainTabEpisodes extends Fragment {
 
 
     private void setAllTimeMostViewsEpisodes(){
-        /* BRYANT, REVISIT THIS */
-        /*
-        new EventRequest(getActivity()).getEventDataByTopNViews(5, new EventListCallback() {
+        new EventRequest(getActivity()).getEventDataByTopNViews(5, new StringCallback() {
             @Override
-            public void done(List<Event> eventList) {
+            public void done(String string) {
+                try{
+                    List<Integer> episodeEid = new ArrayList<>();
+                    List<String> episodeTitle = new ArrayList<>();
+                    List<String> episodeHostUsername = new ArrayList<>();
+                    List<String> episodeNum = new ArrayList<>();
 
-                try {
-                    if (eventList.size() > 0) {
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostUsername = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<String> episodeViewCount = new ArrayList<>();
-                        for (int i = 0; i < eventList.size(); i++) {
-                            episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostUsername.add(eventList.get(i).eventHostUsername);
-                            episodeEid.add(eventList.get(i).eid);
-                            episodeViewCount.add(String.valueOf(eventList.get(i).eventViewCount));
-                        }
+                    JSONObject jsonObject = new JSONObject(string);
+                    String episodeString = jsonObject.getString("events");
+                    JSONArray episodesArray = new JSONArray(episodeString);
+                    for (int i = 0; i < episodesArray.length(); i++){
+                        JSONObject episodeObj = episodesArray.getJSONObject(i);
+                        String episodeHostString = episodeObj.getString("eventHost");
+                        JSONObject episodeHostObj = new JSONObject(episodeHostString);
 
-                        adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeViewCount);
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvAllTimeMostViews.setLayoutManager(layoutManager);
-                        rvAllTimeMostViews.setNestedScrollingEnabled(false);
-                        rvAllTimeMostViews.setAdapter(adapter);
+                        episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
+                        episodeTitle.add(episodeObj.getString("eventName"));
+                        episodeHostUsername.add(episodeHostObj.getString("username"));
+                        episodeNum.add(episodeObj.getString("eventViewCount") + " views");
                     }
+                    adapter = new MainTabEpisodesAllTimeMostViewsRecyclerAdapter(getActivity(), episodeEid,  episodeTitle, episodeHostUsername, episodeNum);
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    rvAllTimeMostViews.setLayoutManager(layoutManager);
+                    rvAllTimeMostViews.setNestedScrollingEnabled(false);
+                    rvAllTimeMostViews.setAdapter(adapter);
+
                 }
-                catch (NullPointerException npe){
-                    npe.printStackTrace();
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
+
             }
         });
-        */
     }
 
     private void setALlTimeTopRated(){
@@ -286,69 +289,76 @@ public class MainTabEpisodes extends Fragment {
     }
 
     private void setAllTimeMostLikesEpisodes(){
-        /* BRYANT, REVISIT THIS */
-        /*
-        new EventRequest(getActivity()).getEventDataByTopNLikes(5, new EventListCallback() {
+        new EventRequest(getActivity()).getEventDataByTopNLikes(5, new StringCallback() {
             @Override
-            public void done(List<Event> eventList) {
-                try {
-                    if (eventList.size() > 0) {
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostUsername = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<String> episodeLikeCount = new ArrayList<>();
-                        for (int i = 0; i < eventList.size(); i++) {
-                            episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostUsername.add(eventList.get(i).eventHostUsername);
-                            episodeEid.add(eventList.get(i).eid);
-                            episodeLikeCount.add(String.valueOf(eventList.get(i).eventLikeCount));
-                        }
+            public void done(String string) {
+                try{
+                    List<Integer> episodeEid = new ArrayList<>();
+                    List<String> episodeTitle = new ArrayList<>();
+                    List<String> episodeHostUsername = new ArrayList<>();
+                    List<String> episodeNum = new ArrayList<>();
 
-                        adapter = new MainTabEpisodesAllTimeMostLikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeLikeCount);
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvAllTimeMostLikes.setLayoutManager(layoutManager);
-                        rvAllTimeMostLikes.setNestedScrollingEnabled(false);
-                        rvAllTimeMostLikes.setAdapter(adapter);
+                    JSONObject jsonObject = new JSONObject(string);
+                    String episodeString = jsonObject.getString("events");
+                    JSONArray episodesArray = new JSONArray(episodeString);
+                    for (int i = 0; i < episodesArray.length(); i++){
+                        JSONObject episodeObj = episodesArray.getJSONObject(i);
+                        String episodeHostString = episodeObj.getString("eventHost");
+                        JSONObject episodeHostObj = new JSONObject(episodeHostString);
+
+                        episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
+                        episodeTitle.add(episodeObj.getString("eventName"));
+                        episodeHostUsername.add(episodeHostObj.getString("username"));
+                        episodeNum.add(episodeObj.getString("eventLikeCount") + " likes");
                     }
-                }catch (NullPointerException npe){
-                    npe.printStackTrace();
+                    adapter = new MainTabEpisodesAllTimeMostLikesRecyclerAdapter(getActivity(), episodeEid,  episodeTitle, episodeHostUsername, episodeNum);
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    rvAllTimeMostLikes.setLayoutManager(layoutManager);
+                    rvAllTimeMostLikes.setNestedScrollingEnabled(false);
+                    rvAllTimeMostLikes.setAdapter(adapter);
+
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
             }
         });
-        */
     }
 
     private void setAllTimeMostDislikes(){
-        /* BRYANT, REVISIT THIS */
-        /*
-        new EventRequest(getActivity()).getEventDataByTopNDislikes(5, new EventListCallback() {
+        new EventRequest(getActivity()).getEventDataByTopNLikes(5, new StringCallback() {
             @Override
-            public void done(List<Event> eventList) {
-                try {
-                    if (eventList.size() > 0) {
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostUsername = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<String> episodeDislikeCount = new ArrayList<>();
-                        for (int i = 0; i < eventList.size(); i++) {
-                            episodeTitle.add(eventList.get(i).eventName);
-                            episodeHostUsername.add(eventList.get(i).eventHostUsername);
-                            episodeEid.add(eventList.get(i).eid);
-                            episodeDislikeCount.add(String.valueOf(eventList.get(i).eventDislikeCount));
-                        }
+            public void done(String string) {
+                try{
+                    List<Integer> episodeEid = new ArrayList<>();
+                    List<String> episodeTitle = new ArrayList<>();
+                    List<String> episodeHostUsername = new ArrayList<>();
+                    List<String> episodeNum = new ArrayList<>();
 
-                        adapter = new MainTabEpisodesAllTimeMostDislikesRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeDislikeCount);
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvAllTimeMostDislikes.setLayoutManager(layoutManager);
-                        rvAllTimeMostDislikes.setNestedScrollingEnabled(false);
-                        rvAllTimeMostDislikes.setAdapter(adapter);
+                    JSONObject jsonObject = new JSONObject(string);
+                    String episodeString = jsonObject.getString("events");
+                    JSONArray episodesArray = new JSONArray(episodeString);
+                    for (int i = 0; i < episodesArray.length(); i++){
+                        JSONObject episodeObj = episodesArray.getJSONObject(i);
+                        String episodeHostString = episodeObj.getString("eventHost");
+                        JSONObject episodeHostObj = new JSONObject(episodeHostString);
+
+                        episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
+                        episodeTitle.add(episodeObj.getString("eventName"));
+                        episodeHostUsername.add(episodeHostObj.getString("username"));
+                        episodeNum.add(episodeObj.getString("eventLikeCount") + " dislikes");
                     }
+                    adapter = new MainTabEpisodesAllTimeMostDislikesRecyclerAdapter(getActivity(), episodeEid,  episodeTitle, episodeHostUsername, episodeNum);
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    rvAllTimeMostDislikes.setLayoutManager(layoutManager);
+                    rvAllTimeMostDislikes.setNestedScrollingEnabled(false);
+                    rvAllTimeMostDislikes.setAdapter(adapter);
+
                 }
-                catch(NullPointerException npe){
-                    npe.printStackTrace();
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
             }
         });
-        */
     }
 }

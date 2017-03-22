@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@android:color/white"
-    android:theme="@style/BubblesTheme"
+    android:theme="@style/AppTheme"
     android:id="@+id/profile_pictures_activity2">
 
     <android.support.v7.widget.Toolbar

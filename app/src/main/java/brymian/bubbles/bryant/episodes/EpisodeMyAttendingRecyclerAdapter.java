@@ -7,7 +7,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -16,10 +15,10 @@ import brymian.bubbles.R;
 
 
 public class EpisodeMyAttendingRecyclerAdapter extends RecyclerView.Adapter<EpisodeMyAttendingRecyclerAdapter.RecyclerViewHolder> {
-    static Activity activity;
-    List<String> episodeTitle;
-    List<String> episodeHostName;
-    static List<Integer> episodeEid;
+    private static Activity activity;
+    private List<String> episodeTitle;
+    private List<String> episodeHostName;
+    private static List<Integer> episodeEid;
 
     public EpisodeMyAttendingRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostName, List<Integer> episodeEid){
         EpisodeMyAttendingRecyclerAdapter.activity = activity;
@@ -51,7 +50,7 @@ public class EpisodeMyAttendingRecyclerAdapter extends RecyclerView.Adapter<Epis
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
-            tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostName);
+            tvEpisodeHostName = (TextView) v.findViewById(R.id.tvEpisodeHostUsername);
             cardView = (CardView) v.findViewById(R.id.card_view);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

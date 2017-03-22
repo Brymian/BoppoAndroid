@@ -47,7 +47,7 @@ class EpisodeActivityCommentsRecyclerAdapter extends RecyclerView.Adapter<Episod
         holder.tvUserUsername.setText(userUsername.get(position));
         holder.tvUserCommentTimestamp.setText(userCommentTimestamp.get(position));
         holder.tvUserComment.setText(userComment.get(position));
-        Picasso.with(activity).load(userProfileImagePath.get(position)).into(ivUserProfileImage);
+        Picasso.with(activity).load(userProfileImagePath.get(position)).fit().centerCrop().into(ivUserProfileImage);
     }
 
     @Override

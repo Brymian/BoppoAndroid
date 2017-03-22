@@ -49,31 +49,33 @@
     <string name="All_Time">ALL TIME</string>
     <string name="An_Episode_with_the_title_already_exists.">An Episode with the title already exists.</string>
     <string name="Are_you_sure_you_do_not_want_to_send_add_friends">Are you sure you don\'t want to add friends to the Episode now? You can always do so later.</string>
-    <string name="MOST_DISLIKES">Most Likes</string>
+    <string name="MOST_DISLIKES">Most Dislikes</string>
     <string name="MOST_LIKES">Most Likes</string>
     <string name="MOST_VIEWS">Most Views</string>
     <string name="TOP_RATED">Top Rated</string>
     <string name="Apply">Apply</string>
     <string name="at">&#160;at&#160;</string>
     <string name="Attending">Attending</string>
-        <string name="BECAME_FRIENDS_WITH">&#160;BECAME FRIENDS WITH</string>
+        <string name="BECAME_FRIENDS_WITH">&#160;became friends with</string>
         <string name="Blocking">Blocking</string>
     <string name="Block">Block</string>
     <string name="Bubbles">Bubbles</string>
     <string name="Camera">Camera</string>
     <string name="Cancel">Cancel</string>
     <string name="Change_start_date">Change start date</string>
+    <string name="Change_profile_picture">Change profile picture</string>
     <string name="CHOOSE_FROM_OUR_COLLECTION">CHOOSE FROM OUR COLLECTION:</string>
     <string name="Comments">Comments</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Create_Episode">Create Episode</string>
-    <string name="CREATED">&#160;CREATED</string>
+    <string name="CREATED">&#160;created</string>
     <string name="Current_Location">Current Location</string>
     <string name="Current_Password">Current Password</string>
     <string name="Decline">Decline</string>
     <string name="Delete_episode">Delete episode</string>
     <string name="Do_not_display_again">Don\'t display again</string>
     <string name="Done">Done</string>
+    <string name="Edit_profile">Edit profile</string>
     <string name="Email">Email</string>
     <string name="End_Episode">End episode</string>
     <string name="Ending_date_time">Ending Date &amp; Time</string>
@@ -85,10 +87,11 @@
     <string name="Friend_Requests_caps">FRIEND REQUESTS</string>
     <string name="Friends">Friends</string>
     <string name="Friend">Friend</string>
+    <string name="Full_name">Full name</string>
     <string name="Gallery">Gallery</string>
     <string name="Hosting">Hosting</string>
     <string name="Invites_successfully_sent">Invite(s) successfully sent!</string>
-    <string name="JOINED">&#160;JOINED</string>
+    <string name="JOINED">&#160;joined</string>
     <string name="Later">Later</string>
     <string name="Leave_episode">Leave episode</string>
     <string name="LED_Light">LED Light</string>
@@ -119,6 +122,7 @@
     <string name="Privacy">Privacy</string>
     <string name="Private">Private</string>
     <string name="Profile">PROFILE</string>
+    <string name="Profile_picture">Profile picture</string>
     <string name="Profile_Pictures">Profile Pictures</string>
     <string name="Pictures">Pictures</string>
     <string name="Received_Friend_Requests">Received Friend Requests</string>
@@ -144,6 +148,7 @@
     <string name="Upload_From">Upload From:</string>
     <string name="UPLOAD_IMAGE">UPLOAD IMAGE FROM</string>
     <string name="Users">Users</string>
+    <string name="Username">Username</string>
     <string name="Vibration">Vibration</string>
     <string name="View_All_My_Episodes">View All Your Episodes&#8230;</string>
     <string name="View_More_Current_Episodes">View More Current Episodes&#8230;</string>
@@ -151,6 +156,9 @@
     <string name="Would_you_like_to_add_friends_now">Would you like to add friends now?</string>
     <string name="Yes">Yes</string>
 
+    <string name="transition_image">image</string>
+    <string name="transition_quote">quote</string>
+    <string name="transition_attribution">attribution</string>
     <!-- CONTENT DESCRIPTION -->
     <string name="left_button_profile_contentDescription">This is the left ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
     <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>

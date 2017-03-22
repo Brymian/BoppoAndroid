@@ -1,8 +1,12 @@
 package brymian.bubbles.bryant.main;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,6 +70,8 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             case TYPE_JOINED_MUTUAL_EPISODE:
                 ((JoinedMutualEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
                 ((JoinedMutualEpisodeHolder)holder).tvUserJoined.setText(mainTabNewsFeedInfoList.get(position).getUsernames().get(0));
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getPaths().get(0)).fit().centerCrop().into(((JoinedMutualEpisodeHolder)holder).ivUserProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getPaths().get(0)).fit().centerCrop().into(((JoinedMutualEpisodeHolder)holder).ivEpisodeImage);
                 break;
             case TYPE_ACTIVE_EPISODE:
                 ((ActiveEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
@@ -74,18 +80,19 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             case TYPE_BECAME_FRIENDS:
                 ((BecameFriendsHolder)holder).tvUser1Username.setText(mainTabNewsFeedInfoList.get(position).getUser1Username());
                 ((BecameFriendsHolder)holder).tvUser2Username.setText(mainTabNewsFeedInfoList.get(position).getUser2Username());
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser1ProfileImage()).into(((BecameFriendsHolder)holder).ivUser1ProfileImage);
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser2ProfileImage()).into(((BecameFriendsHolder)holder).ivUser2ProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser1ProfileImage()).fit().centerCrop().into(((BecameFriendsHolder)holder).ivUser1ProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser2ProfileImage()).fit().centerCrop().into(((BecameFriendsHolder)holder).ivUser2ProfileImage);
                 break;
             case TYPE_CREATED_EPISODE:
                 ((CreatedEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
                 ((CreatedEpisodeHolder)holder).tvUserCreated.setText(mainTabNewsFeedInfoList.get(position).getUsername());
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUser1ProfileImage()).into(((CreatedEpisodeHolder)holder).ivUserProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).fit().centerCrop().into(((CreatedEpisodeHolder)holder).ivUserProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).fit().centerCrop().into(((CreatedEpisodeHolder)holder).ivEpisodeImage);
                 break;
             case TYPE_UPLOAD_IMAGE:
                 ((UploadImageHolder)holder).tvUserUsername.setText(mainTabNewsFeedInfoList.get(position).getUsername());
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).into(((UploadImageHolder)holder).ivUserProfileImage);
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUploadedImage()).into(((UploadImageHolder)holder).ivUploadedImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).fit().centerCrop().into(((UploadImageHolder)holder).ivUserProfileImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUploadedImage()).fit().centerCrop().into(((UploadImageHolder)holder).ivUploadedImage);
                 break;
         }
     }
@@ -106,7 +113,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
                 return TYPE_BECAME_FRIENDS;
             case "FriendCreatedEvent":
                 return TYPE_CREATED_EPISODE;
-            case "FriendsUploadedImages":
+            case "FriendUploadedImage":
                 return TYPE_UPLOAD_IMAGE;
         }
         return 6;
@@ -118,11 +125,15 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
         LinearLayout llEpisode;
         public JoinedMutualEpisodeHolder(View v){
             super(v);
-            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivProfilePicture);
             ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
+                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0)));
+                    Intent intent = new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0));
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, activity.findViewById(R.id.ivProfilePicture), "robot");
+                    activity.startActivity(intent, options.toBundle());
+                    //activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0)));
                 }
             });
             tvUserJoined = (TextView) v.findViewById(R.id.tvUserJoined);

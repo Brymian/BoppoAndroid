@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right|end"
         android:layout_margin="16dp"
-        android:backgroundTint="#3ae1a8"
+        app:backgroundTint="#3ae1a8"
         app:rippleColor="#2ba67c"
         android:src="@mipmap/ic_create_white_24dp"/>
 

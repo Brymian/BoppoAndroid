@@ -17,13 +17,13 @@ import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
 
 public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeMostViewsRecyclerAdapter.RecyclerViewHolder> {
-    static Activity activity;
-    static List<String> episodeTitle;
-    List<String> episodeHostUsername;
-    static List<Integer> episodeEid;
-    List<String> episodeNum;
+    private static Activity activity;
+    private static List<String> episodeTitle;
+    private List<String> episodeHostUsername;
+    private static List<Integer> episodeEid;
+    private  List<String> episodeNum;
 
-    public MainTabEpisodesAllTimeMostViewsRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeHostUsername, List<Integer> episodeEid, List<String> episodeNum){
+    public MainTabEpisodesAllTimeMostViewsRecyclerAdapter(Activity activity, List<Integer> episodeEid, List<String> episodeTitle, List<String> episodeHostUsername, List<String> episodeNum){
         MainTabEpisodesAllTimeMostViewsRecyclerAdapter.activity = activity;
         MainTabEpisodesAllTimeMostViewsRecyclerAdapter.episodeTitle = episodeTitle;
         this.episodeHostUsername = episodeHostUsername;
@@ -41,7 +41,7 @@ public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
         holder.tvEpisodeHostUsername.setText("By "+episodeHostUsername.get(position));
-        holder.tvEpisodeNum.setText(episodeNum.get(position)+ " views");
+        holder.tvEpisodeNum.setText(episodeNum.get(position));
     }
 
     @Override

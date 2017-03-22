@@ -11,19 +11,21 @@ public class MainTabNewsFeedInfo implements Serializable {
     private String user1Username, user1ProfileImage, user2Username, user2ProfileImage;
     private String uploadedImage, userImagePurposeLabel, userImageGpsLatitude, userImageGpsLongitude, userImageUploadTimestamp, userImageLikeCount, userImageDislikeCount, userImageCommentCount;
     //int uid;
-    List<String> uids, usernames;
+    private List<String>  usernames, paths;
+    private List<Integer> uids;
 
     public MainTabNewsFeedInfo(){
 
     }
 
     /* for FriendsJoinedMutualEvent */
-    public MainTabNewsFeedInfo(int eid, String episodeTitle, String timestamp, List<String> usernames, List<String> uids){
+    public MainTabNewsFeedInfo(int eid, String episodeTitle, String timestamp, List<String> usernames, List<Integer> uids, List<String> paths){
         this.eid = eid;
         this.episodeTitle = episodeTitle;
         this.timestamp = timestamp;
         this.usernames = usernames;
         this.uids = uids;
+        this.paths = paths;
     }
 
     /* for FriendCreatedEvent, ActiveEvent as well */
@@ -77,8 +79,12 @@ public class MainTabNewsFeedInfo implements Serializable {
         return usernames;
     }
 
-    public List<String> getUids(){
+    public List<Integer> getUids(){
         return uids;
+    }
+
+    public List<String> getPaths(){
+        return paths;
     }
 
     public String getUsername(){
@@ -120,5 +126,4 @@ public class MainTabNewsFeedInfo implements Serializable {
     public String getUserProfileImage(){
         return userProfileImage;
     }
-
 }

@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,11 +26,9 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
-import brymian.bubbles.objects.Event;
 
 public class SendTo extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
@@ -164,51 +163,54 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
 
 
     private void setLiveParticipatedEpisodes(){
-        /* BRYANT, REVISIT THIS */
-        /*
-        new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new EventListCallback() {
+        new EventRequest(this).getEventDataByMember(SaveSharedPreference.getUserUID(this), new StringCallback() {
             @Override
-            public void done(List<Event> eventList) {
+            public void done(String string) {
+                Log.e("sendTo", string);
                 try{
-                    if(eventList.size() > 0){
-                        ArrayList<Episode> episodeList = new ArrayList<>();
-                        String[] dateTime, dateArray, timeArray;
-                        for (Event event : eventList) {
-                            if (event.eventEndDatetime.equals("null")){
-                                String startTime = event.eventStartDatetime;
-                                dateTime = startTime.split("\\s");
-                                dateArray = dateTime[0].split("-");
-                                timeArray = dateTime[1].split(":");
+                    JSONObject jsonObject = new JSONObject(string);
+                    String eventsString = jsonObject.getString("events");
+                    JSONArray eventsArray = new JSONArray(eventsString);
+                    ArrayList<Episode> episodeList = new ArrayList<>();
+                    String[] dateTime, dateArray, timeArray;
+                    for (int i = 0; i < eventsArray.length(); i++){
+                        JSONObject eventsObj = eventsArray.getJSONObject(i);
+                        String eventHostString = eventsObj.getString("eventHost");
+                        JSONObject eventHostObj = new JSONObject(eventHostString);
+                        if (eventsObj.getString("eventEndDatetime").equals("null")){
+                            String startTime = eventsObj.getString("eventStartDatetime");
+                            dateTime = startTime.split("\\s");
+                            dateArray = dateTime[0].split("-");
+                            timeArray = dateTime[1].split(":");
 
-                                if (year > Integer.valueOf(dateArray[0])){ //if current year is greater than eventStartDate year, automatically add into List
-                                    Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                            if (year > Integer.valueOf(dateArray[0])){ //if current year is greater than eventStartDate year, automatically add into List
+                                Episode episode = new Episode(eventsObj.getString("eventName"), eventHostObj.getString("firstName")+ " " + eventHostObj.getString("lastName"), eventHostObj.getString("username"), Integer.valueOf(eventsObj.getString("eid")), false);
+                                episodeList.add(episode);
+                            }
+                            else if (year == Integer.valueOf(dateArray[0])){ //if current year is equal to eventStartDate year
+                                if (month > Integer.valueOf(dateArray[1])){
+                                    Episode episode = new Episode(eventsObj.getString("eventName"), eventHostObj.getString("firstName")+ " " + eventHostObj.getString("lastName"), eventHostObj.getString("username"), Integer.valueOf(eventsObj.getString("eid")), false);
                                     episodeList.add(episode);
                                 }
-                                else if (year == Integer.valueOf(dateArray[0])){ //if current year is equal to eventStartDate year
-                                    if (month > Integer.valueOf(dateArray[1])){
-                                        Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                else if (month == Integer.valueOf(dateArray[1])){
+                                    if (day > Integer.valueOf(dateArray[2])){
+                                        Episode episode = new Episode(eventsObj.getString("eventName"), eventHostObj.getString("firstName")+ " " + eventHostObj.getString("lastName"), eventHostObj.getString("username"), Integer.valueOf(eventsObj.getString("eid")), false);
                                         episodeList.add(episode);
                                     }
-                                    else if (month == Integer.valueOf(dateArray[1])){
-                                        if (day > Integer.valueOf(dateArray[2])){
-                                            Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                    else if (day == Integer.valueOf(dateArray[2])){
+                                        if (hour > Integer.valueOf(timeArray[0])){
+                                            Episode episode = new Episode(eventsObj.getString("eventName"), eventHostObj.getString("firstName")+ " " + eventHostObj.getString("lastName"), eventHostObj.getString("username"), Integer.valueOf(eventsObj.getString("eid")), false);
                                             episodeList.add(episode);
                                         }
-                                        else if (day == Integer.valueOf(dateArray[2])){
-                                            if (hour > Integer.valueOf(timeArray[0])){
-                                                Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                        else if (hour == Integer.valueOf(timeArray[0])){
+                                            if (minute > Integer.valueOf(timeArray[1])){
+                                                Episode episode = new Episode(eventsObj.getString("eventName"), eventHostObj.getString("firstName")+ " " + eventHostObj.getString("lastName"), eventHostObj.getString("username"), Integer.valueOf(eventsObj.getString("eid")), false);
                                                 episodeList.add(episode);
                                             }
-                                            else if (hour == Integer.valueOf(timeArray[0])){
-                                                if (minute > Integer.valueOf(timeArray[1])){
-                                                    Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
+                                            else if (minute == Integer.valueOf(timeArray[1])){
+                                                if (second > Integer.valueOf(timeArray[2])){
+                                                    Episode episode = new Episode(eventsObj.getString("eventName"), eventHostObj.getString("firstName")+ " " + eventHostObj.getString("lastName"), eventHostObj.getString("username"), Integer.valueOf(eventsObj.getString("eid")), false);
                                                     episodeList.add(episode);
-                                                }
-                                                else if (minute == Integer.valueOf(timeArray[1])){
-                                                    if (second > Integer.valueOf(timeArray[2])){
-                                                        Episode episode = new Episode(event.eventName, event.eventHostFirstName + " " + event.eventHostLastName, event.eventHostUsername, event.eid, false);
-                                                        episodeList.add(episode);
-                                                    }
                                                 }
                                             }
                                         }
@@ -216,20 +218,18 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                                 }
                             }
                         }
-
-                        adapter = new SendToEpisodesRecyclerAdapter(episodeList);
-                        layoutManager = new LinearLayoutManager(SendTo.this);
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerView.setNestedScrollingEnabled(false);
-                        recyclerView.setAdapter(adapter);
                     }
-
-                }catch (NullPointerException npe){
-                    npe.printStackTrace();
+                    adapter = new SendToEpisodesRecyclerAdapter(episodeList);
+                    layoutManager = new LinearLayoutManager(SendTo.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    recyclerView.setNestedScrollingEnabled(false);
+                    recyclerView.setAdapter(adapter);
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
             }
         });
-        */
     }
 
     private void setDateTime(){

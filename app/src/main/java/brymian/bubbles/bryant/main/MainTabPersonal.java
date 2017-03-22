@@ -4,13 +4,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -27,11 +34,13 @@ import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.settings.Privacy;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
 import brymian.bubbles.damian.activity.AuthenticateActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.Event;
+import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -42,14 +51,15 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                             cvNotifications, cvPrivacy, cvBlocking, cvAbout,
                             cvPassword, cvEmail, cvPhoneNumber, cvSyncWithOtherMedia, cvLogOut;
     TextView tvUserUsername, tvUserFirstLastName, tvNumberOfEpisodes, tvNumberOfFriends, tvEmail, tvPhoneNumber;
+    ImageView ivProfilePicture;
     boolean isPersonalLoaded = false;
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_tab_personal, container, false);
         /* Profile */
         cvMyProfile = (CardView) rootView.findViewById(R.id.cvMyProfile);
         cvMyProfile.setOnClickListener(this);
+        ivProfilePicture = (ImageView) rootView.findViewById(R.id.ivProfilePicture);
         tvUserUsername = (TextView) rootView.findViewById(R.id.tvUserUsername);
         tvUserFirstLastName = (TextView) rootView.findViewById(R.id.tvUserFirstLastName);
 
@@ -178,27 +188,45 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvUserUsername.setText(SaveSharedPreference.getUsername(getActivity()));
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
 
-        /* BRYANT, REVISIT THIS */
-        /*
-        new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new EventListCallback() {
-            @Override
-            public void done(List<Event> eventList) {
-                try{
-                    tvNumberOfEpisodes.setText(String.valueOf(eventList.size()));
-
-                }catch (NullPointerException npe){
-                    npe.printStackTrace();
+        if (SaveSharedPreference.getUserProfileImagePath(getActivity()).isEmpty()){
+            new UserImageRequest(getActivity()).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(getActivity()), "Profile", null, new ImageListCallback() {
+                @Override
+                public void done(List<Image> imageList) {
+                    if (imageList.size() > 0) {
+                        Picasso.with(getActivity()).load(imageList.get(0).userImagePath).fit().centerCrop().into(ivProfilePicture);
+                        SaveSharedPreference.setUserProfileImagePath(getActivity(), imageList.get(0).userImagePath);
+                    }
                 }
+            });
+        }
+        else {
+            Picasso.with(getActivity()).load(SaveSharedPreference.getUserProfileImagePath(getActivity())).fit().centerCrop().into(ivProfilePicture);
+        }
+
+        new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new StringCallback() {
+            @Override
+            public void done(String string) {
+                try {
+                    JSONObject jsonObject = new JSONObject(string);
+                    String eventsString = jsonObject.getString("events");
+                    JSONArray eventsArray = new JSONArray(eventsString);
+                    tvNumberOfEpisodes.setText(String.valueOf(eventsArray.length()));
+                }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
-        */
+
 
         new ServerRequestMethods(getActivity()).getFriends(SaveSharedPreference.getUserUID(getActivity()), new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 try{
                     tvNumberOfFriends.setText(String.valueOf(users.size()));
-                }catch (NullPointerException npe){
+                }
+                catch (NullPointerException npe){
                     npe.printStackTrace();
                 }
             }

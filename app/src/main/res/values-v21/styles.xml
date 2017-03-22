@@ -1,21 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-        <style name="BubblesTheme" parent="Theme.AppCompat.Light">
-                <!-- Customize your theme here. -->
-                <!--   your app branding color for the app bar -->
-                <item name="colorPrimary">#42ffbf</item>
+        <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+                <item name="colorPrimary">#3ae1a8</item>
                 <!--   darker variant for the status bar and contextual app bars -->
-                <item name="colorPrimaryDark">#42ffbf</item>
-                <!--   theme UI controls like checkboxes and text fields -->
+                <item name="colorPrimaryDark">#2ba67c</item>
+                <item name="colorAccent">@android:color/darker_gray</item>
+                <item name="android:colorForeground">@android:color/holo_red_dark</item>
+                <item name="android:textColor">@android:color/black</item>
+                <!--
                 <item name="colorAccent">#42ffbf</item>
                 <item name="colorControlNormal">@android:color/black</item>
                 <item name="colorControlActivated">@android:color/black</item>
                 <item name="colorControlHighlight">@android:color/black</item>
-                <item name="android:textColor">@android:color/black</item>
                 <item name="android:colorBackground">#e0e0e0</item>
                 <item name="android:navigationBarColor">#42ffbf</item>
                 <item name="android:colorForeground">#42ffbf</item>
+                -->
+                <item name="android:windowContentTransitions">true</item>
         </style>
 
         <!-- Base toolbar theme -->
