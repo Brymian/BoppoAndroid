@@ -13,23 +13,52 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="100dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/ivIcon"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
+        <android.support.v7.widget.CardView
+            android:id="@+id/cvEpisodeImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginRight="10dp"
-            android:background="@android:color/black"
-            android:layout_alignParentLeft="true"/>
+            android:layout_alignParentLeft="true"
+            android:elevation="12dp"
+            card_view:cardCornerRadius="50dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9">
+            <ImageView
+                android:id="@+id/ivEpisodeImage"
+                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:background="@android:color/black"/>
+            <android.support.v7.widget.CardView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:elevation="12dp"
+                card_view:cardCornerRadius="17dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                android:layout_gravity="bottom|right">
+                <ImageView
+                    android:id="@+id/ivEpisodeLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="34dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/holo_red_dark"/>
+            </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
         <TextView
             android:id="@+id/tvEpisodeTitle"
-            android:layout_toRightOf="@+id/ivIcon"
+            android:layout_toRightOf="@+id/cvEpisodeImage"
             android:layout_alignParentTop="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -37,7 +66,7 @@
         <TextView
             android:id="@+id/tvEpisodeHostUsername"
             android:layout_below="@+id/tvEpisodeTitle"
-            android:layout_toRightOf="@+id/ivIcon"
+            android:layout_toRightOf="@+id/cvEpisodeImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/darker_gray"
@@ -45,7 +74,7 @@
         <TextView
             android:id="@+id/tvEpisodeNum"
             android:layout_below="@+id/tvEpisodeHostUsername"
-            android:layout_toRightOf="@+id/ivIcon"
+            android:layout_toRightOf="@+id/cvEpisodeImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@android:color/darker_gray"
