@@ -11,13 +11,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.objects.Event;
 
 public class SearchTabFragmentEpisodes extends Fragment {
 
@@ -42,26 +45,28 @@ public class SearchTabFragmentEpisodes extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                /* BRYANT, REVISIT THIS */
-                /*
-                new EventRequest(getActivity()).getEventDataByName(SearchActivity.etSearch.getText().toString(), new EventListCallback() {
+                new EventRequest(getActivity()).getEventDataByName(SearchActivity.etSearch.getText().toString(), new StringCallback() {
                     @Override
-                    public void done(List<Event> eventList) {
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostUsername = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<String> episodeNum = new ArrayList<>();
-                        if(eventList.size() > 0){
-                            for(int i = 0; i < eventList.size(); i++){
-                                episodeEid.add(eventList.get(i).eid);
-                                episodeTitle.add(eventList.get(i).eventName);
-                                episodeHostUsername.add(eventList.get(i).eventHostFirstName + " " + eventList.get(i).eventHostLastName);//suppose to be eventHostName
-                                if (eventList.get(i).eventEndDatetime.isEmpty()){
-                                    episodeNum.add(eventList.get(i).eventViewCount.toString());
-                                }
-                                else {
-                                    episodeNum.add(eventList.get(i).eventStartDatetime + " " + eventList.get(i).eventEndDatetime);
-                                }
+                    public void done(String string) {
+                        try{
+                            List<String> episodeTitle = new ArrayList<>();
+                            List<String> episodeHostUsername = new ArrayList<>();
+                            List<Integer> episodeEid = new ArrayList<>();
+                            List<String> episodeNum = new ArrayList<>();
+
+                            JSONObject jsonObject = new JSONObject(string);
+                            String episodesString = jsonObject.getString("events");
+                            JSONArray episodesArray = new JSONArray(episodesString);
+
+                            for (int i = 0; i < episodesArray.length(); i++){
+                                JSONObject episodeObj = episodesArray.getJSONObject(i);
+                                String episodeHostString = episodeObj.getString("eventHost");
+                                JSONObject episodeHostObj = new JSONObject(episodeHostString);
+
+                                episodeTitle.add(episodeObj.getString("eventName"));
+                                episodeHostUsername.add(episodeHostObj.getString("username"));
+                                episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
+                                episodeNum.add(episodeObj.getString("eventViewCount") + " views");
                             }
 
                             recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_episodes);
@@ -70,12 +75,13 @@ public class SearchTabFragmentEpisodes extends Fragment {
                             recyclerView.setLayoutManager(layoutManager);
                             recyclerView.setAdapter(adapter);
                         }
+                        catch (JSONException e){
+                            e.printStackTrace();
+                        }
                     }
                 });
-                */
             }
         });
-
 
         return view;
     }

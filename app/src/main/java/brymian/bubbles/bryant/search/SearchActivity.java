@@ -17,7 +17,6 @@ public class SearchActivity extends AppCompatActivity{
     Toolbar mToolbar;
     public static EditText etSearch;
     TabLayout tabLayout;
-    ViewPager viewPager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -34,18 +33,20 @@ public class SearchActivity extends AppCompatActivity{
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_white_24dp), 0, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_my_location_black_24dp), 1, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        viewPager = (ViewPager) findViewById(R.id.pager);
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final SearchActivityPagerAdapter pagerAdapter= new SearchActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount() ) ;
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
             @Override
             public void onPageSelected(int position) {
+                tabLayout.getTabAt(position).select();
                 if (position == 0) {
                     etSearch.setHint(R.string.Search_Users);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_white_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_my_location_black_24dp);
 
-                } else if (position == 1) {
+                }
+                else if (position == 1) {
                     etSearch.setHint(R.string.Search_Episodes);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_my_location_white_24dp);
@@ -53,16 +54,16 @@ public class SearchActivity extends AppCompatActivity{
             }
 
         });
-        viewPager.setCurrentItem(0);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int index = tab.getPosition();
+                viewPager.setCurrentItem(tab.getPosition());
                 try {
-                    viewPager.setCurrentItem(index);
                     if(index == 0){
                         tab.setIcon(R.mipmap.ic_people_white_24dp);
-                    }else if(index == 1){
+                    }
+                    else if(index == 1){
                         tab.setIcon(R.mipmap.ic_my_location_white_24dp);
                     }
                 } catch (NullPointerException | IllegalStateException npe) {
@@ -75,7 +76,8 @@ public class SearchActivity extends AppCompatActivity{
                 int index = tab.getPosition();
                 if(index == 0){
                     tab.setIcon(R.mipmap.ic_people_black_24dp);
-                }else if(index == 1){
+                }
+                else if(index == 1){
                     tab.setIcon(R.mipmap.ic_my_location_black_24dp);
                 }
             }
