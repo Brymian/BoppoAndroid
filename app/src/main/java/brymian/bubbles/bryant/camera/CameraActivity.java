@@ -132,8 +132,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             ivFlash.setImageResource(R.mipmap.ic_flash_on_white_24dp);
             flashLightOff();
         }
-        //setAutoFocus();
-
+        setAutoFocus();
     }
 
 
@@ -198,8 +197,25 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     protected void onPause() {
         super.onPause();
         if(mCamera != null){
+            mCamera.stopPreview();
+            mCamera.setPreviewCallback(null);
+            //mPreview.getHolder().removeCallback(mPreview);
             mCamera.release();
             mCamera = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mCamera == null){
+            preview.removeAllViews();
+            mCamera = getCameraInstance();
+            mPreview = new CameraPreview(this, mCamera);
+            preview = (FrameLayout) findViewById(R.id.camera_activity);
+            preview.addView(mPreview);
+            mHolder = mPreview.getHolder();
+
         }
     }
 
