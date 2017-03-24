@@ -17,6 +17,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallba
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
@@ -530,7 +531,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByRadius(-74.2, 40.7, 50.0, new StringCallback() {
             @Override
             public void done(String string) {
@@ -544,7 +545,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(3, "Blocked", new UserListCallback() {
             @Override
@@ -866,50 +867,6 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
-            @Override
-            public void done(String string) {
-
-                System.out.println("<!!!> JSON STRING: <!!!>");
-                System.out.println(string);
-                System.out.println("<!!!> END OF JSON STRING: <!!!>");
-
-                try
-                {
-                    HTTPConnection httpConnection = new HTTPConnection();
-                    JSONArray jArray = new JSONArray(string);
-                    for (int i = 0; i < jArray.length(); i++)
-                    {
-                        JSONObject jArray_jObject = jArray.getJSONObject(i);
-                        JSONObject jImage = jArray_jObject.getJSONObject("image");
-                        System.out.println("<!> IMAGE #: " + i + " <!>");
-
-                        System.out.println("User Image ID: " + jImage.getLong("uiid"));
-                        System.out.println("User ID: " + getIntegerObjectFromObject(jImage.get("uid")));
-                        System.out.println("User Image Sequence: " + getIntegerObjectFromObject(jImage.get("userImageSequence")));
-                        System.out.println("User Image Profile Sequence: " + getIntegerObjectFromObject(jImage.get("userImageProfileSequence")));
-                        System.out.println("User Image Path: " +
-                            httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
-                        System.out.println("User Image Name: " + jImage.getString("userImageName"));
-                        System.out.println("User Image Privacy Label: " + jImage.getString("userImagePrivacyLabel"));
-                        System.out.println("User Image Purpose Label: " + jImage.getString("userImagePurposeLabel"));
-                        System.out.println("User Image GPS Latitude: " + getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")));
-                        System.out.println("User Image GPS Longitude: " + getDoubleObjectFromObject(jImage.get("userImageGpsLongitude")));
-                        System.out.println("User Image Upload Timestamp: " + jImage.getString("userImageUploadTimestamp"));
-                    }
-                }
-                catch (JSONException jsone) { jsone.printStackTrace(); }
-
-            }
-        });
-        new UserImageRequest(this).getImagesByEid(59, new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println(string);
-            }
-        });
-        */
-        /*
         new EventUserRequest(this).getEventUsersData("Joined", 56, new StringCallback() {
             @Override
             public void done(String string) {
@@ -937,6 +894,36 @@ public class TESTActivity extends Activity {
                     jsone.printStackTrace();
                 }
                 *
+            }
+        });
+        */
+        new EventUserImageRequest(this).setEuiEventProfileSequence(59, 26, (short)2, new StringCallback() {
+            @Override
+            public void done(String string)
+            {
+                System.out.println(string);
+            }
+        });
+        new UserImageRequest(this).getImagesByEid(59, true, new StringCallback() {
+            @Override
+            public void done(String string)
+            {
+                System.out.println(string);
+            }
+        });
+        new UserImageRequest(this).getImagesByEid(59, false, new StringCallback() {
+            @Override
+            public void done(String string)
+            {
+                System.out.println(string);
+            }
+        });
+        /*
+        new UserImageRequest(this).getImagesByEid(59, null, new StringCallback() {
+            @Override
+            public void done(String string)
+            {
+                System.out.println(string);
             }
         });
         */

@@ -45,14 +45,10 @@ public class UserImageRequest {
 
 
 
-    public void addImagesToEvent(Integer eid, List<Integer> uiids, StringCallback stringCallback) {
-        pd.show();
-        new AddImagesToEvent(eid, uiids, stringCallback).execute();
-    }
 
-    public void getImagesByEid(Integer eid, StringCallback stringCallback) {
+    public void getImagesByEid(Integer eid, Boolean euiProfileIndicator, StringCallback stringCallback) {
         pd.show();
-        new GetImagesByEid(eid, stringCallback).execute();
+        new GetImagesByEid(eid, euiProfileIndicator, stringCallback).execute();
     }
 
     public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, Boolean eventIndicator,
@@ -98,68 +94,18 @@ public class UserImageRequest {
 
 
 
-    private class AddImagesToEvent extends AsyncTask<Void, Void, String> {
-
-        Integer eid;
-        List<Integer> uiids;
-        StringCallback stringCallback;
-
-        private AddImagesToEvent(Integer eid, List<Integer> uiids, StringCallback stringCallback) {
-            this.eid = eid;
-            this.uiids = uiids;
-            this.stringCallback = stringCallback;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-
-            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=addImagesToEvent";
-
-            Post request = new Post();
-
-            try {
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("eid", getNullOrValue(eid));
-                JSONArray jsonArray = new JSONArray(uiids);
-                jsonObject.put("uiids", jsonArray);
-                String jsonString = jsonObject.toString();
-
-                String response = request.post(url, jsonString);
-
-                return response;
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-                return null;
-            }
-            catch (JSONException jsone)
-            {
-                jsone.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String string) {
-            pd.dismiss();
-            stringCallback.done(string);
-
-            super.onPostExecute(string);
-        }
-
-    }
-
 
 
     private class GetImagesByEid extends AsyncTask<Void, Void, String> {
 
         Integer eid;
+        Boolean euiProfileIndicator;
         StringCallback stringCallback;
 
-        private GetImagesByEid(Integer eid, StringCallback stringCallback) {
+        private GetImagesByEid(Integer eid, Boolean euiProfileIndicator, StringCallback stringCallback)
+        {
             this.eid = eid;
+            this.euiProfileIndicator = euiProfileIndicator;
             this.stringCallback = stringCallback;
         }
 
@@ -170,10 +116,11 @@ public class UserImageRequest {
 
             Post request = new Post();
 
-            try {
-
+            try
+            {
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("eid", getNullOrValue(eid));
+                jsonObject.put("eid", eid);
+                jsonObject.put("euiProfileIndicator", getNullOrValue(euiProfileIndicator));
                 String jsonString = jsonObject.toString();
 
                 String response = request.post(url, jsonString);

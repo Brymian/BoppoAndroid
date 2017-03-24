@@ -40,6 +40,11 @@ public class Miscellaneous {
                 return JSONObject.NULL;
             else
                 return (String)object;
+        else if (object instanceof Short)
+            if ((Short)object == -1)
+                return JSONObject.NULL;
+            else
+                return (Short)object;
         else if (object instanceof Integer)
             if ((Integer)object == -1)
                 return JSONObject.NULL;
@@ -60,7 +65,7 @@ public class Miscellaneous {
         else if (object == null)
             return JSONObject.NULL;
 
-        return "ERROR: Unsupported data type: " + object.getClass();
+        return "ERROR: Unsupported data type in getNullOrValue method: " + object.getClass();
     }
 
     public static Boolean getBooleanObjectFromObject(Object object)

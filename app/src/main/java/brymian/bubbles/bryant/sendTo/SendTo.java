@@ -28,6 +28,7 @@ import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 public class SendTo extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
@@ -136,7 +137,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
             for(int i = 0; i < singleEpisodeList.size(); i++){
                 Episode singleEpisode = singleEpisodeList.get(i);
                 if(singleEpisode.getIsSelected()){
-                    new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
+                    new EventUserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             Log.e("UITE", string);
