@@ -1,9 +1,12 @@
 <component name="libraryTable">
   <library name="mediarouter-v7-22.0.0">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.android/build-cache/881f637cf6c135ff0a3244785b3f3c4b58e5a038/output/annotations.zip!/" />
+    </ANNOTATIONS>
     <CLASSES>
-      <root url="jar://$USER_HOME$/.android/build-cache/0cd8d6c59e0c4b5648d5a1f4fe5fba9ee5cbb505/output/jars/libs/internal_impl-22.0.0.jar!/" />
-      <root url="file://$USER_HOME$/.android/build-cache/0cd8d6c59e0c4b5648d5a1f4fe5fba9ee5cbb505/output/res" />
-      <root url="jar://$USER_HOME$/.android/build-cache/0cd8d6c59e0c4b5648d5a1f4fe5fba9ee5cbb505/output/jars/classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/jars/libs/internal_impl-22.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/mediarouter-v7/22.0.0/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

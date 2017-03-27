@@ -2,11 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:clickable="true"
-    android:elevation="5dp">
+    android:background="@android:color/black">
     <ImageView
         android:id="@+id/ivProfilePicture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:transitionName="profile_edit_image_transition"/>
 </LinearLayout>

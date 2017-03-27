@@ -1,15 +1,21 @@
 package brymian.bubbles.bryant.main;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +25,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -123,7 +130,22 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             /* Profile */
             case R.id.cvMyProfile:
-                startActivity(new Intent(getActivity(), ProfileActivity.class).putExtra("profile", "logged in user").putExtra("username", SaveSharedPreference.getUsername(getActivity())).putExtra("uid", SaveSharedPreference.getUserUID(getActivity())));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    View statusBar = getActivity().findViewById(android.R.id.statusBarBackground);
+                    View navigationBar = getActivity().findViewById(android.R.id.navigationBarBackground);
+                    View image = getActivity().findViewById(R.id.ivProfilePicture);
+
+                    List<Pair<View, String>> pairs = new ArrayList<>();
+                    pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                    pairs.add(Pair.create(image, image.getTransitionName()));
+
+                    Bundle options = ActivityOptions.makeSceneTransitionAnimation(getActivity(), pairs.toArray(new Pair[pairs.size()])).toBundle();
+                    startActivity(new Intent(getContext(), ProfileActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(getActivity())), options);
+                }
+                else {
+                    startActivity(new Intent(getActivity(), ProfileActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(getActivity())));
+                }
                 break;
 
             case R.id.cvMyEpisodes:
