@@ -735,8 +735,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void downloadEpisodePictures(){
-
-        new UserImageRequest(this).getImagesByEid(getEid(), false, new StringCallback() {
+        new UserImageRequest(this).getImagesByEid(getEid(), new StringCallback() {
             @Override
             public void done(String string) {
                 try{

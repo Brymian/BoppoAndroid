@@ -34,13 +34,15 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"/>
+                android:layout_marginRight="10dp"
+                android:transitionName="profile_activity_image_trans"/>
             <TextView
                 android:id="@+id/tvUserUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivProfilePicture"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/ivProfilePicture" />
+                android:transitionName="username_trans"/>
             <TextView
                 android:id="@+id/tvUserFirstLastName"
                 android:layout_width="wrap_content"
