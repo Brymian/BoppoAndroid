@@ -508,6 +508,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getEpisodeInfo(int eid){
+        /** BRYANT FIX THIS **/
+        /*
         new EventRequest(this).getEventData(eid, new EventCallback() {
             @Override
             public void done(Event event) {
@@ -546,6 +548,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+        */
     }
 
     private void setIsParticipant(){

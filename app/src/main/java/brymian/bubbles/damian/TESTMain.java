@@ -1,6 +1,7 @@
 package brymian.bubbles.damian;
 
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.NewsFeedRequest;
 
 /**
@@ -12,12 +13,14 @@ public class TESTMain
     public static void main (String[] args)
     {
         /*
-        Integer uid = 2;
-        Integer max = 5;
+        Integer eid = 59;
+        Integer uiid = 26;
+        Short euiEventProfileSequence = 2;
 
-        new NewsFeedRequest(this).getNewsEvents(uid, max, new StringCallback() {
+        new EventUserImageRequest(this).setEuiEventProfileSequence(eid, uiid, euiEventProfileSequence, new StringCallback() {
             @Override
-            public void done(String string) {
+            public void done(String string)
+            {
                 System.out.println(string);
             }
         });

@@ -58,10 +58,10 @@ public class EventRequest {
         new GetEid(eventHostUid, eventName, integerCallback).execute();
     }
 
-    public void getEventData(int eid, EventCallback eventCallback)
+    public void getEventData(int eid, StringCallback stringCallback)
     {
         pd.show();
-        new GetEventData(eid, eventCallback).execute();
+        new GetEventData(eid, stringCallback).execute();
     }
 
     public void getEventDataByRadius(Double longitude, Double latitude, Double radius, StringCallback stringCallback)
@@ -305,19 +305,19 @@ public class EventRequest {
 
 
 
-    private class GetEventData extends AsyncTask<Void, Void, Event> {
+    private class GetEventData extends AsyncTask<Void, Void, String> {
 
         int eid;
-        EventCallback eventCallback;
+        StringCallback stringCallback;
 
-        private GetEventData(int eid, EventCallback eventCallback)
+        private GetEventData(int eid, StringCallback stringCallback)
         {
             this.eid = eid;
-            this.eventCallback = eventCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected Event doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/EventRequest.php?function=getEventData";
 
             Post request = new Post();
@@ -330,28 +330,7 @@ public class EventRequest {
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
 
-                JSONObject jEvent = new JSONObject(response);
-
-                Event event = new Event(
-                    getIntegerObjectFromObject(jEvent.get("eid")),
-                    getIntegerObjectFromObject(jEvent.get("eventHostUid")),
-                    jEvent.getString("eventName"),
-                    jEvent.getString("eventHostUsername"),
-                    jEvent.getString("eventHostFirstName"),
-                    jEvent.getString("eventHostLastName"),
-                    jEvent.getString("eventInviteTypeLabel"),
-                    jEvent.getString("eventPrivacyLabel"),
-                    getBooleanObjectFromObject(jEvent.get("eventImageUploadAllowedIndicator")),
-                    jEvent.getString("eventStartDatetime"),
-                    jEvent.getString("eventEndDatetime"),
-                    getDoubleObjectFromObject(jEvent.get("eventGpsLatitude")),
-                    getDoubleObjectFromObject(jEvent.get("eventGpsLongitude")),
-                    getIntegerObjectFromObject(jEvent.get("eventLikeCount")),
-                    getIntegerObjectFromObject(jEvent.get("eventDislikeCount")),
-                    jEvent.getLong("eventViewCount")
-                );
-
-                return event;
+                return response;
             }
             catch (IOException ioe)
             {
@@ -366,11 +345,11 @@ public class EventRequest {
         }
 
         @Override
-        protected void onPostExecute(Event event) {
+        protected void onPostExecute(String string) {
             pd.dismiss();
-            eventCallback.done(event);
+            stringCallback.done(string);
 
-            super.onPostExecute(event);
+            super.onPostExecute(string);
         }
 
     }
