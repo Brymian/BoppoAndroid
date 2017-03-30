@@ -25,6 +25,7 @@
                     app:layout_collapseMode="pin"
                     app:layout_scrollFlags="scroll|enterAlways"/>
                 <ImageView
+                    android:id="@+id/ivEpisodeProfileImage"
                     app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,7 +139,7 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                android:id="@+id/cvHostInfo"
+                android:id="@+id/cvEpisodeHostInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
@@ -154,23 +155,22 @@
                     android:paddingRight="10dp"
                     android:gravity="center_vertical">
                     <ImageView
-                        android:id="@+id/ivIcon"
+                        android:id="@+id/ivEpisodeHostImage"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
                         android:layout_marginRight="10dp"
-                        android:background="@android:color/black"
                         android:layout_alignParentLeft="true"/>
                     <TextView
                         android:id="@+id/tvEpisodeHostUsername"
                         android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/ivIcon"
+                        android:layout_toRightOf="@+id/ivEpisodeHostImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <TextView
                         android:id="@+id/tvEpisodeHostName"
                         android:layout_below="@+id/tvEpisodeHostUsername"
-                        android:layout_toRightOf="@+id/ivIcon"
+                        android:layout_toRightOf="@+id/ivEpisodeHostImage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/darker_gray"

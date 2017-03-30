@@ -1,27 +1,34 @@
 package brymian.bubbles.bryant.profile;
 
 
+import android.app.ActivityOptions;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -70,12 +77,22 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivProfilePicture:
-                Log.e("k", "here");
-                ProfileEditViewImage profileEditViewImage = new ProfileEditViewImage();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.profile_edit, profileEditViewImage);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    View statusBar = findViewById(android.R.id.statusBarBackground);
+                    View navigationBar = findViewById(android.R.id.navigationBarBackground);
+                    View image = findViewById(R.id.ivProfilePicture);
+
+                    List<Pair<View, String>> pairs = new ArrayList<>();
+                    pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                    pairs.add(Pair.create(image, image.getTransitionName()));
+
+                    Bundle options = ActivityOptions.makeSceneTransitionAnimation(this, pairs.toArray(new Pair[pairs.size()])).toBundle();
+                    startActivity(new Intent(this, ProfileEditViewImage.class), options);
+                }
+                else {
+                    startActivity(new Intent(this, ProfileEditViewImage.class));
+                }
                 break;
 
             case R.id.tvChangeProfilePicture:

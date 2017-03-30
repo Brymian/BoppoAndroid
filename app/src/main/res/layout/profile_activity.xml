@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
-                android:theme="@style/AppColor"
+                android:theme="@color/AppColor"
                 android:textColor="@android:color/white"
                 android:textAppearance="@android:style/TextAppearance.Small"/>
             <android.support.v7.widget.CardView

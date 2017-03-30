@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -96,9 +97,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
         rvUserEpisodes = (RecyclerView) findViewById(R.id.rvUserEpisodes);
 
+        //supportPostponeEnterTransition();
+
         if(uid != 0){
             setFriendshipStatus(uid);
-            getProfilePictures(uid);
             getFriendsNum(uid);
             //getEpisodesNum(uid);
         }
@@ -218,6 +220,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     private void setFriendshipStatus(int uid){
         if (uid == SaveSharedPreference.getUserUID(this)){
             setUserProfileInfo("logged in user");
+            getProfilePictures(SaveSharedPreference.getUserUID(this));
             setUID(SaveSharedPreference.getUserUID(this));
             setUsername(SaveSharedPreference.getUsername(this));
             mToolbar.setTitle(SaveSharedPreference.getUsername(this));
@@ -229,6 +232,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 @Override
                 public void done(String string) {
                     setUserProfileInfo(string);
+                    getProfilePictures(innerUid);
                     new ServerRequestMethods(ProfileActivity.this).getUserData(innerUid, new UserCallback() {
                         @Override
                         public void done(User user) {
@@ -422,14 +426,51 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getProfilePictures(int uid){
-        new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
-            @Override
-            public void done(List<Image> imageList) {
-                if (imageList.size() > 0) {
-                    Picasso.with(ProfileActivity.this).load(imageList.get(0).userImagePath).into(ivProfilePicture);
+        if (getFriendShipStatus().equals("logged in user")){
+            Log.e("get", "good");
+            Picasso.with(ProfileActivity.this)
+                    .load(SaveSharedPreference.getUserProfileImagePath(this))
+                    .fit()
+                    .noFade()
+                    .centerCrop()
+                    .into(ivProfilePicture, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            supportStartPostponedEnterTransition();
+                        }
+
+                        @Override
+                        public void onError() {
+                            supportStartPostponedEnterTransition();
+                        }
+                    });
+        }
+        else {
+            Log.e("get", "bad");
+            new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
+                @Override
+                public void done(List<Image> imageList) {
+                    if (imageList.size() > 0) {
+                        Picasso.with(ProfileActivity.this)
+                                .load(imageList.get(0).userImagePath)
+                                .fit()
+                                .centerCrop()
+                                .into(ivProfilePicture, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        supportStartPostponedEnterTransition();
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                        supportStartPostponedEnterTransition();
+                                    }
+                                });
+                    }
                 }
-            }
-        });
+            });
+        }
+
     }
 
     private void setUID(int uid){

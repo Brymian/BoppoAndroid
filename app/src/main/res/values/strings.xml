@@ -65,16 +65,19 @@
     <string name="Change_start_date">Change start date</string>
     <string name="Change_profile_picture">Change profile picture</string>
     <string name="CHOOSE_FROM_OUR_COLLECTION">CHOOSE FROM OUR COLLECTION:</string>
+    <string name="Choose_logo">Choose logo</string>
     <string name="Comments">Comments</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Create_Episode">Create Episode</string>
     <string name="CREATED">&#160;created</string>
+    <string name="Crop_Image">Crop Image</string>
     <string name="Current_Location">Current Location</string>
     <string name="Current_Password">Current Password</string>
     <string name="Decline">Decline</string>
     <string name="Delete_episode">Delete episode</string>
     <string name="Do_not_display_again">Don\'t display again</string>
     <string name="Done">Done</string>
+    <string name="Edit_episode">Edit Episode</string>
     <string name="Edit_profile">Edit profile</string>
     <string name="Email">Email</string>
     <string name="End_Episode">End episode</string>
@@ -90,6 +93,7 @@
     <string name="Full_name">Full name</string>
     <string name="Gallery">Gallery</string>
     <string name="Hosting">Hosting</string>
+    <string name="Image_and_Logo">Image &amp; Logo</string>
     <string name="Invites_successfully_sent">Invite(s) successfully sent!</string>
     <string name="JOINED">&#160;joined</string>
     <string name="Later">Later</string>
@@ -130,6 +134,7 @@
     <string name="Remove_as_friend">Remove as friend</string>
     <string name="Report">Report</string>
     <string name="Report_user">Report user</string>
+    <string name="Rotate">Rotate</string>
     <string name="Save">Save</string>
     <string name="Search">Search&#8230;</string>
     <string name="Search_Episodes">Search Episodes&#8230;</string>
@@ -146,7 +151,7 @@
     <string name="Top_Episodes">Top Episodes</string>
     <string name="Unblock">UNBLOCK</string>
     <string name="Upload_From">Upload From:</string>
-    <string name="UPLOAD_IMAGE">UPLOAD IMAGE FROM</string>
+    <string name="UPLOAD_IMAGE">Upload image</string>
     <string name="Users">Users</string>
     <string name="Username">Username</string>
     <string name="Vibration">Vibration</string>

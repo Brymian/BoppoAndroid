@@ -4,16 +4,17 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,18 +27,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.io.IOException;
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.camera.CameraActivity;
+import brymian.bubbles.bryant.cropImage.CropImageActivity;
 import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 
 public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
@@ -45,19 +48,20 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     EditText etEpisodeTitle;
     CheckBox cbEndDateTime ,cbPrivate, cbCurrentLocation;
     String episodeTitle ,privacy;
-    TextView tvCamera, tvGallery, tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvAt;
-    ImageView ivImagePreview;
+    TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvAt;
+    ImageView ivEpisodeImage;
     FloatingActionButton fabDone;
     double latitude;
     double longitude;
+    int uiid;
     String year, month, dayOfMonth, hourOfDay, minute, second;
 
     long calendarTimeInMillis;
     boolean isSelected = false;
 
-    int DONE_CODE = 1;
+    int DONE_CODE = 3;
     int CAMERA_CODE = 2;
-    int GALLERY_CODE = 3;
+    int GALLERY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -98,20 +102,19 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         tvEndTime.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvEndTime.setTextColor(Color.GRAY);
 
-        cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
-        cbPrivate.setOnCheckedChangeListener(this);
+        //cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
+        //cbPrivate.setOnCheckedChangeListener(this);
 
         cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
         cbCurrentLocation.setOnCheckedChangeListener(this);
 
-        tvCamera = (TextView) findViewById(R.id.tvCamera);
-        tvCamera.setOnClickListener(this);
+        tvUploadImage = (TextView) findViewById(R.id.tvUploadImage);
+        tvUploadImage.setOnClickListener(this);
 
-        tvGallery = (TextView) findViewById(R.id.tvGallery);
-        tvGallery.setOnClickListener(this);
+        tvChooseLogo = (TextView) findViewById(R.id.tvChooseLogo);
+        tvChooseLogo.setOnClickListener(this);
 
-        ivImagePreview = (ImageView) findViewById(R.id.ivImagePreview);
-        ivImagePreview.setVisibility(View.GONE);
+        ivEpisodeImage = (ImageView) findViewById(R.id.ivEpisodeImage);
 
         setPrivacy("Public");
         setLatitude(SaveSharedPreference.getLatitude(this));
@@ -132,6 +135,14 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 timeAlertDialog();
                 break;
 
+            case R.id.tvUploadImage:
+                uploadImageDialog();
+                break;
+
+            case R.id.tvChooseLogo:
+                chooseLogoDialog();
+                break;
+            /*
             case R.id.tvCamera:
                 startActivityForResult(new Intent(this, CameraActivity.class), CAMERA_CODE);
                 break;
@@ -142,7 +153,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
                 break;
-
+            */
             case R.id.fabDone:
                 Log.e("upload" , getDate() + " " + getTime());
                 new EventRequest(EpisodeCreate.this).createEvent(
@@ -161,6 +172,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                                 Log.e("createEvent", string);
                                 for(String something: string.split(" ")){
                                     if(something.equals("Success.")){
+                                        uploadImage();
                                         startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), DONE_CODE);
                                     }
                                     else if(something.equals("Duplicate")){
@@ -173,18 +185,33 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void uploadImage(){
+        new ServerRequestMethods(EpisodeCreate.this).uploadImage(
+                SaveSharedPreference.getUserUID(EpisodeCreate.this),
+                imageName(),
+                "Regular",
+                "Public",
+                0,
+                0,
+                BitMapToString(((BitmapDrawable) ivEpisodeImage.getDrawable()).getBitmap()),
+                new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Log.e("uploadImage", string);
+                        setUiid(Integer.parseInt(string));
+                    }
+                }
 
+        );
+    }
+
+    private void setImageToEpisode(){
+
+    }
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
-            case R.id.cbPrivate:
-                if(isChecked){
-                    privacy = "Private";
-                }
-                else{
-                    privacy = "Public";
-                }
-                break;
+
 
             case R.id.cbCurrentLocation:
                 if (!isChecked){
@@ -238,14 +265,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         else if (requestCode == GALLERY_CODE){
             if(resultCode == RESULT_OK) {
                 if (data != null) {
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                        ivImagePreview.setVisibility(View.VISIBLE);
-                        ivImagePreview.setImageBitmap(bitmap);
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    byte[] byteArray = data.getByteArrayExtra("image");
+                    Bitmap imageDecoded = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                    ivEpisodeImage.setImageBitmap(imageDecoded);
                 }
             }
         }
@@ -265,7 +287,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         calendarView.setMinDate(getMinDate());
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 setSelectedDate(year, month, dayOfMonth, true);
                 setDate(String.valueOf(year), String.valueOf(month), String.valueOf(dayOfMonth));
                 tvStartDate.setText(getDateToDisplay());
@@ -501,6 +523,73 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return  getHourSimple(String.valueOf(hourOfDay)) + ":" + minute + " " + amPM;
     }
 
+    private void uploadImageDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_upload_image_alertdialog, null);
+
+        TextView tvCamera = (TextView) alertLayout.findViewById(R.id.tvCamera);
+        TextView tvGallery = (TextView) alertLayout.findViewById(R.id.tvGallery);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        final AlertDialog dialog = alert.create();
+
+        tvCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        tvGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(EpisodeCreate.this, CropImageActivity.class), GALLERY_CODE);
+                dialog.dismiss();
+            }
+        });
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    private void chooseLogoDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_alertdialog, null);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        final AlertDialog dialog = alert.create();
+
+
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    public String BitMapToString(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] b = baos.toByteArray();
+        return Base64.encodeToString(b, Base64.DEFAULT);
+    }
+
+    private String imageName(){
+        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
+        return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
+    }
+
     private void setPrivacy(String privacy){
         this.privacy = privacy;
     }
@@ -523,6 +612,14 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     private double getLongitude(){
         return longitude;
+    }
+
+    private void setUiid(int uiid){
+        this.uiid = uiid;
+    }
+
+    private int getUiid(){
+        return this.uiid;
     }
 
 }

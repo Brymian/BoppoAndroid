@@ -22,61 +22,15 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_margin="10dp">
-                <LinearLayout
-                    android:id="@+id/llPrivate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:text="@string/Private"
-                        android:textAppearance="@android:style/TextAppearance.Medium"/>
-                    <CheckBox
-                        android:id="@+id/cbPrivate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="20dp"/>
-                </LinearLayout>
-                <View
-                    android:id="@+id/vPrivate"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/LightGrayAndroid"/>
-                <LinearLayout
-                    android:id="@+id/llMap"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:text="@string/Map"
-                        android:textAppearance="@android:style/TextAppearance.Medium"/>
-                    <CheckBox
-                        android:id="@+id/cbMap"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingRight="20dp"/>
-                </LinearLayout>
-                <View
-                    android:id="@+id/vMap"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/LightGrayAndroid"/>
                 <TextView
-                    android:id="@+id/tvChangeStartDate"
+                    android:id="@+id/tvEditEpisode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
-                    android:text="@string/Change_start_date"
+                    android:text="@string/Edit_episode"
                     android:textAppearance="@android:style/TextAppearance.Medium"/>
                 <View
-                    android:id="@+id/vChangeStartDate"
+                    android:id="@+id/vEditEpisode"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/LightGrayAndroid"/>

@@ -12,13 +12,13 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +28,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,8 +50,9 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.profile.ProfileActivity;
+import brymian.bubbles.bryant.sendTo.Episode;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
@@ -57,7 +60,6 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
-import brymian.bubbles.objects.Event;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
@@ -65,15 +67,19 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     public static List<Bitmap> episodeImage = new ArrayList<>();
     TextView  tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvRating, tvViewCount, tvCommentsNumber;
     FloatingActionButton fabPlay;
-    ImageView ivLike, ivDislike, ivAddComment, ivParticipants, ivMap, ivAddImage;
+    ImageView ivEpisodeProfileImage, ivLike, ivDislike, ivAddComment, ivParticipants, ivMap, ivAddImage, ivEpisodeHostImage;
     EditText etAddComment;
     Toolbar mToolbar;
+    CardView cvEpisodeHostInfo;
     RecyclerView rvComments;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     //int ADD_PARTICIPANTS_CODE = 123;
-    private int eid;
-    private boolean isHost, isParticipant, isStarted, isEnded;
+    private int eid, hostUid;
+
+    int year, month, day, hour, minute, second;
+
+    private boolean isHost, isParticipant, isStarted, isEnded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +107,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         }
         /*----------------------------------------------------------------------------------------*/
 
+        ivEpisodeProfileImage = (ImageView) findViewById(R.id.ivEpisodeProfileImage);
+
         tvEpisodeHostName = (TextView) findViewById(R.id.tvEpisodeHostName);
         tvEpisodeHostUsername = (TextView) findViewById(R.id.tvEpisodeHostUsername);
         tvLikeCount = (TextView) findViewById(R.id.tvLikeCount);
@@ -119,14 +127,19 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         ivMap.setOnClickListener(this);
         ivAddImage = (ImageView) findViewById(R.id.ivAddImage);
         ivAddImage.setOnClickListener(this);
+        cvEpisodeHostInfo = (CardView) findViewById(R.id.cvEpisodeHostInfo);
+        cvEpisodeHostInfo.setOnClickListener(this);
+        ivEpisodeHostImage = (ImageView) findViewById(R.id.ivEpisodeHostImage);
         tvCommentsNumber = (TextView) findViewById(R.id.tvCommentsNumber);
         etAddComment = (EditText) findViewById(R.id.etAddComment);
         ivAddComment = (ImageView) findViewById(R.id.ivAddComment);
         ivAddComment.setOnClickListener(this);
         rvComments = (RecyclerView) findViewById(R.id.rvComments);
+        setDateTime();
+        getEpisodeProfilePictures(eid);
+        getEpisodeInfo(eid);
         setEid(eid);
         incrementViewCount(eid);
-        getEpisodeInfo(eid);
         getEpisodeComments();
         setIsParticipant();
 
@@ -174,6 +187,10 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.ivAddImage:
 
+                break;
+
+            case R.id.cvEpisodeHostInfo:
+                startActivity(new Intent(this, ProfileActivity.class).putExtra("uid", getHostUid()));
                 break;
 
             case R.id.fabPlay:
@@ -282,7 +299,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
 
                         JSONObject object = new JSONObject(string);
                         JSONArray jArray  = object.getJSONArray("comments");
-                        Log.e("comments", string);
                         tvCommentsNumber.setText(String.valueOf(jArray.length()));
                         for (int i = 0; i < jArray.length(); i++){
                             JSONObject jArray_jObject = jArray.getJSONObject(i);
@@ -508,47 +524,113 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getEpisodeInfo(int eid){
-        /** BRYANT FIX THIS **/
-        /*
-        new EventRequest(this).getEventData(eid, new EventCallback() {
+        new EventRequest(this).getEventData(eid, new StringCallback() {
             @Override
-            public void done(Event event) {
-                mToolbar.setTitle(event.eventName);
-                tvEpisodeHostName.setText(event.eventHostFirstName + " " + event.eventHostLastName);
-                tvEpisodeHostUsername.setText(event.eventHostUsername);
-                tvLikeCount.setText(String.valueOf(event.eventLikeCount));
-                tvDislikeCount.setText(String.valueOf(event.eventDislikeCount));
-                tvViewCount.setText(String.valueOf(event.eventViewCount) + " views");
+            public void done(String string) {
+                try{
+                    JSONObject episodeInfoObject = new JSONObject(string);
+                    mToolbar.setTitle(episodeInfoObject.getString("eventName"));
+                    tvLikeCount.setText(episodeInfoObject.getString("eventLikeCount"));
+                    tvDislikeCount.setText(episodeInfoObject.getString("eventDislikeCount"));
+                    tvViewCount.setText(episodeInfoObject.getString("eventViewCount") + " views");
 
-                if (event.eventLikeCount == 0 && event.eventDislikeCount == 0){
-                    tvRating.setText("0.0%");
-                } else {
-                    double total = (double) event.eventDislikeCount + (double) event.eventLikeCount;
-                    double dislikePercent = 100 * ((double) event.eventDislikeCount / total);
-                    double rating = 100 - dislikePercent;
-                    tvRating.setText(String.valueOf(round(rating, 2)) + "%");
+                    String episodeHostInfoString = episodeInfoObject.getString("eventHost");
+                    JSONObject episodeHostInfoObject = new JSONObject(episodeHostInfoString);
+                    tvEpisodeHostName.setText(episodeHostInfoObject.getString("firstName") + " " + episodeHostInfoObject.getString("lastName"));
+                    tvEpisodeHostUsername.setText(episodeHostInfoObject.getString("username"));
+                    setHostUid(Integer.valueOf(episodeHostInfoObject.getString("uid")));
+
+                    String episodeHostImageString = episodeHostInfoObject.getString("eventHostUserProfileImage");
+                    JSONObject episodeHostImageObject = new JSONObject(episodeHostImageString);
+                    Picasso.with(EpisodeActivity.this).load(episodeHostImageObject.getString("userImagePath")).fit().centerCrop().into(ivEpisodeHostImage);
+
+                    int likeCount = Integer.valueOf(episodeInfoObject.getString("eventLikeCount"));
+                    int dislikeCount = Integer.valueOf(episodeInfoObject.getString("eventDislikeCount"));
+                    if ( likeCount == 0 && dislikeCount == 0){
+                        tvRating.setText("0.0%");
+                    } else {
+                        double total = (double) dislikeCount + (double) likeCount;
+                        double dislikePercent = 100 * ((double) dislikeCount / total);
+                        double rating = 100 - dislikePercent;
+                        tvRating.setText(String.valueOf(round(rating, 2)) + "%");
+                    }
+
+                    if (Integer.valueOf(episodeHostInfoObject.getString("uid")) == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
+                        setIsHost(true);
+                    }
+                    else{
+                        setIsHost(false);
+                    }
+
+                    if (episodeInfoObject.getString("eventStartDatetime").equals("null")){
+                        setIsStarted(false);
+                    }
+                    else {
+                        setIsStarted(true);
+                    }
+
+                    if (episodeInfoObject.getString("eventEndDatetime").equals("null")){
+                        setIsEnded(false);
+                    }
+                    else {
+                        String[] dateTime, dateArray, timeArray;
+                        String startTime = episodeInfoObject.getString("eventEndDateTime");
+                        dateTime = startTime.split("\\s");
+                        dateArray = dateTime[0].split("-");
+                        timeArray = dateTime[1].split(":");
+
+                        if (year > Integer.valueOf(dateArray[0])){ //if current year is greater than eventStartDate year, automatically add into List
+                            setIsEnded(true);
+                        }
+                        else if (year == Integer.valueOf(dateArray[0])){ //if current year is equal to eventStartDate year
+                            if (month > Integer.valueOf(dateArray[1])){
+                                setIsEnded(true);
+                            }
+                            else if (month == Integer.valueOf(dateArray[1])){
+                                if (day > Integer.valueOf(dateArray[2])){
+                                    setIsEnded(true);
+                                }
+                                else if (day == Integer.valueOf(dateArray[2])){
+                                    if (hour > Integer.valueOf(timeArray[0])){
+                                        setIsEnded(true);
+                                    }
+                                    else if (hour == Integer.valueOf(timeArray[0])){
+                                        if (minute > Integer.valueOf(timeArray[1])){
+                                            setIsEnded(true);
+                                        }
+                                        else if (minute == Integer.valueOf(timeArray[1])){
+                                            if (second > Integer.valueOf(timeArray[2])){
+                                                setIsEnded(true);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
                 }
 
-                if (event.eventHostUid == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
-                    setIsHost(true);
-                } else{
-                    setIsHost(false);
-                }
-
-                if (event.eventStartDatetime.equals("null")){
-                    setIsStarted(false);
-                } else {
-                    setIsStarted(true);
-                }
-
-                if (event.eventEndDatetime.equals("null")){
-                    setIsEnded(false);
-                } else {
-                    setIsEnded(true);
-                }
             }
         });
-        */
+    }
+
+    private void setDateTime(){
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = new Date();
+        String[] dateTime = dateFormat.format(date).split("\\s");
+        String[] dateArray = dateTime[0].split("-");
+        String[] timeArray = dateTime[1].split(":");
+        this.year = Integer.valueOf(dateArray[0]);
+        this.month = Integer.valueOf(dateArray[1]);
+        this.day = Integer.valueOf(dateArray[2]);
+        this.hour = Integer.valueOf(timeArray[0]);
+        this.minute = Integer.valueOf(timeArray[1]);
+        this.second = Integer.valueOf(timeArray[2]);
     }
 
     private void setIsParticipant(){
@@ -578,36 +660,17 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_activity_menu_alertdialog, null);
 
-        LinearLayout llMap = (LinearLayout) alertLayout.findViewById(R.id.llMap);
-        CheckBox cbMap = (CheckBox) alertLayout.findViewById(R.id.cbMap);
-        cbMap.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
-        LinearLayout llPrivate = (LinearLayout) alertLayout.findViewById(R.id.llPrivate);
-        CheckBox cbPrivate = (CheckBox) alertLayout.findViewById(R.id.cbPrivate);
-        cbPrivate.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
-            }
-        });
+        TextView tvEditEpisode = (TextView) alertLayout.findViewById(R.id.tvEditEpisode);
         TextView tvEndEpisode = (TextView) alertLayout.findViewById(R.id.tvEndEpisode);
         tvEndEpisode.setOnClickListener(this);
-        TextView tvChangeStartDate = (TextView) alertLayout.findViewById(R.id.tvChangeStartDate);
-        tvChangeStartDate.setOnClickListener(this);
         TextView tvLeaveEpisode = (TextView) alertLayout.findViewById(R.id.tvLeaveEpisode);
         tvLeaveEpisode.setOnClickListener(this);
         TextView tvDeleteEpisode = (TextView) alertLayout.findViewById(R.id.tvDeleteEpisode);
         tvDeleteEpisode.setOnClickListener(this);
         TextView tvReport = (TextView) alertLayout.findViewById(R.id.tvReport);
 
-        View vPrivate = alertLayout.findViewById(R.id.vPrivate);
-        View vMap = alertLayout.findViewById(R.id.vMap);
+        View vEditEpisode = alertLayout.findViewById(R.id.vEditEpisode);
         View vEndEpisode = alertLayout.findViewById(R.id.vEndEpisode);
-        View vChangeStartDate = alertLayout.findViewById(R.id.vChangeStartDate);
         View vLeaveEpisode = alertLayout.findViewById(R.id.vLeaveEpisode);
         View vDeleteEpisode = alertLayout.findViewById(R.id.vDeleteEpisode);
 
@@ -619,43 +682,28 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         else if (getIsHost() && !getIsEnded()){
             tvLeaveEpisode.setVisibility(View.GONE);
             vLeaveEpisode.setVisibility(View.GONE);
-            tvChangeStartDate.setVisibility(View.GONE);
-            vChangeStartDate.setVisibility(View.GONE);
             vDeleteEpisode.setVisibility(View.GONE);
             tvReport.setVisibility(View.GONE);
         }
         else if (getIsHost() && getIsStarted() && getIsEnded()){
-            llPrivate.setVisibility(View.GONE);
-            vPrivate.setVisibility(View.GONE);
+
             tvEndEpisode.setVisibility(View.GONE);
             vEndEpisode.setVisibility(View.GONE);
-            tvChangeStartDate.setVisibility(View.GONE);
-            vChangeStartDate.setVisibility(View.GONE);
             tvLeaveEpisode.setVisibility(View.GONE);
             vLeaveEpisode.setVisibility(View.GONE);
             tvReport.setVisibility(View.GONE);
         }
         else if (getIsParticipant()){
-            llPrivate.setVisibility(View.GONE);
-            vPrivate.setVisibility(View.GONE);
-            llMap.setVisibility(View.GONE);
-            vMap.setVisibility(View.GONE);
+            tvEditEpisode.setVisibility(View.GONE);
+            vEditEpisode.setVisibility(View.GONE);
             tvEndEpisode.setVisibility(View.GONE);
             vEndEpisode.setVisibility(View.GONE);
-            tvChangeStartDate.setVisibility(View.GONE);
-            vChangeStartDate.setVisibility(View.GONE);
             tvDeleteEpisode.setVisibility(View.GONE);
             vDeleteEpisode.setVisibility(View.GONE);
         }
         else {
-            llPrivate.setVisibility(View.GONE);
-            vPrivate.setVisibility(View.GONE);
-            llMap.setVisibility(View.GONE);
-            vMap.setVisibility(View.GONE);
             tvEndEpisode.setVisibility(View.GONE);
             vEndEpisode.setVisibility(View.GONE);
-            tvChangeStartDate.setVisibility(View.GONE);
-            vChangeStartDate.setVisibility(View.GONE);
             tvLeaveEpisode.setVisibility(View.GONE);
             vLeaveEpisode.setVisibility(View.GONE);
             tvDeleteEpisode.setVisibility(View.GONE);
@@ -665,6 +713,15 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         final AlertDialog dialog = alert.create();
+
+        tvEditEpisode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+
         dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
@@ -734,12 +791,44 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         return isHost;
     }
 
-    private void downloadEpisodePictures(){
-    /** BRYANT FIX THIS **/
-    /*
-        new UserImageRequest(this).getImagesByEid(getEid(), new StringCallback() {
+    private void setHostUid(int hostUid){
+        this.hostUid = hostUid;
+    }
+
+    private int getHostUid(){
+        return hostUid;
+    }
+
+    private void getEpisodeProfilePictures(int eid){
+        new UserImageRequest(this).getImagesByEid(eid, true, new StringCallback() {
             @Override
             public void done(String string) {
+                try{
+                    List<String> episodeImagePath = new ArrayList<>();
+                    HTTPConnection httpConnection = new HTTPConnection();
+                    JSONArray jsonArray = new JSONArray(string);
+                    for(int i = 0; i < jsonArray.length(); i++){
+                        JSONObject jArray_jObject = jsonArray.getJSONObject(i);
+                        JSONObject jImage = jArray_jObject.getJSONObject("image");
+                        episodeImagePath.add(httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
+                    }
+                    if (jsonArray.length() >= 1){
+                        Picasso.with(EpisodeActivity.this).load(episodeImagePath.get(0)).fit().centerCrop().into(ivEpisodeProfileImage);
+                    }
+                }
+                catch (JSONException jsone){
+                    jsone.printStackTrace();
+                }
+            }
+        });
+    }
+
+
+    private void downloadEpisodePictures(){
+        new UserImageRequest(this).getImagesByEid(getEid(), false, new StringCallback() {
+            @Override
+            public void done(String string) {
+                Log.e("download", string);
                 try{
                     List<String> episodeImagePath = new ArrayList<>();
                     HTTPConnection httpConnection = new HTTPConnection();
@@ -752,12 +841,12 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         Log.e("image path", httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
                         new DownloadEpisodeImage(episodeImagePath.get(i)).execute();
                     }
-                }catch (JSONException jsone){
+                }
+                catch (JSONException jsone){
                     jsone.printStackTrace();
                 }
             }
         });
-        */
     }
 
     private class DownloadEpisodeImage extends AsyncTask<Void, Void, Bitmap> {

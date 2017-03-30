@@ -20,6 +20,7 @@
 
                 <!-- specify shared element transitions -->
                 <item name="android:windowContentTransitions">true</item>
+                <item name="android:windowAllowEnterTransitionOverlap">false</item>
                 <item name="android:windowEnterTransition">@transition/shared_element_transition</item>
                 <item name="android:windowExitTransition">@transition/shared_element_transition</item>
                 <item name="android:windowSharedElementEnterTransition">@transition/shared_element_transition</item>
@@ -27,8 +28,7 @@
         </style>
 
         <!-- Base toolbar theme -->
-        <style name="AppColor">
-                <item name="android:background">#3ae1a8</item>
-                <item name="android:backgroundTint">#3ae1a8</item>
-        </style>
+        <color name="AppColor">#3ae1a8</color>
+        <color name="LightGrayAndroid">#f9f9f9</color>
+        <color name="BlueText">#0645AD</color>
 </resources>

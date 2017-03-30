@@ -1,21 +1,40 @@
 package brymian.bubbles.bryant.profile;
 
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 
-import brymian.bubbles.R;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
-public class ProfileEditViewImage extends Fragment {
+import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+
+public class ProfileEditViewImage extends AppCompatActivity {
     ImageView ivProfilePicture;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.profile_edit_view_image, container, false);
-        ivProfilePicture = (ImageView) rootView.findViewById(R.id.ivProfilePicture);
-        return super.onCreateView(inflater, container, savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile_edit_view_image);
+        ivProfilePicture = (ImageView) findViewById(R.id.ivProfilePicture);
+
+        supportPostponeEnterTransition();
+
+        Picasso.with(this)
+                .load(SaveSharedPreference.getUserProfileImagePath(this))
+                .fit()
+                .noFade()
+                .into(ivProfilePicture, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        supportStartPostponedEnterTransition();
+                    }
+
+                    @Override
+                    public void onError() {
+                        supportStartPostponedEnterTransition();
+                    }
+                });
     }
 }

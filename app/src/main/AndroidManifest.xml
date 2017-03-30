@@ -72,8 +72,7 @@
         <activity android:name=".bryant.account.Email" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEdit" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEditViewImage" android:screenOrientation="portrait"/>
-        <!-- END OF PROFILE CLASSES -->
-
+        <activity android:name=".bryant.cropImage.CropImageActivity" android:screenOrientation="portrait" />        <!-- END OF PROFILE CLASSES -->
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
