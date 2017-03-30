@@ -441,7 +441,7 @@ public class TESTActivity extends Activity {
         });
         */
 
-        new EventRequest(this).getEventData(30, new StringCallback() {
+        new EventRequest(this).getEventData(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
@@ -924,7 +924,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventUserImageRequest(this).setEuiEventProfileSequence(59, 26, (short)2, new StringCallback() {
             @Override
             public void done(String string)
@@ -954,7 +954,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new UserImageRequest(this).getImagesByEid(59, null, new StringCallback() {
             @Override

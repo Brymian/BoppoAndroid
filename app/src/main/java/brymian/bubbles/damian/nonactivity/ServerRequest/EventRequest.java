@@ -20,6 +20,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
@@ -330,7 +331,7 @@ public class EventRequest {
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
 
-                return response;
+                return convertPathsToFull(response);
             }
             catch (IOException ioe)
             {
