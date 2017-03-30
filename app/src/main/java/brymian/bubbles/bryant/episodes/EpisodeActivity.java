@@ -735,6 +735,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void downloadEpisodePictures(){
+    /** BRYANT FIX THIS **/
+    /*
         new UserImageRequest(this).getImagesByEid(getEid(), new StringCallback() {
             @Override
             public void done(String string) {
@@ -755,6 +757,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+        */
     }
 
     private class DownloadEpisodeImage extends AsyncTask<Void, Void, Bitmap> {

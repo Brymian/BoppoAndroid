@@ -1,6 +1,6 @@
 package brymian.bubbles.damian.nonactivity;
 
-import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;;
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -42,6 +42,11 @@ public class Miscellaneous {
                 return (String)object;
         else if (object instanceof Integer)
             if ((Integer)object == -1)
+                return JSONObject.NULL;
+            else
+                return (Integer)object;
+        else if (object instanceof Short)
+            if ((Short)object == -1)
                 return JSONObject.NULL;
             else
                 return (Integer)object;

@@ -131,6 +131,8 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     }
 
     private void uploadImageToEpisode(){
+        /** BRYANT FIX THIS **/
+        /*
         List<Episode> singleEpisodeList = ((SendToEpisodesRecyclerAdapter) adapter).getEpisodeList();
         if (singleEpisodeList.size() >= 1){
             for(int i = 0; i < singleEpisodeList.size(); i++){
@@ -159,6 +161,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         else {
             startActivity(new Intent(SendTo.this, MainActivity.class));
         }
+        */
     }
 
 
