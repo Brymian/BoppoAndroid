@@ -126,6 +126,7 @@ public class ServerRequestMethods {
         new SetUserImagePurpose(uid, userImageSequence, purposeLabel, stringCallback).execute();
     }
 
+    /*
     public void uploadImage(int uid, String userImageName, String userImagePurposeLabel,
         String userImagePrivacyLabel, double userImageGpsLatitude, double userImageGpsLongitude,
         String userImage, StringCallback stringCallback)
@@ -134,6 +135,7 @@ public class ServerRequestMethods {
         new UploadImage(uid, userImageName, userImagePurposeLabel, userImagePrivacyLabel,
             userImageGpsLatitude, userImageGpsLongitude, userImage, stringCallback).execute();
     }
+    */
 
     public void deleteImage(int uid, int userImageSequence, StringCallback stringCallback)
     {
@@ -1095,6 +1097,10 @@ public class ServerRequestMethods {
 
     }
 
+    /****
+     **** DEPRECATED
+     ****/
+    /*
     private class UploadImage extends AsyncTask<Void, Void, String> {
 
         int uid;
@@ -1133,17 +1139,17 @@ public class ServerRequestMethods {
                 jsonImageObject.put("userImageGpsLatitude", userImageGpsLatitude);
                 jsonImageObject.put("userImageGpsLongitude", userImageGpsLongitude);
                 jsonImageObject.put("userImage", userImage);
-                /*
-                String jsonImage =
-                    "{\"uid\":" + uid + "," +
-                    " \"purpose\":\"" + purpose + "\"," +
-                    " \"name\":\"" + name + "\"," +
-                    " \"image\":\"" + image + "\"}";
-                System.out.println("[DAMIAN] uid: " + uid);
-                System.out.println("[DAMIAN] purpose: " + purpose);
-                System.out.println("[DAMIAN] name: " + name);
-                System.out.println("[DAMIAN] image length: " + image.length());
-                */
+
+                // String jsonImage =
+                //     "{\"uid\":" + uid + "," +
+                //     " \"purpose\":\"" + purpose + "\"," +
+                //     " \"name\":\"" + name + "\"," +
+                //     " \"image\":\"" + image + "\"}";
+                // System.out.println("[DAMIAN] uid: " + uid);
+                // System.out.println("[DAMIAN] purpose: " + purpose);
+                // System.out.println("[DAMIAN] name: " + name);
+                // System.out.println("[DAMIAN] image length: " + image.length());
+
                 String jsonImage = jsonImageObject.toString();
                 //System.out.println(jsonImage);
                 Post request = new Post();
@@ -1167,6 +1173,7 @@ public class ServerRequestMethods {
         }
 
     }
+    */
 
     private class DeleteImage extends AsyncTask<Void, Void, String> {
 

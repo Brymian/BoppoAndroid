@@ -129,15 +129,6 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-        /*
-        new UserImageRequest(this).uploadImage(1, "UserImageName", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println("RESPONSE: " + string);
-            }
-        });
-        */
         /*
         new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
             @Override
@@ -422,7 +413,9 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new EventRequest(this).createEvent(3, "Lel An Event 4", "Public", "Everyone", null, null, null, null, null, new StringCallback() {
+        new EventRequest(this).createEvent(3, "ROTFL! AN EVENT!", "Sport", "Soccer",
+            "Public", "Everyone", null, null, null, null, null, new StringCallback()
+        {
             @Override
             public void done(String string) {
                 System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
@@ -440,14 +433,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventData(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
@@ -822,7 +815,17 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new UserImageRequest(this).uploadImage(1, "UserImageName2", "Regular", "Public", 12.345, 67.890, "lel image", new StringCallback() {
+        // Worked as of 2017-04-03
+        new UserImageRequest(this).uploadImage(1, 11, "UserImageNameEEE", "Regular", "Public", 12.345, 67.890, "ROTFL image", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("RESPONSE: " + string);
+            }
+        });
+        */
+        /*
+        // Worked as of 2017-04-03
+        new UserImageRequest(this).uploadImage(1, 11, "imageName()2", "Profile", "Public", null, null, "kj43kjhhjgbj345jhb5546kjh452j3hjksd", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESPONSE: " + string);

@@ -43,14 +43,16 @@ public class EventRequest {
     }
 
     public void createEvent(
-        Integer eventHostUid, String eventName, String eventPrivacyLabel, String eventInviteTypeLabel,
+        Integer eventHostUid, String eventName, String eventCategoryLabel, String eventTypeLabel,
+        String eventPrivacyLabel, String eventInviteTypeLabel,
         Boolean eventImageUploadAllowedIndicator, String eventStartDatetime, String eventEndDatetime,
         Double eventGpsLatitude, Double eventGpsLongitude, StringCallback objectCallback)
     {
     pd.show();
-    new CreateEvent(eventHostUid, eventName, eventPrivacyLabel, eventInviteTypeLabel,
-        eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
-        eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
+    new CreateEvent(eventHostUid, eventName, eventCategoryLabel, eventTypeLabel,
+        eventPrivacyLabel, eventInviteTypeLabel, eventImageUploadAllowedIndicator,
+        eventStartDatetime, eventEndDatetime, eventGpsLatitude, eventGpsLongitude, objectCallback)
+        .execute();
     }
 
     public void getEid(Integer eventHostUid, String eventName, IntegerCallback integerCallback)
@@ -171,6 +173,8 @@ public class EventRequest {
 
         Integer eventHostUid;
         String  eventName;
+        String  eventCategoryLabel;
+        String  eventTypeLabel;
         String  eventPrivacyLabel;
         String  eventInviteTypeLabel;
         Boolean eventImageUploadAllowedIndicator;
@@ -180,8 +184,10 @@ public class EventRequest {
         Double  eventGpsLongitude;
         StringCallback stringCallback;
 
-        private CreateEvent(Integer eventHostUid, String eventName, String eventPrivacyLabel,
-            String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
+        private CreateEvent(Integer eventHostUid, String eventName,
+            String eventCategoryLabel, String eventTypeLabel,
+            String eventPrivacyLabel, String eventInviteTypeLabel,
+            Boolean eventImageUploadAllowedIndicator,
             String eventStartDatetime, String eventEndDatetime,
             Double eventGpsLatitude, Double eventGpsLongitude,
             StringCallback stringCallback)
@@ -189,6 +195,8 @@ public class EventRequest {
 
             this.eventHostUid = eventHostUid;
             this.eventName = eventName;
+            this.eventCategoryLabel = eventCategoryLabel;
+            this.eventTypeLabel = eventTypeLabel;
             this.eventPrivacyLabel = eventPrivacyLabel;
             this.eventInviteTypeLabel = eventInviteTypeLabel;
             this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;
@@ -211,6 +219,8 @@ public class EventRequest {
 
                 jsonEventObject.put("eventHostUid", getNullOrValue(eventHostUid));
                 jsonEventObject.put("eventName", getNullOrValue(eventName));
+                jsonEventObject.put("eventCategoryLabel", getNullOrValue(eventCategoryLabel));
+                jsonEventObject.put("eventTypeLabel", getNullOrValue(eventTypeLabel));
                 jsonEventObject.put("eventPrivacyLabel", getNullOrValue(eventPrivacyLabel));
                 jsonEventObject.put("eventInviteTypeLabel", getNullOrValue(eventInviteTypeLabel));
                 jsonEventObject.put("eventImageUploadAllowedIndicator",

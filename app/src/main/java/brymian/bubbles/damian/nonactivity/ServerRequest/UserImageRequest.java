@@ -462,8 +462,8 @@ public class UserImageRequest
                 jsonImageObject.put("userImageName", userImageName);
                 jsonImageObject.put("userImagePurposeLabel", userImagePurposeLabel);
                 jsonImageObject.put("userImagePrivacyLabel", userImagePrivacyLabel);
-                jsonImageObject.put("userImageGpsLatitude", userImageGpsLatitude);
-                jsonImageObject.put("userImageGpsLongitude", userImageGpsLongitude);
+                jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
+                jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));
                 jsonImageObject.put("userImage", userImage);
                 String jsonImage = jsonImageObject.toString();
                 Post request = new Post();

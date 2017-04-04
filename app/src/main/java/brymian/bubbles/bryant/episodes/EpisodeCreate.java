@@ -156,16 +156,18 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             */
             case R.id.fabDone:
                 Log.e("upload" , getDate() + " " + getTime());
+                /**** BRYANT NEEDS TO FIX THIS ****/
+                /*
                 new EventRequest(EpisodeCreate.this).createEvent(
-                        SaveSharedPreference.getUserUID(EpisodeCreate.this),      /* uid */
-                        getEpisodeTitle(),                          /* Episode Title */
-                        getPrivacy(),                               /* Episode Privacy */
-                        "Host",                                     /* Invite Type */
-                        true,                                       /* Episode Image Allowed Indicator */
-                        getDate() + " " + getTime(),                /* Episode start time */
-                        null,                                       /* Episode end time */
-                        getLatitude(),                              /* Episode GPS latitude */
-                        getLongitude(),                             /* Episode GPS longitude */
+                        SaveSharedPreference.getUserUID(EpisodeCreate.this),      // uid
+                        getEpisodeTitle(),                          // Episode Title
+                        getPrivacy(),                               // Episode Privacy
+                        "Host",                                     // Invite Type
+                        true,                                       // Episode Image Allowed Indicator
+                        getDate() + " " + getTime(),                // Episode start time
+                        null,                                       // Episode end time
+                        getLatitude(),                              // Episode GPS latitude
+                        getLongitude(),                             // Episode GPS longitude
                         new StringCallback() {
                             @Override
                             public void done(String string) {
@@ -182,10 +184,13 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                             }
                         });
                 break;
+                */
         }
     }
 
     private void uploadImage(){
+    /**** BRYANT NEEDS TO FIX THIS ****/
+    /*
         new ServerRequestMethods(EpisodeCreate.this).uploadImage(
                 SaveSharedPreference.getUserUID(EpisodeCreate.this),
                 imageName(),
@@ -203,7 +208,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 }
 
         );
+    */
     }
+
 
     private void setImageToEpisode(){
 
