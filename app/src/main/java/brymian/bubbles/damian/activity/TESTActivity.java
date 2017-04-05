@@ -967,6 +967,17 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
+        Integer searchedByUid =  0;
+        String searchedName = "";
+
+        new UserRequest(this).getUsersSearchedByName(searchedByUid, searchedName, new StringCallback() {
+            @Override
+            public void done(String string)
+            {
+                System.out.println(string);
+            }
+        });
     }
 
 }

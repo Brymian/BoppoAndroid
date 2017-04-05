@@ -13,6 +13,7 @@ import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 
 public class UserRequest {
@@ -36,6 +37,13 @@ public class UserRequest {
         pd.show();
         new SetUser(uid, first_name, last_name, email, phone, user_account_privacy_label,
             stringCallback).execute();
+    }
+
+    public void getUsersSearchedByName(Integer searchedByUid, String searchedName,
+       StringCallback stringCallback)
+    {
+        pd.show();
+        new GetUsersSearchedByName(searchedByUid, searchedName, stringCallback).execute();
     }
 
 
@@ -98,5 +106,61 @@ public class UserRequest {
 
             super.onPostExecute(string);
         }
+    }
+
+    private class GetUsersSearchedByName extends AsyncTask<Void, Void, String> {
+
+        Integer searchedByUid;
+        String  searchedName;
+        StringCallback stringCallback;
+
+        private GetUsersSearchedByName(Integer searchedByUid, String searchedName,
+            StringCallback stringCallback)
+        {
+            this.searchedByUid = searchedByUid;
+            this.searchedName = searchedName;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = httpConnection.getWebServerString() +
+                "AndroidIO/UserRequest.php?function=getUsersSearchedByName";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("searchedByUid", getNullOrValue(searchedByUid));
+                jsonObject.put("searchedName", getNullOrValue(searchedName));
+                String jsonString = jsonObject.toString();
+
+                String response = request.post(url, jsonString);
+
+                return convertPathsToFull(response);
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
+            //pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
     }
 }
