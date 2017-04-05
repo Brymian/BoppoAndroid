@@ -46,6 +46,12 @@ public class UserRequest {
         new GetUsersSearchedByName(searchedByUid, searchedName, stringCallback).execute();
     }
 
+    public void getFriends(Integer uid, StringCallback stringCallback)
+    {
+        pd.show();
+        new GetFriends(uid, stringCallback).execute();
+    }
+
 
 
     private class SetUser extends AsyncTask<Void, Void, String> {
@@ -135,6 +141,57 @@ public class UserRequest {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("searchedByUid", getNullOrValue(searchedByUid));
                 jsonObject.put("searchedName", getNullOrValue(searchedName));
+                String jsonString = jsonObject.toString();
+
+                String response = request.post(url, jsonString);
+
+                return convertPathsToFull(response);
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
+            //pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
+    }
+
+    private class GetFriends extends AsyncTask<Void, Void, String> {
+
+        Integer uid;
+        StringCallback stringCallback;
+
+        private GetFriends(Integer uid, StringCallback stringCallback)
+        {
+            this.uid = uid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = httpConnection.getWebServerString() + "AndroidIO/UserRequest.php?function=getFriends";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("uid", getNullOrValue(uid));
                 String jsonString = jsonObject.toString();
 
                 String response = request.post(url, jsonString);

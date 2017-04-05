@@ -455,19 +455,22 @@ public class UserImageRequest
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=uploadImage";
 
-            try {
+            try
+            {
                 JSONObject jsonImageObject = new JSONObject();
-                jsonImageObject.put("uid", uid);
-                jsonImageObject.put("userImageProfileSequence", userImageProfileSequence);
-                jsonImageObject.put("userImageName", userImageName);
-                jsonImageObject.put("userImagePurposeLabel", userImagePurposeLabel);
-                jsonImageObject.put("userImagePrivacyLabel", userImagePrivacyLabel);
+                jsonImageObject.put("uid", getNullOrValue(uid));
+                jsonImageObject.put("userImageProfileSequence", getNullOrValue(userImageProfileSequence));
+                jsonImageObject.put("userImageName", getNullOrValue(userImageName));
+                jsonImageObject.put("userImagePurposeLabel", getNullOrValue(userImagePurposeLabel));
+                jsonImageObject.put("userImagePrivacyLabel", getNullOrValue(userImagePrivacyLabel));
                 jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
                 jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));
-                jsonImageObject.put("userImage", userImage);
+                jsonImageObject.put("userImage", getNullOrValue(userImage));
+
                 String jsonImage = jsonImageObject.toString();
                 Post request = new Post();
                 String response = request.post(url, jsonImage);
+
                 return response;
             }
             catch (IOException ioe)

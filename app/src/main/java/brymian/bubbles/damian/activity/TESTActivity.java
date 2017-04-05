@@ -967,11 +967,16 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-        Integer searchedByUid =  0;
-        String searchedName = "";
-
-        new UserRequest(this).getUsersSearchedByName(searchedByUid, searchedName, new StringCallback() {
+        /*
+        new UserRequest(this).getUsersSearchedByName(1, "dam nie", new StringCallback() {
+            @Override
+            public void done(String string)
+            {
+                System.out.println(string);
+            }
+        });
+        */
+        new UserRequest(this).getFriends(1, new StringCallback() {
             @Override
             public void done(String string)
             {
