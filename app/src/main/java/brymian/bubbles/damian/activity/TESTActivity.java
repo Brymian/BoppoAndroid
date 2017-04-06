@@ -433,14 +433,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventRequest(this).getEventData(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-        */
+
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
@@ -967,7 +967,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+        /* // Works correctly as of 2017-04-05
         new UserRequest(this).getUsersSearchedByName(1, "dam nie", new StringCallback() {
             @Override
             public void done(String string)
@@ -976,6 +976,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /* // Works correctly as of 2017-04-05
         new UserRequest(this).getFriends(1, new StringCallback() {
             @Override
             public void done(String string)
@@ -983,6 +984,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
+        */
     }
 
 }
