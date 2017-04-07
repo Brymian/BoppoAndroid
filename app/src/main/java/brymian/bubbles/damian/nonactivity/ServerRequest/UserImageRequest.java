@@ -10,25 +10,23 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.IntegerCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.Image;
 
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getJsonNullableInt;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
+
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 
 public class UserImageRequest
 {
@@ -74,11 +72,12 @@ public class UserImageRequest
     public void setImage(Integer uiid, Integer userImageProfileSequence, String userImageName,
       String userImagePurposeLabel, String userImagePrivacyLabel,
       Double userImageGpsLatitude, Double userImageGpsLongitude,
-      StringCallback stringCallback) {
+      Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
+    {
         pd.show();
         new SetImage(uiid, userImageProfileSequence, userImageName, userImagePurposeLabel,
             userImagePrivacyLabel, userImageGpsLatitude, userImageGpsLongitude,
-            stringCallback).execute();
+            setOrNot, stringCallback).execute();
     }
 
     public void uploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
@@ -368,12 +367,17 @@ public class UserImageRequest
         String userImagePrivacyLabel;
         Double userImageGpsLatitude;
         Double userImageGpsLongitude;
+
+        Map<String,Boolean> setOrNot = new HashMap<String,Boolean>();
         StringCallback stringCallback;
 
         private SetImage(Integer uiid, Integer userImageProfileSequence, String userImageName,
             String userImagePurposeLabel, String userImagePrivacyLabel,
             Double userImageGpsLatitude, Double userImageGpsLongitude,
-            StringCallback stringCallback) {
+            Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
+        {
+            if (setOrNot.length != 7)
+                throw new SetOrNotException("Incorrect quantity of booleans set in the SetOrNot array.");
 
             this.uiid = uiid;
             this.userImageProfileSequence = userImageProfileSequence;
@@ -382,6 +386,15 @@ public class UserImageRequest
             this.userImagePrivacyLabel = userImagePrivacyLabel;
             this.userImageGpsLatitude = userImageGpsLatitude;
             this.userImageGpsLongitude = userImageGpsLongitude;
+
+            this.setOrNot.put("uiid", setOrNot[0]);
+            this.setOrNot.put("userImageProfileSequence", setOrNot[1]);
+            this.setOrNot.put("userImageName", setOrNot[2]);
+            this.setOrNot.put("userImagePurposeLabel", setOrNot[3]);
+            this.setOrNot.put("userImagePrivacyLabel", setOrNot[4]);
+            this.setOrNot.put("userImageGpsLatitude", setOrNot[5]);
+            this.setOrNot.put("userImageGpsLongitude", setOrNot[6]);
+
             this.stringCallback = stringCallback;
         }
 
@@ -390,6 +403,8 @@ public class UserImageRequest
             String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=setImage";
 
             try {
+                JSONObject jsonSetOrNotObject = new JSONObject(setOrNot);
+
                 JSONObject jsonImageObject = new JSONObject();
                 jsonImageObject.put("uiid", getNullOrValue(uiid));
                 jsonImageObject.put("userImageProfileSequence", getNullOrValue(userImageProfileSequence));
@@ -398,6 +413,8 @@ public class UserImageRequest
                 jsonImageObject.put("userImagePrivacyLabel", getNullOrValue(userImagePrivacyLabel));
                 jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
                 jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));
+                jsonImageObject.put("setOrNot", jsonSetOrNotObject);
+
                 String jsonImage = jsonImageObject.toString();
                 Post request = new Post();
                 String response = request.post(url, jsonImage);

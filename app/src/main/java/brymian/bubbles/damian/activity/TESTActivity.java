@@ -10,9 +10,11 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
@@ -129,6 +131,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
         /*
         new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
             @Override
@@ -152,12 +155,26 @@ public class TESTActivity extends Activity {
                 }
             }
         });
-        new UserImageRequest(this).setImage(7, 9, null, null, null, null, null, new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println(string);
-            }
-        });
+        */
+
+        try
+        {
+            new UserImageRequest(this).setImage(22, 9, null, null, null, 1.0, null,
+                new Boolean[]{false, false, false, false, false, true},
+                new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        System.out.println(string);
+                    }
+            });
+        }
+        catch (SetOrNotException sone)
+        {
+            sone.printStackTrace();
+            // Do something here, if need to handle this
+        }
+
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> images) {
@@ -433,14 +450,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventData(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
