@@ -387,7 +387,7 @@ public class UserImageRequest
             this.userImageGpsLatitude = userImageGpsLatitude;
             this.userImageGpsLongitude = userImageGpsLongitude;
 
-            this.setOrNot.put("uiid", setOrNot[0]);
+            this.setOrNot.put("uiid", null);
             this.setOrNot.put("userImageProfileSequence", setOrNot[1]);
             this.setOrNot.put("userImageName", setOrNot[2]);
             this.setOrNot.put("userImagePurposeLabel", setOrNot[3]);

@@ -157,6 +157,8 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
+        // Worked as of 2017-04-06
         try
         {
             new UserImageRequest(this).setImage(22, 9, null, null, null, 1.0, null,
@@ -173,6 +175,7 @@ public class TESTActivity extends Activity {
             sone.printStackTrace();
             // Do something here, if need to handle this
         }
+        */
 
         /*
         new UserImageRequest(this).getImagesByUidAndPurpose(2, "Profile", null, new ImageListCallback() {
@@ -1002,6 +1005,24 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
+        // Worked as of 2017-04-11
+        try
+        {
+            new EventUserRequest(this).setEventUser(59, 12, "Moderator", "Joined",
+                new Boolean[]{null, null, true, true},
+                new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        System.out.println(string);
+                    }
+            });
+        }
+        catch (SetOrNotException sone)
+        {
+            sone.printStackTrace();
+            // Do something here, if need to handle this
+        }
     }
 
 }
