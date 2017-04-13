@@ -44,10 +44,10 @@ public class EventUserRequest {
         new AddUserToEvent(eid, inviterUid, inviteeUid, stringCallback).execute();
     }
 
-    public void getEventUserData(Integer eid, Integer uid, EventUserCallback eventUserCallback)
+    public void getEventUserData(Integer eid, Integer uid, StringCallback StringCallback)
     {
         pd.show();
-        new GetEventUserData(eid, uid, eventUserCallback).execute();
+        new GetEventUserData(eid, uid, StringCallback).execute();
     }
 
     public void getEventUsersData(String eventUserInviteStatusTypeLabel, Integer eid, StringCallback stringCallback)
@@ -126,21 +126,21 @@ public class EventUserRequest {
 
 
 
-    private class GetEventUserData extends AsyncTask<Void, Void, EventUser> {
+    private class GetEventUserData extends AsyncTask<Void, Void, String> {
 
         Integer eid;
         Integer uid;
-        EventUserCallback eventUserCallback;
+        StringCallback stringCallback;
 
-        private GetEventUserData(Integer eid, Integer uid, EventUserCallback eventUserCallback)
+        private GetEventUserData(Integer eid, Integer uid, StringCallback stringCallback)
         {
             this.eid = eid;
             this.uid = uid;
-            this.eventUserCallback = eventUserCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected EventUser doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
                     "AndroidIO/EventUserRequest.php?function=getEventUserData";
 
@@ -156,20 +156,7 @@ public class EventUserRequest {
                 String jsonEventUserString = jsonEventUserObject.toString();
                 String response = request.post(url, jsonEventUserString);
 
-                if (response.equals("This user is not a member of this event."))
-                    return  null;
-                else
-                {
-                    jsonEventUserObject = new JSONObject(response);
-                    EventUser jsonEventUser = new EventUser(
-                        getIntegerObjectFromObject(jsonEventUserObject.get("eid")),
-                        getIntegerObjectFromObject(jsonEventUserObject.get("uid")),
-                        jsonEventUserObject.getString("eventUserTypeLabel"),
-                        jsonEventUserObject.getString("eventUserInviteStatusLabel"),
-                        jsonEventUserObject.getString("eventUserInviteStatusActionTimestamp")
-                    );
-                    return jsonEventUser;
-                }
+                return response;
             }
             catch (IOException ioe)
             {
@@ -184,11 +171,11 @@ public class EventUserRequest {
         }
 
         @Override
-        protected void onPostExecute(EventUser eventUser) {
+        protected void onPostExecute(String string) {
             pd.dismiss();
-            eventUserCallback.done(eventUser);
+            stringCallback.done(string);
 
-            super.onPostExecute(eventUser);
+            super.onPostExecute(string);
         }
 
     }

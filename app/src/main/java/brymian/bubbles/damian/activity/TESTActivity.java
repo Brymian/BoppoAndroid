@@ -16,6 +16,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
@@ -30,6 +31,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.Event;
+import brymian.bubbles.objects.EventUser;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 
@@ -453,14 +455,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventRequest(this).getEventData(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-        */
+
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
@@ -505,18 +507,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventUserRequest(this).getEventUserData(18, 4, new EventUserCallback() {
+
+        new EventUserRequest(this).getEventUserData(18, 4, new StringCallback() {
             @Override
-            public void done(EventUser eventUser) {
-                System.out.println("EID: " + eventUser.eid);
-                System.out.println("UID: " + eventUser.uid);
-                System.out.println("Event User Type Label: " + eventUser.eventUserTypeLabel);
-                System.out.println("Event User Invite Status Label: " + eventUser.eventUserInviteStatusLabel);
-                System.out.println("eventUserInviteStatusActionTimestamp: " + eventUser.eventUserInviteStatusActionTimestamp);
+            public void done(String string) {
+                System.out.println(string);
             }
         });
-        */
+
         /*
         new EventRequest(this).getEventDataByMember(3, new StringCallback() {
             @Override
@@ -1007,6 +1005,7 @@ public class TESTActivity extends Activity {
         */
 
         // Worked as of 2017-04-11
+        /*
         try
         {
             new EventUserRequest(this).setEventUser(59, 12, "Moderator", "Joined",
@@ -1023,6 +1022,7 @@ public class TESTActivity extends Activity {
             sone.printStackTrace();
             // Do something here, if need to handle this
         }
+        */
     }
 
 }
