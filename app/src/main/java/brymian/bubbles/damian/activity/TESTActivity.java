@@ -455,14 +455,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventData(59, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventRequest(this).deleteEvent(19, new StringCallback() {
             @Override
@@ -507,14 +507,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventUserRequest(this).getEventUserData(18, 4, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventRequest(this).getEventDataByMember(3, new StringCallback() {
             @Override
@@ -851,22 +851,10 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new UserImageRequest(this).addImagesToEvent(59, Arrays.asList(1, 4, 7), new StringCallback() {
+        new EventUserImageRequest(this).addImagesToEvent(59, new Integer[]{2, 3}, new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println("<!!!> JSON STRING: <!!!>");
                 System.out.println(string);
-                System.out.println("<!!!> END OF JSON STRING: <!!!>");
-
-                try
-                {
-                    JSONArray jArray = new JSONArray(string);
-                    for (int i = 0; i < jArray.length(); i++)
-                    {
-                        System.out.println("Status of Adding Image #" + i + " to UIID: " + jArray.get(i));
-                    }
-                }
-                catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
         */
@@ -914,14 +902,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventUserRequest(this).getEventUsersData("Joined", 56, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
             }
         });
-        */
+
         /*
         new NewsFeedRequest(this).getNewsEvents(1, 10, new StringCallback() {
             @Override

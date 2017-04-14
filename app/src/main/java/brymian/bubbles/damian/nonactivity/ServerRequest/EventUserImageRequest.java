@@ -37,7 +37,7 @@ public class EventUserImageRequest
 
 
 
-    public void addImagesToEvent(Integer eid, List<Integer> uiids, StringCallback stringCallback) {
+    public void addImagesToEvent(Integer eid, Integer[] uiids, StringCallback stringCallback) {
         pd.show();
         new AddImagesToEvent(eid, uiids, stringCallback).execute();
     }
@@ -56,10 +56,11 @@ public class EventUserImageRequest
     private class AddImagesToEvent extends AsyncTask<Void, Void, String> {
 
         Integer eid;
-        List<Integer> uiids;
+        Integer[] uiids;
         StringCallback stringCallback;
 
-        private AddImagesToEvent(Integer eid, List<Integer> uiids, StringCallback stringCallback) {
+        private AddImagesToEvent(Integer eid, Integer[] uiids, StringCallback stringCallback)
+        {
             this.eid = eid;
             this.uiids = uiids;
             this.stringCallback = stringCallback;
@@ -68,7 +69,7 @@ public class EventUserImageRequest
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = httpConnection.getWebServerString() + "AndroidIO/UserImageRequest.php?function=addImagesToEvent";
+            String url = httpConnection.getWebServerString() + "AndroidIO/EventUserImageRequest.php?function=addImagesToEvent";
 
             Post request = new Post();
 
