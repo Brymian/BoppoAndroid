@@ -1,21 +1,16 @@
 package brymian.bubbles.bryant.main;
 
-import android.app.ActivityOptions;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +20,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -33,6 +27,7 @@ import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.episodes.EpisodeMy;
 import brymian.bubbles.bryant.friends.FriendsActivity;
+import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
@@ -130,6 +125,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             /* Profile */
             case R.id.cvMyProfile:
+                /*
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     View statusBar = getActivity().findViewById(android.R.id.statusBarBackground);
                     View navigationBar = getActivity().findViewById(android.R.id.navigationBarBackground);
@@ -145,7 +141,9 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 }
                 else {
                     startActivity(new Intent(getActivity(), ProfileActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(getActivity())));
-                }
+                }*/
+                startActivity(new Intent(getActivity(), ProfileActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(getActivity())));
+
                 break;
 
             case R.id.cvMyEpisodes:
@@ -215,6 +213,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 @Override
                 public void done(List<Image> imageList) {
                     if (imageList.size() > 0) {
+                        Log.e("pathIF", imageList.get(0).userImagePath);
                         Picasso.with(getActivity()).load(imageList.get(0).userImagePath).fit().centerCrop().into(ivProfilePicture);
                         SaveSharedPreference.setUserProfileImagePath(getActivity(), imageList.get(0).userImagePath);
                     }
@@ -222,6 +221,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
             });
         }
         else {
+            Log.e("pathELSE", SaveSharedPreference.getUserProfileImagePath(getActivity()));
             Picasso.with(getActivity()).load(SaveSharedPreference.getUserProfileImagePath(getActivity())).fit().centerCrop().into(ivProfilePicture);
         }
 
@@ -260,25 +260,33 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
 
     private void logOut() {
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.alert_dialog_log_out, null);
+        View alertLayout = inflater.inflate(R.layout.main_tab_personal_logout_alertdialog, null);
+
+        TextView tvCancel = (TextView) alertLayout.findViewById(R.id.tvCancel);
+        TextView tvYes = (TextView) alertLayout.findViewById(R.id.tvYes);
+
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setView(alertLayout);
-        alert.setCancelable(false);
-        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
 
+        final AlertDialog dialog = alert.create();
+
+        tvCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
-        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
+        tvYes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getActivity(), AuthenticateActivity.class));
+            public void onClick(View v) {
                 SaveSharedPreference.clearAll(getApplicationContext());
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
             }
         });
-        AlertDialog dialog = alert.create();
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 }

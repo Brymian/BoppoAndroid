@@ -42,13 +42,13 @@ public class UserRequest {
     public void getUsersSearchedByName(Integer searchedByUid, String searchedName,
        StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new GetUsersSearchedByName(searchedByUid, searchedName, stringCallback).execute();
     }
 
     public void getFriends(Integer uid, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new GetFriends(uid, stringCallback).execute();
     }
 

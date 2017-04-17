@@ -133,6 +133,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
                         startActivity(new Intent(getActivity(), MainActivity.class));
+                        getActivity().finish();
                     }
                 }
             });

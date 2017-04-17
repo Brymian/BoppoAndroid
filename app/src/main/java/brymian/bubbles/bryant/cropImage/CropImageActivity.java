@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.cropImage;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;import android.os.Bundle;
 import android.os.Handler;
@@ -8,17 +9,28 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.edmodo.cropper.CropImageView;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.camera.CameraActivity;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.bryant.profile.ProfileEdit;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.objects.Image;
 
 public class CropImageActivity extends AppCompatActivity {
     Toolbar toolbar;
@@ -26,13 +38,22 @@ public class CropImageActivity extends AppCompatActivity {
     FloatingActionButton fabDone;
     private final int GALLERY_CODE = 1;
     private final int CAMERA_CODE = 2;
+    private String from;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+
+        String from = getIntent().getStringExtra("from");
+        setFrom(from);
+        if (from.equals("profileGallery") || from.equals("editGallery") || from.equals("gallery")){
+            Intent intent = new Intent();
+            intent.setType("image/*");
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+        }
+        else if(from.equals("profileCamera") || from.equals("editCamera")){
+            startActivityForResult(new Intent(this, CameraActivity.class), CAMERA_CODE);
+        }
 
         setContentView(R.layout.crop_image_activity);
 
@@ -55,9 +76,81 @@ public class CropImageActivity extends AppCompatActivity {
                 Intent intent = getIntent();
                 intent.putExtra("image", byteArray);
                 setResult(RESULT_OK, intent);
+                if (getFrom().equals("profileGallery") || getFrom().equals("profileCamera")){
+                    uploadProfileImage(Base64.encodeToString(byteArray, Base64.DEFAULT));
+                }
                 finish();
             }
         });
+    }
+
+    public static Bitmap scaleDownBitmap(Bitmap photo, int newHeight, Context context) {
+
+        final float densityMultiplier = context.getResources().getDisplayMetrics().density;
+
+        int h= (int) (newHeight*densityMultiplier);
+        int w= (int) (h * photo.getWidth()/((double) photo.getHeight()));
+
+        photo=Bitmap.createScaledBitmap(photo, w, h, true);
+
+        return photo;
+    }
+
+    private void uploadProfileImage(String encodedImage){
+        final String image = encodedImage;
+        new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                if (imageList.size() > 0) {
+                    Log.e("uiid", imageList.get(0).uiid + "");
+                    /**
+                    new ServerRequestMethods(CropImageActivity.this).deleteImage(SaveSharedPreference.getUserUID(CropImageActivity.this), imageList.get(0).uiid.intValue(), new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            Log.e("delete", string);
+                            new UserImageRequest(CropImageActivity.this).uploadImage(
+                                    SaveSharedPreference.getUserUID(CropImageActivity.this),
+                                    0,
+                                    imageName(),
+                                    "Profile",
+                                    "Public",
+                                    0.0,
+                                    0.0,
+                                    image, new StringCallback() {
+                                        @Override
+                                        public void done(String string) {
+                                            Log.e("upProfImage", string);
+                                        }
+                                    });
+                        }
+                    });
+                    **/
+                    /**
+                    new UserImageRequest(CropImageActivity.this).setImage(imageList.get(0).uiid.intValue(), 100, null, null, null, null, null, new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            Log.e("setImage", string);
+                            new UserImageRequest(CropImageActivity.this).uploadImage(
+                                    SaveSharedPreference.getUserUID(CropImageActivity.this),
+                                    0,
+                                    imageName(),
+                                    "Profile",
+                                    "Public",
+                                    0.0,
+                                    0.0,
+                                    image, new StringCallback() {
+                                        @Override
+                                        public void done(String string) {
+                                            Log.e("upProfImage", string);
+                                        }
+                                    });
+                        }
+                    });
+                     **/
+                }
+            }
+        });
+
     }
 
     @Override
@@ -67,6 +160,7 @@ public class CropImageActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 if (data != null) {
                     try {
+                        Log.e("data", data.getData() + " ");
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         cropImageView.setImageBitmap(bitmap);
                         cropImageView.setFixedAspectRatio(true);
@@ -113,17 +207,16 @@ public class CropImageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void goBackToEpisodeMy(){
-        setResultOkSoSecondActivityWontBeShown();
-        finish();
+    private String imageName(){
+        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
+        return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
     }
 
-    private void setResultOkSoSecondActivityWontBeShown() {
-        Intent intent = new Intent();
-        if (getParent() == null) {
-            setResult(Activity.RESULT_OK, intent);
-        } else {
-            getParent().setResult(Activity.RESULT_OK, intent);
-        }
+    private void setFrom(String from){
+        this.from = from;
+    }
+
+    private String getFrom(){
+        return this.from;
     }
 }

@@ -62,6 +62,17 @@ public class MainTabNewsFeed extends Fragment {
                                 String mutualEpisode = jsonObject.getString("friendsJoinedMutualEvent");
                                 JSONObject mutualEpisodeObject = new JSONObject(mutualEpisode);
 
+                                String mutualEpisodeProfileImage = mutualEpisodeObject.getString("eventProfileImages");
+                                JSONArray mutualEpisodeProfileImageArray = new JSONArray(mutualEpisodeProfileImage);
+                                String mutualEpisodeProfileImagePath;
+                                if (mutualEpisodeProfileImageArray.length() > 0){
+                                    JSONObject mutualEpisodeProfileObject = mutualEpisodeProfileImageArray.getJSONObject(0);
+                                    mutualEpisodeProfileImagePath = mutualEpisodeProfileObject.getString("euiPath");
+                                }
+                                else {
+                                    mutualEpisodeProfileImagePath = "empty";
+                                }
+
                                 String mutualFriend = jsonObject.getString("userList");
                                 JSONArray mutualFriendArray = new JSONArray(mutualFriend);
 
@@ -72,12 +83,13 @@ public class MainTabNewsFeed extends Fragment {
                                     JSONObject jsonObject1 = mutualFriendArray.getJSONObject(j);
                                     mutualUsernames.add(jsonObject1.getString("username"));
                                     mutualUids.add(Integer.valueOf(jsonObject1.getString("uid")));
-                                    String userProfileImage = jsonObject1.getString("userProfileImage");
-                                    JSONObject userProfileImageObj = new JSONObject(userProfileImage);
+                                    String userProfileImage = jsonObject1.getString("userProfileImages");
+                                    JSONArray userProfileImageArray = new JSONArray(userProfileImage);
+                                    JSONObject userProfileImageObj = userProfileImageArray.getJSONObject(0);
                                     mutualUserProfileImagePaths.add(userProfileImageObj.getString("userImagePath"));
                                     Log.e("j", jsonObject1.getString("username") + " " + jsonObject1.getString("uid") + " " + userProfileImageObj.getString("userImagePath"));
                                 }
-                                MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(Integer.valueOf(mutualEpisodeObject.getString("eid")), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusActionTimestamp"), mutualUsernames, mutualUids, mutualUserProfileImagePaths);
+                                MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(Integer.valueOf(mutualEpisodeObject.getString("eid")), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusActionTimestamp"), mutualUsernames, mutualUids, mutualUserProfileImagePaths, mutualEpisodeProfileImagePath);
                                 mainTabNewsFeedInfoList.add(infoMutual);
                                 break;
 
@@ -94,7 +106,7 @@ public class MainTabNewsFeed extends Fragment {
 
                                     */
                                 //MainTabNewsFeedInfo infoActive = new MainTabNewsFeedInfo(Integer.valueOf(activeEpisodeObject.getString("eid")), activeEpisodeObject.getString("eventName"), activeEpisodeObject.getString("eventEndDatetime"), activeUserObject.getString("username"), Integer.valueOf(activeUserObject.getString("uid")), activeUserProfileImageObj.getString("userProfileImage"));
-                                MainTabNewsFeedInfo infoActive = new MainTabNewsFeedInfo(55, "Example Event", "1232", "Example User", 1, "never");
+                                MainTabNewsFeedInfo infoActive = new MainTabNewsFeedInfo(55, "Example Event", "1232", "Example User", 1, "never", "empty");
                                 mainTabNewsFeedInfoList.add(infoActive);
 
                                 //Log.e("activeEvent", "userProfileImage: " + activeUserProfileImageObj.getString("UserProfileImage"));
@@ -106,19 +118,19 @@ public class MainTabNewsFeed extends Fragment {
                                 String user1 = friendsThatBecameFriendsObj.getString("user1");
                                 JSONObject user1Obj = new JSONObject(user1);
 
-                                String user1ProfileImage = user1Obj.getString("userProfileImage");
-                                JSONObject user1ProfileImageObj = new JSONObject(user1ProfileImage);
+                                String user1ProfileImage = user1Obj.getString("user1ProfileImages");
+                                JSONArray user1ProfileImageArray = new JSONArray(user1ProfileImage);
+                                JSONObject user1ProfileImageObj = user1ProfileImageArray.getJSONObject(0);
 
                                 String user2 = friendsThatBecameFriendsObj.getString("user2");
                                 JSONObject user2Obj = new JSONObject(user2);
 
-                                String user2ProfileImage = user2Obj.getString("userProfileImage");
-                                JSONObject user2ProfileImageObj = new JSONObject(user2ProfileImage);
+                                String user2ProfileImage = user2Obj.getString("user2ProfileImages");
+                                JSONArray user2ProfileImageArray = new JSONArray(user2ProfileImage);
+                                JSONObject user2ProfileImageObj = user2ProfileImageArray.getJSONObject(0);
 
                                 MainTabNewsFeedInfo infoBecame = new MainTabNewsFeedInfo(user1Obj.getString("username"),  Integer.valueOf(user1Obj.getString("uid")), user1ProfileImageObj.getString("userImagePath"), user2Obj.getString("username"), Integer.valueOf(user2Obj.getString("uid")), user2ProfileImageObj.getString("userImagePath"));
                                 mainTabNewsFeedInfoList.add(infoBecame);
-
-                                Log.e("becameFriends", "user1uid: " + user1Obj.getString("uid") + "\tuser1Username: " + user1Obj.getString("username") + "\tuser1ProfileImage: " + user1ProfileImageObj.getString("userImagePath") + "\tuser2Uid: " +user2Obj.getString("uid") + "\tuser2Username: " + user2Obj.getString("username") + "\tuser2ProfileImage: " + user2ProfileImageObj.getString("userImagePath"));
                                 break;
                             case "FriendCreatedEvent":
                                 String createdEpisode = jsonObject.getString("friendCreatedEvent");
@@ -127,12 +139,24 @@ public class MainTabNewsFeed extends Fragment {
                                 String createdUser = createdEpisodeObject.getString("eventHostUser");
                                 JSONObject createdUserObject = new JSONObject(createdUser);
 
-                                String createdUserProfileImage = createdUserObject.getString("userImage");
-                                JSONObject createdUserProfileImageObj = new JSONObject(createdUserProfileImage);
+                                String createdUserProfileImageString = createdUserObject.getString("userProfileImages");
+                                JSONArray createdUserProfileImageArray = new JSONArray(createdUserProfileImageString);
+                                JSONObject createdUserProfileImageObj = createdUserProfileImageArray.getJSONObject(0);
 
-                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(Integer.valueOf(createdEpisodeObject.getString("eid")), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventCreationTimestamp"), createdUserObject.getString("username"), Integer.valueOf(createdUserObject.getString("uid")), createdUserProfileImageObj.getString("userImagePath"));
+                                String createdProfileImages = createdEpisodeObject.getString("eventProfileImages");
+                                JSONArray createdProfileImagesArray = new JSONArray(createdProfileImages);
+                                String createdProfileImagePath;
+                                if (createdProfileImagesArray.length() > 0){
+                                    JSONObject createdProfileImageObject = createdProfileImagesArray.getJSONObject(0);
+                                    createdProfileImagePath = createdProfileImageObject.getString("euiPath");
+                                }
+                                else {
+                                    createdProfileImagePath = "empty";
+                                }
+
+
+                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(Integer.valueOf(createdEpisodeObject.getString("eid")), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventCreationTimestamp"), createdUserObject.getString("username"), Integer.valueOf(createdUserObject.getString("uid")), createdUserProfileImageObj.getString("userImagePath"), createdProfileImagePath);
                                 mainTabNewsFeedInfoList.add(info);
-                                Log.e("createdEvent", "eid: " + createdEpisodeObject.getString("eid") + "\ttitle: " + createdEpisodeObject.getString("eventName") + "\ttimestamp: " + createdEpisodeObject.getString("eventCreationTimestamp") + "\tusername: " + createdUserObject.getString("username") + "\tuid: " + createdUserObject.getString("uid") + "\timagePath: " + createdUserProfileImageObj.getString("userImagePath"));
                                 break;
 
                             case "FriendUploadedImage":
@@ -142,13 +166,12 @@ public class MainTabNewsFeed extends Fragment {
                                 String uploadedUser = uploadedImageObj.getString("user");
                                 JSONObject uploadedUserObj = new JSONObject(uploadedUser);
 
-                                String uploadedUserProfileImage = uploadedUserObj.getString("userImage");
-                                JSONObject uploadedUserProfileImageObj = new JSONObject(uploadedUserProfileImage);
+                                String uploadedUserProfileImage = uploadedUserObj.getString("userProfileImages");
+                                JSONArray uploadedUserProfileImageArray = new JSONArray(uploadedUserProfileImage);
+                                JSONObject uploadedUserProfileImageObj = uploadedUserProfileImageArray.getJSONObject(0);
 
                                 MainTabNewsFeedInfo infoUploadImage = new MainTabNewsFeedInfo(Integer.valueOf(uploadedUserObj.getString("uid")), uploadedUserObj.getString("username"), uploadedUserProfileImageObj.getString("userImagePath"), uploadedImageObj.getString("userImagePath"), uploadedImageObj.getString("userImagePurposeLabel"), uploadedImageObj.getString("userImageGpsLatitude"), uploadedImageObj.getString("userImageGpsLongitude"), uploadedImageObj.getString("userImageUploadTimestamp"), uploadedImageObj.getString("userImageLikeCount"), uploadedImageObj.getString("userImageDislikeCount"), uploadedImageObj.getString("userImageCommentCount"));
                                 mainTabNewsFeedInfoList.add(infoUploadImage);
-
-                                Log.e("UploadedImages"," uid: " + uploadedUserObj.getString("uid") + " username: " +  uploadedUserObj.getString("username") + " userProfileImagePath: " + uploadedUserProfileImageObj.getString("userImagePath") + " userUploadedImagePath: " + uploadedImageObj.getString("userImagePath") +" purposeLabel: " + uploadedImageObj.getString("userImagePurposeLabel") + " latitude: " + uploadedImageObj.getString("userImageGpsLatitude") + " longitude: " + uploadedImageObj.getString("userImageGpsLongitude") + " timestamp: " + uploadedImageObj.getString("userImageUploadTimestamp") + " likeCount: " + uploadedImageObj.getString("userImageLikeCount") + " dislikeCount: " + uploadedImageObj.getString("userImageDislikeCount") + " commentCount: "  + uploadedImageObj.getString("userImageCommentCount"));
                                 break;
                         }
                     }

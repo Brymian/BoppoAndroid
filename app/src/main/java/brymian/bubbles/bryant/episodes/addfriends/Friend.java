@@ -6,20 +6,16 @@ import java.io.Serializable;
 public class Friend implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    String username, firstLastName;
-    int uid;
-    boolean isSelected;
+    private String username, firstLastName, userImagePath;
+    private int uid;
+    private boolean isSelected;
 
-
-    public Friend(){
-
-    }
-
-    public Friend(String username, String firstLastName, int uid, boolean isSelected){
+    public Friend(String username, String firstLastName, int uid, String userImagePath, boolean isSelected){
         this.username = username;
         this.firstLastName = firstLastName;
         this.uid = uid;
         this.isSelected = isSelected;
+        this.userImagePath = userImagePath;
     }
 
     public void setUsername(String username){
@@ -44,6 +40,10 @@ public class Friend implements Serializable {
 
     public int getUid(){
         return uid;
+    }
+
+    public String getUserImagePath(){
+        return this.userImagePath;
     }
 
     public void setIsSelected(boolean isSelected){

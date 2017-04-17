@@ -48,7 +48,6 @@ public class MainTabEpisodes extends Fragment {
         rvAllTimeMostViews = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostViews);
         rvAllTimeTopRated = (RecyclerView) rootView.findViewById(R.id.rvAllTimeTopRated);
         rvAllTimeMostLikes = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostLikes);
-        rvAllTimeMostDislikes = (RecyclerView) rootView.findViewById(R.id.rvAllTimeMostDislikes);
 
 
         /* in order from top to bottom */
@@ -70,7 +69,7 @@ public class MainTabEpisodes extends Fragment {
             setAllTimeMostViewsEpisodes();
             setALlTimeTopRated();
             setAllTimeMostLikesEpisodes();
-            setAllTimeMostDislikes();
+            //setAllTimeMostDislikes();
             isEpisodesLoaded = true;
         }
     }

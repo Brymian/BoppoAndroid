@@ -7,7 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -17,23 +20,23 @@ import brymian.bubbles.bryant.profile.ProfileActivity;
 
 public class SearchRecyclerAdapterUsers extends RecyclerView.Adapter<SearchRecyclerAdapterUsers.RecyclerViewHolder> {
 
-    List<String> searchResultsFirstLastName;
-    static List<String> searchResultsUsername;
-    static List<String> searchResultsFriendStatus;
-    static List<Integer> searchResultsUid;
-    static Activity activity;
+    private List<String> searchResultsFirstLastName;
+    private List<String> searchResultsUsername;
+    private List<String> searchResultUserImagePath;
+    private static List<Integer> searchResultsUid;
+    private static Activity activity;
 
-    public SearchRecyclerAdapterUsers(Activity activity, List<String> searchResultsFirstLastName, List<String> searchResultsUsername, List<Integer> searchResultsUid,List<String> searchResultsFriendStatus){
+    public SearchRecyclerAdapterUsers(Activity activity, List<String> searchResultsFirstLastName, List<String> searchResultsUsername, List<Integer> searchResultsUid,List<String> searchResultUserImagePath){
         this.searchResultsFirstLastName = searchResultsFirstLastName;
-        SearchRecyclerAdapterUsers.searchResultsUsername = searchResultsUsername;
-        SearchRecyclerAdapterUsers.searchResultsFriendStatus = searchResultsFriendStatus;
+        this.searchResultsUsername = searchResultsUsername;
+        this.searchResultUserImagePath = searchResultUserImagePath;
         SearchRecyclerAdapterUsers.searchResultsUid = searchResultsUid;
         SearchRecyclerAdapterUsers.activity = activity;
     }
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_tab_fragment_users_recyclerview_row,parent, false );
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_tab_users_recyclerview_row,parent, false );
         return new RecyclerViewHolder(view);
     }
 
@@ -41,6 +44,7 @@ public class SearchRecyclerAdapterUsers extends RecyclerView.Adapter<SearchRecyc
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
         holder.tvSearchResultsFirstLastName.setText(searchResultsFirstLastName.get(position));
         holder.tvSearchUsername.setText(searchResultsUsername.get(position));
+        Picasso.with(activity).load(searchResultUserImagePath.get(position)).fit().centerCrop().into(holder.ivUserProfileImage);
     }
 
     @Override
@@ -50,16 +54,18 @@ public class SearchRecyclerAdapterUsers extends RecyclerView.Adapter<SearchRecyc
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvSearchResultsFirstLastName, tvSearchUsername;
+        ImageView ivUserProfileImage;
         CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvSearchResultsFirstLastName = (TextView) v.findViewById(R.id.tvSearchResultsFirstLastName);
             tvSearchUsername = (TextView) v.findViewById(R.id.tvSearchResultsUsername);
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
             cardView = (CardView) v.findViewById(R.id.card_view);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("username", searchResultsUsername.get(getAdapterPosition())).putExtra("uid", searchResultsUid.get(getAdapterPosition())).putExtra("profile", searchResultsFriendStatus.get(getAdapterPosition())));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", searchResultsUid.get(getAdapterPosition())));
                 }
             });
         }

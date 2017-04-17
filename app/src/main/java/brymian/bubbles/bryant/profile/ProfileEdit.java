@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -33,6 +34,7 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
+import brymian.bubbles.bryant.cropImage.CropImageActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
@@ -43,9 +45,9 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
     TextView tvChangeProfilePicture ,tvFirstLastName, tvUsername;
     ImageView ivProfilePicture;
 
-    int DONE_CODE = 1;
+    int GALLERY_CODE = 1;
     int CAMERA_CODE = 2;
-    int GALLERY_CODE = 3;
+    int DONE_CODE = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +61,7 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
         toolbar.setTitle(R.string.Edit_profile);
 
         ivProfilePicture = (ImageView) findViewById(R.id.ivProfilePicture);
-        ivProfilePicture.setOnClickListener(this);
+        //ivProfilePicture.setOnClickListener(this);
         
         tvChangeProfilePicture = (TextView) findViewById(R.id.tvChangeProfilePicture);
         tvChangeProfilePicture.setOnClickListener(this);
@@ -119,14 +121,9 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
         else if (requestCode == GALLERY_CODE){
             if(resultCode == RESULT_OK) {
                 if (data != null) {
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                        ivProfilePicture.setVisibility(View.VISIBLE);
-                        ivProfilePicture.setImageBitmap(bitmap);
-                    }
-                    catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    byte[] byteArray = data.getByteArrayExtra("image");
+                    Bitmap imageDecoded = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                    ivProfilePicture.setImageBitmap(imageDecoded);
                 }
             }
         }
@@ -157,6 +154,7 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
                     if (imageList.size() > 0) {
                         Picasso.with(ProfileEdit.this).load(imageList.get(0).userImagePath).into(ivProfilePicture);
                         SaveSharedPreference.setUserProfileImagePath(ProfileEdit.this,imageList.get(0).userImagePath);
+
                     }
                 }
             });
@@ -190,10 +188,8 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+                startActivityForResult(new Intent(ProfileEdit.this, CropImageActivity.class).putExtra("from", "profileGallery"), GALLERY_CODE);
+
             }
         });
 

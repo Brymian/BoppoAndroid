@@ -1,6 +1,5 @@
 package brymian.bubbles.bryant.friends;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +10,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +22,7 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import brymian.bubbles.objects.User;
 
 public class FriendsActivity extends AppCompatActivity{
@@ -105,41 +108,54 @@ public class FriendsActivity extends AppCompatActivity{
         });
     }
 
-    public static List<Integer> friendsUID = new ArrayList<>();
-    public static List<String> friendsStatus = new ArrayList<>();
     /* Checks and displays if use has any friends */
     private void getFriends(int uid){
-        new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
+        new UserRequest(this).getFriends(uid, new StringCallback() {
             @Override
-            public void done(List<User> users) {
+            public void done(String string) {
+                List<String> friendsFirstLastName = new ArrayList<>();
+                List<String> friendsUsername = new ArrayList<>();
+                List<Integer> friendsUid = new ArrayList<>();
+                List<String> friendsUserImagePath = new ArrayList<>();
                 try {
-                    setFriendListSize(users.size());
-                    List<String> friendsFirstLastName = new ArrayList<>();
-                    List<String> friendsUsername = new ArrayList<>();
-                    for (int i = 0; i < users.size(); i++) {
-                        friendsFirstLastName.add(i, users.get(i).getFirstName() + " " + users.get(i).getLastName());
-                        friendsUsername.add(i, users.get(i).getUsername());
-                        friendsUID.add(i, users.get(i).getUid());
-                        final int j = i;
-                        new ServerRequestMethods(FriendsActivity.this).getFriendStatus(SaveSharedPreference.getUserUID(FriendsActivity.this), users.get(i).getUid(), new StringCallback() {
-                            @Override
-                            public void done(String string) {
-                                friendsStatus.add(j, string);
-                            }
-                        });
+                    JSONObject jsonObject = new JSONObject(string);
+                    String friends = jsonObject.getString("friends");
+                    JSONArray jsonArray = new JSONArray(friends);
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject friendObject = jsonArray.getJSONObject(i);
+                        String friendsProfileImage = friendObject.getString("userProfileImages");
+                        JSONArray friendsProfileImageArray = new JSONArray(friendsProfileImage);
+                        String userImagePath;
+                        if (friendsProfileImageArray.length() > 0){
+                            JSONObject friendsProfileImageObject = friendsProfileImageArray.getJSONObject(0);
+                            userImagePath = friendsProfileImageObject.getString("userImagePath");
+                        }
+                        else {
+                            userImagePath = "empty";
+                        }
+
+                        String uid = friendObject.getString("uid");
+                        String fullName = friendObject.getString("firstName") + " " + friendObject.getString("lastName");
+                        String username = friendObject.getString("username");
+
+                        friendsFirstLastName.add(fullName);
+                        friendsUsername.add(username);
+                        friendsUid.add(Integer.valueOf(uid));
+                        friendsUserImagePath.add(userImagePath);
+
+                        adapter = new FriendsRecyclerAdapter(FriendsActivity.this, friendsFirstLastName, friendsUsername, friendsUid, friendsUserImagePath);
+                        layoutManager = new LinearLayoutManager(FriendsActivity.this);
+                        recyclerViewFriends.setLayoutManager(layoutManager);
+                        recyclerViewFriends.setNestedScrollingEnabled(false);
+                        recyclerViewFriends.setAdapter(adapter);
+
                     }
-                    adapter = new FriendsRecyclerAdapter(FriendsActivity.this, friendsFirstLastName, friendsUsername, friendsUID, friendsStatus);
-                    layoutManager = new LinearLayoutManager(FriendsActivity.this);
-                    recyclerViewFriends.setLayoutManager(layoutManager);
-                    recyclerViewFriends.setNestedScrollingEnabled(false);
-                    recyclerViewFriends.setAdapter(adapter);
                 }
-                catch (NullPointerException npe){
-                    npe.printStackTrace();
+                catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });
-
     }
 
     @Override
@@ -156,55 +172,9 @@ public class FriendsActivity extends AppCompatActivity{
         }
     }
 
-    /**
-    //@Override
-    public void onBackPressed() {
-        if (profile.equals("logged in user")){
-            super.onBackPressed();
-        }else if(getFriendListSize() !=0) {
-            for(int i = 0; i < getFriendListSize(); i++){
-                friendsStatus.remove(i);
-                friendsUID.remove(i);
-            }
-            super.onBackPressed();
-        }else{
-            super.onBackPressed();
-        }
-    }
-     **/
-
-    @Override
-    public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
-
-        if (count == 0) {
-            if (profile.equals("logged in user")){
-                super.onBackPressed();
-            }else if(getFriendListSize() !=0) {
-                for(int i = 0; i < getFriendListSize(); i++){
-                    friendsStatus.remove(i);
-                    friendsUID.remove(i);
-                }
-                super.onBackPressed();
-            }else{
-                super.onBackPressed();
-            }        } else {
-            getFragmentManager().popBackStack();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.friends_activity_menu_inflater, menu);
         return true;
-    }
-
-    int size;
-    private void setFriendListSize(int size){
-        this.size = size;
-    }
-
-    private int getFriendListSize(){
-        return size;
     }
 }

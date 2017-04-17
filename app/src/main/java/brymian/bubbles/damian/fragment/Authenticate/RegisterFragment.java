@@ -138,8 +138,6 @@ public class RegisterFragment extends AppCompatActivity implements View.OnClickL
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
         etConfirmPassword = (EditText) findViewById(R.id.etConfirmPassword);
-        etNamefirst = (EditText) findViewById(R.id.etNamefirst);
-        etNamelast = (EditText) findViewById(R.id.etNamelast);
         etEmail = (EditText) findViewById(R.id.etEmail);
         bRegister = (TextView) findViewById(R.id.bRegister);
 

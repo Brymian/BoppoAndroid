@@ -41,6 +41,7 @@
         <ImageView
             android:id="@+id/ivUploadedImage"
             android:layout_width="match_parent"
-            android:layout_height="300dp"/>
+            android:layout_height="300dp"
+            android:transitionName="news_feed_view_image"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>

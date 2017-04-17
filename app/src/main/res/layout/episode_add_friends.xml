@@ -2,18 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:theme="@style/AppTheme">
+    android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:theme="@color/AppColor"
+        android:background="@color/AppColor"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         android:transitionGroup="true"/>
+
+    <TextView
+        android:id="@+id/tvAllFriends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/All_friends_already"
+        android:textAlignment="center"
+        android:visibility="gone"/>
 
     <ScrollView
         android:layout_width="match_parent"

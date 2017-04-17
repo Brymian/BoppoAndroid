@@ -16,12 +16,13 @@ public class AuthenticateActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authenticate);
 
         if(SaveSharedPreference.getUsername(this).length() != 0){
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
 
+        setContentView(R.layout.activity_authenticate);
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.fragment_authenticate, new LaunchFragment());

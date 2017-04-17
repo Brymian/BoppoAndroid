@@ -7,7 +7,7 @@ public class MainTabNewsFeedInfo implements Serializable {
 
     private static final long serialVersionUID = 1L;
     private int eid, uid, user1Uid, user2Uid;
-    private String username, firstLastName, episodeTitle, timestamp, userProfileImage;
+    private String username, firstLastName, episodeTitle, timestamp, userProfileImage, episodeProfileImagePath;
     private String user1Username, user1ProfileImage, user2Username, user2ProfileImage;
     private String uploadedImage, userImagePurposeLabel, userImageGpsLatitude, userImageGpsLongitude, userImageUploadTimestamp, userImageLikeCount, userImageDislikeCount, userImageCommentCount;
     //int uid;
@@ -19,23 +19,25 @@ public class MainTabNewsFeedInfo implements Serializable {
     }
 
     /* for FriendsJoinedMutualEvent */
-    public MainTabNewsFeedInfo(int eid, String episodeTitle, String timestamp, List<String> usernames, List<Integer> uids, List<String> paths){
+    public MainTabNewsFeedInfo(int eid, String episodeTitle, String timestamp, List<String> usernames, List<Integer> uids, List<String> paths, String episodeProfileImagePath){
         this.eid = eid;
         this.episodeTitle = episodeTitle;
         this.timestamp = timestamp;
         this.usernames = usernames;
         this.uids = uids;
         this.paths = paths;
+        this.episodeProfileImagePath = episodeProfileImagePath;
     }
 
     /* for FriendCreatedEvent, ActiveEvent as well */
-    public MainTabNewsFeedInfo(int eid, String episodeTitle, String episodeTimestamp, String username, int uid, String userProfileImage){
+    public MainTabNewsFeedInfo(int eid, String episodeTitle, String episodeTimestamp, String username, int uid, String userProfileImage, String episodeProfileImagePath){
         this.eid = eid;
         this.episodeTitle = episodeTitle;
         this.timestamp = episodeTimestamp;
         this.username = username;
         this.uid = uid;
         this.userProfileImage = userProfileImage;
+        this.episodeProfileImagePath = episodeProfileImagePath;
     }
 
     /* for FriendsThatBecameFriends */
@@ -125,5 +127,9 @@ public class MainTabNewsFeedInfo implements Serializable {
 
     public String getUserProfileImage(){
         return userProfileImage;
+    }
+
+    public String getEpisodeProfileImagePath(){
+        return episodeProfileImagePath;
     }
 }

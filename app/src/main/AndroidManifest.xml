@@ -50,6 +50,13 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
+        <activity android:name=".bryant.logIn.LoginActivity" android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
@@ -73,6 +80,7 @@
         <activity android:name=".bryant.profile.ProfileEdit" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEditViewImage" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.cropImage.CropImageActivity" android:screenOrientation="portrait" />        <!-- END OF PROFILE CLASSES -->
+        <activity android:name=".bryant.episodes.EpisodeEdit" android:screenOrientation="portrait"/>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
@@ -86,27 +94,9 @@
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
-
-        <activity
-            android:name=".damian.activity.AuthenticateActivity"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".damian.activity.AuthenticateActivityFacebook"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".damian.activity.TESTActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".damian.fragment.Authenticate.RegisterFragment" android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".damian.activity.AuthenticateActivity" />
-        </activity>
     </application>
 
 </manifest>

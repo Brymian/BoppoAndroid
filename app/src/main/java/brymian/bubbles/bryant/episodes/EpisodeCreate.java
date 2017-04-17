@@ -27,11 +27,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.cropImage.CropImageActivity;
@@ -40,24 +45,33 @@ import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 
 public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
     Toolbar mToolbar;
     EditText etEpisodeTitle;
     CheckBox cbEndDateTime ,cbPrivate, cbCurrentLocation;
-    String episodeTitle ,privacy;
+    String episodeTitle ,privacy, category, type;
     TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvAt;
     ImageView ivEpisodeImage;
     FloatingActionButton fabDone;
     double latitude;
     double longitude;
-    int uiid;
+    int uiid, eid;
     String year, month, dayOfMonth, hourOfDay, minute, second;
 
     long calendarTimeInMillis;
     boolean isSelected = false;
+
+    AlertDialog uploadDialog = null;
+    AlertDialog mainDialog = null;
+    AlertDialog travelDialog = null;
+    AlertDialog socialDialog = null;
+    AlertDialog sportDialog = null;
+    AlertDialog musicDialog = null;
+    AlertDialog miscDialog = null;
+
 
     int DONE_CODE = 3;
     int CAMERA_CODE = 2;
@@ -128,11 +142,11 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tvStartDate:
-                calendarAlertDialog();
+                calendarStartAlertDialog();
                 break;
 
             case R.id.tvStartTime:
-                timeAlertDialog();
+                timeStartAlertDialog();
                 break;
 
             case R.id.tvUploadImage:
@@ -142,84 +156,309 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             case R.id.tvChooseLogo:
                 chooseLogoDialog();
                 break;
-            /*
+
+            /* upload image dialog */
             case R.id.tvCamera:
-                startActivityForResult(new Intent(this, CameraActivity.class), CAMERA_CODE);
+                //startActivityForResult(new Intent(this, CameraActivity.class), CAMERA_CODE);
                 break;
 
             case R.id.tvGallery:
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_CODE);
+                startActivityForResult(new Intent(EpisodeCreate.this, CropImageActivity.class).putExtra("from", "gallery"), GALLERY_CODE);
+                uploadDialog.dismiss();
                 break;
-            */
+
+            /* main logo dialog */
+            case R.id.tvTravelCategory:
+                chooseLogoTravelTypeDialog();
+                break;
+
+            case R.id.tvSocialCategory:
+                chooseLogoSocialTypeDialog();
+                break;
+
+            case R.id.tvSportCategory:
+                chooseLogoSportTypeDialog();
+                break;
+
+            case R.id.tvMusicCategory:
+                chooseLogoMusicTypeDialog();
+                break;
+
+            case R.id.tvMiscCategory:
+                chooseLogoMiscTypeDialog();
+                break;
+
+            /* travel logo dialog */
+            case R.id.tvTravel:
+                setCategory("Travel");
+                setType("Travel");
+                travelDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvVacation:
+                setCategory("Travel");
+                setType("Vacation");
+                travelDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvHike:
+                setCategory("Travel");
+                setType("Hike");
+                travelDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvCruise:
+                setCategory("Travel");
+                setType("Cruise");
+                travelDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvAdventure:
+                setCategory("Travel");
+                setType("Adventure");
+                travelDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            /* social logo dialog */
+            case R.id.tvSocial:
+                setCategory("Social");
+                setType("Social");
+                socialDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvParty:
+                setCategory("Social");
+                setType("Party");
+                socialDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvGetTogether:
+                setCategory("Social");
+                setType("Get-together");
+                socialDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvWedding:
+                setCategory("Social");
+                setType("Wedding");
+                socialDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvMovie:
+                setCategory("Social");
+                setType("Movie");
+                socialDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            /* sport logo dialog */
+            case R.id.tvSport:
+                setCategory("Sport");
+                setType("Sport");
+                sportDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvSoccer:
+                setCategory("Sport");
+                setType("Soccer");
+                sportDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvBasketball:
+                setCategory("Sport");
+                setType("Basketball");
+                sportDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvFootball:
+                setCategory("Sport");
+                setType("Football");
+                sportDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvBaseball:
+                setCategory("Sport");
+                setType("Baseball");
+                sportDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvTennis:
+                setCategory("Sport");
+                setType("Tennis");
+                sportDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            /* music logo dialog */
+            case R.id.tvMusic:
+                setCategory("Music");
+                setType("Music");
+                musicDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvConcert:
+                setCategory("Music");
+                setType("Concert");
+                musicDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvFestival:
+                setCategory("Music");
+                setType("Festival");
+                musicDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvMusical:
+                setCategory("Music");
+                setType("Musical");
+                musicDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvOpera:
+                setCategory("Music");
+                setType("Opera");
+                musicDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            /* misc logo dialog */
+            case R.id.tvMisc:
+                setCategory("Miscellaneous");
+                setType("Miscellaneous");
+                miscDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvCarnival:
+                setCategory("Miscellaneous");
+                setType("Carnival");
+                miscDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
+            case R.id.tvReview:
+                setCategory("Miscellaneous");
+                setType("Review");
+                miscDialog.dismiss();
+                mainDialog.dismiss();
+                break;
+
             case R.id.fabDone:
-                Log.e("upload" , getDate() + " " + getTime());
-                /**** BRYANT NEEDS TO FIX THIS ****/
-                /*
-                new EventRequest(EpisodeCreate.this).createEvent(
-                        SaveSharedPreference.getUserUID(EpisodeCreate.this),      // uid
-                        getEpisodeTitle(),                          // Episode Title
-                        getPrivacy(),                               // Episode Privacy
-                        "Host",                                     // Invite Type
-                        true,                                       // Episode Image Allowed Indicator
-                        getDate() + " " + getTime(),                // Episode start time
-                        null,                                       // Episode end time
-                        getLatitude(),                              // Episode GPS latitude
-                        getLongitude(),                             // Episode GPS longitude
+                Log.e("uploadStartDate" , getStartDate() + " " + getStartTime());
+                Log.e("uploadCatType", getCategory() + " " + getType());
+                new EventRequest(this).createEvent(
+                        SaveSharedPreference.getUserUID(EpisodeCreate.this),
+                        getEpisodeTitle(),
+                        getCategory(),
+                        getType(),
+                        getPrivacy(),
+                        "Host",
+                        true,
+                        getStartDate() + " " + getStartTime(),
+                        null,
+                        null,
+                        null,
                         new StringCallback() {
                             @Override
                             public void done(String string) {
-                                Log.e("createEvent", string);
+                                String[] result = string.split(" ");
+                                if (result[0].equals("Success.")){
+                                    setEid(Integer.valueOf(result[2]));
+                                    uploadImage();
+                                }
+                                /*
                                 for(String something: string.split(" ")){
                                     if(something.equals("Success.")){
                                         uploadImage();
-                                        startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), DONE_CODE);
+                                        //startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), DONE_CODE);
                                     }
                                     else if(something.equals("Duplicate")){
                                         duplicateEntry();
                                     }
-                                }
+                                } **/
                             }
-                        });
+                        }
+
+                );
                 break;
-                */
         }
     }
 
     private void uploadImage(){
-    /**** BRYANT NEEDS TO FIX THIS ****/
-    /*
-        new ServerRequestMethods(EpisodeCreate.this).uploadImage(
-                SaveSharedPreference.getUserUID(EpisodeCreate.this),
+        new UserImageRequest(this).uploadImage(
+                SaveSharedPreference.getUserUID(this),
+                null,
                 imageName(),
                 "Regular",
-                "Public",
-                0,
-                0,
+                "Private",
+                null,
+                null,
                 BitMapToString(((BitmapDrawable) ivEpisodeImage.getDrawable()).getBitmap()),
                 new StringCallback() {
                     @Override
                     public void done(String string) {
-                        Log.e("uploadImage", string);
                         setUiid(Integer.parseInt(string));
+                        addImageToEvent();
                     }
                 }
-
         );
-    */
     }
 
 
-    private void setImageToEpisode(){
-
+    private void addImageToEvent(){
+        Integer[] uiids = {getUiid()};
+        new EventUserImageRequest(this).addImagesToEvent(getEid(), uiids, new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    JSONArray jArray = new JSONArray(string);
+                    for (int i = 0; i < jArray.length(); i++){
+                        if (jArray.get(i).equals("Success")){
+                            setEpisodeProfileImage();
+                        }
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
     }
+
+    private void setEpisodeProfileImage(){
+        new EventUserImageRequest(this).setEuiEventProfileSequence(getEid(), getUiid(), (short)0, new StringCallback() {
+            @Override
+            public void done(String string) {
+                Log.e("setEpsProfImg", string);
+                if (string.equals("\"Event user image event profile sequence has been successfully updated.\"")){
+                    startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("eid", getEid()), DONE_CODE);
+                }
+            }
+        });
+    }
+
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         switch (buttonView.getId()){
-
-
             case R.id.cbCurrentLocation:
                 if (!isChecked){
                     latitude = 0;
@@ -285,7 +524,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void calendarAlertDialog(){
+    private void calendarStartAlertDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_calendar_alertdialog, null);
 
@@ -296,7 +535,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
                 setSelectedDate(year, month, dayOfMonth, true);
-                setDate(String.valueOf(year), String.valueOf(month), String.valueOf(dayOfMonth));
+                setStartDate(String.valueOf(year), String.valueOf(month), String.valueOf(dayOfMonth));
                 tvStartDate.setText(getDateToDisplay());
             }
         });
@@ -315,7 +554,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     @TargetApi(23)
-    private void timeAlertDialog(){
+    private void timeStartAlertDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_time_alertdialog, null);
 
@@ -326,12 +565,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 if (minute == 0){
-                    setTime(String.valueOf(hourOfDay), "00", "00");
+                    setStartTime(String.valueOf(hourOfDay), "00", "00");
                 }else {
                     if (String.valueOf(minute).length() == 1){
-                        setTime(String.valueOf(hourOfDay), "0" + String.valueOf(minute), "00");
+                        setStartTime(String.valueOf(hourOfDay), "0" + String.valueOf(minute), "00");
                     }else{
-                        setTime(String.valueOf(hourOfDay), String.valueOf(minute), "00");
+                        setStartTime(String.valueOf(hourOfDay), String.valueOf(minute), "00");
                     }
                 }
                 tvStartTime.setText(getTimeToDisplay());
@@ -365,7 +604,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         calendar.set(Calendar.MONTH, month-1);
         calendar.set(Calendar.DAY_OF_MONTH, day);
 
-         return calendar.getTimeInMillis();
+        return calendar.getTimeInMillis();
     }
 
 
@@ -425,7 +664,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         DateFormat secondFormat = new SimpleDateFormat("ss");
         Date secondDate = new Date();
 
-        setTime(hourFormat.format(hourDate), minuteFormat.format(minuteDate), secondFormat.format(secondDate));
+        setStartTime(hourFormat.format(hourDate), minuteFormat.format(minuteDate), secondFormat.format(secondDate));
         return getTimeToDisplay();
     }
 
@@ -448,7 +687,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         DateFormat dayFormat = new SimpleDateFormat("dd");
         Date dayDate = new Date();
         Log.e("getDateOnCreate", String.valueOf(Integer.valueOf(monthFormat.format(monthDate)) - 1));
-        setDate(yearFormat.format(yearDate), String.valueOf(Integer.valueOf(monthFormat.format(monthDate)) - 1), dayFormat.format(dayDate));
+        setStartDate(yearFormat.format(yearDate), String.valueOf(Integer.valueOf(monthFormat.format(monthDate)) - 1), dayFormat.format(dayDate));
         return getMonthString(monthFormat.format(monthDate)) + " " + dayFormat.format(dayDate) + ", " + yearFormat.format(yearDate);
     }
 
@@ -482,7 +721,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return "bananas";
     }
 
-    private void setDate(String year, String month, String dayOfMonth){
+    private void setStartDate(String year, String month, String dayOfMonth){
         Log.e("setDateBeforeInt", month);
         int monthNum = Integer.valueOf(month) + 1;
         Log.e("setDateAfterInt", String.valueOf(monthNum));
@@ -496,17 +735,17 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         this.dayOfMonth = dayOfMonth;
     }
 
-    private String getDate(){
+    private String getStartDate(){
         return year + "-" + month + "-" + dayOfMonth;
     }
 
-    private void setTime(String hourOfDay, String minute, String second){
+    private void setStartTime(String hourOfDay, String minute, String second){
         this.hourOfDay = hourOfDay;
         this.minute = minute;
         this.second = second;
     }
 
-    private String getTime(){
+    private String getStartTime(){
         return hourOfDay + ":" + minute + ":" + second;
     }
 
@@ -518,9 +757,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         String amPM = "";
         if (Integer.valueOf(hourOfDay) < 12){
             amPM = "AM";
-            if (hourOfDay.length() == 2 && String.valueOf(hourOfDay.charAt(0)).equals("0") ){
+            if (hourOfDay.length() == 2 && String.valueOf(hourOfDay.charAt(0)).equals("0")){
                 hourOfDay = String.valueOf(hourOfDay.charAt(1));
-            }else if(hourOfDay.length() == 1 && String.valueOf(hourOfDay).equals("0")){
+            }
+            else if (hourOfDay.length() == 1 && String.valueOf(hourOfDay).equals("0")){
                 return  "12" + ":" + minute + " " + amPM;
             }
         }
@@ -537,53 +777,166 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         TextView tvCamera = (TextView) alertLayout.findViewById(R.id.tvCamera);
         TextView tvGallery = (TextView) alertLayout.findViewById(R.id.tvGallery);
 
+        tvCamera.setOnClickListener(this);
+        tvGallery.setOnClickListener(this);
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
-        final AlertDialog dialog = alert.create();
-
-        tvCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        tvGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(EpisodeCreate.this, CropImageActivity.class), GALLERY_CODE);
-                dialog.dismiss();
-            }
-        });
-
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                dialog.dismiss();
-            }
-        });
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        uploadDialog = alert.create();
+        uploadDialog.setCanceledOnTouchOutside(true);
+        uploadDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        uploadDialog.show();
     }
 
     private void chooseLogoDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_alertdialog, null);
 
+        TextView tvTravel = (TextView) alertLayout.findViewById(R.id.tvTravelCategory);
+        TextView tvSocial = (TextView) alertLayout.findViewById(R.id.tvSocialCategory);
+        TextView tvSport = (TextView) alertLayout.findViewById(R.id.tvSportCategory);
+        TextView tvMusic = (TextView) alertLayout.findViewById(R.id.tvMusicCategory);
+        TextView tvMisc = (TextView) alertLayout.findViewById(R.id.tvMiscCategory);
+
+        tvTravel.setOnClickListener(this);
+        tvSocial.setOnClickListener(this);
+        tvSport.setOnClickListener(this);
+        tvMusic.setOnClickListener(this);
+        tvMisc.setOnClickListener(this);
+
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
-        final AlertDialog dialog = alert.create();
+        mainDialog = alert.create();
+        mainDialog.setCanceledOnTouchOutside(true);
+        mainDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        mainDialog.show();
+    }
 
+    private void chooseLogoTravelTypeDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_travel_alertdialog, null);
 
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        TextView tvTravel = (TextView) alertLayout.findViewById(R.id.tvTravel);
+        TextView tvVacation = (TextView) alertLayout.findViewById(R.id.tvVacation);
+        TextView tvHike = (TextView) alertLayout.findViewById(R.id.tvHike);
+        TextView tvCruise = (TextView) alertLayout.findViewById(R.id.tvCruise);
+        TextView tvAdventure = (TextView) alertLayout.findViewById(R.id.tvAdventure);
+
+        tvTravel.setOnClickListener(this);
+        tvVacation.setOnClickListener(this);
+        tvHike.setOnClickListener(this);
+        tvCruise.setOnClickListener(this);
+        tvAdventure.setOnClickListener(this);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        travelDialog = alert.create();
+        travelDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
                 dialog.dismiss();
             }
         });
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        travelDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        travelDialog.show();
     }
+
+    private void chooseLogoSocialTypeDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_social_alertdialog, null);
+
+        TextView tvSocial = (TextView) alertLayout.findViewById(R.id.tvSocial);
+        TextView tvParty = (TextView) alertLayout.findViewById(R.id.tvParty);
+        TextView tvGetTogether = (TextView) alertLayout.findViewById(R.id.tvGetTogether);
+        TextView tvWedding = (TextView) alertLayout.findViewById(R.id.tvWedding);
+        TextView tvMovie = (TextView) alertLayout.findViewById(R.id.tvMovie);
+
+        tvSocial.setOnClickListener(this);
+        tvParty.setOnClickListener(this);
+        tvGetTogether.setOnClickListener(this);
+        tvWedding.setOnClickListener(this);
+        tvMovie.setOnClickListener(this);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        socialDialog = alert.create();
+        socialDialog.setCanceledOnTouchOutside(true);
+        socialDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        socialDialog.show();
+    }
+
+    private void chooseLogoSportTypeDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_sport_alertdialog, null);
+
+        TextView tvSport = (TextView) alertLayout.findViewById(R.id.tvSport);
+        TextView tvSoccer = (TextView) alertLayout.findViewById(R.id.tvSoccer);
+        TextView tvBasketball = (TextView) alertLayout.findViewById(R.id.tvBasketball);
+        TextView tvFootball = (TextView) alertLayout.findViewById(R.id.tvFootball);
+        TextView tvBaseball = (TextView) alertLayout.findViewById(R.id.tvBaseball);
+        TextView tvTennis = (TextView) alertLayout.findViewById(R.id.tvTennis);
+
+        tvSport.setOnClickListener(this);
+        tvSoccer.setOnClickListener(this);
+        tvBasketball.setOnClickListener(this);
+        tvFootball.setOnClickListener(this);
+        tvBaseball.setOnClickListener(this);
+        tvTennis.setOnClickListener(this);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        sportDialog = alert.create();
+        sportDialog.setCanceledOnTouchOutside(true);
+        sportDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        sportDialog.show();
+    }
+
+    private void chooseLogoMusicTypeDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_music_alertdialog, null);
+
+        TextView tvMusic = (TextView) alertLayout.findViewById(R.id.tvMusic);
+        TextView tvConcert = (TextView) alertLayout.findViewById(R.id.tvConcert);
+        TextView tvFestival = (TextView) alertLayout.findViewById(R.id.tvFestival);
+        TextView tvMusical = (TextView) alertLayout.findViewById(R.id.tvMusical);
+        TextView tvOpera = (TextView) alertLayout.findViewById(R.id.tvOpera);
+
+        tvMusic.setOnClickListener(this);
+        tvConcert.setOnClickListener(this);
+        tvFestival.setOnClickListener(this);
+        tvMusical.setOnClickListener(this);
+        tvOpera.setOnClickListener(this);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        musicDialog = alert.create();
+        musicDialog.setCanceledOnTouchOutside(true);
+        musicDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        musicDialog.show();
+    }
+
+    private void chooseLogoMiscTypeDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_choose_logo_misc_alertdialog, null);
+
+        TextView tvMisc = (TextView) alertLayout.findViewById(R.id.tvMisc);
+        TextView tvCarnival = (TextView) alertLayout.findViewById(R.id.tvCarnival);
+        TextView tvReview = (TextView) alertLayout.findViewById(R.id.tvReview);
+
+        tvMisc.setOnClickListener(this);
+        tvCarnival.setOnClickListener(this);
+        tvReview.setOnClickListener(this);
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        miscDialog = alert.create();
+        miscDialog.setCanceledOnTouchOutside(true);
+        miscDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        miscDialog.show();
+    }
+
+
+
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -629,4 +982,27 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return this.uiid;
     }
 
+    private void setCategory(String category){
+        this.category = category;
+    }
+
+    private String getCategory(){
+        return this.category;
+    }
+
+    private void setType(String type){
+        this.type = type;
+    }
+
+    private String getType(){
+        return this.type;
+    }
+
+    private void setEid(int eid){
+        this.eid = eid;
+    }
+
+    private int getEid(){
+        return this.eid;
+    }
 }

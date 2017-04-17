@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -207,12 +209,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         final AlertDialog dialog = alert.create();
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                dialog.dismiss();
-            }
-        });
+        dialog.setCanceledOnTouchOutside(true);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
@@ -427,26 +424,30 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void getProfilePictures(int uid){
         if (getFriendShipStatus().equals("logged in user")){
-            Log.e("get", "good");
-            Picasso.with(ProfileActivity.this)
-                    .load(SaveSharedPreference.getUserProfileImagePath(this))
-                    .fit()
-                    .noFade()
-                    .centerCrop()
-                    .into(ivProfilePicture, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            supportStartPostponedEnterTransition();
-                        }
+            if (!SaveSharedPreference.getUserProfileImagePath(ProfileActivity.this).isEmpty()){
+                Picasso.with(ProfileActivity.this)
+                        .load(SaveSharedPreference.getUserProfileImagePath(this))
+                        .fit()
+                        .noFade()
+                        .centerCrop()
+                        .into(ivProfilePicture, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                supportStartPostponedEnterTransition();
+                            }
 
-                        @Override
-                        public void onError() {
-                            supportStartPostponedEnterTransition();
-                        }
-                    });
+                            @Override
+                            public void onError() {
+                                supportStartPostponedEnterTransition();
+                            }
+                        });
+            }
+            else{
+                Log.e("get", "good");
+            }
+
         }
         else {
-            Log.e("get", "bad");
             new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
                 @Override
                 public void done(List<Image> imageList) {

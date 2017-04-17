@@ -1,12 +1,9 @@
 package brymian.bubbles.bryant.main;
 
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,7 +68,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
                 ((JoinedMutualEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
                 ((JoinedMutualEpisodeHolder)holder).tvUserJoined.setText(mainTabNewsFeedInfoList.get(position).getUsernames().get(0));
                 Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getPaths().get(0)).fit().centerCrop().into(((JoinedMutualEpisodeHolder)holder).ivUserProfileImage);
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getPaths().get(0)).fit().centerCrop().into(((JoinedMutualEpisodeHolder)holder).ivEpisodeImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getEpisodeProfileImagePath()).fit().centerCrop().into(((JoinedMutualEpisodeHolder)holder).ivEpisodeImage);
                 break;
             case TYPE_ACTIVE_EPISODE:
                 ((ActiveEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
@@ -87,7 +84,7 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
                 ((CreatedEpisodeHolder)holder).tvEpisodeTitle.setText(mainTabNewsFeedInfoList.get(position).getEpisodeTitle());
                 ((CreatedEpisodeHolder)holder).tvUserCreated.setText(mainTabNewsFeedInfoList.get(position).getUsername());
                 Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).fit().centerCrop().into(((CreatedEpisodeHolder)holder).ivUserProfileImage);
-                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getUserProfileImage()).fit().centerCrop().into(((CreatedEpisodeHolder)holder).ivEpisodeImage);
+                Picasso.with(activity).load(mainTabNewsFeedInfoList.get(position).getEpisodeProfileImagePath()).fit().centerCrop().into(((CreatedEpisodeHolder)holder).ivEpisodeImage);
                 break;
             case TYPE_UPLOAD_IMAGE:
                 ((UploadImageHolder)holder).tvUserUsername.setText(mainTabNewsFeedInfoList.get(position).getUsername());
@@ -127,13 +124,9 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             super(v);
             ivUserProfileImage = (ImageView) v.findViewById(R.id.ivProfilePicture);
             ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
-                @TargetApi(Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0));
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, activity.findViewById(R.id.ivProfilePicture), "robot");
-                    activity.startActivity(intent, options.toBundle());
-                    //activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0)));
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUids().get(0)));
                 }
             });
             tvUserJoined = (TextView) v.findViewById(R.id.tvUserJoined);
@@ -236,6 +229,18 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
             tvUserUsername = (TextView) v.findViewById(R.id.tvUserUsername);
             ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
             ivUploadedImage = (ImageView) v.findViewById(R.id.ivUploadedImage);
+            ivUploadedImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MainTabNewsFeedViewImage viewImage = new MainTabNewsFeedViewImage();
+                    activity.getFragmentManager()
+                            .beginTransaction()
+                            .addSharedElement(ivUploadedImage, ViewCompat.getTransitionName(ivUploadedImage))
+                            .addToBackStack("ok")
+                            .replace(R.id.main_activity, viewImage)
+                            .commit();
+                }
+            });
         }
     }
 

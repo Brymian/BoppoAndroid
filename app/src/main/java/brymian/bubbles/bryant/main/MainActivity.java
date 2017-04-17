@@ -14,6 +14,8 @@ import android.view.View;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
+import brymian.bubbles.bryant.logIn.LoginActivity;
+import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
@@ -27,18 +29,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setTitle(R.string.News_Feed);
         mToolbar.setTitleTextColor(Color.WHITE);
 
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_people_white_24dp), 0, true);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_whatshot_black_24dp), 1, false);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_public_black_24dp), 2, false);
-        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_account_circle_black_24dp), 3, false);
+        tabLayout.addTab(tabLayout.newTab().setIcon(R.mipmap.ic_account_circle_black_24dp), 2, false);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setOffscreenPageLimit(3);
+        viewPager.setOffscreenPageLimit(2);
         final MainActivityPagerAdapter pagerAdapter= new MainActivityPagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout) {
@@ -50,27 +52,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mToolbar.setTitle(R.string.News_Feed);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_white_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
-                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_black_24dp);
 
-                } else if (position == 1) {
+                }
+                else if (position == 1) {
                     mToolbar.setTitle(R.string.Episodes);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_white_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
-                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
-                } else if (position == 2) {
-                    mToolbar.setTitle(R.string.Map);
-                    tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
-                    tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_white_24dp);
-                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_black_24dp);
-                } else if (position == 3) {
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_black_24dp);
+                }
+                else if (position == 2) {
                     mToolbar.setTitle(R.string.Personal);
                     tabLayout.getTabAt(0).setIcon(R.mipmap.ic_people_black_24dp);
                     tabLayout.getTabAt(1).setIcon(R.mipmap.ic_whatshot_black_24dp);
-                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_public_black_24dp);
-                    tabLayout.getTabAt(3).setIcon(R.mipmap.ic_account_circle_white_24dp);
+                    tabLayout.getTabAt(2).setIcon(R.mipmap.ic_account_circle_white_24dp);
                 }
             }
         });
@@ -83,12 +78,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     if(index == 0){
                         tab.setIcon(R.mipmap.ic_people_white_24dp);
-                    }else if(index == 1){
-                        tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
-                    }else if (index == 2){
-                        tab.setIcon(R.mipmap.ic_public_white_24dp);
                     }
-                    else if(index == 3){
+                    else if(index == 1){
+                        tab.setIcon(R.mipmap.ic_whatshot_white_24dp);
+                    }
+                    else if(index == 2){
                         tab.setIcon(R.mipmap.ic_account_circle_white_24dp);
                     }
                 } catch (NullPointerException | IllegalStateException e) {
@@ -101,14 +95,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 int index = tab.getPosition();
                 if(index == 0){
                     tab.setIcon(R.mipmap.ic_people_black_24dp);
-                }else if(index == 1){
+                }
+                else if(index == 1){
                     tab.setIcon(R.mipmap.ic_whatshot_black_24dp);
-                }else if(index == 2){
-                    tab.setIcon(R.mipmap.ic_public_black_24dp);
-                }else if(index == 3){
+                }
+                else if(index == 2){
                     tab.setIcon(R.mipmap.ic_account_circle_black_24dp);
                 }
-
             }
 
             @Override
@@ -142,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                onBackPressed();
+                startActivity(new Intent(this, MapActivity.class));
                 break;
             case R.id.search:
                 startActivity(new Intent(this, SearchActivity.class));

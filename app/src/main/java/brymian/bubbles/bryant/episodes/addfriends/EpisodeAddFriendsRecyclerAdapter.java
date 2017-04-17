@@ -1,12 +1,16 @@
 package brymian.bubbles.bryant.episodes.addfriends;
 
+import android.app.Activity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -15,9 +19,11 @@ import brymian.bubbles.R;
 
 class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<EpisodeAddFriendsRecyclerAdapter.RecyclerViewHolder> {
 
-    List<Friend> friendList;
+    private List<Friend> friendList;
+    private Activity activity;
 
-    EpisodeAddFriendsRecyclerAdapter(List<Friend> friendList){
+    EpisodeAddFriendsRecyclerAdapter(Activity activity, List<Friend> friendList){
+        this.activity = activity;
         this.friendList = friendList;
     }
 
@@ -29,6 +35,7 @@ class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<EpisodeAddFr
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+        Picasso.with(activity).load(friendList.get(position).getUserImagePath()).fit().centerCrop().into(holder.ivUserProfileImage);
         holder.tvFriendsUsername.setText(friendList.get(position).getUsername());
         holder.tvFriendsFirstLastName.setText(friendList.get(position).getFirstLastName());
         holder.cbSelected.setChecked(friendList.get(position).getIsSelected());
@@ -53,10 +60,12 @@ class EpisodeAddFriendsRecyclerAdapter extends RecyclerView.Adapter<EpisodeAddFr
 
     public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvFriendsFirstLastName, tvFriendsUsername;
+        ImageView ivUserProfileImage;
         CheckBox cbSelected;
         CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
             tvFriendsFirstLastName = (TextView) v.findViewById(R.id.tvFriendsFirstLastName);
             tvFriendsUsername = (TextView) v.findViewById(R.id.tvFriendsUsername);
             cbSelected = (CheckBox) v.findViewById(R.id.cbSelected);
