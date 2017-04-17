@@ -35,7 +35,6 @@ import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.settings.Privacy;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
-import brymian.bubbles.damian.activity.AuthenticateActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;

@@ -2,7 +2,6 @@ package brymian.bubbles.damian.fragment.Authenticate;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,9 +30,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.VoidCallback;
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showErrorCustom;
 import static brymian.bubbles.damian.nonactivity.DialogMessage.showMessageRegistration;
 
-/**
- * Created by Ziomster on 7/21/2015.
- */
+
 public class LaunchFragmentFacebook extends Fragment {
 
     private CallbackManager callbackManager;
@@ -62,7 +59,7 @@ public class LaunchFragmentFacebook extends Fragment {
     };
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 
@@ -79,9 +76,7 @@ public class LaunchFragmentFacebook extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_launch_facebook, container, false);
-
-        return rootView;
+        return inflater.inflate(R.layout.fragment_launch_facebook, container, false);
     }
 
     @Override
@@ -196,8 +191,7 @@ public class LaunchFragmentFacebook extends Fragment {
                 }
                 else
                 {
-                    String error = "";
-                    error = "Unknown error: \n" + string;
+                    String error = "Unknown error: \n" + string;
                     showErrorCustom(getActivity(), error);
                 }
             }
