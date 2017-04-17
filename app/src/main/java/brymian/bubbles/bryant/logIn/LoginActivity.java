@@ -24,7 +24,7 @@ import brymian.bubbles.objects.User;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etUsername, etPassword;
-    TextView tvSignUp;
+    TextView tvSignUp, tvTestActivity;
     Button bLogIn;
 
     @Override
@@ -46,6 +46,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
         tvSignUp.setOnClickListener(this);
+
+        tvTestActivity = (TextView) findViewById(R.id.tvTestActivity);
+        tvTestActivity.setOnClickListener(this);
     }
 
     @Override
@@ -72,7 +75,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home){
-            Log.e("ok", "works");
             getFragmentManager().popBackStack();
         }
         return super.onOptionsItemSelected(item);
