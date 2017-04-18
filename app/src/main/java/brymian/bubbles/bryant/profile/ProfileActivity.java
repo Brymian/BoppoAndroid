@@ -4,21 +4,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +22,6 @@ import android.widget.Toast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -52,10 +46,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     int userUID;
     String username, privacy, friendShipStatus;
     Toolbar mToolbar;
-
-    RecyclerView rvUserEpisodes;
-    RecyclerView.LayoutManager layoutManager;
-    RecyclerView.Adapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -97,9 +87,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         });
         tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
         tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
-        rvUserEpisodes = (RecyclerView) findViewById(R.id.rvUserEpisodes);
 
-        //supportPostponeEnterTransition();
 
         if(uid != 0){
             setFriendshipStatus(uid);
@@ -122,7 +110,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.popUpMenu:
-                popUpMenu();
+                if (getUID() == SaveSharedPreference.getUserUID(this)){
+                    startActivity(new Intent(this, ProfileEdit.class));
+                }
+                else{
+                    popUpMenu();
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

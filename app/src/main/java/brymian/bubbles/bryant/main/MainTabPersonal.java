@@ -279,6 +279,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                dialog.dismiss();
                 SaveSharedPreference.clearAll(getApplicationContext());
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();

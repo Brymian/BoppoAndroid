@@ -26,6 +26,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileEdit;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
@@ -42,6 +43,7 @@ public class CropImageActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkProfileImageExists();
 
         String from = getIntent().getStringExtra("from");
         setFrom(from);
@@ -77,9 +79,8 @@ public class CropImageActivity extends AppCompatActivity {
                 intent.putExtra("image", byteArray);
                 setResult(RESULT_OK, intent);
                 if (getFrom().equals("profileGallery") || getFrom().equals("profileCamera")){
-                    uploadProfileImage(Base64.encodeToString(byteArray, Base64.DEFAULT));
+                    //uploadProfileImage(Base64.encodeToString(byteArray, Base64.DEFAULT));
                 }
-                finish();
             }
         });
     }
@@ -96,6 +97,53 @@ public class CropImageActivity extends AppCompatActivity {
         return photo;
     }
 
+    private void checkProfileImageExists(){
+        new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(CropImageActivity.this), "Profile", null, new ImageListCallback() {
+            @Override
+            public void done(List<Image> imageList) {
+                if (imageList.size() > 0){
+                    for (int i = 0; i < imageList.size(); i++){
+                        Log.e("check", "position: " + i + "\tuiid: "+imageList.get(i).uiid +"\tpath: " + imageList.get(i).userImagePath);
+                        setProfileSequenceNull(imageList.get(0).uiid.intValue());
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void setProfileSequenceNull(int uiid){
+        try {
+            new UserImageRequest(this).setImage(
+                    uiid, /* uiid */
+                    null, /* userImageProfileSequence */
+                    null, /* userImageName */
+                    null, /* userImagePurposeLabel */
+                    null, /* userImagePrivacyLabel */
+                    null, /* userImageGpsLatitude */
+                    null, /* userImageGpsLongitude */
+                    new Boolean[]{null, true, false, false, false, false, false},
+                    new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            Log.e("profileSeq", string);
+                        }
+                    }
+            );
+        } catch (SetOrNotException e) {
+            e.printStackTrace();
+        }
+        deleteProfileImage(uiid);
+    }
+
+    private void deleteProfileImage(int uiid){
+        new ServerRequestMethods(this).deleteImage(SaveSharedPreference.getUserUID(this), uiid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                Log.e("delete", string);
+            }
+        });
+    }
     private void uploadProfileImage(String encodedImage){
         final String image = encodedImage;
         new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
@@ -103,7 +151,6 @@ public class CropImageActivity extends AppCompatActivity {
             public void done(List<Image> imageList) {
                 if (imageList.size() > 0) {
                     Log.e("uiid", imageList.get(0).uiid + "");
-                    /**
                     new ServerRequestMethods(CropImageActivity.this).deleteImage(SaveSharedPreference.getUserUID(CropImageActivity.this), imageList.get(0).uiid.intValue(), new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -124,8 +171,7 @@ public class CropImageActivity extends AppCompatActivity {
                                     });
                         }
                     });
-                    **/
-                    /**
+                    /*
                     new UserImageRequest(CropImageActivity.this).setImage(imageList.get(0).uiid.intValue(), 100, null, null, null, null, null, new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -146,7 +192,7 @@ public class CropImageActivity extends AppCompatActivity {
                                     });
                         }
                     });
-                     **/
+                    */
                 }
             }
         });

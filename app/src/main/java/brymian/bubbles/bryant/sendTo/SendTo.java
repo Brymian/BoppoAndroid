@@ -180,8 +180,9 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                         JSONObject eventsObj = eventsArray.getJSONObject(i);
                         String eventHostString = eventsObj.getString("eventHost");
                         JSONObject eventHostObj = new JSONObject(eventHostString);
-                        if (eventsObj.getString("eventEndDatetime").equals("null")){
-                            String startTime = eventsObj.getString("eventStartDatetime");
+                        String startTime = eventsObj.getString("eventStartDatetime");
+                        if (eventsObj.getString("eventEndDatetime").equals("null") && !startTime.equals("null")){
+                            Log.e("ok", startTime);
                             dateTime = startTime.split("\\s");
                             dateArray = dateTime[0].split("-");
                             timeArray = dateTime[1].split(":");
