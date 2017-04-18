@@ -28,6 +28,7 @@ import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 public class SendTo extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener{
@@ -36,7 +37,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     FloatingActionButton fabDone;
     boolean isMap = false;
     String privacy = "Public", encodedImage;
-    List<Integer> uiid = new ArrayList<>();
+    Integer[] uiid = new Integer[1];
 
     int year, month, day, hour, minute, second;
 
@@ -131,14 +132,13 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     }
 
     private void uploadImageToEpisode(){
-        /** BRYANT FIX THIS **/
-        /*
+
         List<Episode> singleEpisodeList = ((SendToEpisodesRecyclerAdapter) adapter).getEpisodeList();
         if (singleEpisodeList.size() >= 1){
             for(int i = 0; i < singleEpisodeList.size(); i++){
                 Episode singleEpisode = singleEpisodeList.get(i);
                 if(singleEpisode.getIsSelected()){
-                    new UserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
+                    new EventUserImageRequest(this).addImagesToEvent(singleEpisode.getEpisodeEid(), getUiid(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             Log.e("UITE", string);
@@ -161,7 +161,6 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
         else {
             startActivity(new Intent(SendTo.this, MainActivity.class));
         }
-        */
     }
 
 
@@ -251,10 +250,10 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     }
 
     private void setUiid(int uiid){
-        this.uiid.add(uiid);
+        this.uiid[0] = uiid;
     }
 
-    private List<Integer> getUiid(){
+    private Integer[] getUiid(){
         return uiid;
     }
 
