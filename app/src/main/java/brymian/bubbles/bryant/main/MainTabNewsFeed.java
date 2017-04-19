@@ -23,7 +23,6 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.NewsFeedRequest;
 
 public class MainTabNewsFeed extends Fragment {
-    boolean isNewsFeedLoaded = false;
     RecyclerView rvNewsFeed;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
@@ -31,16 +30,8 @@ public class MainTabNewsFeed extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_tab_news_feed, container, false);
         rvNewsFeed = (RecyclerView) rootView.findViewById(R.id.rvNewsFeed);
+        setNewsFeed();
         return rootView;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && !isNewsFeedLoaded){
-            setNewsFeed();
-            isNewsFeedLoaded = true;
-        }
     }
 
     private void setNewsFeed(){

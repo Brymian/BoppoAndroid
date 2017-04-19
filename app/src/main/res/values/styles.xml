@@ -10,6 +10,18 @@
         <item name="android:textColor">@android:color/black</item>
     </style>
 
+    <style name="LoginCredentialsStyle" parent="TextAppearance.AppCompat">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+        <item name="colorControlHighlight">@android:color/white</item>
+        <item name="android:colorAccent">@android:color/white</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LoginSignUpStyle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
     <color name="AppColor">#3ae1a8</color>
     <color name="AppColorDark">#2ba67c</color>
     <color name="LightGrayAndroid">#f9f9f9</color>

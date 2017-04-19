@@ -22,10 +22,10 @@ public class NewsFeedRequest
     private ProgressDialog pd = null;
 
     public NewsFeedRequest(Activity activity) {
-        pd = new ProgressDialog(activity);
-        pd.setCancelable(false);
-        pd.setTitle("Processing");
-        pd.setMessage("Please wait...");
+        //pd = new ProgressDialog(activity);
+        //pd.setCancelable(false);
+        //pd.setTitle("Processing");
+        //pd.setMessage("Please wait...");
         httpConnection = new HTTPConnection();
     }
 
@@ -33,7 +33,7 @@ public class NewsFeedRequest
 
     public void getNewsEvents(Integer uid, Integer max, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new GetNewsEvents(uid, max, stringCallback).execute();
     }
 
@@ -84,7 +84,7 @@ public class NewsFeedRequest
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
