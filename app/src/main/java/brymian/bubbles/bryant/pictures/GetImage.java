@@ -15,6 +15,8 @@ public class GetImage {
 
     public static void image(final Activity activity, int uid, String purpose){
 
+        /** BRYANT UPDATE THIS **/
+        /*
         new UserImageRequest(activity).getImagesByUidAndPurpose(uid, purpose, null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -22,5 +24,6 @@ public class GetImage {
                 Toast.makeText(activity, "imageList.size(): " + imageList.size(), Toast.LENGTH_SHORT).show();
             }
         });
+        */
     }
 }

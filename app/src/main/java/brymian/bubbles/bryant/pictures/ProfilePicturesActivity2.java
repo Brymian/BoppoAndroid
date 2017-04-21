@@ -145,6 +145,8 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
     }
 
     private void getProfileImages() {
+        /** BRYANT UPDATE THIS **/
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -156,6 +158,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
                 }
             }
         });
+        */
     }
 
     private void uploadAlert() {

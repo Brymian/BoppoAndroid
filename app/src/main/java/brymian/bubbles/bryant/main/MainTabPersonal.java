@@ -208,6 +208,8 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
 
         if (SaveSharedPreference.getUserProfileImagePath(getActivity()).isEmpty()){
+            /** BRYANT UPDATE THIS **/
+            /*
             new UserImageRequest(getActivity()).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(getActivity()), "Profile", null, new ImageListCallback() {
                 @Override
                 public void done(List<Image> imageList) {
@@ -218,6 +220,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                     }
                 }
             });
+            */
         }
         else {
             Log.e("pathELSE", SaveSharedPreference.getUserProfileImagePath(getActivity()));

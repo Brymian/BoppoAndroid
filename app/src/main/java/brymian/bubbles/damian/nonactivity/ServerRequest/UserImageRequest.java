@@ -25,6 +25,7 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFr
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.isStringAnInteger;
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
 
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 
@@ -44,23 +45,16 @@ public class UserImageRequest
 
 
 
-    public void getImagesByEid(Integer eid, Boolean euiProfileIndicator, StringCallback stringCallback) {
+    public void getImagesByEid(Integer eid, Boolean eventProfileIndicator, StringCallback stringCallback) {
         pd.show();
-        new GetImagesByEid(eid, euiProfileIndicator, stringCallback).execute();
+        new GetImagesByEid(eid, eventProfileIndicator, stringCallback).execute();
     }
 
-    public void getImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, Boolean eventIndicator,
-        ImageListCallback imageListCallback) {
-        //pd.show();
-        new GetImagesByUidAndPurpose(uid, imagePurposeLabel,eventIndicator,  imageListCallback).execute();
-    }
-
-    public void getImagesByPrivacyAndPurpose(String imagePrivacyLabel, String imagePurposeLabel,
-        Boolean eventIndicator, ImageListCallback imageListCallback)
+    public void getImagesByUid(Integer uid, Boolean userProfileIndicator,
+         StringCallback stringCallback)
     {
-        pd.show();
-        new GetImagesByPrivacyAndPurpose(imagePrivacyLabel, imagePurposeLabel, eventIndicator,
-            imageListCallback).execute();
+        //pd.show();
+        new GetImagesByUid(uid, userProfileIndicator, stringCallback).execute();
     }
 
     public void getImageProfileMaxAmount(IntegerCallback integerCallback)
@@ -98,12 +92,12 @@ public class UserImageRequest
     private class GetImagesByEid extends AsyncTask<Void, Void, String> {
 
         Integer eid;
-        Boolean euiProfileIndicator;
+        Boolean eventProfileIndicator;
         StringCallback stringCallback;
 
-        private GetImagesByEid(Integer eid, Boolean euiProfileIndicator, StringCallback stringCallback) {
+        private GetImagesByEid(Integer eid, Boolean eventProfileIndicator, StringCallback stringCallback) {
             this.eid = eid;
-            this.euiProfileIndicator = euiProfileIndicator;
+            this.eventProfileIndicator = eventProfileIndicator;
             this.stringCallback = stringCallback;
         }
 
@@ -118,12 +112,12 @@ public class UserImageRequest
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("eid", eid);
-                jsonObject.put("euiProfileIndicator", getNullOrValue(euiProfileIndicator));
+                jsonObject.put("eventProfileIndicator", getNullOrValue(eventProfileIndicator));
                 String jsonString = jsonObject.toString();
 
                 String response = request.post(url, jsonString);
 
-                return response;
+                return convertPathsToFull(response);
             }
             catch (IOException ioe)
             {
@@ -149,26 +143,25 @@ public class UserImageRequest
 
 
 
-    private class GetImagesByUidAndPurpose extends AsyncTask<Void, Void, List<Image>> {
+    private class GetImagesByUid extends AsyncTask<Void, Void, String> {
 
         Integer uid;
-        String imagePurposeLabel;
-        Boolean eventIndicator;
-        ImageListCallback imageListCallback;
+        Boolean userProfileIndicator;
+        StringCallback stringCallback;
 
-        private GetImagesByUidAndPurpose(Integer uid, String imagePurposeLabel, Boolean eventIndicator,
-            ImageListCallback imageListCallback) {
+        private GetImagesByUid(Integer uid, Boolean userProfileIndicator,
+           StringCallback stringCallback)
+        {
             this.uid = uid;
-            this.imagePurposeLabel = imagePurposeLabel;
-            this.eventIndicator = eventIndicator;
-            this.imageListCallback = imageListCallback;
+            this.userProfileIndicator = userProfileIndicator;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected List<Image> doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
 
             String url = httpConnection.getWebServerString() +
-                    "AndroidIO/UserImageRequest.php?function=getImagesByUidAndPurpose";
+                "AndroidIO/UserImageRequest.php?function=getImagesByUid";
 
             Post request = new Post();
 
@@ -176,36 +169,12 @@ public class UserImageRequest
 
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("uid", getNullOrValue(uid));
-                jsonObject.put("imagePurposeLabel", imagePurposeLabel);
-                jsonObject.put("eventIndicator", getNullOrValue(eventIndicator));
+                jsonObject.put("userProfileIndicator", getNullOrValue(userProfileIndicator));
                 String jsonImageString = jsonObject.toString();
 
                 String response = request.post(url, jsonImageString);
 
-                System.out.println("RESPONSE: " + response);
-                JSONArray jImageArray = new JSONArray(response);
-
-                List<Image> imageList = new ArrayList<>();
-                for (int i = 0; i < jImageArray.length(); i++)
-                {
-                    JSONObject jImage = jImageArray.getJSONObject(i);
-                    Image image = new Image (
-                        jImage.getLong("uiid"),
-                        getIntegerObjectFromObject(jImage.get("uid")),
-                        getIntegerObjectFromObject(jImage.get("userImageSequence")),
-                        getIntegerObjectFromObject(jImage.get("userImageProfileSequence")),
-                        httpConnection.getUploadServerString() +
-                            jImage.getString("userImagePath").replaceAll(" ", "%20"),
-                        jImage.getString("userImageName"),
-                        jImage.getString("userImagePrivacyLabel"),
-                        jImage.getString("userImagePurposeLabel"),
-                        getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")),
-                        getDoubleObjectFromObject(jImage.get("userImageGpsLongitude"))
-                    );
-                    imageList.add(image);
-                }
-
-                return imageList;
+                return convertPathsToFull(response);
             }
             catch (IOException ioe)
             {
@@ -220,95 +189,16 @@ public class UserImageRequest
         }
 
         @Override
-        protected void onPostExecute(List<Image> imageList) {
+        protected void onPostExecute(String string) {
             //pd.dismiss();
-            imageListCallback.done(imageList);
+            stringCallback.done(string);
 
-            super.onPostExecute(imageList);
+            super.onPostExecute(string);
         }
 
     }
 
 
-
-    private class GetImagesByPrivacyAndPurpose extends AsyncTask<Void, Void, List<Image>> {
-
-        String imagePrivacyLabel;
-        String imagePurposeLabel;
-        Boolean eventIndicator;
-        ImageListCallback imageListCallback;
-
-        private GetImagesByPrivacyAndPurpose(String imagePrivacyLabel, String imagePurposeLabel,
-             Boolean eventIndicator, ImageListCallback imageListCallback)
-        {
-            this.imagePrivacyLabel = imagePrivacyLabel;
-            this.imagePurposeLabel = imagePurposeLabel;
-            this.eventIndicator = eventIndicator;
-            this.imageListCallback = imageListCallback;
-        }
-
-        @Override
-        protected List<Image> doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() +
-                "AndroidIO/UserImageRequest.php?function=getImagesByPrivacyAndPurpose";
-
-            Post request = new Post();
-            try
-            {
-                JSONObject jsonObject = new JSONObject();
-
-                jsonObject.put("imagePrivacyLabel", getNullOrValue(imagePrivacyLabel));
-                jsonObject.put("imagePurposeLabel", getNullOrValue(imagePurposeLabel));
-                jsonObject.put("eventIndicator", getNullOrValue(eventIndicator));
-
-                String jsonImageString = jsonObject.toString();
-
-                String response = request.post(url, jsonImageString);
-                System.out.println(response);
-                JSONArray jImageArray = new JSONArray(response);
-
-                List<Image> imageList = new ArrayList<>();
-                for (int i = 0; i < jImageArray.length(); i++)
-                {
-                    JSONObject jImage = jImageArray.getJSONObject(i);
-                    Image image = new Image (
-                        jImage.getLong("uiid"),
-                        getIntegerObjectFromObject(jImage.get("uid")),
-                        getIntegerObjectFromObject(jImage.get("userImageSequence")),
-                        getIntegerObjectFromObject(jImage.get("userImageProfileSequence")),
-                        httpConnection.getUploadServerString() +
-                            jImage.getString("userImagePath").replaceAll(" ", "%20"),
-                        jImage.getString("userImageName"),
-                        jImage.getString("userImagePrivacyLabel"),
-                        jImage.getString("userImagePurposeLabel"),
-                        getDoubleObjectFromObject(jImage.get("userImageGpsLatitude")),
-                        getDoubleObjectFromObject(jImage.get("userImageGpsLongitude"))
-                    );
-                    imageList.add(image);
-                }
-
-                return imageList;
-            }
-            catch (IOException ioe)
-            {
-                ioe.printStackTrace();
-                return null;
-            }
-            catch (JSONException jsone)
-            {
-                jsone.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(List<Image> imageList) {
-            pd.dismiss();
-            imageListCallback.done(imageList);
-
-            super.onPostExecute(imageList);
-        }
-    }
 
     private class GetImageProfileMaxAmount extends AsyncTask<Void, Void, Integer> {
 

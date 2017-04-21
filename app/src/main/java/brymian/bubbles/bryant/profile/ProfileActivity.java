@@ -441,6 +441,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
         }
         else {
+            /** BRYANT UPDATE THIS **/
+            /*
             new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
                 @Override
                 public void done(List<Image> imageList) {
@@ -463,6 +465,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 }
             });
+            */
         }
 
     }

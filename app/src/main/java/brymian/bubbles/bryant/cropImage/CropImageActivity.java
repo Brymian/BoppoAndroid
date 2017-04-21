@@ -98,6 +98,8 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void checkProfileImageExists(){
+        /** BRYANT UPDATE THIS **/
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(CropImageActivity.this), "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -109,7 +111,7 @@ public class CropImageActivity extends AppCompatActivity {
                 }
             }
         });
-
+        */
     }
 
     private void setProfileSequenceNull(int uiid){
@@ -146,6 +148,8 @@ public class CropImageActivity extends AppCompatActivity {
     }
     private void uploadProfileImage(String encodedImage){
         final String image = encodedImage;
+        /** BRYANT UPDATE THIS **/
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -171,32 +175,31 @@ public class CropImageActivity extends AppCompatActivity {
                                     });
                         }
                     });
-                    /*
-                    new UserImageRequest(CropImageActivity.this).setImage(imageList.get(0).uiid.intValue(), 100, null, null, null, null, null, new StringCallback() {
-                        @Override
-                        public void done(String string) {
-                            Log.e("setImage", string);
-                            new UserImageRequest(CropImageActivity.this).uploadImage(
-                                    SaveSharedPreference.getUserUID(CropImageActivity.this),
-                                    0,
-                                    imageName(),
-                                    "Profile",
-                                    "Public",
-                                    0.0,
-                                    0.0,
-                                    image, new StringCallback() {
-                                        @Override
-                                        public void done(String string) {
-                                            Log.e("upProfImage", string);
-                                        }
-                                    });
-                        }
-                    });
-                    */
+                    //
+                    //new UserImageRequest(CropImageActivity.this).setImage(imageList.get(0).uiid.intValue(), 100, null, null, null, null, null, new StringCallback() {
+                    //    @Override
+                    //    public void done(String string) {
+                    //        Log.e("setImage", string);
+                    //        new UserImageRequest(CropImageActivity.this).uploadImage(
+                    //                SaveSharedPreference.getUserUID(CropImageActivity.this),
+                    //                0,
+                    //                imageName(),
+                    //                "Profile",
+                    //                "Public",
+                    //                0.0,
+                    //                0.0,
+                    //                image, new StringCallback() {
+                    //                    @Override
+                    //                    public void done(String string) {
+                    //                        Log.e("upProfImage", string);
+                    //                    }
+                    //                });
+                    //    }
+                    //});
                 }
             }
         });
-
+        */
     }
 
     @Override

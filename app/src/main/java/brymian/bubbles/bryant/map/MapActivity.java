@@ -137,6 +137,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     }
 
     private void getUserImages(int uid){
+        /** BRYANT UPDATE THIS **/
+        /*
         new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Regular", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -176,6 +178,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                 }
             }
         });
+        */
     }
 
     private void viewImage(String imageListPath){
@@ -197,6 +200,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
     }
 
     private void getAllImages(){
+        /** BRYANT UPDATE THIS **/
+        /*
         new UserImageRequest(this).getImagesByPrivacyAndPurpose("Public", "Regular", null, new ImageListCallback() {
             @Override
             public void done(List<Image> imageList) {
@@ -230,6 +235,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                 }
             }
         });
+        */
     }
 
     private void setUpMapIfNeeded() {

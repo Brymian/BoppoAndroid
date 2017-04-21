@@ -148,6 +148,8 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
         tvFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
         tvUsername.setText(SaveSharedPreference.getUsername(this));
         if (SaveSharedPreference.getUserProfileImagePath(this).isEmpty()){
+            /** BRYANT UPDATE THIS **/
+            /*
             new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
                 @Override
                 public void done(List<Image> imageList) {
@@ -158,6 +160,7 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
                     }
                 }
             });
+            */
         }
         else {
             Picasso.with(this).load(SaveSharedPreference.getUserProfileImagePath(this)).fit().centerCrop().into(ivProfilePicture);
