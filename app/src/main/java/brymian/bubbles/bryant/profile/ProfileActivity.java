@@ -22,6 +22,10 @@ import android.widget.Toast;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import brymian.bubbles.R;
@@ -416,58 +420,25 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void getProfilePictures(int uid){
-        if (getFriendShipStatus().equals("logged in user")){
-            if (!SaveSharedPreference.getUserProfileImagePath(ProfileActivity.this).isEmpty()){
-                Picasso.with(ProfileActivity.this)
-                        .load(SaveSharedPreference.getUserProfileImagePath(this))
-                        .fit()
-                        .noFade()
-                        .centerCrop()
-                        .into(ivProfilePicture, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                supportStartPostponedEnterTransition();
-                            }
-
-                            @Override
-                            public void onError() {
-                                supportStartPostponedEnterTransition();
-                            }
-                        });
-            }
-            else{
-                Log.e("get", "good");
-            }
-
-        }
-        else {
-            /** BRYANT UPDATE THIS **/
-            /*
-            new UserImageRequest(this).getImagesByUidAndPurpose(uid, "Profile", null, new ImageListCallback() {
+            new UserImageRequest(this).getImagesByUid(uid, true, new StringCallback() {
                 @Override
-                public void done(List<Image> imageList) {
-                    if (imageList.size() > 0) {
-                        Picasso.with(ProfileActivity.this)
-                                .load(imageList.get(0).userImagePath)
-                                .fit()
-                                .centerCrop()
-                                .into(ivProfilePicture, new Callback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        supportStartPostponedEnterTransition();
-                                    }
-
-                                    @Override
-                                    public void onError() {
-                                        supportStartPostponedEnterTransition();
-                                    }
-                                });
+                public void done(String string) {
+                    Log.e("string", string);
+                    try{
+                        JSONObject jsonObject = new JSONObject(string);
+                        String images = jsonObject.getString("images");
+                        JSONArray jsonArray = new JSONArray(images);
+                        if (jsonArray.length() > 0){
+                            JSONObject imageObj = jsonArray.getJSONObject(0);
+                            String userImagePath = imageObj.getString("userImagePath");
+                            Picasso.with(ProfileActivity.this).load(userImagePath).into(ivProfilePicture);
+                        }
+                    }
+                    catch (JSONException e){
+                        e.printStackTrace();
                     }
                 }
             });
-            */
-        }
-
     }
 
     private void setUID(int uid){

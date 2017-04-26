@@ -35,13 +35,11 @@ import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.settings.Privacy;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -208,19 +206,25 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
 
         if (SaveSharedPreference.getUserProfileImagePath(getActivity()).isEmpty()){
-            /** BRYANT UPDATE THIS **/
-            /*
-            new UserImageRequest(getActivity()).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(getActivity()), "Profile", null, new ImageListCallback() {
+            new UserImageRequest(getActivity()).getImagesByUid(SaveSharedPreference.getUserUID(getActivity()), true, new StringCallback() {
                 @Override
-                public void done(List<Image> imageList) {
-                    if (imageList.size() > 0) {
-                        Log.e("pathIF", imageList.get(0).userImagePath);
-                        Picasso.with(getActivity()).load(imageList.get(0).userImagePath).fit().centerCrop().into(ivProfilePicture);
-                        SaveSharedPreference.setUserProfileImagePath(getActivity(), imageList.get(0).userImagePath);
+                public void done(String string) {
+                    Log.e("string", string);
+                    try{
+                        JSONObject jsonObject = new JSONObject(string);
+                        String images = jsonObject.getString("images");
+                        JSONArray jsonArray = new JSONArray(images);
+                        if (jsonArray.length() > 0){
+                            JSONObject imageObj = jsonArray.getJSONObject(0);
+                            String userImagePath = imageObj.getString("userImagePath");
+                            Picasso.with(getActivity()).load(userImagePath).into(ivProfilePicture);
+                        }
+                    }
+                    catch (JSONException e){
+                        e.printStackTrace();
                     }
                 }
             });
-            */
         }
         else {
             Log.e("pathELSE", SaveSharedPreference.getUserProfileImagePath(getActivity()));
