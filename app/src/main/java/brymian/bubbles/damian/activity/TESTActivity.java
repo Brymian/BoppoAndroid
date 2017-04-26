@@ -134,6 +134,7 @@ public class TESTActivity extends Activity {
         });
         */
          // Worked as of 2017-04-20
+        /*
         new UserImageRequest(this).getImagesByUid(2, true, new StringCallback() {
             @Override
             public void done(String string) {
@@ -152,7 +153,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /* // Worked as of 2017-04-06
         try
         {
@@ -202,16 +203,16 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         int uid = 1;
-        int userImageSequence = 30;
+        int userImageSequence = 15;
         new ServerRequestMethods(this).deleteImage(uid, userImageSequence, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESULT: " + string);
             }
         });
-        */
+
 
         /*
         int uid = 1;
@@ -735,6 +736,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
+        /*
         new UserImageRequest(this).getImagesByEid(59, true, new StringCallback() {
             @Override
             public void done(String string)
@@ -756,7 +758,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
+        */
         /* // Works correctly as of 2017-04-05
         new UserRequest(this).getUsersSearchedByName(1, "dam nie", new StringCallback() {
             @Override
@@ -793,6 +795,19 @@ public class TESTActivity extends Activity {
             sone.printStackTrace();
             // Do something here, if need to handle this
         }
+        */
+        /* // Works correctly as of 2017-04-25
+        User user = new User();
+        user.initUserNormal("Dummy", "assword");
+        user.setUserNormalLogin("Dummy", "assword", "Jan", "Kowalski", "janko@o2.pl");
+        user.setPhone("973-774-8175");
+
+        new ServerRequestMethods(this).createUserNormal(user, new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("UID: " + string);
+            }
+        });
         */
     }
 
