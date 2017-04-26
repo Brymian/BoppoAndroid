@@ -17,122 +17,159 @@
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         android:transitionGroup="true"/>
-    <LinearLayout
-        android:id="@+id/llMainLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
-        android:orientation="vertical"
-        android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp">
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etUsername"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Username"
-                android:drawableLeft="@mipmap/ic_account_box_outline_black_24dp"
-                android:drawablePadding="10dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:inputType="text"
-                android:maxLines="1"/>
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleDrawable="@mipmap/ic_remove_red_eye_black_24dp">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Password"
-                android:drawableLeft="@mipmap/ic_lock_outline_black_24dp"
-                android:drawablePadding="10dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:inputType="textPassword"
-                android:maxLines="1"/>
-        </android.support.design.widget.TextInputLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleDrawable="@mipmap/ic_remove_red_eye_black_24dp">
-            <EditText
-                android:id="@+id/etConfirmPassword"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/Confirm_Password"
-                android:drawableLeft="@mipmap/ic_lock_outline_black_24dp"
-                android:drawablePadding="10dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:inputType="textPassword"
-                android:maxLines="1"/>
-        </android.support.design.widget.TextInputLayout>
-
         <LinearLayout
+            android:id="@+id/llMainLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:layout_below="@+id/toolbar"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
             <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
+                android:id="@+id/tilUsername"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight=".4">
+                android:layout_marginBottom="5dp"
+                android:nextFocusForward="@+id/tilPassword">
                 <android.support.design.widget.TextInputEditText
-                    android:id="@+id/etFirstName"
+                    android:id="@+id/etUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/First_Name"
-                    android:drawableLeft="@mipmap/ic_account_outline_black_24dp"
+                    android:hint="@string/Username"
+                    android:drawableLeft="@mipmap/ic_account_box_outline_grey600_24dp"
                     android:drawablePadding="10dp"
                     android:backgroundTint="@android:color/darker_gray"
-                    android:inputType="textCapWords"
+                    android:inputType="text"
                     android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight=".6">
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/etLastName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/Last_Name"
-                    android:backgroundTint="@android:color/darker_gray"
-                    android:inputType="textCapWords"
-                    android:maxLines="1" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/etEmail"
+                android:id="@+id/tilPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/Email"
-                android:drawableLeft="@mipmap/ic_mail_outline_black_24dp"
-                android:drawablePadding="10dp"
-                android:backgroundTint="@android:color/darker_gray"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"/>
-        </android.support.design.widget.TextInputLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="*Profile image is optional."
-            android:textAppearance="@android:style/TextAppearance.Small" />
-        <ImageView
-            android:id="@+id/ivUserProfileImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
+                android:layout_marginBottom="5dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleDrawable="@mipmap/ic_remove_red_eye_black_24dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nextFocusForward="@+id/tilConfirmPassword"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/Password"
+                    android:drawableLeft="@mipmap/ic_lock_outline_grey600_24dp"
+                    android:drawablePadding="10dp"
+                    android:backgroundTint="@android:color/darker_gray"
+                    android:inputType="textPassword"
+                    android:maxLines="1"/>
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilConfirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                app:passwordToggleEnabled="true"
+                app:passwordToggleDrawable="@mipmap/ic_remove_red_eye_black_24dp">
+                <EditText
+                    android:id="@+id/etConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nextFocusForward="@+id/tilFirstName"
+                    android:imeOptions="actionNext"
+                    android:hint="@string/Confirm_Password"
+                    android:drawableLeft="@mipmap/ic_lock_outline_grey600_24dp"
+                    android:drawablePadding="10dp"
+                    android:backgroundTint="@android:color/darker_gray"
+                    android:inputType="textPassword"
+                    android:maxLines="1"/>
+            </android.support.design.widget.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal"
+                android:baselineAligned="false">
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilFirstName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".4">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/etFirstName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:nextFocusForward="@+id/tilLastName"
+                        android:nextFocusRight="@+id/tilLastName"
+                        android:imeOptions="actionNext"
+                        android:hint="@string/First_Name"
+                        android:drawableLeft="@mipmap/ic_account_outline_grey600_24dp"
+                        android:drawablePadding="10dp"
+                        android:backgroundTint="@android:color/darker_gray"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilLastName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".6"
+                    android:nextFocusForward="@+id/tilEmail">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/etLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:hint="@string/Last_Name"
+                        android:backgroundTint="@android:color/darker_gray"
+                        android:inputType="textCapWords"
+                        android:maxLines="1" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp">
+                <android.support.design.widget.TextInputEditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:imeOptions="actionDone"
+                    android:hint="@string/Email"
+                    android:drawableLeft="@mipmap/ic_email_outline_grey600_24dp"
+                    android:drawablePadding="10dp"
+                    android:backgroundTint="@android:color/darker_gray"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"/>
+            </android.support.design.widget.TextInputLayout>
+            <!--
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:id="@+id/ivUserProfileImage"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/imageview_border"
+                    android:padding="1dp"/>
+                <TextView
+                    android:id="@+id/tvUploadImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tap to upload image"
+                    android:textColor="@android:color/darker_gray"
+                    android:layout_centerInParent="true" />
+                <TextView
+                    android:layout_below="@id/ivUserProfileImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:text="*Optional"
+                    android:textAppearance="@android:style/TextAppearance.Small" />
+              </RelativeLayout>
+                    -->
+        </LinearLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabDone"
         android:layout_width="wrap_content"
@@ -142,5 +179,5 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="16dp"
         app:backgroundTint="@color/AppColor"
-        android:src="@mipmap/ic_done_white_24dp"/>
+        android:src="@mipmap/ic_arrow_right_white_24dp"/>
 </RelativeLayout>
