@@ -142,33 +142,6 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
-            <!--
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <ImageView
-                    android:id="@+id/ivUserProfileImage"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_centerInParent="true"
-                    android:background="@drawable/imageview_border"
-                    android:padding="1dp"/>
-                <TextView
-                    android:id="@+id/tvUploadImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Tap to upload image"
-                    android:textColor="@android:color/darker_gray"
-                    android:layout_centerInParent="true" />
-                <TextView
-                    android:layout_below="@id/ivUserProfileImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:text="*Optional"
-                    android:textAppearance="@android:style/TextAppearance.Small" />
-              </RelativeLayout>
-                    -->
         </LinearLayout>
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fabDone"

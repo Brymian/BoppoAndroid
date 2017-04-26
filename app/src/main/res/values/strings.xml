@@ -144,10 +144,12 @@
     <string name="Password">Password</string>
     <string name="Personal">Personal</string>
     <string name="Phone_Number">Phone Number</string>
+        <string name="Photo_deleted">Profile photo deleted!</string>
+        <string name="Profile_photo_uploaded">Profile photo uploaded!</string>
     <string name="Privacy">Privacy</string>
     <string name="Private">Private</string>
     <string name="Profile">PROFILE</string>
-    <string name="Profile_picture">Profile picture</string>
+    <string name="Profile_picture">Profile Photo</string>
     <string name="Profile_Pictures">Profile Pictures</string>
     <string name="Pictures">Pictures</string>
     <string name="Received_Friend_Requests">Received Friend Requests</string>
@@ -181,6 +183,7 @@
     <string name="Top_Episodes">Top Episodes</string>
     <string name="Travel">Travel</string>
     <string name="Unblock">UNBLOCK</string>
+        <string name="Upload_a_profile_picture">Upload a profile photo!</string>
     <string name="Upload_From">Upload From:</string>
     <string name="UPLOAD_IMAGE">Upload image</string>
     <string name="Users">Users</string>

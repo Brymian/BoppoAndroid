@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(SaveSharedPreference.getUsername(this).length() != 0){
+        if(SaveSharedPreference.getUserPassword(this).length() != 0){
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
@@ -83,6 +83,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
         FragmentManager fm = getFragmentManager();
         if (fm.getBackStackEntryCount() > 0) {
+            SaveSharedPreference.clearAll(this);
             fm.popBackStack();
         } else {
             super.onBackPressed();

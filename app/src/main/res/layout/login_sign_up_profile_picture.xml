@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/LightGrayAndroid"
+    android:clickable="true">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:background="@color/AppColor"
+        android:elevation="6dp"
+        android:minHeight="?attr/actionBarSize"
+        android:transitionGroup="true"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/tvHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+        <ImageView
+            android:id="@+id/ivUserProfileImage"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_marginBottom="5dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/imageview_border"
+            android:padding="1dp"/>
+
+        <LinearLayout
+            android:id="@+id/llUploadButtons"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/ibCamera"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:padding="10dp"
+                android:background="@color/AppColor"
+                android:src="@mipmap/ic_camera_white_24dp"/>
+            <ImageButton
+                android:id="@+id/ibGallery"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:padding="10dp"
+                android:background="@color/AppColor"
+                android:src="@mipmap/ic_image_multiple_white_24dp"/>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/rlDelete"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <ImageButton
+                android:id="@+id/ibDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/AppColor"
+                android:src="@mipmap/ic_delete_white_24dp"
+                android:padding="10dp"/>
+            <ProgressBar
+                android:id="@+id/pbDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:elevation="10dp"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabDone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        app:backgroundTint="@color/AppColor"
+        android:src="@mipmap/ic_done_white_24dp"/>
+
+</RelativeLayout>

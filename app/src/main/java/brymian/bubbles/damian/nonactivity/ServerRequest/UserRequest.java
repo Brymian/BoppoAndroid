@@ -22,10 +22,10 @@ public class UserRequest {
     private ProgressDialog pd = null;
 
     public UserRequest(Activity activity) {
-        pd = new ProgressDialog(activity);
-        pd.setCancelable(false);
-        pd.setTitle("Processing");
-        pd.setMessage("Please wait...");
+        //pd = new ProgressDialog(activity);
+        //pd.setCancelable(false);
+        //pd.setTitle("Processing");
+        //pd.setMessage("Please wait...");
         httpConnection = new HTTPConnection();
     }
 
@@ -34,7 +34,7 @@ public class UserRequest {
     public void setUser(Integer uid, String first_name, String last_name, String email,
         String phone, String user_account_privacy_label, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new SetUser(uid, first_name, last_name, email, phone, user_account_privacy_label,
             stringCallback).execute();
     }
@@ -107,7 +107,7 @@ public class UserRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);

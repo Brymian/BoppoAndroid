@@ -2,12 +2,14 @@ package brymian.bubbles.bryant.logIn;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +25,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
@@ -32,6 +35,7 @@ public class LoginSignUpPhoneNumber extends Fragment {
     EditText etPhoneNumber;
     Button bVerify;
     ProgressBar pbVerify;
+    FloatingActionButton fabDone;
     private boolean delivered;
     private static final String SMS_STRING = "Hello from Bryant.";
 
@@ -58,6 +62,18 @@ public class LoginSignUpPhoneNumber extends Fragment {
         });
 
         pbVerify = (ProgressBar) view.findViewById(R.id.pbVerify);
+
+        fabDone = (FloatingActionButton) view.findViewById(R.id.fabDone);
+        fabDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginSignUpProfilePicture loginSignUpProfilePicture = new LoginSignUpProfilePicture();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.login_activity, loginSignUpProfilePicture);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
 
         setReceiver();
         return view;
@@ -213,8 +229,7 @@ public class LoginSignUpPhoneNumber extends Fragment {
     }
 
     private void addPhoneNumberToDB(){
-        //wait for damian to provide uid
-        new UserRequest(getActivity()).setUser(29, null, null, null, etPhoneNumber.getText().toString(), null,
+        new UserRequest(getActivity()).setUser(SaveSharedPreference.getUserUID(getActivity()), null, null, null, etPhoneNumber.getText().toString(), null,
                 new StringCallback() {
                     @Override
                     public void done(String string) {

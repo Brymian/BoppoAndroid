@@ -13,13 +13,13 @@
         android:layout_alignParentLeft="true"
         android:elevation="6dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:background="@color/AppColor"/>
+        android:background="@android:color/transparent" />
 
     <com.edmodo.cropper.CropImageView
         android:id="@+id/CropImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+        android:layout_centerInParent="true"
         android:adjustViewBounds="true"
         android:scaleType="centerInside"
         app:guidelines="onTouch"/>

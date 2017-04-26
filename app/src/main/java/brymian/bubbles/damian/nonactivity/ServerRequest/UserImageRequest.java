@@ -32,21 +32,21 @@ import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 public class UserImageRequest
 {
     private HTTPConnection httpConnection = null;
-    private ProgressDialog pd = null;
+    //private ProgressDialog pd = null;
 
     public UserImageRequest(Activity activity)
     {
-        pd = new ProgressDialog(activity);
-        pd.setCancelable(false);
-        pd.setTitle("Processing");
-        pd.setMessage("Please wait...");
+        //pd = new ProgressDialog(activity);
+        //pd.setCancelable(false);
+        //pd.setTitle("Processing");
+        //pd.setMessage("Please wait...");
         httpConnection = new HTTPConnection();
     }
 
 
 
     public void getImagesByEid(Integer eid, Boolean eventProfileIndicator, StringCallback stringCallback) {
-        pd.show();
+        //pd.show();
         new GetImagesByEid(eid, eventProfileIndicator, stringCallback).execute();
     }
 
@@ -59,7 +59,7 @@ public class UserImageRequest
 
     public void getImageProfileMaxAmount(IntegerCallback integerCallback)
     {
-        pd.show();
+        //pd.show();
         new GetImageProfileMaxAmount(integerCallback).execute();
     }
 
@@ -68,7 +68,7 @@ public class UserImageRequest
       Double userImageGpsLatitude, Double userImageGpsLongitude,
       Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
     {
-        pd.show();
+        //pd.show();
         new SetImage(uiid, userImageProfileSequence, userImageName, userImagePurposeLabel,
             userImagePrivacyLabel, userImageGpsLatitude, userImageGpsLongitude,
             setOrNot, stringCallback).execute();
@@ -79,7 +79,7 @@ public class UserImageRequest
         Double userImageGpsLatitude, Double userImageGpsLongitude,
         String userImage, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new UploadImage(uid, userImageProfileSequence, userImageName, userImagePurposeLabel,
             userImagePrivacyLabel,  userImageGpsLatitude, userImageGpsLongitude,
             userImage, stringCallback).execute();
@@ -133,7 +133,7 @@ public class UserImageRequest
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -240,7 +240,7 @@ public class UserImageRequest
 
         @Override
         protected void onPostExecute(Integer integer) {
-            pd.dismiss();
+            //pd.dismiss();
             integerCallback.done(integer);
 
             super.onPostExecute(integer);
@@ -322,7 +322,7 @@ public class UserImageRequest
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
             //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
@@ -392,7 +392,7 @@ public class UserImageRequest
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
             //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 

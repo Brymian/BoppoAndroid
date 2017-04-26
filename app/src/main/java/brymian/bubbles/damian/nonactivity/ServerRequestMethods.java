@@ -479,7 +479,7 @@ public class ServerRequestMethods {
 
         @Override
         protected void onPostExecute(Void aVoid) {
-            pd.dismiss();
+            //pd.dismiss();
             voidCallback.done(aVoid);
 
             super.onPostExecute(aVoid);

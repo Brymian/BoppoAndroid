@@ -18,13 +18,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.RegularExpressions;
+import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
 public class LoginSignUp extends Fragment{
-    private String EMAIL_PATTERN = "^[a-zA-Z0-9#_~!$&'()*+,;=:.\"(),:;<>@\\[\\]\\\\]+@[a-zA-Z0-9-]+(\\.[a-zA-Z0-9-]+)*$";
-    private Pattern pattern = Pattern.compile(EMAIL_PATTERN);
+    private Pattern pattern = Pattern.compile(RegularExpressions.EMAIL_PATTERN);
 
     Toolbar toolbar;
     EditText etUsername, etPassword, etConfirmPassword, etFirstName, etLastName, etEmail;
@@ -71,33 +72,70 @@ public class LoginSignUp extends Fragment{
     }
 
     private void register(){
-        LoginSignUpPhoneNumber loginSignUpPhoneNumber = new LoginSignUpPhoneNumber();
-        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.login_activity, loginSignUpPhoneNumber);
-        fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.commit();
-        if (!validatePassword()){
-            tilPassword.setError("Must be at least 8 characters");
+        boolean isUsernameEmpty = etUsername.getText().toString().isEmpty();
+
+        if (isUsernameEmpty){
+            tilUsername.setError("Field can't be empty");
         }
         else {
-            tilPassword.setErrorEnabled(false);
+            tilUsername.setErrorEnabled(false);
         }
 
-        if (!validateConfirmPassword()){
-            tilConfirmPassword.setError("Password doesn't match");
+        if (etPassword.getText().toString().isEmpty()){
+            tilPassword.setError("Field can't be empty");
         }
         else {
-            tilConfirmPassword.setErrorEnabled(false);
+            if (!validatePassword()){
+                tilPassword.setError("Must be at least 8 characters");
+            }
+            else {
+                tilPassword.setErrorEnabled(false);
+            }
         }
 
-        if (!validateEmail()){
-            tilEmail.setError("Invalid email");
+        if (etConfirmPassword.getText().toString().isEmpty()){
+            tilConfirmPassword.setError("Field can't be empty");
         }
         else {
-            tilEmail.setErrorEnabled(false);
+            if (!validateConfirmPassword()){
+                tilConfirmPassword.setError("Password doesn't match");
+            }
+            else {
+                tilConfirmPassword.setErrorEnabled(false);
+            }
         }
 
-        if (validatePassword() && validateConfirmPassword() && validateEmail()){
+        boolean isFirstNameEmpty = etFirstName.getText().toString().isEmpty();
+
+        if (isFirstNameEmpty){
+            tilFirstName.setError("Field can't empty");
+        }
+        else {
+            tilFirstName.setErrorEnabled(false);
+        }
+
+        boolean isLastNameEmpty = etLastName.getText().toString().isEmpty();
+
+        if (isLastNameEmpty){
+            tilLastName.setError("Field can't empty");
+        }
+        else {
+            tilLastName.setErrorEnabled(false);
+        }
+
+        if (etEmail.getText().toString().isEmpty()){
+            tilEmail.setError("Field can't be empty");
+        }
+        else {
+            if (!validateEmail()){
+                tilEmail.setError("Invalid email");
+            }
+            else {
+                tilEmail.setErrorEnabled(false);
+            }
+        }
+
+        if (!isUsernameEmpty && validatePassword() && validateConfirmPassword() && !isFirstNameEmpty && !isLastNameEmpty && validateEmail()){
                 String username = etUsername.getText().toString();
                 String password = etPassword.getText().toString();
                 String namefirst = etFirstName.getText().toString();
@@ -106,12 +144,20 @@ public class LoginSignUp extends Fragment{
 
                 User user = new User();
                 user.setUserNormalLogin(username, password, namefirst, namelast, email);
+                user.setPhone("0000000000");
 
                 new ServerRequestMethods(getActivity()).createUserNormal(user, new StringCallback() {
                     @Override
                     public void done(String string) {
-                        if (string.length() <= 1) {
+                        Log.e("string", string);
+                        String error = "";
+                        if (string.contains("Success:")){
                             /* Successfully created user */
+                            String[] arr = string.split(" ");
+                            String uid = arr[1];
+                            SaveSharedPreference.setUserUID(getActivity(), Integer.valueOf(uid));
+                            SaveSharedPreference.setUserPassword(getActivity(), etPassword.getText().toString());
+                            SaveSharedPreference.setUsername(getActivity(), etUsername.getText().toString());
 
                             // Removing this fragment from stack
                             FragmentManager fm = getFragmentManager();
@@ -124,21 +170,18 @@ public class LoginSignUp extends Fragment{
                             fragmentTransaction.addToBackStack(null);
                             fragmentTransaction.commit();
                         }
-                        else {
-                            String error;
-                            if (string.contains("Duplicate entry")) {
-                                String username = string.split("'")[1];
-                                tilUsername.setError("Username already taken");
-                                error = "Username '" + username + "' is already taken.";
-                            }
-                            else if (string.contains("java.net.SocketTimeoutException")) {
-                                error = "Server is not reachable: it may be offline.";
-                            }
-                            else {
-                                error = "Unknown error: '" + string + "'";
-                            }
-                            Log.e("error", error);
+                        else if (string.contains("Duplicate entry")) {
+                            String username = string.split("'")[1];
+                            tilUsername.setError("Username already taken");
+                            error = "Username '" + username + "' is already taken.";
                         }
+                        else if (string.contains("java.net.SocketTimeoutException")) {
+                            error = "Server is not reachable: it may be offline.";
+                        }
+                        else {
+                            error = "Unknown error: '" + string + "'";
+                        }
+                        Log.e("error", error);
                     }
                 });
             }

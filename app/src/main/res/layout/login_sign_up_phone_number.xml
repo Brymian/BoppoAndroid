@@ -56,12 +56,12 @@
         </android.support.design.widget.TextInputLayout>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp">
             <Button
                 android:id="@+id/bVerify"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
                 android:background="@color/AppColor"
                 android:text="Verify"
                 android:textColor="@android:color/white"/>
@@ -84,6 +84,6 @@
         android:layout_marginRight="16dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:backgroundTint="@color/AppColor"
+        app:backgroundTint="@color/AppColor"
         android:src="@mipmap/ic_arrow_right_white_24dp"/>
 </RelativeLayout>
