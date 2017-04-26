@@ -76,9 +76,15 @@ public class MainTabNewsFeed extends Fragment {
                                     mutualUids.add(Integer.valueOf(jsonObject1.getString("uid")));
                                     String userProfileImage = jsonObject1.getString("userProfileImages");
                                     JSONArray userProfileImageArray = new JSONArray(userProfileImage);
-                                    JSONObject userProfileImageObj = userProfileImageArray.getJSONObject(0);
-                                    mutualUserProfileImagePaths.add(userProfileImageObj.getString("userImagePath"));
-                                    Log.e("j", jsonObject1.getString("username") + " " + jsonObject1.getString("uid") + " " + userProfileImageObj.getString("userImagePath"));
+                                    String userProfileImagePath;
+                                    if (userProfileImageArray.length() > 0){
+                                        JSONObject userProfileImageObj = userProfileImageArray.getJSONObject(0);
+                                        userProfileImagePath = userProfileImageObj.getString("userImagePath");
+                                    }
+                                    else {
+                                        userProfileImagePath = "empty";
+                                    }
+                                    mutualUserProfileImagePaths.add(userProfileImagePath);
                                 }
                                 MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(Integer.valueOf(mutualEpisodeObject.getString("eid")), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusActionTimestamp"), mutualUsernames, mutualUids, mutualUserProfileImagePaths, mutualEpisodeProfileImagePath);
                                 mainTabNewsFeedInfoList.add(infoMutual);
