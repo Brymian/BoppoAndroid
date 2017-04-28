@@ -4,57 +4,65 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.episodes.EpisodeMyRecyclerAdapter;
+import brymian.bubbles.bryant.friends.FriendsRecyclerAdapter;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.friends.FriendsActivity;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.Image;
 import brymian.bubbles.objects.User;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView ivProfilePicture;
     FloatingActionButton fabStatus;
-    TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum;
-    CardView cvUserFriends;
+    TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum, tvSeeAllFriends, tvSeeAllEpisodes;
     int userUID;
     String username, privacy, friendShipStatus;
     Toolbar mToolbar;
 
+    RecyclerView rvFriends, rvEpisodes;
+    RecyclerView.Adapter adapter, adapterFriends, adapterEpisodes;
+    RecyclerView.LayoutManager layoutManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.profile_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -62,6 +70,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setElevation(1);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //mToolbar.setPadding(0, getStatusBarHeight(),0, 0);
+        }
+
         /*--------------------------------Checking for putExtras()--------------------------------*/
         int uid;
         if (savedInstanceState == null) {
@@ -82,23 +97,39 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tvFriendStatus = (TextView) findViewById(R.id.tvFriendStatus);
         tvFriendStatus.setVisibility(View.GONE);
         tvProfileFirstLastName = (TextView) findViewById(R.id.tvUserFirstLastName);
-        cvUserFriends = (CardView) findViewById(R.id.cvUserFriends);
-        cvUserFriends.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, FriendsActivity.class).putExtra("uid", SaveSharedPreference.getUserUID(ProfileActivity.this)).putExtra("profile", getUsername()));
-            }
-        });
         tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
         tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
+        tvSeeAllEpisodes = (TextView) findViewById(R.id.tvSeeAllEpisodes);
+        tvSeeAllEpisodes.setOnClickListener(this);
+        tvSeeAllFriends = (TextView) findViewById(R.id.tvSeeAllFriends);
+        tvSeeAllFriends.setOnClickListener(this);
+
+        rvFriends = (RecyclerView) findViewById(R.id.rvFriends);
+        rvEpisodes = (RecyclerView) findViewById(R.id.rvEpisodes);
 
 
         if(uid != 0){
+            setUID(uid);
             setFriendshipStatus(uid);
-            getFriendsNum(uid);
-            //getEpisodesNum(uid);
+            getProfilePictures(uid);
+            getFriends(uid);
+            setUserProfileInfo(uid);
+            getEpisodes(uid);
         }
     }
+
+    // A method to find height of the status bar
+    /*
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+            Log.e("statusBarHght", result + "");
+        }
+        return result;
+    }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -149,6 +180,9 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 });
                 break;
 
+            case R.id.tvSeeAllFriends:
+                startActivity(new Intent(this, FriendsActivity.class).putExtra("uid", getUID()));
+                break;
             case R.id.tvReportUser:
                 Toast.makeText(this, "Report under construction", Toast.LENGTH_SHORT).show();
                 break;
@@ -213,35 +247,39 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setFriendshipStatus(int uid){
         if (uid == SaveSharedPreference.getUserUID(this)){
-            setUserProfileInfo("logged in user");
-            getProfilePictures(SaveSharedPreference.getUserUID(this));
-            setUID(SaveSharedPreference.getUserUID(this));
-            setUsername(SaveSharedPreference.getUsername(this));
-            mToolbar.setTitle(SaveSharedPreference.getUsername(this));
-            tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
-        }
+            setUserProfileDisplay("logged in user");
+            }
         else{
-            final int innerUid = uid;
             new ServerRequestMethods(this).getFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), uid, new StringCallback() {
                 @Override
                 public void done(String string) {
-                    setUserProfileInfo(string);
-                    getProfilePictures(innerUid);
-                    new ServerRequestMethods(ProfileActivity.this).getUserData(innerUid, new UserCallback() {
-                        @Override
-                        public void done(User user) {
-                            setUsername(user.getUsername());
-                            mToolbar.setTitle(user.getUsername());
-                            tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
-                            setPrivacy(user.getUserAccountPrivacy());
-                        }
-                    });
+                    setUserProfileDisplay(string);
                 }
             });
         }
     }
 
-    private void setUserProfileInfo(String profile){
+    private void setUserProfileInfo(int uid){
+        if (uid == SaveSharedPreference.getUserUID(this)){
+            setUsername(SaveSharedPreference.getUsername(this));
+            mToolbar.setTitle(SaveSharedPreference.getUsername(this));
+            tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
+
+        }
+        else {
+            new ServerRequestMethods(ProfileActivity.this).getUserData(uid, new UserCallback() {
+                @Override
+                public void done(User user) {
+                    setUsername(user.getUsername());
+                    mToolbar.setTitle(user.getUsername());
+                    tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
+                    setPrivacy(user.getUserAccountPrivacy());
+                }
+            });
+        }
+    }
+
+    private void setUserProfileDisplay(String profile){
         this.friendShipStatus = profile;
         switch (profile){
             case "logged in user":
@@ -299,16 +337,108 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void getFriendsNum(int uid){
-        new ServerRequestMethods(this).getFriends(uid, new UserListCallback() {
+    private void getFriends(int uid){
+        new UserRequest(this).getFriends(uid, new StringCallback() {
             @Override
-            public void done(List<User> users) {
-                tvFriendsNum.setText(String.valueOf(users.size()));
+            public void done(String string) {
+                try{
+                    JSONObject jsonObject = new JSONObject(string);
+                    String friendsString = jsonObject.getString("friends");
+                    JSONArray jsonArray = new JSONArray(friendsString);
+                    tvFriendsNum.setText(String.valueOf(jsonArray.length()));
+                    if (jsonArray.length() > 0){
+                        List<Integer> friendsUid = new ArrayList<>();
+                        List<String> friendsFullName = new ArrayList<>();
+                        List<String> friendsUsername = new ArrayList<>();
+                        List<String> friendsUserImagePath = new ArrayList<>();
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject friendsObj = jsonArray.getJSONObject(i);
+                            String username = friendsObj.getString("username");
+                            String fullname = friendsObj.getString("firstName") + " " + friendsObj.getString("lastName");
+                            String uid = friendsObj.getString("uid");
+
+                            String userImagesString = friendsObj.getString("userProfileImages");
+                            JSONArray userImagesArray = new JSONArray(userImagesString);
+                            String userImagePath;
+                            if (userImagesArray.length() > 0){
+                                JSONObject userImagePathObj = userImagesArray.getJSONObject(0);
+                                userImagePath = userImagePathObj.getString("userImagePath");
+                            }
+                            else {
+                                userImagePath = "empty";
+                            }
+
+                            friendsUid.add(Integer.valueOf(uid));
+                            friendsFullName.add(fullname);
+                            friendsUsername.add(username);
+                            friendsUserImagePath.add(userImagePath);
+                        }
+
+                        adapter = new FriendsRecyclerAdapter(ProfileActivity.this, "horizontal", friendsFullName, friendsUsername, friendsUid, friendsUserImagePath);
+                        layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                        rvFriends.setLayoutManager(layoutManager);
+                        rvFriends.setNestedScrollingEnabled(false);
+                        rvFriends.setAdapter(adapter);
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    private void getEpisodesNum(int uid){
+    private void getEpisodes(int uid){
+        new EventRequest(this).getEventDataByMember(uid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                Log.e("string", string);
+                try{
+                    JSONObject jsonObject = new JSONObject(string);
+                    String episodesString = jsonObject.getString("events");
+                    JSONArray episodeArray = new JSONArray(episodesString);
+                    tvEpisodesNum.setText(String.valueOf(episodeArray.length()));
+                    if (episodeArray.length() > 0){
+                        List<Integer> episodeEid = new ArrayList<>();
+                        List<String> episodeName = new ArrayList<>();
+                        List<String> episodeType = new ArrayList<>();
+                        List<String> episodeImagePath = new ArrayList<>();
+                        for (int i = 0; i < episodeArray.length(); i++){
+                            JSONObject episodeObj = episodeArray.getJSONObject(i);
+                            String eid = episodeObj.getString("eid");
+                            String name = episodeObj.getString("eventName");
+                            String type = episodeObj.getString("eventTypeLabel");
+
+                            String episodeProfileImagesString = episodeObj.getString("eventProfileImages");
+                            JSONArray episodeProfileImagesArray = new JSONArray(episodeProfileImagesString);
+                            String imagePath;
+                            if (episodeProfileImagesArray.length() > 0){
+                                HTTPConnection httpConnection = new HTTPConnection();
+                                String path = httpConnection.getUploadServerString();
+                                JSONObject episodeProfileImagesObj = episodeProfileImagesArray.getJSONObject(0);
+                                imagePath = episodeProfileImagesObj.getString("euiPath") + path;
+                            }
+                            else {
+                                imagePath = "empty";
+                            }
+                            episodeEid.add(Integer.valueOf(eid));
+                            episodeName.add(name);
+                            episodeType.add(type);
+                            episodeImagePath.add(imagePath);
+                        }
+                        adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, episodeName, episodeImagePath, episodeEid);
+                        layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                        rvEpisodes.setLayoutManager(layoutManager);
+                        rvEpisodes.setNestedScrollingEnabled(false);
+                        rvEpisodes.setAdapter(adapter);
+
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
         /* BRYANT, REVISIT THIS */
         /*
         new EventRequest(this).getEventDataByMember(uid, new EventListCallback() {
@@ -423,7 +553,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             new UserImageRequest(this).getImagesByUid(uid, true, new StringCallback() {
                 @Override
                 public void done(String string) {
-                    Log.e("string", string);
                     try{
                         JSONObject jsonObject = new JSONObject(string);
                         String images = jsonObject.getString("images");
@@ -431,7 +560,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         if (jsonArray.length() > 0){
                             JSONObject imageObj = jsonArray.getJSONObject(0);
                             String userImagePath = imageObj.getString("userImagePath");
-                            Picasso.with(ProfileActivity.this).load(userImagePath).into(ivProfilePicture);
+                            Picasso.with(ProfileActivity.this).load(userImagePath).fit().centerCrop().into(ivProfilePicture);
                         }
                     }
                     catch (JSONException e){

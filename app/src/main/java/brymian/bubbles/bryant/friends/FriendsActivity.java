@@ -143,7 +143,7 @@ public class FriendsActivity extends AppCompatActivity{
                         friendsUid.add(Integer.valueOf(uid));
                         friendsUserImagePath.add(userImagePath);
 
-                        adapter = new FriendsRecyclerAdapter(FriendsActivity.this, friendsFirstLastName, friendsUsername, friendsUid, friendsUserImagePath);
+                        adapter = new FriendsRecyclerAdapter(FriendsActivity.this, "vertical", friendsFirstLastName, friendsUsername, friendsUid, friendsUserImagePath);
                         layoutManager = new LinearLayoutManager(FriendsActivity.this);
                         recyclerViewFriends.setLayoutManager(layoutManager);
                         recyclerViewFriends.setNestedScrollingEnabled(false);

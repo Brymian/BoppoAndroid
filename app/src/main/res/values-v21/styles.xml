@@ -4,8 +4,6 @@
                 <item name="colorPrimary">#3ae1a8</item>
                 <!--   darker variant for the status bar and contextual app bars -->
                 <item name="colorPrimaryDark">#2ba67c</item>
-                <item name="colorAccent">@android:color/darker_gray</item>
-                <item name="android:colorForeground">@android:color/holo_red_dark</item>
                 <item name="android:textColor">@android:color/black</item>
                 <!--
                 <item name="colorAccent">#42ffbf</item>
@@ -25,11 +23,9 @@
                 <item name="android:windowSharedElementExitTransition">@transition/shared_element_transition</item>
         </style>
 
-        <style name="ProfileTheme" parent="AppTheme">
-                <item name="android:windowTranslucentStatus">true</item>
-        </style>
         <!-- Base toolbar theme -->
         <color name="AppColor">#3ae1a8</color>
-        <color name="LightGrayAndroid">#f9f9f9</color>
+        <color name="LightGrayAndroid">#e9e8e8</color>
         <color name="BlueText">#0645AD</color>
+        <color name="BackgroundGray">#a6c4c3c3</color>
 </resources>
