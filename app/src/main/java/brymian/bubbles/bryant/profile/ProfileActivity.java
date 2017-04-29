@@ -416,7 +416,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 HTTPConnection httpConnection = new HTTPConnection();
                                 String path = httpConnection.getUploadServerString();
                                 JSONObject episodeProfileImagesObj = episodeProfileImagesArray.getJSONObject(0);
-                                imagePath = episodeProfileImagesObj.getString("euiPath") + path;
+                                imagePath = path + episodeProfileImagesObj.getString("euiPath");
                             }
                             else {
                                 imagePath = "empty";
@@ -425,6 +425,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             episodeName.add(name);
                             episodeType.add(type);
                             episodeImagePath.add(imagePath);
+
+                            Log.e("imagePath", imagePath);
                         }
                         adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, episodeName, episodeImagePath, episodeEid);
                         layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);

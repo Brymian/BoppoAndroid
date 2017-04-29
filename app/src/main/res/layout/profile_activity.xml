@@ -127,7 +127,8 @@
                             android:layout_gravity="center_vertical"
                             android:text="See All"
                             android:textAppearance="@android:style/TextAppearance.Small"
-                            android:textColor="@color/AppColorDark"/>
+                            android:textColor="@color/AppColorDark"
+                            android:textStyle="bold"/>
                     </LinearLayout>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvFriends"
@@ -155,14 +156,17 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="left"
-                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textColor="@android:color/darker_gray"/>
                         <TextView
                             android:id="@+id/tvSeeAllEpisodes"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
                             android:text="See All"
-                            android:textColor="@color/AppColorDark" />
+                            android:textAppearance="@android:style/TextAppearance.Small"
+                            android:textColor="@color/AppColorDark"
+                            android:textStyle="bold"/>
                     </LinearLayout>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvEpisodes"
