@@ -98,12 +98,10 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             }
             else {
                 eid = extras.getInt("eid");
-                episodeTitle = extras.getString("episodeTitle");
             }
         }
         else {
             eid = savedInstanceState.getInt("eid");
-            episodeTitle = savedInstanceState.getString("episodeTitle");
         }
         /*----------------------------------------------------------------------------------------*/
 
@@ -143,14 +141,12 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         getEpisodeComments();
         setIsParticipant();
 
-        mToolbar.setTitle(episodeTitle);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setElevation(1);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         downloadEpisodePictures();
-
-        Log.e("episodeImage.size()", ""+episodeImage.size());
     }
 
     @Override
@@ -519,7 +515,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     tvLikeCount.setText(episodeInfoObject.getString("eventLikeCount"));
                     tvDislikeCount.setText(episodeInfoObject.getString("eventDislikeCount"));
                     tvViewCount.setText(episodeInfoObject.getString("eventViewCount") + " views");
-                    setEpisodeTitle(episodeInfoObject.getString("eventName"));
 
                     String episodeHostInfoString = episodeInfoObject.getString("eventHost");
                     JSONObject episodeHostInfoObject = new JSONObject(episodeHostInfoString);
@@ -816,29 +811,18 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         return hostUid;
     }
 
-    private void setEpisodeTitle(String title){
-        this.title = title;
-    }
-
-    private String getEpisodeTitle(){
-        return this.title;
-    }
-
     private void getEpisodeProfilePictures(int eid){
         new UserImageRequest(this).getImagesByEid(eid, true, new StringCallback() {
             @Override
             public void done(String string) {
                 try{
-                    List<String> episodeImagePath = new ArrayList<>();
-                    HTTPConnection httpConnection = new HTTPConnection();
-                    JSONArray jsonArray = new JSONArray(string);
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject jArray_jObject = jsonArray.getJSONObject(i);
-                        JSONObject jImage = jArray_jObject.getJSONObject("image");
-                        episodeImagePath.add(httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
-                    }
-                    if (jsonArray.length() >= 1){
-                        Picasso.with(EpisodeActivity.this).load(episodeImagePath.get(0)).fit().centerCrop().into(ivEpisodeProfileImage);
+                    JSONObject jsonObject = new JSONObject(string);
+                    String imagesString = jsonObject.getString("images");
+                    JSONArray imagesArray = new JSONArray(imagesString);
+                    if (imagesArray.length() > 0){
+                        JSONObject imageObj = imagesArray.getJSONObject(0);
+                        String imagePath = imageObj.getString("userImagePath");
+                        Picasso.with(EpisodeActivity.this).load(imagePath).fit().centerCrop().into(ivEpisodeProfileImage);
                     }
                 }
                 catch (JSONException e){
@@ -853,18 +837,18 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         new UserImageRequest(this).getImagesByEid(getEid(), false, new StringCallback() {
             @Override
             public void done(String string) {
-                Log.e("download", string);
                 try{
-                    List<String> episodeImagePath = new ArrayList<>();
-                    HTTPConnection httpConnection = new HTTPConnection();
-                    JSONArray jsonArray = new JSONArray(string);
-                    Log.e("try","length: " + jsonArray.length());
-                    for(int i = 0; i < jsonArray.length(); i++){
-                        JSONObject jArray_jObject = jsonArray.getJSONObject(i);
-                        JSONObject jImage = jArray_jObject.getJSONObject("image");
-                        episodeImagePath.add(httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
-                        Log.e("image path", httpConnection.getUploadServerString() + jImage.getString("userImagePath").replaceAll(" ", "%20"));
-                        new DownloadEpisodeImage(episodeImagePath.get(i)).execute();
+                    JSONObject jsonObject = new JSONObject(string);
+                    String imagesString = jsonObject.getString("images");
+                    JSONArray jsonArray = new JSONArray(imagesString);
+                    if (jsonArray.length() > 0){
+                        List<String> episodeImagePath = new ArrayList<>();
+                        for(int i = 0; i < jsonArray.length(); i++){
+                            JSONObject imagesObj = jsonArray.getJSONObject(i);
+                            String imagePath = imagesObj.getString("userImagePath");
+                            episodeImagePath.add(imagePath);
+                            new DownloadEpisodeImage(episodeImagePath.get(i)).execute();
+                        }
                     }
                 }
                 catch (JSONException jsone){
