@@ -53,11 +53,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     FloatingActionButton fabStatus;
     TextView tvProfileFirstLastName, tvFriendsNum, tvFriendStatus, tvEpisodesNum, tvSeeAllFriends, tvSeeAllEpisodes;
     int userUID;
-    String username, privacy, friendShipStatus;
+    String privacy, friendShipStatus;
     Toolbar mToolbar;
 
     RecyclerView rvFriends, rvEpisodes;
-    RecyclerView.Adapter adapter, adapterFriends, adapterEpisodes;
+    RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
     @Override
@@ -261,7 +261,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private void setUserProfileInfo(int uid){
         if (uid == SaveSharedPreference.getUserUID(this)){
-            setUsername(SaveSharedPreference.getUsername(this));
             mToolbar.setTitle(SaveSharedPreference.getUsername(this));
             tvProfileFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
 
@@ -270,7 +269,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             new ServerRequestMethods(ProfileActivity.this).getUserData(uid, new UserCallback() {
                 @Override
                 public void done(User user) {
-                    setUsername(user.getUsername());
                     mToolbar.setTitle(user.getUsername());
                     tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
                     setPrivacy(user.getUserAccountPrivacy());
@@ -425,8 +423,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             episodeName.add(name);
                             episodeType.add(type);
                             episodeImagePath.add(imagePath);
-
-                            Log.e("imagePath", imagePath);
                         }
                         adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, episodeName, episodeImagePath, episodeEid);
                         layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
@@ -578,15 +574,6 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
     private int getUID(){
         return userUID;
-    }
-
-
-    private void setUsername(String username){
-        this.username = username;
-    }
-
-    private String getUsername(){
-        return username;
     }
 
     private void setPrivacy(String privacy){
