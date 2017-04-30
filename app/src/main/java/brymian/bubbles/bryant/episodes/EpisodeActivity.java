@@ -1,13 +1,13 @@
 package brymian.bubbles.bryant.episodes;
 
 import android.app.FragmentManager;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -21,12 +21,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -51,8 +49,6 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
-import brymian.bubbles.bryant.sendTo.Episode;
-import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
@@ -76,7 +72,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     RecyclerView.LayoutManager layoutManager;
     //int ADD_PARTICIPANTS_CODE = 123;
     private int eid, hostUid;
-    private String title;
     int year, month, day, hour, minute, second;
     private int EPISODE_EDIT_CODE;
     private boolean isHost, isParticipant, isStarted = false, isEnded = false;
@@ -86,15 +81,25 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.episode_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(1);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //mToolbar.setPadding(0, getStatusBarHeight(),0, 0);
+        }
+        //hide keyboard when activity starts
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         /*--------------------------------Checking for putExtras()--------------------------------*/
         int eid;
-        String episodeTitle;
         if (savedInstanceState == null) {
             Bundle extras = getIntent().getExtras();
             if(extras == null) {
                 eid = 0;
-                episodeTitle = null;
             }
             else {
                 eid = extras.getInt("eid");
@@ -140,14 +145,21 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         incrementViewCount(eid);
         getEpisodeComments();
         setIsParticipant();
-
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setElevation(1);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
         downloadEpisodePictures();
     }
+
+    // A method to find height of the status bar
+    /*
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+            Log.e("statusBarHght", result + "");
+        }
+        return result;
+    }
+    */
 
     @Override
     public void onClick(View view) {
