@@ -180,7 +180,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.tvRemoveFriend:
-                new FriendshipStatusRequest(this).unFriend(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
+                new FriendshipStatusRequest().unFriend(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
                     @Override
                     public void done(String string) {
                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
@@ -189,7 +189,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.tvBlockUser:
-                new FriendshipStatusRequest(this).blockUser(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
+                new FriendshipStatusRequest().blockUser(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
                     @Override
                     public void done(String string) {
                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
@@ -445,7 +445,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         );
     }
     private void cancelFriendRequest(){
-        new FriendshipStatusRequest(this).cancelFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+        new FriendshipStatusRequest().cancelFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
             @Override
             public void done(String string) {
                 if (string.equals("Friendship request has been successfully canceled.")){
@@ -474,7 +474,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void declineFriendRequest(){
-        new FriendshipStatusRequest(this).rejectFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+        new FriendshipStatusRequest().rejectFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
             @Override
             public void done(String string) {
                 if (string.equals("Friendship request has been successfully rejected.")){

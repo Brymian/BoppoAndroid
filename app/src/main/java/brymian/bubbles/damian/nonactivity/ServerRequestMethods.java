@@ -112,7 +112,7 @@ public class ServerRequestMethods {
     }
 
     public void setFriendStatus(int loggedUserUid, int otherUserUid, StringCallback stringCallback) {
-        pd.show();
+        //pd.show();
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
@@ -979,7 +979,7 @@ public class ServerRequestMethods {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);

@@ -1,7 +1,5 @@
 package brymian.bubbles.damian.nonactivity.ServerRequest;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -16,7 +14,6 @@ import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.objects.Event;
 import brymian.bubbles.objects.User;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
@@ -28,63 +25,47 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 public class FriendshipStatusRequest {
 
     private HTTPConnection httpConnection = null;
-    private ProgressDialog pd = null;
 
-    public FriendshipStatusRequest(Activity activity) {
-        pd = new ProgressDialog(activity);
-        pd.setCancelable(false);
-        pd.setTitle("Processing");
-        pd.setMessage("Please wait...");
+    public FriendshipStatusRequest() {
         httpConnection = new HTTPConnection();
     }
 
     public void getFriendshipStatusRequestSentUsers(Integer uid1, String userRelationshipTypeLabel,
         UserListCallback userListCallback)
     {
-        pd.show();
         new GetFriendshipStatusRequestSentUsers(uid1, userRelationshipTypeLabel, userListCallback).execute();
     }
 
     public void getFriendshipStatusRequestReceivedUsers(Integer uid2, String userRelationshipTypeLabel,
         UserListCallback userListCallback)
     {
-        pd.show();
         new GetFriendshipStatusRequestReceivedUsers(uid2, userRelationshipTypeLabel, userListCallback).execute();
     }
 
     public void blockUser(Integer uid1, Integer uid2, StringCallback stringCallback)
     {
-        pd.show();
         new BlockUser(uid1, uid2, stringCallback).execute();
     }
 
     public void unblockUser(Integer uid1, Integer uid2, StringCallback stringCallback)
     {
-        pd.show();
         new UnblockUser(uid1, uid2, stringCallback).execute();
     }
 
     public void rejectFriend(Integer uid1, Integer uid2, StringCallback stringCallback)
     {
-        pd.show();
         new RejectFriend(uid1, uid2, stringCallback).execute();
     }
 
     public void cancelFriend(Integer uid1, Integer uid2, StringCallback stringCallback)
     {
-        pd.show();
         new CancelFriend(uid1, uid2, stringCallback).execute();
     }
 
     public void unFriend(Integer uid1, Integer uid2, StringCallback stringCallback)
     {
-        pd.show();
         new UnFriend(uid1, uid2, stringCallback).execute();
     }
-
-
-
-
 
     private class GetFriendshipStatusRequestSentUsers extends AsyncTask<Void, Void, List<User>> {
 
@@ -154,7 +135,6 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(List<User> users) {
-            pd.dismiss();
             userListCallback.done(users);
 
             super.onPostExecute(users);
@@ -232,7 +212,6 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(List<User> users) {
-            pd.dismiss();
             userListCallback.done(users);
 
             super.onPostExecute(users);
@@ -283,7 +262,6 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -335,7 +313,6 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -387,9 +364,7 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
-
             super.onPostExecute(string);
         }
 
@@ -439,9 +414,7 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
-
             super.onPostExecute(string);
         }
 
@@ -491,9 +464,7 @@ public class FriendshipStatusRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
-
             super.onPostExecute(string);
         }
 

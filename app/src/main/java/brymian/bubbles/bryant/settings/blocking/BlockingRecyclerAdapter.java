@@ -53,7 +53,7 @@ public class BlockingRecyclerAdapter extends RecyclerView.Adapter<BlockingRecycl
             tvUnblock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new FriendshipStatusRequest(activity).unblockUser(SaveSharedPreference.getUserUID(activity), blockedUser.get(getAdapterPosition()).getUid(), new StringCallback() {
+                    new FriendshipStatusRequest().unblockUser(SaveSharedPreference.getUserUID(activity), blockedUser.get(getAdapterPosition()).getUid(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             if(string.equals("User has been successfully unblocked.")){

@@ -3,7 +3,6 @@ package brymian.bubbles.bryant.friends;
 import android.app.Fragment;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +28,6 @@ public class FriendRequestSent extends Fragment{
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.friends_request_sent, container, false);
@@ -42,7 +40,7 @@ public class FriendRequestSent extends Fragment{
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_friend_request_sent);
 
-        new FriendshipStatusRequest(getActivity()).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(getActivity()), "Friendship Pending", new UserListCallback() {
+        new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(getActivity()), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 List<FriendRequester> friendRequesterArrayList = new ArrayList<>();

@@ -75,7 +75,7 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
             tvDecline.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    new FriendshipStatusRequest(activity).rejectFriend(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
+                    new FriendshipStatusRequest().rejectFriend(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             if(string.equals("Friendship request has been successfully rejected.")){

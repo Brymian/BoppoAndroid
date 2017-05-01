@@ -53,7 +53,7 @@ public class FriendRequestSentRecyclerAdapter extends RecyclerView.Adapter<Frien
             tvCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new FriendshipStatusRequest(activity).cancelFriend(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
+                    new FriendshipStatusRequest().cancelFriend(SaveSharedPreference.getUserUID(activity), friendRequester.get(getAdapterPosition()).getUid(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             if(string.equals("Friendship request has been successfully canceled.")){

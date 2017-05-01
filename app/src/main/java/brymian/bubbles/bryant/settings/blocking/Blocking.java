@@ -51,7 +51,7 @@ public class Blocking extends AppCompatActivity {
     }
 
     private void getFriends(){
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Blocked", new UserListCallback() {
+        new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Blocked", new UserListCallback() {
             @Override
             public void done(List<User> users) {
                 List<BlockedUser> blockedUserArrayList = new ArrayList<>();

@@ -82,7 +82,7 @@ public class FriendsActivity extends AppCompatActivity{
 
     /* Checks and displays for any friend requests for logged in user */
     private void checkForReceivedFriendRequests(){
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
+        new FriendshipStatusRequest().getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(this), "Friendship Pending", new UserListCallback() {
             //@Override
             public void done(List<User> users) {
                 try {
