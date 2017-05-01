@@ -117,16 +117,30 @@ public class MainTabNewsFeed extends Fragment {
 
                                 String user1ProfileImage = user1Obj.getString("user1ProfileImages");
                                 JSONArray user1ProfileImageArray = new JSONArray(user1ProfileImage);
-                                JSONObject user1ProfileImageObj = user1ProfileImageArray.getJSONObject(0);
+                                String user1ImagePath;
+                                if (user1ProfileImageArray.length() > 0){
+                                    JSONObject user1ProfileImageObj = user1ProfileImageArray.getJSONObject(0);
+                                    user1ImagePath = user1ProfileImageObj.getString("userImagePath");
+                                }
+                                else {
+                                    user1ImagePath = "empty";
+                                }
 
                                 String user2 = friendsThatBecameFriendsObj.getString("user2");
                                 JSONObject user2Obj = new JSONObject(user2);
 
                                 String user2ProfileImage = user2Obj.getString("user2ProfileImages");
                                 JSONArray user2ProfileImageArray = new JSONArray(user2ProfileImage);
-                                JSONObject user2ProfileImageObj = user2ProfileImageArray.getJSONObject(0);
+                                String user2ImagePath;
+                                if (user2ProfileImageArray.length() > 0) {
+                                    JSONObject user2ProfileImageObj = user2ProfileImageArray.getJSONObject(0);
+                                    user2ImagePath = user2ProfileImageObj.getString("userImagePath");
+                                }
+                                else {
+                                    user2ImagePath = "empty";
+                                }
 
-                                MainTabNewsFeedInfo infoBecame = new MainTabNewsFeedInfo(user1Obj.getString("username"),  Integer.valueOf(user1Obj.getString("uid")), user1ProfileImageObj.getString("userImagePath"), user2Obj.getString("username"), Integer.valueOf(user2Obj.getString("uid")), user2ProfileImageObj.getString("userImagePath"));
+                                MainTabNewsFeedInfo infoBecame = new MainTabNewsFeedInfo(user1Obj.getString("username"),  Integer.valueOf(user1Obj.getString("uid")), user1ImagePath, user2Obj.getString("username"), Integer.valueOf(user2Obj.getString("uid")), user2ImagePath);
                                 mainTabNewsFeedInfoList.add(infoBecame);
                                 break;
                             case "FriendCreatedEvent":
