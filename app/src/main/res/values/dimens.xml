@@ -6,5 +6,6 @@
     <dimen name="contentPadding">16dp</dimen>
     <dimen name="halfContentPadding">8dp</dimen>
     <dimen name="quarterContentPadding">4dp</dimen>
-    <dimen name="cardViewElevation">6dp</dimen>
+    <dimen name="smallTextSize">12sp</dimen>
+
 </resources>

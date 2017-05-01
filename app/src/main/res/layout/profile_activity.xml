@@ -18,7 +18,7 @@
             app:contentScrim="@color/AppColor"
             app:scrimAnimationDuration="400"
             app:expandedTitleMarginEnd="16dp"
-            app:expandedTitleMarginStart="16dp"
+            app:expandedTitleMarginStart="@dimen/halfContentPadding"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
             <ImageView
                 android:id="@+id/ivProfilePicture"
@@ -44,14 +44,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/tvFriendStatus"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:theme="@color/AppColor"
-                android:textColor="@android:color/white"
-                android:textAppearance="@android:style/TextAppearance.Small"/>
             <android.support.v7.widget.CardView
                 android:id="@+id/cvUserFirstLastName"
                 android:layout_width="match_parent"
@@ -62,13 +54,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/contentPadding"
+                    android:padding="@dimen/halfContentPadding"
                     android:orientation="vertical">
                     <LinearLayout
                         android:id="@+id/llFullName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/contentPadding"
                         android:gravity="center_horizontal"
                         android:orientation="horizontal">
                         <TextView
@@ -77,29 +68,121 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textAppearance="@android:style/TextAppearance.Large"/>
-                        <ImageView
-                            android:id="@+id/ivMap"
+                        <TextView
+                            android:id="@+id/tvFriendStatus"
                             android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginRight="@dimen/contentPadding"
-                            android:src="@mipmap/ic_earth_grey600_24dp"/>
-                        <ImageView
-                            android:id="@+id/ivMessage"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:src="@mipmap/ic_message_grey600_24dp" />
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:textColor="@color/AppColorDark"
+                            android:textSize="@dimen/smallTextSize"
+                            android:textAllCaps="true"/>
                     </LinearLayout>
-                    <View
-                        android:id="@+id/vFullName"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:background="@color/LightGrayAndroid"/>
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/contentPadding"
+                        android:layout_marginBottom="@dimen/halfContentPadding"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/Map"
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_earth_grey600_24dp"
+                            android:gravity="center_horizontal"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Add to..."
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_add_black_24dp"
+                            android:gravity="center_horizontal"/>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Message"
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_message_grey600_24dp"
+                            android:gravity="center_horizontal"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvEpisodes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/contentPadding"
+                android:background="@android:color/white"
+                app:cardCornerRadius="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/halfContentPadding"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingRight="@dimen/contentPadding"
+                            android:src="@mipmap/ic_account_box_outline_grey600_24dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/halfContentPadding"
+                            android:text="@string/Episodes"
+                            android:textAppearance="@android:style/TextAppearance.Medium"/>
+                        <TextView
+                            android:id="@+id/tvEpisodesNum"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="left"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textColor="@android:color/darker_gray"/>
+                        <TextView
+                            android:id="@+id/tvSeeAllEpisodes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="See All"
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/smallTextSize"
+                            android:textColor="@color/AppColorDark"/>
+                    </LinearLayout>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvEpisodes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvFriends"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/contentPadding"
+                android:background="@android:color/white"
+                app:cardCornerRadius="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/halfContentPadding"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
@@ -126,62 +209,73 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:text="See All"
-                            android:textAppearance="@android:style/TextAppearance.Small"
-                            android:textColor="@color/AppColorDark"
-                            android:textStyle="bold"/>
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/smallTextSize"
+                            android:textColor="@color/AppColorDark"/>
                     </LinearLayout>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvFriends"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvPhotos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/contentPadding"
+                android:background="@android:color/white"
+                app:cardCornerRadius="0dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/halfContentPadding"
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/halfContentPadding"
                         android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:paddingRight="@dimen/contentPadding"
-                            android:src="@mipmap/ic_account_box_outline_grey600_24dp"/>
+                            android:src="@mipmap/ic_image_grey600_24dp"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/halfContentPadding"
-                            android:text="@string/Episodes"
+                            android:paddingRight="@dimen/halfContentPadding"
+                            android:text="@string/Photos"
                             android:textAppearance="@android:style/TextAppearance.Medium"/>
                         <TextView
-                            android:id="@+id/tvEpisodesNum"
+                            android:id="@+id/tvPhotosNum"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="left"
                             android:textAppearance="@android:style/TextAppearance.Medium"
                             android:textColor="@android:color/darker_gray"/>
                         <TextView
-                            android:id="@+id/tvSeeAllEpisodes"
+                            android:id="@+id/tvSeeAllPhotos"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
                             android:text="See All"
-                            android:textAppearance="@android:style/TextAppearance.Small"
-                            android:textColor="@color/AppColorDark"
-                            android:textStyle="bold"/>
+                            android:textAllCaps="true"
+                            android:textSize="@dimen/smallTextSize"
+                            android:textColor="@color/AppColorDark"/>
                     </LinearLayout>
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rvEpisodes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
                 </LinearLayout>
             </android.support.v7.widget.CardView>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabStatus"
+        android:id="@+id/fabAddFriend"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
+        android:src="@mipmap/ic_person_add_white_24dp"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|end"
-        app:backgroundTint="#3ae1a8" />
+        app:backgroundTint="@color/AppColor" />
 </android.support.design.widget.CoordinatorLayout>

@@ -145,6 +145,7 @@
     <string name="Personal">Personal</string>
     <string name="Phone_Number">Phone Number</string>
         <string name="Photo_deleted">Profile photo deleted!</string>
+        <string name="Photos">Photos</string>
         <string name="Profile_photo_uploaded">Profile photo uploaded!</string>
     <string name="Privacy">Privacy</string>
     <string name="Private">Private</string>

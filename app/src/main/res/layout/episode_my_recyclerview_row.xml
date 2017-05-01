@@ -6,8 +6,7 @@
     android:layout_gravity="center"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/quarterContentPadding"
-    android:layout_marginBottom="@dimen/quarterContentPadding"
+    android:layout_marginTop="@dimen/halfContentPadding"
     android:layout_marginRight="@dimen/halfContentPadding"
     card_view:cardElevation="0dp"
     card_view:cardBackgroundColor="@android:color/white">
@@ -58,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cvEpisodeImage"
             android:gravity="center_horizontal"
-            android:textSize="12sp"
+            android:textSize="@dimen/smallTextSize"
             android:maxLines="1"
             android:ellipsize="end"/>
     </RelativeLayout>
