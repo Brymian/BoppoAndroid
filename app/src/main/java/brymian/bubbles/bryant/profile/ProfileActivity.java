@@ -1,6 +1,5 @@
 package brymian.bubbles.bryant.profile;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -18,7 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,6 +55,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     int userUID;
     String privacy, friendShipStatus;
     Toolbar mToolbar;
+    LinearLayout llAcceptDeclineFriendRequest;
+    Button bAccept, bDecline;
 
     RecyclerView rvFriends, rvEpisodes;
     RecyclerView.Adapter adapter;
@@ -97,6 +100,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         tvFriendStatus = (TextView) findViewById(R.id.tvFriendStatus);
         tvFriendStatus.setOnClickListener(this);
         tvProfileFirstLastName = (TextView) findViewById(R.id.tvUserFirstLastName);
+        llAcceptDeclineFriendRequest = (LinearLayout) findViewById(R.id.llAcceptDeclineFriendRequest);
+        bAccept = (Button) findViewById(R.id.bAccept);
+        bAccept.setOnClickListener(this);
+        bDecline = (Button) findViewById(R.id.bDecline);
+        bDecline.setOnClickListener(this);
         tvFriendsNum = (TextView) findViewById(R.id.tvFriendsNum);
         tvEpisodesNum = (TextView) findViewById(R.id.tvEpisodesNum);
         tvSeeAllEpisodes = (TextView) findViewById(R.id.tvSeeAllEpisodes);
@@ -145,7 +153,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fabAddFriend:
-                addFriend();
+                sendFriendRequest();
                 break;
             case R.id.tvFriendStatus:
                 switch (getFriendShipStatus()){
@@ -153,20 +161,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         startActivity(new Intent(this, ProfileEdit.class));
                         break;
                     case "Already friends with user.":
-
+                        popUpMenu();
                         break;
 
                     case "Already sent friend request to user.":
                         /* friend request sent */
                         cancelFriendRequest();
                         break;
-
-                    case "User is awaiting confirmation for friend request.":
-                        /* friend request received */
-
-                        break;
                 }
                 break;
+
+            case R.id.bAccept:
+                acceptFriendRequest();
+                break;
+
+            case R.id.bDecline:
+                declineFriendRequest();
+                break;
+
             case R.id.tvRemoveFriend:
                 new FriendshipStatusRequest(this).unFriend(SaveSharedPreference.getUserUID(this), getUID(), new StringCallback() {
                     @Override
@@ -198,49 +210,12 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.profile_activity_menu_alertdialog, null);
 
-        TextView tvEditProfile = (TextView) alertLayout.findViewById(R.id.tvEditProfile);
-        tvEditProfile.setOnClickListener(this);
         TextView tvRemoveFriend = (TextView) alertLayout.findViewById(R.id.tvRemoveFriend);
         tvRemoveFriend.setOnClickListener(this);
         TextView tvBlockUser = (TextView) alertLayout.findViewById(R.id.tvBlockUser);
         tvBlockUser.setOnClickListener(this);
         TextView tvReportUser = (TextView) alertLayout.findViewById(R.id.tvReportUser);
         tvReportUser.setOnClickListener(this);
-
-        View vEditProfile = alertLayout.findViewById(R.id.vEditProfile);
-        View vRemoveFriend = alertLayout.findViewById(R.id.vRemoveFriend);
-        View vBlockUser = alertLayout.findViewById(R.id.vBlockUser);
-
-        switch (getFriendShipStatus()){
-            case "logged in user":
-                tvRemoveFriend.setVisibility(View.GONE);
-                vRemoveFriend.setVisibility(View.GONE);
-                tvBlockUser.setVisibility(View.GONE);
-                vBlockUser.setVisibility(View.GONE);
-                tvReportUser.setVisibility(View.GONE);
-                break;
-            case "Already friends with user.":
-                tvEditProfile.setVisibility(View.GONE);
-                vEditProfile.setVisibility(View.GONE);
-                break;
-            case "Already sent friend request to user.":
-                tvEditProfile.setVisibility(View.GONE);
-                vEditProfile.setVisibility(View.GONE);
-                break;
-            case "User is awaiting confirmation for friend request.":
-                tvEditProfile.setVisibility(View.GONE);
-                vEditProfile.setVisibility(View.GONE);
-                break;
-            case "Not friends.":
-                tvEditProfile.setVisibility(View.GONE);
-                vEditProfile.setVisibility(View.GONE);
-                break;
-            case "User is currently being blocked.":
-                break;
-            case "Currently being blocked by user.":
-                break;
-            default:
-        }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
@@ -303,6 +278,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 /* friends request received */
                 fabAddFriend.setVisibility(View.GONE);
                 tvFriendStatus.setText("Friend request received");
+                llAcceptDeclineFriendRequest.setVisibility(View.VISIBLE);
                 break;
             case "Not friends.":
 
@@ -377,53 +353,56 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         new EventRequest(this).getEventDataByMember(uid, new StringCallback() {
             @Override
             public void done(String string) {
-                Log.e("string", string);
-                try{
-                    JSONObject jsonObject = new JSONObject(string);
-                    String episodesString = jsonObject.getString("events");
-                    JSONArray episodeArray = new JSONArray(episodesString);
-                    tvEpisodesNum.setText(String.valueOf(episodeArray.length()));
-                    if (episodeArray.length() > 0){
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<String> episodeName = new ArrayList<>();
-                        List<String> episodeType = new ArrayList<>();
-                        List<String> episodeImagePath = new ArrayList<>();
-                        for (int i = 0; i < episodeArray.length(); i++){
-                            JSONObject episodeObj = episodeArray.getJSONObject(i);
-                            String eid = episodeObj.getString("eid");
-                            String name = episodeObj.getString("eventName");
-                            String type = episodeObj.getString("eventTypeLabel");
-
-                            String episodeProfileImagesString = episodeObj.getString("eventProfileImages");
-                            JSONArray episodeProfileImagesArray = new JSONArray(episodeProfileImagesString);
-                            String imagePath;
-                            if (episodeProfileImagesArray.length() > 0){
-                                HTTPConnection httpConnection = new HTTPConnection();
-                                String path = httpConnection.getUploadServerString();
-                                JSONObject episodeProfileImagesObj = episodeProfileImagesArray.getJSONObject(0);
-                                imagePath = path + episodeProfileImagesObj.getString("euiPath");
-                            }
-                            else {
-                                imagePath = "empty";
-                            }
-                            episodeEid.add(Integer.valueOf(eid));
-                            episodeName.add(name);
-                            episodeType.add(type);
-                            episodeImagePath.add(imagePath);
-                        }
-                        adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, episodeName, episodeImagePath, episodeEid);
-                        layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
-                        rvEpisodes.setLayoutManager(layoutManager);
-                        rvEpisodes.setNestedScrollingEnabled(false);
-                        rvEpisodes.setAdapter(adapter);
-
-                    }
-                    else {
-                        tvEpisodesNum.setText("0");
-                    }
+                if (string.equals("\"No such event exists.\"")){
+                    tvEpisodesNum.setText("0");
                 }
-                catch (JSONException e){
-                    e.printStackTrace();
+                else {
+                    try{
+                        JSONObject jsonObject = new JSONObject(string);
+                        String episodesString = jsonObject.getString("events");
+                        JSONArray episodeArray = new JSONArray(episodesString);
+                        tvEpisodesNum.setText(String.valueOf(episodeArray.length()));
+                        if (episodeArray.length() > 0){
+                            List<Integer> episodeEid = new ArrayList<>();
+                            List<String> episodeName = new ArrayList<>();
+                            List<String> episodeType = new ArrayList<>();
+                            List<String> episodeImagePath = new ArrayList<>();
+                            for (int i = 0; i < episodeArray.length(); i++){
+                                JSONObject episodeObj = episodeArray.getJSONObject(i);
+                                String eid = episodeObj.getString("eid");
+                                String name = episodeObj.getString("eventName");
+                                String type = episodeObj.getString("eventTypeLabel");
+
+                                String episodeProfileImagesString = episodeObj.getString("eventProfileImages");
+                                JSONArray episodeProfileImagesArray = new JSONArray(episodeProfileImagesString);
+                                String imagePath;
+                                if (episodeProfileImagesArray.length() > 0){
+                                    HTTPConnection httpConnection = new HTTPConnection();
+                                    String path = httpConnection.getUploadServerString();
+                                    JSONObject episodeProfileImagesObj = episodeProfileImagesArray.getJSONObject(0);
+                                    imagePath = path + episodeProfileImagesObj.getString("euiPath");
+                                }
+                                else {
+                                    imagePath = "empty";
+                                }
+                                episodeEid.add(Integer.valueOf(eid));
+                                episodeName.add(name);
+                                episodeType.add(type);
+                                episodeImagePath.add(imagePath);
+                            }
+                            adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, episodeName, episodeImagePath, episodeEid);
+                            layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
+                            rvEpisodes.setLayoutManager(layoutManager);
+                            rvEpisodes.setNestedScrollingEnabled(false);
+                            rvEpisodes.setAdapter(adapter);
+                        }
+                        else {
+                            tvEpisodesNum.setText("0");
+                        }
+                    }
+                    catch (JSONException e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -451,11 +430,11 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             });
     }
 
-    private void addFriend(){
-        new ServerRequestMethods(ProfileActivity.this).setFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(),
+    private void sendFriendRequest(){
+        new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(),
                 new StringCallback() {
                     public void done(String string) {
-                        Log.e("addFriend", string);
+                        Log.e("sendFriendRequest", string);
                         if (string.equals("Friendship Pending request sent successfully.")){
                             fabAddFriend.setVisibility(View.GONE);
                             ProfileActivity.this.friendShipStatus = "Already sent friend request to user.";
@@ -475,6 +454,34 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         fabAddFriend.setVisibility(View.VISIBLE);
                         tvFriendStatus.setText("");
                     }
+                }
+            }
+        });
+    }
+
+    private void acceptFriendRequest(){
+        new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+            @Override
+            public void done(String string) {
+                if (string.equals("Friend request accepted.")){
+                    llAcceptDeclineFriendRequest.setVisibility(View.GONE);
+                    tvFriendStatus.setText("Friends");
+                    ProfileActivity.this.friendShipStatus = "Already friends with user.";
+                }
+
+            }
+        });
+    }
+
+    private void declineFriendRequest(){
+        new FriendshipStatusRequest(this).rejectFriend(SaveSharedPreference.getUserUID(ProfileActivity.this), getUID(), new StringCallback() {
+            @Override
+            public void done(String string) {
+                if (string.equals("Friendship request has been successfully rejected.")){
+                    llAcceptDeclineFriendRequest.setVisibility(View.GONE);
+                    tvFriendStatus.setText("");
+                    fabAddFriend.setVisibility(View.VISIBLE);
+                    ProfileActivity.this.friendShipStatus = "Not friends.";
                 }
             }
         });

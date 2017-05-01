@@ -78,8 +78,35 @@
                             android:textAllCaps="true"/>
                     </LinearLayout>
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:id="@+id/llAcceptDeclineFriendRequest"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/contentPadding"
+                        android:layout_marginBottom="@dimen/halfContentPadding"
+                        android:layout_gravity="center_horizontal"
+                        android:visibility="gone"
+                        android:orientation="horizontal">
+                        <Button
+                            android:id="@+id/bAccept"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/quarterContentPadding"
+                            android:paddingLeft="@dimen/contentPadding"
+                            android:paddingRight="@dimen/contentPadding"
+                            android:text="@string/Accept"
+                            android:textColor="@android:color/white"
+                            android:background="@color/AppColor"/>
+                        <Button
+                            android:id="@+id/bDecline"
+                            style="?android:attr/buttonBarButtonStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/quarterContentPadding"
+                            android:paddingLeft="@dimen/contentPadding"
+                            android:paddingRight="@dimen/contentPadding"
+                            android:text="@string/Decline"
+                            android:background="@color/LightGrayAndroid"/>
 
                     </LinearLayout>
                     <LinearLayout
