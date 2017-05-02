@@ -2,18 +2,12 @@ package brymian.bubbles.bryant.profile;
 
 
 import android.app.ActivityOptions;
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,7 +22,10 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,9 +33,8 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.cropImage.CropImageActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
-import brymian.bubbles.objects.Image;
 
 public class ProfileEdit extends AppCompatActivity implements View.OnClickListener{
     Toolbar toolbar;
@@ -121,9 +117,7 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
         else if (requestCode == GALLERY_CODE){
             if(resultCode == RESULT_OK) {
                 if (data != null) {
-                    byte[] byteArray = data.getByteArrayExtra("image");
-                    Bitmap imageDecoded = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                    ivProfilePicture.setImageBitmap(imageDecoded);
+                    setProfileImage();
                 }
             }
         }
@@ -148,25 +142,34 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
         tvFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
         tvUsername.setText(SaveSharedPreference.getUsername(this));
         if (SaveSharedPreference.getUserProfileImagePath(this).isEmpty()){
-            /** BRYANT UPDATE THIS **/
-            /*
-            new UserImageRequest(this).getImagesByUidAndPurpose(SaveSharedPreference.getUserUID(this), "Profile", null, new ImageListCallback() {
-                @Override
-                public void done(List<Image> imageList) {
-                    if (imageList.size() > 0) {
-                        Picasso.with(ProfileEdit.this).load(imageList.get(0).userImagePath).into(ivProfilePicture);
-                        SaveSharedPreference.setUserProfileImagePath(ProfileEdit.this,imageList.get(0).userImagePath);
-
-                    }
-                }
-            });
-            */
+            setProfileImage();
         }
         else {
             Picasso.with(this).load(SaveSharedPreference.getUserProfileImagePath(this)).fit().centerCrop().into(ivProfilePicture);
         }
     }
 
+    private void setProfileImage(){
+        new UserImageRequest(this).getImagesByUid(SaveSharedPreference.getUserUID(this), true, new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    JSONObject jsonObject = new JSONObject(string);
+                    String imagesString = jsonObject.getString("images");
+                    JSONArray imagesArray = new JSONArray(imagesString);
+                    if (imagesArray.length() > 0){
+                        JSONObject imageObj = imagesArray.getJSONObject(0);
+                        String imagePath = imageObj.getString("userImagePath");
+                        Picasso.with(ProfileEdit.this).load(imagePath).fit().centerCrop().into(ivProfilePicture);
+                        SaveSharedPreference.setUserProfileImagePath(ProfileEdit.this, imagePath);
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     private void changeProfilePictureAlertDialog(){
         LayoutInflater inflater = getLayoutInflater();
