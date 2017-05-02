@@ -203,7 +203,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         int uid = 1;
         int userImageSequence = 15;
         new ServerRequestMethods(this).deleteImage(uid, userImageSequence, new StringCallback() {
@@ -212,8 +212,7 @@ public class TESTActivity extends Activity {
                 System.out.println("RESULT: " + string);
             }
         });
-
-
+        */
         /*
         int uid = 1;
         String newPassword = "lolol444";
@@ -350,15 +349,15 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventUserRequest(this).addUserToEvent(121, 1, 4, new StringCallback() {
+        /* // Works correctly as of 2017-05-01
+        new EventUserRequest(this).addUserToEvent(120, 1, 11, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("MESSAGE REGARDING ADDING THE USER TO THE EVENT: ");
                 System.out.println(string);
             }
         });
-        */
+
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new StringCallback() {
             @Override
