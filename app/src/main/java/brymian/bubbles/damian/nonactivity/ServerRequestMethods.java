@@ -116,9 +116,9 @@ public class ServerRequestMethods {
         new SetFriendStatus(loggedUserUid, otherUserUid, stringCallback).execute();
     }
 
-    public void setUserAccountPrivacy(int uid, String privacyLabel, StringCallback stringCallback) {
+    public void setUserPrivacy(int uid, String privacyLabel, StringCallback stringCallback) {
         pd.show();
-        new SetUserAccountPrivacy(uid, privacyLabel, stringCallback).execute();
+        new SetUserPrivacy(uid, privacyLabel, stringCallback).execute();
     }
 
     public void setUserImagePurpose(int uid, int userImageSequence, String purposeLabel, StringCallback stringCallback) {
@@ -452,8 +452,8 @@ public class ServerRequestMethods {
                         jObject.getString("lastName"),
                         jObject.getString("email"),
                         jObject.getString("phone"),
-                        jObject.getString("userAccountCreationTimestamp"),
-                        jObject.getString("userAccountPrivacy")
+                        jObject.getString("userInsertTimestamp"),
+                        jObject.getString("userPrivacy")
                     );
                     udl = new UserDataLocal(activity);
                     udl.setUserData(user);
@@ -530,8 +530,8 @@ public class ServerRequestMethods {
                         jObject.getString("lastName"),
                         jObject.getString("email"),
                         jObject.getString("phone"),
-                        jObject.getString("userAccountCreationTimestamp"),
-                        jObject.getString("userAccountPrivacy")
+                        jObject.getString("userInsertTimestamp"),
+                        jObject.getString("userPrivacy")
                     );
                     udl = new UserDataLocal(activity);
                     udl.setUserData(user);
@@ -681,8 +681,8 @@ public class ServerRequestMethods {
                         jObject.getString("lastName"),
                         jObject.getString("email"),
                         jObject.getString("phone"),
-                        jObject.getString("userAccountCreationTimestamp"),
-                        jObject.getString("userAccountPrivacy")
+                        jObject.getString("userInsertTimestamp"),
+                        jObject.getString("userPrivacy")
                     );
                     return user;
                 }
@@ -987,40 +987,40 @@ public class ServerRequestMethods {
 
     }
 
-    private class SetUserAccountPrivacy extends AsyncTask<Void, Void, String> {
+    private class SetUserPrivacy extends AsyncTask<Void, Void, String> {
 
         int uid;
-        String userAccountPrivacyLabel;
+        String userPrivacyLabel;
         StringCallback stringCallback;
 
-        private SetUserAccountPrivacy(int uid, String userAccountPrivacyLabel, StringCallback stringCallback) {
+        private SetUserPrivacy(int uid, String userPrivacyLabel, StringCallback stringCallback) {
             this.uid = uid;
-            this.userAccountPrivacyLabel = userAccountPrivacyLabel;
+            this.userPrivacyLabel = userPrivacyLabel;
             this.stringCallback = stringCallback;
         }
 
         @Override
         protected String doInBackground(Void... params) {
 
-            String url = httpConnection.getWebServerString() + "Older/Functions/User.php?function=setUserAccountPrivacyLabel";
+            String url = httpConnection.getWebServerString() + "Older/Functions/User.php?function=setUserPrivacyLabel";
 
             try
             {
-                JSONObject jsonUserAccountPrivacyLabelObject = new JSONObject();
+                JSONObject jsonUserPrivacyLabelObject = new JSONObject();
 
-                jsonUserAccountPrivacyLabelObject.put("uid", uid);
-                jsonUserAccountPrivacyLabelObject.put("userAccountPrivacyLabel", userAccountPrivacyLabel);
+                jsonUserPrivacyLabelObject.put("uid", uid);
+                jsonUserPrivacyLabelObject.put("userPrivacyLabel", userPrivacyLabel);
 
-                String jsonUserAccountPrivacyLabel = jsonUserAccountPrivacyLabelObject.toString();
+                String jsonUserPrivacyLabel = jsonUserPrivacyLabelObject.toString();
 
                 Post request = new Post();
-                String response = request.post(url, jsonUserAccountPrivacyLabel);
+                String response = request.post(url, jsonUserPrivacyLabel);
 
                 if (response.equals("User updated successfully."))
                 {
                     UserDataLocal udl = new UserDataLocal(activity);
                     User user = udl.getUserData();
-                    user.setUserAccountPrivacyLabel(userAccountPrivacyLabel);
+                    user.setUserPrivacyLabel(userPrivacyLabel);
                     udl.setUserData(user);
                 }
                 return response; // Successful SQL command returns one empty space (" ")

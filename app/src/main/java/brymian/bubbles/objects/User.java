@@ -14,8 +14,8 @@ public class User {
     private String lastName;
     private String email;
     private String phone;
-    private String userAccountCreationTimestamp;
-    private String userAccountPrivacy;
+    private String userInsertTimestamp;
+    private String userPrivacy;
     private boolean init = false;
 
     private String friendshipStatus = null;
@@ -80,7 +80,7 @@ public class User {
     /* Set the data for the general user object */
     public void setUser(int uid, String facebookUid, String googlepUid,
         String username, String password, String firstName, String lastName, String email,
-        String phone, String userAccountCreationTimestamp, String userAccountPrivacy)
+        String phone, String userInsertTimestamp, String userPrivacy)
     {
         this.uid = uid;
         this.facebookUid = facebookUid;
@@ -91,12 +91,12 @@ public class User {
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
-        this.userAccountCreationTimestamp = userAccountCreationTimestamp;
-        this.userAccountPrivacy = userAccountPrivacy;
+        this.userInsertTimestamp = userInsertTimestamp;
+        this.userPrivacy = userPrivacy;
     }
 
-    public void setUserAccountPrivacyLabel(String userAccountPrivacyLabel) {
-        this.userAccountPrivacy = userAccountPrivacy;
+    public void setUserPrivacyLabel(String userPrivacyLabel) {
+        this.userPrivacy = userPrivacy;
     }
 
     public void setFriendshipStatus(String friendshipStatus) {
@@ -141,9 +141,9 @@ public class User {
 
     public String getPhone() { return phone; }
 
-    public String getUserAccountCreationTimestamp() { return userAccountCreationTimestamp; }
+    public String getUserInsertTimestamp() { return userInsertTimestamp; }
 
-    public String getUserAccountPrivacy() { return userAccountPrivacy; }
+    public String getUserPrivacy() { return userPrivacy; }
 
     public String getFriendshipStatus() { return friendshipStatus; }
 }

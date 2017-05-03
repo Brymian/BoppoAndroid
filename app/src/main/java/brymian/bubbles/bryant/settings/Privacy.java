@@ -32,7 +32,7 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
         sPictures = (Switch) findViewById(R.id.sPictures);
         sAccount = (Switch) findViewById(R.id.sAccount);
 
-        if(SaveSharedPreference.getUserAccountPrivacy(this).length() !=0){
+        if(SaveSharedPreference.getUserPrivacy(this).length() !=0){
             sAccount.setChecked(true);
         }
         if(SaveSharedPreference.getUserPicturePrivacy(this).length() != 0){
@@ -47,9 +47,9 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
         switch (compoundButton.getId()){
             case R.id.sAccount:
                 if(b){
-                    if(SaveSharedPreference.getUserAccountPrivacy(this).length() == 0){
+                    if(SaveSharedPreference.getUserPrivacy(this).length() == 0){
                         new ServerRequestMethods(this)
-                                .setUserAccountPrivacy(
+                                .setUserPrivacy(
                                         SaveSharedPreference.getUserUID(this),  /* user UID */
                                         "Private",                              /* Public/Private */
                                         new StringCallback() {
@@ -57,16 +57,16 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
                             public void done(String string) {
                                 if(string.equals("User updated successfully.")){
                                     Log.e("string", string);
-                                    SaveSharedPreference.setUserAccountPrivacy(Privacy.this);
+                                    SaveSharedPreference.setUserPrivacy(Privacy.this);
                                 }
                             }
                         });
                     }
                 }
                 else{
-                    if(SaveSharedPreference.getUserAccountPrivacy(this).length() != 0){
+                    if(SaveSharedPreference.getUserPrivacy(this).length() != 0){
                         new ServerRequestMethods(this)
-                                .setUserAccountPrivacy(
+                                .setUserPrivacy(
                                         SaveSharedPreference.getUserUID(this),
                                         "Public",
                                         new StringCallback() {
@@ -74,7 +74,7 @@ public class Privacy extends AppCompatActivity implements CompoundButton.OnCheck
                             public void done(String string) {
                                 if(string.equals("User updated successfully.")){
                                     Log.e("string", string);
-                                    SaveSharedPreference.clearUserAccountPrivacy(Privacy.this);
+                                    SaveSharedPreference.clearUserPrivacy(Privacy.this);
                                 }
                             }
                         });

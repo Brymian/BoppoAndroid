@@ -28,8 +28,8 @@ public class UserDataLocal {
         userDataLocalEditor.putString("namefirst", user.getFirstName());
         userDataLocalEditor.putString("namelast", user.getLastName());
         userDataLocalEditor.putString("email", user.getEmail());
-        userDataLocalEditor.putString("userAccountCreationTimestamp", user.getUserAccountCreationTimestamp());
-        userDataLocalEditor.putString("userAccountPrivacy", user.getUserAccountPrivacy());
+        userDataLocalEditor.putString("userInsertTimestamp", user.getUserInsertTimestamp());
+        userDataLocalEditor.putString("userPrivacy", user.getUserPrivacy());
         userDataLocalEditor.commit();
     }
 
@@ -46,8 +46,8 @@ public class UserDataLocal {
             userDataLocal.getString("namelast", null),
             userDataLocal.getString("email", null),
             userDataLocal.getString("phone", null),
-            userDataLocal.getString("userAccountCreationTimestamp", null),
-            userDataLocal.getString("userAccountPrivacy", null)
+            userDataLocal.getString("userInsertTimestamp", null),
+            userDataLocal.getString("userPrivacy", null)
         );
         return user;
     }

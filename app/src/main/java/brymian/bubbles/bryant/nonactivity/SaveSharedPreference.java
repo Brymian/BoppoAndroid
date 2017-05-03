@@ -166,17 +166,17 @@ public class SaveSharedPreference {
 
 
     /**-----------------------------------Account Privacy----------------------------------------**/
-    public static void setUserAccountPrivacy(Context ctx){
+    public static void setUserPrivacy(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USER_ACCOUNT_PRIVACY, "true");
         editor.apply();
     }
 
-    public static String getUserAccountPrivacy(Context ctx){
+    public static String getUserPrivacy(Context ctx){
         return getSharedPreferences(ctx).getString(PREF_USER_ACCOUNT_PRIVACY, "");
     }
 
-    public static void clearUserAccountPrivacy(Context ctx){
+    public static void clearUserPrivacy(Context ctx){
         SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
         editor.remove(PREF_USER_ACCOUNT_PRIVACY);
         editor.apply();

@@ -61,18 +61,18 @@ public class UserRequest {
         String lastName;
         String email;
         String phone;
-        String userAccountPrivacyLabel;
+        String userPrivacyLabel;
         StringCallback stringCallback;
 
         private SetUser(Integer uid, String firstName, String lastName, String email,
-            String phone, String userAccountPrivacyLabel, StringCallback stringCallback) {
+            String phone, String userPrivacyLabel, StringCallback stringCallback) {
 
             this.uid = uid;
             this.firstName = firstName;
             this.lastName = lastName;
             this.email = email;
             this.phone = phone;
-            this.userAccountPrivacyLabel = userAccountPrivacyLabel;
+            this.userPrivacyLabel = userPrivacyLabel;
             this.stringCallback = stringCallback;
         }
 
@@ -87,7 +87,7 @@ public class UserRequest {
                 jObject.put("lastName", getNullOrValue(lastName));
                 jObject.put("email", getNullOrValue(email));
                 jObject.put("phone", getNullOrValue(phone));
-                jObject.put("userAccountPrivacyLabel", getNullOrValue(userAccountPrivacyLabel));
+                jObject.put("userPrivacyLabel", getNullOrValue(userPrivacyLabel));
 
                 String jUser = jObject.toString();
                 Post request = new Post();

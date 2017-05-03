@@ -253,7 +253,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 public void done(User user) {
                     mToolbar.setTitle(user.getUsername());
                     tvProfileFirstLastName.setText(user.getFirstName() + " " + user.getLastName());
-                    setPrivacy(user.getUserAccountPrivacy());
+                    setPrivacy(user.getUserPrivacy());
                 }
             });
         }
