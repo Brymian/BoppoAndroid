@@ -7,16 +7,16 @@ public class EventUser {
 
     public String eventUserTypeLabel;
     public String eventUserInviteStatusLabel;
-    public String eventUserInviteStatusActionTimestamp;
+    public String eventUserInviteStatusUpsertTimestamp;
 
     public EventUser(Integer eid, Integer uid, String eventUserTypeLabel,
-        String eventUserInviteStatusLabel, String eventUserInviteStatusActionTimestamp)
+        String eventUserInviteStatusLabel, String eventUserInviteStatusUpsertTimestamp)
     {
         this.eid = eid;
         this.uid = uid;
         this.eventUserTypeLabel = eventUserTypeLabel;
         this.eventUserInviteStatusLabel = eventUserInviteStatusLabel;
-        this.eventUserInviteStatusActionTimestamp = eventUserInviteStatusActionTimestamp;
+        this.eventUserInviteStatusUpsertTimestamp = eventUserInviteStatusUpsertTimestamp;
     }
 
 }

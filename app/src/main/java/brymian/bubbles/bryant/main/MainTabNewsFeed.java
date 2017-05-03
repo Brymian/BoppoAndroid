@@ -86,7 +86,7 @@ public class MainTabNewsFeed extends Fragment {
                                     }
                                     mutualUserProfileImagePaths.add(userProfileImagePath);
                                 }
-                                MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(Integer.valueOf(mutualEpisodeObject.getString("eid")), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusActionTimestamp"), mutualUsernames, mutualUids, mutualUserProfileImagePaths, mutualEpisodeProfileImagePath);
+                                MainTabNewsFeedInfo infoMutual = new MainTabNewsFeedInfo(Integer.valueOf(mutualEpisodeObject.getString("eid")), mutualEpisodeObject.getString("eventName"), mutualEpisodeObject.getString("eventUserInviteStatusUpsertTimestamp"), mutualUsernames, mutualUids, mutualUserProfileImagePaths, mutualEpisodeProfileImagePath);
                                 mainTabNewsFeedInfoList.add(infoMutual);
                                 break;
 
