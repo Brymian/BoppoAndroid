@@ -125,8 +125,11 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                     @Override
                     public void done(String string) {
                         Log.e("uploadImage", string);
-                        setUiid(Integer.parseInt(string));
-                        uploadImageToEpisode();
+                        if (string.contains("Success:")){
+                            String[] arr = string.split(" ");
+                            setUiid(Integer.parseInt(arr[1]));
+                            uploadImageToEpisode();
+                        }
                     }
                 });
     }

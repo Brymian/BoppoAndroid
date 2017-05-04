@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -23,8 +22,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -35,8 +36,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DateFormat;
@@ -46,7 +45,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
@@ -56,29 +54,32 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserLikeRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 public class EpisodeActivity extends AppCompatActivity implements View.OnClickListener{
     public static List<Bitmap> episodeImage = new ArrayList<>();
-    TextView  tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvRating, tvViewCount, tvCommentsNumber;
+    TextView  tvDescription, tvParticipants, tvAddPhoto, tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvViewCount, tvCommentsNumber;
     FloatingActionButton fabPlay;
-    ImageView ivEpisodeProfileImage, ivLike, ivDislike, ivAddComment, ivParticipants, ivMap, ivAddImage, ivEpisodeHostImage;
-    EditText etAddComment;
+    ImageView ivEpisodeProfileImage, ivAddComment, ivEpisodeHostImage, ivMap;
+    EditText tvAddComment;
     Toolbar mToolbar;
-    CardView cvEpisodeHostInfo;
+    LinearLayout rlEpisodeHostInfo;
+    Button bAddFriendHost;
     RecyclerView rvComments;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     //int ADD_PARTICIPANTS_CODE = 123;
     private int eid, hostUid;
     int year, month, day, hour, minute, second;
-    private int EPISODE_EDIT_CODE;
+    private int EPISODE_EDIT_CODE = 0;
     private boolean isHost, isParticipant, isStarted = false, isEnded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         setContentView(R.layout.episode_activity);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -93,7 +94,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             //mToolbar.setPadding(0, getStatusBarHeight(),0, 0);
         }
         //hide keyboard when activity starts
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         /*--------------------------------Checking for putExtras()--------------------------------*/
         int eid;
         if (savedInstanceState == null) {
@@ -110,31 +110,33 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         }
         /*----------------------------------------------------------------------------------------*/
 
-        ivEpisodeProfileImage = (ImageView) findViewById(R.id.ivEpisodeProfileImage);
-
-        tvEpisodeHostName = (TextView) findViewById(R.id.tvEpisodeHostName);
-        tvEpisodeHostUsername = (TextView) findViewById(R.id.tvEpisodeHostUsername);
-        tvLikeCount = (TextView) findViewById(R.id.tvLikeCount);
-        tvDislikeCount = (TextView) findViewById(R.id.tvDislikeCount);
-        tvViewCount = (TextView) findViewById(R.id.tvViewCount);
-        ivLike = (ImageView) findViewById(R.id.ivLike);
-        ivLike.setOnClickListener(this);
-        ivDislike = (ImageView) findViewById(R.id.ivDislike);
-        ivDislike.setOnClickListener(this);
-        tvRating = (TextView) findViewById(R.id.tvRating);
         fabPlay = (FloatingActionButton) findViewById(R.id.fabPlay);
         fabPlay.setOnClickListener(this);
-        ivParticipants = (ImageView) findViewById(R.id.ivParticipants);
-        ivParticipants.setOnClickListener(this);
+
+        tvViewCount = (TextView) findViewById(R.id.tvViewCount);
+        tvDescription = (TextView) findViewById(R.id.tvDescription);
+        tvDescription.setText("A description of the event can go here. It can handle multiple lines and the text can even wrap! Which is a good thing!\nWhat do you think damian?");
+        tvLikeCount = (TextView) findViewById(R.id.tvLikeCount);
+        tvLikeCount.setOnClickListener(this);
+        tvDislikeCount = (TextView) findViewById(R.id.tvDislikeCount);
+        tvDislikeCount.setOnClickListener(this);
+        tvParticipants = (TextView) findViewById(R.id.tvParticipants);
+        tvParticipants.setOnClickListener(this);
+        tvAddPhoto = (TextView) findViewById(R.id.tvAddPhoto);
+        tvAddPhoto.setOnClickListener(this);
         ivMap = (ImageView) findViewById(R.id.ivMap);
-        ivMap.setOnClickListener(this);
-        ivAddImage = (ImageView) findViewById(R.id.ivAddImage);
-        ivAddImage.setOnClickListener(this);
-        cvEpisodeHostInfo = (CardView) findViewById(R.id.cvEpisodeHostInfo);
-        cvEpisodeHostInfo.setOnClickListener(this);
+
+
+        rlEpisodeHostInfo = (LinearLayout) findViewById(R.id.rlEpisodeHostInfo);
+        rlEpisodeHostInfo.setOnClickListener(this);
+        ivEpisodeProfileImage = (ImageView) findViewById(R.id.ivEpisodeProfileImage);
+        tvEpisodeHostName = (TextView) findViewById(R.id.tvEpisodeHostName);
+        tvEpisodeHostUsername = (TextView) findViewById(R.id.tvEpisodeHostUsername);
         ivEpisodeHostImage = (ImageView) findViewById(R.id.ivEpisodeHostImage);
+        bAddFriendHost = (Button) findViewById(R.id.bAddFriendHost);
+
         tvCommentsNumber = (TextView) findViewById(R.id.tvCommentsNumber);
-        etAddComment = (EditText) findViewById(R.id.etAddComment);
+        tvAddComment = (EditText) findViewById(R.id.tvAddComment);
         ivAddComment = (ImageView) findViewById(R.id.ivAddComment);
         ivAddComment.setOnClickListener(this);
         rvComments = (RecyclerView) findViewById(R.id.rvComments);
@@ -146,6 +148,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         getEpisodeComments();
         setIsParticipant();
         downloadEpisodePictures();
+        setStaticMap();
     }
 
     // A method to find height of the status bar
@@ -166,39 +169,33 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         FragmentManager fm = getFragmentManager();
 
         switch (view.getId()){
-            case R.id.ivLike:
+            case R.id.tvLikeCount:
                 new UserLikeRequest(EpisodeActivity.this).setObjectLikeOrDislike(SaveSharedPreference.getUserUID(EpisodeActivity.this), "Event", getEid(), true, new StringCallback() {
                     @Override
                     public void done(String string) {
                         Log.e("Like", string);
+                        //if (string.equals("User has successfully liked or disliked the object.")){}
                     }
                 });
                 break;
 
-            case R.id.ivDislike:
+            case R.id.tvDislikeCount:
                 new UserLikeRequest(EpisodeActivity.this).setObjectLikeOrDislike(SaveSharedPreference.getUserUID(EpisodeActivity.this), "Event", getEid(), false, new StringCallback() {
                     @Override
                     public void done(String string) {
                         Log.e("Dislike", string);
+                        //if (string.equals("User has successfully liked or disliked the object.")){}
                     }
                 });
                 break;
 
-            case R.id.ivParticipants:
+            case R.id.tvParticipants:
                 startActivity(new Intent(this, EpisodeParticipants.class).putExtra("eid", getEid()).putExtra("isHost", getIsHost()).putExtra("isEnded", getIsEnded()));
                 //startActivityForResult(new Intent(this, EpisodeParticipants.class), ADD_PARTICIPANTS_CODE);
                 break;
 
-            case R.id.ivMap:
-                startActivity(new Intent(this, MapActivity.class));
-                break;
+            case R.id.tvAddPhoto:
 
-            case R.id.ivAddImage:
-
-                break;
-
-            case R.id.cvEpisodeHostInfo:
-                startActivity(new Intent(this, ProfileActivity.class).putExtra("uid", getHostUid()));
                 break;
 
             case R.id.fabPlay:
@@ -207,7 +204,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
 
-            case R.id.ivAddComment:
+            case R.id.tvAddComment:
                 addComment();
                 break;
 
@@ -231,6 +228,22 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.tvLeaveEpisode:
 
+                break;
+
+            case R.id.rlEpisodeHostInfo:
+                startActivity(new Intent(this, ProfileActivity.class).putExtra("uid", getHostUid()));
+                break;
+
+            case R.id.bAddFriendHost:
+                new ServerRequestMethods(this).setFriendStatus(SaveSharedPreference.getUserUID(EpisodeActivity.this), getHostUid(), new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        if (string.equals("Friendship Pending request sent successfully.")) {
+                            bAddFriendHost.setText("Sent");
+                            bAddFriendHost.setOnClickListener(null);
+                        }
+                    }
+                });
                 break;
         }
     }
@@ -267,7 +280,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void addComment(){
-        new UserCommentRequest(this).setObjectComment(SaveSharedPreference.getUserUID(this), "Event", getEid(), null, etAddComment.getText().toString(), null, new StringCallback() {
+        new UserCommentRequest(this).setObjectComment(SaveSharedPreference.getUserUID(this), "Event", getEid(), null, tvAddComment.getText().toString(), null, new StringCallback() {
             @Override
             public void done(String string) {
                 Log.e("addComment", string);
@@ -533,12 +546,15 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     tvEpisodeHostName.setText(episodeHostInfoObject.getString("firstName") + " " + episodeHostInfoObject.getString("lastName"));
                     tvEpisodeHostUsername.setText(episodeHostInfoObject.getString("username"));
                     setHostUid(Integer.valueOf(episodeHostInfoObject.getString("uid")));
+                    setIsFriendWithHost();
 
                     String episodeHostImageString = episodeHostInfoObject.getString("userProfileImages");
                     JSONArray episodeHostImageArray = new JSONArray(episodeHostImageString);
                     JSONObject episodeHostImageObject = episodeHostImageArray.getJSONObject(0);
                     Picasso.with(EpisodeActivity.this).load(episodeHostImageObject.getString("userImagePath")).fit().centerCrop().into(ivEpisodeHostImage);
 
+                    /*
+                    //for ratings
                     int likeCount = Integer.valueOf(episodeInfoObject.getString("eventLikeCount"));
                     int dislikeCount = Integer.valueOf(episodeInfoObject.getString("eventDislikeCount"));
                     if ( likeCount == 0 && dislikeCount == 0){
@@ -550,6 +566,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         double rating = 100 - dislikePercent;
                         tvRating.setText(String.valueOf(round(rating, 2)) + "%");
                     }
+                    */
 
                     if (Integer.valueOf(episodeHostInfoObject.getString("uid")) == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
                         setIsHost(true);
@@ -771,13 +788,36 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private void setStaticMap(){
+        String latEiffelTower = "48.858235";
+        String lngEiffelTower = "2.294571";
+        String url = "http://maps.google.com/maps/api/staticmap?center=" + latEiffelTower + "," + lngEiffelTower + "&zoom=15&size=1000x150&scale=2&sensor=false";
+        Picasso.with(this).load(url).fit().into(ivMap);
+    }
+
+    private void setIsFriendWithHost(){
+        if (getHostUid() != SaveSharedPreference.getUserUID(this)){
+            new ServerRequestMethods(this).getFriendStatus(SaveSharedPreference.getUserUID(EpisodeActivity.this), getHostUid(), new StringCallback() {
+                @Override
+                public void done(String string) {
+                    if (string.equals("Not friends.")){
+                        bAddFriendHost.setVisibility(View.VISIBLE);
+                        bAddFriendHost.setOnClickListener(EpisodeActivity.this);
+                    }
+                }
+            });
+        }
+    }
+
+    /*
+    //for ratings
     private double round(double value, int places) {
         if (places < 0) throw new IllegalArgumentException();
 
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
-    }
+    }*/
 
     private boolean getIsParticipant(){
         return isParticipant;

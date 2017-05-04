@@ -14,11 +14,11 @@
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:contentScrim="@color/AppColor"
                 app:scrimAnimationDuration="400"
                 app:expandedTitleMarginEnd="@dimen/contentPadding"
-                app:expandedTitleMarginStart="@dimen/contentPadding"
+                app:expandedTitleMarginStart="@dimen/halfContentPadding"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
                 <ImageView
                     android:id="@+id/ivEpisodeProfileImage"
@@ -50,186 +50,189 @@
                 android:layout_marginBottom="@dimen/contentPadding"
                 android:background="@android:color/white"
                 app:cardCornerRadius="0dp">
-                <RelativeLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/contentPadding">
+                    android:padding="@dimen/quarterContentPadding"
+                    android:orientation="vertical">
                     <TextView
                         android:id="@+id/tvViewCount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:paddingBottom="10dp"
+                        android:layout_margin="@dimen/quarterContentPadding"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
-                    <LinearLayout
-                        android:id="@+id/llRatings"
+                    <TextView
+                        android:id="@+id/tvDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/tvViewCount"
-                        android:gravity="center_vertical"
+                        android:layout_marginRight="@dimen/contentPadding"
+                        android:layout_marginLeft="@dimen/contentPadding"
+                        android:layout_marginBottom="@dimen/contentPadding"
+                        android:paddingLeft="@dimen/contentPadding"
+                        android:paddingRight="@dimen/contentPadding"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
                         <TextView
                             android:id="@+id/tvLikeCount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center_vertical|right|end"
-                            android:paddingRight="10dp"
-                            android:textAppearance="@android:style/TextAppearance.Small" />
-                        <ImageView
-                            android:id="@+id/ivLike"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/ic_thumb_up_black_24dp"/>
-                        <TextView
-                            android:id="@+id/tvRating"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:paddingRight="10dp"
-                            android:paddingLeft="10dp" />
-                        <ImageView
-                            android:id="@+id/ivDislike"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:src="@mipmap/ic_thumb_down_black_24dp"/>
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_thumb_up_grey600_24dp"/>
                         <TextView
                             android:id="@+id/tvDislikeCount"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:gravity="center_vertical|start|left"
-                            android:paddingLeft="10dp"
-                            android:textAppearance="@android:style/TextAppearance.Small" />
+                            android:gravity="center_horizontal"
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_thumb_down_grey600_24dp"/>
+                        <TextView
+                            android:id="@+id/tvParticipants"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="@string/Participants"
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_account_multiple_grey600_24dp"/>
+                        <TextView
+                            android:id="@+id/tvAddPhoto"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:text="Add Photo"
+                            android:textSize="@dimen/smallTextSize"
+                            android:drawableTop="@mipmap/ic_camera_grey600_24dp"/>
                     </LinearLayout>
-                </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/ivMap"
+                        android:layout_marginTop="@dimen/contentPadding"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="@dimen/halfContentPadding"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/LightGrayAndroid"/>
+                    <LinearLayout
+                        android:id="@+id/rlEpisodeHostInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/quarterContentPadding"
+                        android:paddingLeft="@dimen/halfContentPadding"
+                        android:paddingRight="@dimen/halfContentPadding"
+                        android:layout_marginTop="@dimen/halfContentPadding"
+                        android:layout_marginBottom="@dimen/halfContentPadding">
+                        <ImageView
+                            android:id="@+id/ivEpisodeHostImage"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_marginRight="@dimen/halfContentPadding"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+                            <TextView
+                                android:id="@+id/tvEpisodeHostUsername"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="@android:style/TextAppearance.Medium"/>
+                            <TextView
+                                android:id="@+id/tvEpisodeHostName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@android:color/darker_gray"
+                                android:textAppearance="@android:style/TextAppearance.Small"/>
+                        </LinearLayout>
+                        <Button
+                            android:id="@+id/bAddFriendHost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone"
+                            android:text="ADD FRIEND"
+                            android:textColor="@android:color/white"
+                            android:background="@color/AppColor"/>
+                    </LinearLayout>
+                </LinearLayout>
             </android.support.v7.widget.CardView>
             <android.support.v7.widget.CardView
-                android:id="@+id/cvButtons"
+                android:id="@+id/cvComments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:background="@android:color/white"
-                app:cardElevation="0dp"
                 app:cardCornerRadius="0dp">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/llRatings"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-                    <ImageView
-                        android:id="@+id/ivParticipants"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@mipmap/ic_people_black_24dp" />
-                    <ImageView
-                        android:id="@+id/ivMap"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@mipmap/ic_public_black_24dp"/>
-                    <ImageView
-                        android:id="@+id/ivAddImage"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:src="@mipmap/ic_add_a_photo_black_24dp"/>
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:id="@+id/cvEpisodeHostInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
-                android:background="@android:color/white"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:gravity="center_vertical">
-                    <ImageView
-                        android:id="@+id/ivEpisodeHostImage"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_alignParentLeft="true"/>
-                    <TextView
-                        android:id="@+id/tvEpisodeHostUsername"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/ivEpisodeHostImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"/>
-                    <TextView
-                        android:id="@+id/tvEpisodeHostName"
-                        android:layout_below="@+id/tvEpisodeHostUsername"
-                        android:layout_toRightOf="@+id/ivEpisodeHostImage"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@android:color/darker_gray"
-                        android:textAppearance="@android:style/TextAppearance.Small"/>
-                </RelativeLayout>
-            </android.support.v7.widget.CardView>
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="0dp">
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp">
-                    <TextView
-                        android:id="@+id/tvCommentsTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentLeft="true"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:text="@string/Comments"/>
-                    <TextView
-                        android:id="@+id/tvCommentsNumber"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_toRightOf="@+id/tvCommentsTitle"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="10dp"
-                        android:textAppearance="@android:style/TextAppearance.Medium"
-                        android:textColor="@android:color/darker_gray"/>
+                    android:padding="@dimen/halfContentPadding"
+                    android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="20dp"
-                        android:gravity="bottom">
-                        <EditText
-                            android:id="@+id/etAddComment"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/contentPadding"
+                            android:src="@mipmap/ic_comment_multiple_outline_grey600_24dp"/>
+                        <TextView
+                            android:id="@+id/tvCommentsTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:text="@string/Comments"/>
+                        <TextView
+                            android:id="@+id/tvCommentsNumber"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:textAppearance="@android:style/TextAppearance.Medium"
+                            android:textColor="@android:color/darker_gray"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/contentPadding"
+                        android:focusableInTouchMode="true"
+                        android:orientation="horizontal">
+                        <android.support.design.widget.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="@string/Add_comment"
-                            android:textAppearance="@android:style/TextAppearance.Small"/>
+                            app:counterEnabled="true"
+                            app:counterMaxLength="200">
+                            <android.support.design.widget.TextInputEditText
+                                android:id="@+id/tvAddComment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/Add_comment"/>
+                        </android.support.design.widget.TextInputLayout>
                         <ImageView
                             android:id="@+id/ivAddComment"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_marginBottom="10dp"
+                            android:paddingBottom="30dp"
+                            android:layout_gravity="bottom"
+                            android:tint="@color/AppColor"
                             android:src="@mipmap/ic_send_black_24dp"/>
                     </LinearLayout>
-                </RelativeLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/LightGrayAndroid"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/rvComments"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </android.support.v7.widget.CardView>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvComments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.widget.FloatingActionButton
@@ -237,7 +240,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:src="@mipmap/ic_play_arrow_black_24dp"
+        android:src="@mipmap/ic_play_white_24dp"
         android:elevation="4dp"
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|end"
