@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:background="@android:color/darker_gray">
+    android:background="@android:color/white">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -18,123 +19,139 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/toolbar"
+            android:padding="@dimen/contentPadding"
             android:orientation="vertical">
             <LinearLayout
-                android:id="@+id/llTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/contentPadding"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="@dimen/contentPadding"
+                    android:src="@mipmap/ic_format_title_grey600_24dp"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/Title"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-                <EditText
-                    android:id="@+id/etEpisodeTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:inputType="textCapWords"
-                    android:maxLines="1"/>
+                    android:layout_weight="1">
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/etEpisodeTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/Title"
+                        android:inputType="textCapWords"
+                        android:maxLines="1"/>
+                </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/llStartDateTime"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:padding="10dp"
-                android:background="@android:color/white"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
+                android:layout_marginBottom="@dimen/contentPadding"
+                android:layout_marginTop="@dimen/contentPadding">
+                <ImageView
+                    android:id="@+id/ivIcon"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Starting_Date_and_Time"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/contentPadding"
+                    android:src="@mipmap/ic_calendar_clock_grey600_24dp"/>
+                <TextView
+                    android:id="@+id/tvStarts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ivIcon"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="@dimen/halfContentPadding"
+                    android:text="Starts:"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+                <TextView
+                    android:id="@+id/tvEnds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ivIcon"
+                    android:layout_below="@+id/llSetEnd"
+                    android:text="Ends:"
                     android:textAppearance="@android:style/TextAppearance.Medium"/>
                 <LinearLayout
+                    android:id="@+id/llStart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tvStarts"
+                    android:layout_marginBottom="@dimen/halfContentPadding"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:gravity="right|end">
                     <TextView
                         android:id="@+id/tvStartDate"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right|end"
+                        android:textColor="@color/AppColorDark"
                         android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Large"/>
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/at"
-                        android:textAppearance="@android:style/TextAppearance.Large"/>
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <TextView
                         android:id="@+id/tvStartTime"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/AppColorDark"
                         android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Large" />
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
                 </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llEndDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:layout_marginBottom="1dp"
-                android:padding="10dp"
-                android:background="@android:color/white"
-                android:orientation="vertical">
                 <LinearLayout
+                    android:id="@+id/llSetEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@+id/llStart"
+                    android:layout_toRightOf="@+id/ivIcon"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/tvSetEndDateTime"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/Ending_date_time"
-                        android:textAppearance="@android:style/TextAppearance.Medium"/>
+                        android:text="Set end date and time now?"
+                        android:textAppearance="@android:style/TextAppearance.Small"/>
                     <CheckBox
                         android:id="@+id/cbEndDateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="15dp"/>
+                        android:layout_marginBottom="@dimen/halfContentPadding" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llEnd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tvEnds"
+                    android:layout_below="@+id/llSetEnd"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    android:gravity="right|end">
                     <TextView
                         android:id="@+id/tvEndDate"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="right|end"
                         android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Large"/>
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <TextView
                         android:id="@+id/tvAt"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/at"
-                        android:textAppearance="@android:style/TextAppearance.Large"/>
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <TextView
                         android:id="@+id/tvEndTime"
-                        android:layout_width="100dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:textAppearance="@android:style/TextAppearance.Large" />
+                        android:textAppearance="@android:style/TextAppearance.Medium" />
                 </LinearLayout>
-            </LinearLayout>
+            </RelativeLayout>
 
             <!--
             <LinearLayout
@@ -163,37 +180,32 @@
                 android:id="@+id/llCurrentLocation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="10dp"
+                android:layout_marginTop="@dimen/contentPadding"
                 android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:background="@android:color/white">
+                android:gravity="center_vertical">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/ic_earth_grey600_24dp"
+                    android:layout_marginRight="@dimen/contentPadding"/>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/Map"
+                    android:text="Set on your map?"
                     android:textAppearance="@android:style/TextAppearance.Medium"/>
                 <CheckBox
                     android:id="@+id/cbCurrentLocation"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"/>
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:background="@android:color/white">
-
-                <TextView
-                    android:id="@+id/ivImageAndLogo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    android:text="@string/Image_and_Logo"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+                android:gravity="center_vertical"
+                android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -205,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/UPLOAD_IMAGE"
-                        android:textColor="#0645AD"
+                        android:textColor="@color/AppColorDark"
                         android:textAppearance="@android:style/TextAppearance.Small"/>
                     <TextView
                         android:layout_width="wrap_content"
@@ -216,31 +228,31 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/Choose_logo"
-                        android:textColor="#0645AD"
+                        android:textColor="@color/AppColorDark"
                         android:textAppearance="@android:style/TextAppearance.Small"/>
                 </LinearLayout>
 
                 <android.support.v7.widget.CardView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
                     android:layout_marginBottom="10dp"
                     android:layout_gravity="center_horizontal"
                     android:elevation="12dp"
-                    card_view:cardCornerRadius="50dp"
+                    card_view:cardCornerRadius="75dp"
                     android:innerRadius="0dp"
                     android:shape="ring"
                     android:thicknessRatio="1.9">
                     <ImageView
                         android:id="@+id/ivEpisodeImage"
-                        android:layout_height="100dp"
+                        android:layout_height="150dp"
                         android:layout_width="match_parent"
                         android:layout_alignParentTop="true"
                         android:layout_centerHorizontal="true"/>
                     <android.support.v7.widget.CardView
-                        android:layout_width="34dp"
-                        android:layout_height="34dp"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
                         android:elevation="12dp"
-                        card_view:cardCornerRadius="17dp"
+                        card_view:cardCornerRadius="25dp"
                         android:innerRadius="0dp"
                         android:shape="ring"
                         android:thicknessRatio="1.9"
@@ -248,10 +260,10 @@
                         <ImageView
                             android:id="@+id/ivEpisodeLogo"
                             android:layout_width="match_parent"
-                            android:layout_height="34dp"
+                            android:layout_height="50dp"
                             android:layout_alignParentTop="true"
                             android:layout_centerHorizontal="true"
-                            android:background="@android:color/holo_red_dark"/>
+                            android:background="@color/AppColor"/>
                     </android.support.v7.widget.CardView>
                 </android.support.v7.widget.CardView>
             </LinearLayout>
