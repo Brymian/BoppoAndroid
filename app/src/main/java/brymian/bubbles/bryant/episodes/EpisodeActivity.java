@@ -65,6 +65,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     ImageView ivEpisodeProfileImage, ivAddComment, ivEpisodeHostImage, ivMap;
     EditText tvAddComment;
     Toolbar mToolbar;
+    View vComments;
     LinearLayout rlEpisodeHostInfo;
     Button bAddFriendHost;
     RecyclerView rvComments;
@@ -126,7 +127,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         tvAddPhoto.setOnClickListener(this);
         ivMap = (ImageView) findViewById(R.id.ivMap);
 
-
         rlEpisodeHostInfo = (LinearLayout) findViewById(R.id.rlEpisodeHostInfo);
         rlEpisodeHostInfo.setOnClickListener(this);
         ivEpisodeProfileImage = (ImageView) findViewById(R.id.ivEpisodeProfileImage);
@@ -140,6 +140,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         ivAddComment = (ImageView) findViewById(R.id.ivAddComment);
         ivAddComment.setOnClickListener(this);
         rvComments = (RecyclerView) findViewById(R.id.rvComments);
+        vComments = findViewById(R.id.vComments);
+
         setDateTime();
         getEpisodeProfilePictures(eid);
         getEpisodeInfo(eid);
@@ -306,6 +308,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         JSONObject object = new JSONObject(string);
                         JSONArray jArray  = object.getJSONArray("comments");
                         tvCommentsNumber.setText(String.valueOf(jArray.length()));
+                        vComments.setVisibility(View.VISIBLE);
                         for (int i = 0; i < jArray.length(); i++){
                             JSONObject jArray_jObject = jArray.getJSONObject(i);
                             uid.add(jArray_jObject.getInt("uid"));
