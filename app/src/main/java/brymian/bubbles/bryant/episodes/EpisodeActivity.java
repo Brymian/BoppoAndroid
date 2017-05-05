@@ -313,7 +313,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                             JSONObject jArray_jObject = jArray.getJSONObject(i);
                             uid.add(jArray_jObject.getInt("uid"));
                             userComment.add(jArray_jObject.getString("userComment"));
-                            userCommentTimestamp.add(commentTimestampLayout(jArray_jObject.getString("userCommentSetTimestamp")));
+                            userCommentTimestamp.add(commentTimestampLayout(jArray_jObject.getString("userCommentUpsertTimestamp")));
                             userUsername.add(jArray_jObject.getJSONObject("user").getString("username"));
                             userProfileImagePath.add(jArray_jObject.getJSONObject("image").getString("userImagePath"));
                         }

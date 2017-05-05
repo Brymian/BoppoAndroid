@@ -32,10 +32,10 @@ public class UserCommentRequest
 
 
     public void setObjectComment(Integer uid, String objectTypeLabel, Integer oid,
-        String userCommentSetTimestamp, String userComment, Long parentUcid, StringCallback stringCallback)
+        String userCommentUpsertTimestamp, String userComment, Long parentUcid, StringCallback stringCallback)
     {
         pd.show();
-        new SetObjectComment(uid, objectTypeLabel, oid, userCommentSetTimestamp,
+        new SetObjectComment(uid, objectTypeLabel, oid, userCommentUpsertTimestamp,
             userComment, parentUcid, stringCallback).execute();
     }
 
@@ -52,18 +52,18 @@ public class UserCommentRequest
         Integer uid;
         String  objectTypeLabel;
         Integer oid;
-        String userCommentSetTimestamp;
+        String userCommentUpsertTimestamp;
         String userComment;
         Long parentUcid;
         StringCallback stringCallback;
 
         private SetObjectComment(Integer uid, String objectTypeLabel, Integer oid,
-            String userCommentSetTimestamp, String userComment, Long parentUcid, StringCallback stringCallback)
+            String userCommentUpsertTimestamp, String userComment, Long parentUcid, StringCallback stringCallback)
         {
             this.uid = uid;
             this.objectTypeLabel = objectTypeLabel;
             this.oid = oid;
-            this.userCommentSetTimestamp = userCommentSetTimestamp;
+            this.userCommentUpsertTimestamp = userCommentUpsertTimestamp;
             this.userComment = userComment;
             this.parentUcid = parentUcid;
             this.stringCallback = stringCallback;
@@ -82,7 +82,7 @@ public class UserCommentRequest
                 jObject.put("uid", getNullOrValue(uid));
                 jObject.put("objectTypeLabel", getNullOrValue(objectTypeLabel));
                 jObject.put("oid", getNullOrValue(oid));
-                jObject.put("userCommentSetTimestamp", getNullOrValue(userCommentSetTimestamp));
+                jObject.put("userCommentUpsertTimestamp", getNullOrValue(userCommentUpsertTimestamp));
                 jObject.put("userComment", getNullOrValue(userComment));
                 jObject.put("parentUcid", getNullOrValue(parentUcid));
 
