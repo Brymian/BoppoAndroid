@@ -1,16 +1,16 @@
 package brymian.bubbles.bryant.episodes;
 
-import android.annotation.TargetApi;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,8 +20,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CalendarView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,12 +31,11 @@ import org.json.JSONException;
 import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.addLocation.AddLocation;
 import brymian.bubbles.bryant.cropImage.CropImageActivity;
 import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
@@ -48,12 +45,13 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 
-public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener{
+public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener{
+    TextInputLayout tilTitle;
     Toolbar mToolbar;
     EditText etEpisodeTitle;
-    CheckBox cbEndDateTime ,cbPrivate, cbCurrentLocation;
     String episodeTitle ,privacy, category, type;
-    TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvAt;
+    public static TextView tvAddLocation;
+    TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
     ImageView ivEpisodeImage;
     FloatingActionButton fabDone;
     double latitude;
@@ -72,7 +70,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     AlertDialog musicDialog = null;
     AlertDialog miscDialog = null;
 
-
     int DONE_CODE = 3;
     int CAMERA_CODE = 2;
     int GALLERY_CODE = 1;
@@ -88,39 +85,25 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        tilTitle = (TextInputLayout) findViewById(R.id.tilTitle);
         etEpisodeTitle = (EditText) findViewById(R.id.etEpisodeTitle);
+
+        tvAddLocation = (TextView) findViewById(R.id.tvAddLocation);
+        tvAddLocation.setOnClickListener(this);
 
         tvStartDate = (TextView) findViewById(R.id.tvStartDate);
         tvStartDate.setText(getDateOnCreate());
-        tvStartDate.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvStartDate.setOnClickListener(this);
 
         tvStartTime = (TextView) findViewById(R.id.tvStartTime);
         tvStartTime.setText(getTimeOnCreate());
-        tvStartTime.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvStartTime.setOnClickListener(this);
 
-        cbEndDateTime = (CheckBox) findViewById(R.id.cbEndDateTime);
-        cbEndDateTime.setOnCheckedChangeListener(this);
-
         tvEndDate = (TextView) findViewById(R.id.tvEndDate);
-        tvEndDate.setText(getDateOnCreate());
-        tvEndDate.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tvEndDate.setTextColor(Color.GRAY);
-
-        tvAt = (TextView) findViewById(R.id.tvAt);
-        tvAt.setTextColor(Color.GRAY);
+        tvEndDate.setOnClickListener(this);
 
         tvEndTime = (TextView) findViewById(R.id.tvEndTime);
-        tvEndTime.setText(getTimeOnCreate());
-        tvEndTime.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
-        tvEndTime.setTextColor(Color.GRAY);
-
-        //cbPrivate = (CheckBox) findViewById(R.id.cbPrivate);
-        //cbPrivate.setOnCheckedChangeListener(this);
-
-        cbCurrentLocation = (CheckBox) findViewById(R.id.cbCurrentLocation);
-        cbCurrentLocation.setOnCheckedChangeListener(this);
+        tvEndTime.setOnClickListener(this);
 
         tvUploadImage = (TextView) findViewById(R.id.tvUploadImage);
         tvUploadImage.setOnClickListener(this);
@@ -130,19 +113,28 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         ivEpisodeImage = (ImageView) findViewById(R.id.ivEpisodeImage);
 
-        setPrivacy("Public");
-        setLatitude(SaveSharedPreference.getLatitude(this));
-        setLongitude(SaveSharedPreference.getLongitude(this));
-
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
         fabDone.setOnClickListener(this);
+
+        setPrivacy("Public");
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.tvAddLocation:
+                AddLocation addLocation = new AddLocation();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.episode_create, addLocation);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+                break;
             case R.id.tvStartDate:
-                calendarStartAlertDialog();
+                calendarStartAlertDialog("Start Date");
+                break;
+
+            case R.id.tvEndDate:
+                calendarStartAlertDialog("End Date");
                 break;
 
             case R.id.tvStartTime:
@@ -362,8 +354,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.fabDone:
-                Log.e("uploadStartDate" , getStartDate() + " " + getStartTime());
-                Log.e("uploadCatType", getCategory() + " " + getType());
                 new EventRequest(this).createEvent(
                         SaveSharedPreference.getUserUID(EpisodeCreate.this),
                         getEpisodeTitle(),
@@ -374,24 +364,25 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                         true,
                         getStartDate() + " " + getStartTime(),
                         null,
-                        null,
-                        null,
+                        getLatitude(),
+                        getLongitude(),
                         new StringCallback() {
                             @Override
                             public void done(String string) {
                                 String[] result = string.split(" ");
                                 if (result[0].equals("Success.")){
+                                    tilTitle.setErrorEnabled(false);
                                     setEid(Integer.valueOf(result[2]));
                                     uploadImage();
+                                }
+                                if (string.contains("Duplicate entry")){
+                                    tilTitle.setError("Title already exits");
                                 }
                                 /*
                                 for(String something: string.split(" ")){
                                     if(something.equals("Success.")){
                                         uploadImage();
                                         //startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), DONE_CODE);
-                                    }
-                                    else if(something.equals("Duplicate")){
-                                        duplicateEntry();
                                     }
                                 } **/
                             }
@@ -421,7 +412,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         );
     }
 
-
     private void addImageToEvent(){
         Integer[] uiids = {getUiid()};
         new EventUserImageRequest(this).addImagesToEvent(getEid(), uiids, new StringCallback() {
@@ -446,48 +436,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         new EventUserImageRequest(this).setEuiEventProfileSequence(getEid(), getUiid(), (short)0, new StringCallback() {
             @Override
             public void done(String string) {
-                Log.e("setEpsProfImg", string);
                 if (string.equals("\"Event user image event profile sequence has been successfully updated.\"")){
                     startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("eid", getEid()), DONE_CODE);
                 }
             }
         });
     }
-
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        switch (buttonView.getId()){
-            case R.id.cbCurrentLocation:
-                if (!isChecked){
-                    latitude = 0;
-                    longitude = 0;
-                }
-                else{
-                    latitude = SaveSharedPreference.getLatitude(this);
-                    longitude = SaveSharedPreference.getLongitude(this);
-                }
-                break;
-
-            case R.id.cbEndDateTime:
-                if (isChecked){
-                    tvEndDate.setTextColor(Color.BLACK);
-                    tvEndDate.setOnClickListener(this);
-                    tvAt.setTextColor(Color.BLACK);
-                    tvEndTime.setTextColor(Color.BLACK);
-                    tvEndTime.setOnClickListener(this);
-                }
-                else {
-                    tvEndDate.setTextColor(Color.GRAY);
-                    tvEndDate.setOnClickListener(null);
-                    tvAt.setTextColor(Color.GRAY);
-                    tvEndTime.setTextColor(Color.GRAY);
-                    tvEndTime.setOnClickListener(null);
-                }
-                break;
-        }
-    }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -523,9 +477,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void calendarStartAlertDialog(){
+    private void calendarStartAlertDialog(String title){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_calendar_alertdialog, null);
+
+        TextView tvTitle = (TextView) alertLayout.findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
 
         CalendarView calendarView = (CalendarView) alertLayout.findViewById(R.id.calenderView);
         calendarView.setDate(getSelectedDate());
@@ -552,7 +509,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         dialog.show();
     }
 
-    @TargetApi(23)
     private void timeStartAlertDialog(){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_time_alertdialog, null);
@@ -618,7 +574,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     private long getSelectedDate(){
-        Log.e("getSelectedDate", month);
         if (!isSelected){
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.valueOf(year));
@@ -632,26 +587,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return 123;
     }
 
-    private void duplicateEntry() {
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.episode_create_alertdialog, null);
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setView(alertLayout);
-        alert.setCancelable(false);
-        alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-            }
-        });
-        AlertDialog dialog = alert.create();
-        dialog.show();
-    }
-
     private String getEpisodeTitle(){
         this.episodeTitle = etEpisodeTitle.getText().toString();
         return episodeTitle;
     }
-
 
     private String getTimeOnCreate(){
         DateFormat hourFormat = new SimpleDateFormat("HH");//research getDateTimeInstance()
@@ -685,9 +624,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         DateFormat dayFormat = new SimpleDateFormat("dd");
         Date dayDate = new Date();
-        Log.e("getDateOnCreate", String.valueOf(Integer.valueOf(monthFormat.format(monthDate)) - 1));
         setStartDate(yearFormat.format(yearDate), String.valueOf(Integer.valueOf(monthFormat.format(monthDate)) - 1), dayFormat.format(dayDate));
-        return getMonthString(monthFormat.format(monthDate)) + " " + dayFormat.format(dayDate) + ", " + yearFormat.format(yearDate);
+        //return getMonthString(monthFormat.format(monthDate)) + " " + dayFormat.format(dayDate) + ", " + yearFormat.format(yearDate);
+        return getDateToDisplay();
     }
 
     private String getMonthString(String mm){
@@ -721,9 +660,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     private void setStartDate(String year, String month, String dayOfMonth){
-        Log.e("setDateBeforeInt", month);
         int monthNum = Integer.valueOf(month) + 1;
-        Log.e("setDateAfterInt", String.valueOf(monthNum));
         if (monthNum < 10){
             this.month = "0" + String.valueOf(monthNum);
         }
@@ -732,6 +669,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
         this.year = year;
         this.dayOfMonth = dayOfMonth;
+    }
+
+    private String getDateToDisplay(){
+        return getMonthString(month) + " " + dayOfMonth + ", " + year;
     }
 
     private String getStartDate(){
@@ -746,10 +687,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     private String getStartTime(){
         return hourOfDay + ":" + minute + ":" + second;
-    }
-
-    private String getDateToDisplay(){
-        return getMonthString(month) + " " + dayOfMonth + ", " + year;
     }
 
     private String getTimeToDisplay(){
@@ -934,9 +871,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         miscDialog.show();
     }
 
-
-
-
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -1003,5 +937,14 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     private int getEid(){
         return this.eid;
+    }
+
+    public static String location;
+    public static void setLocation(String location){
+        EpisodeCreate.location = location;
+    }
+
+    String getLocation(){
+        return EpisodeCreate.location;
     }
 }

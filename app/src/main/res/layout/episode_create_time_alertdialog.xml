@@ -10,7 +10,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/AppColor"
+        app:cardBackgroundColor="@color/AppColorDark"
         app:cardCornerRadius="10dp">
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -18,11 +18,36 @@
             android:layout_margin="5dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp">
-            <TimePicker
-                android:id="@+id/timePicker"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:timePickerMode="spinner"/>
+                android:orientation="vertical">
+                <TimePicker
+                    android:id="@+id/timePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:timePickerMode="spinner"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/bCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/Cancel"
+                        android:textColor="@color/AppColorDark"
+                        style="@style/Widget.AppCompat.Button.Borderless" />
+                    <Button
+                        android:id="@+id/bOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/OK"
+                        android:textColor="@color/AppColorDark"
+                        style="@style/Widget.AppCompat.Button.Borderless" />
+                </LinearLayout>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
     </android.support.v7.widget.CardView>
 </LinearLayout>

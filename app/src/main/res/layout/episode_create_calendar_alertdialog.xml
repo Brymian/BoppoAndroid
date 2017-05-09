@@ -10,7 +10,7 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardBackgroundColor="@color/AppColor"
+        app:cardBackgroundColor="@color/AppColorDark"
         app:cardCornerRadius="10dp">
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -18,10 +18,43 @@
             android:layout_margin="5dp"
             app:cardCornerRadius="10dp"
             app:cardElevation="0dp">
-            <CalendarView
-                android:id="@+id/calenderView"
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/contentPadding"
+                    android:layout_marginLeft="36dp"
+                    android:layout_gravity="left"
+                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+                <CalendarView
+                    android:id="@+id/calenderView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/bCancel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/Cancel"
+                        android:textColor="@color/AppColorDark"
+                        style="@style/Widget.AppCompat.Button.Borderless" />
+                    <Button
+                        android:id="@+id/bOk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="@string/OK"
+                        android:textColor="@color/AppColorDark"
+                        style="@style/Widget.AppCompat.Button.Borderless" />
+                </LinearLayout>
+            </LinearLayout>
         </android.support.v7.widget.CardView>
     </android.support.v7.widget.CardView>
 </LinearLayout>

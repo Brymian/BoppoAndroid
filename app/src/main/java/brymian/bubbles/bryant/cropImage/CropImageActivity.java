@@ -46,7 +46,7 @@ public class CropImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String from = getIntent().getStringExtra("from");
         setFrom(from);
-        if (from.equals("profileGallery")){
+        if (from.equals("profileGallery") || from.equals("episodeGallery")){
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
