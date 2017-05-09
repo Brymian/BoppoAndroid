@@ -116,7 +116,6 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                 SaveSharedPreference.getUserUID(SendTo.this),       /* uid */
                 null,                                               /* image profile sequence */
                 imageName(),                                        /* image name */
-                "Regular",                                          /* image purpose label */
                 privacy,                                            /* image privacy label */
                 SaveSharedPreference.getLatitude(SendTo.this),      /* image latitude */
                 SaveSharedPreference.getLongitude(SendTo.this),     /* image longitude */

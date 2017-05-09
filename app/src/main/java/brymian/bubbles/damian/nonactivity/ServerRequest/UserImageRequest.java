@@ -64,23 +64,23 @@ public class UserImageRequest
     }
 
     public void setImage(Integer uiid, Integer userImageProfileSequence, String userImageName,
-      String userImagePurposeLabel, String userImagePrivacyLabel,
+      String userImagePrivacyLabel,
       Double userImageGpsLatitude, Double userImageGpsLongitude,
       Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
     {
         //pd.show();
-        new SetImage(uiid, userImageProfileSequence, userImageName, userImagePurposeLabel,
+        new SetImage(uiid, userImageProfileSequence, userImageName,
             userImagePrivacyLabel, userImageGpsLatitude, userImageGpsLongitude,
             setOrNot, stringCallback).execute();
     }
 
     public void uploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
-        String userImagePurposeLabel, String userImagePrivacyLabel,
+        String userImagePrivacyLabel,
         Double userImageGpsLatitude, Double userImageGpsLongitude,
         String userImage, StringCallback stringCallback)
     {
         //pd.show();
-        new UploadImage(uid, userImageProfileSequence, userImageName, userImagePurposeLabel,
+        new UploadImage(uid, userImageProfileSequence, userImageName,
             userImagePrivacyLabel,  userImageGpsLatitude, userImageGpsLongitude,
             userImage, stringCallback).execute();
     }
@@ -253,7 +253,6 @@ public class UserImageRequest
         Integer uiid;
         Integer userImageProfileSequence;
         String userImageName;
-        String userImagePurposeLabel;
         String userImagePrivacyLabel;
         Double userImageGpsLatitude;
         Double userImageGpsLongitude;
@@ -262,17 +261,16 @@ public class UserImageRequest
         StringCallback stringCallback;
 
         private SetImage(Integer uiid, Integer userImageProfileSequence, String userImageName,
-            String userImagePurposeLabel, String userImagePrivacyLabel,
+            String userImagePrivacyLabel,
             Double userImageGpsLatitude, Double userImageGpsLongitude,
             Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
         {
-            if (setOrNot.length != 7)
+            if (setOrNot.length != 6)
                 throw new SetOrNotException("Incorrect quantity of booleans set in the SetOrNot array.");
 
             this.uiid = uiid;
             this.userImageProfileSequence = userImageProfileSequence;
             this.userImageName = userImageName;
-            this.userImagePurposeLabel = userImagePurposeLabel;
             this.userImagePrivacyLabel = userImagePrivacyLabel;
             this.userImageGpsLatitude = userImageGpsLatitude;
             this.userImageGpsLongitude = userImageGpsLongitude;
@@ -280,10 +278,9 @@ public class UserImageRequest
             this.setOrNot.put("uiid", null);
             this.setOrNot.put("userImageProfileSequence", setOrNot[1]);
             this.setOrNot.put("userImageName", setOrNot[2]);
-            this.setOrNot.put("userImagePurposeLabel", setOrNot[3]);
-            this.setOrNot.put("userImagePrivacyLabel", setOrNot[4]);
-            this.setOrNot.put("userImageGpsLatitude", setOrNot[5]);
-            this.setOrNot.put("userImageGpsLongitude", setOrNot[6]);
+            this.setOrNot.put("userImagePrivacyLabel", setOrNot[3]);
+            this.setOrNot.put("userImageGpsLatitude", setOrNot[4]);
+            this.setOrNot.put("userImageGpsLongitude", setOrNot[5]);
 
             this.stringCallback = stringCallback;
         }
@@ -299,7 +296,6 @@ public class UserImageRequest
                 jsonImageObject.put("uiid", getNullOrValue(uiid));
                 jsonImageObject.put("userImageProfileSequence", getNullOrValue(userImageProfileSequence));
                 jsonImageObject.put("userImageName", getNullOrValue(userImageName));
-                jsonImageObject.put("userImagePurposeLabel", getNullOrValue(userImagePurposeLabel));
                 jsonImageObject.put("userImagePrivacyLabel", getNullOrValue(userImagePrivacyLabel));
                 jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
                 jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));
@@ -335,7 +331,6 @@ public class UserImageRequest
         Integer uid;
         Integer userImageProfileSequence;
         String userImageName;
-        String userImagePurposeLabel;
         String userImagePrivacyLabel;
         Double userImageGpsLatitude;
         Double userImageGpsLongitude;
@@ -343,14 +338,13 @@ public class UserImageRequest
         StringCallback stringCallback;
 
         private UploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
-            String userImagePurposeLabel, String userImagePrivacyLabel,
+            String userImagePrivacyLabel,
             Double userImageGpsLatitude, Double userImageGpsLongitude,
             String userImage, StringCallback stringCallback) {
 
             this.uid = uid;
             this.userImageProfileSequence = userImageProfileSequence;
             this.userImageName = userImageName;
-            this.userImagePurposeLabel = userImagePurposeLabel;
             this.userImagePrivacyLabel = userImagePrivacyLabel;
             this.userImageGpsLatitude = userImageGpsLatitude;
             this.userImageGpsLongitude = userImageGpsLongitude;
@@ -368,7 +362,6 @@ public class UserImageRequest
                 jsonImageObject.put("uid", getNullOrValue(uid));
                 jsonImageObject.put("userImageProfileSequence", getNullOrValue(userImageProfileSequence));
                 jsonImageObject.put("userImageName", getNullOrValue(userImageName));
-                jsonImageObject.put("userImagePurposeLabel", getNullOrValue(userImagePurposeLabel));
                 jsonImageObject.put("userImagePrivacyLabel", getNullOrValue(userImagePrivacyLabel));
                 jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
                 jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));

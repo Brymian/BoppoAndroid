@@ -407,7 +407,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 SaveSharedPreference.getUserUID(this),
                 null,
                 imageName(),
-                "Regular",
                 "Private",
                 null,
                 null,

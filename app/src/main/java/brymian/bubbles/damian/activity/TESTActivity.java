@@ -157,8 +157,8 @@ public class TESTActivity extends Activity {
         /* // Worked as of 2017-04-06
         try
         {
-            new UserImageRequest(this).setImage(30, null, null, null, null, null, null,
-                new Boolean[]{null, true, false, false, false, false, false},
+            new UserImageRequest(this).setImage(30, null, null, null, null, null,
+                new Boolean[]{null, true, false, false, false, false},
                 new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -685,7 +685,7 @@ public class TESTActivity extends Activity {
         */
         /*
         // Worked as of 2017-04-03
-        new UserImageRequest(this).uploadImage(1, 11, "UserImageNameEEE", "Regular", "Public", 12.345, 67.890, "ROTFL image", new StringCallback() {
+        new UserImageRequest(this).uploadImage(1, 11, "UserImageNameEEE", "Public", 12.345, 67.890, "ROTFL image", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESPONSE: " + string);
@@ -694,7 +694,7 @@ public class TESTActivity extends Activity {
         */
         /*
         // Worked as of 2017-04-03
-        new UserImageRequest(this).uploadImage(1, 11, "imageName()2", "Profile", "Public", null, null, "kj43kjhhjgbj345jhb5546kjh452j3hjksd", new StringCallback() {
+        new UserImageRequest(this).uploadImage(1, 11, "imageName()2", "Public", null, null, "kj43kjhhjgbj345jhb5546kjh452j3hjksd", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("RESPONSE: " + string);

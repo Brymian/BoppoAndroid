@@ -132,7 +132,7 @@ public class ProfilePicturesActivity2 extends AppCompatActivity implements View.
                     ivProfilePicture[i].setOnClickListener(this);
 
                     String encodedImage = Base64.encodeToString(byteArrayImage, Base64.DEFAULT);
-                    new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(this), 9999, Integer.toString(i), "Profile", "Public", SaveSharedPreference.getLatitude(this), SaveSharedPreference.getLongitude(this), encodedImage, new StringCallback() {
+                    new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(this), 9999, Integer.toString(i), "Public", SaveSharedPreference.getLatitude(this), SaveSharedPreference.getLongitude(this), encodedImage, new StringCallback() {
                         @Override
                         public void done(String string) {
                             Toast.makeText(ProfilePicturesActivity2.this, string, Toast.LENGTH_SHORT).show();

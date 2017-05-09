@@ -130,11 +130,10 @@ public class CropImageActivity extends AppCompatActivity {
                     uiid, /* uiid */
                     null, /* userImageProfileSequence */
                     null, /* userImageName */
-                    null, /* userImagePurposeLabel */
                     null, /* userImagePrivacyLabel */
                     null, /* userImageGpsLatitude */
                     null, /* userImageGpsLongitude */
-                    new Boolean[]{null, true, false, false, false, false, false},
+                    new Boolean[]{null, true, false, false, false, false},
                     new StringCallback() {
                         @Override
                         public void done(String string) {
@@ -159,7 +158,7 @@ public class CropImageActivity extends AppCompatActivity {
         });
     }
     private void uploadProfileImage(){
-        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Profile", "Public", null, null, getEncodedImage(), new StringCallback() {
+        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, getEncodedImage(), new StringCallback() {
             @Override
             public void done(String string) {
                 Log.e("uploadImage", string);
