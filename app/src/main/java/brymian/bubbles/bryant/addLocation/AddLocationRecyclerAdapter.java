@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.addLocation;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +12,23 @@ import android.widget.TextView;
 import java.util.List;
 
 import brymian.bubbles.R;
-import brymian.bubbles.bryant.episodes.EpisodeActivity;
-import brymian.bubbles.bryant.episodes.EpisodeCreate;
+
+import static android.app.Activity.RESULT_OK;
 
 public class AddLocationRecyclerAdapter extends RecyclerView.Adapter<AddLocationRecyclerAdapter.RecyclerViewHolder> {
 
     private Activity activity;
     private List<String> locationName;
     private List<String> locationAddress;
+    private List<Double> locationLat;
+    private List<Double> locationLng;
 
-    public AddLocationRecyclerAdapter(Activity activity, List<String> locationName, List<String> locationAddress){
+    public AddLocationRecyclerAdapter(Activity activity, List<String> locationName, List<String> locationAddress, List<Double> locationLat, List<Double> locationLng){
         this.activity = activity;
         this.locationName = locationName;
         this.locationAddress = locationAddress;
+        this.locationLat = locationLat;
+        this.locationLng = locationLng;
     }
 
     @Override
@@ -54,9 +59,12 @@ public class AddLocationRecyclerAdapter extends RecyclerView.Adapter<AddLocation
             llRow.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    EpisodeCreate.setLocation(locationName.get(getAdapterPosition()));
-                    EpisodeCreate.tvAddLocation.setText(locationName.get(getAdapterPosition()));
-                    activity.onBackPressed();
+                    Intent intent = activity.getIntent();
+                    intent.putExtra("locationName", locationName.get(getAdapterPosition()));
+                    intent.putExtra("locationLat", locationLat.get(getAdapterPosition()));
+                    intent.putExtra("locationLng", locationLng.get(getAdapterPosition()));
+                    activity.setResult(RESULT_OK, intent);
+                    activity.finish();
                 }
             });
         }

@@ -1,7 +1,7 @@
 package brymian.bubbles.bryant.addLocation;
 
-import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -16,9 +16,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 
 import org.json.JSONArray;
@@ -36,7 +33,7 @@ import java.util.List;
 
 import brymian.bubbles.R;
 
-public class AddLocation extends Fragment {
+public class AddLocation extends AppCompatActivity {
     double lat, lng;
     EditText etSearchLocation;
     RecyclerView rvLocationResults;
@@ -44,19 +41,19 @@ public class AddLocation extends Fragment {
     RecyclerView.LayoutManager layoutManager;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.add_location, container, false);
-
-        Toolbar toolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.add_location);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setTitle("Add Location");
-        rvLocationResults = (RecyclerView) view.findViewById(R.id.rvLocationResults);
+        rvLocationResults = (RecyclerView) findViewById(R.id.rvLocationResults);
         setLocationByRadius();
         // Acquire a reference to the system Location Manager
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
@@ -75,7 +72,7 @@ public class AddLocation extends Fragment {
 
         // Register the listener with the Location Manager to receive location updates
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        etSearchLocation = (EditText) view.findViewById(R.id.etSearchLocation);
+        etSearchLocation = (EditText) findViewById(R.id.etSearchLocation);
         etSearchLocation.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -97,12 +94,11 @@ public class AddLocation extends Fragment {
 
             }
         });
-        return view;
     }
 
     private void setLocationByRadius(){
         // Get LocationManager object from System Service LOCATION_SERVICE
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         // Create a criteria object to retrieve provider
         Criteria criteria = new Criteria();
@@ -130,6 +126,8 @@ public class AddLocation extends Fragment {
             JSONArray jsonArray = new JSONArray(results);
             List<String> locationAddress = new ArrayList<>();
             List<String> locationName = new ArrayList<>();
+            List<Double> locationLat = new ArrayList<>();
+            List<Double> locationLng = new ArrayList<>();
             for (int i = 0; i < jsonArray.length(); i++){
                 JSONObject resultObj = jsonArray.getJSONObject(i);
                 String name = resultObj.getString("name");
@@ -143,12 +141,21 @@ public class AddLocation extends Fragment {
                 else {
                     address = "";
                 }
+                String geometry = resultObj.getString("geometry");
+                JSONObject geometryObj = new JSONObject(geometry);
+                String location = geometryObj.getString("location");
+                JSONObject locationObj = new JSONObject(location);
+                String lat = locationObj.getString("lat");
+                String lng = locationObj.getString("lng");
+
+                locationLat.add(Double.valueOf(lat));
+                locationLng.add(Double.valueOf(lng));
                 locationName.add(name);
                 locationAddress.add(address);
             }
 
-            adapter = new AddLocationRecyclerAdapter(getActivity(), locationName, locationAddress);
-            layoutManager = new LinearLayoutManager(getActivity());
+            adapter = new AddLocationRecyclerAdapter(this, locationName, locationAddress, locationLat, locationLng);
+            layoutManager = new LinearLayoutManager(this);
             rvLocationResults.setLayoutManager(layoutManager);
             rvLocationResults.setAdapter(adapter);
         }

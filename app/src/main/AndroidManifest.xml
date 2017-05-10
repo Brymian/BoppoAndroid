@@ -59,6 +59,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".bryant.addLocation.AddLocation" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>

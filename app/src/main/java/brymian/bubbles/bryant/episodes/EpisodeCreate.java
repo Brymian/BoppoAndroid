@@ -1,6 +1,5 @@
 package brymian.bubbles.bryant.episodes;
 
-import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -53,7 +52,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     String episodeTitle ,privacy, category, type;
     String startYear, startMonth, startDayOfMonth, startHourOfDay, startMinute, startSecond;
     String endYear, endMonth, endDayOfMonth, endHourOfDay, endMinute, endSecond;
-    public static TextView tvAddLocation;
+    TextView tvAddLocation;
     TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
     ImageView ivEpisodeImage;
     FloatingActionButton fabDone;
@@ -72,6 +71,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     AlertDialog musicDialog = null;
     AlertDialog miscDialog = null;
 
+    int LOCATION_CODE = 4;
     int DONE_CODE = 3;
     int CAMERA_CODE = 2;
     int GALLERY_CODE = 1;
@@ -117,24 +117,14 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
         fabDone.setOnClickListener(this);
-        try{
-            Log.e("location", getLocation());
-        }
-        catch (NullPointerException npe){
-            npe.printStackTrace();
-        }
-        setPrivacy("Public");
+        privacy = "Public";
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tvAddLocation:
-                AddLocation addLocation = new AddLocation();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.episode_create, addLocation);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                startActivityForResult(new Intent(this, AddLocation.class), LOCATION_CODE);
                 break;
             case R.id.tvStartDate:
                 calendarStartAlertDialog("Start Date");
@@ -371,12 +361,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        location = null;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
@@ -392,6 +376,16 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         if (requestCode == DONE_CODE) {
             if (resultCode == RESULT_OK) {
                 finish();
+            }
+        }
+        else if (requestCode == LOCATION_CODE){
+            if (resultCode == RESULT_OK){
+                if (data != null){
+                    String locationName = data.getStringExtra("locationName");
+                    latitude = data.getDoubleExtra("locationLat", 0);
+                    longitude = data.getDoubleExtra("locationLng", 0);
+                    tvAddLocation.setText(locationName);
+                }
             }
         }
         else if (requestCode == GALLERY_CODE){
@@ -414,26 +408,26 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         Log.e("createEpisode",  "title: " +  getEpisodeTitle() +
                                 "\ncategory: " + getCategory() +
                                 "\ntype: " + getType() +
-                                "\nprivacy: " + getPrivacy() +
+                                "\nprivacy: " + privacy +
                                 "\ninvite type: " + "host" +
                                 "\nimageAllowed: " + "true" +
                                 "\nstartDateTime: " + getStartDate() + " " + getStartTime() +
                                 "\nendDateTime: " + getEndDate() + " " + getEndTime() +
-                                "\nlocation: " + getLocation() +
-                                "\nlat: " + getLatitude() +
-                                "\nlng: " + getLongitude());
+                                "\nlocation: " +  tvAddLocation.getText().toString() +
+                                "\nlat: " + latitude +
+                                "\nlng: " + longitude);
         new EventRequest(this).createEvent(
                 SaveSharedPreference.getUserUID(EpisodeCreate.this),
                 getEpisodeTitle(),
                 getCategory(),
                 getType(),
-                getPrivacy(),
+                privacy,
                 "Host",
                 true,
                 getStartDate() + " " + getStartTime(),
                 null,
-                getLatitude(),
-                getLongitude(),
+                latitude,
+                longitude,
                 new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -1132,30 +1126,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return episodeTitle;
     }
 
-    private void setPrivacy(String privacy){
-        this.privacy = privacy;
-    }
-
-    private String getPrivacy(){
-        return privacy;
-    }
-
-    private void setLatitude(double latitude){
-        this.latitude = latitude;
-    }
-
-    private double getLatitude(){
-        return latitude;
-    }
-
-    private void setLongitude(double longitude){
-        this.longitude = longitude;
-    }
-
-    private double getLongitude(){
-        return longitude;
-    }
-
     private void setUiid(int uiid){
         this.uiid = uiid;
     }
@@ -1186,15 +1156,5 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     private int getEid(){
         return this.eid;
-    }
-
-    public static String location;
-
-    public static void setLocation(String location){
-        EpisodeCreate.location = location;
-    }
-
-    private String getLocation(){
-        return EpisodeCreate.location;
     }
 }
