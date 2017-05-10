@@ -40,6 +40,13 @@
                     android:layout_gravity="right"
                     android:orientation="horizontal">
                     <Button
+                        android:id="@+id/bClear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:text="Clear"
+                        android:textColor="@color/AppColorDark"
+                        style="@style/Widget.AppCompat.Button.Borderless" />
+                    <Button
                         android:id="@+id/bCancel"
                         android:layout_width="wrap_content"
                         android:layout_height="48dp"

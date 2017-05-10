@@ -365,7 +365,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 int monthDifference = currentMonth - commentMonth;
                 if (monthDifference == 1){
                     if (commentDay <= currentDay){
-                        return "1 month ago";
+                        return "1 startMonth ago";
                     }
                     else if (commentDay > currentDay){
                         int commentDaysInMonth = 0;
@@ -399,7 +399,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                                             int minuteDifference = (60 - commentMinute) + currentMinute;
                                             if (minuteDifference == 1){
                                                 if (commentSecond <= currentSecond){
-                                                    return "1 minute ago";
+                                                    return "1 startMinute ago";
                                                 }
                                                 else if (commentSecond > currentSecond){
                                                     int secondDifference = (60 - commentSecond) + currentSecond;
@@ -418,7 +418,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                                                 else if (commentSecond > currentSecond){
                                                     int newMinuteDifference = minuteDifference - 1;
                                                     if (newMinuteDifference == 1){
-                                                        return "1 minute ago";
+                                                        return "1 startMinute ago";
                                                     }
                                                     else if (newMinuteDifference > 1){
                                                         return newMinuteDifference + " minutes ago";
@@ -465,7 +465,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             int yearDifference = currentYear - commentYear;
             if (yearDifference == 1) {
                 if (commentMonth < currentMonth) {
-                    return "1 year ago";
+                    return "1 startYear ago";
                 }
                 else if (commentMonth > currentMonth) {
                     int monthDifference = 12 - (commentMonth - currentMonth);
@@ -481,7 +481,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                             }
                         }
                         if (commentDay <= currentDay) {
-                            return "1 month ago";
+                            return "1 startMonth ago";
                         }
                     }
                     else if (monthDifference > 1) {
@@ -491,7 +491,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         else if (commentDay > currentDay) {
                             int newMonthDifference = monthDifference - 1;
                             if (newMonthDifference == 1) {
-                                return "1 month ago";
+                                return "1 startMonth ago";
                             }
                             else if (newMonthDifference > 1) {
                                 return newMonthDifference + " months ago";
@@ -507,7 +507,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 else if (commentMonth > currentMonth) {
                     int newYearDifference = yearDifference - 1;
                     if (newYearDifference == 1) {
-                        return "1 year ago";
+                        return "1 startYear ago";
                     }
                     else if (newYearDifference > 1) {
                         return newYearDifference + " years ago";
@@ -520,7 +520,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     else if (commentDay > currentDay){
                         int newYearDifference = yearDifference - 1;
                         if (newYearDifference == 1) {
-                            return "1 year ago";
+                            return "1 startYear ago";
                         }
                         else if (newYearDifference > 1) {
                             return newYearDifference + " years ago";
@@ -585,10 +585,10 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         dateArray = dateTime[0].split("-");
                         timeArray = dateTime[1].split(":");
 
-                        if (year > Integer.valueOf(dateArray[0])){ //if current year is greater than eventStartDate year, automatically add into List
+                        if (year > Integer.valueOf(dateArray[0])){ //if current startYear is greater than eventStartDate startYear, automatically add into List
                             setIsStarted(true);
                         }
-                        else if (year == Integer.valueOf(dateArray[0])){ //if current year is equal to eventStartDate year
+                        else if (year == Integer.valueOf(dateArray[0])){ //if current startYear is equal to eventStartDate startYear
                             if (month > Integer.valueOf(dateArray[1])){
                                 setIsStarted(true);
                             }
@@ -625,10 +625,10 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         dateArray = dateTime[0].split("-");
                         timeArray = dateTime[1].split(":");
 
-                        if (year > Integer.valueOf(dateArray[0])){ //if current year is greater than eventStartDate year, automatically add into List
+                        if (year > Integer.valueOf(dateArray[0])){ //if current startYear is greater than eventStartDate startYear, automatically add into List
                             setIsEnded(true);
                         }
-                        else if (year == Integer.valueOf(dateArray[0])){ //if current year is equal to eventStartDate year
+                        else if (year == Integer.valueOf(dateArray[0])){ //if current startYear is equal to eventStartDate startYear
                             if (month > Integer.valueOf(dateArray[1])){
                                 setIsEnded(true);
                             }

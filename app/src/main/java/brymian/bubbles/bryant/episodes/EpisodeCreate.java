@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -50,6 +51,8 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     Toolbar mToolbar;
     EditText etEpisodeTitle;
     String episodeTitle ,privacy, category, type;
+    String startYear, startMonth, startDayOfMonth, startHourOfDay, startMinute, startSecond;
+    String endYear, endMonth, endDayOfMonth, endHourOfDay, endMinute, endSecond;
     public static TextView tvAddLocation;
     TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
     ImageView ivEpisodeImage;
@@ -57,10 +60,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     double latitude;
     double longitude;
     int uiid, eid;
-    String year, month, dayOfMonth, hourOfDay, minute, second;
 
-    long calendarTimeInMillis;
-    boolean isSelected = false;
+    long calendarStartInMillis, calendarEndInMillis;
+    boolean isStartDateSelected = false, isEndDateSelected = false;
 
     AlertDialog uploadDialog = null;
     AlertDialog mainDialog = null;
@@ -354,30 +356,70 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.fabDone:
-                new EventRequest(this).createEvent(
-                        SaveSharedPreference.getUserUID(EpisodeCreate.this),
-                        getEpisodeTitle(),
-                        getCategory(),
-                        getType(),
-                        getPrivacy(),
-                        "Host",
-                        true,
-                        getStartDate() + " " + getStartTime(),
-                        null,
-                        getLatitude(),
-                        getLongitude(),
-                        new StringCallback() {
-                            @Override
-                            public void done(String string) {
-                                String[] result = string.split(" ");
-                                if (result[0].equals("Success.")){
-                                    tilTitle.setErrorEnabled(false);
-                                    setEid(Integer.valueOf(result[2]));
-                                    uploadImage();
-                                }
-                                if (string.contains("Duplicate entry")){
-                                    tilTitle.setError("Title already exits");
-                                }
+                createEpisode();
+                break;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == DONE_CODE) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
+        }
+        else if (requestCode == GALLERY_CODE){
+            if(resultCode == RESULT_OK) {
+                if (data != null) {
+                    byte[] byteArray = data.getByteArrayExtra("image");
+                    Bitmap imageDecoded = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                    ivEpisodeImage.setImageBitmap(imageDecoded);
+                }
+            }
+        }
+        else if (requestCode == CAMERA_CODE){
+            if (resultCode == RESULT_OK){
+                Log.e("camera", "works");
+            }
+        }
+    }
+
+    private void createEpisode(){
+        new EventRequest(this).createEvent(
+                SaveSharedPreference.getUserUID(EpisodeCreate.this),
+                getEpisodeTitle(),
+                getCategory(),
+                getType(),
+                getPrivacy(),
+                "Host",
+                true,
+                getStartDate() + " " + getStartTime(),
+                null,
+                getLatitude(),
+                getLongitude(),
+                new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        String[] result = string.split(" ");
+                        if (result[0].equals("Success.")){
+                            tilTitle.setErrorEnabled(false);
+                            setEid(Integer.valueOf(result[2]));
+                            uploadImage();
+                        }
+                        if (string.contains("Duplicate entry")){
+                            tilTitle.setError("Title already exits");
+                        }
                                 /*
                                 for(String something: string.split(" ")){
                                     if(something.equals("Success.")){
@@ -385,12 +427,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                                         //startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("episodeTitle", getEpisodeTitle()), DONE_CODE);
                                     }
                                 } **/
-                            }
-                        }
+                    }
+                }
 
-                );
-                break;
-        }
+        );
     }
 
     private void uploadImage(){
@@ -443,109 +483,99 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    private void calendarStartAlertDialog(final String title){
+        final int[] tempYearStart = new int[1];
+        final int[] tempMonthStart = new int[1];
+        final int[] tempDayStart = new int[1];
+        final int[] tempYearEnd = new int[1];
+        final int[] tempMonthEnd = new int[1];
+        final int[] tempDayEnd = new int[1];
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == DONE_CODE) {
-            if (resultCode == RESULT_OK) {
-                finish();
-            }
-        }
-        else if (requestCode == GALLERY_CODE){
-            if(resultCode == RESULT_OK) {
-                if (data != null) {
-                    byte[] byteArray = data.getByteArrayExtra("image");
-                    Bitmap imageDecoded = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                    ivEpisodeImage.setImageBitmap(imageDecoded);
-                }
-            }
-        }
-        else if (requestCode == CAMERA_CODE){
-            if (resultCode == RESULT_OK){
-                Log.e("camera", "works");
-            }
-        }
-    }
-
-    private void calendarStartAlertDialog(String title){
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_calendar_alertdialog, null);
 
+        final CalendarView calendarView = (CalendarView) alertLayout.findViewById(R.id.calenderView);
         TextView tvTitle = (TextView) alertLayout.findViewById(R.id.tvTitle);
         tvTitle.setText(title);
-
-        CalendarView calendarView = (CalendarView) alertLayout.findViewById(R.id.calenderView);
-        calendarView.setDate(getSelectedDate());
-        calendarView.setMinDate(getMinDate());
+        Button bOk = (Button) alertLayout.findViewById(R.id.bOk);
+        Button bCancel = (Button) alertLayout.findViewById(R.id.bCancel);
+        Button bClear = (Button) alertLayout.findViewById(R.id.bClear);
+        if (title.equals("Start Date")){
+            bClear.setVisibility(View.GONE);
+            calendarView.setMinDate(getMinStartDate());
+            calendarView.setDate(getSelectedStartDate());
+        }
+        else if (title.equals("End Date")){
+            Log.e("getSelEndDate", getSelectedStartDate() + "");
+            calendarView.setDate(getSelectedEndDate());
+            calendarView.setMinDate(getEndMinDate());
+        }
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
-                setSelectedDate(year, month, dayOfMonth, true);
-                setStartDate(String.valueOf(year), String.valueOf(month), String.valueOf(dayOfMonth));
-                tvStartDate.setText(getDateToDisplay());
+                if (title.equals("Start Date")){
+                    tempYearStart[0] = year;
+                    tempMonthStart[0] = month;
+                    tempDayStart[0] = dayOfMonth;
+                }
+                else if (title.equals("End Date")){
+                    tempYearEnd[0] = year;
+                    tempMonthEnd[0] = month;
+                    tempDayEnd[0] = dayOfMonth;
+                }
             }
         });
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         final AlertDialog dialog = alert.create();
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        bClear.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancel(DialogInterface dialog) {
+            public void onClick(View v) {
+                tvEndDate.setText("--- --, ----");
+                isEndDateSelected = false;
                 dialog.dismiss();
             }
         });
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
-    }
-
-    private void timeStartAlertDialog(){
-        LayoutInflater inflater = getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.episode_create_time_alertdialog, null);
-
-        TimePicker timePicker = (TimePicker) alertLayout.findViewById(R.id.timePicker);
-        timePicker.setHour(Integer.valueOf(hourOfDay));
-        timePicker.setMinute(Integer.valueOf(minute));
-        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+        bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                if (minute == 0){
-                    setStartTime(String.valueOf(hourOfDay), "00", "00");
-                }else {
-                    if (String.valueOf(minute).length() == 1){
-                        setStartTime(String.valueOf(hourOfDay), "0" + String.valueOf(minute), "00");
-                    }else{
-                        setStartTime(String.valueOf(hourOfDay), String.valueOf(minute), "00");
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        bOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (title.equals("Start Date")){
+                    if (tempDayStart[0] != 0){
+                        setSelectedStartDate(tempYearStart[0], tempMonthStart[0], tempDayStart[0], true);
+                        setStartDate(String.valueOf(tempYearStart[0]), String.valueOf(tempMonthStart[0]), String.valueOf(tempDayStart[0]));
+                        tvStartDate.setText(getStartDateToDisplay());
+                        dialog.dismiss();
+                    }
+                    else {
+                        dialog.dismiss();
                     }
                 }
-                tvStartTime.setText(getTimeToDisplay());
+                else if (title.equals("End Date")){
+                    if (tempDayEnd[0] != 0){
+                        setSelectedEndDate(tempYearEnd[0], tempMonthEnd[0], tempDayEnd[0], true);
+                        setEndDate(String.valueOf(tempYearEnd[0]), String.valueOf(tempMonthEnd[0]), String.valueOf(tempDayEnd[0]));
+                        tvEndDate.setText(getEndDateToDisplay());
+                        dialog.dismiss();
+                    }
+                    else {
+                        dialog.dismiss();
+                    }
+                }
             }
         });
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setView(alertLayout);
-        final AlertDialog dialog = alert.create();
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                dialog.dismiss();
-            }
-        });
+        dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 
-    private long getMinDate(){
+    private long getMinStartDate(){
         DateFormat minDateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date minDate = new Date();
         String parts[] = minDateFormat.format(minDate).split("/");
@@ -562,58 +592,53 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return calendar.getTimeInMillis();
     }
 
-
-    private void setSelectedDate(int year, int month, int dayOfMonth, boolean isSelected){
-        this.isSelected = isSelected;
+    private void setSelectedStartDate(int year, int month, int dayOfMonth, boolean isSelected){
+        this.isStartDateSelected = isSelected;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-
-        this.calendarTimeInMillis = calendar.getTimeInMillis();
+        this.calendarStartInMillis = calendar.getTimeInMillis();
     }
 
-    private long getSelectedDate(){
-        if (!isSelected){
+    private long getSelectedStartDate(){
+        if (!isStartDateSelected){
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.YEAR, Integer.valueOf(year));
-            calendar.set(Calendar.MONTH, Integer.valueOf(month) - 2);
-            calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(dayOfMonth));
+            calendar.set(Calendar.YEAR, Integer.valueOf(startYear));
+            calendar.set(Calendar.MONTH, Integer.valueOf(startMonth) - 2);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.valueOf(startDayOfMonth));
             return calendar.getTimeInMillis();
         }
-        else if (isSelected){
-            return calendarTimeInMillis;
+        else if (isStartDateSelected){
+            return calendarStartInMillis;
         }
         return 123;
     }
 
-    private String getEpisodeTitle(){
-        this.episodeTitle = etEpisodeTitle.getText().toString();
-        return episodeTitle;
+    private void setSelectedEndDate(int year, int month, int dayOfMonth, boolean isSelected){
+        this.isEndDateSelected = isSelected;
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        this.calendarEndInMillis = calendar.getTimeInMillis();
     }
 
-    private String getTimeOnCreate(){
-        DateFormat hourFormat = new SimpleDateFormat("HH");//research getDateTimeInstance()
-        Date hourDate = new Date();
-
-        DateFormat minuteFormat = new SimpleDateFormat("mm");
-        Date minuteDate = new Date();
-
-        DateFormat secondFormat = new SimpleDateFormat("ss");
-        Date secondDate = new Date();
-
-        setStartTime(hourFormat.format(hourDate), minuteFormat.format(minuteDate), secondFormat.format(secondDate));
-        return getTimeToDisplay();
-    }
-
-    private String getHourSimple(String hour){
-        int newHour = Integer.valueOf(hour);
-        if (newHour > 12){
-            return String.valueOf(newHour - 12);
+    private long getSelectedEndDate(){
+        if (isStartDateSelected){
+            return calendarEndInMillis;
         }
-        return hour;
+        return 123;
     }
 
+    private long getEndMinDate(){
+        if (!isStartDateSelected){
+            return getMinStartDate();
+        }
+        else {
+            return getSelectedStartDate();
+        }
+    }
 
     private String getDateOnCreate(){
         DateFormat monthFormat = new SimpleDateFormat("MM");//research getDateTimeInstance()
@@ -626,7 +651,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         Date dayDate = new Date();
         setStartDate(yearFormat.format(yearDate), String.valueOf(Integer.valueOf(monthFormat.format(monthDate)) - 1), dayFormat.format(dayDate));
         //return getMonthString(monthFormat.format(monthDate)) + " " + dayFormat.format(dayDate) + ", " + yearFormat.format(yearDate);
-        return getDateToDisplay();
+        return getStartDateToDisplay();
     }
 
     private String getMonthString(String mm){
@@ -662,48 +687,126 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     private void setStartDate(String year, String month, String dayOfMonth){
         int monthNum = Integer.valueOf(month) + 1;
         if (monthNum < 10){
-            this.month = "0" + String.valueOf(monthNum);
+            this.startMonth = "0" + String.valueOf(monthNum);
         }
         else {
-            this.month =  String.valueOf(monthNum);
+            this.startMonth =  String.valueOf(monthNum);
         }
-        this.year = year;
-        this.dayOfMonth = dayOfMonth;
+        this.startYear = year;
+        this.startDayOfMonth = dayOfMonth;
     }
 
-    private String getDateToDisplay(){
-        return getMonthString(month) + " " + dayOfMonth + ", " + year;
+    private void setEndDate(String year, String month, String dayOfMonth){
+        int monthNum = Integer.valueOf(month) + 1;
+        if (monthNum < 10){
+            this.endMonth = "0" + String.valueOf(monthNum);
+        }
+        else {
+            this.endMonth =  String.valueOf(monthNum);
+        }
+        this.endYear = year;
+        this.endDayOfMonth = dayOfMonth;
+    }
+
+    private String getStartDateToDisplay(){
+        return getMonthString(startMonth) + " " + startDayOfMonth + ", " + startYear;
+    }
+
+    private String getEndDateToDisplay(){
+        return getMonthString(endMonth) + " " + endDayOfMonth + ", " + endYear;
     }
 
     private String getStartDate(){
-        return year + "-" + month + "-" + dayOfMonth;
+        return startYear + "-" + startMonth + "-" + startDayOfMonth;
+    }
+
+    private String getEndDate(){
+        return endYear + "-" + endMonth + "-" + endDayOfMonth;
+    }
+
+    private void timeStartAlertDialog(){
+        LayoutInflater inflater = getLayoutInflater();
+        View alertLayout = inflater.inflate(R.layout.episode_create_time_alertdialog, null);
+
+        TimePicker timePicker = (TimePicker) alertLayout.findViewById(R.id.timePicker);
+        timePicker.setHour(Integer.valueOf(startHourOfDay));
+        timePicker.setMinute(Integer.valueOf(startMinute));
+        timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+            @Override
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                if (minute == 0){
+                    setStartTime(String.valueOf(hourOfDay), "00", "00");
+                }else {
+                    if (String.valueOf(minute).length() == 1){
+                        setStartTime(String.valueOf(hourOfDay), "0" + String.valueOf(minute), "00");
+                    }else{
+                        setStartTime(String.valueOf(hourOfDay), String.valueOf(minute), "00");
+                    }
+                }
+                tvStartTime.setText(getTimeToDisplay());
+            }
+        });
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setView(alertLayout);
+        final AlertDialog dialog = alert.create();
+        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    private String getTimeOnCreate(){
+        DateFormat hourFormat = new SimpleDateFormat("HH");//research getDateTimeInstance()
+        Date hourDate = new Date();
+
+        DateFormat minuteFormat = new SimpleDateFormat("mm");
+        Date minuteDate = new Date();
+
+        DateFormat secondFormat = new SimpleDateFormat("ss");
+        Date secondDate = new Date();
+
+        setStartTime(hourFormat.format(hourDate), minuteFormat.format(minuteDate), secondFormat.format(secondDate));
+        return getTimeToDisplay();
+    }
+
+    private String getHourSimple(String hour){
+        int newHour = Integer.valueOf(hour);
+        if (newHour > 12){
+            return String.valueOf(newHour - 12);
+        }
+        return hour;
     }
 
     private void setStartTime(String hourOfDay, String minute, String second){
-        this.hourOfDay = hourOfDay;
-        this.minute = minute;
-        this.second = second;
+        this.startHourOfDay = hourOfDay;
+        this.startMinute = minute;
+        this.startSecond = second;
     }
 
     private String getStartTime(){
-        return hourOfDay + ":" + minute + ":" + second;
+        return startHourOfDay + ":" + startMinute + ":" + startSecond;
     }
 
     private String getTimeToDisplay(){
         String amPM = "";
-        if (Integer.valueOf(hourOfDay) < 12){
+        if (Integer.valueOf(startHourOfDay) < 12){
             amPM = "AM";
-            if (hourOfDay.length() == 2 && String.valueOf(hourOfDay.charAt(0)).equals("0")){
-                hourOfDay = String.valueOf(hourOfDay.charAt(1));
+            if (startHourOfDay.length() == 2 && String.valueOf(startHourOfDay.charAt(0)).equals("0")){
+                startHourOfDay = String.valueOf(startHourOfDay.charAt(1));
             }
-            else if (hourOfDay.length() == 1 && String.valueOf(hourOfDay).equals("0")){
-                return  "12" + ":" + minute + " " + amPM;
+            else if (startHourOfDay.length() == 1 && String.valueOf(startHourOfDay).equals("0")){
+                return  "12" + ":" + startMinute + " " + amPM;
             }
         }
-        else if (Integer.valueOf(hourOfDay) >= 12){
+        else if (Integer.valueOf(startHourOfDay) >= 12){
             amPM = "PM";
         }
-        return  getHourSimple(String.valueOf(hourOfDay)) + ":" + minute + " " + amPM;
+        return  getHourSimple(String.valueOf(startHourOfDay)) + ":" + startMinute + " " + amPM;
     }
 
     private void uploadImageDialog(){
@@ -883,6 +986,11 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
     }
 
+    private String getEpisodeTitle(){
+        this.episodeTitle = etEpisodeTitle.getText().toString();
+        return episodeTitle;
+    }
+
     private void setPrivacy(String privacy){
         this.privacy = privacy;
     }
@@ -940,6 +1048,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     public static String location;
+
     public static void setLocation(String location){
         EpisodeCreate.location = location;
     }
