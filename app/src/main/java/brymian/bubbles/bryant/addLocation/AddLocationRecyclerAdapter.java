@@ -61,6 +61,7 @@ public class AddLocationRecyclerAdapter extends RecyclerView.Adapter<AddLocation
                 public void onClick(View v) {
                     Intent intent = activity.getIntent();
                     intent.putExtra("locationName", locationName.get(getAdapterPosition()));
+                    intent.putExtra("locationAddress", locationAddress.get(getAdapterPosition()));
                     intent.putExtra("locationLat", locationLat.get(getAdapterPosition()));
                     intent.putExtra("locationLng", locationLng.get(getAdapterPosition()));
                     activity.setResult(RESULT_OK, intent);

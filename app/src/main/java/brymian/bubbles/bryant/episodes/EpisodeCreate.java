@@ -49,12 +49,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     TextInputLayout tilTitle;
     Toolbar mToolbar;
     EditText etEpisodeTitle;
-    String episodeTitle ,privacy, category, type;
+    String episodeTitle ,privacy, category, type, locationAddress, locationName;
     String startYear, startMonth, startDayOfMonth, startHourOfDay, startMinute, startSecond;
     String endYear, endMonth, endDayOfMonth, endHourOfDay, endMinute, endSecond;
-    TextView tvAddLocation;
+    TextView tvAddLocation, tvLocationAddress;
     TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
-    ImageView ivEpisodeImage;
+    ImageView ivEpisodeImage, ivClearLocation;
     FloatingActionButton fabDone;
     double latitude;
     double longitude;
@@ -71,10 +71,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     AlertDialog musicDialog = null;
     AlertDialog miscDialog = null;
 
-    int LOCATION_CODE = 4;
-    int DONE_CODE = 3;
-    int CAMERA_CODE = 2;
-    int GALLERY_CODE = 1;
+    private final int LOCATION_CODE = 4;
+    private final int DONE_CODE = 3;
+    private final int CAMERA_CODE = 2;
+    private final int GALLERY_CODE = 1;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -92,6 +92,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         tvAddLocation = (TextView) findViewById(R.id.tvAddLocation);
         tvAddLocation.setOnClickListener(this);
+        tvLocationAddress = (TextView) findViewById(R.id.tvLocationAddress);
+        ivClearLocation = (ImageView) findViewById(R.id.ivClearLocation);
+        ivClearLocation.setOnClickListener(this);
 
         tvStartDate = (TextView) findViewById(R.id.tvStartDate);
         tvStartDate.setText(getDateOnCreate());
@@ -140,6 +143,15 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
             case R.id.tvEndTime:
                 timeStartAlertDialog("End Time");
+                break;
+
+            case R.id.ivClearLocation:
+                tvAddLocation.setText("Add Location");
+                tvLocationAddress.setText(null);
+                tvLocationAddress.setVisibility(View.GONE);
+                locationAddress = null;
+                locationName = null;
+                ivClearLocation.setVisibility(View.GONE);
                 break;
 
             case R.id.tvUploadImage:
@@ -381,10 +393,14 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         else if (requestCode == LOCATION_CODE){
             if (resultCode == RESULT_OK){
                 if (data != null){
-                    String locationName = data.getStringExtra("locationName");
+                    locationName = data.getStringExtra("locationName");
+                    locationAddress = data.getStringExtra("locationAddress");
                     latitude = data.getDoubleExtra("locationLat", 0);
                     longitude = data.getDoubleExtra("locationLng", 0);
+                    tvLocationAddress.setVisibility(View.VISIBLE);
+                    tvLocationAddress.setText(locationAddress);
                     tvAddLocation.setText(locationName);
+                    ivClearLocation.setVisibility(View.VISIBLE);
                 }
             }
         }
