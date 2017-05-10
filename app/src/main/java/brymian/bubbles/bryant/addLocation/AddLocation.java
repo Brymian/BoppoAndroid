@@ -1,7 +1,6 @@
 package brymian.bubbles.bryant.addLocation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -111,8 +110,6 @@ public class AddLocation extends AppCompatActivity {
 
         double latitude = myLastKnownLocation.getLatitude();
         double longitude = myLastKnownLocation.getLongitude();
-        //setLatitude(latitude);
-        //setLongitude(longitude);
         String apiKey = getResources().getString(R.string.google_maps_key);
         String radius = "radius=200";
         String url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=" + latitude + "," + longitude + "&" + radius + "&key=" + apiKey;
