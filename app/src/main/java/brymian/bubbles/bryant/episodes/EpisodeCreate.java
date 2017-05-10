@@ -62,7 +62,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     int uiid, eid;
 
     long calendarStartInMillis, calendarEndInMillis;
-    boolean isStartDateSelected = false, isEndDateSelected = false;
+    boolean isStartDateSelected = false, isEndDateSelected = false, isEndTimeChanged = false;
 
     AlertDialog uploadDialog = null;
     AlertDialog mainDialog = null;
@@ -117,7 +117,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
         fabDone.setOnClickListener(this);
-
+        try{
+            Log.e("location", getLocation());
+        }
+        catch (NullPointerException npe){
+            npe.printStackTrace();
+        }
         setPrivacy("Public");
     }
 
@@ -140,7 +145,11 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.tvStartTime:
-                timeStartAlertDialog();
+                timeStartAlertDialog("Start Time");
+                break;
+
+            case R.id.tvEndTime:
+                timeStartAlertDialog("End Time");
                 break;
 
             case R.id.tvUploadImage:
@@ -362,6 +371,12 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        location = null;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
@@ -396,6 +411,17 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     }
 
     private void createEpisode(){
+        Log.e("createEpisode",  "title: " +  getEpisodeTitle() +
+                                "\ncategory: " + getCategory() +
+                                "\ntype: " + getType() +
+                                "\nprivacy: " + getPrivacy() +
+                                "\ninvite type: " + "host" +
+                                "\nimageAllowed: " + "true" +
+                                "\nstartDateTime: " + getStartDate() + " " + getStartTime() +
+                                "\nendDateTime: " + getEndDate() + " " + getEndTime() +
+                                "\nlocation: " + getLocation() +
+                                "\nlat: " + getLatitude() +
+                                "\nlng: " + getLongitude());
         new EventRequest(this).createEvent(
                 SaveSharedPreference.getUserUID(EpisodeCreate.this),
                 getEpisodeTitle(),
@@ -418,7 +444,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                             uploadImage();
                         }
                         if (string.contains("Duplicate entry")){
-                            tilTitle.setError("Title already exits");
+                            tilTitle.setError("Episode already exits");
                         }
                                 /*
                                 for(String something: string.split(" ")){
@@ -724,38 +750,126 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return endYear + "-" + endMonth + "-" + endDayOfMonth;
     }
 
-    private void timeStartAlertDialog(){
+    private void timeStartAlertDialog(final String title){
+        final String[] tempStartHour = new String[1];
+        final String[] tempStartMinute = new String[1];
+        final String[] tempStartSecond = new String[1];
+        final String[] tempEndHour = new String[1];
+        final String[] tempEndMinute = new String[1];
+        final String[] tempEndSecond = new String[1];
+        final boolean[] isChanged = new boolean[1];
         LayoutInflater inflater = getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_create_time_alertdialog, null);
 
+        TextView tvTitle = (TextView) alertLayout.findViewById(R.id.tvTitle);
+        tvTitle.setText(title);
+        Button bOk = (Button) alertLayout.findViewById(R.id.bOk);
+        Button bCancel = (Button) alertLayout.findViewById(R.id.bCancel);
+        Button bClear = (Button) alertLayout.findViewById(R.id.bClear);
         TimePicker timePicker = (TimePicker) alertLayout.findViewById(R.id.timePicker);
-        timePicker.setHour(Integer.valueOf(startHourOfDay));
-        timePicker.setMinute(Integer.valueOf(startMinute));
+        if (title.equals("Start Time")){
+            bClear.setVisibility(View.GONE);
+            timePicker.setHour(Integer.valueOf(startHourOfDay));
+            timePicker.setMinute(Integer.valueOf(startMinute));
+        }
+        else if (title.equals("End Time")){
+            if (!isEndTimeChanged){
+                timePicker.setHour(Integer.valueOf(startHourOfDay));
+                timePicker.setMinute(Integer.valueOf(startMinute));
+            }
+            else if (isEndTimeChanged){
+                timePicker.setHour(Integer.valueOf(endHourOfDay));
+                timePicker.setMinute(Integer.valueOf(endMinute));
+            }
+        }
+
         timePicker.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
             @Override
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                if (minute == 0){
-                    setStartTime(String.valueOf(hourOfDay), "00", "00");
-                }else {
-                    if (String.valueOf(minute).length() == 1){
-                        setStartTime(String.valueOf(hourOfDay), "0" + String.valueOf(minute), "00");
-                    }else{
-                        setStartTime(String.valueOf(hourOfDay), String.valueOf(minute), "00");
+                isChanged[0] = true;
+                if (title.equals("Start Time")){
+                    if (minute == 0){
+                        tempStartHour[0] = String.valueOf(hourOfDay);
+                        tempStartMinute[0] = "00";
+                        tempStartSecond[0] = "00";
+                    }
+                    else {
+                        if (String.valueOf(minute).length() == 1){
+                            tempStartHour[0] = String.valueOf(hourOfDay);
+                            tempStartMinute[0] = "0" + String.valueOf(minute);
+                            tempStartSecond[0] = "00";
+                        }
+                        else{
+                            tempStartHour[0] = String.valueOf(hourOfDay);
+                            tempStartMinute[0] = String.valueOf(minute);
+                            tempStartSecond[0] = "00";
+                        }
                     }
                 }
-                tvStartTime.setText(getTimeToDisplay());
+                else if (title.equals("End Time")){
+                    if (minute == 0){
+                        tempEndHour[0] = String.valueOf(hourOfDay);
+                        tempEndMinute[0] = "00";
+                        tempEndSecond[0] = "00";
+                    }
+                    else {
+                        if (String.valueOf(minute).length() == 1){
+                            tempEndHour[0] = String.valueOf(hourOfDay);
+                            tempEndMinute[0] = "0" + String.valueOf(minute);
+                            tempEndSecond[0] = "00";
+                        }
+                        else{
+                            tempEndHour[0] = String.valueOf(hourOfDay);
+                            tempEndMinute[0] = String.valueOf(minute);
+                            tempEndSecond[0] = "00";
+                        }
+                    }
+                }
             }
         });
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setView(alertLayout);
         final AlertDialog dialog = alert.create();
-        dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+        bClear.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCancel(DialogInterface dialog) {
+            public void onClick(View v) {
+
+            }
+        });
+        bCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dialog.dismiss();
             }
         });
+        bOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (title.equals("Start Time")){
+                    if (isChanged[0]){
+                        setStartTime(tempStartHour[0], tempStartMinute[0], tempStartSecond[0]);
+                        tvStartTime.setText(getStartTimeToDisplay());
+                        dialog.dismiss();
+                    }
+                    else if (!isChanged[0]){
+                        dialog.dismiss();
+                    }
+                }
+                else if (title.equals("End Time")){
+                    if (isChanged[0]){
+                        isEndTimeChanged = true;
+                        setEndTime(tempEndHour[0], tempEndMinute[0], tempEndSecond[0]);
+                        tvEndTime.setText(getEndTimeToDisplay());
+                        dialog.dismiss();
+                    }
+                    else if (!isChanged[0]){
+                        dialog.dismiss();
+                    }
+                }
+            }
+        });
+        dialog.setCanceledOnTouchOutside(false);
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
@@ -771,7 +885,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         Date secondDate = new Date();
 
         setStartTime(hourFormat.format(hourDate), minuteFormat.format(minuteDate), secondFormat.format(secondDate));
-        return getTimeToDisplay();
+        return getStartTimeToDisplay();
     }
 
     private String getHourSimple(String hour){
@@ -788,11 +902,21 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         this.startSecond = second;
     }
 
+    private void setEndTime(String hourOfDay, String minute, String second){
+        this.endHourOfDay = hourOfDay;
+        this.endMinute = minute;
+        this.endSecond = second;
+    }
+
     private String getStartTime(){
         return startHourOfDay + ":" + startMinute + ":" + startSecond;
     }
 
-    private String getTimeToDisplay(){
+    private String getEndTime(){
+        return endHourOfDay + ":" + endMinute + ":" + startSecond;
+    }
+
+    private String getStartTimeToDisplay(){
         String amPM = "";
         if (Integer.valueOf(startHourOfDay) < 12){
             amPM = "AM";
@@ -807,6 +931,23 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             amPM = "PM";
         }
         return  getHourSimple(String.valueOf(startHourOfDay)) + ":" + startMinute + " " + amPM;
+    }
+
+    private String getEndTimeToDisplay(){
+        String amPM = "";
+        if (Integer.valueOf(endHourOfDay) < 12){
+            amPM = "AM";
+            if (endHourOfDay.length() == 2 && String.valueOf(endHourOfDay.charAt(0)).equals("0")){
+                endHourOfDay = String.valueOf(endHourOfDay.charAt(1));
+            }
+            else if (endHourOfDay.length() == 1 && String.valueOf(endHourOfDay).equals("0")){
+                return  "12" + ":" + endMinute + " " + amPM;
+            }
+        }
+        else if (Integer.valueOf(endHourOfDay) >= 12){
+            amPM = "PM";
+        }
+        return  getHourSimple(String.valueOf(endHourOfDay)) + ":" + endMinute + " " + amPM;
     }
 
     private void uploadImageDialog(){
@@ -1053,7 +1194,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         EpisodeCreate.location = location;
     }
 
-    String getLocation(){
+    private String getLocation(){
         return EpisodeCreate.location;
     }
 }
