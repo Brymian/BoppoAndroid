@@ -46,7 +46,7 @@ public class CropImageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         String from = getIntent().getStringExtra("from");
         setFrom(from);
-        if (from.equals("profileGallery") || from.equals("episodeGallery")){
+        if (from.equals("profileGallery") || from.equals("episodeCreateGallery")){
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -72,14 +72,14 @@ public class CropImageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 fabDone.setClickable(false);
                 Bitmap croppedImage = cropImageView.getCroppedImage();
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                byte[] byteArray = stream.toByteArray();
-                String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                setEncodedImage(encodedImage);
-                Intent intent = getIntent();
-                setResult(RESULT_OK, intent);
                 if (getFrom().equals("profileGallery")){
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    setEncodedImage(encodedImage);
+                    Intent intent = getIntent();
+                    setResult(RESULT_OK, intent);
                     checkProfileImageExists();
                     pd = new ProgressDialog(CropImageActivity.this);
                     pd.setCancelable(false);
@@ -87,11 +87,22 @@ public class CropImageActivity extends AppCompatActivity {
                     pd.setMessage("Uploading image...");
                     pd.show();
                 }
+                else if (getFrom().equals("episodeGallery")){
+                    /*
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] byteArray = stream.toByteArray();
+                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                    Intent intent = getIntent();
+                    intent.putExtra("image", encodedImage);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    */
+                }
             }
         });
     }
 
-    /* Step 1: check if any profile images exist */
     private void checkProfileImageExists(){
         new UserImageRequest(this).getImagesByUid(SaveSharedPreference.getUserUID(CropImageActivity.this), true, new StringCallback() {
             @Override
@@ -157,6 +168,7 @@ public class CropImageActivity extends AppCompatActivity {
             }
         });
     }
+
     private void uploadProfileImage(){
         new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, getEncodedImage(), new StringCallback() {
             @Override
@@ -168,7 +180,6 @@ public class CropImageActivity extends AppCompatActivity {
         });
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -176,6 +187,7 @@ public class CropImageActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 if (data != null) {
                     try {
+
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         cropImageView.setImageBitmap(bitmap);
                         cropImageView.setFixedAspectRatio(true);
