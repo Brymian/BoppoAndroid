@@ -198,6 +198,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 privacy,
                 "Host",
                 true,
+                "BRYANT, ADD AN EVENT DESCRIPTION HERE!",
                 getStartDate() + " " + getStartTime(),
                 null,
                 latitude,

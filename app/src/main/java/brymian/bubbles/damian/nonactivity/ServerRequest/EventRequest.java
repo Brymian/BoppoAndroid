@@ -10,9 +10,12 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.objects.Event;
 import brymian.bubbles.damian.nonactivity.Post;
@@ -45,13 +48,15 @@ public class EventRequest {
     public void createEvent(
         Integer eventHostUid, String eventName, String eventCategoryLabel, String eventTypeLabel,
         String eventPrivacyLabel, String eventInviteTypeLabel,
-        Boolean eventImageUploadAllowedIndicator, String eventStartDatetime, String eventEndDatetime,
+        Boolean eventImageUploadAllowedIndicator, String eventDescriptionText,
+        String eventStartDatetime, String eventEndDatetime,
         Double eventGpsLatitude, Double eventGpsLongitude, StringCallback objectCallback)
     {
     pd.show();
     new CreateEvent(eventHostUid, eventName, eventCategoryLabel, eventTypeLabel,
         eventPrivacyLabel, eventInviteTypeLabel, eventImageUploadAllowedIndicator,
-        eventStartDatetime, eventEndDatetime, eventGpsLatitude, eventGpsLongitude, objectCallback)
+        eventDescriptionText, eventStartDatetime, eventEndDatetime,
+        eventGpsLatitude, eventGpsLongitude, objectCallback)
         .execute();
     }
 
@@ -153,14 +158,18 @@ public class EventRequest {
 
     public void updateEvent(
         Integer eid, Integer eventHostUid, String eventName, String eventPrivacyLabel,
-        String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
+        String eventInviteTypeLabel, String eventCategoryLabel, String eventTypeLabel,
+        Boolean eventImageUploadAllowedIndicator, String eventDescriptionText,
         String eventStartDatetime, String eventEndDatetime,
-        Double eventGpsLatitude, Double eventGpsLongitude, StringCallback objectCallback)
+        Double eventGpsLatitude, Double eventGpsLongitude,
+        Boolean[] setOrNot, StringCallback objectCallback) throws SetOrNotException
     {
         pd.show();
         new UpdateEvent(eid, eventHostUid, eventName, eventPrivacyLabel, eventInviteTypeLabel,
-            eventImageUploadAllowedIndicator, eventStartDatetime, eventEndDatetime,
-            eventGpsLatitude, eventGpsLongitude, objectCallback).execute();
+            eventImageUploadAllowedIndicator, eventCategoryLabel, eventTypeLabel,
+            eventDescriptionText, eventStartDatetime, eventEndDatetime,
+            eventGpsLatitude, eventGpsLongitude,
+            setOrNot, objectCallback).execute();
     }
 
     public void deleteEvent(int eid, StringCallback stringCallback)
@@ -178,6 +187,7 @@ public class EventRequest {
         String  eventPrivacyLabel;
         String  eventInviteTypeLabel;
         Boolean eventImageUploadAllowedIndicator;
+        String  eventDescriptionText;
         String  eventStartDatetime;
         String  eventEndDatetime;
         Double  eventGpsLatitude;
@@ -187,7 +197,7 @@ public class EventRequest {
         private CreateEvent(Integer eventHostUid, String eventName,
             String eventCategoryLabel, String eventTypeLabel,
             String eventPrivacyLabel, String eventInviteTypeLabel,
-            Boolean eventImageUploadAllowedIndicator,
+            Boolean eventImageUploadAllowedIndicator, String eventDescriptionText,
             String eventStartDatetime, String eventEndDatetime,
             Double eventGpsLatitude, Double eventGpsLongitude,
             StringCallback stringCallback)
@@ -200,6 +210,7 @@ public class EventRequest {
             this.eventPrivacyLabel = eventPrivacyLabel;
             this.eventInviteTypeLabel = eventInviteTypeLabel;
             this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;
+            this.eventDescriptionText = eventDescriptionText;
             this.eventStartDatetime = eventStartDatetime;
             this.eventEndDatetime = eventEndDatetime;
             this.eventGpsLatitude = eventGpsLatitude;
@@ -225,6 +236,7 @@ public class EventRequest {
                 jsonEventObject.put("eventInviteTypeLabel", getNullOrValue(eventInviteTypeLabel));
                 jsonEventObject.put("eventImageUploadAllowedIndicator",
                     getNullOrValue(eventImageUploadAllowedIndicator));
+                jsonEventObject.put("eventDescriptionText", getNullOrValue(eventDescriptionText));
                 jsonEventObject.put("eventStartDatetime", getNullOrValue(eventStartDatetime));
                 jsonEventObject.put("eventEndDatetime", getNullOrValue(eventEndDatetime));
                 jsonEventObject.put("eventGpsLatitude", getNullOrValue(eventGpsLatitude));
@@ -1100,31 +1112,57 @@ public class EventRequest {
         Integer eid;
         Integer eventHostUid;
         String  eventName;
+        String  eventCategoryLabel;
+        String  eventTypeLabel;
         String  eventPrivacyLabel;
         String  eventInviteTypeLabel;
         Boolean eventImageUploadAllowedIndicator;
+        String  eventDescriptionText;
         String  eventStartDatetime;
         String  eventEndDatetime;
         Double  eventGpsLatitude;
         Double  eventGpsLongitude;
+
+        Map<String,Boolean> setOrNot = new HashMap<>();
         StringCallback stringCallback;
 
         private UpdateEvent(Integer eid, Integer eventHostUid, String eventName, String eventPrivacyLabel,
             String eventInviteTypeLabel, Boolean eventImageUploadAllowedIndicator,
-            String eventStartDatetime, String eventEndDatetime,
+            String eventCategoryLabel, String eventTypeLabel,
+            String eventDescriptionText, String eventStartDatetime, String eventEndDatetime,
             Double eventGpsLatitude, Double eventGpsLongitude,
-            StringCallback stringCallback)
+            Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
         {
+            if (setOrNot.length != 13)
+                throw new SetOrNotException("Incorrect quantity of booleans set in the SetOrNot array.");
+
             this.eid = eid;
             this.eventHostUid = eventHostUid;
             this.eventName = eventName;
+            this.eventCategoryLabel = eventCategoryLabel;
+            this.eventTypeLabel = eventTypeLabel;
             this.eventPrivacyLabel = eventPrivacyLabel;
             this.eventInviteTypeLabel = eventInviteTypeLabel;
             this.eventImageUploadAllowedIndicator = eventImageUploadAllowedIndicator;
+            this.eventDescriptionText = eventDescriptionText;
             this.eventStartDatetime = eventStartDatetime;
             this.eventEndDatetime = eventEndDatetime;
             this.eventGpsLatitude = eventGpsLatitude;
             this.eventGpsLongitude = eventGpsLongitude;
+
+            this.setOrNot.put("eid", null);
+            this.setOrNot.put("eventHostUid", setOrNot[1]);
+            this.setOrNot.put("eventName", setOrNot[2]);
+            this.setOrNot.put("eventCategoryLabel", setOrNot[3]);
+            this.setOrNot.put("eventTypeLabel", setOrNot[4]);
+            this.setOrNot.put("eventPrivacyLabel", setOrNot[5]);
+            this.setOrNot.put("eventInviteTypeLabel", setOrNot[6]);
+            this.setOrNot.put("eventImageUploadAllowedIndicator", setOrNot[7]);
+            this.setOrNot.put("eventDescriptionText", setOrNot[8]);
+            this.setOrNot.put("eventStartDatetime", setOrNot[9]);
+            this.setOrNot.put("eventEndDatetime", setOrNot[10]);
+            this.setOrNot.put("eventGpsLatitude", setOrNot[11]);
+            this.setOrNot.put("eventGpsLongitude", setOrNot[12]);
 
             this.stringCallback = stringCallback;
         }
@@ -1136,20 +1174,25 @@ public class EventRequest {
             Post request = new Post();
             try
             {
-                JSONObject jsonEventObject = new JSONObject();
+                JSONObject jsonSetOrNotObject = new JSONObject(setOrNot);
 
+                JSONObject jsonEventObject = new JSONObject();
                 jsonEventObject.put("eid", getNullOrValue(eid));
                 jsonEventObject.put("eventHostUid", getNullOrValue(eventHostUid));
                 jsonEventObject.put("eventName", getNullOrValue(eventName));
+                jsonEventObject.put("eventCategoryLabel", getNullOrValue(eventCategoryLabel));
+                jsonEventObject.put("eventTypeLabel", getNullOrValue(eventTypeLabel));
                 jsonEventObject.put("eventPrivacyLabel", getNullOrValue(eventPrivacyLabel));
                 jsonEventObject.put("eventInviteTypeLabel", getNullOrValue(eventInviteTypeLabel));
                 jsonEventObject.put("eventImageUploadAllowedIndicator",
                     getNullOrValue(eventImageUploadAllowedIndicator));
                 /** THE ABOVE RETURNS AN ERROR IF NULL, FIX THIS! **/
+                jsonEventObject.put("eventDescriptionText", getNullOrValue(eventDescriptionText));
                 jsonEventObject.put("eventStartDatetime", getNullOrValue(eventStartDatetime));
                 jsonEventObject.put("eventEndDatetime", getNullOrValue(eventEndDatetime));
                 jsonEventObject.put("eventGpsLatitude", getNullOrValue(eventGpsLatitude));
                 jsonEventObject.put("eventGpsLongitude", getNullOrValue(eventGpsLongitude));
+                jsonEventObject.put("setOrNot", jsonSetOrNotObject);
 
                 String jsonEventString = jsonEventObject.toString();
 

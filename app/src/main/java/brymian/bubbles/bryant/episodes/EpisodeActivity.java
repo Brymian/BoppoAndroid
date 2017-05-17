@@ -219,6 +219,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 });
                 break;
 
+            /** UPDATE THIS BRYANT **/
+            /*
             case R.id.tvEndEpisode:
                 new EventRequest(this).updateEvent(getEid(), null, null, null, null, null, null, getCurrentTimeStamp(), null, null, new StringCallback() {
                     @Override
@@ -227,6 +229,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
                 break;
+            */
 
             case R.id.tvLeaveEpisode:
 

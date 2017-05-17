@@ -133,24 +133,39 @@ public class TESTActivity extends Activity {
             }
         });
         */
-         // Worked as of 2017-04-20
+        // Worked as of 2017-04-20
         /*
-        new UserImageRequest(this).getImagesByUid(2, true, new StringCallback() {
+        new UserImageRequest(this).getImagesByUid(1, true, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
+                try
+                {
+                    System.out.println((new JSONObject(string).getJSONArray("images").getJSONObject(0).getString("userImagePath")));
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-        new UserImageRequest(this).getImagesByUid(2, false, new StringCallback() {
+        new UserImageRequest(this).getImagesByUid(1, false, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
+                try
+                {
+                    System.out.println((new JSONObject(string).getJSONArray("images").getJSONObject(0).getString("userImagePath")));
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
-        new UserImageRequest(this).getImagesByUid(2, null, new StringCallback() {
+        new UserImageRequest(this).getImagesByUid(1, null, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
+                try
+                {
+                    System.out.println((new JSONObject(string).getJSONArray("images").getJSONObject(0).getString("userImagePath")));
+                }
+                catch (JSONException jsone) { jsone.printStackTrace(); }
             }
         });
         */
@@ -286,8 +301,9 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new EventRequest(this).createEvent(3, "ROTFL! AN EVENT!", "Sport", "Soccer",
-            "Public", "Everyone", null, null, null, null, null, new StringCallback()
+        new EventRequest(this).createEvent(3, "Damian's Descriptive Event", "Music", "Festival",
+            "Public", "Everyone", null, "This is a sample event description.",
+            null, null, null, null, new StringCallback()
         {
             @Override
             public void done(String string) {
@@ -306,8 +322,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventRequest(this).getEventData(59, new StringCallback() {
+        /* // Works correctly as of 2017-05-15
+        new EventRequest(this).getEventData(1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
@@ -623,16 +639,28 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new EventRequest(this).updateEvent(38, 3, "Funniest Shiz Evah", "Private", "Friends", null, null, null, null, null, new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
-                System.out.println(string);
-                System.out.println("Result string size: " + string.length());
-            }
-        });
-        */
+
+        try
+        {
+            new EventRequest(this).updateEvent(4, null, null, "Private", "Friends", null, null, null,
+                "This is a sample event description that has been updated.",
+                null, null, null, null,
+                new Boolean[]{null, false, false, false, false, false, false, false, true, false,
+                    false, false, false}, new StringCallback() {
+                @Override
+                public void done(String string) {
+                    System.out.println("SERVER RESPONSE REGARDING EVENT CREATION: ");
+                    System.out.println(string);
+                    System.out.println("Result string size: " + string.length());
+                }
+            });
+        }
+        catch (SetOrNotException sone)
+        {
+            sone.printStackTrace();
+            // Do something here, if need to handle this
+        }
+
         /*
         new UserImageRequest(this).getImageProfileMaxAmount(new IntegerCallback() {
             @Override
