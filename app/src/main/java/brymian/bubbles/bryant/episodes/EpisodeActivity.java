@@ -1,6 +1,7 @@
 package brymian.bubbles.bryant.episodes;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -74,7 +75,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     //int ADD_PARTICIPANTS_CODE = 123;
     private int eid, hostUid;
     int year, month, day, hour, minute, second;
-    private int EPISODE_EDIT_CODE = 0;
     private boolean isHost, isParticipant, isStarted = false, isEnded = false;
 
     @Override
@@ -769,8 +769,15 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         tvEditEpisode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EpisodeEdit episodeEdit = new EpisodeEdit();
+                Bundle bundle = new Bundle();
+                bundle.putInt("eid", getEid());
+                episodeEdit.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.episode_activity, episodeEdit);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 dialog.dismiss();
-                startActivityForResult(new Intent(EpisodeActivity.this, EpisodeEdit.class).putExtra("eid", getEid()), EPISODE_EDIT_CODE);
             }
         });
 
@@ -833,7 +840,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         this.isStarted = isStarted;
     }
 
-    private boolean getIsStarted(){
+    public boolean getIsStarted(){
         return this.isStarted;
     }
 
@@ -889,7 +896,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             }
         });
     }
-
 
     private void downloadEpisodePictures(){
         new UserImageRequest(this).getImagesByEid(getEid(), false, new StringCallback() {

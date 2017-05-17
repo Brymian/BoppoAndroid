@@ -1,7 +1,6 @@
 package brymian.bubbles.bryant.episodes;
 
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -9,6 +8,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -36,7 +36,6 @@ import java.util.Date;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.addLocation.AddLocation;
-import brymian.bubbles.bryant.cropImage.CropImageActivity;
 import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
@@ -48,12 +47,13 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener{
     TextInputLayout tilTitle;
     Toolbar mToolbar;
+    TextInputEditText tietDescription;
     EditText etEpisodeTitle;
     String episodeTitle ,privacy, locationAddress, locationName;
     String startYear, startMonth, startDayOfMonth, startHourOfDay, startMinute, startSecond;
     String endYear, endMonth, endDayOfMonth, endHourOfDay, endMinute, endSecond;
     TextView tvAddLocation, tvLocationAddress;
-    TextView tvUploadImage, tvChooseLogo, tvStartDate, tvStartTime, tvEndDate, tvEndTime;
+    TextView tvStartDate, tvStartTime, tvEndDate, tvEndTime;
     ImageView ivEpisodeImage, ivClearLocation;
     FloatingActionButton fabDone;
     double latitude;
@@ -99,6 +99,8 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         tvEndTime = (TextView) findViewById(R.id.tvEndTime);
         tvEndTime.setOnClickListener(this);
+
+        tietDescription = (TextInputEditText) findViewById(R.id.tietDescription);
 
         fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
         fabDone.setOnClickListener(this);
@@ -181,7 +183,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     private void createEpisode(){
         Log.e("createEpisode",  "title: " +  getEpisodeTitle() +
                                 "\ncategory: " + "Social" +
-                                "\ntype: " + "Social" +
+                                "\ntype: " + "Social Event" +
                                 "\nprivacy: " + privacy +
                                 "\ninvite type: " + "host" +
                                 "\nimageAllowed: " + "true" +
@@ -194,11 +196,11 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 SaveSharedPreference.getUserUID(EpisodeCreate.this),
                 getEpisodeTitle(),
                 "Social",
-                "Social",
+                "Social Event",
                 privacy,
                 "Host",
                 true,
-                "BRYANT, ADD AN EVENT DESCRIPTION HERE!",
+                tietDescription.getText().toString(),
                 getStartDate() + " " + getStartTime(),
                 null,
                 latitude,
@@ -228,56 +230,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
         );
 
-    }
-
-    private void uploadImage(){
-        new UserImageRequest(this).uploadImage(
-                SaveSharedPreference.getUserUID(this),
-                null,
-                imageName(),
-                "Private",
-                null,
-                null,
-                BitMapToString(((BitmapDrawable) ivEpisodeImage.getDrawable()).getBitmap()),
-                new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        setUiid(Integer.parseInt(string));
-                        addImageToEvent();
-                    }
-                }
-        );
-    }
-
-    private void addImageToEvent(){
-        Integer[] uiids = {getUiid()};
-        new EventUserImageRequest(this).addImagesToEvent(getEid(), uiids, new StringCallback() {
-            @Override
-            public void done(String string) {
-                try{
-                    JSONArray jArray = new JSONArray(string);
-                    for (int i = 0; i < jArray.length(); i++){
-                        if (jArray.get(i).equals("Success")){
-                            setEpisodeProfileImage();
-                        }
-                    }
-                }
-                catch (JSONException e){
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
-
-    private void setEpisodeProfileImage(){
-        new EventUserImageRequest(this).setEuiEventProfileSequence(getEid(), getUiid(), (short)0, new StringCallback() {
-            @Override
-            public void done(String string) {
-                if (string.equals("\"Event user image event profile sequence has been successfully updated.\"")){
-                    startActivityForResult(new Intent(EpisodeCreate.this, EpisodeAddFriends.class).putExtra("eid", getEid()), DONE_CODE);
-                }
-            }
-        });
     }
 
     private void calendarStartAlertDialog(final String title){

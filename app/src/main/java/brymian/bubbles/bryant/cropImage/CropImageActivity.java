@@ -28,6 +28,7 @@ import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 
@@ -39,14 +40,15 @@ public class CropImageActivity extends AppCompatActivity {
     FloatingActionButton fabDone;
     private final int GALLERY_CODE = 1;
     private final int CAMERA_CODE = 2;
-    private String from, encodedImage;
+    private int eid, uiid;
+    private String encodedImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String from = getIntent().getStringExtra("from");
-        setFrom(from);
-        if (from.equals("profileGallery") || from.equals("episodeCreateGallery")){
+        final String from = getIntent().getStringExtra("from");
+        eid = getIntent().getIntExtra("eid", 0);
+        if (from.equals("profileGallery") || from.equals("episodeGallery")){
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -72,32 +74,22 @@ public class CropImageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 fabDone.setClickable(false);
                 Bitmap croppedImage = cropImageView.getCroppedImage();
-                if (getFrom().equals("profileGallery")){
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                    setEncodedImage(encodedImage);
-                    Intent intent = getIntent();
-                    setResult(RESULT_OK, intent);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                byte[] byteArray = stream.toByteArray();
+                encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                Intent intent = getIntent();
+                setResult(RESULT_OK, intent);
+                pd = new ProgressDialog(CropImageActivity.this);
+                pd.setCancelable(false);
+                pd.setTitle("Processing");
+                pd.setMessage("Uploading image...");
+                pd.show();
+                if (from.equals("profileGallery")){
                     checkProfileImageExists();
-                    pd = new ProgressDialog(CropImageActivity.this);
-                    pd.setCancelable(false);
-                    pd.setTitle("Processing");
-                    pd.setMessage("Uploading image...");
-                    pd.show();
                 }
-                else if (getFrom().equals("episodeGallery")){
-                    /*
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byte[] byteArray = stream.toByteArray();
-                    String encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
-                    Intent intent = getIntent();
-                    intent.putExtra("image", encodedImage);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                    */
+                else if (from.equals("episodeGallery")){
+                    checkEpisodeImageExits();
                 }
             }
         });
@@ -148,8 +140,7 @@ public class CropImageActivity extends AppCompatActivity {
                     new StringCallback() {
                         @Override
                         public void done(String string) {
-                            Log.e("SetProfSeqNull", string);
-                            deleteProfileImage(Integer.valueOf(userImageSequence));
+                            deleteImage(Integer.valueOf(userImageSequence));
                             uploadProfileImage();
                         }
                     }
@@ -160,7 +151,7 @@ public class CropImageActivity extends AppCompatActivity {
         }
     }
 
-    private void deleteProfileImage(int uiid){
+    private void deleteImage(int uiid){
         new ServerRequestMethods(this).deleteImage(SaveSharedPreference.getUserUID(this), uiid, new StringCallback() {
             @Override
             public void done(String string) {
@@ -170,12 +161,79 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void uploadProfileImage(){
-        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, getEncodedImage(), new StringCallback() {
+        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, encodedImage, new StringCallback() {
+            @Override
+            public void done(String string) {
+                pd.dismiss();
+                finish();
+            }
+        });
+    }
+
+    private void checkEpisodeImageExits(){
+        new UserImageRequest(this).getImagesByEid(eid, true, new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    JSONObject jsonObject = new JSONObject(string);
+                    String images = jsonObject.getString("images");
+                    JSONArray imagesArray = new JSONArray(images);
+                    if (imagesArray.length() == 0){
+                        uploadEpisodeImage();
+                    }
+                    else if (imagesArray.length() > 0){
+
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void uploadEpisodeImage(){
+        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(this), null, imageName(), "Public", null, null, encodedImage, new StringCallback() {
             @Override
             public void done(String string) {
                 Log.e("uploadImage", string);
-                pd.dismiss();
-                finish();
+                if (string.contains("Success")){
+                    String[] stringArray = string.split(" ");
+                    uiid = Integer.parseInt(stringArray[1]);
+                    addImageToEvent();
+                }
+            }
+        });
+    }
+
+    private void addImageToEvent(){
+        Integer[] uiids = {uiid};
+        new EventUserImageRequest(this).addImagesToEvent(eid, uiids, new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    JSONArray jArray = new JSONArray(string);
+                    for (int i = 0; i < jArray.length(); i++){
+                        if (jArray.get(i).equals("Success")){
+                            setEpisodeProfileImage();
+                        }
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void setEpisodeProfileImage(){
+        new EventUserImageRequest(this).setEuiEventProfileSequence(eid, uiid, (short)0, new StringCallback() {
+            @Override
+            public void done(String string) {
+                if (string.equals("\"Event user image event profile sequence has been successfully updated.\"")){
+                    pd.dismiss();
+                    finish();
+                }
             }
         });
     }
@@ -187,7 +245,6 @@ public class CropImageActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 if (data != null) {
                     try {
-
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
                         cropImageView.setImageBitmap(bitmap);
                         cropImageView.setFixedAspectRatio(true);
@@ -237,21 +294,5 @@ public class CropImageActivity extends AppCompatActivity {
     private String imageName(){
         String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
         return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
-    }
-
-    private void setFrom(String from){
-        this.from = from;
-    }
-
-    private String getFrom(){
-        return this.from;
-    }
-
-    private void setEncodedImage(String encodedImage){
-        this.encodedImage = encodedImage;
-    }
-
-    private String getEncodedImage(){
-        return encodedImage;
     }
 }

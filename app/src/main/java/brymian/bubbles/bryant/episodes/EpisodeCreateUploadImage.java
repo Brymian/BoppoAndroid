@@ -11,15 +11,25 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.cropImage.CropImageActivity;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -72,7 +82,6 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             eid = bundle.getInt("eid", 0);
-            Log.e("ecui", eid + "");
         }
     }
 
@@ -80,6 +89,7 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fabDone:
+                getActivity().finish();
                 break;
 
             case R.id.tvUploadImage:
@@ -96,7 +106,7 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
                 break;
 
             case R.id.tvGallery:
-                startActivityForResult(new Intent(getActivity(), CropImageActivity.class).putExtra("from", "episodeCreateGallery"), GALLERY_CODE);
+                startActivityForResult(new Intent(getActivity(), CropImageActivity.class).putExtra("from", "episodeGallery").putExtra("eid", eid), GALLERY_CODE);
                 uploadDialog.dismiss();
                 break;
              /* main logo dialog */
@@ -122,175 +132,199 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
 
             /* travel logo dialog */
             case R.id.tvTravel:
-                setCategory("Travel");
-                setType("Travel");
+                category = "Travel";
+                type = "Travel Event";
                 travelDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvVacation:
-                setCategory("Travel");
-                setType("Vacation");
+                category = "Travel";
+                type = "Vacation";
                 travelDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvHike:
-                setCategory("Travel");
-                setType("Hike");
+                category = "Travel";
+                type = "Hike";
                 travelDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvCruise:
-                setCategory("Travel");
-                setType("Cruise");
+                category = "Travel";
+                type = "Cruise";
                 travelDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvAdventure:
-                setCategory("Travel");
-                setType("Adventure");
+                category = "Travel";
+                type = "Adventure";
                 travelDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             /* social logo dialog */
             case R.id.tvSocial:
-                setCategory("Social");
-                setType("Social");
+                category = "Social";
+                type = "Social Event";
                 socialDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvParty:
-                setCategory("Social");
-                setType("Party");
+                category = "Social";
+                type = "Party";
                 socialDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvGetTogether:
-                setCategory("Social");
-                setType("Get-together");
+                category = "Social";
+                type = "Get-together";
                 socialDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvWedding:
-                setCategory("Social");
-                setType("Wedding");
+                category = "Social";
+                type = "Wedding";
                 socialDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvMovie:
-                setCategory("Social");
-                setType("Movie");
+                category = "Social";
+                type = "Movie";
                 socialDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             /* sport logo dialog */
             case R.id.tvSport:
-                setCategory("Sport");
-                setType("Sport");
+                category = "Sport";
+                type = "Sport Event";
                 sportDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvSoccer:
-                setCategory("Sport");
-                setType("Soccer");
+                category = "Sport";
+                type = "Soccer";
                 sportDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvBasketball:
-                setCategory("Sport");
-                setType("Basketball");
+                category = "Sport";
+                type = "Basketball";
                 sportDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvFootball:
-                setCategory("Sport");
-                setType("Football");
+                category = "Sport";
+                type = "Football";
                 sportDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvBaseball:
-                setCategory("Sport");
-                setType("Baseball");
+                category = "Sport";
+                type = "Baseball";
                 sportDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvTennis:
-                setCategory("Sport");
-                setType("Tennis");
+                category = "Sport";
+                type = "Tennis";
                 sportDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             /* music logo dialog */
             case R.id.tvMusic:
-                setCategory("Music");
-                setType("Music");
+                category = "Music";
+                type = "Music Event";
                 musicDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvConcert:
-                setCategory("Music");
-                setType("Concert");
+                category = "Music";
+                type = "Concert";
                 musicDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvFestival:
-                setCategory("Music");
-                setType("Festival");
+                category = "Music";
+                type = "Festival";
                 musicDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvMusical:
-                setCategory("Music");
-                setType("Musical");
+                category = "Music";
+                type = "Musical";
                 musicDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvOpera:
-                setCategory("Music");
-                setType("Opera");
+                category = "Music";
+                type = "Opera";
                 musicDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             /* misc logo dialog */
             case R.id.tvMisc:
-                setCategory("Miscellaneous");
-                setType("Miscellaneous");
+                category = "Miscellaneous";
+                type = "Miscellaneous Event";
                 miscDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvCarnival:
-                setCategory("Miscellaneous");
-                setType("Carnival");
+                category = "Miscellaneous";
+                type = "Carnival";
                 miscDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
 
             case R.id.tvReview:
-                setCategory("Miscellaneous");
-                setType("Review");
+                category  = "Miscellaneous";
+                type = "Review";
                 miscDialog.dismiss();
                 mainDialog.dismiss();
+                setCategoryAndType();
                 break;
         }
     }
@@ -301,7 +335,22 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
         if (requestCode == GALLERY_CODE){
             if(resultCode == RESULT_OK) {
                 if (data != null) {
-
+                    new UserImageRequest(getActivity()).getImagesByEid(eid, true, new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            try{
+                                JSONObject jsonObject = new JSONObject(string);
+                                String images = jsonObject.getString("images");
+                                JSONArray imagesArray = new JSONArray(images);
+                                JSONObject imageObj = imagesArray.getJSONObject(0);
+                                String userImagePath = imageObj.getString("userImagePath");
+                                Picasso.with(getActivity()).load(userImagePath).fit().centerCrop().into(ivEpisodeImage);
+                            }
+                            catch (JSONException e){
+                                e.printStackTrace();
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -472,20 +521,17 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
         miscDialog.show();
     }
 
-    private void setCategory(String category){
-        this.category = category;
+    private void setCategoryAndType(){
+        try {
+            new EventRequest(getActivity()).updateEvent(eid, null, null, category, type, null, null, null, null, null, null, null, null, new Boolean[]{false, false, false, true, true, false, false, false, false, false, false, false, false}, new StringCallback() {
+                @Override
+                public void done(String string) {
+                    Toast.makeText(getActivity(), string, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        catch (SetOrNotException e){
+            e.printStackTrace();
+        }
     }
-
-    private String getCategory(){
-        return this.category;
-    }
-
-    private void setType(String type){
-        this.type = type;
-    }
-
-    private String getType(){
-        return this.type;
-    }
-
 }
