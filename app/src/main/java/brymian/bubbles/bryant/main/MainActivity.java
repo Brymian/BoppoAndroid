@@ -14,7 +14,6 @@ import android.view.View;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.camera.CameraActivity;
-import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.search.SearchActivity;
 
@@ -135,7 +134,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case android.R.id.home:
-                startActivity(new Intent(this, MapActivity.class));
+                int count = getSupportFragmentManager().getBackStackEntryCount();
+                if (count == 0){
+                    startActivity(new Intent(this, MapActivity.class));
+                }
+                else {
+                    onBackPressed();
+                }
                 break;
             case R.id.search:
                 startActivity(new Intent(this, SearchActivity.class));
@@ -163,13 +168,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onBackPressed() {
-        int count = getFragmentManager().getBackStackEntryCount();
-
+        int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0) {
             super.onBackPressed();
-            //additional code
-        } else {
-            getFragmentManager().popBackStack();
+        }
+        else {
+            getSupportFragmentManager().popBackStack();
         }
     }
 }

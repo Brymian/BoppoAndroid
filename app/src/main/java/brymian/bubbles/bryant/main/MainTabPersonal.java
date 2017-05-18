@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -175,7 +176,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
             /* Account */
             case R.id.cvPassword:
-                startActivity(new Intent(getActivity(), Password.class));
+                startFragment(new Password());
                 break;
 
             case R.id.cvEmail:
@@ -194,6 +195,13 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 logOut();
                 break;
         }
+    }
+
+    private void startFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_activity, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     @Override
