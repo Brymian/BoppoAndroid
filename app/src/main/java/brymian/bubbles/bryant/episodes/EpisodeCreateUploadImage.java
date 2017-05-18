@@ -2,6 +2,7 @@ package brymian.bubbles.bryant.episodes;
 
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import org.json.JSONObject;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.cropImage.CropImageActivity;
+import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
@@ -89,7 +91,14 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.fabDone:
-                getActivity().finish();
+                EpisodeAddFriends episodeAddFriends = new EpisodeAddFriends();
+                Bundle bundle = new Bundle();
+                bundle.putInt("eid", eid);
+                episodeAddFriends.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.episode_create, episodeAddFriends);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 break;
 
             case R.id.tvUploadImage:

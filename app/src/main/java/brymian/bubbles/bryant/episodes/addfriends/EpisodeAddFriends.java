@@ -1,8 +1,7 @@
 package brymian.bubbles.bryant.episodes.addfriends;
 
-import android.app.Activity;
+import android.app.Fragment;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -14,8 +13,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -31,7 +30,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
-public class EpisodeAddFriends extends AppCompatActivity{
+public class EpisodeAddFriends extends Fragment{
     Toolbar mToolbar;
     RecyclerView recyclerView;
     RecyclerView.Adapter adapter;
@@ -39,36 +38,60 @@ public class EpisodeAddFriends extends AppCompatActivity{
     FloatingActionButton fabDone;
     TextView tvAllFriends;
 
-
-    String title, privacy, inviteType;
-    boolean imageAllowed;
-    double latitude, longitude;
     int eid;
 
+    List<Integer> participantsUid = new ArrayList<>();
+    List<Integer> friendsUid = new ArrayList<>();
+    List<String> friendsFullName = new ArrayList<>();
+    List<String> friendsUsername = new ArrayList<>();
+    List<String> friendsImagePath = new ArrayList<>();
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.episode_add_friends);
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.episode_add_friends, container, false);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Add_Friends_to_Episode);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvAddFriends);
+        recyclerView = (RecyclerView) view.findViewById(R.id.rvAddFriends);
 
-        tvAllFriends = (TextView) findViewById(R.id.tvAllFriends);
+        tvAllFriends = (TextView) view.findViewById(R.id.tvAllFriends);
 
-        Intent intent = getIntent();
-        int eid = intent.getIntExtra("eid", 0);
-        setEid(eid);
-        getParticipants(eid);
-        setFAB();
+        fabDone = (FloatingActionButton) view.findViewById(R.id.fabDone);
+        fabDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                List<Friend> singleFriendList = ((EpisodeAddFriendsRecyclerAdapter) adapter).getFriendList();
+                for (int i = 0; i < singleFriendList.size(); i++) {
+                    Friend singleFriend = singleFriendList.get(i);
+                    if (singleFriend.getIsSelected()) {
+                        new EventUserRequest(getActivity()).addUserToEvent(eid, SaveSharedPreference.getUserUID(getActivity()), singleFriend.getUid(),
+                                new StringCallback() {
+                                    @Override
+                                    public void done(String string) {
+                                        Log.e("add", string);
+                                    }
+                                });
+                    }
+                }
+            }
+        });
+        return view;
     }
 
-    List<Integer> participantsUid = new ArrayList<>();
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            eid = bundle.getInt("eid", 0);
+            getParticipants(eid);
+        }
+    }
+
     private void getParticipants(int eid){
-        new EventUserRequest(this).getEventUsersData("Joined", eid, new StringCallback() {
+        new EventUserRequest(getActivity()).getEventUsersData("Joined", eid, new StringCallback() {
             @Override
             public void done(String string) {
                 try{
@@ -89,12 +112,8 @@ public class EpisodeAddFriends extends AppCompatActivity{
         });
     }
 
-    List<Integer> friendsUid = new ArrayList<>();
-    List<String> friendsFullName = new ArrayList<>();
-    List<String> friendsUsername = new ArrayList<>();
-    List<String> friendsImagePath = new ArrayList<>();
     private void getFriends(){
-        new UserRequest(this).getFriends(SaveSharedPreference.getUserUID(this), new StringCallback() {
+        new UserRequest(getActivity()).getFriends(SaveSharedPreference.getUserUID(getActivity()), new StringCallback() {
             @Override
             public void done(String string) {
                 try {
@@ -149,8 +168,8 @@ public class EpisodeAddFriends extends AppCompatActivity{
                 Friend friend = new Friend(friendsUsername.get(i), friendsFullName.get(i), friendsUid.get(i), friendsImagePath.get(i), false);
                 friendList.add(friend);
             }
-            adapter = new EpisodeAddFriendsRecyclerAdapter(EpisodeAddFriends.this, friendList);
-            layoutManager = new LinearLayoutManager(EpisodeAddFriends.this);
+            adapter = new EpisodeAddFriendsRecyclerAdapter(getActivity(), friendList);
+            layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setNestedScrollingEnabled(false);
             recyclerView.setAdapter(adapter);
@@ -163,38 +182,7 @@ public class EpisodeAddFriends extends AppCompatActivity{
 
     }
 
-    private void setFAB(){
-        fabDone = (FloatingActionButton) findViewById(R.id.fabDone);
-        fabDone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<Friend> singleFriendList = ((EpisodeAddFriendsRecyclerAdapter) adapter).getFriendList();
-                for (int i = 0; i < singleFriendList.size(); i++) {
-                    Friend singleFriend = singleFriendList.get(i);
-                    if (singleFriend.getIsSelected()) {
-                        new EventUserRequest(EpisodeAddFriends.this).addUserToEvent(getEid(), SaveSharedPreference.getUserUID(EpisodeAddFriends.this), singleFriend.getUid(),
-                                new StringCallback() {
-                                    @Override
-                                    public void done(String string) {
-                                        Log.e("add", string);
-                                    }
-                                });
-                    }
-                }
-                //inviteSentAD();
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    /*
 
     @Override
     public void onBackPressed() {
@@ -214,17 +202,17 @@ public class EpisodeAddFriends extends AppCompatActivity{
             getParent().setResult(Activity.RESULT_OK, intent);
         }
     }
-
+*/
     private void inviteSentAD() {
-        LayoutInflater inflater = getLayoutInflater();
+        LayoutInflater inflater = getActivity().getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.episode_add_friends_alertdialog, null);
 
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setView(alertLayout);
         alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                goBackToEpisodeMy();
+                //goBackToEpisodeMy();
             }
         });
         AlertDialog dialog = alert.create();
@@ -232,61 +220,4 @@ public class EpisodeAddFriends extends AppCompatActivity{
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
-
-    private void setEid(int eid){
-        this.eid = eid;
-    }
-
-    private int getEid(){
-        return eid;
-    }
-
-    private void setEpisodeTitle(String title){
-        this.title = title;
-    }
-
-    private String getEpisodeTitle(){
-        return title;
-    }
-
-    private void setEpisodePrivacy(String privacy){
-        this.privacy = privacy;
-    }
-
-    private String getEpisodePrivacy(){
-        return privacy;
-    }
-
-    private void setInviteType(String inviteType){
-        this.inviteType = inviteType;
-    }
-
-    private String getInviteType(){
-        return inviteType;
-    }
-
-    private void setImageAllowed(boolean imageAllowed){
-        this.imageAllowed = imageAllowed;
-    }
-
-    private boolean getImageAllowed(){
-        return imageAllowed;
-    }
-
-    private void setLatitude(double latitude){
-        this.latitude = latitude;
-    }
-
-    private double getLatitude(){
-        return latitude;
-    }
-
-    private void setLongitude(double longitude){
-        this.longitude = longitude;
-    }
-
-    private double getLongitude(){
-        return longitude;
-    }
-
 }

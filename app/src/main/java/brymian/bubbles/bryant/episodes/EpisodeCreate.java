@@ -2,9 +2,7 @@ package brymian.bubbles.bryant.episodes;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,7 +11,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -25,10 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,12 +29,9 @@ import java.util.Date;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.addLocation.AddLocation;
-import brymian.bubbles.bryant.episodes.addfriends.EpisodeAddFriends;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 
 public class EpisodeCreate extends AppCompatActivity implements View.OnClickListener{
@@ -54,11 +44,10 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     String endYear, endMonth, endDayOfMonth, endHourOfDay, endMinute, endSecond;
     TextView tvAddLocation, tvLocationAddress;
     TextView tvStartDate, tvStartTime, tvEndDate, tvEndTime;
-    ImageView ivEpisodeImage, ivClearLocation;
+    ImageView ivClearLocation;
     FloatingActionButton fabDone;
     double latitude;
     double longitude;
-    public int uiid, eid;
 
     long calendarStartInMillis, calendarEndInMillis;
     boolean isStartDateSelected = false, isEndDateSelected = false, isEndTimeChanged = false;
@@ -673,32 +662,8 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         return  getHourSimple(String.valueOf(endHourOfDay)) + ":" + endMinute + " " + amPM;
     }
 
-    public String BitMapToString(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-        byte[] b = baos.toByteArray();
-        return Base64.encodeToString(b, Base64.DEFAULT);
-    }
-
-    private String imageName(){
-        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
-        return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
-    }
-
     private String getEpisodeTitle(){
         this.episodeTitle = etEpisodeTitle.getText().toString();
         return episodeTitle;
-    }
-
-    private void setUiid(int uiid){
-        this.uiid = uiid;
-    }
-
-    private int getUiid(){
-        return this.uiid;
-    }
-
-    private int getEid(){
-        return this.eid;
     }
 }
