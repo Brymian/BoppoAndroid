@@ -7,7 +7,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +54,6 @@ public class Email extends Fragment{
                     new ServerRequestMethods(getActivity()).changeEmail(SaveSharedPreference.getUserUID(getActivity()), tietEmail.getText().toString(), new StringCallback() {
                         @Override
                         public void done(String string) {
-                            Log.e("changeEmail", string);
                             if(string.contains("successfully")){
                                 tvSuccess.setVisibility(View.VISIBLE);
                                 SaveSharedPreference.clearEmail(getActivity());
