@@ -18,6 +18,7 @@ public class SaveSharedPreference {
     private static final String PREF_NOTIFICATIONS_LED_LIGHT = "led light";
     private static final String PREF_NOTIFICATIONS_SOUND = "sound";
     private static final String PREF_USER_PROFILE_IMAGE_PATH = "userProfileImagePath";
+    private static final String PREF_USER_PHONE_NUMBER = "phone number";
 
     private static final String PREF_CAMERA_FLASH_ON = "flash on";
     private static final String PREF_CAMERA_FRONT_CAMERA = "front camera";
@@ -61,6 +62,22 @@ public class SaveSharedPreference {
     }
     /**------------------------------------------------------------------------------------------**/
 
+    /**-------------------------------------Phone number ----------------------------------------**/
+    public static void setUserPhoneNumber(Context ctx, String phoneNumber){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.putString(PREF_USER_PHONE_NUMBER, phoneNumber);
+        editor.apply();
+    }
+
+    public static String getUserPhoneNumber(Context ctx){
+        return getSharedPreferences(ctx).getString(PREF_USER_PHONE_NUMBER, "");
+    }
+
+    public static void clearUserPhoneNumber(Context ctx){
+        SharedPreferences.Editor editor = getSharedPreferences(ctx).edit();
+        editor.remove(PREF_USER_PHONE_NUMBER);
+        editor.apply();
+    }
     /**------------------------------------First/Last name---------------------------------------**/
     /* First name */
     public static void setUserFirstName(Context ctx, String firstName)

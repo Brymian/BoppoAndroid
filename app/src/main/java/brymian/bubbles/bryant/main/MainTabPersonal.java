@@ -26,8 +26,8 @@ import java.util.List;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Password;
+import brymian.bubbles.bryant.account.PhoneNumber;
 import brymian.bubbles.bryant.episodes.EpisodeMy;
-import brymian.bubbles.bryant.episodes.EpisodeMyAttending;
 import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
@@ -100,6 +100,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvEmail = (TextView) rootView.findViewById(R.id.tvEmail);
 
         cvPhoneNumber = (CardView) rootView.findViewById(R.id.cvPhoneNumber);
+        cvPhoneNumber.setOnClickListener(this);
         tvPhoneNumber = (TextView) rootView.findViewById(R.id.tvPhoneNumber);
 
         cvSyncWithOtherMedia = (CardView) rootView.findViewById(R.id.cvSyncWithOtherMedia);
@@ -185,7 +186,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.cvPhoneNumber:
-
+                startFragment(new PhoneNumber());
                 break;
 
             case R.id.cvSyncWithOtherMedia:

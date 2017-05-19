@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SaveSharedPreference.setUserFirstName(LoginActivity.this, user.getFirstName());
                     SaveSharedPreference.setUserLastName(LoginActivity.this, user.getLastName());
                     SaveSharedPreference.setEmail(LoginActivity.this, user.getEmail());
+                    SaveSharedPreference.setUserPhoneNumber(LoginActivity.this, user.getPhone());
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     finish();

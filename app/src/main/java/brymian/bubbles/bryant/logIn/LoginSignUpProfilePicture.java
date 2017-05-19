@@ -137,6 +137,7 @@ public class LoginSignUpProfilePicture extends Fragment implements View.OnClickL
                             SaveSharedPreference.setUserFirstName(getActivity(), user.getFirstName());
                             SaveSharedPreference.setUserLastName(getActivity(), user.getLastName());
                             SaveSharedPreference.setEmail(getActivity(), user.getEmail());
+                            SaveSharedPreference.setUserPhoneNumber(getActivity(), user.getPhone());
 
                             startActivity(new Intent(getActivity(), MainActivity.class));
                             getActivity().finish();
