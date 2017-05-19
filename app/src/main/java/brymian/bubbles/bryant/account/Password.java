@@ -60,6 +60,8 @@ public class Password extends Fragment{
                         @Override
                         public void done(String string) {
                             if (string.contains("successfully")){
+                                SaveSharedPreference.clearUserPassword(getActivity());
+                                SaveSharedPreference.setUserPassword(getActivity(), tietConfirmNewPassword.getText().toString());
                                 tvSuccess.setVisibility(View.VISIBLE);
                             }
                         }

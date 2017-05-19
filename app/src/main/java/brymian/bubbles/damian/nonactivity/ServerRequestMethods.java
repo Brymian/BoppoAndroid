@@ -51,7 +51,7 @@ public class ServerRequestMethods {
 
     public void changePassword(int uid, String newPassword, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new ChangePassword(uid, newPassword, stringCallback).execute();
     }
 
@@ -221,7 +221,7 @@ public class ServerRequestMethods {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
             //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
