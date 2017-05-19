@@ -27,6 +27,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.episodes.EpisodeMy;
+import brymian.bubbles.bryant.episodes.EpisodeMyAttending;
 import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
@@ -180,7 +181,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.cvEmail:
-                startActivity(new Intent(getActivity(), Email.class));
+                startFragment(new Email());
                 break;
 
             case R.id.cvPhoneNumber:

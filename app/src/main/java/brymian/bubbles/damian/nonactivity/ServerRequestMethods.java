@@ -46,7 +46,6 @@ public class ServerRequestMethods {
 
     public void changeEmail(int uid, String newEmail, StringCallback stringCallback)
     {
-        pd.show();
         new ChangeEmail(uid, newEmail, stringCallback).execute();
     }
 
@@ -177,7 +176,7 @@ public class ServerRequestMethods {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
             //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
