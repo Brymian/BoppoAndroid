@@ -28,7 +28,7 @@ import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.account.PhoneNumber;
 import brymian.bubbles.bryant.episodes.EpisodeMy;
-import brymian.bubbles.bryant.friends.FriendsActivity;
+import brymian.bubbles.bryant.friends.Friends;
 import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
@@ -159,7 +159,12 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.cvFriends:
-                startActivity(new Intent(getActivity(), FriendsActivity.class).putExtra("profile", "logged in user").putExtra("uid", SaveSharedPreference.getUserUID(getActivity())));
+                Friends friends = new Friends();
+                Bundle bundle = new Bundle();
+                bundle.putInt("uid", SaveSharedPreference.getUserUID(getActivity()));
+                bundle.putString("from", "maintab");
+                friends.setArguments(bundle);
+                startFragment(friends);
                 break;
             /* Settings */
             case R.id.cvNotifications:

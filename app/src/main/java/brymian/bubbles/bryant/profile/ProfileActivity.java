@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,9 +36,9 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeMyRecyclerAdapter;
+import brymian.bubbles.bryant.friends.Friends;
 import brymian.bubbles.bryant.friends.FriendsRecyclerAdapter;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.friends.FriendsActivity;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
@@ -198,12 +200,24 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.tvSeeAllFriends:
-                startActivity(new Intent(this, FriendsActivity.class).putExtra("uid", getUID()));
+                Friends friends = new Friends();
+                Bundle bundle = new Bundle();
+                bundle.putInt("uid", getUID());
+                bundle.putString("from", "profile");
+                friends.setArguments(bundle);
+                startFragment(friends);
                 break;
             case R.id.tvReportUser:
                 Toast.makeText(this, "Report under construction", Toast.LENGTH_SHORT).show();
                 break;
         }
+    }
+
+    private void startFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.profile_activity, fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
     private void popUpMenu(){

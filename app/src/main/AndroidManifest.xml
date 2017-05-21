@@ -63,10 +63,8 @@
         <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.episodes.addfriends.EpisodeAddFriends" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeParticipants" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.map.MapActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.friends.FriendsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.sendTo.SendTo" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait"/>
@@ -78,12 +76,9 @@
         <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.settings.blocking.Blocking" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.settings.Privacy" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.account.Password" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.account.Email" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEdit" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEditViewImage" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.cropImage.CropImageActivity" android:screenOrientation="portrait" />        <!-- END OF PROFILE CLASSES -->
-        <activity android:name=".bryant.episodes.EpisodeEdit" android:screenOrientation="portrait"/>
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
