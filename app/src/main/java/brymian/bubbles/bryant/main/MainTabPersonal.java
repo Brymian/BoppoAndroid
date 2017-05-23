@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -288,22 +289,22 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View alertLayout = inflater.inflate(R.layout.main_tab_personal_logout_alertdialog, null);
 
-        TextView tvCancel = (TextView) alertLayout.findViewById(R.id.tvCancel);
-        TextView tvYes = (TextView) alertLayout.findViewById(R.id.tvYes);
+        Button bCancel = (Button) alertLayout.findViewById(R.id.bCancel);
+        Button bYes = (Button) alertLayout.findViewById(R.id.bYes);
 
         AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
         alert.setView(alertLayout);
 
         final AlertDialog dialog = alert.create();
 
-        tvCancel.setOnClickListener(new View.OnClickListener() {
+        bCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
             }
         });
 
-        tvYes.setOnClickListener(new View.OnClickListener() {
+        bYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
