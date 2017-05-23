@@ -17,29 +17,66 @@ import java.util.List;
 import brymian.bubbles.R;
 
 
-public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<EpisodeMyRecyclerAdapter.RecyclerViewHolder> {
+public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private Activity activity;
+    private String orientation;
     private List<String> episodeTitle;
     private List<String> episodeImagePath;
-    private  List<Integer> episodeEid;
+    private List<Integer> episodeEid;
+    private List<String> episodeType;
+    private List<String> episodeHostUsername;
+    private List<String> episodeViews;
+    private List<String> episodeLocation;
+    private int TYPE_VERTICAL = 1;
+    private int TYPE_HORIZONTAL = 2;
 
-    public EpisodeMyRecyclerAdapter(Activity activity, List<String> episodeTitle, List<String> episodeImagePath, List<Integer> episodeEid){
+    public EpisodeMyRecyclerAdapter(Activity activity, String orientation, List<String> episodeTitle, List<String> episodeImagePath, List<Integer> episodeEid, List<String> episodeType){
         this.activity = activity;
+        this.orientation = orientation;
         this.episodeTitle = episodeTitle;
         this.episodeImagePath = episodeImagePath;
         this.episodeEid = episodeEid;
+        this.episodeType = episodeType;
+    }
+
+    public EpisodeMyRecyclerAdapter(Activity activity, String orientation, List<String> episodeTitle, List<String> episodeImagePath, List<Integer> episodeEid, List<String> episodeType, List<String> episodeHostUsername, List<String> episodeViews, List<String> episodeLocation){
+        this.activity = activity;
+        this.orientation = orientation;
+        this.episodeTitle = episodeTitle;
+        this.episodeImagePath = episodeImagePath;
+        this.episodeEid = episodeEid;
+        this.episodeType = episodeType;
+        this.episodeHostUsername = episodeHostUsername;
+        this.episodeViews = episodeViews;
+        this.episodeLocation = episodeLocation;
     }
 
     @Override
-    public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.episode_my_recyclerview_row,parent, false );
-        return new RecyclerViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_VERTICAL){
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.episode_my_recyclerview_row_vertical,parent, false );
+            return new VerticalHolder(view);
+        }
+        else if (viewType == TYPE_HORIZONTAL){
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.episode_my_recyclerview_row_horizontal, parent, false);
+            return new HorizontalHolder(view);
+        }
+        return new RecyclerViewHolder(new View(parent.getContext()));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-        holder.tvEpisodeTitle.setText(episodeTitle.get(position));
-        Picasso.with(activity).load(episodeImagePath.get(position)).fit().centerCrop().into(holder.ivEpisodeImage);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == TYPE_VERTICAL){
+            Picasso.with(activity).load(episodeImagePath.get(position)).into(((VerticalHolder)holder).ivEpisodeImage);
+            ((VerticalHolder)holder).tvEpisodeTitle.setText(episodeTitle.get(position));
+            ((VerticalHolder)holder).tvEpisodeHostUsername.setText(episodeHostUsername.get(position));
+            ((VerticalHolder)holder).tvEpisodeViews.setText(episodeViews.get(position));
+            ((VerticalHolder)holder).tvEpisodeLocation.setText(episodeLocation.get(position));
+        }
+        else if (holder.getItemViewType() == TYPE_HORIZONTAL){
+            Picasso.with(activity).load(episodeImagePath.get(position)).into(((HorizontalHolder)holder).ivEpisodeImage);
+            ((HorizontalHolder)holder).tvEpisodeTitle.setText(episodeTitle.get(position));
+        }
     }
 
     @Override
@@ -47,21 +84,63 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<EpisodeMyRecy
         return episodeTitle.size();
     }
 
-    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
-        TextView tvEpisodeTitle;
-        CardView cardView;
+    @Override
+    public int getItemViewType(int position) {
+        if (orientation.equals("vertical")){
+            return TYPE_VERTICAL;
+        }
+        else if (orientation.equals("horizontal")){
+            return TYPE_HORIZONTAL;
+        }
+        return 0;
+    }
+
+    private class VerticalHolder extends RecyclerView.ViewHolder{
         ImageView ivEpisodeImage;
-        public RecyclerViewHolder(View v){
+        TextView tvEpisodeTitle, tvEpisodeHostUsername, tvEpisodeViews, tvEpisodeLocation;
+        CardView cardView;
+
+        public VerticalHolder(View v){
             super(v);
-            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
             ivEpisodeImage = (ImageView) v.findViewById(R.id.ivEpisodeImage);
+            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            tvEpisodeHostUsername = (TextView) v.findViewById(R.id.tvEpisodeHostUsername);
+            tvEpisodeViews = (TextView) v.findViewById(R.id.tvEpisodeViews);
+            tvEpisodeLocation = (TextView) v.findViewById(R.id.tvEpisodeLocation);
             cardView = (CardView) v.findViewById(R.id.card_view);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View view) {
+                public void onClick(View v) {
                     activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
                 }
             });
+        }
+    }
+
+    private class HorizontalHolder extends RecyclerView.ViewHolder{
+        ImageView ivEpisodeImage;
+        TextView tvEpisodeTitle;
+        CardView cardView;
+
+        public HorizontalHolder(View v){
+            super(v);
+            ivEpisodeImage = (ImageView) v.findViewById(R.id.ivEpisodeImage);
+            tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
+            cardView = (CardView) v.findViewById(R.id.card_view);
+            cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, EpisodeActivity.class).putExtra("eid", episodeEid.get(getAdapterPosition())));
+                }
+            });
+        }
+    }
+
+    public  class RecyclerViewHolder extends RecyclerView.ViewHolder{
+
+        public RecyclerViewHolder(View v){
+            super(v);
+
         }
     }
 }

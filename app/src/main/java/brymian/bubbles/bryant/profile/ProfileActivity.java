@@ -35,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.episodes.EpisodeMy2;
 import brymian.bubbles.bryant.episodes.EpisodeMyRecyclerAdapter;
 import brymian.bubbles.bryant.friends.Friends;
 import brymian.bubbles.bryant.friends.FriendsRecyclerAdapter;
@@ -197,6 +198,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                         Toast.makeText(ProfileActivity.this, string, Toast.LENGTH_SHORT).show();
                     }
                 });
+                break;
+
+            case R.id.tvSeeAllEpisodes:
+                EpisodeMy2 episodeMy2 = new EpisodeMy2();
+                Bundle b = new Bundle();
+                b.putInt("uid", getUID());
+                b.putString("from", "profile");
+                episodeMy2.setArguments(b);
+                startFragment(episodeMy2);
                 break;
 
             case R.id.tvSeeAllFriends:
@@ -404,7 +414,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                 episodeType.add(type);
                                 episodeImagePath.add(imagePath);
                             }
-                            adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, episodeName, episodeImagePath, episodeEid);
+                            adapter = new EpisodeMyRecyclerAdapter(ProfileActivity.this, "horizontal", episodeName, episodeImagePath, episodeEid, episodeType);
                             layoutManager = new LinearLayoutManager(ProfileActivity.this, LinearLayoutManager.HORIZONTAL, false);
                             rvEpisodes.setLayoutManager(layoutManager);
                             rvEpisodes.setNestedScrollingEnabled(false);

@@ -27,7 +27,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.Email;
 import brymian.bubbles.bryant.account.Password;
 import brymian.bubbles.bryant.account.PhoneNumber;
-import brymian.bubbles.bryant.episodes.EpisodeMy;
+import brymian.bubbles.bryant.episodes.EpisodeMy2;
 import brymian.bubbles.bryant.friends.Friends;
 import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
@@ -147,7 +147,12 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.cvMyEpisodes:
-                startActivity(new Intent(getActivity(), EpisodeMy.class));
+                EpisodeMy2 episodeMy2 = new EpisodeMy2();
+                Bundle b = new Bundle();
+                b.putInt("uid", SaveSharedPreference.getUserUID(getActivity()));
+                b.putString("from", "maintab");
+                episodeMy2.setArguments(b);
+                startFragment(episodeMy2);
                 break;
 
             case R.id.cvMyMap:
