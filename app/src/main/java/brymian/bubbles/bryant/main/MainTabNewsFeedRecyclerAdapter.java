@@ -3,7 +3,6 @@ package brymian.bubbles.bryant.main;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -227,20 +226,20 @@ public class MainTabNewsFeedRecyclerAdapter extends RecyclerView.Adapter<Recycle
         public UploadImageHolder(View v){
             super(v);
             tvUserUsername = (TextView) v.findViewById(R.id.tvUserUsername);
-            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
-            ivUploadedImage = (ImageView) v.findViewById(R.id.ivUploadedImage);
-            ivUploadedImage.setOnClickListener(new View.OnClickListener() {
+            tvUserUsername.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MainTabNewsFeedViewImage viewImage = new MainTabNewsFeedViewImage();
-                    activity.getFragmentManager()
-                            .beginTransaction()
-                            .addSharedElement(ivUploadedImage, ViewCompat.getTransitionName(ivUploadedImage))
-                            .addToBackStack("ok")
-                            .replace(R.id.main_activity, viewImage)
-                            .commit();
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid()));
                 }
             });
+            ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
+            ivUserProfileImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    activity.startActivity(new Intent(activity, ProfileActivity.class).putExtra("uid", mainTabNewsFeedInfoList.get(getAdapterPosition()).getUid()));
+                }
+            });
+            ivUploadedImage = (ImageView) v.findViewById(R.id.ivUploadedImage);
         }
     }
 

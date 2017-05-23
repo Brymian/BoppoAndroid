@@ -7,5 +7,6 @@
     <dimen name="halfContentPadding">8dp</dimen>
     <dimen name="quarterContentPadding">4dp</dimen>
     <dimen name="smallTextSize">12sp</dimen>
+    <dimen name="userImageSize">48dp</dimen>
 
 </resources>

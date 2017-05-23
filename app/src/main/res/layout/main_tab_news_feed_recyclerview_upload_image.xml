@@ -6,42 +6,36 @@
     android:layout_gravity="center"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="1dp"
     card_view:cardElevation="0dp"
     card_view:cardBackgroundColor="@android:color/white"
     card_view:cardCornerRadius="0dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="@dimen/contentPadding"
         android:orientation="vertical"
         android:gravity="center_vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingBottom="10dp"
+            android:layout_margin="@dimen/halfContentPadding"
             android:orientation="horizontal"
             android:gravity="center_vertical">
             <ImageView
                 android:id="@+id/ivUserProfileImage"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"/>
+                android:layout_width="@dimen/userImageSize"
+                android:layout_height="@dimen/userImageSize"
+                android:layout_marginRight="@dimen/contentPadding"/>
             <TextView
                 android:id="@+id/tvUserUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textAppearance="@android:style/TextAppearance.Small"
                 android:textStyle="bold"/>
         </LinearLayout>
-
         <ImageView
             android:id="@+id/ivUploadedImage"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:transitionName="news_feed_view_image"/>
+            android:layout_height="300dp"/>
     </LinearLayout>
 </android.support.v7.widget.CardView>
