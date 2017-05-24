@@ -8,7 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -16,18 +19,20 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.episodes.EpisodeActivity;
 
 
-public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesAllTimeMostViewsRecyclerAdapter.RecyclerViewHolder> {
-    private static Activity activity;
-    private static List<String> episodeTitle;
+public class MainTabEpisodesRecyclerAdapter extends RecyclerView.Adapter<MainTabEpisodesRecyclerAdapter.RecyclerViewHolder> {
+    private Activity activity;
+    private List<String> episodeTitle;
+    private List<String> episodeImagePath;
     private List<String> episodeHostUsername;
-    private static List<Integer> episodeEid;
-    private  List<String> episodeNum;
+    private List<Integer> episodeEid;
+    private List<String> episodeNum;
 
-    public MainTabEpisodesAllTimeMostViewsRecyclerAdapter(Activity activity, List<Integer> episodeEid, List<String> episodeTitle, List<String> episodeHostUsername, List<String> episodeNum){
-        MainTabEpisodesAllTimeMostViewsRecyclerAdapter.activity = activity;
-        MainTabEpisodesAllTimeMostViewsRecyclerAdapter.episodeTitle = episodeTitle;
+    public MainTabEpisodesRecyclerAdapter(Activity activity, List<Integer> episodeEid, List<String> episodeTitle, List<String> episodeImagePath, List<String> episodeHostUsername, List<String> episodeNum){
+        this.activity = activity;
+        this.episodeTitle = episodeTitle;
+        this.episodeImagePath = episodeImagePath;
         this.episodeHostUsername = episodeHostUsername;
-        MainTabEpisodesAllTimeMostViewsRecyclerAdapter.episodeEid = episodeEid;
+        this.episodeEid = episodeEid;
         this.episodeNum = episodeNum;
     }
 
@@ -39,6 +44,7 @@ public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView
 
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
+        Picasso.with(activity).load(episodeImagePath.get(position)).into(holder.ivEpisodeImage);
         holder.tvEpisodeTitle.setText(episodeTitle.get(position));
         holder.tvEpisodeHostUsername.setText("By "+episodeHostUsername.get(position));
         holder.tvEpisodeNum.setText(episodeNum.get(position));
@@ -49,14 +55,16 @@ public class MainTabEpisodesAllTimeMostViewsRecyclerAdapter extends RecyclerView
         return episodeTitle.size();
     }
 
-    public static class RecyclerViewHolder extends RecyclerView.ViewHolder{
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder{
         TextView tvEpisodeTitle, tvEpisodeHostUsername, tvEpisodeNum;
+        ImageView ivEpisodeImage;
         CardView cardView;
         public RecyclerViewHolder(View v){
             super(v);
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
             tvEpisodeHostUsername = (TextView) v.findViewById(R.id.tvEpisodeHostUsername);
             tvEpisodeNum = (TextView) v.findViewById(R.id.tvEpisodeNum);
+            ivEpisodeImage =(ImageView) v.findViewById(R.id.ivEpisodeImage);
             cardView = (CardView) v.findViewById(R.id.card_view);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
