@@ -105,7 +105,6 @@ public class Friends extends Fragment{
         if (uid == SaveSharedPreference.getUserUID(getActivity())){
             String username = SaveSharedPreference.getUsername(getActivity());
             toolbar.setTitle(username + "'s Friends");
-            //tietSearchFriends.setHint("Search " + username + "'s friends");
             tilSearchFriends.setHint("Search " + username + "'s friends");
 
         }
@@ -113,7 +112,6 @@ public class Friends extends Fragment{
             @Override
             public void done(User user) {
                 toolbar.setTitle(user.getUsername() + "'s Friends");
-                //tietSearchFriends.setHint("Search " + user.getUsername() + "'s friends");
                 tilSearchFriends.setHint("Search " + user.getUsername() + "'s friends");
             }
         });
@@ -182,7 +180,7 @@ public class Friends extends Fragment{
         List<String> resultsFullName = new ArrayList<>();
         List<String> resultsUserImagePath = new ArrayList<>();
         for (int i = 0; i < searchFriendsUsername.size(); i++){
-            if (searchFriendsUsername.get(i).toLowerCase().contains(s) || searchFriendsFullName.get(i).toLowerCase().contains(s)){
+            if (searchFriendsUsername.get(i).toLowerCase().contains(s.toLowerCase()) || searchFriendsFullName.get(i).toLowerCase().contains(s.toLowerCase())){
                 resultsUid.add(searchFriendsUid.get(i));
                 resultsUsername.add(searchFriendsUsername.get(i));
                 resultsFullName.add(searchFriendsFullName.get(i));
