@@ -1,5 +1,6 @@
 package brymian.bubbles.bryant.episodes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -69,6 +71,20 @@ public class EpisodeMy2 extends Fragment {
 
         tilSearchEpisodes = (TextInputLayout) view.findViewById(R.id.tilSearchEpisodes);
         tietSearchEpisodes = (TextInputEditText) view.findViewById(R.id.tietSearchEpisodes);
+        tietSearchEpisodes.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    View view = getActivity().getCurrentFocus();
+                    if (view != null) {
+                        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
         tietSearchEpisodes.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

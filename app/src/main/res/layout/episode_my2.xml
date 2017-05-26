@@ -47,6 +47,7 @@
                         android:id="@+id/tietSearchEpisodes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:imeOptions="actionSearch"
                         android:singleLine="true"
                         android:maxLines="1"/>
                 </android.support.design.widget.TextInputLayout>
