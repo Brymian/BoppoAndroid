@@ -51,6 +51,8 @@ public class Blocking extends AppCompatActivity {
     }
 
     private void getFriends(){
+        /** BRYANT, UPDATE THIS **/
+        /*
         new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Blocked", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -66,6 +68,7 @@ public class Blocking extends AppCompatActivity {
                 rvBlockedUsers.setAdapter(adapter);
             }
         });
+        */
     }
 
 }

@@ -40,6 +40,8 @@ public class FriendRequestSent extends Fragment{
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_friend_request_sent);
 
+        /** BRYANT, UPDATE THIS **/
+        /*
         new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(getActivity()), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -58,6 +60,7 @@ public class FriendRequestSent extends Fragment{
 
             }
         });
+        */
         return rootView;
     }
 }

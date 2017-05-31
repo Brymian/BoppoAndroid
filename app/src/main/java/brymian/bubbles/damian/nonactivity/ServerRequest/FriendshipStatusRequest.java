@@ -16,6 +16,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.objects.User;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
@@ -31,15 +32,15 @@ public class FriendshipStatusRequest {
     }
 
     public void getFriendshipStatusRequestSentUsers(Integer uid1, String userRelationshipTypeLabel,
-        UserListCallback userListCallback)
+                                                    StringCallback stringCallback)
     {
-        new GetFriendshipStatusRequestSentUsers(uid1, userRelationshipTypeLabel, userListCallback).execute();
+        new GetFriendshipStatusRequestSentUsers(uid1, userRelationshipTypeLabel, stringCallback).execute();
     }
 
     public void getFriendshipStatusRequestReceivedUsers(Integer uid2, String userRelationshipTypeLabel,
-        UserListCallback userListCallback)
+        StringCallback stringCallback)
     {
-        new GetFriendshipStatusRequestReceivedUsers(uid2, userRelationshipTypeLabel, userListCallback).execute();
+        new GetFriendshipStatusRequestReceivedUsers(uid2, userRelationshipTypeLabel, stringCallback).execute();
     }
 
     public void blockUser(Integer uid1, Integer uid2, StringCallback stringCallback)
@@ -67,22 +68,22 @@ public class FriendshipStatusRequest {
         new UnFriend(uid1, uid2, stringCallback).execute();
     }
 
-    private class GetFriendshipStatusRequestSentUsers extends AsyncTask<Void, Void, List<User>> {
+    private class GetFriendshipStatusRequestSentUsers extends AsyncTask<Void, Void, String> {
 
         Integer uid1;
         String userRelationshipTypeLabel;
-        UserListCallback userListCallback;
+        StringCallback stringCallback;
 
         private GetFriendshipStatusRequestSentUsers(Integer uid1, String userRelationshipTypeLabel,
-            UserListCallback userListCallback)
+            StringCallback stringCallback)
         {
             this.uid1 = uid1;
             this.userRelationshipTypeLabel = userRelationshipTypeLabel;
-            this.userListCallback = userListCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected List<User> doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
                 "AndroidIO/FriendshipStatusRequest.php?function=getFriendshipStatusRequestSentUsers";
 
@@ -97,29 +98,7 @@ public class FriendshipStatusRequest {
                 String jsonEventString = jsonUserRelationshipObject.toString();
                 String response = request.post(url, jsonEventString);
 
-                JSONArray jUserArray = new JSONArray(response);
-
-                List<User> users = new ArrayList<>();
-                for (int i = 0; i < jUserArray.length(); i++)
-                {
-                    JSONObject jUser = jUserArray.getJSONObject(i);
-                    User user = new User();
-                    user.setUser(
-                        getIntegerObjectFromObject(jUser.get("uid")),
-                        null,
-                        null,
-                        jUser.getString("username"),
-                        null,
-                        jUser.getString("firstName"),
-                        jUser.getString("lastName"),
-                        null,
-                        null,
-                        null,
-                        null
-                    );
-                    users.add(user);
-                }
-                return users;
+                return convertPathsToFull(response);
             }
             catch (IOException ioe)
             {
@@ -134,31 +113,31 @@ public class FriendshipStatusRequest {
         }
 
         @Override
-        protected void onPostExecute(List<User> users) {
-            userListCallback.done(users);
+        protected void onPostExecute(String string) {
+            stringCallback.done(string);
 
-            super.onPostExecute(users);
+            super.onPostExecute(string);
         }
     }
 
 
 
-    private class GetFriendshipStatusRequestReceivedUsers extends AsyncTask<Void, Void, List<User>> {
+    private class GetFriendshipStatusRequestReceivedUsers extends AsyncTask<Void, Void, String> {
 
         Integer uid2;
         String userRelationshipTypeLabel;
-        UserListCallback userListCallback;
+        StringCallback stringCallback;
 
         private GetFriendshipStatusRequestReceivedUsers(Integer uid2, String userRelationshipTypeLabel,
-            UserListCallback userListCallback)
+            StringCallback stringCallback)
         {
             this.uid2 = uid2;
             this.userRelationshipTypeLabel = userRelationshipTypeLabel;
-            this.userListCallback = userListCallback;
+            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected List<User> doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
                 "AndroidIO/FriendshipStatusRequest.php?function=getFriendshipStatusRequestReceivedUsers";
 
@@ -172,31 +151,8 @@ public class FriendshipStatusRequest {
 
                 String jsonEventString = jsonEventObject.toString();
                 String response = request.post(url, jsonEventString);
-                System.out.println("THE RESPONSE: " + response);
 
-                JSONArray jUserArray = new JSONArray(response);
-
-                List<User> users = new ArrayList<>();
-                for (int i = 0; i < jUserArray.length(); i++)
-                {
-                    JSONObject jUser = jUserArray.getJSONObject(i);
-                    User user = new User();
-                    user.setUser(
-                        getIntegerObjectFromObject(jUser.get("uid")),
-                        null,
-                        null,
-                        jUser.getString("username"),
-                        null,
-                        jUser.getString("firstName"),
-                        jUser.getString("lastName"),
-                        null,
-                        null,
-                        null,
-                        null
-                    );
-                    users.add(user);
-                }
-                return users;
+                return convertPathsToFull(response);
             }
             catch (IOException ioe)
             {
@@ -211,10 +167,10 @@ public class FriendshipStatusRequest {
         }
 
         @Override
-        protected void onPostExecute(List<User> users) {
-            userListCallback.done(users);
+        protected void onPostExecute(String string) {
+            stringCallback.done(string);
 
-            super.onPostExecute(users);
+            super.onPostExecute(string);
         }
     }
 

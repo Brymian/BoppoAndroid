@@ -235,6 +235,8 @@ public class PhoneNumber extends Fragment {
     }
 
     private void addPhoneNumberToDB(){
+        /** BRYANT, UPDATE THIS **/
+        /*
         new UserRequest(getActivity()).setUser(SaveSharedPreference.getUserUID(getActivity()), null, null, null, tietPhoneNumber.getText().toString(), null,
                 new StringCallback() {
                     @Override
@@ -242,6 +244,7 @@ public class PhoneNumber extends Fragment {
                         Log.e("sfas", string);
                     }
                 });
+        */
     }
 
     private void setDelivered(boolean delivered){

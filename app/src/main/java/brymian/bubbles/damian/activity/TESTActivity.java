@@ -19,6 +19,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallba
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
@@ -249,14 +250,25 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new UserRequest(this).setUser(3, null, null, null, "987-654-3210", "Public", new StringCallback() {
-            @Override
-            public void done(String string) {
-                System.out.println(string);
-            }
-        });
 
+        try {
+            new UserRequest(this).setUser(
+                1, "Damian", "Niedzielski", null, "987-654-3210", "Public",
+                new Boolean[]{null, true, true, false, false, false}, new StringCallback()
+            {
+                @Override
+                public void done(String string) {
+                    System.out.println(string);
+                }
+            });
+        }
+        catch (SetOrNotException sone)
+        {
+            sone.printStackTrace();
+            // Do something here, if need to handle this
+        }
+
+        /*
         new ServerRequestMethods(this).getUserData(3, new UserCallback() {
             @Override
             public void done(User user) {
@@ -407,37 +419,20 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestSentUsers(3, "Blocked", new UserListCallback() {
-            @Override
-            public void done(List<User> users) {
-                System.out.println("TOTAL NUMBER OF USERS TO WHOM UID 1 SENT A REQUEST: " + users.size());
 
-                for (User user : users) {
-                    System.out.println("User #" + users.indexOf(user));
-                    System.out.println("UID: " + user.getUid());
-                    System.out.println("Username: " + user.getUsername());
-                    System.out.println("First Name: " + user.getFirstName());
-                    System.out.println("Last Name: " + user.getLastName());
-                }
-                System.out.println();
+        /* // Works as of 2017-05-30
+        new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(11, "Friendship Pending", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println(string);
             }
         });
         */
-        /*
-        new FriendshipStatusRequest(this).getFriendshipStatusRequestReceivedUsers(1, "Friendship Pending", new UserListCallback() {
+        /* // Works as of 2017-05-30
+        new FriendshipStatusRequest().getFriendshipStatusRequestReceivedUsers(1, "Friendship Pending", new StringCallback() {
             @Override
-            public void done(List<User> users) {
-                System.out.println("TOTAL NUMBER OF USERS FROM WHOM UID 2 RECEIVED A REQUEST: " + users.size());
-
-                for (User user : users) {
-                    System.out.println("User #" + users.indexOf(user));
-                    System.out.println("UID: " + user.getUid());
-                    System.out.println("Username: " + user.getUsername());
-                    System.out.println("First Name: " + user.getFirstName());
-                    System.out.println("Last Name: " + user.getLastName());
-                }
-                System.out.println();
+            public void done(String string) {
+                System.out.println(string);
             }
         });
         */
@@ -640,6 +635,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /*
         try
         {
             new EventRequest(this).updateEvent(4, null, null, "Private", "Friends", null, null, null,
@@ -660,6 +656,7 @@ public class TESTActivity extends Activity {
             sone.printStackTrace();
             // Do something here, if need to handle this
         }
+        */
 
         /*
         new UserImageRequest(this).getImageProfileMaxAmount(new IntegerCallback() {

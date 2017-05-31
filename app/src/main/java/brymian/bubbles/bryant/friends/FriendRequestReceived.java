@@ -40,6 +40,8 @@ public class FriendRequestReceived extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView_friend_request_received);
+        /** BRYANT, UPDATE THIS **/
+        /*
         new FriendshipStatusRequest().getFriendshipStatusRequestReceivedUsers(SaveSharedPreference.getUserUID(getActivity()), "Friendship Pending", new UserListCallback() {
             @Override
             public void done(List<User> users) {
@@ -63,6 +65,7 @@ public class FriendRequestReceived extends Fragment {
                 }
             }
         });
+        */
         return rootView;
     }
 }

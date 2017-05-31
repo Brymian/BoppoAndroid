@@ -162,14 +162,14 @@ public class EventRequest {
         Boolean eventImageUploadAllowedIndicator, String eventDescriptionText,
         String eventStartDatetime, String eventEndDatetime,
         Double eventGpsLatitude, Double eventGpsLongitude,
-        Boolean[] setOrNot, StringCallback objectCallback) throws SetOrNotException
+        Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
     {
         pd.show();
         new UpdateEvent(eid, eventHostUid, eventName, eventPrivacyLabel, eventInviteTypeLabel,
             eventImageUploadAllowedIndicator, eventCategoryLabel, eventTypeLabel,
             eventDescriptionText, eventStartDatetime, eventEndDatetime,
             eventGpsLatitude, eventGpsLongitude,
-            setOrNot, objectCallback).execute();
+            setOrNot, stringCallback).execute();
     }
 
     public void deleteEvent(int eid, StringCallback stringCallback)

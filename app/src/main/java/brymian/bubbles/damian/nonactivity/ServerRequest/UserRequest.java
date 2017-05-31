@@ -8,8 +8,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.Post;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
@@ -32,11 +35,12 @@ public class UserRequest {
 
 
     public void setUser(Integer uid, String first_name, String last_name, String email,
-        String phone, String user_account_privacy_label, StringCallback stringCallback)
+        String phone, String user_account_privacy_label,
+        Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
     {
         //pd.show();
         new SetUser(uid, first_name, last_name, email, phone, user_account_privacy_label,
-            stringCallback).execute();
+            setOrNot, stringCallback).execute();
     }
 
     public void getUsersSearchedByName(Integer searchedByUid, String searchedName,
@@ -62,10 +66,16 @@ public class UserRequest {
         String email;
         String phone;
         String userPrivacyLabel;
+
+        Map<String,Boolean> setOrNot = new HashMap<>();
         StringCallback stringCallback;
 
         private SetUser(Integer uid, String firstName, String lastName, String email,
-            String phone, String userPrivacyLabel, StringCallback stringCallback) {
+            String phone, String userPrivacyLabel,
+            Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
+        {
+            if (setOrNot.length != 6)
+                throw new SetOrNotException("Incorrect quantity of booleans set in the SetOrNot array.");
 
             this.uid = uid;
             this.firstName = firstName;
@@ -73,6 +83,14 @@ public class UserRequest {
             this.email = email;
             this.phone = phone;
             this.userPrivacyLabel = userPrivacyLabel;
+
+            this.setOrNot.put("uid", null);
+            this.setOrNot.put("firstName", setOrNot[1]);
+            this.setOrNot.put("lastName", setOrNot[2]);
+            this.setOrNot.put("email", setOrNot[3]);
+            this.setOrNot.put("phone", setOrNot[4]);
+            this.setOrNot.put("userPrivacyLabel", setOrNot[5]);
+
             this.stringCallback = stringCallback;
         }
 
@@ -80,7 +98,10 @@ public class UserRequest {
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() + "AndroidIO/UserRequest.php?function=setUser";
 
-            try {
+            try
+            {
+                JSONObject jsonSetOrNotObject = new JSONObject(setOrNot);
+
                 JSONObject jObject = new JSONObject();
                 jObject.put("uid", getNullOrValue(uid));
                 jObject.put("firstName", getNullOrValue(firstName));
@@ -88,6 +109,8 @@ public class UserRequest {
                 jObject.put("email", getNullOrValue(email));
                 jObject.put("phone", getNullOrValue(phone));
                 jObject.put("userPrivacyLabel", getNullOrValue(userPrivacyLabel));
+
+                jObject.put("setOrNot", jsonSetOrNotObject);
 
                 String jUser = jObject.toString();
                 Post request = new Post();
