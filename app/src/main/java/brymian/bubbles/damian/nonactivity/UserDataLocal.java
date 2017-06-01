@@ -28,6 +28,7 @@ public class UserDataLocal {
         userDataLocalEditor.putString("namefirst", user.getFirstName());
         userDataLocalEditor.putString("namelast", user.getLastName());
         userDataLocalEditor.putString("email", user.getEmail());
+        userDataLocalEditor.putString("phone", user.getPhone());
         userDataLocalEditor.putString("userInsertTimestamp", user.getUserInsertTimestamp());
         userDataLocalEditor.putString("userPrivacy", user.getUserPrivacy());
         userDataLocalEditor.commit();
