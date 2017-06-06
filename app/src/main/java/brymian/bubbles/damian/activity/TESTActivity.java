@@ -251,6 +251,7 @@ public class TESTActivity extends Activity {
         });
         */
 
+        /* // Works as of 2017-05-30
         try {
             new UserRequest(this).setUser(
                 1, "Damian", "Niedzielski", null, "987-654-3210", "Public",
@@ -267,7 +268,7 @@ public class TESTActivity extends Activity {
             sone.printStackTrace();
             // Do something here, if need to handle this
         }
-
+        */
         /*
         new ServerRequestMethods(this).getUserData(3, new UserCallback() {
             @Override
@@ -833,6 +834,14 @@ public class TESTActivity extends Activity {
             }
         });
         */
+
+        new EventRequest(this).updateEventUnparsedAddress(18, "UPS I.S Headquarters", "340 MacArthur Blvd., Mahwah NJ, 07430", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("UPDATE-EVENT-UNPARSED-ADDRESS RESULTS: ");
+                printLongString(string);
+            }
+        });
     }
 
 }
