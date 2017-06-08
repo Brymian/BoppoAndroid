@@ -282,7 +282,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         });
 
         tvEmail.setText(SaveSharedPreference.getEmail(getActivity()));
-        //tvPhoneNumber.setText();
+        tvPhoneNumber.setText(SaveSharedPreference.getUserPhoneNumber(getActivity()));
     }
 
     private void logOut() {
