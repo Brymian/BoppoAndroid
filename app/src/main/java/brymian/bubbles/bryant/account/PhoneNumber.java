@@ -30,6 +30,7 @@ import java.util.regex.Pattern;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.RegularExpressions;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
@@ -166,8 +167,10 @@ public class PhoneNumber extends Fragment {
         }
     }
 
+
+    BroadcastReceiver smsReceiver;
     private void setReceiver(){
-        BroadcastReceiver smsReceiver = new BroadcastReceiver() {
+        smsReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // code to read the incoming SMS
@@ -200,7 +203,6 @@ public class PhoneNumber extends Fragment {
                         // You'll just need the next for loop
                         for (byte aData : data) {
                             str += Character.toString((char) aData);
-
                         }
                         /*
                         //original
@@ -235,16 +237,22 @@ public class PhoneNumber extends Fragment {
     }
 
     private void addPhoneNumberToDB(){
-        /** BRYANT, UPDATE THIS **/
-        /*
-        new UserRequest(getActivity()).setUser(SaveSharedPreference.getUserUID(getActivity()), null, null, null, tietPhoneNumber.getText().toString(), null,
-                new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        Log.e("sfas", string);
+        getActivity().unregisterReceiver(smsReceiver);
+        try {
+            new UserRequest(getActivity()).setUser(SaveSharedPreference.getUserUID(getActivity()), null, null, null, tietPhoneNumber.getText().toString(), null, new Boolean[]{false, false, false, false, true, false}, new StringCallback() {
+                @Override
+                public void done(String string) {
+                    if (string.equals("User has been successfully updated.")){
+                        SaveSharedPreference.clearUserPhoneNumber(getActivity());
+                        SaveSharedPreference.setUserPhoneNumber(getActivity(), tietPhoneNumber.getText().toString());
+                        tvSuccess.setVisibility(View.VISIBLE);
                     }
-                });
-        */
+                }
+            });
+        }
+        catch (SetOrNotException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setDelivered(boolean delivered){

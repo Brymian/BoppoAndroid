@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
@@ -38,6 +39,8 @@ public class LoginSignUpPhoneNumber extends Fragment {
     FloatingActionButton fabDone;
     private boolean delivered;
     private static final String SMS_STRING = "Hello from Bryant.";
+
+    BroadcastReceiver smsReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -159,7 +162,7 @@ public class LoginSignUpPhoneNumber extends Fragment {
     }
 
     private void setReceiver(){
-        BroadcastReceiver smsReceiver = new BroadcastReceiver() {
+        smsReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 // code to read the incoming SMS
@@ -229,16 +232,21 @@ public class LoginSignUpPhoneNumber extends Fragment {
     }
 
     private void addPhoneNumberToDB(){
-        /** BRYANT, UPDATE THIS **/
-        /*
-        new UserRequest(getActivity()).setUser(SaveSharedPreference.getUserUID(getActivity()), null, null, null, etPhoneNumber.getText().toString(), null,
-                new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        Log.e("sfas", string);
+        getActivity().unregisterReceiver(smsReceiver);
+        try {
+            new UserRequest(getActivity()).setUser(SaveSharedPreference.getUserUID(getActivity()), null, null, null, etPhoneNumber.getText().toString(), null, new Boolean[]{false, false, false, false, true, false}, new StringCallback() {
+                @Override
+                public void done(String string) {
+                    if (string.equals("User has been successfully updated.")){
+                        SaveSharedPreference.clearUserPhoneNumber(getActivity());
+                        SaveSharedPreference.setUserPhoneNumber(getActivity(), etPhoneNumber.getText().toString());
                     }
-                });
-        */
+                }
+            });
+        }
+        catch (SetOrNotException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setDelivered(boolean delivered){
