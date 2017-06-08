@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -32,17 +33,21 @@ import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
 public class Friends extends Fragment{
     Toolbar toolbar;
+    LinearLayout llFriendRequests;
+    TextView tvFriendRequestNum, tvHideShow;
     TextInputLayout tilSearchFriends;
     TextInputEditText tietSearchFriends;
-    RecyclerView rvFriends;
+    RecyclerView rvFriends, rvFriendRequests;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
+    boolean isVisible = false;
     private String from;
     private List<Integer> searchFriendsUid = new ArrayList<>();
     private List<String> searchFriendsUsername = new ArrayList<>();
@@ -54,8 +59,29 @@ public class Friends extends Fragment{
         View view = inflater.inflate(R.layout.friends, container, false);
 
         toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+
+        llFriendRequests = (LinearLayout) view.findViewById(R.id.llFriendRequests);
+        tvFriendRequestNum = (TextView) view.findViewById(R.id.tvFriendRequestNum);
+        tvHideShow = (TextView) view.findViewById(R.id.tvHideShow);
+        tvHideShow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isVisible){
+                    isVisible = false;
+                    tvHideShow.setText("SHOW");
+                    rvFriendRequests.setVisibility(View.GONE);
+                }
+                else if (!isVisible){
+                    isVisible = true;
+                    tvHideShow.setText("HIDE");
+                    rvFriendRequests.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         tilSearchFriends = (TextInputLayout) view.findViewById(R.id.tilSearchFriends);
         tietSearchFriends = (TextInputEditText) view.findViewById(R.id.tietSearchFriends);
+        //for the search/enter button
         tietSearchFriends.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -86,6 +112,17 @@ public class Friends extends Fragment{
                 searchFriends(tietSearchFriends.getText().toString());
             }
         });
+        tietSearchFriends.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus && isVisible){
+                    isVisible = false;
+                    tvHideShow.setText("SHOW");
+                    rvFriendRequests.setVisibility(View.GONE);
+                }
+            }
+        });
+        rvFriendRequests = (RecyclerView) view.findViewById(R.id.rvFriendRequests);
         rvFriends = (RecyclerView) view.findViewById(R.id.recyclerView_friends);
 
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -108,7 +145,9 @@ public class Friends extends Fragment{
             if (from.equals("profile")){
                 toolbar.setPadding(0, getStatusBarHeight(), 0 ,0);
             }
-            //if (uid == SaveSharedPreference.getUserUID(getActivity())){}
+            if (uid == SaveSharedPreference.getUserUID(getActivity())){
+                checkForReceivedFriendRequests(uid);
+            }
         }
     }
 
@@ -138,7 +177,57 @@ public class Friends extends Fragment{
     }
 
     /* Checks and displays for any friend requests for logged in user */
-    //private void checkForReceivedFriendRequests(){    }
+    private void checkForReceivedFriendRequests(int uid){
+        new FriendshipStatusRequest().getFriendshipStatusRequestReceivedUsers(uid, "Friendship Pending", new StringCallback() {
+            @Override
+            public void done(String string) {
+                try {
+                    List<Integer> receivedUid = new ArrayList<>();
+                    List<String> receivedUsername = new ArrayList<>();
+                    List<String> receivedFullname = new ArrayList<>();
+                    List<String> receivedImagePath = new ArrayList<>();
+                    JSONArray jsonArray = new JSONArray(string);
+                    if (jsonArray.length() > 0){
+                        tvFriendRequestNum.setText(String.valueOf(jsonArray.length()));
+
+                        for (int i = 0; i < jsonArray.length(); i++){
+                            JSONObject userObj = jsonArray.getJSONObject(i);
+                            String uid = userObj.getString("uid");
+                            String username = userObj.getString("username");
+                            String fullname = userObj.getString("firstName") + " " + userObj.getString("lastName");
+
+                            String userImage = userObj.getString("userProfileImages");
+                            JSONArray userImageArray = new JSONArray(userImage);
+                            String imagePath;
+                            if (userImageArray.length() > 0){
+                                JSONObject userImageObj = userImageArray.getJSONObject(0);
+                                imagePath = userImageObj.getString("userImagePath");
+                            }
+                            else {
+                                imagePath = "empty";
+                            }
+                            receivedUid.add(Integer.valueOf(uid));
+                            receivedUsername.add(username);
+                            receivedFullname.add(fullname);
+                            receivedImagePath.add(imagePath);
+                        }
+                        llFriendRequests.setVisibility(View.VISIBLE);
+                        rvFriendRequests.setVisibility(View.VISIBLE);
+                        isVisible = true;
+
+                        adapter = new FriendRequestReceivedRecyclerAdapter(getActivity(), receivedUid, receivedUsername, receivedFullname, receivedImagePath);
+                        layoutManager = new LinearLayoutManager(getActivity());
+                        rvFriendRequests.setLayoutManager(layoutManager);
+                        rvFriendRequests.setNestedScrollingEnabled(false);
+                        rvFriendRequests.setAdapter(adapter);
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
 
     /* Checks and displays if use has any friends */
     private void getFriends(int uid){
