@@ -492,6 +492,14 @@
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
     </android.support.v7.widget.CardView>
+    <TextView
+        android:id="@+id/tvDamiansTestActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/contentPadding"
+        android:visibility="gone"
+        android:text="DAMIAN'S TEST ACTIVITY"
+        android:textAppearance="@android:style/TextAppearance.Large"/>
     <android.support.v7.widget.CardView
         android:id="@+id/cvLogOut"
         android:layout_width="match_parent"

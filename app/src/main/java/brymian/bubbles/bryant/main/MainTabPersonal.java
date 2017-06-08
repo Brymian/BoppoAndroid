@@ -38,6 +38,7 @@ import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.settings.Privacy;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
+import brymian.bubbles.damian.activity.TESTActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
@@ -105,6 +106,17 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
         tvPhoneNumber = (TextView) rootView.findViewById(R.id.tvPhoneNumber);
 
         cvSyncWithOtherMedia = (CardView) rootView.findViewById(R.id.cvSyncWithOtherMedia);
+
+        final TextView tvDamiansTestActivity = (TextView) rootView.findViewById(R.id.tvDamiansTestActivity);
+        if (SaveSharedPreference.getUserUID(getActivity()) == 1){
+            tvDamiansTestActivity.setVisibility(View.VISIBLE);
+        }
+        tvDamiansTestActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), TESTActivity.class));
+            }
+        });
 
         cvLogOut = (CardView) rootView.findViewById(R.id.cvLogOut);
         cvLogOut.setOnClickListener(this);

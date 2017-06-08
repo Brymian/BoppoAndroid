@@ -2,51 +2,11 @@ package brymian.bubbles.damian.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
 
 import brymian.bubbles.R;
-import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
-import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
-import brymian.bubbles.damian.nonactivity.ServerRequest.AddressRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest2;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.MiscellaneousRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.NewsFeedRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserCommentRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.Event;
-import brymian.bubbles.objects.EventUser;
-import brymian.bubbles.objects.Image;
-import brymian.bubbles.objects.User;
 
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.printLongString;
 
-/**
- * Created by Ziomster on 7/29/2015.
- */
 public class TESTActivity extends Activity {
 
     @Override
@@ -54,16 +14,6 @@ public class TESTActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
         test();
-    }
-
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onBackPressed() {
     }
 
     private void test() {
