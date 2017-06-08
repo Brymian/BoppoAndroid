@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,7 +88,6 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
                     new ServerRequestMethods(activity).setFriendStatus(SaveSharedPreference.getUserUID(activity), requestUid.get(getAdapterPosition()), new StringCallback() {
                         @Override
                         public void done(String string) {
-                            Log.e("accepted", string +"\nusername: " + requestUsername.get(getAdapterPosition()) + "\tuid: " + requestUid.get(getAdapterPosition()));
                             if(string.equals("Friend request accepted.")){
                                 llAcceptDecline.setVisibility(View.GONE);
                                 tvFriendRequestResult.setText("Friends");
@@ -115,7 +113,6 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
                     new FriendshipStatusRequest().rejectFriend(SaveSharedPreference.getUserUID(activity), requestUid.get(getAdapterPosition()), new StringCallback() {
                         @Override
                         public void done(String string) {
-                            Log.e("decline", string +"\nusername: " + requestUsername.get(getAdapterPosition()) + "\tuid: " + requestUid.get(getAdapterPosition()));
                             if(string.equals("Friendship request has been successfully rejected.")){
                                 llAcceptDecline.setVisibility(View.GONE);
                                 tvFriendRequestResult.setText("Declined");
