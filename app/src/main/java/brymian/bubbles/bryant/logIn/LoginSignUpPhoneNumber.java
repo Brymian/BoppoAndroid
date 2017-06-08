@@ -9,19 +9,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import brymian.bubbles.R;
@@ -36,7 +36,7 @@ public class LoginSignUpPhoneNumber extends Fragment {
     EditText etPhoneNumber;
     Button bVerify;
     ProgressBar pbVerify;
-    FloatingActionButton fabDone;
+    TextView tvSkipNext;
     private boolean delivered;
     private static final String SMS_STRING = "Hello from Bryant.";
 
@@ -60,16 +60,26 @@ public class LoginSignUpPhoneNumber extends Fragment {
         bVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View view = getActivity().getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 sendSMS();
             }
         });
 
         pbVerify = (ProgressBar) view.findViewById(R.id.pbVerify);
 
-        fabDone = (FloatingActionButton) view.findViewById(R.id.fabDone);
-        fabDone.setOnClickListener(new View.OnClickListener() {
+        tvSkipNext = (TextView) view.findViewById(R.id.tvSkipNext);
+        tvSkipNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                View view = getActivity().getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 LoginSignUpProfilePicture loginSignUpProfilePicture = new LoginSignUpProfilePicture();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.login_activity, loginSignUpProfilePicture);
@@ -217,7 +227,8 @@ public class LoginSignUpPhoneNumber extends Fragment {
                         pbVerify.setVisibility(View.GONE);
                         bVerify.setText("Verified");
                         bVerify.setClickable(false);
-                        etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_phone_grey600_24dp, 0, R.mipmap.ic_done_black_24dp, 0);
+                        tvSkipNext.setText("NEXT");
+                        //etPhoneNumber.setCompoundDrawablesWithIntrinsicBounds(R.mipmap.ic_phone_grey600_24dp, 0, R.mipmap.ic_done_black_24dp, 0);
                         addPhoneNumberToDB();
                     }
                 }

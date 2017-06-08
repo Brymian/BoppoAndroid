@@ -2,10 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:clickable="true"
-    android:background="@color/LightGrayAndroid">
+    android:background="@android:color/white">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,7 +15,6 @@
         android:elevation="6dp"
         android:minHeight="?attr/actionBarSize"
         android:transitionGroup="true"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,13 +49,14 @@
                 android:layout_height="wrap_content"
                 android:inputType="number"
                 android:drawableLeft="@mipmap/ic_phone_grey600_24dp"
+                android:drawableStart="@mipmap/ic_phone_grey600_24dp"
                 android:drawablePadding="10dp"
                 android:hint="@string/Phone_Number"/>
         </android.support.design.widget.TextInputLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="@dimen/contentPadding">
             <Button
                 android:id="@+id/bVerify"
                 android:layout_width="match_parent"
@@ -73,17 +72,14 @@
                 android:visibility="gone"
                 android:elevation="10dp"/>
         </RelativeLayout>
-
+        <Button
+            android:id="@+id/tvSkipNext"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/contentPadding"
+            android:text="Skip"
+            android:textAllCaps="true"
+            android:textColor="@color/AppColor"/>
     </LinearLayout>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fabDone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        app:backgroundTint="@color/AppColor"
-        android:src="@mipmap/ic_arrow_right_white_24dp"/>
 </RelativeLayout>

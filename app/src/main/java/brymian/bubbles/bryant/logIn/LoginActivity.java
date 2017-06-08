@@ -2,11 +2,13 @@ package brymian.bubbles.bryant.logIn;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,7 +16,6 @@ import android.widget.TextView;
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.MainActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.damian.activity.TESTActivity;
 import brymian.bubbles.damian.nonactivity.DialogMessage;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.VoidCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
@@ -23,7 +24,7 @@ import brymian.bubbles.objects.User;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etUsername, etPassword;
-    TextView tvSignUp, tvTestActivity;
+    TextView tvSignUp;
     Button bLogIn;
 
     @Override
@@ -45,9 +46,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
         tvSignUp.setOnClickListener(this);
-
-        tvTestActivity = (TextView) findViewById(R.id.tvTestActivity);
-        tvTestActivity.setOnClickListener(this);
     }
 
     @Override
@@ -58,15 +56,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.tvSignUp:
+                View view = this.getCurrentFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
                 LoginSignUp loginSignUp = new LoginSignUp();
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.login_activity, loginSignUp);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                break;
-
-            case R.id.tvTestActivity:
-                startActivity(new Intent(this, TESTActivity.class));
                 break;
         }
     }

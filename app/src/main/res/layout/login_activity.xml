@@ -25,6 +25,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/ic_account_box_outline_white_24dp"
+                android:drawableStart="@mipmap/ic_account_box_outline_white_24dp"
                 android:drawablePadding="10dp"
                 android:backgroundTint="@android:color/white"
                 android:inputType="text"
@@ -38,13 +39,13 @@
             android:textColorHint="@android:color/white"
             app:hintTextAppearance="@style/LoginCredentialsStyle"
             app:passwordToggleEnabled="true"
-            app:passwordToggleDrawable="@mipmap/ic_remove_red_eye_white_24dp"
-            app:passwordToggleTint="@android:color/darker_gray">
+            app:passwordToggleDrawable="@mipmap/ic_remove_red_eye_white_24dp">
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/etPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@mipmap/ic_lock_outline_white_24dp"
+                android:drawableStart="@mipmap/ic_lock_outline_white_24dp"
                 android:drawablePadding="10dp"
                 android:backgroundTint="@android:color/white"
                 android:inputType="textPassword"
@@ -56,6 +57,7 @@
             android:id="@+id/bLogIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/halfContentPadding"
             android:background="@color/AppColorDark"
             android:text="Log In"
             android:textColor="@android:color/white"/>
@@ -63,18 +65,9 @@
             android:id="@+id/tvSignUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_margin="@dimen/contentPadding"
             android:text="New user? Sign up today!"
             android:textColor="@android:color/white"
             android:textAppearance="@android:style/TextAppearance.Small" />
-
-        <TextView
-            android:paddingTop="30dp"
-            android:id="@+id/tvTestActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="DAMIAN'S TEST ACTIVITY"
-            android:textAppearance="@android:style/TextAppearance.Large"
-            android:textStyle="bold"/>
     </LinearLayout>
 </RelativeLayout>
