@@ -15,12 +15,14 @@ import java.util.Set;
 import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
+import brymian.bubbles.damian.nonactivity.ServerRequest.AddressRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest2;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
@@ -834,14 +836,36 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
-        new EventRequest(this).updateEventUnparsedAddress(18, "UPS I.S Headquarters", "340 MacArthur Blvd., Mahwah NJ, 07430", new StringCallback() {
+        /*
+        new AddressRequest().addUnparsedAddress("UPS I.S Headquarters", "340 MacArthur Blvd., Mahwah NJ, 07430", new StringCallback() {
             @Override
             public void done(String string) {
-                System.out.println("UPDATE-EVENT-UNPARSED-ADDRESS RESULTS: ");
+                System.out.println("ADD-UNPARSED-ADDRESS RESULTS: ");
                 printLongString(string);
             }
         });
+        */
+        /*
+        try
+        {
+            System.out.println(
+                new AddressRequest().addUnparsedAddress2("UPS I.S Headquarters", "340 MacArthur Blvd., Mahwah NJ, 07430")
+            );
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        */
+
+        Long eid = 18L;
+        String eventAddressName = "UPS I.S Headquarters";
+        String eventAddressUnparsedText = "340 MacArthur Blvd., Mahwah NJ, 07430";
+        String response = new EventRequest(this)
+            .updateEventUnparsedAddress(eid, eventAddressName, eventAddressUnparsedText);
+        System.out.println(response);
+
+
     }
 
 }

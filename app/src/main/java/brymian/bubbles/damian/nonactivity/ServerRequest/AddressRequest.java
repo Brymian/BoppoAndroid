@@ -6,10 +6,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.convertPathsToFull;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
@@ -26,25 +27,27 @@ public class AddressRequest
         httpConnection = new HTTPConnection();
     }
 
-    public void addUnparsedAddress(String addressName, String addressUnparsedText, StringCallback stringCallback)
+    /** This method adds the specified unparsed address to the specified event. **/
+    String addUnparsedAddressSync(String addressName, String addressUnparsedText/*,
+        StringCallback stringCallback*/)
+        throws InterruptedException, ExecutionException, TimeoutException
     {
-        /** TO-DO
-         *  This method will add the specified unparsed address to the specified event.
-         */
-        new AddressRequest.AddUnparsedAddress(addressName, addressUnparsedText,
-            stringCallback).execute();
-        setParsedAddress();
+        String result = new AddUnparsedAddressAsync(
+            addressName, addressUnparsedText/*, stringCallback*/).execute().get();
+        setParsedAddressAsync();
+        return result;
     }
 
-    public void addParsedAddress()
+    /** TO-DO
+     *  This method will add the specified parsed address to the specified event.
+     */
+    String addParsedAddressSync()
     {
-        /** TO-DO
-         *  This method will add the specified parsed address to the specified event.
-         */
-        setUnparsedAddress();
+        setUnparsedAddressAsync();
+        return "";
     }
 
-    private void setParsedAddress()
+    private void setParsedAddressAsync()
     {
         /** TO-DO
          *  This method will attempt to populate the parsed address fields for the specified
@@ -52,7 +55,7 @@ public class AddressRequest
          */
     }
 
-    private void setUnparsedAddress()
+    private void setUnparsedAddressAsync()
     {
         /** TO-DO
          *  This method will attempt to populate the unparsed address field for the specified
@@ -64,23 +67,22 @@ public class AddressRequest
 
 
 
-    private class AddUnparsedAddress extends AsyncTask<Void, Void, String> {
-
+    private class AddUnparsedAddressAsync extends AsyncTask<Void, Void, String>
+    {
         String addressName;
         String addressUnparsedText;
-        StringCallback stringCallback;
 
-        private AddUnparsedAddress(String addressName, String addressUnparsedText,
-            StringCallback stringCallback)
+        private AddUnparsedAddressAsync(String addressName, String addressUnparsedText)
         {
             this.addressName = addressName;
             this.addressUnparsedText = addressUnparsedText;
-            this.stringCallback = stringCallback;
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            String url = httpConnection.getWebServerString() + "AndroidIO/AddressRequest.php?function=addUnparsedAddress";
+        protected String doInBackground(Void... params)
+        {
+            String url = httpConnection.getWebServerString() +
+                "AndroidIO/AddressRequest.php?function=addUnparsedAddress";
 
             Post request = new Post();
 
@@ -98,19 +100,43 @@ public class AddressRequest
             catch (IOException ioe)
             {
                 ioe.printStackTrace();
-                return null;
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
             }
             catch (JSONException jsone)
             {
                 jsone.printStackTrace();
-                return null;
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
             }
         }
 
         @Override
-        protected void onPostExecute(String string) {
-            stringCallback.done(string);
+        protected void onPostExecute(String string)
+        {
+            super.onPostExecute(string);
+        }
 
+    }
+
+
+
+    private class AddParsedAddressAsync extends AsyncTask<Void, Void, String> {
+
+        private AddParsedAddressAsync()
+        {
+            // PLACEHOLDER
+        }
+
+        @Override
+        protected String doInBackground(Void... params)
+        {
+            // PLACEHOLDER
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
             super.onPostExecute(string);
         }
 

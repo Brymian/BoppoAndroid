@@ -10,6 +10,11 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeoutException;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
@@ -25,15 +30,67 @@ public class EventRequest {
 
     private HTTPConnection httpConnection = null;
 
+    private Activity activity = null;
     private ProgressDialog pd = null;
 
     public EventRequest(Activity activity) {
+        this.activity = activity;
         pd = new ProgressDialog(activity);
         pd.setCancelable(false);
         pd.setTitle("Processing");
         pd.setMessage("Please wait...");
         httpConnection = new HTTPConnection();
     }
+
+
+
+    public String updateEventUnparsedAddress(Long eid, String eventAdressName, String eventAddressUnparsedText)
+    {
+        String resultString = "";
+
+        try
+        {
+            resultString = new AddressRequest()
+                .addUnparsedAddressSync(eventAdressName, eventAddressUnparsedText);
+
+            JSONObject result = new JSONObject(resultString);
+            String resultResponseType = result.getString("responseType");
+
+            if (resultResponseType.toLowerCase().equals("success"))
+            {
+                JSONObject responseData = result.getJSONObject("response");
+
+                Long eventAid = responseData.getLong("aid");
+                resultString = new EventRequest(activity).updateEventUnparsedAddressSync(eid, eventAid);
+            }
+            return resultString;
+        }
+        catch (InterruptedException ie)
+        {
+            ie.printStackTrace();
+            return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+        }
+        catch (ExecutionException ee)
+        {
+            ee.printStackTrace();
+            return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+        }
+        catch (TimeoutException te)
+        {
+            te.printStackTrace();
+            return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+        }
+        catch (JSONException jsone)
+        {
+            jsone.printStackTrace();
+            return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+        }
+    }
+
+
+
+
+
 
     public void createEvent(
         Integer eventHostUid, String eventName, String eventCategoryLabel, String eventTypeLabel,
@@ -162,13 +219,13 @@ public class EventRequest {
             setOrNot, stringCallback).execute();
     }
 
-    public void updateEventUnparsedAddress(Integer eid, String eventAdressName,
-       String eventUnparsedAddress,
-       StringCallback stringCallback)
+    String updateEventUnparsedAddressSync(Long eid, Long eventAid/*, StringCallback stringCallback*/)
+        throws InterruptedException, ExecutionException, TimeoutException
     {
         pd.show();
-        new UpdateEventUnparsedAddress(eid, eventAdressName, eventUnparsedAddress,
-            stringCallback).execute();
+        String result = new UpdateEventUnparsedAddressAsync(
+            eid, eventAid/*, stringCallback*/).execute().get();
+        return result;
     }
 
     public void deleteEvent(int eid, StringCallback stringCallback)
@@ -1221,85 +1278,53 @@ public class EventRequest {
 
 
 
-    private class UpdateEventUnparsedAddress extends AsyncTask<Void, Void, String> {
+    private class UpdateEventUnparsedAddressAsync extends AsyncTask<Void, Void, String> {
 
-        Integer eid;
-        String  eventAddressName;
-        String  eventUnparsedAddress;
-        StringCallback stringCallback;
+        Long eid;
+        Long eventAid;
 
-        private UpdateEventUnparsedAddress(Integer eid, String eventAddressName,
-            String eventUnparsedAddress,
-            StringCallback stringCallback)
+        private UpdateEventUnparsedAddressAsync(Long eid, Long eventAid)
         {
-            this.eid = eid;
-            this.eventAddressName = eventAddressName;
-            this.eventUnparsedAddress = eventUnparsedAddress;
-            this.stringCallback = stringCallback;
+            this.eid      = eid;
+            this.eventAid = eventAid;
+            //this.stringCallback = stringCallback;
         }
 
         @Override
         protected String doInBackground(Void... params) {
 
-            final String[] finalResponse = {""};
-
-            new AddressRequest().addUnparsedAddress(eventAddressName, eventUnparsedAddress,
-                new StringCallback()
+            try
             {
-                @Override
-                public void done(String string)
-                {
-                    try
-                    {
-                        JSONObject auaResponse = new JSONObject(string);
-                        //System.out.println("auaResponse: " + string);
-                        String auaResponseType = auaResponse.getString("responseType");
+                String url = httpConnection.getWebServerString() +
+                    "AndroidIO/EventRequest.php?function=updateEventUnparsedAddress";
 
-                        if (auaResponseType.toLowerCase().equals("success"))
-                        {
-                            JSONObject responseData = auaResponse.getJSONObject("response");
-                            Long aid = responseData.getLong("aid");
-                            String url = httpConnection.getWebServerString() +
-                                "AndroidIO/EventRequest.php?function=updateEventUnparsedAddress";
+                Post request = new Post();
 
-                            Post request = new Post();
+                JSONObject jObject = new JSONObject();
+                jObject.put("eid", getNullOrValue(eid));
+                jObject.put("eventAid", getNullOrValue(eventAid));
 
-                            JSONObject jObject = new JSONObject();
-                            jObject.put("eid", getNullOrValue(eid));
-                            jObject.put("eventAid", getNullOrValue(aid));
+                String jString = jObject.toString();
+                String response = request.post(url, jString);
 
-                            String jString = jObject.toString();
-
-                            //System.out.println("updateEventUnparsedAddress jString: ");
-                            //System.out.println(jString);
-
-                            finalResponse[0] = request.post(url, jString);
-                        }
-                        else
-                        {
-                            finalResponse[0] = string;
-                        }
-                    }
-                    catch (IOException ioe)
-                    {
-                        ioe.printStackTrace();
-                        finalResponse[0] = "ERROR ENCOUNTERED. SEE ANDROID LOG.";
-                    }
-                    catch (JSONException jsone)
-                    {
-                        jsone.printStackTrace();
-                        finalResponse[0] =  "ERROR ENCOUNTERED. SEE ANDROID LOG.";
-                    }
-                }
-            });
-
-            return finalResponse[0];
+                return convertPathsToFull(response);
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return "ERROR ENCOUNTERED. SEE ANDROID LOG.";
+            }
         }
 
         @Override
         protected void onPostExecute(String string) {
             pd.dismiss();
-            stringCallback.done(string);
+            //stringCallback.done(string);
 
             super.onPostExecute(string);
         }
