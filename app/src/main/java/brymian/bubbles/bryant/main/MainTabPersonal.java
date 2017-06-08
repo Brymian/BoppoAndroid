@@ -40,6 +40,7 @@ import brymian.bubbles.bryant.settings.Privacy;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
 import brymian.bubbles.damian.activity.TESTActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
@@ -290,6 +291,13 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 catch (NullPointerException npe){
                     npe.printStackTrace();
                 }
+            }
+        });
+
+        new ServerRequestMethods(getActivity()).getUserData(SaveSharedPreference.getUserUID(getActivity()), new UserCallback() {
+            @Override
+            public void done(User user) {
+                Log.e("user", user.getPhone()+"\t"+ user.getUid()+"\t"+user.getEmail());
             }
         });
 
