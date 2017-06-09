@@ -161,6 +161,8 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void uploadProfileImage(){
+        // BRYANT UPDATE THIS
+        /*
         new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, encodedImage, new StringCallback() {
             @Override
             public void done(String string) {
@@ -168,6 +170,7 @@ public class CropImageActivity extends AppCompatActivity {
                 finish();
             }
         });
+        */
     }
 
     private void checkEpisodeImageExits(){
@@ -193,6 +196,8 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void uploadEpisodeImage(){
+        // BRYANT UPDATE THIS
+        /*
         new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(this), null, imageName(), "Public", null, null, encodedImage, new StringCallback() {
             @Override
             public void done(String string) {
@@ -204,6 +209,7 @@ public class CropImageActivity extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     private void addImageToEvent(){

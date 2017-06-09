@@ -4,7 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
 
 public class TESTActivity extends Activity {
@@ -206,8 +210,8 @@ public class TESTActivity extends Activity {
         /* // Works as of 2017-05-30
         try {
             new UserRequest(this).setUser(
-                1, "Damian", "Niedzielski", null, "987-654-3210", "Public",
-                new Boolean[]{null, true, true, false, false, false}, new StringCallback()
+                1, "Damian", "Niedzielski", null, "201-396-4179", "Public",
+                new Boolean[]{null, false, false, false, true, false}, new StringCallback()
             {
                 @Override
                 public void done(String string) {
@@ -287,8 +291,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /* // Works correctly as of 2017-05-15
-        new EventRequest(this).getEventData(1, new StringCallback() {
+        /* // Works correctly as of 2017-06-08
+        new EventRequest(this).getEventData(18, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println(string);
@@ -661,9 +665,12 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         // Worked as of 2017-04-03
-        new UserImageRequest(this).uploadImage(1, 11, "UserImageNameEEE", "Public", 12.345, 67.890, "ROTFL image", new StringCallback() {
+        /*
+        new UserImageRequest(this).uploadImage(1, 11, "UserImageNameEEE", "Public", 12.345, 67.890,
+            "ROTFL image", "ROTFL image thumbnail", new StringCallback()
+        {
             @Override
             public void done(String string) {
                 System.out.println("RESPONSE: " + string);
@@ -808,13 +815,14 @@ public class TESTActivity extends Activity {
         }
         */
 
+        /* // Works as of 2017-06-07
         Long eid = 18L;
         String eventAddressName = "UPS I.S Headquarters";
         String eventAddressUnparsedText = "340 MacArthur Blvd., Mahwah NJ, 07430";
         String response = new EventRequest(this)
             .updateEventUnparsedAddress(eid, eventAddressName, eventAddressUnparsedText);
         System.out.println(response);
-
+        */
 
     }
 

@@ -112,14 +112,16 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
     }
 
     private void uploadImage(){
+        // BRYANT UPDATE THIS
+        /*
         new UserImageRequest(SendTo.this).uploadImage(
-                SaveSharedPreference.getUserUID(SendTo.this),       /* uid */
-                null,                                               /* image profile sequence */
-                imageName(),                                        /* image name */
-                privacy,                                            /* image privacy label */
-                SaveSharedPreference.getLatitude(SendTo.this),      /* image latitude */
-                SaveSharedPreference.getLongitude(SendTo.this),     /* image longitude */
-                encodedImage,                                       /* image in String */
+                SaveSharedPreference.getUserUID(SendTo.this),       // uid
+                null,                                               // image profile sequence
+                imageName(),                                        // image name
+                privacy,                                            // image privacy label
+                SaveSharedPreference.getLatitude(SendTo.this),      // image latitude
+                SaveSharedPreference.getLongitude(SendTo.this),     // image longitude
+                encodedImage,                                       // image in String
                 new StringCallback() {
                     @Override
                     public void done(String string) {
@@ -131,6 +133,7 @@ public class SendTo extends AppCompatActivity implements CompoundButton.OnChecke
                         }
                     }
                 });
+        */
     }
 
     private void uploadImageToEpisode(){

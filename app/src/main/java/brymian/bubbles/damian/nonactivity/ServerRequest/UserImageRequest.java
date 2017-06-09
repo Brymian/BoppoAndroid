@@ -77,12 +77,12 @@ public class UserImageRequest
     public void uploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
         String userImagePrivacyLabel,
         Double userImageGpsLatitude, Double userImageGpsLongitude,
-        String userImage, StringCallback stringCallback)
+        String userImage, String userImageThumbnail, StringCallback stringCallback)
     {
         //pd.show();
         new UploadImage(uid, userImageProfileSequence, userImageName,
             userImagePrivacyLabel,  userImageGpsLatitude, userImageGpsLongitude,
-            userImage, stringCallback).execute();
+            userImage, userImageThumbnail, stringCallback).execute();
     }
 
 
@@ -335,12 +335,13 @@ public class UserImageRequest
         Double userImageGpsLatitude;
         Double userImageGpsLongitude;
         String userImage;
+        String userImageThumbnail;
         StringCallback stringCallback;
 
         private UploadImage(Integer uid, Integer userImageProfileSequence, String userImageName,
             String userImagePrivacyLabel,
             Double userImageGpsLatitude, Double userImageGpsLongitude,
-            String userImage, StringCallback stringCallback) {
+            String userImage, String userImageThumbnail, StringCallback stringCallback) {
 
             this.uid = uid;
             this.userImageProfileSequence = userImageProfileSequence;
@@ -349,6 +350,7 @@ public class UserImageRequest
             this.userImageGpsLatitude = userImageGpsLatitude;
             this.userImageGpsLongitude = userImageGpsLongitude;
             this.userImage = userImage;
+            this.userImageThumbnail = userImageThumbnail;
             this.stringCallback = stringCallback;
         }
 
@@ -366,6 +368,7 @@ public class UserImageRequest
                 jsonImageObject.put("userImageGpsLatitude", getNullOrValue(userImageGpsLatitude));
                 jsonImageObject.put("userImageGpsLongitude", getNullOrValue(userImageGpsLongitude));
                 jsonImageObject.put("userImage", getNullOrValue(userImage));
+                jsonImageObject.put("userImageThumbnail", getNullOrValue(userImageThumbnail));
 
                 String jsonImage = jsonImageObject.toString();
                 Post request = new Post();
