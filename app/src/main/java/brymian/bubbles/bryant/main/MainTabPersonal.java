@@ -238,19 +238,16 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
     private void getPersonalInfo(){
         tvUserUsername.setText(SaveSharedPreference.getUsername(getActivity()));
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
-
-        if (SaveSharedPreference.getUserProfileImagePath(getActivity()).isEmpty()){
-            new UserImageRequest(getActivity()).getImagesByUid(SaveSharedPreference.getUserUID(getActivity()), true, new StringCallback() {
+         new UserImageRequest(getActivity()).getImagesByUid(SaveSharedPreference.getUserUID(getActivity()), true, new StringCallback() {
                 @Override
                 public void done(String string) {
-                    Log.e("string", string);
                     try{
                         JSONObject jsonObject = new JSONObject(string);
                         String images = jsonObject.getString("images");
                         JSONArray jsonArray = new JSONArray(images);
                         if (jsonArray.length() > 0){
                             JSONObject imageObj = jsonArray.getJSONObject(0);
-                            String userImagePath = imageObj.getString("userImagePath");
+                            String userImagePath = imageObj.getString("userImageThumbnailPath");
                             Picasso.with(getActivity()).load(userImagePath).into(ivProfilePicture);
                         }
                     }
@@ -259,11 +256,6 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                     }
                 }
             });
-        }
-        else {
-            Log.e("pathELSE", SaveSharedPreference.getUserProfileImagePath(getActivity()));
-            Picasso.with(getActivity()).load(SaveSharedPreference.getUserProfileImagePath(getActivity())).fit().centerCrop().into(ivProfilePicture);
-        }
 
         new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new StringCallback() {
             @Override

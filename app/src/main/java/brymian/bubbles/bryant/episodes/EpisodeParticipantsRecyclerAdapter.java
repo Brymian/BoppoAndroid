@@ -60,7 +60,7 @@ public class EpisodeParticipantsRecyclerAdapter extends RecyclerView.Adapter<Epi
                 @Override
                 public void onClick(View v) {
                     try{
-                        new EventUserRequest(activity).setEventUser(eid, participantUid.get(position), null, "Removed", new Boolean[]{null, null, false, true}, new StringCallback() {
+                        new EventUserRequest().setEventUser(eid, participantUid.get(position), null, "Removed", new Boolean[]{null, null, false, true}, new StringCallback() {
                             @Override
                             public void done(String string) {
                                 Log.e("string", string);

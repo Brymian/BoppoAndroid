@@ -1,7 +1,6 @@
 package brymian.bubbles.bryant.search;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +19,7 @@ import java.util.List;
 
 
 import brymian.bubbles.R;
+import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 
@@ -29,9 +29,8 @@ public class SearchTabFragmentEpisodes extends Fragment {
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     View view;
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.search_tab_episodes, container, false);
         return view;
     }
@@ -40,7 +39,7 @@ public class SearchTabFragmentEpisodes extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser){
-            searchUsers();
+            searchEpisodes();
             setTextChangedListener();
         }
     }
@@ -59,12 +58,12 @@ public class SearchTabFragmentEpisodes extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                searchUsers();
+                searchEpisodes();
             }
         });
     }
 
-    private void searchUsers(){
+    private void searchEpisodes(){
         new EventRequest(getActivity()).getEventDataByName(SearchActivity.etSearch.getText().toString(), new StringCallback() {
             @Override
             public void done(String string) {
@@ -73,6 +72,9 @@ public class SearchTabFragmentEpisodes extends Fragment {
                     List<String> episodeHostUsername = new ArrayList<>();
                     List<Integer> episodeEid = new ArrayList<>();
                     List<String> episodeNum = new ArrayList<>();
+                    List<String> episodeImagePath = new ArrayList<>();
+
+                    HTTPConnection httpConnection = new HTTPConnection();
 
                     JSONObject jsonObject = new JSONObject(string);
                     String episodesString = jsonObject.getString("events");
@@ -82,15 +84,26 @@ public class SearchTabFragmentEpisodes extends Fragment {
                         JSONObject episodeObj = episodesArray.getJSONObject(i);
                         String episodeHostString = episodeObj.getString("eventHost");
                         JSONObject episodeHostObj = new JSONObject(episodeHostString);
+                        String episodeProfileImage = episodeObj.getString("eventProfileImages");
+                        JSONArray episodeProfileImageArray = new JSONArray(episodeProfileImage);
+                        String imagePath;
+                        if (episodeProfileImageArray.length() > 0){
+                            JSONObject episodeProfileImageObj = episodeProfileImageArray.getJSONObject(0);
+                            imagePath = episodeProfileImageObj.getString("euiThumbnailPath");
+                        }
+                        else {
+                            imagePath = "empty";
+                        }
 
                         episodeTitle.add(episodeObj.getString("eventName"));
                         episodeHostUsername.add(episodeHostObj.getString("username"));
                         episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
                         episodeNum.add(episodeObj.getString("eventViewCount") + " views");
+                        episodeImagePath.add(httpConnection.getUploadServerString() + imagePath);
                     }
 
                     recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_search_episodes);
-                    adapter = new SearchRecyclerAdapterEpisodes(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeNum);
+                    adapter = new SearchRecyclerAdapterEpisodes(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeNum, episodeImagePath);
                     layoutManager = new LinearLayoutManager(getActivity());
                     recyclerView.setLayoutManager(layoutManager);
                     recyclerView.setAdapter(adapter);

@@ -65,7 +65,7 @@ public class SearchTabFragmentUsers extends Fragment{
                                 String userImagePath;
                                 if (userProfileImageArray.length() > 0){
                                     JSONObject userProfileImageObject = userProfileImageArray.getJSONObject(0);
-                                    userImagePath = userProfileImageObject.getString("userImagePath");
+                                    userImagePath = userProfileImageObject.getString("userImageThumbnailPath");
                                 }
                                 else {
                                     userImagePath = "empty";

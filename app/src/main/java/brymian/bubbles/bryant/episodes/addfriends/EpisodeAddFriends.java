@@ -63,7 +63,7 @@ public class EpisodeAddFriends extends Fragment{
                 for (int i = 0; i < singleFriendList.size(); i++) {
                     Friend singleFriend = singleFriendList.get(i);
                     if (singleFriend.getIsSelected()) {
-                        new EventUserRequest(getActivity()).addUserToEvent(eid, SaveSharedPreference.getUserUID(getActivity()), singleFriend.getUid(),
+                        new EventUserRequest().addUserToEvent(eid, SaveSharedPreference.getUserUID(getActivity()), singleFriend.getUid(),
                                 new StringCallback() {
                                     @Override
                                     public void done(String string) {
@@ -92,7 +92,7 @@ public class EpisodeAddFriends extends Fragment{
     }
 
     private void getParticipants(int eid){
-        new EventUserRequest(getActivity()).getEventUsersData("Joined", eid, new StringCallback() {
+        new EventUserRequest().getEventUsersData("Joined", eid, new StringCallback() {
             @Override
             public void done(String string) {
                 try{

@@ -201,7 +201,7 @@ public class Friends extends Fragment{
                             String imagePath;
                             if (userImageArray.length() > 0){
                                 JSONObject userImageObj = userImageArray.getJSONObject(0);
-                                imagePath = userImageObj.getString("userImagePath");
+                                imagePath = userImageObj.getString("userImageThumbnailPath");
                             }
                             else {
                                 imagePath = "empty";
@@ -249,7 +249,7 @@ public class Friends extends Fragment{
                         String userImagePath;
                         if (friendsProfileImageArray.length() > 0){
                             JSONObject friendsProfileImageObject = friendsProfileImageArray.getJSONObject(0);
-                            userImagePath = friendsProfileImageObject.getString("userImagePath");
+                            userImagePath = friendsProfileImageObject.getString("userImageThumbnailPath");
                         }
                         else {
                             userImagePath = "empty";

@@ -683,7 +683,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setIsParticipant(){
-        new EventUserRequest(this).getEventUsersData("Joined", getEid(), new StringCallback() {
+        new EventUserRequest().getEventUsersData("Joined", getEid(), new StringCallback() {
             @Override
             public void done(String string) {
                 try{
