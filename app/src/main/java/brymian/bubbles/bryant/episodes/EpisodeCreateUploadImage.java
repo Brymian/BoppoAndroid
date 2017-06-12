@@ -12,6 +12,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -352,8 +353,9 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
                                 String images = jsonObject.getString("images");
                                 JSONArray imagesArray = new JSONArray(images);
                                 JSONObject imageObj = imagesArray.getJSONObject(0);
-                                String userImagePath = imageObj.getString("userImagePath");
-                                Picasso.with(getActivity()).load(userImagePath).fit().centerCrop().into(ivEpisodeImage);
+                                String userImagePathThumbnail = imageObj.getString("userImageThumbnailPath");
+                                Log.e("Thumbnail", userImagePathThumbnail);
+                                Picasso.with(getActivity()).load(userImagePathThumbnail).fit().centerCrop().into(ivEpisodeImage);
                             }
                             catch (JSONException e){
                                 e.printStackTrace();

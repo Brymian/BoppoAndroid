@@ -53,7 +53,6 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     boolean isStartDateSelected = false, isEndDateSelected = false, isEndTimeChanged = false;
 
     private final int LOCATION_CODE = 4;
-    private final int DONE_CODE = 3;
 
     @Override
     protected void onCreate(Bundle saveInstanceState){
@@ -130,8 +129,18 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
             case R.id.fabDone:
                 createEpisode();
                 break;
+        }
+    }
 
-
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0){
+            Intent intent = getIntent();
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+        else {
+            super.onBackPressed();
         }
     }
 
@@ -148,12 +157,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == DONE_CODE) {
-            if (resultCode == RESULT_OK) {
-                finish();
-            }
-        }
-        else if (requestCode == LOCATION_CODE){
+        if (requestCode == LOCATION_CODE){
             if (resultCode == RESULT_OK){
                 if (data != null){
                     locationName = data.getStringExtra("locationName");

@@ -41,7 +41,7 @@ public class CropImageActivity extends AppCompatActivity {
     private final int GALLERY_CODE = 1;
     private final int CAMERA_CODE = 2;
     private int eid, uiid;
-    private String encodedImage;
+    private String encodedImage, encodedImageThumbnail;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,10 +74,18 @@ public class CropImageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 fabDone.setClickable(false);
                 Bitmap croppedImage = cropImageView.getCroppedImage();
+                Log.e("reg", "size: " + croppedImage.getAllocationByteCount());
+                Bitmap croppedImageThumbnail = getResizedBitmap(croppedImage, 300);
+                Log.e("TMB", "size: " + croppedImageThumbnail.getAllocationByteCount());
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                ByteArrayOutputStream streamThumbnail = new ByteArrayOutputStream();
                 croppedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                croppedImageThumbnail.compress(Bitmap.CompressFormat.JPEG, 100, streamThumbnail);
                 byte[] byteArray = stream.toByteArray();
+                byte[] byteArrayThumbnail = streamThumbnail.toByteArray();
                 encodedImage = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                encodedImageThumbnail = Base64.encodeToString(byteArrayThumbnail, Base64.DEFAULT);
+
                 Intent intent = getIntent();
                 setResult(RESULT_OK, intent);
                 pd = new ProgressDialog(CropImageActivity.this);
@@ -93,6 +101,21 @@ public class CropImageActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
     private void checkProfileImageExists(){
@@ -161,16 +184,13 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void uploadProfileImage(){
-        // BRYANT UPDATE THIS
-        /*
-        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, encodedImage, new StringCallback() {
+        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(CropImageActivity.this), 0, imageName(), "Public", null, null, encodedImage, encodedImageThumbnail,new StringCallback() {
             @Override
             public void done(String string) {
                 pd.dismiss();
                 finish();
             }
         });
-        */
     }
 
     private void checkEpisodeImageExits(){
@@ -196,9 +216,7 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void uploadEpisodeImage(){
-        // BRYANT UPDATE THIS
-        /*
-        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(this), null, imageName(), "Public", null, null, encodedImage, new StringCallback() {
+        new UserImageRequest(this).uploadImage(SaveSharedPreference.getUserUID(this), null, imageName(), "Public", null, null, encodedImage, encodedImageThumbnail,new StringCallback() {
             @Override
             public void done(String string) {
                 Log.e("uploadImage", string);
@@ -209,7 +227,6 @@ public class CropImageActivity extends AppCompatActivity {
                 }
             }
         });
-        */
     }
 
     private void addImageToEvent(){

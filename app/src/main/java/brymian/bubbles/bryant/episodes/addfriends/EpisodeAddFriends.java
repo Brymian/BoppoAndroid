@@ -1,12 +1,8 @@
 package brymian.bubbles.bryant.episodes.addfriends;
 
 import android.app.Fragment;
-import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,6 +68,10 @@ public class EpisodeAddFriends extends Fragment{
                                     @Override
                                     public void done(String string) {
                                         Log.e("add", string);
+                                        if (string.equals("The user has been successfully invited to the event.")){
+                                            Toast.makeText(getActivity(), "User(s) added to episode", Toast.LENGTH_SHORT).show();
+                                            getActivity().onBackPressed();
+                                        }
                                     }
                                 });
                     }
@@ -180,44 +181,5 @@ public class EpisodeAddFriends extends Fragment{
             fabDone.hide();
         }
 
-    }
-
-    /*
-
-    @Override
-    public void onBackPressed() {
-        goBackToEpisodeMy();
-    }
-
-    private void goBackToEpisodeMy(){
-        setResultOkSoSecondActivityWontBeShown();
-        finish();
-    }
-
-    private void setResultOkSoSecondActivityWontBeShown() {
-        Intent intent = new Intent();
-        if (getParent() == null) {
-            setResult(Activity.RESULT_OK, intent);
-        } else {
-            getParent().setResult(Activity.RESULT_OK, intent);
-        }
-    }
-*/
-    private void inviteSentAD() {
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View alertLayout = inflater.inflate(R.layout.episode_add_friends_alertdialog, null);
-
-        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-        alert.setView(alertLayout);
-        alert.setPositiveButton(R.string.OK, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //goBackToEpisodeMy();
-            }
-        });
-        AlertDialog dialog = alert.create();
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
     }
 }

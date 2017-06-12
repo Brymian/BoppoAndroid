@@ -40,9 +40,12 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import brymian.bubbles.objects.User;
 
+import static android.app.Activity.RESULT_OK;
+
 public class EpisodeMy2 extends Fragment {
 
     Toolbar toolbar;
+    TextView tvNoEpisodes;
     TextInputLayout tilSearchEpisodes;
     TextInputEditText tietSearchEpisodes;
     RecyclerView rvEpisodes;
@@ -50,7 +53,7 @@ public class EpisodeMy2 extends Fragment {
     RecyclerView.LayoutManager layoutManager;
     FloatingActionButton fabCreateEpisode;
 
-    private String from;
+    private String from, username;
     private List<Integer> episodeEid = new ArrayList<>();
     private List<String> episodeName = new ArrayList<>();
     private List<String> episodeType = new ArrayList<>();
@@ -58,6 +61,8 @@ public class EpisodeMy2 extends Fragment {
     private List<String> episodeHostUsername = new ArrayList<>();
     private List<String> episodeViews = new ArrayList<>();
     private List<String> episodeLocation = new ArrayList<>();
+
+    private int EPISODE_MY_CODE = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,14 +109,33 @@ public class EpisodeMy2 extends Fragment {
 
         rvEpisodes = (RecyclerView) view.findViewById(R.id.rvEpisodes);
 
+        tvNoEpisodes = (TextView) view.findViewById(R.id.tvNoEpisodes);
+
         fabCreateEpisode  = (FloatingActionButton) view.findViewById(R.id.fabCreateEpisode);
         fabCreateEpisode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), EpisodeCreate.class));
+                startActivityForResult(new Intent(getActivity(), EpisodeCreate.class), EPISODE_MY_CODE);
             }
         });
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EPISODE_MY_CODE){
+            if(resultCode == RESULT_OK) {
+                episodeEid.clear();
+                episodeHostUsername.clear();
+                episodeName.clear();
+                episodeImagePath.clear();
+                episodeLocation.clear();
+                episodeType.clear();
+                episodeViews.clear();
+                getEpisodes(SaveSharedPreference.getUserUID(getActivity()));
+            }
+        }
     }
 
     @Override
@@ -165,7 +189,8 @@ public class EpisodeMy2 extends Fragment {
         new ServerRequestMethods(getActivity()).getUserData(uid, new UserCallback() {
             @Override
             public void done(User user) {
-                toolbar.setTitle(user.getUsername() + "'s Episodes");
+                username = user.getUsername();
+                toolbar.setTitle(username + "'s Episodes");
                 tilSearchEpisodes.setHint("Search " + user.getUsername() + "'s Episodes");
             }
         });
@@ -195,13 +220,14 @@ public class EpisodeMy2 extends Fragment {
                                 String hostUsername = episodeHostObj.getString("username");
 
                                 String episodeProfileImagesString = episodeObj.getString("eventProfileImages");
+                                Log.e("imgs", episodeProfileImagesString);
                                 JSONArray episodeProfileImagesArray = new JSONArray(episodeProfileImagesString);
                                 String imagePath;
                                 if (episodeProfileImagesArray.length() > 0){
                                     HTTPConnection httpConnection = new HTTPConnection();
                                     String path = httpConnection.getUploadServerString();
                                     JSONObject episodeProfileImagesObj = episodeProfileImagesArray.getJSONObject(0);
-                                    imagePath = path + episodeProfileImagesObj.getString("euiPath");
+                                    imagePath = path + episodeProfileImagesObj.getString("euiThumbnailPath");
                                 }
                                 else {
                                     imagePath = "empty";
@@ -214,15 +240,6 @@ public class EpisodeMy2 extends Fragment {
                                 episodeViews.add(views + " views");
                                 episodeLocation.add("North Arlington, NJ");
                             }
-                            /*
-                            searchEpisodeEid = episodeEid;
-                            searchEpisodeTitle = episodeName;
-                            searchEpisodeType = episodeType;
-                            searchEpisodeImagePath = episodeImagePath;
-                            searchEpisodeHostUsername = episodeHostUsername;
-                            searchEpisodeViews = episodeViews;
-                            searchEpisodeLocation = episodeLocation;
-                            */
 
                             adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", episodeName, episodeImagePath, episodeEid, episodeType, episodeHostUsername, episodeViews, episodeLocation);
                             layoutManager = new LinearLayoutManager(getActivity());
@@ -231,7 +248,8 @@ public class EpisodeMy2 extends Fragment {
                             rvEpisodes.setAdapter(adapter);
                         }
                         else {
-                            //tvEpisodesNum.setText("0");
+                            tvNoEpisodes.setText(username + " isn't part of any episodes");
+                            tvNoEpisodes.setVisibility(View.VISIBLE);
                         }
                     }
                     catch (JSONException e){
