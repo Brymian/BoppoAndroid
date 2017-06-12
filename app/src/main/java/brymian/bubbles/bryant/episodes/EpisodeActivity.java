@@ -683,6 +683,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setIsParticipant(){
+        /** BRYANT, FIX THIS **/
+        /*
         new EventUserRequest(this).getEventUsersData("Joined", getEid(), new StringCallback() {
             @Override
             public void done(String string) {
@@ -703,6 +705,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 }
             }
         });
+        */
     }
 
     private void popUpMenu(){

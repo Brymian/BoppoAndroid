@@ -63,6 +63,8 @@ public class EpisodeAddFriends extends Fragment{
                 for (int i = 0; i < singleFriendList.size(); i++) {
                     Friend singleFriend = singleFriendList.get(i);
                     if (singleFriend.getIsSelected()) {
+                        /** BRYANT, FIX THIS **/
+                        /*
                         new EventUserRequest(getActivity()).addUserToEvent(eid, SaveSharedPreference.getUserUID(getActivity()), singleFriend.getUid(),
                                 new StringCallback() {
                                     @Override
@@ -74,6 +76,7 @@ public class EpisodeAddFriends extends Fragment{
                                         }
                                     }
                                 });
+                        */
                     }
                 }
             }
@@ -92,6 +95,8 @@ public class EpisodeAddFriends extends Fragment{
     }
 
     private void getParticipants(int eid){
+        /** BRYANT, FIX THIS **/
+        /*
         new EventUserRequest(getActivity()).getEventUsersData("Joined", eid, new StringCallback() {
             @Override
             public void done(String string) {
@@ -111,6 +116,7 @@ public class EpisodeAddFriends extends Fragment{
                 getFriends();
             }
         });
+        */
     }
 
     private void getFriends(){

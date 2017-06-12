@@ -97,6 +97,7 @@ public class EpisodeParticipants extends AppCompatActivity {
 
     private void getParticipants(int eid){
         Log.e("eid", eid + "");
+        /*
         new EventUserRequest(this).getEventUsersData("Joined", eid, new StringCallback() {
             @Override
             public void done(String string) {
@@ -149,6 +150,7 @@ public class EpisodeParticipants extends AppCompatActivity {
                 }
             }
         });
+        */
     }
 
     private void setEid(int eid){
