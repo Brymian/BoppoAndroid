@@ -18,7 +18,6 @@ import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesRecyclerAdapter;
-import brymian.bubbles.bryant.main.mainTabEpisodesRecyclerAdapter.MainTabEpisodesAllTimeTopRatedRecyclerAdapter;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
@@ -96,7 +95,6 @@ public class MainTabEpisodes extends Fragment {
         new EventRequest(getActivity()).getEventDataByTopNViews(5, new StringCallback() {
             @Override
             public void done(String string) {
-                Log.e("allTime", string);
                 try{
                     List<Integer> episodeEid = new ArrayList<>();
                     List<String> episodeImagePath = new ArrayList<>();
@@ -120,7 +118,7 @@ public class MainTabEpisodes extends Fragment {
                         String eventProfileImagePath;
                         if (eventProfileImageArray.length() > 0){
                             JSONObject eventProfileImageObj = eventProfileImageArray.getJSONObject(0);
-                            eventProfileImagePath = httpConnection.getUploadServerString() + eventProfileImageObj.getString("euiPath");
+                            eventProfileImagePath = httpConnection.getUploadServerString() + eventProfileImageObj.getString("euiThumbnailPath");
                         }
                         else {
                             eventProfileImagePath = "empty";
@@ -151,32 +149,48 @@ public class MainTabEpisodes extends Fragment {
         new EventRequest(getActivity()).getEventDataByTopNRatings(5, new StringCallback() {
             @Override
             public void done(String string) {
+                Log.e("topRated", string);
                 try{
-                    if(string.length() > 0) {
-                        List<String> episodeTitle = new ArrayList<>();
-                        List<String> episodeHostUsername = new ArrayList<>();
-                        List<Integer> episodeEid = new ArrayList<>();
-                        List<Double> episodeRating = new ArrayList<>();
-                        JSONObject jsonObject = new JSONObject(string);
-                        String episodeString = jsonObject.getString("events");
-                        JSONArray episodesArray = new JSONArray(episodeString);
-                        for (int i = 0; i < episodesArray.length(); i++) {
-                            JSONObject episodeObj = episodesArray.getJSONObject(i);
-                            String episodeHostString = episodeObj.getString("eventHost");
-                            JSONObject episodeHostObj = new JSONObject(episodeHostString);
+                    List<String> episodeTitle = new ArrayList<>();
+                    List<String> episodeHostUsername = new ArrayList<>();
+                    List<Integer> episodeEid = new ArrayList<>();
+                    List<String> episodeImagePath = new ArrayList<>();
+                    List<String> episodeRating = new ArrayList<>();
 
-                            episodeTitle.add(episodeObj.getString("eventName"));
-                            episodeHostUsername.add(episodeHostObj.getString("username"));
-                            episodeEid.add(episodeObj.getInt("eid"));
-                            episodeRating.add(episodeObj.getDouble("eventRatingRatio")*100);
+                    HTTPConnection httpConnection = new HTTPConnection();
+
+                    JSONObject jsonObject = new JSONObject(string);
+                    String episodeString = jsonObject.getString("events");
+                    JSONArray episodesArray = new JSONArray(episodeString);
+                    for (int i = 0; i < episodesArray.length(); i++) {
+                        JSONObject episodeObj = episodesArray.getJSONObject(i);
+                        String episodeHostString = episodeObj.getString("eventHost");
+                        JSONObject episodeHostObj = new JSONObject(episodeHostString);
+
+                        String episodeProfileImages = episodeObj.getString("eventProfileImages");
+                        JSONArray episodeProfileImagesArray = new JSONArray(episodeProfileImages);
+                        String imagePath;
+                        if (episodeProfileImagesArray.length() > 0){
+                            JSONObject imagePathObj = episodeProfileImagesArray.getJSONObject(0);
+                            imagePath = httpConnection.getUploadServerString() + imagePathObj.getString("euiThumbnailPath");
+                        }
+                        else {
+                            imagePath = "empty";
                         }
 
-                        adapter = new MainTabEpisodesAllTimeTopRatedRecyclerAdapter(getActivity(), episodeTitle, episodeHostUsername, episodeEid, episodeRating);
-                        layoutManager = new LinearLayoutManager(getActivity());
-                        rvAllTimeTopRated.setLayoutManager(layoutManager);
-                        rvAllTimeTopRated.setNestedScrollingEnabled(false);
-                        rvAllTimeTopRated.setAdapter(adapter);
+                        Log.e("rated", "100");
+
+                        episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
+                        episodeTitle.add(episodeObj.getString("eventName"));
+                        episodeImagePath.add(imagePath);
+                        episodeHostUsername.add(episodeHostObj.getString("username"));
+                        episodeRating.add(episodeObj.getString("eventRatingRatio"));
                     }
+                    adapter = new MainTabEpisodesRecyclerAdapter(getActivity(), episodeEid, episodeTitle, episodeImagePath,episodeHostUsername, episodeRating);
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    rvAllTimeTopRated.setLayoutManager(layoutManager);
+                    rvAllTimeTopRated.setNestedScrollingEnabled(false);
+                    rvAllTimeTopRated.setAdapter(adapter);
                 }
                 catch (JSONException | NullPointerException e){
                     e.printStackTrace();
@@ -212,7 +226,7 @@ public class MainTabEpisodes extends Fragment {
                         String imagePath;
                         if (episodeProfileImagesArray.length() > 0){
                             JSONObject episodeProfileImageObj = episodeProfileImagesArray.getJSONObject(0);
-                            imagePath = httpConnection.getUploadServerString() + episodeProfileImageObj.getString("euiPath");
+                            imagePath = httpConnection.getUploadServerString() + episodeProfileImageObj.getString("euiThumbnailPath");
                         }
                         else {
                             imagePath = "empty";
@@ -229,7 +243,6 @@ public class MainTabEpisodes extends Fragment {
                     rvAllTimeMostLikes.setLayoutManager(layoutManager);
                     rvAllTimeMostLikes.setNestedScrollingEnabled(false);
                     rvAllTimeMostLikes.setAdapter(adapter);
-
                 }
                 catch (JSONException e){
                     e.printStackTrace();

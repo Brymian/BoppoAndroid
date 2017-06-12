@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:gravity="left|center_vertical"
             android:text="@string/TOP_RATED"
-            android:textAppearance="@android:style/TextAppearance.Small"
+            android:textAppearance="@android:style/TextAppearance.Medium"
             android:paddingLeft="10dp" />
 
         <android.support.v7.widget.RecyclerView
