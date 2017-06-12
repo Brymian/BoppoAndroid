@@ -344,7 +344,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                             String userImagePath;
                             if (userImagesArray.length() > 0){
                                 JSONObject userImagePathObj = userImagesArray.getJSONObject(0);
-                                userImagePath = userImagePathObj.getString("userImagePath");
+                                userImagePath = userImagePathObj.getString("userImageThumbnailPath");
                             }
                             else {
                                 userImagePath = "empty";
@@ -404,7 +404,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                                     HTTPConnection httpConnection = new HTTPConnection();
                                     String path = httpConnection.getUploadServerString();
                                     JSONObject episodeProfileImagesObj = episodeProfileImagesArray.getJSONObject(0);
-                                    imagePath = path + episodeProfileImagesObj.getString("euiPath");
+                                    imagePath = path + episodeProfileImagesObj.getString("euiThumbnailPath");
                                 }
                                 else {
                                     imagePath = "empty";

@@ -141,25 +141,21 @@ public class ProfileEdit extends AppCompatActivity implements View.OnClickListen
     private void getUserInfo(){
         tvFirstLastName.setText(SaveSharedPreference.getUserFirstName(this) + " " + SaveSharedPreference.getUserLastName(this));
         tvUsername.setText(SaveSharedPreference.getUsername(this));
-        if (SaveSharedPreference.getUserProfileImagePath(this).isEmpty()){
-            setProfileImage();
-        }
-        else {
-            Picasso.with(this).load(SaveSharedPreference.getUserProfileImagePath(this)).fit().centerCrop().into(ivProfilePicture);
-        }
+        setProfileImage();
     }
 
     private void setProfileImage(){
         new UserImageRequest(this).getImagesByUid(SaveSharedPreference.getUserUID(this), true, new StringCallback() {
             @Override
             public void done(String string) {
+                Log.e("String", string);
                 try{
                     JSONObject jsonObject = new JSONObject(string);
                     String imagesString = jsonObject.getString("images");
                     JSONArray imagesArray = new JSONArray(imagesString);
                     if (imagesArray.length() > 0){
                         JSONObject imageObj = imagesArray.getJSONObject(0);
-                        String imagePath = imageObj.getString("userImagePath");
+                        String imagePath = imageObj.getString("userImageThumbnailPath");
                         Picasso.with(ProfileEdit.this).load(imagePath).fit().centerCrop().into(ivProfilePicture);
                         SaveSharedPreference.setUserProfileImagePath(ProfileEdit.this, imagePath);
                     }
