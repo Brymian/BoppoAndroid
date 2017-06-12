@@ -1,6 +1,5 @@
 package brymian.bubbles.damian.nonactivity.ServerRequest;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
@@ -14,15 +13,7 @@ import java.util.Map;
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.Post;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.EventUserCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.objects.EventUser;
-
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getBooleanObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getDoubleObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getIntegerObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getLongObjectFromObject;
-import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 
 public class EventUserRequest {
@@ -30,29 +21,25 @@ public class EventUserRequest {
     private HTTPConnection httpConnection = null;
     private ProgressDialog pd = null;
 
-    public EventUserRequest(Activity activity) {
-        pd = new ProgressDialog(activity);
-        pd.setCancelable(false);
-        pd.setTitle("Processing");
-        pd.setMessage("Please wait...");
+    public EventUserRequest() {
         httpConnection = new HTTPConnection();
     }
 
     public void addUserToEvent(Integer eid, Integer inviterUid, Integer inviteeUid, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new AddUserToEvent(eid, inviterUid, inviteeUid, stringCallback).execute();
     }
 
     public void getEventUserData(Integer eid, Integer uid, StringCallback StringCallback)
     {
-        pd.show();
+        //pd.show();
         new GetEventUserData(eid, uid, StringCallback).execute();
     }
 
     public void getEventUsersData(String eventUserInviteStatusTypeLabel, Integer eid, StringCallback stringCallback)
     {
-        pd.show();
+        //pd.show();
         new GetEventUsersData(eventUserInviteStatusTypeLabel, eid, stringCallback).execute();
     }
 
@@ -60,7 +47,7 @@ public class EventUserRequest {
         String eventUserTypeLabel, String eventUserInviteStatusTypeLabel,
         Boolean[] setOrNot, StringCallback stringCallback) throws SetOrNotException
     {
-        pd.show();
+        //pd.show();
         new SetEventUser(eid, uid, eventUserTypeLabel, eventUserInviteStatusTypeLabel,
             setOrNot, stringCallback).execute();
     }
@@ -116,7 +103,7 @@ public class EventUserRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -172,7 +159,7 @@ public class EventUserRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -227,7 +214,7 @@ public class EventUserRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -299,7 +286,7 @@ public class EventUserRequest {
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
+            //pd.dismiss();
             stringCallback.done(string);
             //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
