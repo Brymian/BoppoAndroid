@@ -7,6 +7,7 @@ import brymian.bubbles.R;
 import brymian.bubbles.damian.nonactivity.CustomException.SetOrNotException;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
@@ -335,14 +336,14 @@ public class TESTActivity extends Activity {
         });
         */
         /* // Works correctly as of 2017-05-01
-        new EventUserRequest(this).addUserToEvent(120, 1, 11, new StringCallback() {
+        new EventUserRequest(this).addUserToEvent(16, 2, 3, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("MESSAGE REGARDING ADDING THE USER TO THE EVENT: ");
                 System.out.println(string);
             }
         });
-
+        */
         /*
         new EventUserRequest(this).getEventUserData(18, 4, new StringCallback() {
             @Override
@@ -651,7 +652,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-        /*
+
         new EventRequest(this).getEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -664,7 +665,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-        */
+
 
         // Worked as of 2017-04-03
         /*

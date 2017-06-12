@@ -59,6 +59,7 @@ public class EpisodeParticipantsRecyclerAdapter extends RecyclerView.Adapter<Epi
             holder.bRemoveParticipant.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    /*
                     try{
                         new EventUserRequest().setEventUser(eid, participantUid.get(position), null, "Removed", new Boolean[]{null, null, false, true}, new StringCallback() {
                             @Override
@@ -80,7 +81,7 @@ public class EpisodeParticipantsRecyclerAdapter extends RecyclerView.Adapter<Epi
                     catch (SetOrNotException e){
                         e.printStackTrace();
                     }
-
+                    */
                 }
             });
         }
