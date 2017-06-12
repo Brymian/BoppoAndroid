@@ -94,7 +94,6 @@ public class SearchTabFragmentEpisodes extends Fragment {
                         else {
                             imagePath = "empty";
                         }
-
                         episodeTitle.add(episodeObj.getString("eventName"));
                         episodeHostUsername.add(episodeHostObj.getString("username"));
                         episodeEid.add(Integer.valueOf(episodeObj.getString("eid")));
