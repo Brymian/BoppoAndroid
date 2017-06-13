@@ -15,13 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.objects.User;
 
@@ -64,6 +67,45 @@ public class Blocking extends Fragment {
             @Override
             public void done(String string) {
                 Log.e("string", string);
+                try{
+                    JSONArray jsonArray = new JSONArray(string);
+                    List<String> blockedUsername = new ArrayList<>();
+                    List<String> blockedFullname = new ArrayList<>();
+                    List<Integer> blockedUid = new ArrayList<>();
+                    List<String> blockedImagePath = new ArrayList<>();
+                    for (int i = 0; i < jsonArray.length(); i++){
+                        JSONObject blockedUserObj = jsonArray.getJSONObject(i);
+
+                        String fullname = blockedUserObj.getString("firstName") + " " + blockedUserObj.getString("lastName");
+                        String username = blockedUserObj.getString("username");
+                        String uid = blockedUserObj.getString("uid");
+
+                        String blockedImagePathString = blockedUserObj.getString("userProfileImages");
+                        JSONArray blockedImagePathArray = new JSONArray(blockedImagePathString);
+                        String imagePath;
+                        if (blockedImagePathArray.length() > 0){
+                            JSONObject blockedImagePathObj = blockedImagePathArray.getJSONObject(0);
+                            imagePath = blockedImagePathObj.getString("userImageThumbnailPath");
+                        }
+                        else {
+                            imagePath = "empty";
+                        }
+
+                        blockedUsername.add(username);
+                        blockedUid.add(Integer.valueOf(uid));
+                        blockedFullname.add(fullname);
+                        blockedImagePath.add(imagePath);
+                    }
+
+                    adapter = new BlockingRecyclerAdapter(getActivity(), blockedUid, blockedUsername, blockedFullname, blockedImagePath);
+                    layoutManager = new LinearLayoutManager(getActivity());
+                    rvBlockedUsers.setLayoutManager(layoutManager);
+                    rvBlockedUsers.setNestedScrollingEnabled(false);
+                    rvBlockedUsers.setAdapter(adapter);
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
             }
         });
     }
