@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -35,7 +37,8 @@ public class EpisodeAddFriends extends Fragment{
     FloatingActionButton fabDone;
     TextView tvAllFriends;
 
-    int eid;
+    private int eid;
+    private String from;
 
     List<Integer> participantsUid = new ArrayList<>();
     List<Integer> friendsUid = new ArrayList<>();
@@ -87,11 +90,25 @@ public class EpisodeAddFriends extends Fragment{
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             eid = bundle.getInt("eid", 0);
-            String from = bundle.getString("from", null);
+            from = bundle.getString("from", null);
             if (from.equals("participants")){
                 mToolbar.setPadding(0, getStatusBarHeight(),0, 0);
             }
             getParticipants(eid);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (from.equals("participants")){
+            MenuItem item = menu.findItem(R.id.popUpMenu);
+            item.setVisible(false);
         }
     }
     public int getStatusBarHeight() {
