@@ -76,6 +76,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     private int eid, hostUid;
     int year, month, day, hour, minute, second;
     private boolean isHost, isParticipant, isStarted = false, isEnded = false;
+    private String latitude, longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
 
         tvViewCount = (TextView) findViewById(R.id.tvViewCount);
         tvDescription = (TextView) findViewById(R.id.tvDescription);
-        tvDescription.setText("A description of the event can go here. It can handle multiple lines and the text can even wrap! Which is a good thing!\nWhat do you think damian?");
         tvLikeCount = (TextView) findViewById(R.id.tvLikeCount);
         tvLikeCount.setOnClickListener(this);
         tvDislikeCount = (TextView) findViewById(R.id.tvDislikeCount);
@@ -150,7 +150,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         getEpisodeComments();
         setIsParticipant();
         downloadEpisodePictures();
-        setStaticMap();
     }
 
     // A method to find height of the status bar
@@ -192,8 +191,16 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.tvParticipants:
-                startActivity(new Intent(this, EpisodeParticipants.class).putExtra("eid", getEid()).putExtra("isHost", getIsHost()).putExtra("isEnded", getIsEnded()));
-                //startActivityForResult(new Intent(this, EpisodeParticipants.class), ADD_PARTICIPANTS_CODE);
+                EpisodeParticipants episodeParticipants = new EpisodeParticipants();
+                Bundle bundle = new Bundle();
+                bundle.putInt("eid", eid);
+                bundle.putBoolean("isHost", isHost);
+                bundle.putBoolean("isEnded", isEnded);
+                episodeParticipants.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.episode_activity, episodeParticipants);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
                 break;
 
             case R.id.tvAddPhoto:
@@ -214,12 +221,14 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 new EventRequest(this).deleteEvent(getEid(), new StringCallback() {
                     @Override
                     public void done(String string) {
-                        Log.e("deleteEpisode", string);
+                        if (string.equals("Success.")){
+                            finish();
+                        }
                     }
                 });
                 break;
 
-            /** UPDATE THIS BRYANT **/
+            /* UPDATE THIS BRYANT **/
             /*
             case R.id.tvEndEpisode:
                 new EventRequest(this).updateEvent(getEid(), null, null, null, null, null, null, getCurrentTimeStamp(), null, null, new StringCallback() {
@@ -254,11 +263,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.episode_activity_menu_inflater, menu);
         return true;
@@ -282,6 +286,141 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     protected void onDestroy() {
         super.onDestroy();
         episodeImage.clear();
+    }
+
+    private void getEpisodeInfo(int eid){
+        new EventRequest(this).getEventData(eid, new StringCallback() {
+            @Override
+            public void done(String string) {
+                try{
+                    Log.e("string", string);
+                    JSONObject episodeInfoObject = new JSONObject(string);
+                    mToolbar.setTitle(episodeInfoObject.getString("eventName"));
+                    tvLikeCount.setText(episodeInfoObject.getString("eventLikeCount"));
+                    tvDislikeCount.setText(episodeInfoObject.getString("eventDislikeCount"));
+                    tvViewCount.setText(episodeInfoObject.getString("eventViewCount") + " views");
+                    tvDescription.setText(episodeInfoObject.getString("eventDescriptionText"));
+                    latitude = episodeInfoObject.getString("eventGpsLatitude");
+                    longitude = episodeInfoObject.getString("eventGpsLongitude");
+
+
+                    String episodeHostInfoString = episodeInfoObject.getString("eventHost");
+                    JSONObject episodeHostInfoObject = new JSONObject(episodeHostInfoString);
+                    tvEpisodeHostName.setText(episodeHostInfoObject.getString("firstName") + " " + episodeHostInfoObject.getString("lastName"));
+                    tvEpisodeHostUsername.setText(episodeHostInfoObject.getString("username"));
+                    setHostUid(Integer.valueOf(episodeHostInfoObject.getString("uid")));
+                    setIsFriendWithHost();
+
+                    String episodeHostImageString = episodeHostInfoObject.getString("userProfileImages");
+                    JSONArray episodeHostImageArray = new JSONArray(episodeHostImageString);
+                    JSONObject episodeHostImageObject = episodeHostImageArray.getJSONObject(0);
+                    Picasso.with(EpisodeActivity.this).load(episodeHostImageObject.getString("userImageThumbnailPath")).fit().centerCrop().into(ivEpisodeHostImage);
+
+                    /*
+                    //for ratings
+                    int likeCount = Integer.valueOf(episodeInfoObject.getString("eventLikeCount"));
+                    int dislikeCount = Integer.valueOf(episodeInfoObject.getString("eventDislikeCount"));
+                    if ( likeCount == 0 && dislikeCount == 0){
+                        tvRating.setText("0.0%");
+                    }
+                    else {
+                        double total = (double) dislikeCount + (double) likeCount;
+                        double dislikePercent = 100 * ((double) dislikeCount / total);
+                        double rating = 100 - dislikePercent;
+                        tvRating.setText(String.valueOf(round(rating, 2)) + "%");
+                    }
+                    */
+
+                    if (Integer.valueOf(episodeHostInfoObject.getString("uid")) == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
+                        setIsHost(true);
+                    }
+                    else{
+                        setIsHost(false);
+                    }
+
+                    if (!episodeInfoObject.getString("eventStartDatetime").equals("null")){
+                        String[] dateTime, dateArray, timeArray;
+                        String startTime = episodeInfoObject.getString("eventStartDatetime");
+                        dateTime = startTime.split("\\s");
+                        dateArray = dateTime[0].split("-");
+                        timeArray = dateTime[1].split(":");
+
+                        if (year > Integer.valueOf(dateArray[0])){ //if current startYear is greater than eventStartDate startYear, automatically add into List
+                            setIsStarted(true);
+                        }
+                        else if (year == Integer.valueOf(dateArray[0])){ //if current startYear is equal to eventStartDate startYear
+                            if (month > Integer.valueOf(dateArray[1])){
+                                setIsStarted(true);
+                            }
+                            else if (month == Integer.valueOf(dateArray[1])){
+                                if (day > Integer.valueOf(dateArray[2])){
+                                    setIsStarted(true);
+                                }
+                                else if (day == Integer.valueOf(dateArray[2])){
+                                    if (hour > Integer.valueOf(timeArray[0])){
+                                        setIsStarted(true);
+                                    }
+                                    else if (hour == Integer.valueOf(timeArray[0])){
+                                        if (minute > Integer.valueOf(timeArray[1])){
+                                            setIsStarted(true);
+                                        }
+                                        else if (minute == Integer.valueOf(timeArray[1])){
+                                            if (second > Integer.valueOf(timeArray[2])){
+                                                setIsStarted(true);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    if (episodeInfoObject.getString("eventEndDatetime").equals("null")){
+                        setIsEnded(false);
+                    }
+                    else {
+                        String[] dateTime, dateArray, timeArray;
+                        String endTime = episodeInfoObject.getString("eventEndDatetime");
+                        dateTime = endTime.split("\\s");
+                        dateArray = dateTime[0].split("-");
+                        timeArray = dateTime[1].split(":");
+
+                        if (year > Integer.valueOf(dateArray[0])){ //if current startYear is greater than eventStartDate startYear, automatically add into List
+                            setIsEnded(true);
+                        }
+                        else if (year == Integer.valueOf(dateArray[0])){ //if current startYear is equal to eventStartDate startYear
+                            if (month > Integer.valueOf(dateArray[1])){
+                                setIsEnded(true);
+                            }
+                            else if (month == Integer.valueOf(dateArray[1])){
+                                if (day > Integer.valueOf(dateArray[2])){
+                                    setIsEnded(true);
+                                }
+                                else if (day == Integer.valueOf(dateArray[2])){
+                                    if (hour > Integer.valueOf(timeArray[0])){
+                                        setIsEnded(true);
+                                    }
+                                    else if (hour == Integer.valueOf(timeArray[0])){
+                                        if (minute > Integer.valueOf(timeArray[1])){
+                                            setIsEnded(true);
+                                        }
+                                        else if (minute == Integer.valueOf(timeArray[1])){
+                                            if (second > Integer.valueOf(timeArray[2])){
+                                                setIsEnded(true);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (JSONException e){
+                    e.printStackTrace();
+                }
+                setStaticMap();
+            }
+        });
     }
 
     private void addComment(){
@@ -535,139 +674,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         return timestamp;
     }
 
-    private void getEpisodeInfo(int eid){
-        new EventRequest(this).getEventData(eid, new StringCallback() {
-            @Override
-            public void done(String string) {
-                try{
-                    Log.e("string", string);
-                    JSONObject episodeInfoObject = new JSONObject(string);
-                    mToolbar.setTitle(episodeInfoObject.getString("eventName"));
-                    tvLikeCount.setText(episodeInfoObject.getString("eventLikeCount"));
-                    tvDislikeCount.setText(episodeInfoObject.getString("eventDislikeCount"));
-                    tvViewCount.setText(episodeInfoObject.getString("eventViewCount") + " views");
-
-                    String episodeHostInfoString = episodeInfoObject.getString("eventHost");
-                    JSONObject episodeHostInfoObject = new JSONObject(episodeHostInfoString);
-                    tvEpisodeHostName.setText(episodeHostInfoObject.getString("firstName") + " " + episodeHostInfoObject.getString("lastName"));
-                    tvEpisodeHostUsername.setText(episodeHostInfoObject.getString("username"));
-                    setHostUid(Integer.valueOf(episodeHostInfoObject.getString("uid")));
-                    setIsFriendWithHost();
-
-                    String episodeHostImageString = episodeHostInfoObject.getString("userProfileImages");
-                    JSONArray episodeHostImageArray = new JSONArray(episodeHostImageString);
-                    JSONObject episodeHostImageObject = episodeHostImageArray.getJSONObject(0);
-                    Picasso.with(EpisodeActivity.this).load(episodeHostImageObject.getString("userImagePath")).fit().centerCrop().into(ivEpisodeHostImage);
-
-                    /*
-                    //for ratings
-                    int likeCount = Integer.valueOf(episodeInfoObject.getString("eventLikeCount"));
-                    int dislikeCount = Integer.valueOf(episodeInfoObject.getString("eventDislikeCount"));
-                    if ( likeCount == 0 && dislikeCount == 0){
-                        tvRating.setText("0.0%");
-                    }
-                    else {
-                        double total = (double) dislikeCount + (double) likeCount;
-                        double dislikePercent = 100 * ((double) dislikeCount / total);
-                        double rating = 100 - dislikePercent;
-                        tvRating.setText(String.valueOf(round(rating, 2)) + "%");
-                    }
-                    */
-
-                    if (Integer.valueOf(episodeHostInfoObject.getString("uid")) == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
-                        setIsHost(true);
-                    }
-                    else{
-                        setIsHost(false);
-                    }
-
-                    if (!episodeInfoObject.getString("eventStartDatetime").equals("null")){
-                        String[] dateTime, dateArray, timeArray;
-                        String startTime = episodeInfoObject.getString("eventStartDatetime");
-                        dateTime = startTime.split("\\s");
-                        dateArray = dateTime[0].split("-");
-                        timeArray = dateTime[1].split(":");
-
-                        if (year > Integer.valueOf(dateArray[0])){ //if current startYear is greater than eventStartDate startYear, automatically add into List
-                            setIsStarted(true);
-                        }
-                        else if (year == Integer.valueOf(dateArray[0])){ //if current startYear is equal to eventStartDate startYear
-                            if (month > Integer.valueOf(dateArray[1])){
-                                setIsStarted(true);
-                            }
-                            else if (month == Integer.valueOf(dateArray[1])){
-                                if (day > Integer.valueOf(dateArray[2])){
-                                    setIsStarted(true);
-                                }
-                                else if (day == Integer.valueOf(dateArray[2])){
-                                    if (hour > Integer.valueOf(timeArray[0])){
-                                        setIsStarted(true);
-                                    }
-                                    else if (hour == Integer.valueOf(timeArray[0])){
-                                        if (minute > Integer.valueOf(timeArray[1])){
-                                            setIsStarted(true);
-                                        }
-                                        else if (minute == Integer.valueOf(timeArray[1])){
-                                            if (second > Integer.valueOf(timeArray[2])){
-                                                setIsStarted(true);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (episodeInfoObject.getString("eventEndDatetime").equals("null")){
-                        setIsEnded(false);
-                    }
-                    else {
-                        String[] dateTime, dateArray, timeArray;
-                        String endTime = episodeInfoObject.getString("eventEndDatetime");
-                        dateTime = endTime.split("\\s");
-                        dateArray = dateTime[0].split("-");
-                        timeArray = dateTime[1].split(":");
-
-                        if (year > Integer.valueOf(dateArray[0])){ //if current startYear is greater than eventStartDate startYear, automatically add into List
-                            setIsEnded(true);
-                        }
-                        else if (year == Integer.valueOf(dateArray[0])){ //if current startYear is equal to eventStartDate startYear
-                            if (month > Integer.valueOf(dateArray[1])){
-                                setIsEnded(true);
-                            }
-                            else if (month == Integer.valueOf(dateArray[1])){
-                                if (day > Integer.valueOf(dateArray[2])){
-                                    setIsEnded(true);
-                                }
-                                else if (day == Integer.valueOf(dateArray[2])){
-                                    if (hour > Integer.valueOf(timeArray[0])){
-                                        setIsEnded(true);
-                                    }
-                                    else if (hour == Integer.valueOf(timeArray[0])){
-                                        if (minute > Integer.valueOf(timeArray[1])){
-                                            setIsEnded(true);
-                                        }
-                                        else if (minute == Integer.valueOf(timeArray[1])){
-                                            if (second > Integer.valueOf(timeArray[2])){
-                                                setIsEnded(true);
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-
-                }
-                catch (JSONException e){
-                    e.printStackTrace();
-                }
-
-            }
-        });
-    }
-
     private void setDateTime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date date = new Date();
@@ -802,9 +808,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setStaticMap(){
-        String latEiffelTower = "48.858235";
-        String lngEiffelTower = "2.294571";
-        String url = "http://maps.google.com/maps/api/staticmap?center=" + latEiffelTower + "," + lngEiffelTower + "&zoom=15&size=1000x150&scale=2&sensor=false";
+        String url = "http://maps.google.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=15&size=1000x150&scale=2&sensor=false";
         Picasso.with(this).load(url).fit().into(ivMap);
     }
 

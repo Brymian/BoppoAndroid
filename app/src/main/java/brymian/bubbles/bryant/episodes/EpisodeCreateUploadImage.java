@@ -95,6 +95,7 @@ public class EpisodeCreateUploadImage extends Fragment implements View.OnClickLi
                 EpisodeAddFriends episodeAddFriends = new EpisodeAddFriends();
                 Bundle bundle = new Bundle();
                 bundle.putInt("eid", eid);
+                bundle.putString("from", "createUploadImage");
                 episodeAddFriends.setArguments(bundle);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.episode_create, episodeAddFriends);

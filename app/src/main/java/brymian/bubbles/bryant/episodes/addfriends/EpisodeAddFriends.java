@@ -87,8 +87,20 @@ public class EpisodeAddFriends extends Fragment{
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             eid = bundle.getInt("eid", 0);
+            String from = bundle.getString("from", null);
+            if (from.equals("participants")){
+                mToolbar.setPadding(0, getStatusBarHeight(),0, 0);
+            }
             getParticipants(eid);
         }
+    }
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     private void getParticipants(int eid){

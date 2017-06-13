@@ -50,7 +50,7 @@ public class EpisodeParticipantsRecyclerAdapter extends RecyclerView.Adapter<Epi
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerViewHolder holder, final int position) {
         holder.tvParticipantUsername.setText(participantUsername.get(position));
         holder.tvParticipantFirstLastName.setText(participantFirstLastName.get(position));
         Picasso.with(activity).load(participantsProfileImage.get(position)).fit().centerCrop().into(holder.ivUserProfileImage);
@@ -59,21 +59,15 @@ public class EpisodeParticipantsRecyclerAdapter extends RecyclerView.Adapter<Epi
             holder.bRemoveParticipant.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    /*
                     try{
                         new EventUserRequest().setEventUser(eid, participantUid.get(position), null, "Removed", new Boolean[]{null, null, false, true}, new StringCallback() {
                             @Override
                             public void done(String string) {
                                 Log.e("string", string);
                                 if (string.equals("Event user has been successfully updated.")){
-                                    Log.e("string", "works");
-                                    participantType.remove(position);
-                                    participantsProfileImage.remove(position);
-                                    participantFirstLastName.remove(position);
-                                    participantUid.remove(position);
-                                    participantUsername.remove(position);
-                                    notifyItemRemoved(position);
-                                    notifyDataSetChanged();
+                                    holder.bRemoveParticipant.setText("REMOVED");
+                                    holder.bRemoveParticipant.setTextColor(activity.getResources().getColor(R.color.AppColorDark));
+                                    holder.bRemoveParticipant.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
                                 }
                             }
                         });
@@ -81,7 +75,6 @@ public class EpisodeParticipantsRecyclerAdapter extends RecyclerView.Adapter<Epi
                     catch (SetOrNotException e){
                         e.printStackTrace();
                     }
-                    */
                 }
             });
         }

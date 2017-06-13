@@ -1,15 +1,17 @@
 package brymian.bubbles.bryant.episodes;
 
-import android.content.Intent;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -25,74 +27,76 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 
 
-public class EpisodeParticipants extends AppCompatActivity {
+public class EpisodeParticipants extends Fragment {
     Toolbar mToolbar;
     FloatingActionButton fabMenu;
     RecyclerView rvParticipants;
     RecyclerView.Adapter adapter;
     RecyclerView.LayoutManager layoutManager;
     private int eid;
-    private boolean showRemove = false;
+    private boolean showRemove;
+
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.episode_participants);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.episode_participants, container, false);
+
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Participants);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mToolbar.setPadding(0, getStatusBarHeight(),0, 0);
 
-        /*--------------------------------Checking for putExtras()--------------------------------*/
-        int eid;
-        boolean isHost, isEnded;
-        if (savedInstanceState == null) {
-            Bundle extras = getIntent().getExtras();
-            if(extras == null) {
-                eid = 0;
-                isHost = false;
-                isEnded = false;
-            }
-            else {
-                eid = extras.getInt("eid");
-                isHost = extras.getBoolean("isHost");
-                isEnded = extras.getBoolean("isEnded");
-            }
-        }
-        else {
-            eid = savedInstanceState.getInt("eid");
-            isHost = savedInstanceState.getBoolean("isHost");
-            isEnded = savedInstanceState.getBoolean("isEnded");
-        }
-        /*----------------------------------------------------------------------------------------*/
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        setEid(eid);
-        getParticipants(eid);
-        if (isHost && !isEnded) {
-            setFab();
-            setShowRemove(true);
-        }
+        fabMenu = (FloatingActionButton) view.findViewById(R.id.fabMenu);
+        rvParticipants = (RecyclerView) view.findViewById(R.id.rvParticipants);
+
+        return view;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            eid = bundle.getInt("eid", 0);
+            boolean isHost = bundle.getBoolean("isHost");
+            boolean isEnded = bundle.getBoolean("isEnded");
+
+            setEid(eid);
+            getParticipants(eid);
+            if (isHost && !isEnded) {
+                setFab();
+                setShowRemove(true);
+            }
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setFab(){
-        fabMenu = (FloatingActionButton) findViewById(R.id.fabMenu);
         fabMenu.setVisibility(View.VISIBLE);
         fabMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(EpisodeParticipants.this, EpisodeAddFriends.class).putExtra("eid", getEid()));
+                EpisodeAddFriends episodeAddFriends = new EpisodeAddFriends();
+                Bundle bundle = new Bundle();
+                bundle.putInt("eid", eid);
+                bundle.putString("from", "participants");
+                episodeAddFriends.setArguments(bundle);
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.episode_activity, episodeAddFriends);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     private void getParticipants(int eid){
@@ -122,7 +126,7 @@ public class EpisodeParticipants extends AppCompatActivity {
                             String userImagePath;
                             if (userProfileImagesArray.length() > 0){
                                 JSONObject userProfileImageObject = userProfileImagesArray.getJSONObject(0);
-                                userImagePath = httpConnection.getUploadServerString() + userProfileImageObject.getString("userImagePath");
+                                userImagePath = httpConnection.getUploadServerString() + userProfileImageObject.getString("userImageThumbnailPath");
                             }
                             else {
                                 userImagePath = "empty";
@@ -136,9 +140,8 @@ public class EpisodeParticipants extends AppCompatActivity {
                             participantsUid.add(jUser.getInt("uid"));
                         }
 
-                        rvParticipants = (RecyclerView) findViewById(R.id.rvParticipants);
-                        adapter = new EpisodeParticipantsRecyclerAdapter(EpisodeParticipants.this, getEid(), participantFirstLastName, participantUsername, participantsUid, participantsProfileImage, participantType, getShowRemove());
-                        layoutManager = new LinearLayoutManager(EpisodeParticipants.this);
+                        adapter = new EpisodeParticipantsRecyclerAdapter(getActivity(), getEid(), participantFirstLastName, participantUsername, participantsUid, participantsProfileImage, participantType, getShowRemove());
+                        layoutManager = new LinearLayoutManager(getActivity());
                         rvParticipants.setLayoutManager(layoutManager);
                         rvParticipants.setNestedScrollingEnabled(false);
                         rvParticipants.setAdapter(adapter);

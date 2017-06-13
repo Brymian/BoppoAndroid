@@ -200,6 +200,7 @@ public class EpisodeMy2 extends Fragment {
         new EventRequest(getActivity()).getEventDataByMember(uid, new StringCallback() {
             @Override
             public void done(String string) {
+                Log.e("string", string);
                 if (string.equals("\"No such event exists.\"")){
                 }
                 else {
@@ -214,13 +215,13 @@ public class EpisodeMy2 extends Fragment {
                                 String name = episodeObj.getString("eventName");
                                 String type = episodeObj.getString("eventTypeLabel");
                                 String views = episodeObj.getString("eventViewCount");
+                                String location = episodeObj.getString("eventLocation");
 
                                 String episodeHostString = episodeObj.getString("eventHost");
                                 JSONObject episodeHostObj = new JSONObject(episodeHostString);
                                 String hostUsername = episodeHostObj.getString("username");
 
                                 String episodeProfileImagesString = episodeObj.getString("eventProfileImages");
-                                Log.e("imgs", episodeProfileImagesString);
                                 JSONArray episodeProfileImagesArray = new JSONArray(episodeProfileImagesString);
                                 String imagePath;
                                 if (episodeProfileImagesArray.length() > 0){
@@ -232,13 +233,14 @@ public class EpisodeMy2 extends Fragment {
                                 else {
                                     imagePath = "empty";
                                 }
+
                                 episodeEid.add(Integer.valueOf(eid));
                                 episodeName.add(name);
                                 episodeType.add(type);
                                 episodeImagePath.add(imagePath);
                                 episodeHostUsername.add("By " + hostUsername);
                                 episodeViews.add(views + " views");
-                                episodeLocation.add("North Arlington, NJ");
+                                episodeLocation.add(location);
                             }
 
                             adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", episodeName, episodeImagePath, episodeEid, episodeType, episodeHostUsername, episodeViews, episodeLocation);
