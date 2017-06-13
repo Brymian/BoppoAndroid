@@ -3,22 +3,29 @@ package brymian.bubbles.bryant.settings.blocking;
 
 import android.os.Bundle;
 
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
+import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.FriendshipStatusRequest;
 import brymian.bubbles.objects.User;
 
-public class Blocking extends AppCompatActivity {
+public class Blocking extends Fragment {
 
     Toolbar mToolbar;
     RecyclerView rvBlockedUsers;
@@ -26,49 +33,38 @@ public class Blocking extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.blocking);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.blocking, container, false);
+        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.Blocking);
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setHomeButtonEnabled(true);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        rvBlockedUsers = (RecyclerView) findViewById(R.id.rvBlockedUsers);
+        rvBlockedUsers = (RecyclerView) view.findViewById(R.id.rvBlockedUsers);
 
         getFriends();
+        return view;
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                onBackPressed();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        MenuItem item=menu.findItem(R.id.search);
+        item.setVisible(false);
     }
 
     private void getFriends(){
-        /** BRYANT, UPDATE THIS **/
-        /*
-        new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(this), "Blocked", new UserListCallback() {
+        new FriendshipStatusRequest().getFriendshipStatusRequestSentUsers(SaveSharedPreference.getUserUID(getActivity()), "Blocked", new StringCallback() {
             @Override
-            public void done(List<User> users) {
-                List<BlockedUser> blockedUserArrayList = new ArrayList<>();
-
-                for (User user : users) {
-                    BlockedUser friendRequester = new BlockedUser(user.getUsername(), user.getFirstName() + " " + user.getLastName(), user.getUid());
-                    blockedUserArrayList.add(friendRequester);
-                }
-                adapter = new BlockingRecyclerAdapter(Blocking.this, blockedUserArrayList);
-                layoutManager = new LinearLayoutManager(Blocking.this);
-                rvBlockedUsers.setLayoutManager(layoutManager);
-                rvBlockedUsers.setAdapter(adapter);
+            public void done(String string) {
+                Log.e("string", string);
             }
         });
-        */
     }
-
 }
