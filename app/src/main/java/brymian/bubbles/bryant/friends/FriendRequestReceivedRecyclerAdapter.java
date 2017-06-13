@@ -3,14 +3,14 @@ package brymian.bubbles.bryant.friends;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
+//import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -77,9 +77,8 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
             tvFriendRequestFirstLastName = (TextView) v.findViewById(R.id.tvFriendRequestFirstLastName);
             tvFriendRequestUsername = (TextView) v.findViewById(R.id.tvFriendRequestUsername);
 
-            final LinearLayout llAcceptDecline = (LinearLayout) v.findViewById(R.id.llAcceptDecline);
-            final TextView tvFriendRequestResult = (TextView) v.findViewById(R.id.tvFriendRequestResult);
-            final Handler handler = new Handler();
+            final Button bFriendRequestResult = (Button) v.findViewById(R.id.bFriendRequestResult);
+            //final Handler handler = new Handler(); //import is commented out as well
 
             tvAccept = (TextView) v.findViewById(R.id.tvAccept);
             tvAccept.setOnClickListener(new View.OnClickListener() {
@@ -89,9 +88,11 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
                         @Override
                         public void done(String string) {
                             if(string.equals("Friend request accepted.")){
-                                llAcceptDecline.setVisibility(View.GONE);
-                                tvFriendRequestResult.setText("Friends");
-                                tvFriendRequestResult.setVisibility(View.VISIBLE);
+                                tvAccept.setVisibility(View.GONE);
+                                tvDecline.setVisibility(View.GONE);
+                                bFriendRequestResult.setVisibility(View.VISIBLE);
+                                bFriendRequestResult.setText("FRIENDS");
+                                /*
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -101,6 +102,7 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
                                         notifyItemRemoved(getAdapterPosition());
                                     }
                                 }, 3000);
+                                */
                             }
                         }
                     });
@@ -114,9 +116,11 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
                         @Override
                         public void done(String string) {
                             if(string.equals("Friendship request has been successfully rejected.")){
-                                llAcceptDecline.setVisibility(View.GONE);
-                                tvFriendRequestResult.setText("Declined");
-                                tvFriendRequestResult.setVisibility(View.VISIBLE);
+                                tvAccept.setVisibility(View.GONE);
+                                tvDecline.setVisibility(View.GONE);
+                                bFriendRequestResult.setVisibility(View.VISIBLE);
+                                bFriendRequestResult.setText("DECLINED");
+                                /*
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -126,6 +130,7 @@ public class FriendRequestReceivedRecyclerAdapter extends RecyclerView.Adapter<F
                                         notifyItemRemoved(getAdapterPosition());
                                     }
                                 }, 3000);
+                                */
                             }
                         }
                     });
