@@ -118,6 +118,18 @@ public class Miscellaneous {
         }
     }
 
+    public static String convertRatioToNSigfigPercent(double ratio, int nSigfig)
+    {
+        double percentage = Math.round(ratio * Math.pow(10.0, nSigfig)) * 100 / Math.pow(10.0, nSigfig);
+        if (percentage == 100)       // EXCEPTION 1: 100 should return as "100"
+            return "100.00";
+        else if (percentage == 0)    // EXCEPTION 2: 0 should return as "0"
+            return "0";
+        else {
+            return Double.toString(percentage);
+        }
+    }
+
     public static String convertPathsToFull(String string)
     {
         HTTPConnection httpConnection = new HTTPConnection();
