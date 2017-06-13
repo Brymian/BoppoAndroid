@@ -9,7 +9,7 @@ public class MainTabNewsFeedInfo implements Serializable {
     private int eid, uid, user1Uid, user2Uid;
     private String username, firstLastName, episodeTitle, timestamp, userProfileImage, episodeProfileImagePath;
     private String user1Username, user1ProfileImage, user2Username, user2ProfileImage;
-    private String uploadedImage, userImagePurposeLabel, userImageGpsLatitude, userImageGpsLongitude, userImageUploadTimestamp, userImageLikeCount, userImageDislikeCount, userImageCommentCount;
+    private String uploadedImage, userImageUploadTimestamp, userImageLikeCount, userImageDislikeCount, userImageCommentCount;
     //int uid;
     private List<String>  usernames, paths;
     private List<Integer> uids;
@@ -51,14 +51,11 @@ public class MainTabNewsFeedInfo implements Serializable {
     }
 
     /* for UploadImages */
-    public MainTabNewsFeedInfo(int uid, String username, String userProfileImage, String uploadedImage, String userImagePurposeLabel, String userImageGpsLatitude, String userImageGpsLongitude, String userImageUploadTimestamp, String userImageLikeCount, String userImageDislikeCount, String userImageCommentCount){
+    public MainTabNewsFeedInfo(String username, int uid, String userProfileImage, String uploadedImage, String userImageUploadTimestamp, String userImageLikeCount, String userImageDislikeCount, String userImageCommentCount){
         this.uid = uid;
         this.username = username;
         this.userProfileImage = userProfileImage;
         this.uploadedImage = uploadedImage;
-        this.userImagePurposeLabel = userImagePurposeLabel;
-        this.userImageGpsLatitude = userImageGpsLatitude;
-        this.userImageGpsLongitude = userImageGpsLongitude;
         this.userImageUploadTimestamp = userImageUploadTimestamp;
         this.userImageLikeCount = userImageLikeCount;
         this.userImageDislikeCount = userImageDislikeCount;

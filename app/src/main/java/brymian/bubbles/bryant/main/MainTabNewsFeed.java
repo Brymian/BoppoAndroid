@@ -58,7 +58,7 @@ public class MainTabNewsFeed extends Fragment {
                                 String mutualEpisodeProfileImagePath;
                                 if (mutualEpisodeProfileImageArray.length() > 0){
                                     JSONObject mutualEpisodeProfileObject = mutualEpisodeProfileImageArray.getJSONObject(0);
-                                    mutualEpisodeProfileImagePath = mutualEpisodeProfileObject.getString("euiPath");
+                                    mutualEpisodeProfileImagePath = mutualEpisodeProfileObject.getString("euiThumbnailPath");
                                 }
                                 else {
                                     mutualEpisodeProfileImagePath = "empty";
@@ -79,7 +79,7 @@ public class MainTabNewsFeed extends Fragment {
                                     String userProfileImagePath;
                                     if (userProfileImageArray.length() > 0){
                                         JSONObject userProfileImageObj = userProfileImageArray.getJSONObject(0);
-                                        userProfileImagePath = userProfileImageObj.getString("userImagePath");
+                                        userProfileImagePath = userProfileImageObj.getString("userImageThumbnailPath");
                                     }
                                     else {
                                         userProfileImagePath = "empty";
@@ -120,7 +120,7 @@ public class MainTabNewsFeed extends Fragment {
                                 String user1ImagePath;
                                 if (user1ProfileImageArray.length() > 0){
                                     JSONObject user1ProfileImageObj = user1ProfileImageArray.getJSONObject(0);
-                                    user1ImagePath = user1ProfileImageObj.getString("userImagePath");
+                                    user1ImagePath = user1ProfileImageObj.getString("userImageThumbnailPath");
                                 }
                                 else {
                                     user1ImagePath = "empty";
@@ -134,7 +134,7 @@ public class MainTabNewsFeed extends Fragment {
                                 String user2ImagePath;
                                 if (user2ProfileImageArray.length() > 0) {
                                     JSONObject user2ProfileImageObj = user2ProfileImageArray.getJSONObject(0);
-                                    user2ImagePath = user2ProfileImageObj.getString("userImagePath");
+                                    user2ImagePath = user2ProfileImageObj.getString("userImageThumbnailPath");
                                 }
                                 else {
                                     user2ImagePath = "empty";
@@ -159,14 +159,14 @@ public class MainTabNewsFeed extends Fragment {
                                 String createdProfileImagePath;
                                 if (createdProfileImagesArray.length() > 0){
                                     JSONObject createdProfileImageObject = createdProfileImagesArray.getJSONObject(0);
-                                    createdProfileImagePath = createdProfileImageObject.getString("euiPath");
+                                    createdProfileImagePath = createdProfileImageObject.getString("euiThumbnailPath");
                                 }
                                 else {
                                     createdProfileImagePath = "empty";
                                 }
 
 
-                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(Integer.valueOf(createdEpisodeObject.getString("eid")), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventInsertTimestamp"), createdUserObject.getString("username"), Integer.valueOf(createdUserObject.getString("uid")), createdUserProfileImageObj.getString("userImagePath"), createdProfileImagePath);
+                                MainTabNewsFeedInfo info = new MainTabNewsFeedInfo(Integer.valueOf(createdEpisodeObject.getString("eid")), createdEpisodeObject.getString("eventName"),  createdEpisodeObject.getString("eventInsertTimestamp"), createdUserObject.getString("username"), Integer.valueOf(createdUserObject.getString("uid")), createdUserProfileImageObj.getString("userImageThumbnailPath"), createdProfileImagePath);
                                 mainTabNewsFeedInfoList.add(info);
                                 break;
 
@@ -181,7 +181,7 @@ public class MainTabNewsFeed extends Fragment {
                                 JSONArray uploadedUserProfileImageArray = new JSONArray(uploadedUserProfileImage);
                                 JSONObject uploadedUserProfileImageObj = uploadedUserProfileImageArray.getJSONObject(0);
 
-                                MainTabNewsFeedInfo infoUploadImage = new MainTabNewsFeedInfo(Integer.valueOf(uploadedUserObj.getString("uid")), uploadedUserObj.getString("username"), uploadedUserProfileImageObj.getString("userImagePath"), uploadedImageObj.getString("userImagePath"), uploadedImageObj.getString("userImagePurposeLabel"), uploadedImageObj.getString("userImageGpsLatitude"), uploadedImageObj.getString("userImageGpsLongitude"), uploadedImageObj.getString("userImageUploadTimestamp"), uploadedImageObj.getString("userImageLikeCount"), uploadedImageObj.getString("userImageDislikeCount"), uploadedImageObj.getString("userImageCommentCount"));
+                                MainTabNewsFeedInfo infoUploadImage = new MainTabNewsFeedInfo(uploadedUserObj.getString("username"), Integer.valueOf(uploadedUserObj.getString("uid")), uploadedUserProfileImageObj.getString("userImageThumbnailPath"), uploadedImageObj.getString("userImagePath"), uploadedImageObj.getString("userImageUploadTimestamp"), uploadedImageObj.getString("userImageLikeCount"), uploadedImageObj.getString("userImageDislikeCount"), uploadedImageObj.getString("userImageCommentCount"));
                                 mainTabNewsFeedInfoList.add(infoUploadImage);
                                 break;
                         }
