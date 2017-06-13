@@ -73,7 +73,6 @@
         <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>
         <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.settings.blocking.Blocking" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.settings.Privacy" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEdit" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileEditViewImage" android:screenOrientation="portrait"/>

@@ -195,7 +195,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.cvBlocking:
-                startActivity(new Intent(getActivity(), Blocking.class));
+                startFragment(new Blocking());
                 break;
 
             case R.id.cvAbout:
