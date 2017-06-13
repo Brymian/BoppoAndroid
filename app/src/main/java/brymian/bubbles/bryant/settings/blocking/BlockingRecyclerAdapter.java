@@ -66,7 +66,7 @@ public class BlockingRecyclerAdapter extends RecyclerView.Adapter<BlockingRecycl
             tvBlockedUserFirstLastName = (TextView) v.findViewById(R.id.tvBlockedUserFirstLastName);
             ivUserProfileImage = (ImageView) v.findViewById(R.id.ivUserProfileImage);
 
-            final Handler handler = new Handler();
+            //final Handler handler = new Handler();
 
             bUnblock = (Button) v.findViewById(R.id.bUnblock);
             bUnblock.setOnClickListener(new View.OnClickListener() {
@@ -76,9 +76,11 @@ public class BlockingRecyclerAdapter extends RecyclerView.Adapter<BlockingRecycl
                         @Override
                         public void done(String string) {
                             if(string.equals("User has been successfully unblocked.")){
+                                bUnblock.setClickable(false);
                                 bUnblock.setBackgroundColor(activity.getResources().getColor(android.R.color.white));
                                 bUnblock.setTextColor(activity.getResources().getColor(R.color.AppColorDark));
                                 bUnblock.setText("UNBLOCKED");
+                                /*
                                 handler.postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
@@ -87,6 +89,7 @@ public class BlockingRecyclerAdapter extends RecyclerView.Adapter<BlockingRecycl
                                         notifyItemRemoved(getAdapterPosition());
                                     }
                                 }, 3000);
+                                */
                             }
                         }
                     });
