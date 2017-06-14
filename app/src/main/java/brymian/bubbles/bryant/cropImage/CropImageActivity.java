@@ -231,7 +231,7 @@ public class CropImageActivity extends AppCompatActivity {
 
     private void addImageToEvent(){
         Integer[] uiids = {uiid};
-        new EventUserImageRequest(this).addImagesToEvent(eid, uiids, new StringCallback() {
+        new EventUserImageRequest().addImagesToEvent(eid, uiids, new StringCallback() {
             @Override
             public void done(String string) {
                 try{
@@ -250,7 +250,7 @@ public class CropImageActivity extends AppCompatActivity {
     }
 
     private void setEpisodeProfileImage(){
-        new EventUserImageRequest(this).setEuiEventProfileSequence(eid, uiid, (short)0, new StringCallback() {
+        new EventUserImageRequest().setEuiEventProfileSequence(eid, uiid, (short)0, new StringCallback() {
             @Override
             public void done(String string) {
                 if (string.equals("\"Event user image event profile sequence has been successfully updated.\"")){

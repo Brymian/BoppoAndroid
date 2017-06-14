@@ -1,7 +1,5 @@
 package brymian.bubbles.damian.nonactivity.ServerRequest;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import org.json.JSONArray;
@@ -9,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.List;
 
 import brymian.bubbles.damian.nonactivity.Connection.HTTPConnection;
 import brymian.bubbles.damian.nonactivity.Post;
@@ -17,35 +14,25 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.getNullOrValue;
 
-/**
- * Created by Ziomster on 3/29/2017.
- */
 
 public class EventUserImageRequest
 {
     private HTTPConnection httpConnection = null;
-    private ProgressDialog pd = null;
 
-    public EventUserImageRequest(Activity activity)
+    public EventUserImageRequest()
     {
-        pd = new ProgressDialog(activity);
-        pd.setCancelable(false);
-        pd.setTitle("Processing");
-        pd.setMessage("Please wait...");
         httpConnection = new HTTPConnection();
     }
 
 
 
     public void addImagesToEvent(Integer eid, Integer[] uiids, StringCallback stringCallback) {
-        pd.show();
         new AddImagesToEvent(eid, uiids, stringCallback).execute();
     }
 
     public void setEuiEventProfileSequence(Integer eid, Integer uiid, Short euiEventProfileSequence,
         StringCallback stringCallback)
     {
-        pd.show();
         new SetEuiEventProfileSequence(eid, uiid, euiEventProfileSequence, stringCallback).execute();
     }
 
@@ -99,7 +86,6 @@ public class EventUserImageRequest
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
 
             super.onPostExecute(string);
@@ -150,9 +136,7 @@ public class EventUserImageRequest
 
         @Override
         protected void onPostExecute(String string) {
-            pd.dismiss();
             stringCallback.done(string);
-            //Toast.makeText(this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
             super.onPostExecute(string);
         }

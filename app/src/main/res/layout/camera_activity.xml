@@ -24,6 +24,7 @@
                 android:id="@+id/ivFlash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingRight="32dp"
                 android:src="@mipmap/ic_flash_on_white_24dp"/>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>

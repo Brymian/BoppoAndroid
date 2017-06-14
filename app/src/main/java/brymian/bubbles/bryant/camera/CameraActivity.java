@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.media.ExifInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -58,7 +60,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
     FloatingActionButton fabDone;
     int currentCameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     int order = 1;
-    static byte[] data;
+    private String encodedImage, thumbnailEncodedImage;
 
     public static final int MEDIA_TYPE_IMAGE = 1;
     public static final int MEDIA_TYPE_VIDEO = 2;
@@ -92,12 +94,18 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             Log.e("imagePurpose", imagePurpose);
         }
         /* Makes the activity fullscreen */
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window w = getWindow();
+            w.setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
 
         /* Setting xml layout */
         setContentView(R.layout.camera_activity);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setPadding(0, getStatusBarHeight(),0, 0);
         toolbar.bringToFront();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -156,23 +164,17 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 }
                 break;
             case R.id.fabDone:
-                /*
-                CameraTest camFrag = new CameraTest();
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.camera_activity, camFrag);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-                */
                 switch(imagePurpose){
                     case "Regular":
-                        startActivity(new Intent(this, SendTo.class).putExtra("encodedImage", Base64.encodeToString(getImageDataByte(), Base64.DEFAULT)));
-                        break;
-                    case "Profile":
-                        Intent resultIntent = new Intent();
-                        resultIntent.putExtra("encodedImage", getImageDataByte());
-                        resultIntent.putExtra("imageName", imageName());
-                        setResult(Activity.RESULT_OK, resultIntent);
-                        finish();
+                        SendTo sendTo = new SendTo();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("encodedImage" , encodedImage);
+                        bundle.putString("thumbnailEncodedImage", thumbnailEncodedImage);
+                        sendTo.setArguments(bundle);
+                        FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                        fragmentTransaction.replace(R.id.camera_activity, sendTo);
+                        fragmentTransaction.addToBackStack(null);
+                        fragmentTransaction.commit();
                         break;
                 }
                 break;
@@ -238,6 +240,15 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     private void setAutoFocus(){
@@ -319,6 +330,7 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     FileOutputStream fos = new FileOutputStream(pictureFile);
 
                     Bitmap realImage = BitmapFactory.decodeByteArray(data, 0, data.length);
+                    Bitmap thumbnailImage = getResizedBitmap(realImage, 300);
 
                     ExifInterface exif=new ExifInterface(pictureFile.toString());
 
@@ -346,11 +358,16 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
                     fos.close();
 
                     Log.d("Info", bo + "");
+                    Log.e("BitmapInfo", "Normal size: " + realImage.getByteCount()+"\nThumbnail size: " +thumbnailImage.getAllocationByteCount());
 
-                    ByteArrayOutputStream bs = new ByteArrayOutputStream();
-                    realImage.compress(Bitmap.CompressFormat.JPEG, 50, bs);
-                    setImageDataByte(bs.toByteArray());
-
+                    ByteArrayOutputStream bsRealImage = new ByteArrayOutputStream();
+                    realImage.compress(Bitmap.CompressFormat.JPEG, 100, bsRealImage);
+                    byte[] realImageByteArray = bsRealImage.toByteArray();
+                    encodedImage = Base64.encodeToString(realImageByteArray, Base64.DEFAULT);
+                    ByteArrayOutputStream bsThumbnailImage = new ByteArrayOutputStream();
+                    thumbnailImage.compress(Bitmap.CompressFormat.JPEG, 100, bsThumbnailImage);
+                    byte[] thumbnailByteArray = bsThumbnailImage.toByteArray();
+                    thumbnailEncodedImage = Base64.encodeToString(thumbnailByteArray, Base64.DEFAULT);
                 }
                 catch (FileNotFoundException e) {
                     Log.d("Info", "File not found: " + e.getMessage());
@@ -367,7 +384,22 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         fabDone.show();
     }
 
-    private static Bitmap rotate(Bitmap bitmap, int degree) {
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float)width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    private Bitmap rotate(Bitmap bitmap, int degree) {
         int w = bitmap.getWidth();
         int h = bitmap.getHeight();
 
@@ -422,12 +454,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-
-
-    private void setImageDataByte(byte[] data){this.data = data;}
-
-    public static byte[] getImageDataByte(){return data;}
-
     /** Checks if the device has a camera **/
     private boolean checkCameraHardware(Context context) {
         if (context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
@@ -449,11 +475,6 @@ public class CameraActivity extends AppCompatActivity implements View.OnClickLis
             //Camera is not available (in use or does not exist)
         }
         return c;//returns null if camera is unavailable
-    }
-
-    String imageName(){
-        String charSequenceName = (String) android.text.format.DateFormat.format("yyyy_MM_dd_hh_mm_ss", new java.util.Date());
-        return SaveSharedPreference.getUserUID(this) + "_" + charSequenceName;
     }
 
     public static void setCameraDisplayOrientation(Activity activity, int cameraId, android.hardware.Camera camera) {

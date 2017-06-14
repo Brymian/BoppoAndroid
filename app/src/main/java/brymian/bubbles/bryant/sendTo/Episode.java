@@ -6,20 +6,21 @@ import java.io.Serializable;
 public class Episode implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    String episodeTitle, episodeHostName, episodeHostUsername;
-    int episodeEid;
-    boolean isSelected;
+    private String episodeTitle, episodeHostName, episodeHostUsername, imagePath;
+    private int episodeEid;
+    private boolean isSelected;
 
 
     public Episode(){
 
     }
 
-    public Episode(String episodeTitle, String episodeHostName, String episodeHostUsername, int episodeEid, boolean isSelected){
+    public Episode(String episodeTitle, String episodeHostName, String episodeHostUsername, int episodeEid, String imagePath, boolean isSelected){
         this.episodeTitle = episodeTitle;
         this.episodeHostName = episodeHostName;
         this.episodeHostUsername = episodeHostUsername;
         this.episodeEid = episodeEid;
+        this.imagePath = imagePath;
         this.isSelected = isSelected;
     }
 
@@ -45,6 +46,10 @@ public class Episode implements Serializable {
 
     public int getEpisodeEid(){
         return episodeEid;
+    }
+
+    public String getImagePath(){
+        return imagePath;
     }
 
     public void setIsSelected(boolean isSelected){

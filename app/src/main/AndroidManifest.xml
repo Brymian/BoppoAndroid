@@ -63,10 +63,8 @@
         <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.episodes.EpisodeParticipants" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.map.MapActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.sendTo.SendTo" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.camera.CameraActivity" android:screenOrientation="portrait"/>
         <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"/>
