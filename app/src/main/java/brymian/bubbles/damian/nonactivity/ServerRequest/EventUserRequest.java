@@ -185,7 +185,7 @@ public class EventUserRequest {
         @Override
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
-                    "AndroidIO/EventUserRequest.php?function=getEventUsersData";
+                "AndroidIO/EventUserRequest.php?function=getEventUsersData";
 
             Post request = new Post();
 

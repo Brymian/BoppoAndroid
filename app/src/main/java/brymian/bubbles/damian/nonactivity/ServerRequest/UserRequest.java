@@ -43,6 +43,11 @@ public class UserRequest {
             setOrNot, stringCallback).execute();
     }
 
+    public void getUserProfileData(Integer uid, StringCallback stringCallback)
+    {
+        new GetUserProfileData(uid, stringCallback).execute();
+    }
+
     public void getUsersSearchedByName(Integer searchedByUid, String searchedName,
        StringCallback stringCallback)
     {
@@ -135,6 +140,58 @@ public class UserRequest {
 
             super.onPostExecute(string);
         }
+    }
+
+    private class GetUserProfileData extends AsyncTask<Void, Void, String>
+    {
+        Integer uid;
+        StringCallback stringCallback;
+
+        private GetUserProfileData(Integer uid, StringCallback stringCallback)
+        {
+            this.uid = uid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+
+            String url = httpConnection.getWebServerString() +
+                "AndroidIO/UserRequest.php?function=getUserProfileData";
+
+            Post request = new Post();
+
+            try
+            {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("uid", getNullOrValue(uid));
+                String jsonString = jsonObject.toString();
+
+                String response = request.post(url, jsonString);
+
+                return convertPathsToFull(response);
+            }
+            catch (IOException ioe)
+            {
+                ioe.printStackTrace();
+                return null;
+            }
+            catch (JSONException jsone)
+            {
+                jsone.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
+            //pd.dismiss();
+            stringCallback.done(string);
+
+            super.onPostExecute(string);
+        }
+
     }
 
     private class GetUsersSearchedByName extends AsyncTask<Void, Void, String> {

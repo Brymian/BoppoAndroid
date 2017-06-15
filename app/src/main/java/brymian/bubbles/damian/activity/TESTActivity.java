@@ -11,6 +11,8 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 
+import static brymian.bubbles.damian.nonactivity.Miscellaneous.printLongString;
+
 
 public class TESTActivity extends Activity {
 
@@ -21,8 +23,8 @@ public class TESTActivity extends Activity {
         test();
     }
 
-    private void test() {
-
+    private void test()
+    {
         /*
         new ServerRequestMethods(this).getUsers(1, "Damian", new UserListCallback() {
             @Override
@@ -652,7 +654,7 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
+        /*
         new EventRequest(this).getEventDataByTopNRatings(3, new StringCallback() {
             @Override
             public void done(String string) {
@@ -665,8 +667,7 @@ public class TESTActivity extends Activity {
                 System.out.println(string);
             }
         });
-
-
+        */
         // Worked as of 2017-04-03
         /*
         new UserImageRequest(this).uploadImage(1, 11, "UserImageNameEEE", "Public", 12.345, 67.890,
@@ -824,7 +825,12 @@ public class TESTActivity extends Activity {
             .updateEventUnparsedAddress(eid, eventAddressName, eventAddressUnparsedText);
         System.out.println(response);
         */
-
+        new UserRequest(this).getUserProfileData(2, new StringCallback() {
+            @Override
+            public void done(String string) {
+                printLongString(string);
+            }
+        });
     }
 
 }
