@@ -166,7 +166,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
             case R.id.rlMyPhotos:
                 break;
 
-            case R.id.cvFriends:
+            case R.id.rlMyFriends:
                 Friends friends = new Friends();
                 Bundle bundle = new Bundle();
                 bundle.putInt("uid", SaveSharedPreference.getUserUID(getActivity()));
