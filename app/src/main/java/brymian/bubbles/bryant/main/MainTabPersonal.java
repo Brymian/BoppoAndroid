@@ -7,13 +7,12 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -21,8 +20,6 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.List;
 
 import brymian.bubbles.R;
 import brymian.bubbles.bryant.account.Email;
@@ -33,80 +30,73 @@ import brymian.bubbles.bryant.friends.Friends;
 import brymian.bubbles.bryant.logIn.LoginActivity;
 import brymian.bubbles.bryant.map.MapActivity;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
-import brymian.bubbles.bryant.pictures.ProfilePicturesActivity2;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.bryant.settings.Notifications;
 import brymian.bubbles.bryant.settings.Privacy;
 import brymian.bubbles.bryant.settings.blocking.Blocking;
 import brymian.bubbles.damian.activity.TESTActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.UserListCallback;
-import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
-import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
-import brymian.bubbles.objects.User;
-
+import brymian.bubbles.damian.nonactivity.ServerRequest.UserRequest;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
 public class MainTabPersonal extends Fragment implements View.OnClickListener{
-    CardView  cvMyProfile, cvMyEpisodes, cvMyMap, cvProfilePictures, cvFriends,
-                            cvNotifications, cvPrivacy, cvBlocking, cvAbout,
-                            cvPassword, cvEmail, cvPhoneNumber, cvSyncWithOtherMedia, cvLogOut;
-    TextView tvUserUsername, tvUserFirstLastName, tvNumberOfEpisodes, tvNumberOfFriends, tvEmail, tvPhoneNumber;
+    RelativeLayout rlMyProfile, rlMyEpisodes, rlMyMap, rlMyPhotos, rlMyFriends, rlNotifications, rlPrivacy, rlBlocking, rlAbout, rlPassword, rlEmail, rlPhoneNumber, rlSyncWithOtherMedia, rlLogOut;
+    TextView tvUserUsername, tvUserFirstLastName, tvEpisodesNum, tvFriendsNum, tvPhotosNum, tvEmail, tvPhoneNumber;
     ImageView ivProfilePicture;
     boolean isPersonalLoaded = false;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_tab_personal, container, false);
         /* Profile */
-        cvMyProfile = (CardView) rootView.findViewById(R.id.cvMyProfile);
-        cvMyProfile.setOnClickListener(this);
+        rlMyProfile = (RelativeLayout) rootView.findViewById(R.id.rlMyProfile);
+        rlMyProfile.setOnClickListener(this);
         ivProfilePicture = (ImageView) rootView.findViewById(R.id.ivProfilePicture);
         tvUserUsername = (TextView) rootView.findViewById(R.id.tvUserUsername);
         tvUserFirstLastName = (TextView) rootView.findViewById(R.id.tvUserFirstLastName);
 
-        cvMyEpisodes = (CardView) rootView.findViewById(R.id.cvMyEpisodes);
-        cvMyEpisodes.setOnClickListener(this);
-        tvNumberOfEpisodes = (TextView) rootView.findViewById(R.id.tvNumberOfEpisodes);
+        rlMyEpisodes = (RelativeLayout) rootView.findViewById(R.id.rlMyEpisodes);
+        rlMyEpisodes.setOnClickListener(this);
+        tvEpisodesNum = (TextView) rootView.findViewById(R.id.tvNumberOfEpisodes);
 
-        cvMyMap = (CardView) rootView.findViewById(R.id.cvMyMap);
-        cvMyMap.setOnClickListener(this);
+        rlMyMap = (RelativeLayout) rootView.findViewById(R.id.rlMyMap);
+        rlMyMap.setOnClickListener(this);
 
-        cvProfilePictures = (CardView) rootView.findViewById(R.id.cvProfilePictures);
-        cvProfilePictures.setOnClickListener(this);
+        rlMyPhotos = (RelativeLayout) rootView.findViewById(R.id.rlMyPhotos);
+        rlMyPhotos.setOnClickListener(this);
+        tvPhotosNum = (TextView) rootView.findViewById(R.id.tvPhotosNum);
 
-        cvFriends = (CardView) rootView.findViewById(R.id.cvFriends);
-        cvFriends.setOnClickListener(this);
-        tvNumberOfFriends = (TextView) rootView.findViewById(R.id.tvNumberOfFriends);
+        rlMyFriends = (RelativeLayout) rootView.findViewById(R.id.rlMyFriends);
+        rlMyFriends.setOnClickListener(this);
+        tvFriendsNum = (TextView) rootView.findViewById(R.id.tvNumberOfFriends);
 
         /* Settings */
-        cvNotifications = (CardView) rootView.findViewById(R.id.cvNotifications);
-        cvNotifications.setOnClickListener(this);
+        rlNotifications = (RelativeLayout) rootView.findViewById(R.id.rlNotifications);
+        rlNotifications.setOnClickListener(this);
 
-        cvPrivacy = (CardView) rootView.findViewById(R.id.cvPrivacy);
-        cvPrivacy.setOnClickListener(this);
+        rlPrivacy = (RelativeLayout) rootView.findViewById(R.id.rlPrivacy);
+        rlPrivacy.setOnClickListener(this);
 
-        cvBlocking = (CardView) rootView.findViewById(R.id.cvBlocking);
-        cvBlocking.setOnClickListener(this);
+        rlBlocking = (RelativeLayout) rootView.findViewById(R.id.rlBlocking);
+        rlBlocking.setOnClickListener(this);
 
-        cvAbout = (CardView) rootView.findViewById(R.id.cvAbout);
-        cvAbout.setOnClickListener(this);
+        rlAbout = (RelativeLayout) rootView.findViewById(R.id.rlAbout);
+        rlAbout.setOnClickListener(this);
 
         /* Account */
-        cvPassword = (CardView) rootView.findViewById(R.id.cvPassword);
-        cvPassword.setOnClickListener(this);
+        rlPassword = (RelativeLayout) rootView.findViewById(R.id.rlPassword);
+        rlPassword.setOnClickListener(this);
 
-        cvEmail = (CardView) rootView.findViewById(R.id.cvEmail);
-        cvEmail.setOnClickListener(this);
+        rlEmail = (RelativeLayout) rootView.findViewById(R.id.rlEmail);
+        rlEmail.setOnClickListener(this);
         tvEmail = (TextView) rootView.findViewById(R.id.tvEmail);
 
-        cvPhoneNumber = (CardView) rootView.findViewById(R.id.cvPhoneNumber);
-        cvPhoneNumber.setOnClickListener(this);
+        rlPhoneNumber = (RelativeLayout) rootView.findViewById(R.id.rlPhoneNumber);
+        rlPhoneNumber.setOnClickListener(this);
         tvPhoneNumber = (TextView) rootView.findViewById(R.id.tvPhoneNumber);
 
-        cvSyncWithOtherMedia = (CardView) rootView.findViewById(R.id.cvSyncWithOtherMedia);
+        rlSyncWithOtherMedia = (RelativeLayout) rootView.findViewById(R.id.rlSyncWithOtherMedia);
 
         final TextView tvDamiansTestActivity = (TextView) rootView.findViewById(R.id.tvDamiansTestActivity);
         if (SaveSharedPreference.getUserUID(getActivity()) == 1){
@@ -119,8 +109,8 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
             }
         });
 
-        cvLogOut = (CardView) rootView.findViewById(R.id.cvLogOut);
-        cvLogOut.setOnClickListener(this);
+        rlLogOut = (RelativeLayout) rootView.findViewById(R.id.rlLogOut);
+        rlLogOut.setOnClickListener(this);
 
         return rootView;
     }
@@ -138,7 +128,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             /* Profile */
-            case R.id.cvMyProfile:
+            case R.id.rlMyProfile:
                 /*
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     View statusBar = getActivity().findViewById(android.R.id.statusBarBackground);
@@ -160,7 +150,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
 
                 break;
 
-            case R.id.cvMyEpisodes:
+            case R.id.rlMyEpisodes:
                 EpisodeMy2 episodeMy2 = new EpisodeMy2();
                 Bundle b = new Bundle();
                 b.putInt("uid", SaveSharedPreference.getUserUID(getActivity()));
@@ -169,12 +159,11 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 startFragment(episodeMy2);
                 break;
 
-            case R.id.cvMyMap:
+            case R.id.rlMyMap:
                 startActivity(new Intent(getActivity(), MapActivity.class).putExtra("profile", "logged in user"));
                 break;
 
-            case R.id.cvProfilePictures:
-                startActivity(new Intent(getActivity(), ProfilePicturesActivity2.class));
+            case R.id.rlMyPhotos:
                 break;
 
             case R.id.cvFriends:
@@ -186,38 +175,38 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 startFragment(friends);
                 break;
             /* Settings */
-            case R.id.cvNotifications:
+            case R.id.rlNotifications:
                 startActivity(new Intent(getActivity(), Notifications.class));
                 break;
 
-            case R.id.cvPrivacy:
+            case R.id.rlPrivacy:
                 startActivity(new Intent(getActivity(), Privacy.class));
                 break;
 
-            case R.id.cvBlocking:
+            case R.id.rlBlocking:
                 startFragment(new Blocking());
                 break;
 
-            case R.id.cvAbout:
+            case R.id.rlAbout:
                 break;
             /* Account */
-            case R.id.cvPassword:
+            case R.id.rlPassword:
                 startFragment(new Password());
                 break;
 
-            case R.id.cvEmail:
+            case R.id.rlEmail:
                 startFragment(new Email());
                 break;
 
-            case R.id.cvPhoneNumber:
+            case R.id.rlPhoneNumber:
                 startFragment(new PhoneNumber());
                 break;
 
-            case R.id.cvSyncWithOtherMedia:
+            case R.id.rlSyncWithOtherMedia:
 
                 break;
 
-            case R.id.cvLogOut:
+            case R.id.rlLogOut:
                 logOut();
                 break;
         }
@@ -238,7 +227,7 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
     private void getPersonalInfo(){
         tvUserUsername.setText(SaveSharedPreference.getUsername(getActivity()));
         tvUserFirstLastName.setText(SaveSharedPreference.getUserFirstName(getActivity()) + " " + SaveSharedPreference.getUserLastName(getActivity()));
-         new UserImageRequest(getActivity()).getImagesByUid(SaveSharedPreference.getUserUID(getActivity()), true, new StringCallback() {
+        new UserImageRequest(getActivity()).getImagesByUid(SaveSharedPreference.getUserUID(getActivity()), true, new StringCallback() {
                 @Override
                 public void done(String string) {
                     try{
@@ -257,39 +246,20 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
                 }
             });
 
-        new EventRequest(getActivity()).getEventDataByMember(SaveSharedPreference.getUserUID(getActivity()), new StringCallback() {
+        new UserRequest(getActivity()).getUserProfileData(SaveSharedPreference.getUserUID(getActivity()), new StringCallback() {
             @Override
             public void done(String string) {
-                try {
+                try{
                     JSONObject jsonObject = new JSONObject(string);
-                    String eventsString = jsonObject.getString("events");
-                    JSONArray eventsArray = new JSONArray(eventsString);
-                    tvNumberOfEpisodes.setText(String.valueOf(eventsArray.length()));
+                    String user = jsonObject.getString("user");
+                    JSONObject userObj = new JSONObject(user);
+                    tvFriendsNum.setText(userObj.getString("countFriends"));
+                    tvEpisodesNum.setText(userObj.getString("countJoinedEvents"));
+                    tvPhotosNum.setText(userObj.getString("countImages"));
                 }
-                catch (JSONException e) {
+                catch (JSONException e){
                     e.printStackTrace();
                 }
-
-            }
-        });
-
-
-        new ServerRequestMethods(getActivity()).getFriends(SaveSharedPreference.getUserUID(getActivity()), new UserListCallback() {
-            @Override
-            public void done(List<User> users) {
-                try{
-                    tvNumberOfFriends.setText(String.valueOf(users.size()));
-                }
-                catch (NullPointerException npe){
-                    npe.printStackTrace();
-                }
-            }
-        });
-
-        new ServerRequestMethods(getActivity()).getUserData(SaveSharedPreference.getUserUID(getActivity()), new UserCallback() {
-            @Override
-            public void done(User user) {
-                Log.e("user", user.getPhone()+"\t"+ user.getUid()+"\t"+user.getEmail());
             }
         });
 

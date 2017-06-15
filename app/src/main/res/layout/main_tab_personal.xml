@@ -1,48 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
-    android:fillViewport="true">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:id="@+id/main_tab_account">
-    <TextView
+    android:fillViewport="true"
+    android:background="@android:color/white">
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:gravity="center"
-        android:text="@string/Profile"
-        android:textAppearance="?android:textAppearanceSmall" />
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvMyProfile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
-        <RelativeLayout
+        android:orientation="vertical"
+        android:id="@+id/main_tab_account">
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
+            android:layout_margin="@dimen/halfContentPadding"
+            android:gravity="center"
+            android:text="@string/Profile"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@color/AppColorDark"/>
+        <RelativeLayout
+            android:id="@+id/rlMyProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/halfContentPadding">
             <ImageView
                 android:id="@+id/ivProfilePicture"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/userImageSize"
+                android:layout_height="@dimen/userImageSize"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/contentPadding"
                 android:transitionName="profile_activity_image_trans"/>
             <TextView
                 android:id="@+id/tvUserUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/ivProfilePicture"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:transitionName="username_trans"/>
+                android:textAppearance="@android:style/TextAppearance.Medium" />
             <TextView
                 android:id="@+id/tvUserFirstLastName"
                 android:layout_width="wrap_content"
@@ -52,32 +46,25 @@
                 android:layout_toRightOf="@+id/ivProfilePicture"
                 android:layout_below="@+id/tvUserUsername"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvMyEpisodes"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlMyEpisodes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
+            android:layout_margin="@dimen/halfContentPadding">
             <ImageView
                 android:id="@+id/ivMyEpisodes"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/userImageSize"
+                android:layout_height="@dimen/userImageSize"
                 android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/contentPadding"
                 android:background="@android:color/black"/>
             <TextView
                 android:id="@+id/tvMyEpisodes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
                 android:layout_toRightOf="@+id/ivMyEpisodes"
+                android:layout_alignParentTop="true"
+                android:textAppearance="@android:style/TextAppearance.Medium"
                 android:text="@string/My_Episodes"/>
             <TextView
                 android:id="@+id/tvNumberOfEpisodes"
@@ -88,410 +75,306 @@
                 android:layout_toRightOf="@+id/ivMyEpisodes"
                 android:layout_below="@+id/tvMyEpisodes"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvMyMap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlMyPhotos"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
-            <LinearLayout
-                android:id="@+id/llMyMap"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_public_black_24dp"/>
-            </LinearLayout>
-            <TextView
-                android:id="@+id/tvMyMap"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding">
+            <ImageView
+                android:id="@+id/ivPhotosIcon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llMyMap"
+                android:layout_height="match_parent"
                 android:layout_centerVertical="true"
-                android:text="@string/My_Map"/>
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvProfilePictures"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llProfilePicture"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_image_black_24dp"/>
-            </LinearLayout>
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_image_grey600_24dp"/>
             <TextView
-                android:id="@+id/tvProfilePictures"
+                android:id="@+id/tvMyPhotos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivPhotosIcon"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llProfilePicture"
-                android:text="@string/Profile_Pictures"
-                android:layout_centerVertical="true"/>
+                android:text="My Photos"/>
+            <TextView
+                android:id="@+id/tvPhotosNum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/ivPhotosIcon"
+                android:layout_below="@+id/tvMyPhotos"
+                android:layout_marginLeft="@dimen/contentPadding"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColor="@android:color/darker_gray" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvFriends"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlMyFriends"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llFriends"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentLeft="true"
-                android:gravity="center">
-                <ImageView
-                    android:id="@+id/ivFriends"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_people_outline_black_24dp"/>
-            </LinearLayout>
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding">
+            <ImageView
+                android:id="@+id/ivFriendsIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_account_multiple_grey600_24dp"
+                android:layout_centerVertical="true"/>
             <TextView
                 android:id="@+id/tvFriends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:text="@string/Friends"
-                android:layout_toRightOf="@+id/llFriends"/>
+                android:text="My Friends"
+                android:layout_toRightOf="@+id/ivFriendsIcon"/>
             <TextView
                 android:id="@+id/tvNumberOfFriends"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@android:color/darker_gray"
-                android:layout_toRightOf="@+id/llFriends"
+                android:layout_toRightOf="@+id/ivFriendsIcon"
                 android:layout_below="@+id/tvFriends"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+        <RelativeLayout
+            android:id="@+id/rlMyMap"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding">
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_earth_grey600_24dp"/>
+            <TextView
+                android:id="@+id/tvMyMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
+                android:layout_toRightOf="@+id/ivIcon"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:layout_centerVertical="true"
+                android:text="@string/My_Map"/>
+        </RelativeLayout>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/halfContentPadding"
         android:gravity="center"
         android:text="@string/Settings"
-        android:textAppearance="?android:textAppearanceSmall" />
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvNotifications"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
+        android:textAppearance="?android:textAppearanceSmall"
+        android:textColor="@color/AppColorDark"/>
         <RelativeLayout
+            android:id="@+id/rlNotifications"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llNotifications"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_notifications_none_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivNotificationsIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_bell_grey600_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llNotifications"
+                android:layout_toRightOf="@+id/ivNotificationsIcon"
                 android:text="@string/Notifications"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvPrivacy"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlPrivacy"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llPrivacy"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_lock_outline_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivPrivacyIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_lock_grey600_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llPrivacy"
+                android:layout_toRightOf="@+id/ivPrivacyIcon"
                 android:text="@string/Privacy"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvBlocking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlBlocking"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llBlocking"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_block_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivBlockingIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:tint="@color/grey600"
+                android:src="@mipmap/ic_block_black_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llBlocking"
+                android:layout_toRightOf="@+id/ivBlockingIcon"
                 android:text="@string/Blocking"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvAbout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlAbout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llAbout"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_info_outline_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivAboutIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:tint="@color/grey600"
+                android:src="@mipmap/ic_info_outline_black_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llAbout"
+                android:layout_toRightOf="@+id/ivAboutIcon"
                 android:text="@string/About"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center"
             android:text="@string/Account"
+            android:textColor="@color/AppColorDark"
             android:textAppearance="?android:textAppearanceSmall" />
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlPassword"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llPassword"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_key_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivPasswordIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:tint="@color/grey600"
+                android:src="@mipmap/ic_key_black_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llPassword"
+                android:layout_toRightOf="@+id/ivPasswordIcon"
                 android:text="@string/Password"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlEmail"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llEmail"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_mail_outline_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivEmailIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_email_outline_grey600_24dp"/>
             <TextView
                 android:id="@+id/tvEmailString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llEmail"
+                android:layout_toRightOf="@+id/ivEmailIcon"
                 android:text="@string/Email"/>
             <TextView
                 android:id="@+id/tvEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/llEmail"
+                android:layout_marginLeft="@dimen/contentPadding"
+                android:layout_toRightOf="@+id/ivEmailIcon"
                 android:layout_below="@id/tvEmailString"
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@android:color/darker_gray" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvPhoneNumber"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlPhoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llPhoneNumber"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_phone_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivPhoneIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:src="@mipmap/ic_phone_grey600_24dp"/>
             <TextView
                 android:id="@+id/tvPhoneNumberString"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llPhoneNumber"
+                android:layout_toRightOf="@+id/ivPhoneIcon"
                 android:text="@string/Phone_Number"/>
             <TextView
                 android:id="@+id/tvPhoneNumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/llPhoneNumber"
+                android:layout_marginLeft="@dimen/contentPadding"
+                android:layout_toRightOf="@+id/ivPhoneIcon"
                 android:layout_below="@id/tvPhoneNumberString"
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="@android:color/darker_gray" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvSyncWithOtherMedia"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlSyncWithOtherMedia"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llSyncWithOtherMedia"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_sync_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivSyncIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:tint="@color/grey600"
+                android:src="@mipmap/ic_sync_black_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llSyncWithOtherMedia"
+                android:layout_toRightOf="@+id/ivSyncIcon"
                 android:text="@string/Sync_With_Other_Media"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
     <TextView
         android:id="@+id/tvDamiansTestActivity"
         android:layout_width="wrap_content"
@@ -500,38 +383,28 @@
         android:visibility="gone"
         android:text="DAMIAN'S TEST ACTIVITY"
         android:textAppearance="@android:style/TextAppearance.Large"/>
-    <android.support.v7.widget.CardView
-        android:id="@+id/cvLogOut"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="1dp"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
         <RelativeLayout
+            android:id="@+id/rlLogOut"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_height="@dimen/userImageSize"
+            android:layout_margin="@dimen/halfContentPadding"
             android:gravity="center_vertical">
-            <LinearLayout
-                android:id="@+id/llLogOut"
-                android:layout_alignParentLeft="true"
-                android:layout_marginRight="10dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:gravity="center">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/ic_power_settings_new_black_24dp"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/ivLogOutIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/halfContentPadding"
+                android:layout_marginRight="@dimen/contentPadding"
+                android:tint="@color/grey600"
+                android:src="@mipmap/ic_power_settings_new_black_24dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/contentPadding"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:layout_toRightOf="@+id/llLogOut"
+                android:layout_toRightOf="@+id/ivLogOutIcon"
                 android:text="@string/Log_Out"
                 android:layout_centerVertical="true"/>
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
 </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

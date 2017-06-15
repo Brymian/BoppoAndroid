@@ -24,4 +24,5 @@
     <color name="AppColorDark">#2ba67c</color>
     <color name="LightGrayAndroid">#e9e8e8</color>
     <color name="BlueText">#0645AD</color>
+    <color name="grey600">#757575</color>
 </resources>
