@@ -21,14 +21,15 @@ public class EpisodeView extends Fragment {
         getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
         ivEpisode = (ImageView) rootView.findViewById(R.id.ivEpisode);
-        ivEpisode.setImageBitmap(EpisodeActivity.episodeImage.get(count));
+        ivEpisode.setImageBitmap(((EpisodeActivity)getActivity()).loadedEpisodeImages.get(count));
         ivEpisode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 count = count+1;
                 try{
-                    ivEpisode.setImageBitmap(EpisodeActivity.episodeImage.get(count));
-                }catch (IndexOutOfBoundsException e){
+                    ivEpisode.setImageBitmap(((EpisodeActivity)getActivity()).loadedEpisodeImages.get(count));
+                }
+                catch (IndexOutOfBoundsException e){
                     getFragmentManager().popBackStack();
                 }
             }

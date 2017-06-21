@@ -50,7 +50,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     double longitude;
 
     long calendarStartInMillis, calendarEndInMillis;
-    boolean isStartDateSelected = false, isEndDateSelected = false, isEndTimeChanged = false;
+    boolean isStartDateSelected, isEndDateSelected, isEndTimeChanged, isLocationAdded;
 
     private final int LOCATION_CODE = 4;
 
@@ -118,6 +118,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.ivClearLocation:
+                isLocationAdded = false;
                 tvAddLocation.setText("Add Location");
                 tvLocationAddress.setText(null);
                 tvLocationAddress.setVisibility(View.GONE);
@@ -160,6 +161,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         if (requestCode == LOCATION_CODE){
             if (resultCode == RESULT_OK){
                 if (data != null){
+                    isLocationAdded = true;
                     locationName = data.getStringExtra("locationName");
                     locationAddress = data.getStringExtra("locationAddress");
                     latitude = data.getDoubleExtra("locationLat", 0);
@@ -204,6 +206,11 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                         Log.e("string", string);
                         String[] result = string.split(" ");
                         if (result[0].equals("Success.")){
+                            if (isLocationAdded){
+                                String response = new EventRequest(EpisodeCreate.this).updateEventUnparsedAddress(Long.valueOf(result[2]),locationName, locationAddress);
+                                Log.e("response", response);
+                            }
+
                             tilTitle.setErrorEnabled(false);
                             EpisodeCreateUploadImage episodeCreateUploadImage = new EpisodeCreateUploadImage();
                             Bundle bundle = new Bundle();

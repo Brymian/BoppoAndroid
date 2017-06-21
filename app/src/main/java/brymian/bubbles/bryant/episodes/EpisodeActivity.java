@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -208,12 +210,12 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.fabPlay:
-                if (episodeImage.size() > 0){
+                if (loadedEpisodeImages.size() > 0){
                     startFragment(fm, R.id.episode_activity, new EpisodeView());
                 }
                 break;
 
-            case R.id.tvAddComment:
+            case R.id.ivAddComment:
                 addComment();
                 break;
 
@@ -901,21 +903,39 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    List<Bitmap> loadedEpisodeImages = new ArrayList<>();
     private void downloadEpisodePictures(){
+        Log.e("download", "1");
         new UserImageRequest(this).getImagesByEid(getEid(), false, new StringCallback() {
             @Override
             public void done(String string) {
                 try{
+                    Log.e("download", "2");
                     JSONObject jsonObject = new JSONObject(string);
                     String imagesString = jsonObject.getString("images");
                     JSONArray jsonArray = new JSONArray(imagesString);
                     if (jsonArray.length() > 0){
-                        List<String> episodeImagePath = new ArrayList<>();
                         for(int i = 0; i < jsonArray.length(); i++){
                             JSONObject imagesObj = jsonArray.getJSONObject(i);
                             String imagePath = imagesObj.getString("userImagePath");
-                            episodeImagePath.add(imagePath);
-                            new DownloadEpisodeImage(episodeImagePath.get(i)).execute();
+                            Log.e("download", "3: " + imagePath);
+                            Picasso.with(EpisodeActivity.this).load(imagePath).into(new Target() {
+                                @Override
+                                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom loadedFrom) {
+                                    Log.e("download", "4 success: " + bitmap.getAllocationByteCount());
+                                    loadedEpisodeImages.add(bitmap);
+                                }
+
+                                @Override
+                                public void onBitmapFailed(Drawable drawable) {
+                                    Log.e("download", "4 failed");
+                                }
+
+                                @Override
+                                public void onPrepareLoad(Drawable drawable) {
+
+                                }
+                            });
                         }
                     }
                 }

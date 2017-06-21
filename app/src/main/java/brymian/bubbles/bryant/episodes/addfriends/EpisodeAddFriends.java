@@ -157,7 +157,7 @@ public class EpisodeAddFriends extends Fragment{
                         String userImagePath;
                         if (friendsProfileImageArray.length() > 0){
                             JSONObject friendsProfileImageObject = friendsProfileImageArray.getJSONObject(0);
-                            userImagePath = friendsProfileImageObject.getString("userImagePath");
+                            userImagePath = friendsProfileImageObject.getString("userImageThumbnailPath");
                         }
                         else {
                             userImagePath = "empty";

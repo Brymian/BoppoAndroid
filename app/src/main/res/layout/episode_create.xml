@@ -212,6 +212,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="16dp"
-        android:backgroundTint="#3ae1a8"
+        app:backgroundTint="@color/AppColor"
         android:src="@mipmap/ic_arrow_right_white_24dp"/>
 </RelativeLayout>

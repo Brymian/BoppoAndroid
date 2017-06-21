@@ -200,7 +200,6 @@ public class EpisodeMy2 extends Fragment {
         new EventRequest(getActivity()).getEventDataByMember(uid, new StringCallback() {
             @Override
             public void done(String string) {
-                Log.e("string", string);
                 if (string.equals("\"No such event exists.\"")){
                 }
                 else {
@@ -215,7 +214,10 @@ public class EpisodeMy2 extends Fragment {
                                 String name = episodeObj.getString("eventName");
                                 String type = episodeObj.getString("eventTypeLabel");
                                 String views = episodeObj.getString("eventViewCount");
-                                String location = episodeObj.getString("eventLocation");
+
+                                String episodeAddressString = episodeObj.getString("eventAddress");
+                                JSONObject episodeAddressObj = new JSONObject(episodeAddressString);
+                                Log.e("episodeAddress", episodeAddressString);
 
                                 String episodeHostString = episodeObj.getString("eventHost");
                                 JSONObject episodeHostObj = new JSONObject(episodeHostString);
@@ -240,7 +242,7 @@ public class EpisodeMy2 extends Fragment {
                                 episodeImagePath.add(imagePath);
                                 episodeHostUsername.add("By " + hostUsername);
                                 episodeViews.add(views + " views");
-                                episodeLocation.add(location);
+                                episodeLocation.add("something");
                             }
 
                             adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", episodeName, episodeImagePath, episodeEid, episodeType, episodeHostUsername, episodeViews, episodeLocation);
