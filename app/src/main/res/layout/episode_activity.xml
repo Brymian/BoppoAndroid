@@ -58,8 +58,9 @@
                         android:id="@+id/tvViewCount"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/halfContentPadding"
+                        android:layout_marginTop="@dimen/contentPadding"
                         android:layout_marginLeft="@dimen/contentPadding"
+                        android:layout_marginBottom="@dimen/halfContentPadding"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <TextView
                         android:id="@+id/tvDescription"
@@ -71,7 +72,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/halfContentPadding"
+                        android:layout_margin="@dimen/contentPadding"
                         android:orientation="horizontal">
                         <TextView
                             android:id="@+id/tvLikeCount"
@@ -110,7 +111,6 @@
                     </LinearLayout>
                     <ImageView
                         android:id="@+id/ivMap"
-                        android:layout_marginTop="@dimen/contentPadding"
                         android:layout_width="match_parent"
                         android:layout_height="100dp"/>
                     <TextView
@@ -121,7 +121,6 @@
                         android:layout_margin="@dimen/contentPadding"
                         android:drawableLeft="@mipmap/ic_map_marker_grey600_24dp"
                         android:drawablePadding="@dimen/halfContentPadding"
-                        android:text="North Arlington, NJ"
                         android:textColor="@color/AppColorDark"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
                     <View
@@ -182,12 +181,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/halfContentPadding"
+                        android:layout_marginTop="@dimen/contentPadding"
+                        android:layout_marginLeft="@dimen/contentPadding"
                         android:orientation="horizontal">
                         <ImageView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/halfContentPadding"
                             android:layout_marginRight="@dimen/contentPadding"
                             android:src="@mipmap/ic_comment_multiple_outline_grey600_24dp"/>
                         <TextView

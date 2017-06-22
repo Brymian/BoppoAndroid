@@ -63,7 +63,7 @@ import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 public class EpisodeActivity extends AppCompatActivity implements View.OnClickListener{
     public static List<Bitmap> episodeImage = new ArrayList<>();
-    TextView  tvDescription, tvParticipants, tvAddPhoto, tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvViewCount, tvCommentsNumber;
+    TextView  tvMyLocation, tvDescription, tvParticipants, tvAddPhoto, tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvViewCount, tvCommentsNumber;
     FloatingActionButton fabPlay;
     ImageView ivEpisodeProfileImage, ivAddComment, ivEpisodeHostImage, ivMap;
     EditText tvAddComment;
@@ -128,6 +128,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         tvAddPhoto = (TextView) findViewById(R.id.tvAddPhoto);
         tvAddPhoto.setOnClickListener(this);
         ivMap = (ImageView) findViewById(R.id.ivMap);
+        tvMyLocation = (TextView) findViewById(R.id.tvMyLocation);
 
         rlEpisodeHostInfo = (LinearLayout) findViewById(R.id.rlEpisodeHostInfo);
         rlEpisodeHostInfo.setOnClickListener(this);
@@ -301,9 +302,29 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     tvLikeCount.setText(episodeInfoObject.getString("eventLikeCount"));
                     tvDislikeCount.setText(episodeInfoObject.getString("eventDislikeCount"));
                     tvViewCount.setText(episodeInfoObject.getString("eventViewCount") + " views");
-                    tvDescription.setText(episodeInfoObject.getString("eventDescriptionText"));
+                    String description = episodeInfoObject.getString("eventDescriptionText");
                     latitude = episodeInfoObject.getString("eventGpsLatitude");
                     longitude = episodeInfoObject.getString("eventGpsLongitude");
+                    if (description.equals("null")){
+                        tvDescription.setVisibility(View.GONE);
+                    }
+                    else {
+                        tvDescription.setText(description);
+                    }
+
+                    String episodeAddressString = episodeInfoObject.getString("eventAddress");
+                    JSONObject episodeAddressObj = new JSONObject(episodeAddressString);
+                    String addressName = episodeAddressObj.getString("addressName");
+                    String addressUnparsedText = episodeAddressObj.getString("addressUnparsedText");
+                    tvMyLocation.setText(addressName);
+
+                    if (latitude.equals("0") && longitude.equals("0")){
+                        ivMap.setVisibility(View.GONE);
+                        tvMyLocation.setVisibility(View.GONE);
+                    }
+                    else {
+                        setStaticMap();
+                    }
 
 
                     String episodeHostInfoString = episodeInfoObject.getString("eventHost");
@@ -317,6 +338,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     JSONArray episodeHostImageArray = new JSONArray(episodeHostImageString);
                     JSONObject episodeHostImageObject = episodeHostImageArray.getJSONObject(0);
                     Picasso.with(EpisodeActivity.this).load(episodeHostImageObject.getString("userImageThumbnailPath")).fit().centerCrop().into(ivEpisodeHostImage);
+                    Log.e("latlng", latitude + " " + longitude);
 
                     /*
                     //for ratings
@@ -420,7 +442,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 catch (JSONException e){
                     e.printStackTrace();
                 }
-                setStaticMap();
             }
         });
     }
