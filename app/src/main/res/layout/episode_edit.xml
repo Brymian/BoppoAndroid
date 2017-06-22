@@ -26,7 +26,6 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <ImageView
-                android:id="@+id/ivEpisodeProfileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@mipmap/ic_image_grey600_24dp"
@@ -39,7 +38,7 @@
                 android:textAppearance="@android:style/TextAppearance.Medium"/>
         </LinearLayout>
         <ImageView
-            android:id="@+id/ivProfilePicture"
+            android:id="@+id/ivEpisodeProfileImage"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_marginTop="@dimen/halfContentPadding"

@@ -82,7 +82,7 @@ public class EpisodeParticipants extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        MenuItem item = menu.findItem(R.id.popUpMenu);
+        MenuItem item = menu.findItem(R.id.episodeOptions);
         item.setVisible(false);
     }
 

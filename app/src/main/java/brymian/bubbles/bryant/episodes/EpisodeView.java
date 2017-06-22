@@ -30,6 +30,7 @@ public class EpisodeView extends Fragment {
                     ivEpisode.setImageBitmap(((EpisodeActivity)getActivity()).loadedEpisodeImages.get(count));
                 }
                 catch (IndexOutOfBoundsException e){
+                    getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
                     getFragmentManager().popBackStack();
                 }
             }
