@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:elevation="10dp"
     android:clickable="true"
@@ -21,63 +22,192 @@
         android:layout_margin="@dimen/contentPadding"
         android:gravity="center_horizontal"
         android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_gravity="left|start"
+            android:src="@mipmap/ic_image_grey600_24dp"/>
+        <android.support.v7.widget.CardView
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="@dimen/contentPadding"
+            android:layout_gravity="center_horizontal"
+            android:elevation="12dp"
+            card_view:cardCornerRadius="75dp"
+            android:innerRadius="0dp"
+            android:shape="ring"
+            android:thicknessRatio="1.9">
             <ImageView
+                android:id="@+id/ivEpisodeProfileImage"
+                android:layout_height="150dp"
+                android:layout_width="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"/>
+            <android.support.v7.widget.CardView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:elevation="12dp"
+                card_view:cardCornerRadius="25dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                android:layout_gravity="bottom|right">
+                <ImageView
+                    android:id="@+id/ivEpisodeLogo"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:background="@color/AppColor"/>
+            </android.support.v7.widget.CardView>
+        </android.support.v7.widget.CardView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvUpdateEpisodePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_image_grey600_24dp"
-                android:layout_marginRight="@dimen/contentPadding"/>
+                android:text="Update Episode Photo"
+                android:textColor="@color/AppColorDark"
+                android:textAppearance="@android:style/TextAppearance.Small"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/contentPadding"
-                android:text="Episode Photo"
-                android:textAppearance="@android:style/TextAppearance.Medium"/>
+                android:text=" | "/>
+            <TextView
+                android:id="@+id/tvUpdateEpisodeType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update Episode Type"
+                android:textColor="@color/AppColorDark"
+                android:textAppearance="@android:style/TextAppearance.Small"/>
         </LinearLayout>
-        <ImageView
-            android:id="@+id/ivEpisodeProfileImage"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="@dimen/halfContentPadding"
-            android:layout_marginBottom="@dimen/quarterContentPadding"
-            android:background="@drawable/imageview_border" />
-        <TextView
-            android:id="@+id/tvChangeProfilePicture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Update Episode Photo"
-            android:textColor="@color/AppColorDark" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/llEpisodeTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/contentPadding"
-        android:orientation="vertical">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <ImageView
+        android:orientation="horizontal">
+        <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/contentPadding"
                 android:src="@mipmap/ic_format_title_grey600_24dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/contentPadding"
-                android:text="Episode Name"
-                android:textAppearance="@android:style/TextAppearance.Medium"/>
-        </LinearLayout>
         <TextView
-            android:id="@+id/tvEpisodeName"
+            android:id="@+id/tvEpisodeTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/contentPadding"
             android:textColor="@android:color/darker_gray"
             android:textAppearance="@android:style/TextAppearance.Small"/>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rlEpisodeTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/contentPadding">
+        <ImageView
+            android:id="@+id/ivCalendarClockTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/contentPadding"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_calendar_clock_grey600_24dp"/>
+        <TextView
+            android:id="@+id/tvStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/contentPadding"
+            android:layout_marginBottom="@dimen/quarterContentPadding"
+            android:layout_toRightOf="@+id/ivCalendarClockTime"
+            android:text="Start:"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+        <TextView
+            android:id="@+id/tvStartDatetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/quarterContentPadding"
+            android:layout_toRightOf="@+id/tvStart"
+            android:layout_alignParentRight="true"
+            android:gravity="right|end"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/AppColorDark"/>
+        <TextView
+            android:id="@+id/tvEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/quarterContentPadding"
+            android:layout_toRightOf="@+id/ivCalendarClockTime"
+            android:layout_below="@id/tvStart"
+            android:layout_marginLeft="@dimen/contentPadding"
+            android:text="End:"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+        <TextView
+            android:id="@+id/tvEndDatetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/quarterContentPadding"
+            android:layout_toRightOf="@+id/tvEnd"
+            android:layout_below="@id/tvStartDatetime"
+            android:layout_alignParentRight="true"
+            android:gravity="right|end"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:textColor="@color/AppColorDark"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/contentPadding"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+        <ImageView
+            android:id="@+id/ivMapIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_earth_grey600_24dp"
+            android:layout_marginRight="@dimen/contentPadding"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/contentPadding"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvAddLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Location"
+                android:textColor="@color/AppColorDark"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <TextView
+                android:id="@+id/tvLocationAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:visibility="gone"/>
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/ivClearLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_close_black_24dp"
+            android:visibility="gone"/>
+    </LinearLayout>
+    <Button
+        android:id="@+id/bDeleteEpisode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="@dimen/contentPadding"
+        android:paddingLeft="@dimen/contentPadding"
+        android:paddingRight="@dimen/contentPadding"
+        android:text="@string/Delete_episode"
+        android:textColor="@android:color/white"
+        android:background="@color/AppColor" />
 </LinearLayout>

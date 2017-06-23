@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -60,8 +59,8 @@ public class EpisodeMy2 extends Fragment {
     private List<String> episodeImagePath = new ArrayList<>();
     private List<String> episodeHostUsername = new ArrayList<>();
     private List<String> episodeViews = new ArrayList<>();
-    private List<String> episodeLocation = new ArrayList<>();
-
+    private List<String> episodeLikes = new ArrayList<>();
+    private List<String> episodeLocationName = new ArrayList<>();
     private int EPISODE_MY_CODE = 0;
 
     @Override
@@ -130,7 +129,7 @@ public class EpisodeMy2 extends Fragment {
                 episodeHostUsername.clear();
                 episodeName.clear();
                 episodeImagePath.clear();
-                episodeLocation.clear();
+                episodeLocationName.clear();
                 episodeType.clear();
                 episodeViews.clear();
                 getEpisodes(SaveSharedPreference.getUserUID(getActivity()));
@@ -214,10 +213,13 @@ public class EpisodeMy2 extends Fragment {
                                 String name = episodeObj.getString("eventName");
                                 String type = episodeObj.getString("eventTypeLabel");
                                 String views = episodeObj.getString("eventViewCount");
-
+                                String likes = episodeObj.getString("eventLikeCount");
                                 String episodeAddressString = episodeObj.getString("eventAddress");
                                 JSONObject episodeAddressObj = new JSONObject(episodeAddressString);
-                                Log.e("episodeAddress", episodeAddressString);
+                                String locationName = episodeAddressObj.getString("addressName");
+                                if (locationName.equals("null")){
+                                    locationName = "";
+                                }
 
                                 String episodeHostString = episodeObj.getString("eventHost");
                                 JSONObject episodeHostObj = new JSONObject(episodeHostString);
@@ -242,10 +244,11 @@ public class EpisodeMy2 extends Fragment {
                                 episodeImagePath.add(imagePath);
                                 episodeHostUsername.add("By " + hostUsername);
                                 episodeViews.add(views + " views");
-                                episodeLocation.add("something");
+                                episodeLikes.add(likes + " likes");
+                                episodeLocationName.add(locationName);
                             }
 
-                            adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", episodeName, episodeImagePath, episodeEid, episodeType, episodeHostUsername, episodeViews, episodeLocation);
+                            adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", episodeName, episodeImagePath, episodeEid, episodeType, episodeHostUsername, episodeViews, episodeLikes, episodeLocationName);
                             layoutManager = new LinearLayoutManager(getActivity());
                             rvEpisodes.setLayoutManager(layoutManager);
                             rvEpisodes.setNestedScrollingEnabled(false);
@@ -269,7 +272,8 @@ public class EpisodeMy2 extends Fragment {
         List<String> searchEpisodeHostUsername = new ArrayList<>();
         List<String> searchEpisodeTitle = new ArrayList<>();
         List<String> searchEpisodeViews = new ArrayList<>();
-        List<String> searchEpisodeLocation = new ArrayList<>();
+        List<String> searchEpisodeLikes = new ArrayList<>();
+        List<String> searchEpisodeLocationName = new ArrayList<>();
         List<String> searchEpisodeImagePath = new ArrayList<>();
         List<String> searchEpisodeType = new ArrayList<>();
         for (int i = 0; i < episodeName.size(); i++){
@@ -278,12 +282,13 @@ public class EpisodeMy2 extends Fragment {
                 searchEpisodeHostUsername.add(episodeHostUsername.get(i));
                 searchEpisodeTitle.add(episodeName.get(i));
                 searchEpisodeViews.add(episodeViews.get(i));
-                searchEpisodeLocation.add(episodeLocation.get(i));
+                searchEpisodeLikes.add(episodeLikes.get(i));
+                searchEpisodeLocationName.add(episodeLocationName.get(i));
                 searchEpisodeImagePath.add(episodeImagePath.get(i));
                 searchEpisodeType.add(episodeType.get(i));
             }
         }
-        adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", searchEpisodeTitle, searchEpisodeImagePath, searchEpisodeEid, searchEpisodeType, searchEpisodeHostUsername, searchEpisodeViews, searchEpisodeLocation);
+        adapter = new EpisodeMyRecyclerAdapter(getActivity(), "vertical", searchEpisodeTitle, searchEpisodeImagePath, searchEpisodeEid, searchEpisodeType, searchEpisodeHostUsername, searchEpisodeViews, searchEpisodeLikes, searchEpisodeLocationName);
         layoutManager = new LinearLayoutManager(getActivity());
         rvEpisodes.setLayoutManager(layoutManager);
         rvEpisodes.setNestedScrollingEnabled(false);

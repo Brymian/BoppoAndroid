@@ -72,11 +72,19 @@
                 android:textColor="@android:color/darker_gray"
                 android:textAppearance="@android:style/TextAppearance.Small"/>
             <TextView
-                android:id="@+id/tvEpisodeLocation"
+                android:id="@+id/tvEpisodeLikes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/darker_gray"
                 android:textAppearance="@android:style/TextAppearance.Small"/>
+            <TextView
+                android:id="@+id/tvEpisodeLocationName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/darker_gray"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:maxLines="1"
+                android:ellipsize="end"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -10,20 +10,25 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import brymian.bubbles.R;
+
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
-public class EpisodeEdit extends Fragment{
+public class EpisodeEdit extends Fragment implements View.OnClickListener{
 
+    TextView tvUpdateEpisodePhoto, tvUpdateEpisodeType;
+    Button bDeleteEpisode;
     private ImageView ivEpisodeProfileImage;
     private int eid;
 
@@ -40,8 +45,26 @@ public class EpisodeEdit extends Fragment{
         toolbar.setPadding(0, getStatusBarHeight(), 0 ,0);
 
         ivEpisodeProfileImage = (ImageView) view.findViewById(R.id.ivEpisodeProfileImage);
+        tvUpdateEpisodePhoto = (TextView) view.findViewById(R.id.tvUpdateEpisodePhoto);
+        tvUpdateEpisodeType = (TextView) view.findViewById(R.id.tvUpdateEpisodeType);
+        bDeleteEpisode = (Button) view.findViewById(R.id.bDeleteEpisode);
+        bDeleteEpisode.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.bDeleteEpisode:
+                new EventRequest(getActivity()).deleteEvent(eid, new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        Log.e("delete", string);
+                    }
+                });
+                break;
+        }
     }
 
     @Override

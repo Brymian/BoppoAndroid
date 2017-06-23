@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.nonactivity.Misc;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventUserRequest;
@@ -61,7 +62,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequestMethods;
 import static brymian.bubbles.damian.nonactivity.Miscellaneous.startFragment;
 
 public class EpisodeActivity extends AppCompatActivity implements View.OnClickListener{
-    TextView tvLocationName, tvLocationAddress, tvDescription, tvParticipants, tvAddPhoto, tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvViewCount, tvCommentsNumber;
+    TextView tvEnd, tvStartDatetime, tvEndDatetime, tvLocationName, tvLocationAddress, tvDescription, tvParticipants, tvAddPhoto, tvEpisodeHostName, tvEpisodeHostUsername, tvLikeCount, tvDislikeCount, tvViewCount, tvCommentsNumber;
     RelativeLayout rlLocation;
     FloatingActionButton fabPlay;
     ImageView ivEpisodeProfileImage, ivAddComment, ivEpisodeHostImage, ivMap;
@@ -127,8 +128,12 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         tvParticipants.setOnClickListener(this);
         tvAddPhoto = (TextView) findViewById(R.id.tvAddPhoto);
         tvAddPhoto.setOnClickListener(this);
-        ivMap = (ImageView) findViewById(R.id.ivMap);
 
+        tvStartDatetime = (TextView) findViewById(R.id.tvStartDatetime);
+        tvEndDatetime = (TextView) findViewById(R.id.tvEndDatetime);
+        tvEnd = (TextView) findViewById(R.id.tvEnd);
+
+        ivMap = (ImageView) findViewById(R.id.ivMap);
         rlLocation = (RelativeLayout) findViewById(R.id.rlLocation);
         tvLocationName = (TextView) findViewById(R.id.tvLocationName);
         tvLocationAddress = (TextView) findViewById(R.id.tvLocationAddress);
@@ -163,7 +168,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
-            Log.e("statusBarHght", result + "");
         }
         return result;
     }
@@ -329,6 +333,18 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                         tvDescription.setText(description);
                     }
 
+                    Misc misc = new Misc();
+                    String startDate = episodeInfoObject.getString("eventStartDatetime");
+                    String endDate = episodeInfoObject.getString("eventEndDatetime");
+                    tvStartDatetime.setText(misc.dateTimeConverter(startDate));
+                    if (endDate.equals("null")){
+                        tvEnd.setVisibility(View.GONE);
+                        tvEndDatetime.setVisibility(View.GONE);
+                    }
+                    else {
+                        tvEndDatetime.setText(misc.dateTimeConverter(endDate));
+                    }
+
                     String episodeAddressString = episodeInfoObject.getString("eventAddress");
                     JSONObject episodeAddressObj = new JSONObject(episodeAddressString);
                     String addressName = episodeAddressObj.getString("addressName");
@@ -356,7 +372,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     JSONArray episodeHostImageArray = new JSONArray(episodeHostImageString);
                     JSONObject episodeHostImageObject = episodeHostImageArray.getJSONObject(0);
                     Picasso.with(EpisodeActivity.this).load(episodeHostImageObject.getString("userImageThumbnailPath")).fit().centerCrop().into(ivEpisodeHostImage);
-                    Log.e("latlng", latitude + " " + longitude);
 
                     /*
                     //for ratings
@@ -853,6 +868,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     String imagesString = jsonObject.getString("images");
                     JSONArray jsonArray = new JSONArray(imagesString);
                     if (jsonArray.length() > 0){
+                        fabPlay.show();
                         for(int i = 0; i < jsonArray.length(); i++){
                             JSONObject imagesObj = jsonArray.getJSONObject(i);
                             String imagePath = imagesObj.getString("userImagePath");

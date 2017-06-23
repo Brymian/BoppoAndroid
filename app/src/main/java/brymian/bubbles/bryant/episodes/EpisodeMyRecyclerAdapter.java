@@ -26,7 +26,8 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
     private List<String> episodeType;
     private List<String> episodeHostUsername;
     private List<String> episodeViews;
-    private List<String> episodeLocation;
+    private List<String> episodeLikes;
+    private List<String> episodeLocationName;
     private int TYPE_VERTICAL = 1;
     private int TYPE_HORIZONTAL = 2;
 
@@ -39,7 +40,7 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         this.episodeType = episodeType;
     }
 
-    public EpisodeMyRecyclerAdapter(Activity activity, String orientation, List<String> episodeTitle, List<String> episodeImagePath, List<Integer> episodeEid, List<String> episodeType, List<String> episodeHostUsername, List<String> episodeViews, List<String> episodeLocation){
+    public EpisodeMyRecyclerAdapter(Activity activity, String orientation, List<String> episodeTitle, List<String> episodeImagePath, List<Integer> episodeEid, List<String> episodeType, List<String> episodeHostUsername, List<String> episodeViews, List<String> episodeLikes ,List<String> episodeLocationName){
         this.activity = activity;
         this.orientation = orientation;
         this.episodeTitle = episodeTitle;
@@ -48,7 +49,8 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
         this.episodeType = episodeType;
         this.episodeHostUsername = episodeHostUsername;
         this.episodeViews = episodeViews;
-        this.episodeLocation = episodeLocation;
+        this.episodeLikes = episodeLikes;
+        this.episodeLocationName = episodeLocationName;
     }
 
     @Override
@@ -71,7 +73,8 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             ((VerticalHolder)holder).tvEpisodeTitle.setText(episodeTitle.get(position));
             ((VerticalHolder)holder).tvEpisodeHostUsername.setText(episodeHostUsername.get(position));
             ((VerticalHolder)holder).tvEpisodeViews.setText(episodeViews.get(position));
-            ((VerticalHolder)holder).tvEpisodeLocation.setText(episodeLocation.get(position));
+            ((VerticalHolder)holder).tvEpisodeLikes.setText(episodeLikes.get(position));
+            ((VerticalHolder)holder).tvEpisodeLocationName.setText(episodeLocationName.get(position));
         }
         else if (holder.getItemViewType() == TYPE_HORIZONTAL){
             Picasso.with(activity).load(episodeImagePath.get(position)).into(((HorizontalHolder)holder).ivEpisodeImage);
@@ -97,7 +100,7 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
 
     private class VerticalHolder extends RecyclerView.ViewHolder{
         ImageView ivEpisodeImage;
-        TextView tvEpisodeTitle, tvEpisodeHostUsername, tvEpisodeViews, tvEpisodeLocation;
+        TextView tvEpisodeTitle, tvEpisodeHostUsername, tvEpisodeViews, tvEpisodeLikes, tvEpisodeLocationName;
         CardView cardView;
 
         public VerticalHolder(View v){
@@ -106,7 +109,8 @@ public class EpisodeMyRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.
             tvEpisodeTitle = (TextView) v.findViewById(R.id.tvEpisodeTitle);
             tvEpisodeHostUsername = (TextView) v.findViewById(R.id.tvEpisodeHostUsername);
             tvEpisodeViews = (TextView) v.findViewById(R.id.tvEpisodeViews);
-            tvEpisodeLocation = (TextView) v.findViewById(R.id.tvEpisodeLocation);
+            tvEpisodeLikes = (TextView) v.findViewById(R.id.tvEpisodeLikes);
+            tvEpisodeLocationName = (TextView) v.findViewById(R.id.tvEpisodeLocationName);
             cardView = (CardView) v.findViewById(R.id.card_view);
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override

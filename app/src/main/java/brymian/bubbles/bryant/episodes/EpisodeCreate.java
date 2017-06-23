@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -48,7 +49,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
     FloatingActionButton fabDone;
     double latitude;
     double longitude;
-
+    String endDateTime = null;
     long calendarStartInMillis, calendarEndInMillis;
     boolean isStartDateSelected, isEndDateSelected, isEndTimeChanged, isLocationAdded;
 
@@ -128,7 +129,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 break;
 
             case R.id.fabDone:
-                createEpisode();
+                if (validateEndDateTime() && validateTitle()){
+                    createEpisode();
+                }
                 break;
         }
     }
@@ -175,6 +178,81 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private boolean validateEndDateTime(){
+        boolean sitch;
+        String alertDialogText = "Unknown error, please try again later.";
+        if (isEndDateSelected && !isEndTimeChanged){
+            alertDialogText = "Episode has an End date but no End time.";
+            sitch = false;
+        }
+        else if (!isEndDateSelected && isEndTimeChanged){
+            alertDialogText = "Episode has End time but no End date.";
+            sitch = false;
+        }
+        else if (isEndDateSelected && isEndTimeChanged){
+            int endHour = Integer.valueOf(this.endHourOfDay);
+            int startHour = Integer.valueOf(this.startHourOfDay);
+            int endMin = Integer.valueOf(this.endMinute);
+            int startMin = Integer.valueOf(this.startMinute);
+            if (endHour > startHour){
+                sitch = true;
+            }
+            else {
+                if (endHour == startHour){
+                    if (endMin > startMin){
+                        sitch = true;
+                    }
+                    else {
+                        alertDialogText = "Episode End time has to be after Start time.";
+                        sitch = false;
+                    }
+                }
+                else {
+                    alertDialogText = "Episode End time has to be after Start time.";
+                    sitch = false;
+                }
+            }
+            endDateTime = getEndDate() + " " + getEndTime();
+        }
+        else {
+            sitch = true;
+        }
+        if (!sitch){
+            LayoutInflater inflater = getLayoutInflater();
+            View alertLayout = inflater.inflate(R.layout.episode_create_validate_datetime_alertdialog, null);
+            TextView tvValidateText = (TextView) alertLayout.findViewById(R.id.tvValidateText);
+            tvValidateText.setText(alertDialogText);
+            Button bOk = (Button) alertLayout.findViewById(R.id.bOk);
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setView(alertLayout);
+            final AlertDialog dialog = alert.create();
+            bOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.show();
+        }
+        return sitch;
+    }
+
+
+    private boolean validateTitle(){
+        boolean sitch;
+        if (etEpisodeTitle.getText().toString().isEmpty()){
+            tilTitle.setError("Title is required");
+            sitch = false;
+        }
+        else {
+            tilTitle.setErrorEnabled(false);
+            sitch = true;
+        }
+        return  sitch;
+    }
+
     private void createEpisode(){
         Log.e("createEpisode",  "title: " +  getEpisodeTitle() +
                                 "\ncategory: " + "Social" +
@@ -183,7 +261,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                                 "\ninvite type: " + "host" +
                                 "\nimageAllowed: " + "true" +
                                 "\nstartDateTime: " + getStartDate() + " " + getStartTime() +
-                                "\nendDateTime: " + getEndDate() + " " + getEndTime() +
+                                "\nendDateTime: " + endDateTime +
                                 "\nlocation: " +  tvAddLocation.getText().toString() +
                                 "\nlat: " + latitude +
                                 "\nlng: " + longitude);
@@ -197,7 +275,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
                 true,
                 tietDescription.getText().toString(),
                 getStartDate() + " " + getStartTime(),
-                null,
+                endDateTime,
                 latitude,
                 longitude,
                 new StringCallback() {
@@ -261,7 +339,7 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         }
         calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
-            public void onSelectedDayChange(CalendarView view, int year, int month, int dayOfMonth) {
+            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 if (title.equals("Start Date")){
                     tempYearStart[0] = year;
                     tempMonthStart[0] = month;
@@ -557,7 +635,9 @@ public class EpisodeCreate extends AppCompatActivity implements View.OnClickList
         bClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                tvEndTime.setText("--:-- --");
+                isEndTimeChanged = false;
+                dialog.dismiss();
             }
         });
         bCancel.setOnClickListener(new View.OnClickListener() {
