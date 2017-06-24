@@ -21,16 +21,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import brymian.bubbles.R;
 
+import brymian.bubbles.bryant.nonactivity.Misc;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import brymian.bubbles.damian.nonactivity.ServerRequest.EventRequest;
 import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 
 public class EpisodeEdit extends Fragment implements View.OnClickListener{
 
-    TextView tvUpdateEpisodePhoto, tvUpdateEpisodeType;
+    TextView tvUpdateEpisodePhoto, tvUpdateEpisodeType, tvEpisodeTitle, tvStartDate, tvStartTime, tvEndDate, tvEndTime, tvEpisodeLocationAddress, tvEpisodeLocationName;
     Button bDeleteEpisode;
-    private ImageView ivEpisodeProfileImage;
+    private ImageView ivEpisodeProfileImage, ivEpisodeType, ivClearLocation;
     private int eid;
+    private String episodeImagePath, episodeType, episodeTitle, episodeStartDate, episodeStartTime, episodeEndDate, episodeEndTime,locationName, locationAddress;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,8 +47,21 @@ public class EpisodeEdit extends Fragment implements View.OnClickListener{
         toolbar.setPadding(0, getStatusBarHeight(), 0 ,0);
 
         ivEpisodeProfileImage = (ImageView) view.findViewById(R.id.ivEpisodeProfileImage);
+        ivEpisodeType = (ImageView) view.findViewById(R.id.ivEpisodeType);
         tvUpdateEpisodePhoto = (TextView) view.findViewById(R.id.tvUpdateEpisodePhoto);
         tvUpdateEpisodeType = (TextView) view.findViewById(R.id.tvUpdateEpisodeType);
+
+        tvEpisodeTitle = (TextView) view.findViewById(R.id.tvEpisodeTitle);
+
+        tvStartDate = (TextView) view.findViewById(R.id.tvStartDate);
+        tvStartTime = (TextView) view.findViewById(R.id.tvStartTime);
+        tvEndDate = (TextView) view.findViewById(R.id.tvEndDate);
+        tvEndTime = (TextView) view.findViewById(R.id.tvEndTime);
+
+        tvEpisodeLocationName = (TextView) view.findViewById(R.id.tvLocationName);
+        tvEpisodeLocationAddress = (TextView) view.findViewById(R.id.tvLocationAddress);
+        ivClearLocation = (ImageView) view.findViewById(R.id.ivClearLocation);
+
         bDeleteEpisode = (Button) view.findViewById(R.id.bDeleteEpisode);
         bDeleteEpisode.setOnClickListener(this);
 
@@ -56,6 +71,10 @@ public class EpisodeEdit extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.ivClearLocation:
+                tvEpisodeLocationName.setText("Add Location");
+                tvEpisodeLocationAddress.clearComposingText();
+                break;
             case R.id.bDeleteEpisode:
                 new EventRequest(getActivity()).deleteEvent(eid, new StringCallback() {
                     @Override
@@ -85,8 +104,43 @@ public class EpisodeEdit extends Fragment implements View.OnClickListener{
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             eid = bundle.getInt("eid", 0);
+            episodeImagePath = bundle.getString("episodeImagePath");
+            episodeType = bundle.getString("episodeType");
+            episodeTitle = bundle.getString("episodeTitle");
+            String episodeStartDateTime = bundle.getString("episodeStartDateTime");
+            String episodeEndDateTime = bundle.getString("episodeEndDateTime");
+            locationName = bundle.getString("locationName");
+            locationAddress = bundle.getString("locationAddress");
+
+            Picasso.with(getActivity()).load(episodeImagePath).fit().centerCrop().into(ivEpisodeProfileImage);
+            tvEpisodeTitle.setText(episodeTitle);
+            Misc misc = new Misc();
+            String[] startDateTimeArr = misc.dateTimeConverterSeparate(episodeStartDateTime);
+            episodeStartDate = startDateTimeArr[0];
+            episodeStartTime = startDateTimeArr[1];
+            tvStartDate.setText(episodeStartDate);
+            tvStartTime.setText(episodeStartTime);
+            if (!episodeEndDateTime.equals("null")){
+                String[] endDateTimeArr = misc.dateTimeConverterSeparate(episodeEndDateTime);
+                episodeEndDate = endDateTimeArr[0];
+                episodeEndTime = endDateTimeArr[1];
+                tvEndDate.setText(episodeEndDate);
+                tvEndTime.setText(episodeEndTime);
+            }
+            else {
+                tvEndDate.setText("--- --, ----");
+                tvEndTime.setText("--:-- --");
+            }
+            if (!locationName.equals("null")){
+                tvEpisodeLocationName.setText(locationName);
+                tvEpisodeLocationAddress.setText(locationAddress);
+            }
+            else {
+                tvEpisodeLocationName.setText("Add Location");
+                tvEpisodeLocationAddress.setVisibility(View.GONE);
+                ivClearLocation.setVisibility(View.GONE);
+            }
         }
-        getEpisodeProfilePictures(eid);
     }
 
     private void getEpisodeProfilePictures(int eid){
@@ -115,7 +169,6 @@ public class EpisodeEdit extends Fragment implements View.OnClickListener{
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {
             result = getResources().getDimensionPixelSize(resourceId);
-            Log.e("statusBarHght", result + "");
         }
         return result;
     }

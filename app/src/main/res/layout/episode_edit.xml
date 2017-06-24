@@ -53,7 +53,7 @@
                 android:thicknessRatio="1.9"
                 android:layout_gravity="bottom|right">
                 <ImageView
-                    android:id="@+id/ivEpisodeLogo"
+                    android:id="@+id/ivEpisodeType"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_alignParentTop="true"
@@ -71,7 +71,7 @@
                 android:id="@+id/tvUpdateEpisodePhoto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update Episode Photo"
+                android:text="Update Photo"
                 android:textColor="@color/AppColorDark"
                 android:textAppearance="@android:style/TextAppearance.Small"/>
             <TextView
@@ -82,7 +82,7 @@
                 android:id="@+id/tvUpdateEpisodeType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Update Episode Type"
+                android:text="Update Type"
                 android:textColor="@color/AppColorDark"
                 android:textAppearance="@android:style/TextAppearance.Small"/>
         </LinearLayout>
@@ -103,62 +103,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/contentPadding"
-            android:textColor="@android:color/darker_gray"
-            android:textAppearance="@android:style/TextAppearance.Small"/>
+            android:textColor="@color/AppColorDark"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
     </LinearLayout>
-    <RelativeLayout
-        android:id="@+id/rlEpisodeTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/contentPadding">
-        <ImageView
-            android:id="@+id/ivCalendarClockTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/contentPadding"
-            android:layout_centerVertical="true"
-            android:src="@mipmap/ic_calendar_clock_grey600_24dp"/>
-        <TextView
-            android:id="@+id/tvStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/contentPadding"
-            android:layout_marginBottom="@dimen/quarterContentPadding"
-            android:layout_toRightOf="@+id/ivCalendarClockTime"
-            android:text="Start:"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
-        <TextView
-            android:id="@+id/tvStartDatetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/quarterContentPadding"
-            android:layout_toRightOf="@+id/tvStart"
-            android:layout_alignParentRight="true"
-            android:gravity="right|end"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:textColor="@color/AppColorDark"/>
-        <TextView
-            android:id="@+id/tvEnd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/quarterContentPadding"
-            android:layout_toRightOf="@+id/ivCalendarClockTime"
-            android:layout_below="@id/tvStart"
-            android:layout_marginLeft="@dimen/contentPadding"
-            android:text="End:"
-            android:textAppearance="@android:style/TextAppearance.Medium"/>
-        <TextView
-            android:id="@+id/tvEndDatetime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/quarterContentPadding"
-            android:layout_toRightOf="@+id/tvEnd"
-            android:layout_below="@id/tvStartDatetime"
-            android:layout_alignParentRight="true"
-            android:gravity="right|end"
-            android:textAppearance="@android:style/TextAppearance.Medium"
-            android:textColor="@color/AppColorDark"/>
-    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -178,10 +125,9 @@
             android:layout_marginLeft="@dimen/contentPadding"
             android:orientation="vertical">
             <TextView
-                android:id="@+id/tvAddLocation"
+                android:id="@+id/tvLocationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Location"
                 android:textColor="@color/AppColorDark"
                 android:textAppearance="@android:style/TextAppearance.Medium"/>
             <TextView
@@ -189,16 +135,106 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/darker_gray"
-                android:textAppearance="@android:style/TextAppearance.Small"
-                android:visibility="gone"/>
+                android:textAppearance="@android:style/TextAppearance.Small"/>
         </LinearLayout>
         <ImageView
             android:id="@+id/ivClearLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/ic_close_black_24dp"
-            android:visibility="gone"/>
+            android:tint="@color/AppColorDark"/>
     </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rlEpisodeTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/contentPadding">
+        <ImageView
+            android:id="@+id/ivCalendarClockTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/contentPadding"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/ic_calendar_clock_grey600_24dp"/>
+        <LinearLayout
+            android:id="@+id/llStartDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/contentPadding"
+            android:layout_marginBottom="@dimen/quarterContentPadding"
+            android:layout_toRightOf="@+id/ivCalendarClockTime"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvStart"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Start:"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <TextView
+                android:id="@+id/tvStartDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="@color/AppColorDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/at"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
+            <TextView
+                android:id="@+id/tvStartTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="@color/AppColorDark" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/llEndDateTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/contentPadding"
+            android:layout_marginTop="@dimen/quarterContentPadding"
+            android:layout_toRightOf="@id/ivCalendarClockTime"
+            android:layout_below="@+id/llStartDateTime"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tvEnd"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="End:"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+            <TextView
+                android:id="@+id/tvEndDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="@color/AppColorDark"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/at"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
+            <TextView
+                android:id="@+id/tvEndTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="@color/AppColorDark" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/bEndEpisode"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingLeft="@dimen/contentPadding"
+        android:paddingRight="@dimen/contentPadding"
+        android:text="END EPISODE"
+        android:textColor="@color/AppColorDark" />
     <Button
         android:id="@+id/bDeleteEpisode"
         android:layout_width="wrap_content"

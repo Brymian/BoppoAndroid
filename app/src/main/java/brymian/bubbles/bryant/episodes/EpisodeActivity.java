@@ -79,6 +79,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     int year, month, day, hour, minute, second;
     private boolean isHost, isParticipant, isStarted = false, isEnded = false;
     private String latitude, longitude;
+    private String episodeImagePath, episodeType, episodeTitle, episodeStartDateTime, episodeEndDateTime, locationName, locationAddress;
     List<Bitmap> loadedEpisodeImages = new ArrayList<>();
 
     @Override
@@ -287,6 +288,13 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     EpisodeEdit episodeEdit = new EpisodeEdit();
                     Bundle bundle = new Bundle();
                     bundle.putInt("eid", eid);
+                    bundle.putString("episodeTitle", episodeTitle);
+                    bundle.putString("episodeType", episodeType);
+                    bundle.putString("episodeImagePath", episodeImagePath);
+                    bundle.putString("episodeStartDateTime", episodeStartDateTime);
+                    bundle.putString("episodeEndDateTime", episodeEndDateTime);
+                    bundle.putString("locationName", locationName);
+                    bundle.putString("locationAddress", locationAddress);
                     episodeEdit.setArguments(bundle);
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.episode_activity, episodeEdit);
@@ -319,7 +327,9 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 try{
                     Log.e("string", string);
                     JSONObject episodeInfoObject = new JSONObject(string);
-                    mToolbar.setTitle(episodeInfoObject.getString("eventName"));
+                    episodeTitle = episodeInfoObject.getString("eventName");
+                    mToolbar.setTitle(episodeTitle);
+                    episodeType = episodeInfoObject.getString("eventTypeLabel");
                     tvLikeCount.setText(episodeInfoObject.getString("eventLikeCount"));
                     tvDislikeCount.setText(episodeInfoObject.getString("eventDislikeCount"));
                     tvViewCount.setText(episodeInfoObject.getString("eventViewCount") + " views");
@@ -334,21 +344,21 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     }
 
                     Misc misc = new Misc();
-                    String startDate = episodeInfoObject.getString("eventStartDatetime");
-                    String endDate = episodeInfoObject.getString("eventEndDatetime");
-                    tvStartDatetime.setText(misc.dateTimeConverter(startDate));
-                    if (endDate.equals("null")){
+                    episodeStartDateTime = episodeInfoObject.getString("eventStartDatetime");
+                    episodeEndDateTime = episodeInfoObject.getString("eventEndDatetime");
+                    tvStartDatetime.setText(misc.dateTimeConverterTogether(episodeStartDateTime));
+                    if (episodeEndDateTime.equals("null")){
                         tvEnd.setVisibility(View.GONE);
                         tvEndDatetime.setVisibility(View.GONE);
                     }
                     else {
-                        tvEndDatetime.setText(misc.dateTimeConverter(endDate));
+                        tvEndDatetime.setText(misc.dateTimeConverterTogether(episodeEndDateTime));
                     }
 
                     String episodeAddressString = episodeInfoObject.getString("eventAddress");
                     JSONObject episodeAddressObj = new JSONObject(episodeAddressString);
-                    String addressName = episodeAddressObj.getString("addressName");
-                    String addressUnparsedText = episodeAddressObj.getString("addressUnparsedText");
+                    locationName = episodeAddressObj.getString("addressName");
+                    locationAddress = episodeAddressObj.getString("addressUnparsedText");
 
                     if (latitude.equals("0") && longitude.equals("0")){
                         ivMap.setVisibility(View.GONE);
@@ -356,8 +366,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     }
                     else {
                         setStaticMap();
-                        tvLocationName.setText(addressName);
-                        tvLocationAddress.setText(addressUnparsedText);
+                        tvLocationName.setText(locationName);
+                        tvLocationAddress.setText(locationAddress);
                     }
 
 
@@ -848,8 +858,8 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                     JSONArray imagesArray = new JSONArray(imagesString);
                     if (imagesArray.length() > 0){
                         JSONObject imageObj = imagesArray.getJSONObject(0);
-                        String imagePath = imageObj.getString("userImagePath");
-                        Picasso.with(EpisodeActivity.this).load(imagePath).fit().centerCrop().into(ivEpisodeProfileImage);
+                        episodeImagePath = imageObj.getString("userImagePath");
+                        Picasso.with(EpisodeActivity.this).load(episodeImagePath).fit().centerCrop().into(ivEpisodeProfileImage);
                     }
                 }
                 catch (JSONException e){
