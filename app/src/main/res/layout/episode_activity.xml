@@ -106,7 +106,8 @@
                             android:gravity="center_horizontal"
                             android:text="Add Photo"
                             android:textSize="@dimen/smallTextSize"
-                            android:drawableTop="@mipmap/ic_camera_grey600_24dp"/>
+                            android:drawableTop="@mipmap/ic_camera_grey600_24dp"
+                            android:visibility="gone"/>
                     </LinearLayout>
                     <View
                         android:id="@+id/vEpisodeTime"

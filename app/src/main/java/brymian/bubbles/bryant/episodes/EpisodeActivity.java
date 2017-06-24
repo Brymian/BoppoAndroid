@@ -47,6 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import brymian.bubbles.R;
+import brymian.bubbles.bryant.camera.CameraActivity;
 import brymian.bubbles.bryant.nonactivity.Misc;
 import brymian.bubbles.bryant.nonactivity.SaveSharedPreference;
 import brymian.bubbles.bryant.profile.ProfileActivity;
@@ -77,7 +78,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
     //int ADD_PARTICIPANTS_CODE = 123;
     private int eid, hostUid;
     int year, month, day, hour, minute, second;
-    private boolean isHost, isParticipant, isStarted = false, isEnded = false;
+    private boolean isHost, isParticipant, isStarted, isEnded;
     private String latitude, longitude;
     private String episodeImagePath, episodeType, episodeTitle, episodeStartDateTime, episodeEndDateTime, locationName, locationAddress;
     List<Bitmap> loadedEpisodeImages = new ArrayList<>();
@@ -212,7 +213,9 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                 break;
 
             case R.id.tvAddPhoto:
-
+                if (isStarted){
+                    startActivity(new Intent(this, CameraActivity.class));
+                }
                 break;
 
             case R.id.fabPlay:
@@ -224,29 +227,6 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.ivAddComment:
                 addComment();
                 break;
-
-            case R.id.tvDeleteEpisode:
-                new EventRequest(this).deleteEvent(eid, new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        if (string.equals("Success.")){
-                            finish();
-                        }
-                    }
-                });
-                break;
-
-            /* UPDATE THIS BRYANT **/
-            /*
-            case R.id.tvEndEpisode:
-                new EventRequest(this).updateEvent(getEid(), null, null, null, null, null, null, getCurrentTimeStamp(), null, null, new StringCallback() {
-                    @Override
-                    public void done(String string) {
-                        Log.e("EndEpisode", string);
-                    }
-                });
-                break;
-            */
 
             case R.id.tvLeaveEpisode:
 
@@ -761,6 +741,7 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
                             JSONObject jEvent = jArray_jObject.getJSONObject("user");
                             if (jEvent.getInt("uid") == SaveSharedPreference.getUserUID(EpisodeActivity.this)){
                                 isParticipant = true;
+                                tvAddPhoto.setVisibility(View.VISIBLE);
                             }
                         }
                     }
@@ -779,27 +760,10 @@ public class EpisodeActivity extends AppCompatActivity implements View.OnClickLi
         TextView tvLeaveEpisode = (TextView) alertLayout.findViewById(R.id.tvLeaveEpisode);
         tvLeaveEpisode.setOnClickListener(this);
         TextView tvReport = (TextView) alertLayout.findViewById(R.id.tvReport);
-
-        View vLeaveEpisode = alertLayout.findViewById(R.id.vLeaveEpisode);
-
-        if (isHost && !isStarted && !isEnded){//is host + hasn't started + hasn't ended
+        tvReport.setOnClickListener(this)
+        ;
+        if (!isParticipant){
             tvLeaveEpisode.setVisibility(View.GONE);
-            vLeaveEpisode.setVisibility(View.GONE);
-            tvReport.setVisibility(View.GONE);
-        }
-        else if (isHost && !isEnded){
-            tvLeaveEpisode.setVisibility(View.GONE);
-            vLeaveEpisode.setVisibility(View.GONE);
-            tvReport.setVisibility(View.GONE);
-        }
-        else if (isHost && isStarted && isEnded){
-            tvLeaveEpisode.setVisibility(View.GONE);
-            vLeaveEpisode.setVisibility(View.GONE);
-            tvReport.setVisibility(View.GONE);
-        }
-        else {
-            tvLeaveEpisode.setVisibility(View.GONE);
-            vLeaveEpisode.setVisibility(View.GONE);
         }
 
         AlertDialog.Builder alert = new AlertDialog.Builder(this);

@@ -22,58 +22,22 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:id="@+id/tvEditEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/Edit_episode"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-                <View
-                    android:id="@+id/vEditEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/LightGrayAndroid"/>
-                <TextView
-                    android:id="@+id/tvEndEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/End_Episode"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-                <View
-                    android:id="@+id/vEndEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/LightGrayAndroid"/>
-                <TextView
                     android:id="@+id/tvLeaveEpisode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_margin="@dimen/contentPadding"
+                    android:drawableLeft="@mipmap/ic_close_black_24dp"
+                    android:drawableTint="@color/grey600"
+                    android:drawablePadding="@dimen/contentPadding"
                     android:text="@string/Leave_episode"
                     android:textAppearance="@android:style/TextAppearance.Medium"/>
-                <View
-                    android:id="@+id/vLeaveEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/LightGrayAndroid"/>
-                <TextView
-                    android:id="@+id/tvDeleteEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="@string/Delete_episode"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-                <View
-                    android:id="@+id/vDeleteEpisode"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/LightGrayAndroid"/>
                 <TextView
                     android:id="@+id/tvReport"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_margin="@dimen/contentPadding"
+                    android:drawableLeft="@mipmap/ic_exclamation_grey600_24dp"
+                    android:drawablePadding="@dimen/contentPadding"
                     android:text="@string/Report"
                     android:textAppearance="@android:style/TextAppearance.Medium"/>
             </LinearLayout>
