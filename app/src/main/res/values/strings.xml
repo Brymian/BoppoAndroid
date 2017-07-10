@@ -206,6 +206,9 @@
     <string name="middle_button_profile_contentDescription">This is the middle ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
     <string name="right_button_profile_contentDescription">This is the right ImageButton in ProfileActivity. It changes depending on which user is viewing who\'s profile.</string>
 
+    <!-- ADDED BY DAMIAN TO RESOLVE INCONSISTENCIES AFTER RECONFIGURING GRADLE AND SETTINGS -->
+    <string name="decline">Decline.</string>
+
     <!--_________________________________________________________________________________________-->
     <!--___________________________END OF BRYANT'S STRING VARIABLES______________________________-->
     <!--_________________________________________________________________________________________-->

@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 25        // Should correspond to supportLibVersion
+    buildToolsVersion '25.0.3'  // Latest I have installed
 
     repositories {
         mavenCentral()
@@ -10,10 +10,10 @@ android {
 
     defaultConfig {
         applicationId "brymian.bubbles"
-        minSdkVersion 15
+        minSdkVersion 15        // Minimum version I want the app to work with
         multiDexEnabled true
 
-        targetSdkVersion 21
+        targetSdkVersion 25      // Latest I have installed
         versionCode 1
         versionName "1.0"
     }
@@ -26,7 +26,8 @@ android {
 }
 
 ext {
-    supportLibVersion = '25.0.0'
+    supportLibVersion = '25.3.1'      // Latest version released
+    playServices = '11.0.2'
 }
 
 dependencies {
@@ -41,9 +42,15 @@ dependencies {
     compile "com.android.support:cardview-v7:$supportLibVersion"
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.edmodo:cropper:1.0.1'
-    compile 'com.google.android.gms:play-services:9.0.2'
-    compile 'com.google.firebase:firebase-core:9.0.2'       // this line must be included to integrate with Firebase
-    compile 'com.google.firebase:firebase-messaging:9.0.2'  // this line must be included to use FCM
+    compile "com.google.android.gms:play-services-maps:${playServices}"
+    compile "com.google.android.gms:play-services-location:${playServices}"
+    //compile "com.google.android.gms:play-services-identity:${playServices}"
+    compile "com.google.android.gms:play-services-places:${playServices}"
+    //compile "com.google.android.gms:play-services-nearby:${playServices}"
+    // The line below must be included to integrate with Firebase
+    compile "com.google.firebase:firebase-core:${playServices}"
+    // The line below must be included to use FCM
+    compile "com.google.firebase:firebase-messaging:${playServices}"
 }
 
 apply plugin: 'com.google.gms.google-services'

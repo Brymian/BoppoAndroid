@@ -1,12 +1,16 @@
 package brymian.bubbles.bryant.map;
 
+import android.Manifest;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -31,7 +36,7 @@ import brymian.bubbles.damian.nonactivity.ServerRequest.UserImageRequest;
 import brymian.bubbles.objects.Image;
 import brymian.bubbles.damian.nonactivity.ServerRequest.Callback.ImageListCallback;
 
-public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener{
+public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarkerClickListener, OnMapReadyCallback {
 
     private GoogleMap mMap;
     Toolbar mToolbar;
@@ -55,6 +60,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         }
 
         setContentView(R.layout.map_activity);
+        SupportMapFragment mapFragment = (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
 
         /*--------------------------------Checking for putExtras()--------------------------------*/
         String profile;
@@ -242,10 +249,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         // Do a null check to confirm that we have not already instantiated the map.
         if (mMap == null) {
             // Try to obtain the map from the SupportMapFragment.
-            mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map)).getMap();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
-                setUpMap();
                 mMap.getUiSettings().setRotateGesturesEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mMap.getUiSettings().setMapToolbarEnabled(true);
@@ -253,7 +258,18 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         }
     }
 
-    void setUpMap() {
+    @Override
+    public void onMapReady(GoogleMap googleMap)
+    {
+        mMap = googleMap;
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
+
         // Enable MyLocation Layer of Google Map
         mMap.setMyLocationEnabled(true);
 
@@ -267,6 +283,8 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
         String provider = locationManager.getBestProvider(criteria, true);
 
         // Get Current Location
+        // Check for permissions and acquire if necessary
+
         Location myLocation = locationManager.getLastKnownLocation(provider);
 
         // set map type
