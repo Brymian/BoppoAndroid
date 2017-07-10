@@ -254,6 +254,7 @@ public class MapActivity extends AppCompatActivity implements GoogleMap.OnMarker
                 mMap.getUiSettings().setRotateGesturesEnabled(false);
                 mMap.getUiSettings().setMyLocationButtonEnabled(false);
                 mMap.getUiSettings().setMapToolbarEnabled(true);
+                //
             }
         }
     }
