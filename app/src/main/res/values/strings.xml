@@ -1,5 +1,5 @@
     <resources>
-    <string name="app_name">Bubbles</string>
+    <string name="app_name">boppo</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_register">Register</string>
@@ -60,7 +60,7 @@
         <string name="BECAME_FRIENDS_WITH">&#160;became friends with</string>
         <string name="Blocking">Blocking</string>
     <string name="Block">Block</string>
-    <string name="Bubbles">Bubbles</string>
+    <string name="boppo">boppo</string>
     <string name="Camera">Camera</string>
     <string name="Cancel">Cancel</string>
         <string name="Carnival">Carnival</string>

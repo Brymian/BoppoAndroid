@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="brymian.bubbles">
+    package="com.brymian.boppo">
 
     <!-- PERMISSIONS -->
 
@@ -38,7 +38,7 @@
 
     <!-- THE APPLICATION -->
     <application
-        android:name=".damian.MainApplication"
+        android:name="com.brymian.boppo.damian.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -52,29 +52,29 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".bryant.logIn.LoginActivity" android:screenOrientation="portrait">
+        <activity android:name="com.brymian.boppo.bryant.logIn.LoginActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".bryant.addLocation.AddLocation" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.settings.Notifications" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.map.MapActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.search.SearchActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.camera.CameraActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.profile.ProfileName" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.episodes.EpisodeCreate" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>
-        <activity android:name=".bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.settings.Privacy" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.profile.ProfileEdit" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.profile.ProfileEditViewImage" android:screenOrientation="portrait"/>
-        <activity android:name=".bryant.cropImage.CropImageActivity" android:screenOrientation="portrait" />        <!-- END OF PROFILE CLASSES -->
+        <activity android:name="com.brymian.boppo.bryant.addLocation.AddLocation" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.settings.Notifications" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.pictures.ProfilePicturesActivity2" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.episodes.EpisodeActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.map.MapActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.search.SearchActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.pictures.ProfilePicturesActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.camera.CameraActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.profile.ProfileName" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.episodes.EpisodeCreate" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>
+        <activity android:name="com.brymian.boppo.bryant.profile.ProfileActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.settings.Privacy" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.profile.ProfileEdit" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.profile.ProfileEditViewImage" android:screenOrientation="portrait"/>
+        <activity android:name="com.brymian.boppo.bryant.cropImage.CropImageActivity" android:screenOrientation="portrait" />        <!-- END OF PROFILE CLASSES -->
         <!-- DAMIAN'S STUFF -->
 
         <!-- Main activity -->
@@ -89,16 +89,16 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
         <activity
-            android:name=".damian.activity.TESTActivity"
+            android:name="com.brymian.boppo.damian.activity.TESTActivity"
             android:screenOrientation="portrait"/>
 
         <!-- Firebase -->
-        <service android:name=".damian.nonactivity.service.BFMessagingService">
+        <service android:name="com.brymian.boppo.damian.nonactivity.service.BFMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
             </intent-filter>
         </service>
-        <service android:name=".damian.nonactivity.service.BFInstanceIdService">
+        <service android:name="com.brymian.boppo.damian.nonactivity.service.BFInstanceIdService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
             </intent-filter>

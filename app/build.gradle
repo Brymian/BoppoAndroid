@@ -3,13 +3,11 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 25        // Should correspond to supportLibVersion
     buildToolsVersion '25.0.3'  // Latest I have installed
-
     repositories {
         mavenCentral()
     }
-
     defaultConfig {
-        applicationId "brymian.bubbles"
+        applicationId 'com.brymian.boppo'
         minSdkVersion 15        // Minimum version I want the app to work with
         multiDexEnabled true
 
@@ -23,6 +21,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    productFlavors {
+    }
 }
 
 ext {
@@ -32,14 +32,14 @@ ext {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile files('src/main/java/brymian/bubbles/_libraries/okhttp-2.4.0.jar')
-    compile files('src/main/java/brymian/bubbles/_libraries/okio-1.4.0.jar')
+    compile files('src/main/java/com/brymian/boppo/_libraries/okhttp-2.4.0.jar')
+    compile files('src/main/java/com/brymian/boppo/_libraries/okio-1.4.0.jar')
+    compile files('src/main/java/com/brymian/boppo/_libraries/json-simple-1.1.1.jar')
     compile 'com.facebook.android:facebook-android-sdk:4.1.0'
-    compile files('src/main/java/brymian/bubbles/_libraries/json-simple-1.1.1.jar')
     compile "com.android.support:design:${supportLibVersion}"
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:$supportLibVersion"
-    compile "com.android.support:cardview-v7:$supportLibVersion"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+    compile "com.android.support:cardview-v7:${supportLibVersion}"
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.edmodo:cropper:1.0.1'
     compile "com.google.android.gms:play-services-maps:${playServices}"

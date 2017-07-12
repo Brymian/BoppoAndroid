@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "1006874317298",
-    "firebase_url": "https://bubbles-2f9f5.firebaseio.com",
-    "project_id": "bubbles-2f9f5",
-    "storage_bucket": "bubbles-2f9f5.appspot.com"
+    "project_number": "401688746580",
+    "firebase_url": "https://boppo-19d48.firebaseio.com",
+    "project_id": "boppo-19d48",
+    "storage_bucket": "boppo-19d48.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1006874317298:android:c07a8ed3893ba1fc",
+        "mobilesdk_app_id": "1:401688746580:android:c8ea32beb1ac2506",
         "android_client_info": {
-          "package_name": "brymian.bubbles"
+          "package_name": "com.brymian.boppo"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1006874317298-0tn905jc0hctd23i99g2432b0l9knikn.apps.googleusercontent.com",
+          "client_id": "401688746580-tag2hag7l2e1oub4eeqaasr7qb0aq9fo.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBC0ezx4xKlmZZ7u21Kh-adEIYfavRJ8aU"
+          "current_key": "AIzaSyANlNGbGFw82FUSATMWBTPbVaBibUM50kc"
         }
       ],
       "services": {
