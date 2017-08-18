@@ -108,7 +108,7 @@ public class EpisodeAddFriends extends Fragment{
     public void onPrepareOptionsMenu(Menu menu) {
         if (from.equals("participants")){
             MenuItem item = menu.findItem(R.id.popUpMenu);
-            item.setVisible(false);
+            //item.setVisible(false);
         }
     }
     public int getStatusBarHeight() {

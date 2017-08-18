@@ -17,10 +17,14 @@ import com.brymian.boppo.R;
 import com.brymian.boppo.bryant.main.MainActivity;
 import com.brymian.boppo.bryant.nonactivity.SaveSharedPreference;
 import com.brymian.boppo.damian.nonactivity.DialogMessage;
+import com.brymian.boppo.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import com.brymian.boppo.damian.nonactivity.ServerRequest.Callback.VoidCallback;
+import com.brymian.boppo.damian.nonactivity.ServerRequest.FirebaseRequest;
 import com.brymian.boppo.damian.nonactivity.ServerRequestMethods;
 import com.brymian.boppo.damian.nonactivity.UserDataLocal;
 import com.brymian.boppo.damian.objects.User;
+
+import static com.brymian.boppo.damian.nonactivity.Miscellaneous.printLongString;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     EditText etUsername, etPassword;
@@ -116,6 +120,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     SaveSharedPreference.setUserPhoneNumber(LoginActivity.this, user.getPhone());
 
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+                    // ADDED BY DAMIAN
+                    new FirebaseRequest().addDeviceToFirebaseAndDb(user.getUid(), new StringCallback() {
+                        @Override
+                        public void done(String string) {
+                            printLongString(string);
+                        }
+                    });
+                    //
+
                     finish();
                 }
             }

@@ -12,7 +12,8 @@ import com.facebook.FacebookSdk;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class MainApplication extends Application {
+public class MainApplication extends Application
+{
     @Override
     public void onCreate() {
         super.onCreate();
@@ -21,7 +22,8 @@ public class MainApplication extends Application {
         //printKeyHash();
     }
 
-    public void printKeyHash() {
+    public void printKeyHash()
+    {
         try {
             PackageInfo info = getPackageManager().getPackageInfo(getPackageName(), PackageManager.GET_SIGNATURES);
             for (Signature signature : info.signatures) {
