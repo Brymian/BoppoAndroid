@@ -5,7 +5,10 @@ import android.os.Bundle;
 
 import com.brymian.boppo.R;
 import com.brymian.boppo.damian.nonactivity.ServerRequest.Callback.StringCallback;
+import com.brymian.boppo.damian.nonactivity.ServerRequest.FirebaseRequest;
 import com.brymian.boppo.damian.nonactivity.ServerRequest.UserRelationshipRequest;
+
+import static com.brymian.boppo.damian.nonactivity.Miscellaneous.printLongString;
 
 
 public class TESTActivity extends Activity {
@@ -827,9 +830,8 @@ public class TESTActivity extends Activity {
             }
         });
         */
-
         /*
-        new FirebaseRequest(this).addDeviceToFirebaseAndDb(1, new StringCallback() {
+        new FirebaseRequest().addDeviceToFirebaseAndDb(1, new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("ADD-DEVICE-TO-FCM-AND-DB RESULTS: ");
@@ -847,21 +849,33 @@ public class TESTActivity extends Activity {
         });
         */
         /*
-        new UserRelationshipRequest().setUserRelationship(1, 4, "Add", new StringCallback() {
+        new UserRelationshipRequest().setUserRelationship(1, 6, "Add", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SET-USER-RELATIONSHIP RESPONSE: ");
                 System.out.println(string);
             }
         });
-        new UserRelationshipRequest().setUserRelationship(4, 1, "Accept", new StringCallback() {
+
+        new UserRelationshipRequest().setUserRelationship(6, 1, "Accept", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SET-USER-RELATIONSHIP RESPONSE: ");
                 System.out.println(string);
             }
         });
-        new UserRelationshipRequest().setUserRelationship(1, 4, "Unfriend", new StringCallback() {
+        */
+        /*
+        new UserRelationshipRequest().setUserRelationship(4, 1, "Reject", new StringCallback() {
+            @Override
+            public void done(String string) {
+                System.out.println("SET-USER-RELATIONSHIP RESPONSE: ");
+                System.out.println(string);
+            }
+        });
+        */
+        /*
+        new UserRelationshipRequest().setUserRelationship(4, 1, "Unfriend", new StringCallback() {
             @Override
             public void done(String string) {
                 System.out.println("SET-USER-RELATIONSHIP RESPONSE: ");

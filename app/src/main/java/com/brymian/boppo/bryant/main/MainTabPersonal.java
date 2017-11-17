@@ -15,6 +15,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.brymian.boppo.damian.nonactivity.ServerRequest.FirebaseRequest;
+import com.brymian.boppo.damian.nonactivity.UserDataLocal;
+import com.brymian.boppo.damian.objects.User;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -38,6 +41,8 @@ import com.brymian.boppo.damian.activity.TESTActivity;
 import com.brymian.boppo.damian.nonactivity.ServerRequest.Callback.StringCallback;
 import com.brymian.boppo.damian.nonactivity.ServerRequest.UserImageRequest;
 import com.brymian.boppo.damian.nonactivity.ServerRequest.UserRequest;
+
+import static com.brymian.boppo.damian.nonactivity.Miscellaneous.printLongString;
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 
@@ -290,6 +295,21 @@ public class MainTabPersonal extends Fragment implements View.OnClickListener{
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
+                // ADDED BY DAMIAN
+                /*
+                UserDataLocal udl = new UserDataLocal(getActivity());
+                User user = udl.getUserData();
+                */
+
+                new FirebaseRequest().unsubscribeDevice(new StringCallback() {
+                    @Override
+                    public void done(String string) {
+                        printLongString(string);
+                    }
+                });
+                //
+
                 SaveSharedPreference.clearAll(getApplicationContext());
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();

@@ -17,7 +17,7 @@ public class BFInstanceIdService extends FirebaseInstanceIdService
     public void onTokenRefresh()
     {
         // Get updated InstanceID token.
-        String firebaseRegistrationIdentifier = FirebaseInstanceId.getInstance().getToken();
-        Log.d(TAG, "Refreshed firebaseRegistrationIdentifier: " + firebaseRegistrationIdentifier);
+        String frid = FirebaseInstanceId.getInstance().getToken();
+        Log.d(TAG, "Refreshed frid: " + frid);
     }
 }

@@ -19,6 +19,7 @@ import org.json.JSONObject;
 
 public class FirebaseTopicManagement extends Activity
 {
+
     private final String API_ACCESS_KEY = "AAAAXYaD2lQ:APA91bFBAmMkugKsJ4Y7WjKwfcvkAG8kNvdHTCpZR4wYUvhUzw9PViugpfluCpsJB-pwVWHMdR7X94xICP4nmvg2eWYce2qsUfPAzueYs8kmrcRoAmpFRLiyvdakyJrYQsc80Oerz-B3";
 
     @Override
@@ -26,9 +27,10 @@ public class FirebaseTopicManagement extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_empty);
-        main();
+        //main();
     }
 
+    /*
     public static void main()
     {
         System.out.println("---- START OF MAIN METHOD FOR THE FIREBASE TOPIC MANAGEMENT CLASS. ----");
@@ -68,6 +70,7 @@ public class FirebaseTopicManagement extends Activity
             }
         });
     }
+    */
 
     public static void unsubscribeFromAllTopics(String[] topicNames)
     {

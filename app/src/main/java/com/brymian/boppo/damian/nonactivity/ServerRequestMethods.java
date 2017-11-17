@@ -436,8 +436,8 @@ public class ServerRequestMethods {
                 }
                 else
                 {
-                    System.out.println("FAULTY RESPONSE?: ");
-                    System.out.println(response);
+                    //System.out.println("FAULTY RESPONSE?: ");
+                    //System.out.println(response);
                     JSONObject jObject = new JSONObject(response);
                     //System.out.println("jObject length: " + jObject.length());
                     //    System.out.println("PASSWORD CHECK: " + jObject.getString("password"));

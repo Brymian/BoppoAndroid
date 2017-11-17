@@ -122,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
 
                     // ADDED BY DAMIAN
-                    new FirebaseRequest().addDeviceToFirebaseAndDb(user.getUid(), new StringCallback() {
+                    new FirebaseRequest().subscribeDevice(user.getUid(), new StringCallback() {
                         @Override
                         public void done(String string) {
                             printLongString(string);

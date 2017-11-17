@@ -30,63 +30,81 @@ public class FirebaseRequest
 
 
 
+    public void subscribeDevice(Integer uid, StringCallback stringCallback)
+    {
+        String frid = FirebaseInstanceId.getInstance().getToken();
+        new FirebaseRequest.SubscribeDevice(uid, frid, stringCallback).execute();
+    }
+
+    public void unsubscribeDevice(StringCallback stringCallback)
+    {
+        String frid = FirebaseInstanceId.getInstance().getToken();
+        new FirebaseRequest.UnsubscribeDevice(frid, stringCallback).execute();
+    }
+
+
+
+    /*
     public void addDeviceToFirebaseAndDb(Integer uid, StringCallback stringCallback)
     {
-        String firebaseRegistrationIdentifier = FirebaseInstanceId.getInstance().getToken();
+        String frid = FirebaseInstanceId.getInstance().getToken();
 
-        new FirebaseRequest.AddDeviceToFirebaseAndDb(uid, firebaseRegistrationIdentifier,
+        new FirebaseRequest.AddDeviceToFirebaseAndDb(uid, frid,
             stringCallback).execute();
     }
+    */
 
+    /*
+    public void removeDeviceFromFirebaseAndDb(Integer uid, StringCallback stringCallback)
+    {
+        String frid = FirebaseInstanceId.getInstance().getToken();
 
+        new FirebaseRequest.RemoveDeviceFromFirebaseAndDb(uid, frid,
+            stringCallback).execute();
+    }
+    */
 
+    /*
     public void getDeviceSubscribedTopics(StringCallback stringCallback)
     {
-        String firebaseRegistrationIdentifier = FirebaseInstanceId.getInstance().getToken();
+        String frid = FirebaseInstanceId.getInstance().getToken();
 
-        new FirebaseRequest.GetDeviceSubscribedTopics(firebaseRegistrationIdentifier,
+        new FirebaseRequest.GetDeviceSubscribedTopics(frid,
             stringCallback).execute();
     }
 
-
-
-    public void deleteDeviceFromFirebaseAndDb(StringCallback stringCallback)
+    public void removeDeviceFromFirebaseAndDb(StringCallback stringCallback)
     {
-        String firebaseRegistrationIdentifier = FirebaseInstanceId.getInstance().getToken();
+        String frid = FirebaseInstanceId.getInstance().getToken();
 
-        new FirebaseRequest.DeleteDeviceFromFirebaseAndDb(firebaseRegistrationIdentifier,
+        new FirebaseRequest.RemoveDeviceFromFirebaseAndDb(frid,
             stringCallback).execute();
     }
+    */
 
-
-
-    private class AddDeviceToFirebaseAndDb extends AsyncTask<Void, Void, String> {
-
+    private class SubscribeDevice extends AsyncTask<Void, Void, String>
+    {
         Integer uid;
-        String firebaseRegistrationIdentifier;
+        String frid;
         StringCallback stringCallback;
 
-        private AddDeviceToFirebaseAndDb(
-            Integer uid, String firebaseRegistrationIdentifier, StringCallback stringCallback)
+        private SubscribeDevice(Integer uid, String frid, StringCallback stringCallback)
         {
             this.uid = uid;
-            this.firebaseRegistrationIdentifier = firebaseRegistrationIdentifier;
+            this.frid = frid;
             this.stringCallback = stringCallback;
         }
 
         @Override
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
-                "AndroidIO/FirebaseRequest.php?function=addDeviceToFirebaseAndDb";
+                "AndroidIO/FirebaseRequest.php?function=subscribeDevice";
 
             try
             {
                 JSONObject jObject = new JSONObject();
                 jObject.put("uid", uid);
-                jObject.put("firebaseRegistrationIdentifier", firebaseRegistrationIdentifier);
-
-                System.out.println("Sending out the following JSON for PHP's addDeviceToFcmAndDb:");
-                System.out.println(jObject.toString());
+                jObject.put("frid", frid);
 
                 Post request = new Post();
                 String response = request.post(url, jObject.toString());
@@ -111,17 +129,166 @@ public class FirebaseRequest
         }
     }
 
+    private class UnsubscribeDevice extends AsyncTask<Void, Void, String>
+    {
+        String frid;
+        StringCallback stringCallback;
 
+        private UnsubscribeDevice(String frid, StringCallback stringCallback)
+        {
+            this.frid = frid;
+            this.stringCallback = stringCallback;
+        }
 
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() +
+                "AndroidIO/FirebaseRequest.php?function=unsubscribeDevice";
+
+            try
+            {
+                JSONObject jObject = new JSONObject();
+                jObject.put("frid", frid);
+
+                Post request = new Post();
+                String response = request.post(url, jObject.toString());
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
+            stringCallback.done(string);
+            super.onPostExecute(string);
+        }
+    }
+
+    /*
+    private class AddDeviceToFirebaseAndDb extends AsyncTask<Void, Void, String> {
+
+        Integer uid;
+        String frid;
+        StringCallback stringCallback;
+
+        private AddDeviceToFirebaseAndDb(
+            Integer uid, String frid, StringCallback stringCallback)
+        {
+            this.uid = uid;
+            this.frid = frid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() +
+                "AndroidIO/FirebaseRequest.php?function=addDeviceToFirebaseAndDb";
+
+            try
+            {
+                JSONObject jObject = new JSONObject();
+                jObject.put("uid", uid);
+                jObject.put("frid", frid);
+
+                System.out.println("Sending out the following JSON for PHP's addDeviceToFirebaseAndDb:");
+                System.out.println(jObject.toString());
+
+                Post request = new Post();
+                String response = request.post(url, jObject.toString());
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
+            stringCallback.done(string);
+            super.onPostExecute(string);
+        }
+    }
+    */
+
+    /*
+    private class RemoveDeviceFromFirebaseAndDb extends AsyncTask<Void, Void, String> {
+
+        Integer uid;
+        String frid;
+        StringCallback stringCallback;
+
+        private RemoveDeviceFromFirebaseAndDb(
+                Integer uid, String frid, StringCallback stringCallback)
+        {
+            this.uid = uid;
+            this.frid = frid;
+            this.stringCallback = stringCallback;
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            String url = httpConnection.getWebServerString() +
+                    "AndroidIO/FirebaseRequest.php?function=removeDeviceFromFirebaseAndDb";
+
+            try
+            {
+                JSONObject jObject = new JSONObject();
+                jObject.put("uid", uid);
+                jObject.put("frid", frid);
+
+                System.out.println("Sending out the following JSON for PHP's removeDeviceFromFirebaseAndDb:");
+                System.out.println(jObject.toString());
+
+                Post request = new Post();
+                String response = request.post(url, jObject.toString());
+
+                return response;
+            }
+            catch (IOException ioe)
+            {
+                return ioe.toString();
+            }
+            catch (JSONException jsone)
+            {
+                return jsone.toString();
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String string)
+        {
+            stringCallback.done(string);
+            super.onPostExecute(string);
+        }
+    }
+    */
+
+    /*
     private class GetDeviceSubscribedTopics extends AsyncTask<Void, Void, String> {
 
-        String firebaseRegistrationIdentifier;
+        String frid;
         StringCallback stringCallback;
 
         private GetDeviceSubscribedTopics(
-            String firebaseRegistrationIdentifier, StringCallback stringCallback)
+            String frid, StringCallback stringCallback)
         {
-            this.firebaseRegistrationIdentifier = firebaseRegistrationIdentifier;
+            this.frid = frid;
             this.stringCallback = stringCallback;
         }
 
@@ -133,7 +300,7 @@ public class FirebaseRequest
             try
             {
                 JSONObject jObject = new JSONObject();
-                jObject.put("firebaseRegistrationIdentifier", firebaseRegistrationIdentifier);
+                jObject.put("frid", frid);
 
                 System.out.println("Sending out the following JSON for PHP's getDeviceSubscribedTopics:");
                 System.out.println(jObject.toString());
@@ -153,6 +320,7 @@ public class FirebaseRequest
             }
         }
 
+
         @Override
         protected void onPostExecute(String string)
         {
@@ -160,30 +328,30 @@ public class FirebaseRequest
             super.onPostExecute(string);
         }
     }
+    */
 
+    /*
+    private class RemoveDeviceFromFirebaseAndDb extends AsyncTask<Void, Void, String> {
 
-
-    private class DeleteDeviceFromFirebaseAndDb extends AsyncTask<Void, Void, String> {
-
-        String firebaseRegistrationIdentifier;
+        String frid;
         StringCallback stringCallback;
 
-        private DeleteDeviceFromFirebaseAndDb(
-            String firebaseRegistrationIdentifier, StringCallback stringCallback)
+        private RemoveDeviceFromFirebaseAndDb(
+            String frid, StringCallback stringCallback)
         {
-            this.firebaseRegistrationIdentifier = firebaseRegistrationIdentifier;
+            this.frid = frid;
             this.stringCallback = stringCallback;
         }
 
         @Override
         protected String doInBackground(Void... params) {
             String url = httpConnection.getWebServerString() +
-                    "AndroidIO/FirebaseRequest.php?function=deleteDeviceFromFirebaseAndDb";
+                "AndroidIO/FirebaseRequest.php?function=removeDeviceFromFirebaseAndDb";
 
             try
             {
                 JSONObject jObject = new JSONObject();
-                jObject.put("firebaseRegistrationIdentifier", firebaseRegistrationIdentifier);
+                jObject.put("frid", frid);
 
                 System.out.println("Sending out the following JSON for PHP's deleteDeviceFromFirebaseAndDb:");
                 System.out.println(jObject.toString());
@@ -210,4 +378,5 @@ public class FirebaseRequest
             super.onPostExecute(string);
         }
     }
+    */
 }
